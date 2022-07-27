@@ -1,13 +1,55 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import backgroundImg from '../static/img/logowanie.png'
 import loginIcon from '../static/img/login-icon.svg'
 import logo from '../static/img/logo-niebieskie.png'
 import backArrowGrey from '../static/img/back-arrow-grey.svg'
 import LanguageSwitcher from "../components/LanguageSwitcher";
+import {loginUser} from "../helpers/user";
+import {loginAgency} from "../helpers/agency";
+import Cookies from 'universal-cookie';
 
-const LoginPage = () => {
+const LoginPage = ({type}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        setError('');
+    }, [email, password]);
+
+    const login = () => {
+        if(email && password) {
+            if(type === 0) {
+                loginUser(email, password)
+                    .then((res) => {
+                        if(res?.status === 201) {
+                            const jwt = res?.data?.access_token;
+                            if(jwt) {
+                                const cookies = new Cookies();
+                                cookies.set('access_token', jwt, { path: '/' });
+                            }
+                            else {
+                                setError('Coś poszło nie tak... Prosimy spróbować później');
+                            }
+                        }
+                        else {
+                            setError('Niepoprawna nazwa użytkownika lub hasło');
+                        }
+                    })
+                    .catch((err) => {
+                        if(err?.response?.status === 403) {
+                            setError('Aby się zalogować, musisz najpierw aktywować swoje konto');
+                        }
+                        else {
+                            setError('Niepoprawna nazwa użytkownika lub hasło');
+                        }
+                    });
+            }
+            else {
+                loginAgency(email, password);
+            }
+        }
+    }
 
     return <div className="container container--login flex">
         <div className="login__left">
@@ -37,7 +79,13 @@ const LoginPage = () => {
                            value={password}
                            onChange={(e) => { setPassword(e.target.value); }} />
                 </label>
-                <button className="btn btn--login center">
+
+                {error ? <span className="info info--error">
+                    {error}
+                </span> : ''}
+
+                <button className="btn btn--login center"
+                        onClick={() => { login(); }}>
                     Zaloguj się
                     <img className="img" src={loginIcon} alt="logowanie" />
                 </button>

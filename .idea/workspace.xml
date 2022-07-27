@@ -20,21 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06c2c867-885a-4984-820a-27e97dc3ed90" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/AfterRegister.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/LoginAndRegisterAside.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/helpers/user.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/Register.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/dropdown-arrow.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/register-background.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/settings.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/entities/user.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/app.controller.spec.ts" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +33,7 @@
       <list>
         <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -64,6 +52,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../annavinbotti" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -81,7 +70,7 @@
       <updated>1658866109436</updated>
       <workItem from="1658866110503" duration="3017000" />
       <workItem from="1658869164787" duration="4198000" />
-      <workItem from="1658881979591" duration="4403000" />
+      <workItem from="1658881979591" duration="5314000" />
     </task>
     <servers />
   </component>

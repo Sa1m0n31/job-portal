@@ -5,8 +5,13 @@ import arrowWhite from '../static/img/small-white-arrow.svg'
 import dropdownArrow from '../static/img/dropdown-arrow.svg'
 import AfterRegister from "../components/AfterRegister";
 import LoginAndRegisterAside from "../components/LoginAndRegisterAside";
+import {isEmail, isPasswordStrong} from "../helpers/others";
+import {registerUser} from "../helpers/user";
+import {registerAgency} from "../helpers/agency";
+import Loader from "../components/Loader";
 
 const Register = () => {
+    const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [role, setRole] = useState(0);
     const [password, setPassword] = useState("");
@@ -16,6 +21,7 @@ const Register = () => {
     const [dropdownRoleVisible, setDropdownRoleVisible] = useState(false);
     const [checkbox, setCheckbox] = useState(false);
     const [registered, setRegistered] = useState(false);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -30,17 +36,66 @@ const Register = () => {
         setDropdownRoleVisible(false);
     }, [role]);
 
+    useEffect(() => {
+        setError('');
+    }, [email, password, repeatPassword, checkbox]);
+
     const dropdownRole = () => {
         setDropdownRoleVisible(!dropdownRoleVisible);
     }
 
-    const register = () => {
+    const validateData = () => {
+        if(!isEmail(email)) {
+            setError('Wpisz poprawny adres e-mail');
+            return false;
+        }
+        if(!isPasswordStrong(password)) {
+            setError('Hasło powinno mieć co najmniej 8 znaków');
+            return false;
+        }
+        if(password !== repeatPassword) {
+            setError('Podane hasła nie są identyczne');
+            return false;
+        }
+        if(!checkbox) {
+            setError('Akceptuj regulamin i politykę prywatności');
+            return false;
+        }
 
+        return true;
+    }
+
+    const register = () => {
+        if(validateData()) {
+            setLoading(true);
+            const registerFunc = role === 0 ? registerUser : registerAgency;
+
+            registerFunc(email, password)
+                .then((res) => {
+                    setLoading(false);
+                    if(res?.status === 201) {
+                        setError('');
+                        setRegistered(true);
+                    }
+                    else {
+                        setError('Coś poszło nie tak... Prosimy spróbować później');
+                    }
+                })
+                .catch((err) => {
+                    setLoading(false);
+                    if(err?.response?.status === 400) {
+                        setError('Użytkownik o podanym adresie e-mail już istnieje');
+                    }
+                    else {
+                        setError('Coś poszło nie tak... Prosimy spróbować później');
+                    }
+                });
+        }
     }
 
     return <div className="container container--register center" onClick={() => { setDropdownRoleVisible(false); }}>
         <img className="registerImg" src={background} alt="rejestracja" />
-        {registered ? <AfterRegister type={role} /> : <main className="register">
+        {registered ? <AfterRegister type={role} /> : (loading ? <Loader /> : <main className="register">
             <img className="register__logo" src={logo} alt="portal-pracy" />
             <h1 className="register__header">
                 Szybka rejestracja
@@ -87,7 +142,12 @@ const Register = () => {
                 </button>
                 Akceptuję <a href="/regulamin">Regulamin</a> i postanowienia <a href="/polityka prywatności">Polityki prywatności</a>.
             </label>
-            <button className="btn btn--login">
+
+            {error ? <span className="info info--error">
+                {error}
+            </span> : ''}
+
+            <button className="btn btn--login" onClick={() => { register(); }}>
                 Załóż konto
                 <img className="img" src={arrowWhite} alt="przejdź-dalej" />
             </button>
@@ -95,7 +155,7 @@ const Register = () => {
                 Masz już konto? Zaloguj się
             </a>
             <LoginAndRegisterAside />
-        </main>}
+        </main>)}
     </div>
 };
 

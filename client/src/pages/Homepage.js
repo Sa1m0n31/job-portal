@@ -77,7 +77,7 @@ const Homepage = () => {
                     </span>
                 </h3>
                 <h4 className="home__zone__subheader">
-                    kagencje, firmy rekrutujące
+                    agencje, firmy rekrutujące
                 </h4>
                 <a className="home__zone__instruction flex" href="/jak-dziala-strefa-pracownika">
                     <img className="img" src={playIcon} alt="video-play" />

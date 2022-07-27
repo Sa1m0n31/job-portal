@@ -59,9 +59,15 @@ input {
     align-items: center;
 }
 
-.homeImg {
+.container--home {
     width: 100%;
-    height: auto;
+    overflow-x: hidden;
+}
+
+.homeImg {
+    min-width: 100%;
+    width: auto;
+    height: 100vh;
     position: absolute;
     top: 0;
     left: 0;
@@ -117,7 +123,7 @@ input {
 .home__h1 {
     text-align: center;
     width: 982px;
-    margin: 80px auto 60px;
+    margin: 160px auto 60px;
     font-size: 42px;
     color: #fff;
 }
@@ -126,6 +132,7 @@ input {
     flex-wrap: wrap;
     width: 1035px;
     margin: auto;
+    padding: 0 0 200px;
 }
 
 .home__h2 {
@@ -278,7 +285,7 @@ input {
     padding: 5px 12px;
 }
 
-.login__left__content .label {
+.label {
     margin-bottom: 20px;
 }
 
@@ -364,4 +371,165 @@ input {
 
 .languageSwitcher--horizontal .languageSwitcher__languages .languageSwitcher__btn {
     margin-right: 15px;
+}
+
+.registerImg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100vh;
+    height: auto;
+    z-index: -1;
+}
+
+.container--register {
+    height: 100vh;
+    min-height: 900px;
+    overflow: hidden;
+}
+
+.register {
+    display: block;
+    background: #fff;
+    width: 850px;
+    height: 850px;
+    border-radius: 5px;
+    padding: 50px;
+}
+
+.register__header {
+    font-size: 32px;
+    margin: 30px 0 10px;
+}
+
+.register__subheader {
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 45px;
+}
+
+.register__link {
+    font-size: 14px;
+    text-align: center;
+    margin: 20px auto;
+    text-decoration: underline;
+    color: var(--grey);
+    display: block;
+}
+
+.register__link:hover {
+    opacity: .8;
+}
+
+.register__accountType {
+    background: transparent;
+    border-radius: 5px;
+    border: 1px solid var(--primary);
+    padding: 5px 15px;
+    color: #000;
+    font-size: 15px;
+    width: 100%;
+    height: 50px;
+}
+
+.register__accountType .img {
+    width: 10px;
+    margin-left: 25px;
+}
+
+.register .label {
+    position: relative;
+}
+
+.register__accountType--dropdown {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: translateY(100%);
+    background: #fff;
+    z-index: 3;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.register__accountType--dropdown:hover {
+    background: #efefef;
+}
+
+.label--flex {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.checkbox {
+    border-radius: 2px;
+    width: 15px;
+    height: 15px;
+    background: transparent;
+    border: 1px solid var(--primary);
+    margin-right: 10px;
+    padding: 0;
+}
+
+.label--checkbox {
+    font-size: 12px;
+    color: #000;
+    cursor: pointer;
+    text-transform: none;
+}
+
+.label--checkbox a {
+    text-decoration: underline;
+    padding: 0 5px;
+}
+
+.label--checkbox a:hover {
+    opacity: .8;
+}
+
+.checkbox span {
+    display: none;
+}
+
+.checkbox--selected > span {
+    width: 7px;
+    height: 7px;
+    display: block;
+    background: var(--primary);
+}
+
+.register__logo {
+    width: 190px;
+}
+
+.register .login__left__bottom {
+    margin-top: 45px;
+}
+.register .login__left__bottom__links a {
+    text-decoration: underline;
+}
+
+.register--after {
+    height: 570px;
+}
+
+.register--after .register__subheader {
+    margin: 15px 0;
+}
+
+.register--after .btn--login {
+    margin-top: 35px;
+}
+
+.btn--neutral {
+    background: #F3F9FB;
+    color: #000;
+    height: 50px;
+    margin-top: 15px;
+}
+
+.btn--neutral:hover {
+    background: #E2E7E9 !important;
 }

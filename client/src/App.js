@@ -33,8 +33,11 @@ function App() {
       </Route>
 
       {/* USER ROUTES */}
-      <Route path="/konto-pracownika">
+      <Route path="/edycja-danych">
         <UserWrapper page={1} />
+      </Route>
+      <Route path="/konto-pracownika">
+        <UserWrapper page={2} />
       </Route>
     </Router>
   </LanguageContext.Provider>

@@ -24,4 +24,8 @@ const getAuthHeader = () => {
     return `Bearer ${jwt}`;
 }
 
-export { isEmail, isElementInArray, isPasswordStrong, getAuthHeader }
+const numberRange = (start, end) => {
+    return new Array(end - start).fill().map((d, i) => i + start);
+}
+
+export { isEmail, isElementInArray, isPasswordStrong, getAuthHeader, numberRange }

@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import dropdownArrow from '../static/img/dropdown-arrow.svg'
 import {UserDataContext} from "../pages/UserEditData";
-import {countries, months} from "../static/content";
+import {countries, formErrors, months, phoneNumbers} from "../static/content";
 import {numberRange} from "../helpers/others";
 
 const UserForm1 = () => {
@@ -14,6 +14,7 @@ const UserForm1 = () => {
     const [phoneNumbersCountriesVisible, setPhoneNumbersCountriesVisible] = useState(false);
     const [days, setDays] = useState([]);
     const [years, setYears] = useState([]);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         setYears(numberRange(1900, new Date().getFullYear()-14).reverse());
@@ -49,8 +50,21 @@ const UserForm1 = () => {
         setYearsVisible(false);
     }, [userData.birthdayYear]);
 
-    const validateData = () => {
+    useEffect(() => {
+        setCountriesVisible(false);
+    }, [userData.country]);
 
+    useEffect(() => {
+        setPhoneNumbersCountriesVisible(false);
+    }, [userData.phoneNumberCountry]);
+
+    const validateData = () => {
+        if(!userData.firstName || !userData.lastName || !userData.city || !userData.address || !userData.phoneNumber) {
+            setError(formErrors[0]);
+        }
+        else {
+            setStep(1);
+        }
     }
 
     return <div className="userForm">
@@ -160,8 +174,16 @@ const UserForm1 = () => {
         <label className="label label--phoneNumber">
             Numer telefonu
             <button className="phoneNumberBtn" onClick={() => { setPhoneNumbersCountriesVisible(!phoneNumbersCountriesVisible); }}>
-                PL +48
+                {userData.phoneNumberCountry}
             </button>
+            {phoneNumbersCountriesVisible ? <div className="datepickerDropdown datepickerDropdown--phoneNumbers noscroll">
+                {phoneNumbers?.map((item, index) => {
+                    return <button className="datepickerBtn center" key={index}
+                                   onClick={() => { handleChange('phoneNumberCountry', item); }}>
+                        {item}
+                    </button>
+                })}
+            </div> : ''}
             <input className="input"
                    value={userData.phoneNumber}
                    onChange={(e) => { handleChange('phoneNumber', e.target.value); }} />
@@ -174,9 +196,15 @@ const UserForm1 = () => {
                    onChange={(e) => { handleChange('email', e.target.value); }} />
         </label>
 
-        <button className="btn btn--userForm" onClick={() => { validateData(); }}>
-            Dalej
-        </button>
+        <div className="formBottom flex">
+            <button className="btn btn--userForm" onClick={() => { validateData(); }}>
+                Dalej
+            </button>
+
+            {error ? <span className="info info--error">
+                {error}
+            </span> : ''}
+        </div>
     </div>
 };
 

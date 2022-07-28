@@ -114,4 +114,16 @@ const countries = [
     'Polska', 'Niemcy', 'Holandia', 'Norwegia'
 ];
 
-export { steps, stepsContent, stepsMainContent, months, countries }
+const phoneNumbers = [
+    'PL +48', 'DE +49', 'BE +32', 'GB +44', 'SE +46', 'NO +47', 'UA +42'
+];
+
+const educationLevels = [
+    'podstawowe', 'średnie', 'wyższe', 'zawodowe'
+];
+
+const formErrors = [
+    'Uzupełnij wymagane pola'
+];
+
+export { steps, stepsContent, stepsMainContent, months, countries, phoneNumbers, formErrors, educationLevels }

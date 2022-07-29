@@ -507,6 +507,7 @@ input {
     display: none;
 }
 
+.label--checkbox--selected .checkbox > span,
 .checkbox--selected > span {
     width: 7px;
     height: 7px;
@@ -979,4 +980,164 @@ input {
 
 .form__school .label--checkbox {
     width: auto !important;
+}
+
+.languagesWrapper {
+    padding-top: 15px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    width: 750px;
+}
+
+.drivingLicenceWrapper .label--checkbox,
+.languagesWrapper .label--checkbox {
+    width: auto;
+    margin-right: 30px;
+}
+
+.label--checkbox--selected {
+    text-decoration: underline;
+}
+
+.label--special {
+    position: relative;
+    width: 600px;
+}
+
+.input--special {
+    margin-top: 10px;
+    position: relative;
+    border: none;
+    border-bottom: 1px solid var(--primary);
+    padding: 0;
+    height: 30px;
+    display: block;
+    width: 600px;
+    transform-origin: bottom;
+    transition: .2s all;
+}
+
+.input--special:focus,
+.input--special:active {
+    height: 45px;
+    padding: 5px 0;
+}
+
+.label--special::after {
+    content: url("../img/pen.svg");
+    width: 15px;
+    height: auto;
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+}
+
+.label--extraInfo {
+    text-transform: none;
+    font-size: 14px;
+    margin: 10px 0;
+    color: #000;
+}
+
+.languageLvl {
+    text-transform: none;
+    color: #000;
+    justify-content: flex-start;
+    margin-right: 40px;
+}
+
+.languageLvlWrapper {
+    margin: 20px 0;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.label--date__input--languageLvl {
+    margin: 8px 0 8px 15px;
+}
+
+.datepicker--languageLvl {
+    width: 75px;
+    height: 50px;
+}
+
+.flex--start {
+    justify-content: flex-start;
+}
+
+.drivingLicenceWrapper {
+    margin-top: 30px;
+}
+
+.drivingLicenceWrapper .label--checkbox {
+    margin-top: 12px;
+}
+
+.w-100 {
+    width: 100%;
+    display: block;
+}
+
+.drivingLicenceCategoriesWrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 50px;
+}
+
+.drivingLicenceCategoriesWrapper .label--flex {
+    width: auto !important;
+    margin: 12px 30px 5px 0;
+}
+
+.form__job.flex .label {
+    margin-bottom: 0;
+}
+
+.form__job.flex {
+    max-width: 750px;
+    margin-bottom: 20px;
+}
+
+.form__job.flex .deleteSchoolBtn {
+    margin-left: 20px;
+    transform: none;
+}
+
+.label--accommodationPlace {
+    max-width: 550px !important;
+}
+
+.drivingLicenceWrapper--tools {
+    width: 800px;
+    max-width: 800px !important;
+}
+
+.salaryInputsWrapper {
+    color: #000;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.salaryInputsWrapper .label {
+    width: 120px;
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+
+.salaryInputsWrapper .label:nth-of-type(2) {
+    margin-left: 10px;
+}
+
+.datepicker--currency {
+    width: 120px;
+}
+
+.userForm--5b .label--extraInfo {
+    margin-bottom: 0;
+}
+
+.drivingLicenceWrapper--salary {
+    margin-top: 10px;
 }

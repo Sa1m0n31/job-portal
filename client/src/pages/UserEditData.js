@@ -7,6 +7,10 @@ import LanguageSwitcher from "../components/LanguageSwitcher";
 import UserForm1 from "../components/UserForm1";
 import UserForm2 from "../components/UserForm2";
 import UserForm3 from "../components/UserForm3";
+import UserForm4A from "../components/UserForm4a";
+import {isElementInArray} from "../helpers/others";
+import UserForm4B from "../components/UserForm4b";
+import UserForm5A from "../components/UserForm5a";
 
 const UserDataContext = React.createContext(null);
 
@@ -31,7 +35,8 @@ const UserEditData = () => {
         jobs: [],
         // 4.1. Skills
         languages: [],
-        drivingLicence: false,
+        extraLanguages: '',
+        drivingLicence: null,
         drivingLicenceCategories: [],
         // 4.2. Skills
         courses: [],
@@ -55,14 +60,14 @@ const UserEditData = () => {
         salaryType: 0,
         salaryFrom: null,
         salaryTo: null,
-        salaryCurrency: 0,
-        category: 0,
+        salaryCurrency: 'EUR',
+        categories: [],
         // 5.3 Additional info
         situationDescription: '',
         attachments: [],
         checkbox: false
     });
-    const [step, setStep] = useState(2);
+    const [step, setStep] = useState(4);
     const [substep, setSubstep] = useState(0);
     const [currentForm, setCurrentForm] = useState(null);
 
@@ -84,10 +89,95 @@ const UserEditData = () => {
                                           deleteResponsibility={deleteResponsibility}
                                           toggleJobInProgress={toggleJobInProgress} />);
                 break;
+            case 3:
+                if(substep === 0) {
+                    setCurrentForm(<UserForm4A toggleLanguage={toggleLanguage}
+                                               updateLanguageLvl={updateLanguageLvl}
+                                               toggleDrivingLicenceCategory={toggleDrivingLicenceCategory}
+                    />);
+                }
+                if(substep === 1) {
+                    setCurrentForm(<UserForm4B addNewCourse={addNewCourse}
+                                               addNewCertificate={addNewCertificate}
+                                               deleteCourse={deleteCourse}
+                                               deleteCertificate={deleteCertificate}
+                    />);
+                }
+                break;
+            case 4:
+                if(substep === 0) {
+                    setCurrentForm(<UserForm5A />);
+                }
+                break;
             default:
                 break;
         }
     }, [step, substep]);
+
+    const addNewCourse = () => {
+        setUserData(prevState => ({
+            ...prevState,
+            courses: [...prevState.courses, '']
+        }));
+    }
+
+    const addNewCertificate = () => {
+        setUserData(prevState => ({
+            ...prevState,
+            certificates: [...prevState.certificates, '']
+        }));
+    }
+
+    const deleteCourse = (i) => {
+        setUserData(prevState => ({
+            ...prevState,
+            courses: prevState.courses.filter((item, index) => (index !== i))
+        }));
+    }
+
+    const deleteCertificate = (i) => {
+        setUserData(prevState => ({
+            ...prevState,
+            certificates: prevState.certificates.filter((item, index) => (index !== i))
+        }));
+    }
+
+    const toggleLanguage = (i) => {
+        setUserData(prevState => ({
+            ...prevState,
+            languages: isElementInArray(i, prevState.languages.map((item) => (item.language))) ? prevState.languages.filter((item) => {
+                return item.language !== i;
+            }) : [...prevState.languages, {
+                language: i,
+                lvl: 'A1'
+            }]
+        }));
+    }
+
+    const toggleDrivingLicenceCategory = (i) => {
+        setUserData(prevState => ({
+            ...prevState,
+            drivingLicenceCategories: !isElementInArray(i, prevState.drivingLicenceCategories) ?
+                [...prevState.drivingLicenceCategories, i] : prevState.drivingLicenceCategories.filter((item) => (item !== i))
+        }));
+    }
+
+    const updateLanguageLvl = (lang, lvl) => {
+        setUserData(prevState => ({
+            ...prevState,
+            languages: prevState.languages.map((item) => {
+                if(item.language === lang) {
+                    return {
+                        language: lang,
+                        lvl: lvl
+                    }
+                }
+                else {
+                    return item;
+                }
+            })
+        }));
+    }
 
     const addNewSchool = () => {
         setUserData(prevState => ({
@@ -253,6 +343,20 @@ const UserEditData = () => {
                     }
                 })
             });
+            return 0;
+        }
+        if(field === 'courses' || field === 'certificates') {
+            setUserData(prevState => ({
+                ...prevState,
+                [field]: prevState[field].map((item, index) => {
+                    if(index === fieldIndex) {
+                        return value
+                    }
+                    else {
+                        return item;
+                    }
+                })
+            }));
             return 0;
         }
 

@@ -122,8 +122,27 @@ const educationLevels = [
     'podstawowe', 'średnie', 'wyższe', 'zawodowe'
 ];
 
+const languages = [
+    'angielski', 'niemiecki', 'holenderski', 'hiszpański', 'francuski', 'włoski',
+    'norweski', 'szwedzki', 'belgijski', 'ukraiński'
+];
+
+const drivingLicences = [
+    'kat. A', 'kat. B', 'kat. B+E', 'kat. C', 'kat. C+E', 'kat. D'
+];
+
+const languageLevels = [
+    'A1', 'A2', 'B1', 'B2', 'C1', 'C2'
+];
+
 const formErrors = [
     'Uzupełnij wymagane pola'
 ];
 
-export { steps, stepsContent, stepsMainContent, months, countries, phoneNumbers, formErrors, educationLevels }
+const currencies = [
+    'EUR', 'PLN'
+];
+
+export { steps, stepsContent, stepsMainContent, months, countries, phoneNumbers, formErrors, educationLevels, languages, drivingLicences,
+    languageLevels, currencies
+}

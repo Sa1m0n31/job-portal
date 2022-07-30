@@ -44,6 +44,10 @@ const stepsContent = [
         {
             header: '5.3 Dodatkowe informacje',
             text: 'Uzupełnij swój profil o dodatkowe wiadomości, które pomogą potencjalnemu pracodawcy.'
+        },
+        {
+            header: '5.4 Dodatkowe informacje',
+            text: 'Uzupełnij swój profil o dodatkowe wiadomości, które pomogą potencjalnemu pracodawcy.'
         }
     ],
     [
@@ -84,6 +88,10 @@ const stepsMainContent = [
         }
     ],
     [
+        {
+            header: 'Dodatkowe informacje',
+            text: 'Uzupełnij pola z dodatkowymi danymi, aby Twój potencjalny pracodawca mógł dowiedzieć się więcej na temat Twojej sytuacji.'
+        },
         {
             header: 'Dodatkowe informacje',
             text: 'Uzupełnij pola z dodatkowymi danymi, aby Twój potencjalny pracodawca mógł dowiedzieć się więcej na temat Twojej sytuacji.'
@@ -143,6 +151,10 @@ const currencies = [
     'EUR', 'PLN'
 ];
 
+const categories = [
+    'Transport', 'Budownictwo', 'IT', 'Handel', 'Rolnictwo'
+];
+
 export { steps, stepsContent, stepsMainContent, months, countries, phoneNumbers, formErrors, educationLevels, languages, drivingLicences,
-    languageLevels, currencies
+    languageLevels, currencies, categories
 }

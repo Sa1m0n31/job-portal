@@ -10,7 +10,10 @@ import UserForm3 from "../components/UserForm3";
 import UserForm4A from "../components/UserForm4a";
 import {isElementInArray} from "../helpers/others";
 import UserForm4B from "../components/UserForm4b";
-import UserForm5A from "../components/UserForm5a";
+import UserForm5b from "../components/UserForm5b";
+import UserForm5a from "../components/UserForm5a";
+import UserForm5C from "../components/UserForm5c";
+import UserForm5D from "../components/UserForm5d";
 
 const UserDataContext = React.createContext(null);
 
@@ -45,7 +48,7 @@ const UserEditData = () => {
         currentCountry: 0,
         currentPostalCode: '',
         currentCity: '',
-        haveBsnNumber: false,
+        hasBsnNumber: false,
         bsnNumber: '',
         bsnNumberDocument: null,
         availabilityDay: 0,
@@ -61,11 +64,13 @@ const UserEditData = () => {
         salaryFrom: null,
         salaryTo: null,
         salaryCurrency: 'EUR',
-        categories: [],
+        categories: ['Wybierz branżę'],
         // 5.3 Additional info
         situationDescription: '',
         attachments: [],
-        checkbox: false
+        checkbox: false,
+        // 5.4 Additional info
+        friendLink: ''
     });
     const [step, setStep] = useState(4);
     const [substep, setSubstep] = useState(0);
@@ -106,13 +111,42 @@ const UserEditData = () => {
                 break;
             case 4:
                 if(substep === 0) {
-                    setCurrentForm(<UserForm5A />);
+                    setCurrentForm(<UserForm5a />);
+                }
+                if(substep === 1) {
+                    setCurrentForm(<UserForm5b addNewCategory={addNewCategory}
+                                               deleteCategory={deleteCategory}
+                    />);
+                }
+                if(substep === 2) {
+                    setCurrentForm(<UserForm5C />);
+                }
+                if(substep === 3) {
+                    setCurrentForm(<UserForm5D submitUserData={submitUserData} />);
                 }
                 break;
             default:
                 break;
         }
     }, [step, substep]);
+
+    const submitUserData = () => {
+
+    }
+
+    const addNewCategory = () => {
+        setUserData(prevState => ({
+            ...prevState,
+            categories: [...prevState.categories, 'Wybierz branżę']
+        }));
+    }
+
+    const deleteCategory = (i) => {
+        setUserData(prevState => ({
+            ...prevState,
+            categories: prevState.categories.filter((item, index) => (index !== i))
+        }));
+    }
 
     const addNewCourse = () => {
         setUserData(prevState => ({
@@ -345,7 +379,7 @@ const UserEditData = () => {
             });
             return 0;
         }
-        if(field === 'courses' || field === 'certificates') {
+        if(field === 'courses' || field === 'certificates' || field === 'categories') {
             setUserData(prevState => ({
                 ...prevState,
                 [field]: prevState[field].map((item, index) => {

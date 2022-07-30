@@ -23,11 +23,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06c2c867-885a-4984-820a-27e97dc3ed90" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/UserForm4a.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/UserForm4b.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/UserForm5a.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/pen.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/UserForm5b.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/UserForm5c.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/UserForm5d.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/plus-icon-opacity.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/upload-icon.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm5a.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm5a.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/UserEditData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/UserEditData.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/content.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/content.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
@@ -85,7 +87,7 @@
       <workItem from="1658869164787" duration="4198000" />
       <workItem from="1658881979591" duration="19021000" />
       <workItem from="1658968988571" duration="15920000" />
-      <workItem from="1659093706454" duration="5846000" />
+      <workItem from="1659093706454" duration="12419000" />
     </task>
     <servers />
   </component>
@@ -133,17 +135,17 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1143" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659037306310" />
-    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1658940512684">
+    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1659192293949">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1658940512684" />
-    <state x="-1304" y="240" key="run.anything.popup" timestamp="1659098178956">
+    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659192293949" />
+    <state x="-1304" y="240" key="run.anything.popup" timestamp="1659190795727">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659098178956" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1659103279310">
+    <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659190795727" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1659193595489">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659103279310" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659193595489" />
   </component>
 </project>

@@ -1,117 +1,240 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {UserDataContext} from "../pages/UserEditData";
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
-import {currencies} from "../static/content";
+import {countries, months} from "../static/content";
+import uploadIcon from '../static/img/upload-icon.svg'
+import checkIcon from '../static/img/green-check.svg'
+import {numberRange} from "../helpers/others";
+import trashIcon from "../static/img/trash.svg";
 
-const UserForm5A = () => {
+const UserForm5a = () => {
     const { setStep, setSubstep, userData, handleChange } = useContext(UserDataContext);
 
-    const [currenciesVisible, setCurrenciesVisible] = useState(false);
+    const [countriesVisible, setCountriesVisible] = useState(false);
+    const [bsnVisible, setBsnVisible] = useState(false);
+    const [daysVisible, setDaysVisible] = useState(false);
+    const [monthsVisible, setMonthsVisible] = useState(false);
+    const [yearsVisible, setYearsVisible] = useState(false);
+    const [days, setDays] = useState([]);
+    const [years, setYears] = useState([]);
 
-    return <div className="userForm userForm--5b">
-        <div className="label drivingLicenceWrapper">
-            <p className="label--extraInfo">
-                Czy posiadasz własne zakwaterowanie w Holandii?
-            </p>
-            <div className="flex flex--start">
-                <label className={userData.ownAccommodation ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
-                    <button className="checkbox center"
-                            onClick={() => { handleChange('ownAccommodation', userData.ownAccommodation === true ? null : true); }}>
-                        <span></span>
-                    </button>
-                    Tak
-                </label>
-                <label className={userData.ownAccommodation === false ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
-                    <button className="checkbox center"
-                            onClick={() => { handleChange('ownAccommodation', userData.ownAccommodation === false ? null : false); }}>
-                        <span></span>
-                    </button>
-                    Nie
-                </label>
-            </div>
-            {userData.ownAccommodation ? <label className="label label--accommodationPlace">
-                Gdzie ono się znajduje?
-                <input className="input"
-                       value={userData.accommodationPlace}
-                       onChange={(e) => { handleChange('accommodationPlace', e.target.value); }} />
-            </label> : ''}
-        </div>
+    useEffect(() => {
+        setYears(numberRange(new Date().getFullYear(), new Date().getFullYear()+3));
+    }, []);
 
-        <div className="label drivingLicenceWrapper drivingLicenceWrapper--tools">
-            <p className="label--extraInfo">
-                Czy posiadasz własne narzędzia, niezbędne do wykonywania pracy na danym stanowisku technicznym?
-            </p>
-            <div className="flex flex--start">
-                <label className={userData.ownTools ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
-                    <button className="checkbox center"
-                            onClick={() => { handleChange('ownTools', userData.ownTools === true ? null : true); }}>
-                        <span></span>
-                    </button>
-                    Tak
-                </label>
-                <label className={userData.ownTools === false ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
-                    <button className="checkbox center"
-                            onClick={() => { handleChange('ownTools', userData.ownTools === false ? null : false); }}>
-                        <span></span>
-                    </button>
-                    Nie
-                </label>
-            </div>
-        </div>
+    useEffect(() => {
+        const m = userData.birthdayMonth;
+        const y = userData.birthdayYear;
 
-        <div className="label drivingLicenceWrapper drivingLicenceWrapper--salary">
-            Finanse
-            <p className="label--extraInfo">
-                Wskaż Twoje oczekiwania finansowe <span className="bold">netto</span>
-            </p>
-            <div className="flex flex--start">
-                <label className={userData.salaryType === 1 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
-                    <button className="checkbox center"
-                            onClick={() => { handleChange('salaryType', 1); }}>
-                        <span></span>
-                    </button>
-                    tygodniowo
-                </label>
-                <label className={userData.salaryType === 0 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
-                    <button className="checkbox center"
-                            onClick={() => { handleChange('salaryType', 0); }}>
-                        <span></span>
-                    </button>
-                    miesięcznie
-                </label>
-            </div>
-            <div className="flex flex--start salaryInputsWrapper">
-                <label className="label">
-                    <input className="input"
-                           type="number"
-                           value={userData.salaryFrom}
-                           onChange={(e) => { handleChange('salaryFrom', e.target.value); }} />
-                </label>
-                -
-                <label className="label">
-                    <input className="input"
-                           type="number"
-                           value={userData.salaryTo}
-                           onChange={(e) => { handleChange('salaryTo', e.target.value); }} />
-                </label>
-                <div className="label--date__input">
-                    <button className="datepicker datepicker--currency"
-                            onClick={() => { setCurrenciesVisible(!currenciesVisible); }}
+        if(m === 0 || m === 2 || m === 4 || m === 6 || m === 7 || m === 9 || m === 11) {
+            setDays(Array.from(Array(31).keys()));
+        }
+        else if(m === 1 && ((y % 4 === 0) && (y % 100 !== 0))) {
+            setDays(Array.from(Array(29).keys()));
+        }
+        else if(m === 1) {
+            setDays(Array.from(Array(28).keys()));
+        }
+        else {
+            setDays(Array.from(Array(30).keys()));
+        }
+    }, [userData.availabilityMonth, userData.availabilityYear]);
+
+    useEffect(() => {
+        setDaysVisible(false);
+    }, [userData.birthdayDay]);
+
+    useEffect(() => {
+        setMonthsVisible(false);
+    }, [userData.birthdayMonth]);
+
+    useEffect(() => {
+        setYearsVisible(false);
+    }, [userData.birthdayYear]);
+
+    return <div className="userForm userForm--5b userForm--5a">
+        <div className="label label--date label--date--address">
+            Aktualne miejsce pobytu
+            <div className="flex">
+                <div className="label--date__input label--date__input--country">
+                    <button className="datepicker datepicker--country"
+                            onClick={() => { setCountriesVisible(!countriesVisible); }}
                     >
-                        {userData.salaryCurrency}
+                        {countries[userData.currentCountry]}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
-                    {currenciesVisible ? <div className="datepickerDropdown noscroll">
-                        {currencies?.map((item, index) => {
+                    {countriesVisible ? <div className="datepickerDropdown noscroll">
+                        {countries?.map((item, index) => {
                             return <button className="datepickerBtn center" key={index}
-                                           onClick={(e) => { e.stopPropagation();
-                                           setCurrenciesVisible(false);
-                                           handleChange('salaryCurrency', item); }}>
+                                           onClick={(e) => { setCountriesVisible(false); handleChange('currentCountry', index); }}>
                                 {item}
                             </button>
                         })}
                     </div> : ''}
                 </div>
+                <label>
+                    <input className="input input--city"
+                           value={userData.currentPostalCode}
+                           onChange={(e) => { handleChange('currentPostalCode', e.target.value); }}
+                           placeholder="Kod pocztowy" />
+                </label>
+                <label>
+                    <input className="input input--address"
+                           value={userData.currentCity}
+                           onChange={(e) => { handleChange('currentCity', e.target.value); }}
+                           placeholder="Miejscowość" />
+                </label>
+            </div>
+        </div>
+
+        <div className="label drivingLicenceWrapper">
+            Numer BSN/SOFI
+            <p className="label--extraInfo">
+                Czy posiadasz numer BSN/SOFI?
+            </p>
+            <div className="flex flex--start">
+                <div className="label--date__input label--date__input--bool">
+                    <button className="datepicker datepicker--country"
+                            onClick={() => { setBsnVisible(!bsnVisible); }}
+                    >
+                        {userData.hasBsnNumber ? 'Tak' : 'Nie'}
+                        <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
+                    </button>
+                    {bsnVisible ? <div className="datepickerDropdown noscroll">
+                        <button className="datepickerBtn center"
+                                       onClick={() => { setBsnVisible(false); handleChange('hasBsnNumber', !userData.hasBsnNumber); }}>
+                            {userData.hasBsnNumber ? 'Nie' : 'Tak'}
+                        </button>
+                    </div> : ''}
+                </div>
+
+                {userData.hasBsnNumber ? <div className="bsnInputWrapper flex">
+                    <label className="bsnInputLabel flex">
+                        {userData.bsnNumberDocument ? <>
+                            <img className="img" src={checkIcon} alt="dodaj-plik" />
+                            Dokument został dodany
+                        </> : <>
+                            <img className="img" src={uploadIcon} alt="dodaj-plik" />
+                            <input className="input--file"
+                                   multiple={false}
+                                   onChange={(e) => { handleChange('bsnNumberDocument', e.target.files[0]); }}
+                                   type="file" />
+                            Dodaj dokument potwierdzający
+                        </>}
+                    </label>
+                    {userData.bsnNumberDocument ? <button className="deleteSchoolBtn" onClick={() => { handleChange('bsnNumberDocument', null); }}>
+                        <img className="img" src={trashIcon} alt="usun" />
+                    </button> : ''}
+                </div> : ''}
+            </div>
+            {userData.hasBsnNumber ? <div className="label label--special">
+                <input className="input--special"
+                       value={userData.bsnNumber}
+                       onChange={(e) => { handleChange('bsnNumber', e.target.value); }}
+                       placeholder="Wpisz swój numer BSN/SOFI" />
+            </div> : ''}
+        </div>
+
+        <div className="label label--date">
+            <p className="label--extraInfo label--extraInfo--marginBottom">
+                Od kiedy jesteś gotowy rozpocząć pracę?
+            </p>
+            <div className="label--flex">
+                {/* DAY */}
+                <div className="label--date__input">
+                    <button className="datepicker datepicker--day"
+                            onClick={() => { setDaysVisible(!daysVisible); }}
+                    >
+                        {userData.availabilityDay+1}
+                        <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
+                    </button>
+                    {daysVisible ? <div className="datepickerDropdown noscroll">
+                        {days?.map((item, index) => {
+                            return <button className="datepickerBtn center" key={index}
+                                           onClick={() => { setDaysVisible(false); handleChange('availabilityDay', item); }}>
+                                {item+1}
+                            </button>
+                        })}
+                    </div> : ''}
+                </div>
+                {/* MONTH */}
+                <div className="label--date__input">
+                    <button className="datepicker datepicker--month"
+                            onClick={() => { setMonthsVisible(!monthsVisible); }}
+                    >
+                        {months[userData.availabilityMonth]}
+                        <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
+                    </button>
+                    {monthsVisible ? <div className="datepickerDropdown noscroll">
+                        {months?.map((item, index) => {
+                            return <button className="datepickerBtn center" key={index}
+                                           onClick={() => { setMonthsVisible(false); handleChange('availabilityMonth', index); }}>
+                                {item}
+                            </button>
+                        })}
+                    </div> : ''}
+                </div>
+                {/* YEARS */}
+                <div className="label--date__input">
+                    <button className="datepicker datepicker--year"
+                            onClick={() => { setYearsVisible(!yearsVisible); }}
+                    >
+                        {userData.availabilityYear}
+                        <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
+                    </button>
+                    {yearsVisible ? <div className="datepickerDropdown noscroll">
+                        {years?.map((item, index) => {
+                            return <button className="datepickerBtn center" key={index}
+                                           onClick={(e) => { e.stopPropagation(); setYearsVisible(false); handleChange('availabilityYear', item); }}>
+                                {item}
+                            </button>
+                        })}
+                    </div> : ''}
+                </div>
+            </div>
+        </div>
+
+        <div className="label drivingLicenceWrapper drivingLicenceWrapper--noMarginTop">
+            <p className="label--extraInfo">
+                Czy poszukujesz pracy na długi okres czasu (min. rok)?
+            </p>
+            <div className="flex flex--start">
+                <label className={userData.longTermJobSeeker ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
+                    <button className="checkbox center"
+                            onClick={() => { handleChange('longTermJobSeeker', userData.longTermJobSeeker === true ? null : true); }}>
+                        <span></span>
+                    </button>
+                    Tak
+                </label>
+                <label className={userData.longTermJobSeeker === false ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
+                    <button className="checkbox center"
+                            onClick={() => { handleChange('longTermJobSeeker', userData.longTermJobSeeker === false ? null : false); }}>
+                        <span></span>
+                    </button>
+                    Nie
+                </label>
+            </div>
+        </div>
+
+        <div className="label drivingLicenceWrapper drivingLicenceWrapper--tools drivingLicenceWrapper--noMarginTop">
+            <p className="label--extraInfo">
+                Czy dysponujesz własnym transportem (np. własny samochód)?
+            </p>
+            <div className="flex flex--start">
+                <label className={userData.ownTransport ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
+                    <button className="checkbox center"
+                            onClick={() => { handleChange('ownTransport', userData.ownTransport === true ? null : true); }}>
+                        <span></span>
+                    </button>
+                    Tak
+                </label>
+                <label className={userData.ownTransport === false ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
+                    <button className="checkbox center"
+                            onClick={() => { handleChange('ownTransport', userData.ownTransport === false ? null : false); }}>
+                        <span></span>
+                    </button>
+                    Nie
+                </label>
             </div>
         </div>
 
@@ -126,4 +249,4 @@ const UserForm5A = () => {
     </div>
 };
 
-export default UserForm5A;
+export default UserForm5a;

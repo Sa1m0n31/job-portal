@@ -144,7 +144,8 @@ const languageLevels = [
 ];
 
 const formErrors = [
-    'Uzupełnij wymagane pola'
+    'Uzupełnij wymagane pola',
+    'Coś poszło nie tak... Prosimy spróbować później'
 ];
 
 const attachmentsErrors = [

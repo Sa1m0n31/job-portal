@@ -27,4 +27,11 @@ const verifyUser = (token) => {
     });
 }
 
-export { registerUser, verifyUser, loginUser, authUser }
+const updateUser = (data) => {
+    console.log(data);
+    // return axios.post('/user/update', {
+    //
+    // });
+}
+
+export { registerUser, verifyUser, loginUser, authUser, updateUser }

@@ -21,7 +21,9 @@ const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsi
                                onChange={(e) => { handleChange('jobs', e.target.value, 'name', index); }} />
                     </label>
                     <label className="label">
-                        Okres pracy
+                        <span className="oneline">
+                            Okres pracy
+                        </span>
                         <input className="input"
                                type="number"
                                value={item.from}

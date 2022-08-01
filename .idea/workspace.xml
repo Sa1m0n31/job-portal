@@ -23,25 +23,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06c2c867-885a-4984-820a-27e97dc3ed90" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/doc.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/MobileHeader.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/UserFormSummary.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/left-blue-arrow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/magnifier.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/pen-blue.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/LanguageSwitcher.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/LanguageSwitcher.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm1.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm1.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/UserForm2.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm2.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/UserForm3.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm3.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm4a.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm4a.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm4b.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm4b.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/UserForm5a.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm5a.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm5b.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm5b.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm5c.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm5c.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm5d.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm5d.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/helpers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/UserEditData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/UserEditData.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/content.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/content.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/common/jwt.strategy.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/common/jwt.strategy.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/user/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/user/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +94,7 @@
       <workItem from="1658881979591" duration="19021000" />
       <workItem from="1658968988571" duration="15920000" />
       <workItem from="1659093706454" duration="13556000" />
-      <workItem from="1659341320959" duration="8861000" />
+      <workItem from="1659341320959" duration="15232000" />
     </task>
     <servers />
   </component>
@@ -153,9 +150,9 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659190795727" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1659349478763">
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1659364002482">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659349478763" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659364002482" />
   </component>
 </project>

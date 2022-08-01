@@ -30,4 +30,9 @@ export class UserController {
     loginUser(@Body() body) {
         return this.userService.loginUser(body.email, body.password);
     }
+
+    @Post('/update')
+    updateUser(@Body() body) {
+        return this.userService.updateUser(body);
+    }
 }

@@ -168,13 +168,343 @@
 }
 
 @media(max-width: 996px) {
+    .editData__main__header,
+    .editData__left {
+        display: none;
+    }
 
+    .filesUploadLabel, .label--rel, .input--situation,
+    .label--rel {
+        width: 100%;
+        max-width: 100% !important;
+    }
+
+    .editData__main {
+        margin-top: 30px;
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .editData__formWrapper__header,
+    .editData__formWrapper__subheader {
+        text-align: center;
+    }
+
+    .editData__steps {
+        justify-content: center;
+    }
+
+    .userForm {
+        height: auto;
+        padding-right: 0;
+        overflow-y: visible;
+    }
+
+    .formBottom {
+        position: relative;
+        width: 100%;
+        left: unset;
+        padding-left: 0;
+        justify-content: flex-end;
+    }
+
+    .userForm .label {
+        max-width: 100%;
+    }
+
+    .label--flex {
+        justify-content: flex-start;
+    }
+
+    .label--flex > *:not(:last-child) {
+        margin-right: 10px;
+    }
+
+    .datepickerDropdown--phoneNumbers {
+        flex-wrap: wrap;
+    }
+
+    .editData__main,
+    .editData__left {
+        height: auto;
+    }
+
+    .formBottom {
+        padding-top: 0;
+    }
+
+    .btn--userForm {
+        height: 35px;
+        font-size: 14px;
+        width: 100px;
+    }
+
+    .editData__steps .step {
+        width: 40px;
+        margin-right: 5px;
+    }
+
+    .editData__steps .substep {
+        margin: 0 1px;
+    }
+
+    .mobileHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin: auto;
+        height: 70px;
+        padding: 30px 20px 20px;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 3;
+    }
+
+    .mobileHeader::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: calc(100% - 40px);
+        height: 1px;
+        background: #C1C1C1;
+    }
+
+    .mobileHeader__logo {
+        height: 100%;
+        width: auto;
+    }
+
+    .mobileHeader .img {
+        height: 100%;
+        width: auto;
+    }
+
+    .mobileHeader__backBtn {
+        width: 20px;
+        background: transparent;
+    }
+
+    .container--editData {
+        flex-direction: column;
+    }
+
+    .userForm--summary__header {
+        font-size: 24px;
+    }
+
+    .mobileLanguageFooter {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 30px auto 0;
+        border-top: 1px solid #C1C1C1;
+        padding: 10px 20px 20px;
+        width: calc(100% - 40px);
+    }
+
+    .userForm--summary .btn--userForm {
+        width: 150px;
+    }
+
+    .btn--widthAuto {
+        padding: 8px 15px;
+    }
 }
 
 @media(max-width: 768px) {
+    .editData__formWrapper__header {
+        font-size: 18px;
+    }
 
+    .filesUploadLabel {
+        flex-wrap: wrap;
+        height: auto;
+        min-height: 100px;
+        padding: 25px;
+    }
+
+    .filesUploadLabel__item {
+        margin: 15px;
+    }
+
+    .input--situation {
+        height: 200px !important;
+    }
+
+    .label--extraInfo,
+    .phoneNumberBtn,
+    .label--date__input,
+    .label,
+    .editData__formWrapper__subheader {
+        font-size: 12px;
+    }
+
+    .editData__main {
+        padding: 30px;
+    }
+
+    .bsnInputLabel,
+    .datepicker--languageLvl,
+    .datepickerBtn,
+    .phoneNumberBtn,
+    .datepicker,
+    .input {
+        height: 35px;
+    }
+
+    .btn--widthAuto {
+        min-height: 35px !important;
+    }
+
+    .datepicker--languageLvl {
+        width: 65px;
+    }
+
+    .label--special, .input--special {
+        max-width: 100%;
+    }
+
+    .languagesWrapper .label--checkbox {
+        width: 48%;
+        margin-right: 0;
+    }
 }
 
 @media(max-width: 576px) {
+    .editData__main {
+        padding: 30px 20px;
+    }
 
+    .userForm--summary__header {
+        font-size: 18px;
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .userForm--summary__buttons {
+        flex-direction: column;
+    }
+
+    .userForm--summary .btn--userForm {
+        width: 100% !important;
+        margin: 5px 0 !important;
+        text-align: center;
+    }
+
+    .bsnInputLabel {
+        padding: 6px;
+    }
+
+    .bsnInputWrapper {
+        width: calc(100% - 100px);
+    }
+
+    .userForm--5a .label--date--address {
+        margin-bottom: 0;
+    }
+
+    .userForm--5a .drivingLicenceWrapper {
+        margin-top: 10px;
+    }
+
+    .datepicker--month {
+        width: 130px;
+    }
+
+    .datepicker--day {
+        width: 60px;
+    }
+
+    .datepicker--year {
+        width: 85px;
+    }
+
+    .userForm2 .form__school .label:first-of-type,
+    .userForm2 .form__school .label:nth-of-type(2),
+    .userForm2 .datepicker--country {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .label--date__input--education {
+        margin-bottom: 20px;
+    }
+
+    .userForm2 .datepicker--country ~ .datepickerDropdown {
+        width: 100%;
+    }
+
+    .form__school .label {
+        width: 70px;
+    }
+
+    .addNewBtn {
+        width: 100%;
+        font-size: 12px;
+        text-align: left;
+    }
+
+    .addNewBtn .img {
+        margin-left: 15px;
+    }
+
+    .deleteSchoolBtn {
+        margin-left: 3px;
+        width: 15px;
+    }
+
+    .form__school > .deleteSchoolBtn {
+        margin-right: 0;
+    }
+
+    .userForm2 .form__school .label:nth-of-type(4) {
+        margin-right: 15px;
+    }
+
+    .form__job .label--responsibility .deleteSchoolBtn {
+        margin-left: 10px;
+    }
+
+    .userForm2 .form__school {
+        margin-bottom: 20px;
+    }
+
+    .userForm3 .form__school .label:first-of-type {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .label--date__input--category,
+    .label--category .datepicker--category {
+        width: 270px;
+    }
+}
+
+@media(max-width: 350px) {
+    .form__school .label {
+        width: 100px;
+    }
+
+    .form__school {
+        margin-bottom: 20px;
+    }
+}
+
+@media(max-width: 340px) {
+    .label--flex {
+        flex-wrap: wrap;
+    }
+
+    .label--flex > * {
+        margin-bottom: 10px;
+    }
+
+    .form__job .label--responsibility .input {
+        max-width: 85%;
+    }
 }

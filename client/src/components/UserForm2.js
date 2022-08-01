@@ -45,7 +45,9 @@ const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEduca
                            onChange={(e) => { handleChange('schools', e.target.value, 'title', index); }} />
                 </label>
                 <label className="label">
-                    Lata nauki
+                    <span className="oneline">
+                        Lata nauki
+                    </span>
                     <input className="input"
                            type="number"
                            value={item.from}

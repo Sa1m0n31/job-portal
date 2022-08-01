@@ -114,4 +114,9 @@ export class UserService {
             throw new HttpException('Niepoprawna nazwa użytkownika lub hasło', 401);
         }
     }
+
+    async updateUser(data) {
+
+    }
 }
+

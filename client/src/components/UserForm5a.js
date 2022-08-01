@@ -117,7 +117,7 @@ const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMont
                                    multiple={false}
                                    onChange={(e) => { handleChange('bsnNumberDocument', e.target.files[0]); }}
                                    type="file" />
-                            Dodaj dokument potwierdzający
+                            {window.innerWidth > 576 ? 'Dodaj dokument potwierdzający' : 'Dodaj dok. potwierdzający'}
                         </>}
                     </label>
                     {userData.bsnNumberDocument ? <button className="deleteSchoolBtn" onClick={() => { handleChange('bsnNumberDocument', null); }}>

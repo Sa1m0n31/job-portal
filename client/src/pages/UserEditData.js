@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import logo from '../static/img/logo-biale.png'
 import backArrow from '../static/img/back-arrow-grey.svg'
 import homeIcon from '../static/img/home-icon.svg'
-import {steps, stepsContent, stepsMainContent} from "../static/content";
+import {formErrors, steps, stepsContent, stepsMainContent} from "../static/content";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import UserForm1 from "../components/UserForm1";
 import UserForm2 from "../components/UserForm2";
@@ -14,6 +14,9 @@ import UserForm5b from "../components/UserForm5b";
 import UserForm5a from "../components/UserForm5a";
 import UserForm5C from "../components/UserForm5c";
 import UserForm5D from "../components/UserForm5d";
+import MobileHeader from "../components/MobileHeader";
+import {updateUser} from "../helpers/user";
+import UserFormSummary from "../components/UserFormSummary";
 
 const UserDataContext = React.createContext(null);
 
@@ -75,6 +78,8 @@ const UserEditData = () => {
     const [step, setStep] = useState(0);
     const [substep, setSubstep] = useState(0);
     const [currentForm, setCurrentForm] = useState(null);
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const [daysVisible, setDaysVisible] = useState(false);
     const [monthsVisible, setMonthsVisible] = useState(false);
@@ -167,13 +172,27 @@ const UserEditData = () => {
                     />);
                 }
                 break;
+            case 5:
+                setCurrentForm(<UserFormSummary />);
+                break;
             default:
                 break;
         }
     }, [step, substep]);
 
-    const submitUserData = () => {
-
+    const submitUserData = async () => {
+        setLoading(true);
+        const res = await updateUser(userData);
+        setSubstep(0);
+        setStep(5);
+        // if(res?.status === 201) {
+        //     setLoading(false);
+        //     setStep(5);
+        // }
+        // else {
+        //     setError(formErrors[1]);
+        //     setLoading(false);
+        // }
     }
 
     const hideAllDropdowns = () => {
@@ -501,6 +520,9 @@ const UserEditData = () => {
                     })}
                 </div>
             </div>
+
+            <MobileHeader />
+
             <main className="editData__main">
                 <header className="editData__main__header flex">
                     <div className="editData__main__header__left">
@@ -540,6 +562,10 @@ const UserEditData = () => {
                     {currentForm}
                 </div>
             </main>
+
+            <footer className="mobileLanguageFooter">
+                <LanguageSwitcher />
+            </footer>
         </div>
     </UserDataContext.Provider>
 };

@@ -574,6 +574,7 @@ input {
     width: 100%;
     height: 100vh;
 }
+
 .editData__left {
     position: fixed;
     top: 0;
@@ -674,6 +675,10 @@ input {
     margin-right: 13px;
 }
 
+.editData__steps .step:last-of-type {
+    margin-right: 0;
+}
+
 .editData__steps .substep {
     flex-basis: 100%;
     height: 100%;
@@ -698,7 +703,7 @@ input {
 }
 
 .userForm {
-    height: 550px;
+    height: 570px;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--primary) #C1DCFF;
@@ -1362,4 +1367,55 @@ input {
     width: 900px;
     text-align: center;
     margin: 15px 0 30px;
+}
+
+.mobileLanguageFooter,
+.mobileHeader {
+    display: none;
+}
+
+.oneline {
+    white-space: nowrap;
+}
+
+.userForm--summary__header {
+    font-weight: 400;
+    margin-bottom: 20px;
+    font-size: 32px;
+}
+
+.btn--userForm .img {
+    width: 18px;
+    margin-left: 10px;
+    margin-bottom: -3px;
+}
+
+.userForm--summary__buttons {
+    justify-content: flex-start;
+}
+
+.userForm--summary__buttons > *:not(:last-child) {
+    margin-right: 20px;
+}
+
+.btn--white {
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+}
+
+.btn--white:hover {
+    background: #efefef;
+}
+
+.btn--widthAuto {
+    width: auto !important;
+    padding: 15px;
+    text-align: center;
+    height: auto !important;
+    min-height: 50px;
+}
+
+.userForm--summary__header--marginTop {
+    margin-top: 30px;
 }

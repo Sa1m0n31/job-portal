@@ -1,6 +1,8 @@
-import {Body, Controller, Post, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post, UploadedFiles, UseGuards, UseInterceptors} from '@nestjs/common';
 import {UserService} from "./user.service";
 import {JwtAuthGuard} from "../common/jwt-auth.guard";
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express';
 
 @Controller('user')
 export class UserController {
@@ -31,8 +33,23 @@ export class UserController {
         return this.userService.loginUser(body.email, body.password);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('/update')
-    updateUser(@Body() body) {
-        return this.userService.updateUser(body);
+    @UseInterceptors(FileFieldsInterceptor([
+        {name: 'bsnNumber', maxCount: 1},
+        {name: 'profileImage', maxCount: 1},
+        {name: 'attachments', maxCount: 5}
+    ]))
+    updateUser(@UploadedFiles() files: {
+        profileImage?: Express.Multer.File[],
+        bsnNumber?: Express.Multer.File[],
+        attachments?: Express.Multer.File[]
+    }, @Body() body) {
+        return this.userService.updateUser(body, files);
+    }
+
+    @Get('/getUserData/:email')
+    getUserData(@Param('email') email) {
+        return this.userService.getUserData(email);
     }
 }

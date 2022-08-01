@@ -15,7 +15,7 @@ import UserForm5a from "../components/UserForm5a";
 import UserForm5C from "../components/UserForm5c";
 import UserForm5D from "../components/UserForm5d";
 import MobileHeader from "../components/MobileHeader";
-import {updateUser} from "../helpers/user";
+import {getUserData, updateUser} from "../helpers/user";
 import UserFormSummary from "../components/UserFormSummary";
 
 const UserDataContext = React.createContext(null);
@@ -23,6 +23,8 @@ const UserDataContext = React.createContext(null);
 const UserEditData = () => {
     const [userData, setUserData] = useState({
         // 1. Personal data
+        profileImage: null,
+        profileImageUrl: '',
         firstName: '',
         lastName: '',
         birthdayDay: 0,
@@ -112,6 +114,8 @@ const UserEditData = () => {
                                           setYearsVisible={setYearsVisible}
                                           countriesVisible={countriesVisible}
                                           setCountriesVisible={setCountriesVisible}
+                                          handleFileUpload={handleFileUpload}
+                                          removeProfileImage={removeProfileImage}
                                           phoneNumbersCountriesVisible={phoneNumbersCountriesVisible}
                                           setPhoneNumbersCountriesVisible={setPhoneNumbersCountriesVisible}
                 />);
@@ -168,6 +172,8 @@ const UserEditData = () => {
                 }
                 if(substep === 3) {
                     setCurrentForm(<UserForm5D submitUserData={submitUserData}
+                                               loading={loading}
+                                               error={error}
                                                removeAttachment={removeAttachment}
                     />);
                 }
@@ -180,19 +186,70 @@ const UserEditData = () => {
         }
     }, [step, substep]);
 
-    const submitUserData = async () => {
+    useEffect(() => {
+        if(error) {
+            setTimeout(() => {
+                setError('');
+            }, 3000);
+        }
+    }, [error]);
+
+    useEffect(() => {
+        getUserData()
+            .then((res) => {
+                if(res?.status === 200) {
+                    const data = JSON.parse(res.data.data);
+                    console.log(data);
+                    setUserData({
+                        ...data,
+                        profileImage: null,
+                        profileImageUrl: '',
+                        bsnNumberDocument: null,
+                        attachments: []
+                    });
+                }
+            });
+    }, []);
+
+    const submitUserData = async (userData) => {
         setLoading(true);
-        const res = await updateUser(userData);
-        setSubstep(0);
-        setStep(5);
-        // if(res?.status === 201) {
-        //     setLoading(false);
-        //     setStep(5);
-        // }
-        // else {
-        //     setError(formErrors[1]);
-        //     setLoading(false);
-        // }
+
+        try {
+            const res = await updateUser(userData);
+
+            if(res?.status === 201) {
+                setLoading(false);
+                setSubstep(0);
+                setStep(5);
+            }
+            else {
+                setError(formErrors[1]);
+                setLoading(false);
+            }
+        }
+        catch(err) {
+            setError(formErrors[1]);
+            setLoading(false);
+        }
+    }
+
+    const removeProfileImage = () => {
+        setUserData(prevState => ({
+            ...prevState,
+            profileImage: null,
+            profileImageUrl: null
+        }));
+    }
+
+    const handleFileUpload = (e) => {
+        const file = e?.target?.files[0];
+        if(file) {
+            setUserData(prevState => ({
+                ...prevState,
+                profileImage: file,
+                profileImageUrl: window.URL.createObjectURL(file)
+            }));
+        }
     }
 
     const hideAllDropdowns = () => {
@@ -476,6 +533,13 @@ const UserEditData = () => {
                         return item;
                     }
                 })
+            }));
+            return 0;
+        }
+        if(field === 'attachments') {
+            setUserData(prevState => ({
+                ...prevState,
+                attachments: Array.from(value)
             }));
             return 0;
         }

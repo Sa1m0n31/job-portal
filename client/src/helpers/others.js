@@ -28,4 +28,9 @@ const numberRange = (start, end) => {
     return new Array(end - start).fill().map((d, i) => i + start);
 }
 
-export { isEmail, isElementInArray, isPasswordStrong, getAuthHeader, numberRange }
+const getLoggedUserEmail = () => {
+    const cookies = new Cookies();
+    return `${cookies.get('email_jooob')}@${cookies.get('email_jooob_domain')}`;
+}
+
+export { isEmail, isElementInArray, isPasswordStrong, getAuthHeader, numberRange, getLoggedUserEmail }

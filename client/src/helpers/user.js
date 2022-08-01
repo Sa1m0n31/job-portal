@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {getAuthHeader} from "./others";
+import {getAuthHeader, getLoggedUserEmail} from "./others";
 
 const authUser = () => {
     return axios.post('/user/auth', {}, {
@@ -28,10 +28,31 @@ const verifyUser = (token) => {
 }
 
 const updateUser = (data) => {
-    console.log(data);
-    // return axios.post('/user/update', {
-    //
-    // });
+    const formData = new FormData();
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: getAuthHeader()
+        }
+    }
+
+    formData.append('userData', JSON.stringify(data));
+    formData.append('email', getLoggedUserEmail());
+    formData.append('profileImage', data.profileImage);
+    formData.append('bsnNumber', data.bsnNumberDocument);
+    for(const att of data.attachments) {
+        formData.append('attachments', att);
+    }
+
+    return axios.post('/user/update', formData, config);
 }
 
-export { registerUser, verifyUser, loginUser, authUser, updateUser }
+const getUserData = () => {
+    return axios.get(`/user/getUserData/${getLoggedUserEmail()}`, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
+}
+
+export { registerUser, verifyUser, loginUser, authUser, updateUser, getUserData }

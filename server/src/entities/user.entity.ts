@@ -14,7 +14,8 @@ export class User {
     password: string;
 
     @Column({
-        nullable: true
+        nullable: true,
+        length: 64000
     })
     data: string;
 

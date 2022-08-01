@@ -1,12 +1,13 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {UserDataContext} from "../pages/UserEditData";
 import plusIcon from '../static/img/plus-icon-opacity.svg'
 import fileIcon from '../static/img/doc.svg'
 import trashIcon from '../static/img/trash.svg'
 import {attachmentsErrors} from "../static/content";
+import Loader from "./Loader";
 
-const UserForm5D = ({submitUserData, removeAttachment}) => {
-    const { userData, setStep, setSubstep, handleChange } = useContext(UserDataContext);
+const UserForm5D = ({submitUserData, removeAttachment, error, loading}) => {
+    const { userData, setSubstep, handleChange } = useContext(UserDataContext);
 
     const [attachmentsError, setAttachmentsError] = useState('');
 
@@ -46,7 +47,7 @@ const UserForm5D = ({submitUserData, removeAttachment}) => {
             <p className="label--extraInfo label--extraInfo--marginBottom">
                 Tutaj możesz dodać załączniki do swojego profilu i CV, np. skany certyfikatów czy zdjęcia portfolio.
             </p>
-            <label className="filesUploadLabel center">
+            <div className="filesUploadLabel center">
                 {userData?.attachments?.length === 0 ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : ''}
                 <input className="input input--file"
                        type="file"
@@ -62,20 +63,29 @@ const UserForm5D = ({submitUserData, removeAttachment}) => {
                         <img className="img" src={fileIcon} alt={`file-${index}`} />
                     </div>
                 })}
-            </label>
+            </div>
         </label>
 
         {attachmentsError ? <span className="info info--error">
             {attachmentsError}
         </span> : ''}
     </div>
+
     <div className="formBottom flex">
-        <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(2); }}>
-            Wstecz
-        </button>
-        <button className="btn btn--userForm" onClick={() => { submitUserData(); }}>
-            Zakończ
-        </button>
+        {loading ? <div className="center">
+            <Loader />
+        </div> : <>
+            {error ? <span className="info info--error">
+                {error}
+            </span> : <>
+                <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(2); }}>
+                    Wstecz
+                </button>
+                <button className="btn btn--userForm" onClick={() => { submitUserData(userData); }}>
+                    Zakończ
+                </button>
+            </>}
+        </>}
     </div>
     </>
 };

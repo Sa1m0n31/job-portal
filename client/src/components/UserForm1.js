@@ -3,8 +3,11 @@ import dropdownArrow from '../static/img/dropdown-arrow.svg'
 import {UserDataContext} from "../pages/UserEditData";
 import {countries, formErrors, months, phoneNumbers} from "../static/content";
 import {numberRange} from "../helpers/others";
+import plusIcon from "../static/img/plus-icon-opacity.svg";
+import trashIcon from "../static/img/trash.svg";
+import fileIcon from "../static/img/doc.svg";
 
-const UserForm1 = ({setDaysVisible, setMonthsVisible, setYearsVisible, setCountriesVisible, setPhoneNumbersCountriesVisible}) => {
+const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMonthsVisible, setYearsVisible, setCountriesVisible, setPhoneNumbersCountriesVisible}) => {
     const { setStep, userData, handleChange, countriesVisible,
         daysVisible, monthsVisible, yearsVisible, phoneNumbersCountriesVisible
     } = useContext(UserDataContext);
@@ -62,7 +65,26 @@ const UserForm1 = ({setDaysVisible, setMonthsVisible, setYearsVisible, setCountr
     }
 
     return <>
-        <div className="userForm">
+        <div className="userForm userForm--1">
+            <div className="label">
+                Zdjęcie profilowe
+                <p className="label--extraInfo label--extraInfo--marginBottom">
+                    Dodaj swoje zdjęcie profilowe. Zalecane wymiary to 250 x 250px.
+                </p>
+                <div className={!userData?.profileImage ? "filesUploadLabel center" : "filesUploadLabel filesUploadLabel--noBorder center"}>
+                    {!userData?.profileImage ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : <div className="filesUploadLabel__profileImage">
+                        <button className="removeProfileImageBtn" onClick={() => { removeProfileImage(); }}>
+                            <img className="img" src={trashIcon} alt="usun" />
+                        </button>
+                        <img className="img" src={userData?.profileImageUrl} alt="zdjecie-profilowe" />
+                    </div>}
+                    <input className="input input--file"
+                           type="file"
+                           multiple={false}
+                           onChange={(e) => { handleFileUpload(e); }} />
+                </div>
+            </div>
+
         <label className="label">
             Imię lub imiona
             <input className="input"

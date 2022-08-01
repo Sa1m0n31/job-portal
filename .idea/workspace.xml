@@ -23,21 +23,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06c2c867-885a-4984-820a-27e97dc3ed90" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/MobileHeader.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/UserFormSummary.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/left-blue-arrow.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/magnifier.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/pen-blue.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm2.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm2.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm3.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm3.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm5a.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm5a.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm1.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm5d.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm5d.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserWrapper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/others.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/others.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/helpers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/LoginPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/UserEditData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/UserEditData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/content.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/content.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/entities/user.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/entities/user.entity.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/user/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/user/user.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/user/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,7 +66,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/client/src/static/img" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../video-editor-nest" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="ts.external.directory.path" value="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\node_modules\typescript\lib" />
@@ -94,7 +94,7 @@
       <workItem from="1658881979591" duration="19021000" />
       <workItem from="1658968988571" duration="15920000" />
       <workItem from="1659093706454" duration="13556000" />
-      <workItem from="1659341320959" duration="15232000" />
+      <workItem from="1659341320959" duration="23895000" />
     </task>
     <servers />
   </component>
@@ -118,10 +118,10 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1230" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1658866371098" />
-    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1659043665101">
+    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1659367943739">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659043665101" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659367943739" />
     <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1658958663256">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
@@ -142,17 +142,17 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1143" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659037306310" />
-    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1659347236102">
+    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1659374765102">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659347236102" />
+    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659374765102" />
     <state x="-1304" y="240" key="run.anything.popup" timestamp="1659190795727">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659190795727" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1659364002482">
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1659375184908">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659364002482" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659375184908" />
   </component>
 </project>

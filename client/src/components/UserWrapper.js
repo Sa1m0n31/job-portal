@@ -8,10 +8,10 @@ const UserWrapper = ({page}) => {
     const [render, setRender] = useState(null);
 
     useEffect(() => {
-        // if(page) {
-            // authUser()
-            //     .then((res) => {
-            //         if(res?.status === 201) {
+        if(page) {
+            authUser()
+                .then((res) => {
+                    if(res?.status === 201) {
                         switch(page) {
                             case 1:
                                 setRender(<UserEditData />);
@@ -22,15 +22,15 @@ const UserWrapper = ({page}) => {
                             default:
                                 window.location = '/';
                         }
-                //     }
-                //     else {
-                //         window.location = '/';
-                //     }
-                // })
-                // .catch(() => {
-                //     window.location = '/';
-                // });
-        // }
+                    }
+                    else {
+                        window.location = '/';
+                    }
+                })
+                .catch(() => {
+                    window.location = '/';
+                });
+        }
     }, [page]);
 
     return render ? render : <div className="container container--loader center">

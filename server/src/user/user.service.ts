@@ -115,8 +115,33 @@ export class UserService {
         }
     }
 
-    async updateUser(data) {
+    async updateUser(data, files) {
+        // Modify user data JSON - add file paths
+        const email = data.email;
+        let userData = JSON.parse(data.userData);
+        userData = {
+            ...userData,
+            profileImage: files.profileImage ? files.profileImage[0].path : null,
+            bsnNumberDocument: files.bsnNumber ? files.bsnNumber[0].path : null,
+            attachments: files.attachments ? Array.from(files.attachments).map((item: any) => {
+                return item.path;
+            }) : null
+        }
 
+        // Modify record in database
+        return this.userRepository.createQueryBuilder()
+            .update({
+                data: JSON.stringify(userData),
+                email: userData.email
+            })
+            .where({
+                email
+            })
+            .execute();
+    }
+
+    async getUserData(email : string) {
+        return this.userRepository.findOneBy({email});
     }
 }
 

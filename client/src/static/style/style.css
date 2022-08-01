@@ -906,6 +906,7 @@ input {
 }
 
 .formBottom {
+    flex-wrap: wrap;
     position: fixed;
     bottom: 0;
     left: 500px;
@@ -1418,4 +1419,59 @@ input {
 
 .userForm--summary__header--marginTop {
     margin-top: 30px;
+}
+
+.userForm--1 .filesUploadLabel {
+    max-width: 300px !important;
+    height: auto;
+    min-height: 60px;
+}
+
+.userForm--1 .filesUploadLabel > .img {
+    width: 30px;
+}
+
+.filesUploadLabel__profileImage {
+    width: 100%;
+    position: relative;
+}
+
+.filesUploadLabel--noBorder {
+    border: none;
+}
+
+.removeProfileImageBtn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 30px;
+    height: 30px;
+    background: var(--primary);
+    border-radius: 50%;
+    transform-origin: center;
+    transition: .2s all;
+}
+
+.removeProfileImageBtn:hover {
+    transform: scale(1.15);
+}
+
+.removeProfileImageBtn .img {
+    width: 50%;
+    filter: brightness(0) invert(1);
+}
+
+.formBottom .center {
+    width: 100%;
+    max-width: 900px;
+    margin-top: 20px;
+}
+
+.formBottom .info--error {
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+    text-align: left;
+    padding-left: 0;
+    margin-left: 0;
 }

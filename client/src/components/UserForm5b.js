@@ -5,18 +5,12 @@ import {categories, countries, currencies} from "../static/content";
 import trashIcon from "../static/img/trash.svg";
 import plusIcon from "../static/img/plus-in-circle.svg";
 
-const UserForm5b = ({addNewCategory, deleteCategory}) => {
-    const { setStep, setSubstep, userData, handleChange } = useContext(UserDataContext);
+const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCurrenciesVisible}) => {
+    const { setStep, setSubstep, userData, handleChange, categoriesVisible, currenciesVisible } = useContext(UserDataContext);
 
-    const [currenciesVisible, setCurrenciesVisible] = useState(false);
-    const [categoriesVisible, setCategoriesVisible] = useState(-1);
-
-    useEffect(() => {
-        console.log(categoriesVisible);
-    }, [categoriesVisible]);
-
-    return <div className="userForm userForm--5b">
-        <div className="label drivingLicenceWrapper">
+    return <>
+        <div className="userForm userForm--5b">
+        <div className="label drivingLicenceWrapper drivingLicenceWrapper--noMarginTop">
             <p className="label--extraInfo">
                 Czy posiadasz własne zakwaterowanie w Holandii?
             </p>
@@ -103,7 +97,7 @@ const UserForm5b = ({addNewCategory, deleteCategory}) => {
                 </label>
                 <div className="label--date__input">
                     <button className="datepicker datepicker--currency"
-                            onClick={() => { setCurrenciesVisible(!currenciesVisible); }}
+                            onClick={(e) => { e.stopPropagation(); setCurrenciesVisible(!currenciesVisible); }}
                     >
                         {userData.salaryCurrency}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
@@ -155,16 +149,16 @@ const UserForm5b = ({addNewCategory, deleteCategory}) => {
                 </button> : ''}
             </div>
         </div>
-
-        <div className="formBottom flex">
-            <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(0); }}>
-                Wstecz
-            </button>
-            <button className="btn btn--userForm" onClick={() => { setSubstep(2); }}>
-                Dalej
-            </button>
-        </div>
     </div>
+    <div className="formBottom flex">
+        <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(0); }}>
+            Wstecz
+        </button>
+        <button className="btn btn--userForm" onClick={() => { setSubstep(2); }}>
+            Dalej
+        </button>
+    </div>
+    </>
 };
 
 export default UserForm5b;

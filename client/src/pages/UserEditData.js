@@ -72,18 +72,49 @@ const UserEditData = () => {
         // 5.4 Additional info
         friendLink: ''
     });
-    const [step, setStep] = useState(4);
+    const [step, setStep] = useState(0);
     const [substep, setSubstep] = useState(0);
     const [currentForm, setCurrentForm] = useState(null);
+
+    const [daysVisible, setDaysVisible] = useState(false);
+    const [monthsVisible, setMonthsVisible] = useState(false);
+    const [yearsVisible, setYearsVisible] = useState(false);
+    const [countriesVisible, setCountriesVisible] = useState(false);
+    const [phoneNumbersCountriesVisible, setPhoneNumbersCountriesVisible] = useState(false);
+    const [educationVisible, setEducationVisible] = useState(false);
+    const [levelsVisible, setLevelsVisible] = useState(-1);
+    const [drivingLicenceVisible, setDrivingLicenceVisible] = useState(false);
+    const [bsnVisible, setBsnVisible] = useState(false);
+    const [currenciesVisible, setCurrenciesVisible] = useState(false);
+    const [categoriesVisible, setCategoriesVisible] = useState(-1);
+
+    useEffect(() => {
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'Escape') {
+                hideAllDropdowns();
+            }
+        });
+    }, []);
 
     useEffect(() => {
         switch(step) {
             case 0:
-                setCurrentForm(<UserForm1 />);
+                setCurrentForm(<UserForm1 daysVisible={daysVisible}
+                                          setDaysVisible={setDaysVisible}
+                                          monthsVisible={monthsVisible}
+                                          setMonthsVisible={setMonthsVisible}
+                                          yearsVisible={yearsVisible}
+                                          setYearsVisible={setYearsVisible}
+                                          countriesVisible={countriesVisible}
+                                          setCountriesVisible={setCountriesVisible}
+                                          phoneNumbersCountriesVisible={phoneNumbersCountriesVisible}
+                                          setPhoneNumbersCountriesVisible={setPhoneNumbersCountriesVisible}
+                />);
                 break;
             case 1:
                 setCurrentForm(<UserForm2 addNewSchool={addNewSchool}
                                           deleteSchool={deleteSchool}
+                                          setEducationVisible={setEducationVisible}
                                           toggleSchoolInProgress={toggleSchoolInProgress} />);
                 break;
             case 2:
@@ -98,6 +129,8 @@ const UserEditData = () => {
                 if(substep === 0) {
                     setCurrentForm(<UserForm4A toggleLanguage={toggleLanguage}
                                                updateLanguageLvl={updateLanguageLvl}
+                                               setLevelsVisible={setLevelsVisible}
+                                               setDrivingLicenceVisible={setDrivingLicenceVisible}
                                                toggleDrivingLicenceCategory={toggleDrivingLicenceCategory}
                     />);
                 }
@@ -111,18 +144,27 @@ const UserEditData = () => {
                 break;
             case 4:
                 if(substep === 0) {
-                    setCurrentForm(<UserForm5a />);
+                    setCurrentForm(<UserForm5a setDaysVisible={setDaysVisible}
+                                               setMonthsVisible={setMonthsVisible}
+                                               setYearsVisible={setYearsVisible}
+                                               setCountriesVisible={setCountriesVisible}
+                                               setBsnVisible={setBsnVisible}
+                    />);
                 }
                 if(substep === 1) {
                     setCurrentForm(<UserForm5b addNewCategory={addNewCategory}
                                                deleteCategory={deleteCategory}
+                                               setCategoriesVisible={setCategoriesVisible}
+                                               setCurrenciesVisible={setCurrenciesVisible}
                     />);
                 }
                 if(substep === 2) {
                     setCurrentForm(<UserForm5C />);
                 }
                 if(substep === 3) {
-                    setCurrentForm(<UserForm5D submitUserData={submitUserData} />);
+                    setCurrentForm(<UserForm5D submitUserData={submitUserData}
+                                               removeAttachment={removeAttachment}
+                    />);
                 }
                 break;
             default:
@@ -132,6 +174,29 @@ const UserEditData = () => {
 
     const submitUserData = () => {
 
+    }
+
+    const hideAllDropdowns = () => {
+        setDaysVisible(false);
+        setMonthsVisible(false);
+        setYearsVisible(false);
+        setCountriesVisible(false);
+        setPhoneNumbersCountriesVisible(false);
+        setEducationVisible(false);
+        setLevelsVisible(-1);
+        setDrivingLicenceVisible(false);
+        setBsnVisible(false);
+        setCategoriesVisible(-1);
+        setCurrenciesVisible(false);
+    }
+
+    const removeAttachment = (i) => {
+        setUserData(prevState => ({
+            ...prevState,
+            attachments: Array.from(prevState.attachments).filter((item, index) => {
+                return i !== index;
+            })
+        }))
     }
 
     const addNewCategory = () => {
@@ -357,6 +422,8 @@ const UserEditData = () => {
     }
 
     const handleChange = (field, value, subfield = null, fieldIndex = null) => {
+        hideAllDropdowns();
+
         if(field === 'phoneNumber') {
             if((value.length && isNaN(parseInt(value[value.length-1]))) || value.length > 12) {
                 return 0;
@@ -401,11 +468,15 @@ const UserEditData = () => {
     }
 
     return <UserDataContext.Provider value={{
-        setStep, setSubstep,
+        setStep, setSubstep, daysVisible, monthsVisible, yearsVisible, countriesVisible, phoneNumbersCountriesVisible,
+        educationVisible,
+        levelsVisible, drivingLicenceVisible,
+        bsnVisible,
+        categoriesVisible, currenciesVisible,
         userData, handleChange
     }}>
-        <div className="container container--editData flex">
-            <div className="editData__left">
+        <div className="container container--editData flex" onClick={(e) => { hideAllDropdowns(); }}>
+            <div className="editData__left noscroll">
                 <a href="/" className="editData__left__logo">
                     <img className="img" src={logo} alt="portal-z-ofertami-pracy" />
                 </a>

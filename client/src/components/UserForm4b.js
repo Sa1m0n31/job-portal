@@ -8,7 +8,8 @@ import trashIcon from '../static/img/trash.svg'
 const UserForm4B = ({addNewCourse, deleteCourse, addNewCertificate, deleteCertificate}) => {
     const { setStep, setSubstep, userData, handleChange } = useContext(UserDataContext);
 
-    return <div className="userForm">
+    return <>
+        <div className="userForm">
         {userData.courses?.map((item, index) => {
             return <div className="form__job flex">
                 <label className="label">
@@ -44,16 +45,16 @@ const UserForm4B = ({addNewCourse, deleteCourse, addNewCertificate, deleteCertif
             Naciśnij + by dodać certyfikat/dyplom
             <img className="img" src={plusIcon} alt="dodaj" />
         </button>
-
-        <div className="formBottom flex">
-            <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(0); }}>
-                Wstecz
-            </button>
-            <button className="btn btn--userForm" onClick={() => { setSubstep(0); setStep(4); }}>
-                Dalej
-            </button>
-        </div>
     </div>
+    <div className="formBottom flex">
+        <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(0); }}>
+            Wstecz
+        </button>
+        <button className="btn btn--userForm" onClick={() => { setSubstep(0); setStep(4); }}>
+            Dalej
+        </button>
+    </div>
+    </>
 };
 
 export default UserForm4B;

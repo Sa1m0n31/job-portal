@@ -147,6 +147,10 @@ const formErrors = [
     'Uzupełnij wymagane pola'
 ];
 
+const attachmentsErrors = [
+    'Możesz dodać maksymalnie 5 załączników'
+];
+
 const currencies = [
     'EUR', 'PLN'
 ];
@@ -156,5 +160,5 @@ const categories = [
 ];
 
 export { steps, stepsContent, stepsMainContent, months, countries, phoneNumbers, formErrors, educationLevels, languages, drivingLicences,
-    languageLevels, currencies, categories
+    languageLevels, currencies, categories, attachmentsErrors
 }

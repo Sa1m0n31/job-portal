@@ -9,7 +9,8 @@ const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsi
     const { setStep, userData, handleChange } = useContext(UserDataContext);
 
 
-    return <div className="userForm">
+    return <>
+        <div className="userForm userForm3">
         {userData.jobs?.map((item, index) => {
             return <div className="form__job">
                 <div className="form__school form__school--job flex" key={index}>
@@ -79,16 +80,16 @@ const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsi
             Naciśnij + by dodać kolejną firmę i stanowisko
             <img className="img" src={plusIcon} alt="dodaj" />
         </button>
-
-        <div className="formBottom flex">
-            <button className="btn btn--userForm btn--userFormBack" onClick={() => { setStep(1); }}>
-                Wstecz
-            </button>
-            <button className="btn btn--userForm" onClick={() => { setStep(3); }}>
-                Dalej
-            </button>
-        </div>
     </div>
+    <div className="formBottom flex">
+        <button className="btn btn--userForm btn--userFormBack" onClick={() => { setStep(1); }}>
+            Wstecz
+        </button>
+        <button className="btn btn--userForm" onClick={() => { setStep(3); }}>
+            Dalej
+        </button>
+    </div>
+    </>
 };
 
 export default UserForm3;

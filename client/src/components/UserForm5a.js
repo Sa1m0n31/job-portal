@@ -7,14 +7,11 @@ import checkIcon from '../static/img/green-check.svg'
 import {numberRange} from "../helpers/others";
 import trashIcon from "../static/img/trash.svg";
 
-const UserForm5a = () => {
-    const { setStep, setSubstep, userData, handleChange } = useContext(UserDataContext);
+const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMonthsVisible, setYearsVisible}) => {
+    const { setStep, setSubstep, userData, handleChange, countriesVisible, bsnVisible, daysVisible,
+            monthsVisible, yearsVisible
+    } = useContext(UserDataContext);
 
-    const [countriesVisible, setCountriesVisible] = useState(false);
-    const [bsnVisible, setBsnVisible] = useState(false);
-    const [daysVisible, setDaysVisible] = useState(false);
-    const [monthsVisible, setMonthsVisible] = useState(false);
-    const [yearsVisible, setYearsVisible] = useState(false);
     const [days, setDays] = useState([]);
     const [years, setYears] = useState([]);
 
@@ -52,13 +49,14 @@ const UserForm5a = () => {
         setYearsVisible(false);
     }, [userData.birthdayYear]);
 
-    return <div className="userForm userForm--5b userForm--5a">
+    return <>
+        <div className="userForm userForm--5b userForm--5a">
         <div className="label label--date label--date--address">
             Aktualne miejsce pobytu
             <div className="flex">
                 <div className="label--date__input label--date__input--country">
                     <button className="datepicker datepicker--country"
-                            onClick={() => { setCountriesVisible(!countriesVisible); }}
+                            onClick={(e) => { e.stopPropagation(); setCountriesVisible(!countriesVisible); }}
                     >
                         {countries[userData.currentCountry]}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
@@ -95,7 +93,7 @@ const UserForm5a = () => {
             <div className="flex flex--start">
                 <div className="label--date__input label--date__input--bool">
                     <button className="datepicker datepicker--country"
-                            onClick={() => { setBsnVisible(!bsnVisible); }}
+                            onClick={(e) => { e.stopPropagation(); setBsnVisible(!bsnVisible); }}
                     >
                         {userData.hasBsnNumber ? 'Tak' : 'Nie'}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
@@ -143,7 +141,7 @@ const UserForm5a = () => {
                 {/* DAY */}
                 <div className="label--date__input">
                     <button className="datepicker datepicker--day"
-                            onClick={() => { setDaysVisible(!daysVisible); }}
+                            onClick={(e) => { e.stopPropagation(); setDaysVisible(!daysVisible); }}
                     >
                         {userData.availabilityDay+1}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
@@ -160,7 +158,7 @@ const UserForm5a = () => {
                 {/* MONTH */}
                 <div className="label--date__input">
                     <button className="datepicker datepicker--month"
-                            onClick={() => { setMonthsVisible(!monthsVisible); }}
+                            onClick={(e) => { e.stopPropagation(); setMonthsVisible(!monthsVisible); }}
                     >
                         {months[userData.availabilityMonth]}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
@@ -177,7 +175,7 @@ const UserForm5a = () => {
                 {/* YEARS */}
                 <div className="label--date__input">
                     <button className="datepicker datepicker--year"
-                            onClick={() => { setYearsVisible(!yearsVisible); }}
+                            onClick={(e) => { e.stopPropagation(); setYearsVisible(!yearsVisible); }}
                     >
                         {userData.availabilityYear}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
@@ -237,16 +235,16 @@ const UserForm5a = () => {
                 </label>
             </div>
         </div>
-
-        <div className="formBottom flex">
-            <button className="btn btn--userForm btn--userFormBack" onClick={() => { setStep(3); setSubstep(1); }}>
-                Wstecz
-            </button>
-            <button className="btn btn--userForm" onClick={() => { setSubstep(1); }}>
-                Dalej
-            </button>
-        </div>
     </div>
+    <div className="formBottom flex">
+        <button className="btn btn--userForm btn--userFormBack" onClick={() => { setStep(3); setSubstep(1); }}>
+            Wstecz
+        </button>
+        <button className="btn btn--userForm" onClick={() => { setSubstep(1); }}>
+            Dalej
+        </button>
+    </div>
+    </>
 };
 
 export default UserForm5a;

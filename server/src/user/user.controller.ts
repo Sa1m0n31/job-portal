@@ -12,7 +12,6 @@ export class UserController {
     @UseGuards(JwtAuthGuard)
     @Post('/auth')
     auth() {
-        console.log('auth user');
         return true;
     }
 

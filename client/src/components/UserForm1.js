@@ -4,14 +4,11 @@ import {UserDataContext} from "../pages/UserEditData";
 import {countries, formErrors, months, phoneNumbers} from "../static/content";
 import {numberRange} from "../helpers/others";
 
-const UserForm1 = () => {
-    const { setStep, userData, handleChange } = useContext(UserDataContext);
+const UserForm1 = ({setDaysVisible, setMonthsVisible, setYearsVisible, setCountriesVisible, setPhoneNumbersCountriesVisible}) => {
+    const { setStep, userData, handleChange, countriesVisible,
+        daysVisible, monthsVisible, yearsVisible, phoneNumbersCountriesVisible
+    } = useContext(UserDataContext);
 
-    const [daysVisible, setDaysVisible] = useState(false);
-    const [monthsVisible, setMonthsVisible] = useState(false);
-    const [yearsVisible, setYearsVisible] = useState(false);
-    const [countriesVisible, setCountriesVisible] = useState(false);
-    const [phoneNumbersCountriesVisible, setPhoneNumbersCountriesVisible] = useState(false);
     const [days, setDays] = useState([]);
     const [years, setYears] = useState([]);
     const [error, setError] = useState('');
@@ -54,20 +51,18 @@ const UserForm1 = () => {
         setCountriesVisible(false);
     }, [userData.country]);
 
-    useEffect(() => {
-        setPhoneNumbersCountriesVisible(false);
-    }, [userData.phoneNumberCountry]);
-
     const validateData = () => {
-        if(!userData.firstName || !userData.lastName || !userData.city || !userData.address || !userData.phoneNumber) {
-            setError(formErrors[0]);
-        }
-        else {
-            setStep(1);
-        }
+        // if(!userData.firstName || !userData.lastName || !userData.city || !userData.address || !userData.phoneNumber) {
+        //     setError(formErrors[0]);
+        // }
+        // else {
+        //     setStep(1);
+        // }
+        setStep(1);
     }
 
-    return <div className="userForm">
+    return <>
+        <div className="userForm">
         <label className="label">
             Imię lub imiona
             <input className="input"
@@ -86,7 +81,7 @@ const UserForm1 = () => {
                 {/* DAY */}
                 <div className="label--date__input">
                     <button className="datepicker datepicker--day"
-                            onClick={() => { setDaysVisible(!daysVisible); }}
+                            onClick={(e) => { e.stopPropagation(); setDaysVisible(!daysVisible); }}
                     >
                         {userData.birthdayDay+1}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
@@ -94,7 +89,7 @@ const UserForm1 = () => {
                     {daysVisible ? <div className="datepickerDropdown noscroll">
                         {days?.map((item, index) => {
                             return <button className="datepickerBtn center" key={index}
-                                           onClick={() => { handleChange('birthdayDay', item); }}>
+                                           onClick={(e) => { handleChange('birthdayDay', item); }}>
                                 {item+1}
                             </button>
                         })}
@@ -103,7 +98,7 @@ const UserForm1 = () => {
                 {/* MONTH */}
                 <div className="label--date__input">
                     <button className="datepicker datepicker--month"
-                            onClick={() => { setMonthsVisible(!monthsVisible); }}
+                            onClick={(e) => { e.stopPropagation(); setMonthsVisible(!monthsVisible); }}
                     >
                         {months[userData.birthdayMonth]}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
@@ -111,7 +106,7 @@ const UserForm1 = () => {
                     {monthsVisible ? <div className="datepickerDropdown noscroll">
                         {months?.map((item, index) => {
                             return <button className="datepickerBtn center" key={index}
-                                           onClick={() => { handleChange('birthdayMonth', index); }}>
+                                           onClick={(e) => { e.stopPropagation(); handleChange('birthdayMonth', index); }}>
                                 {item}
                             </button>
                         })}
@@ -120,7 +115,7 @@ const UserForm1 = () => {
                 {/* YEARS */}
                 <div className="label--date__input">
                     <button className="datepicker datepicker--year"
-                            onClick={() => { setYearsVisible(!yearsVisible); }}
+                            onClick={(e) => { e.stopPropagation(); setYearsVisible(!yearsVisible); }}
                     >
                         {userData.birthdayYear}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
@@ -142,7 +137,7 @@ const UserForm1 = () => {
             <div className="flex">
                 <div className="label--date__input label--date__input--country">
                     <button className="datepicker datepicker--country"
-                            onClick={() => { setCountriesVisible(!countriesVisible); }}
+                            onClick={(e) => { e.stopPropagation(); setCountriesVisible(!countriesVisible); }}
                     >
                         {countries[userData.country]}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
@@ -171,15 +166,15 @@ const UserForm1 = () => {
             </div>
         </div>
 
-        <label className="label label--phoneNumber">
+        <div className="label label--phoneNumber">
             Numer telefonu
-            <button className="phoneNumberBtn" onClick={() => { setPhoneNumbersCountriesVisible(!phoneNumbersCountriesVisible); }}>
+            <button className="phoneNumberBtn" onClick={(e) => { e.stopPropagation(); setPhoneNumbersCountriesVisible(!phoneNumbersCountriesVisible); }}>
                 {userData.phoneNumberCountry}
             </button>
             {phoneNumbersCountriesVisible ? <div className="datepickerDropdown datepickerDropdown--phoneNumbers noscroll">
                 {phoneNumbers?.map((item, index) => {
                     return <button className="datepickerBtn center" key={index}
-                                   onClick={() => { handleChange('phoneNumberCountry', item); }}>
+                                   onClick={(e) => { setPhoneNumbersCountriesVisible(false); handleChange('phoneNumberCountry', item); }}>
                         {item}
                     </button>
                 })}
@@ -187,7 +182,7 @@ const UserForm1 = () => {
             <input className="input"
                    value={userData.phoneNumber}
                    onChange={(e) => { handleChange('phoneNumber', e.target.value); }} />
-        </label>
+        </div>
 
         <label className="label">
             Adres e-mail
@@ -195,17 +190,17 @@ const UserForm1 = () => {
                    value={userData.email}
                    onChange={(e) => { handleChange('email', e.target.value); }} />
         </label>
+    </div>
+    <div className="formBottom flex">
+        <button className="btn btn--userForm" onClick={() => { validateData(); }}>
+            Dalej
+        </button>
 
-        <div className="formBottom flex">
-            <button className="btn btn--userForm" onClick={() => { validateData(); }}>
-                Dalej
-            </button>
-
-            {error ? <span className="info info--error">
+        {error ? <span className="info info--error">
                 {error}
             </span> : ''}
-        </div>
     </div>
+    </>
 };
 
 export default UserForm1;

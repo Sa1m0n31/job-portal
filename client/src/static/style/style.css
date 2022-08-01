@@ -578,6 +578,7 @@ input {
     position: fixed;
     top: 0;
     left: 0;
+    overflow-y: auto;
     width: 500px;
     padding: 50px 80px;
     background: var(--primary);
@@ -660,8 +661,7 @@ input {
 }
 
 .editData__formWrapper {
-    margin: 70px 0 0;
-    padding-bottom: 30px;
+    margin: 50px 0 0;
 }
 
 .editData__steps {
@@ -695,6 +695,45 @@ input {
     font-size: 16px;
     font-weight: 400;
     margin-bottom: 25px;
+}
+
+.userForm {
+    height: 550px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) #C1DCFF;
+}
+
+.userForm::-webkit-scrollbar {
+    /*display: none;  !* Safari and Chrome *!*/
+}
+
+.userForm::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+.userForm::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+}
+.userForm::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border: 33px none #ffffff;
+    border-radius: 36px;
+}
+.userForm::-webkit-scrollbar-thumb:hover {
+    background: var(--hover);
+}
+.userForm::-webkit-scrollbar-thumb:active {
+    background: var(--hover);
+}
+.userForm::-webkit-scrollbar-track {
+    background: #C1DCFF;
+    border: 49px none #C1DCFF;
+    border-radius: 50px;
+}
+.userForm::-webkit-scrollbar-corner {
+    background: transparent;
 }
 
 .userForm .label {
@@ -862,7 +901,17 @@ input {
 }
 
 .formBottom {
+    position: fixed;
+    bottom: 0;
+    left: 500px;
+    padding-top: 20px;
+    padding-bottom: 50px;
+    padding-left: 80px;
+    width: calc(100% - 500px);
+    height: 100px;
+    background: #fff;
     justify-content: flex-start;
+    z-index: 3;
 }
 
 .formBottom .info {
@@ -910,7 +959,7 @@ input {
 }
 
 .form__school {
-    width: 1150px;
+    width: 1120px;
 }
 
 .form__school .label {
@@ -951,11 +1000,11 @@ input {
 }
 
 .form__school--job {
-    width: 950px;
+    width: 880px;
 }
 
 .form__school--job .label:first-of-type {
-    width: 500px;
+    width: 420px;
 }
 
 .form__job .label--jobTitle {
@@ -1164,6 +1213,10 @@ input {
     margin-top: 12px;
 }
 
+.label--date__input--drivingLicence {
+    margin-top: 7px;
+}
+
 .label--date__input--bool,
 .label--date__input--bool *
 {
@@ -1256,6 +1309,57 @@ input {
     border-width: 2px;
 }
 
-.filesUploadLabel .img {
+.filesUploadLabel > .img {
     width: 50px;
+}
+
+.filesUploadLabel__item {
+    height: 45px;
+    width: auto;
+    position: relative;
+    margin: 0 30px;
+}
+
+.filesUploadLabel__item > .img {
+    height: 100%;
+    width: auto;
+}
+
+.removeAttachmentBtn {
+    position: absolute;
+    top: -10px;
+    right: -15px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: none;
+    cursor: pointer;
+    transition: .2s all;
+    z-index: 100;
+}
+
+.removeAttachmentBtn:hover {
+    background: var(--hover);
+}
+
+.removeAttachmentBtn > .img {
+    width: 50%;
+}
+
+.label--rel {
+    position: relative;
+    max-width: 900px !important;
+}
+
+.letterCounter {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.userForm--5d .info--error {
+    width: 900px;
+    text-align: center;
+    margin: 15px 0 30px;
 }

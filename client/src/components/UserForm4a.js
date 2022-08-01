@@ -5,12 +5,11 @@ import {isElementInArray} from "../helpers/others";
 import penIcon from '../static/img/pen.svg'
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
 
-const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCategory}) => {
-    const { userData, setStep, setSubstep, handleChange } = useContext(UserDataContext);
+const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCategory, setLevelsVisible, setDrivingLicenceVisible}) => {
+    const { userData, setStep, setSubstep, handleChange, levelsVisible, drivingLicenceVisible } = useContext(UserDataContext);
 
-    const [levelsVisible, setLevelsVisible] = useState(-1);
-
-    return <div className="userForm">
+    return <>
+        <div className="userForm">
         <div className="label">
             Języki obce
             <div className="languagesWrapper flex">
@@ -45,7 +44,7 @@ const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCate
 
                         <div className="label--date__input label--date__input--languageLvl">
                             <button className="datepicker datepicker--languageLvl"
-                                    onClick={() => { levelsVisible === index ? setLevelsVisible(-1) : setLevelsVisible(index); }}
+                                    onClick={(e) => { e.stopPropagation(); levelsVisible === index ? setLevelsVisible(-1) : setLevelsVisible(index); }}
                             >
                                 {item.lvl}
                                 <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
@@ -70,20 +69,20 @@ const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCate
                 Czy posiadasz prawo jazdy?
             </p>
             <div className="flex flex--start">
-                <label className={userData.drivingLicence ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
-                    <button className="checkbox center"
-                            onClick={() => { handleChange('drivingLicence', userData.drivingLicence === true ? null : true); }}>
-                        <span></span>
+                <div className="label--date__input label--date__input--bool label--date__input--drivingLicence">
+                    <button className="datepicker datepicker--country"
+                            onClick={(e) => { e.stopPropagation(); setDrivingLicenceVisible(!drivingLicenceVisible); }}
+                    >
+                        {userData.drivingLicence ? 'Tak' : 'Nie'}
+                        <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
-                    Tak
-                </label>
-                <label className={userData.drivingLicence === false ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
-                    <button className="checkbox center"
-                            onClick={() => { handleChange('drivingLicence', userData.drivingLicence === false ? null : false); }}>
-                        <span></span>
-                    </button>
-                    Nie
-                </label>
+                    {drivingLicenceVisible ? <div className="datepickerDropdown noscroll">
+                        <button className="datepickerBtn center"
+                                onClick={() => { setDrivingLicenceVisible(false); handleChange('drivingLicence', !userData.drivingLicence); }}>
+                            {userData.drivingLicence ? 'Nie' : 'Tak'}
+                        </button>
+                    </div> : ''}
+                </div>
             </div>
         </div>
 
@@ -101,16 +100,16 @@ const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCate
                 </label>
             })}
         </div> : ''}
-
-        <div className="formBottom flex">
-            <button className="btn btn--userForm btn--userFormBack" onClick={() => { setStep(2); }}>
-                Wstecz
-            </button>
-            <button className="btn btn--userForm" onClick={() => { setSubstep(1); }}>
-                Dalej
-            </button>
-        </div>
     </div>
+    <div className="formBottom flex">
+        <button className="btn btn--userForm btn--userFormBack" onClick={() => { setStep(2); }}>
+            Wstecz
+        </button>
+        <button className="btn btn--userForm" onClick={() => { setSubstep(1); }}>
+            Dalej
+        </button>
+    </div>
+    </>
 };
 
 export default UserForm4A;

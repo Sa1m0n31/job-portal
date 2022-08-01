@@ -2,7 +2,6 @@ import axios from 'axios'
 import {getAuthHeader} from "./others";
 
 const authUser = () => {
-    console.log(getAuthHeader());
     return axios.post('/user/auth', {}, {
         headers: {
             Authorization: getAuthHeader()

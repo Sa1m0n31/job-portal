@@ -5,21 +5,17 @@ import dropdownArrow from "../static/img/dropdown-arrow.svg";
 import plusIcon from '../static/img/plus-in-circle.svg'
 import trashIcon from '../static/img/trash.svg'
 
-const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool}) => {
-    const { setStep, userData, handleChange } = useContext(UserDataContext);
+const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEducationVisible}) => {
+    const { setStep, userData, handleChange, educationVisible } = useContext(UserDataContext);
 
-    const [educationVisible, setEducationVisible] = useState(false);
     const [error, setError] = useState('');
 
-    useEffect(() => {
-        setEducationVisible(false);
-    }, [userData.education]);
-
-    return <div className="userForm">
+    return <>
+        <div className="userForm userForm2">
         <div className="label--date__input label--date__input--country label--date__input--education">
             Wykształcenie
             <button className="datepicker datepicker--country"
-                    onClick={() => { setEducationVisible(!educationVisible); }}
+                    onClick={(e) => { e.stopPropagation(); setEducationVisible(!educationVisible); }}
             >
                 {educationLevels[userData.education]}
                 <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
@@ -82,20 +78,20 @@ const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool}) => {
             Naciśnij + by dodać następną szkołę/uczlenie
             <img className="img" src={plusIcon} alt="dodaj" />
         </button>
+    </div>
+    <div className="formBottom flex">
+        <button className="btn btn--userForm btn--userFormBack" onClick={() => { setStep(0); }}>
+            Wstecz
+        </button>
+        <button className="btn btn--userForm" onClick={() => { setStep(2); }}>
+            Dalej
+        </button>
 
-        <div className="formBottom flex">
-            <button className="btn btn--userForm btn--userFormBack" onClick={() => { setStep(0); }}>
-                Wstecz
-            </button>
-            <button className="btn btn--userForm" onClick={() => { setStep(2); }}>
-                Dalej
-            </button>
-
-            {error ? <span className="info info--error">
+        {error ? <span className="info info--error">
                 {error}
             </span> : ''}
-        </div>
     </div>
+    </>
 };
 
 export default UserForm2;

@@ -28,7 +28,6 @@ const LanguageSwitcher = ({horizontal}) => {
         localStorage.setItem('lang', language);
         setLanguagesVisible(false);
         setCurrentLanguage(languages.findIndex((item) => {
-            console.log(language);
             return item.code === language;
         }));
     }, [language]);

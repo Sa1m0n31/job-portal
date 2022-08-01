@@ -1,3 +1,180 @@
+@media(max-height: 900px) {
+    .userForm {
+        max-height: 40vh;
+    }
+}
+
+@media(max-height: 700px) {
+    .userForm {
+        max-height: 30vh;
+    }
+}
+
+@media(max-width: 1800px) {
+    .form__school {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .userForm2 .form__school > * {
+        margin-right: 10px;
+    }
+
+    .userForm3 .form__school > * {
+        margin-right: 10px;
+    }
+
+    .form__school > .deleteSchoolBtn {
+        margin-left: 15px;
+    }
+
+    .userForm2 .form__school .label:first-of-type {
+        width: 60%;
+    }
+
+    .userForm2 .form__school .label:nth-of-type(2) {
+        width: 35%;
+    }
+
+    .userForm2 .form__school .label:nth-of-type(4),
+    .userForm3 .form__school .label:nth-of-type(3) {
+        margin-left: 10px;
+        margin-right: 20px;
+    }
+}
+
+@media(max-width: 1600px) {
+    .editData__left {
+        width: 350px;
+        padding: 30px;
+    }
+
+    .filesUploadLabel,
+    .label--rel,
+    .input--situation {
+        width: 750px;
+        max-width: 750px !important;
+    }
+
+    .editData__main__header__left__link .img {
+        width: 14px;
+    }
+
+    .editData__main__header__left__link {
+        font-size: 12px;
+    }
+
+    .userForm {
+        padding-right: 20px;
+    }
+
+    .formBottom {
+        left: 350px;
+    }
+
+    .editData__left__header {
+        font-size: 22px;
+    }
+
+    .editData__left__step__text,
+    .editData__left__text {
+        font-size: 14px;
+    }
+
+    .editData__main {
+        width: calc(100% - 350px);
+        margin-left: 350px;
+    }
+
+    .userForm3 .form__school .label:first-of-type {
+        width: 90%;
+        max-width: none;
+    }
+
+    .editData__formWrapper__header {
+        font-size: 26px;
+    }
+
+    .editData__formWrapper__subheader {
+        font-size: 15px;
+    }
+
+    .btn--userForm {
+        width: 120px;
+        height: 45px;
+        font-size: 16px;
+    }
+}
+
 @media(max-width: 1400px) {
+    .label--date--address > .flex {
+        flex-direction: column;
+    }
+
+    .label--date--address > .flex > *,
+    .label--date--address > .flex > * > *
+    {
+        width: 100%;
+    }
+
+    .label--date--address > .flex > * {
+        margin-bottom: 10px;
+    }
+
+    .languagesWrapper {
+        width: 90%;
+    }
+
+    .drivingLicenceWrapper--tools {
+        max-width: 90% !important;
+    }
+
+    .userForm--5d .label {
+        max-width: 90%;
+    }
+
+    .filesUploadLabel,
+    .input--situation {
+        max-width: 100% !important;
+    }
+
+    .label--rel {
+        max-width: 90% !important;
+    }
+}
+
+@media(max-width: 1200px) {
+    .addNewBtn {
+        width: 400px;
+    }
+
+    .userForm .label--friendLink {
+        max-width: 400px;
+    }
+
+    .datepicker--year {
+        width: 100px;
+    }
+
+    .userForm .label--date {
+        max-width: 470px;
+    }
+
+    .label--special,
+    .input--special {
+        width: 400px;
+    }
+}
+
+@media(max-width: 996px) {
+
+}
+
+@media(max-width: 768px) {
+
+}
+
+@media(max-width: 576px) {
 
 }

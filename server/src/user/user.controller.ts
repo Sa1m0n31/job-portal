@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post, UploadedFiles, UseGuards, UseInterceptors} from '@nestjs/common';
+import {Body, Controller, Get, Param, Patch, Post, UploadedFiles, UseGuards, UseInterceptors} from '@nestjs/common';
 import {UserService} from "./user.service";
 import {JwtAuthGuard} from "../common/jwt-auth.guard";
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
@@ -51,5 +51,15 @@ export class UserController {
     @Get('/getUserData/:email')
     getUserData(@Param('email') email) {
         return this.userService.getUserData(email);
+    }
+
+    @Patch('/toggleUserVisibility/:email')
+    toggleUserVisibility(@Param('email') email) {
+        return this.userService.toggleUserVisibility(email);
+    }
+
+    @Patch('/toggleUserWorking/:email')
+    toggleUserWorking(@Param('email') email) {
+        return this.userService.toggleUserWorking(email);
     }
 }

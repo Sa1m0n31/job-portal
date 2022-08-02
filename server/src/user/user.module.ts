@@ -13,7 +13,7 @@ import {MulterModule} from "@nestjs/platform-express";
       TypeOrmModule.forFeature([User, User_verification]),
       JwtModule.register({
           secret: process.env.JWT_KEY,
-          signOptions: {expiresIn: 60 * 30}
+          signOptions: {expiresIn: 60 * 300}
       }),
       MulterModule.register({
           dest: './uploads/user',

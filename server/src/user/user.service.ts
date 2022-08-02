@@ -143,5 +143,25 @@ export class UserService {
     async getUserData(email : string) {
         return this.userRepository.findOneBy({email});
     }
+
+    async toggleUserVisibility(email: string) {
+        const user = await this.userRepository.findOneBy({email});
+        return this.userRepository.createQueryBuilder()
+            .update({
+                profileVisible: !user.profileVisible
+            })
+            .where({email})
+            .execute();
+    }
+
+    async toggleUserWorking(email: string) {
+        const user = await this.userRepository.findOneBy({email});
+        return this.userRepository.createQueryBuilder()
+            .update({
+                working: !user.working
+            })
+            .where({email})
+            .execute();
+    }
 }
 

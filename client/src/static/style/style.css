@@ -2016,3 +2016,21 @@ input {
 .mobileSettingsBtn {
     display: none;
 }
+
+.userForm--1--agency .label--date--address .flex {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.userForm--1--agency .label--date--address .flex label:first-of-type {
+    width: 150px;
+    margin: 5px 10vw 0 20px;
+}
+
+.userForm--1--agency .label--date--address .flex label:not(:first-of-type) {
+    margin-top: 10px;
+}
+
+.userForm--1--agency .label--date--address .flex label:last-of-type {
+    margin-left: 20px;
+}

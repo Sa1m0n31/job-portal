@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import backgroundImg from '../static/img/logowanie.png'
+import backgroundImgAgency from '../static/img/login-agencja.png'
 import loginIcon from '../static/img/login-icon.svg'
 import logo from '../static/img/logo-niebieskie.png'
 import backArrowGrey from '../static/img/back-arrow-grey.svg'
@@ -19,38 +20,34 @@ const LoginPage = ({type}) => {
 
     const login = () => {
         if(email && password) {
-            if(type === 0) {
-                loginUser(email, password)
-                    .then((res) => {
-                        if(res?.status === 201) {
-                            const jwt = res?.data?.access_token;
-                            if(jwt) {
-                                const cookies = new Cookies();
-                                cookies.set('access_token', jwt, { path: '/' });
-                                cookies.set('email_jooob', email.toString().split('@')[0], { path: '/' });
-                                cookies.set('email_jooob_domain', email.toString().split('@')[1], { path: '/' });
-                                window.location = '/konto-pracownika';
-                            }
-                            else {
-                                setError('Coś poszło nie tak... Prosimy spróbować później');
-                            }
+            const func = type === 0 ? loginUser : loginAgency;
+            func(email, password)
+                .then((res) => {
+                    if(res?.status === 201) {
+                        const jwt = res?.data?.access_token;
+                        if(jwt) {
+                            const cookies = new Cookies();
+                            cookies.set('access_token', jwt, { path: '/' });
+                            cookies.set('email_jooob', email.toString().split('@')[0], { path: '/' });
+                            cookies.set('email_jooob_domain', email.toString().split('@')[1], { path: '/' });
+                            window.location = type === 0 ? '/konto-pracownika' : '/konto-agencji';
                         }
                         else {
-                            setError('Niepoprawna nazwa użytkownika lub hasło');
+                            setError('Coś poszło nie tak... Prosimy spróbować później');
                         }
-                    })
-                    .catch((err) => {
-                        if(err?.response?.status === 403) {
-                            setError('Aby się zalogować, musisz najpierw aktywować swoje konto');
-                        }
-                        else {
-                            setError('Niepoprawna nazwa użytkownika lub hasło');
-                        }
-                    });
-            }
-            else {
-                loginAgency(email, password);
-            }
+                    }
+                    else {
+                        setError('Niepoprawna nazwa użytkownika lub hasło');
+                    }
+                })
+                .catch((err) => {
+                    if(err?.response?.status === 403) {
+                        setError('Aby się zalogować, musisz najpierw aktywować swoje konto');
+                    }
+                    else {
+                        setError('Niepoprawna nazwa użytkownika lub hasło');
+                    }
+                });
         }
     }
 
@@ -93,7 +90,7 @@ const LoginPage = ({type}) => {
                     <img className="img" src={loginIcon} alt="logowanie" />
                 </button>
                 <div className="login__bottom flex">
-                    <a href="/rejestracja">
+                    <a href={type === 0 ? "/rejestracja" : "/rejestracja?typ=pracodawca"}>
                         Nie masz konta? Zarejestruj się
                     </a>
                     <a href="/przypomnienie-hasla">
@@ -115,7 +112,7 @@ const LoginPage = ({type}) => {
             </aside>
         </div>
         <div className="login__right">
-            <img className="img" src={backgroundImg} alt="logowanie" />
+            <img className="img" src={type === 0 ? backgroundImg : backgroundImgAgency} alt="logowanie" />
         </div>
     </div>
 };

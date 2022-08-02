@@ -5,6 +5,11 @@ const steps = [
     'Dodatkowe informacje', 'Podsumowanie'
 ];
 
+const stepsAgency = [
+    'Dane agencji', 'Opis agencji', 'Dodatkowe informacje', 'Informacje dla pracownika',
+    'Podsumowanie'
+];
+
 const stepsContent = [
     [
         {
@@ -55,6 +60,51 @@ const stepsContent = [
     [
         {
             header: '6. Podsumowanie',
+            text: 'Uzupełnij swój profil o dodatkowe wiadomości, które pomogą potencjalnemu pracodawcy.'
+        }
+    ]
+];
+
+const stepsAgencyContent = [
+    [
+        {
+            header: '1. Dane firmy',
+            text: 'Podaj swoje dane osobowe, aby potencjalny pracodawca mógł w łatwy sposób nawiązać z Tobą kontakt.'
+        }
+    ],
+    [
+        {
+            header: '2. Opis firmy',
+            text: 'Wskaż stopień swojego wykształcenia oraz dodaj listę szkół, które ukończyłeś lub w których jesteś w trakcie nauki.'
+        }
+    ],
+    [
+        {
+            header: '3.1. Dodatkowe informacje',
+            text: 'Zaprezentuj swoje umiejętności, które podnoszą Twoje kwalifikacje i przydają się w zawodzie.'
+        },
+        {
+            header: '3.2. Linki',
+            text: 'Zaprezentuj swoje umiejętności, które podnoszą Twoje kwalifikacje i przydają się w zawodzie.'
+        }
+    ],
+    [
+        {
+            header: '4.1 Informacje dla pracowników',
+            text: 'Zaprezentuj swoje umiejętności, które podnoszą Twoje kwalifikacje i przydają się w zawodzie.'
+        },
+        {
+            header: '4.2 Informacje dla pracowników',
+            text: 'Zaprezentuj swoje umiejętności, które podnoszą Twoje kwalifikacje i przydają się w zawodzie.'
+        },
+        {
+            header: '4.3 Informacje dla pracowników',
+            text: 'Zaprezentuj swoje umiejętności, które podnoszą Twoje kwalifikacje i przydają się w zawodzie.'
+        }
+    ],
+    [
+        {
+            header: '5. Podsumowanie',
             text: 'Uzupełnij swój profil o dodatkowe wiadomości, które pomogą potencjalnemu pracodawcy.'
         }
     ]
@@ -115,6 +165,51 @@ const stepsMainContent = [
     ]
 ];
 
+const stepsAgencyMainContent = [
+    [
+        {
+            header: 'Dane firmy',
+            text: 'Podaj swoje dane osobowe, aby potencjalny pracodawca mógł w łatwy sposób nawiązać z Tobą kontakt.'
+        }
+    ],
+    [
+        {
+            header: 'Opis firmy',
+            text: 'Wskaż stopień swojego wykształcenia oraz dodaj listę szkół, które ukończyłeś lub w których jesteś w trakcie nauki.'
+        }
+    ],
+    [
+        {
+            header: 'Dodatkowe informacje',
+            text: 'Zaprezentuj swoje umiejętności, które podnoszą Twoje kwalifikacje i przydają się w zawodzie.'
+        },
+        {
+            header: 'Linki',
+            text: 'Zaprezentuj swoje umiejętności, które podnoszą Twoje kwalifikacje i przydają się w zawodzie.'
+        }
+    ],
+    [
+        {
+            header: 'Informacje dla pracowników',
+            text: 'Zaprezentuj swoje umiejętności, które podnoszą Twoje kwalifikacje i przydają się w zawodzie.'
+        },
+        {
+            header: 'Informacje dla pracowników',
+            text: 'Zaprezentuj swoje umiejętności, które podnoszą Twoje kwalifikacje i przydają się w zawodzie.'
+        },
+        {
+            header: 'Informacje dla pracowników',
+            text: 'Zaprezentuj swoje umiejętności, które podnoszą Twoje kwalifikacje i przydają się w zawodzie.'
+        }
+    ],
+    [
+        {
+            header: 'Podsumowanie',
+            text: 'Uzupełnij swój profil o dodatkowe wiadomości, które pomogą potencjalnemu pracodawcy.'
+        }
+    ]
+];
+
 const months = [
     'Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień',
     'Październik', 'Listopad', 'Grudzień'
@@ -162,10 +257,14 @@ const categories = [
     'Transport', 'Budownictwo', 'IT', 'Handel', 'Rolnictwo'
 ];
 
+const nipCountries = [
+    'PL', 'DE', 'NL'
+];
+
 const flags = [
     poland
 ];
 
 export { steps, stepsContent, stepsMainContent, months, countries, phoneNumbers, formErrors, educationLevels, languages, drivingLicences,
-    languageLevels, currencies, categories, attachmentsErrors, flags
+    languageLevels, currencies, categories, attachmentsErrors, flags, stepsAgency, stepsAgencyContent, stepsAgencyMainContent, nipCountries
 }

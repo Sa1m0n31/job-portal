@@ -151,7 +151,7 @@ const Register = () => {
                 Załóż konto
                 <img className="img" src={arrowWhite} alt="przejdź-dalej" />
             </button>
-            <a className="register__link" href="/strefa-pracownika">
+            <a className="register__link" href={role === 0 ? "/strefa-pracownika" : "/strefa-pracodawcy"}>
                 Masz już konto? Zaloguj się
             </a>
             <LoginAndRegisterAside />

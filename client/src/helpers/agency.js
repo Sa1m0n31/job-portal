@@ -1,4 +1,5 @@
 import axios from "axios";
+import {getAuthHeader, getLoggedUserEmail} from "./others";
 
 const loginAgency = (email, password) => {
     return axios.post('/agency/login', {
@@ -18,4 +19,12 @@ const verifyAgency = (token) => {
     });
 }
 
-export { registerAgency, verifyAgency, loginAgency }
+const getAgencyData = () => {
+    return axios.get(`/agency/getAgencyData/${getLoggedUserEmail()}`, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
+}
+
+export { registerAgency, verifyAgency, loginAgency, getAgencyData }

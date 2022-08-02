@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage";
 import Register from "./pages/Register";
 import AccountVerification from "./pages/AccountVerification";
 import UserWrapper from "./components/UserWrapper";
+import AgencyWrapper from "./components/AgencyWrapper";
 
 const LanguageContext = React.createContext(null);
 
@@ -41,6 +42,11 @@ function App() {
       </Route>
       <Route path="/konto-pracodawcy">
         <UserWrapper page={3} />
+      </Route>
+
+      {/* AGENCY ROUTES */}
+      <Route path="/edycja-danych-agencji">
+        <AgencyWrapper page={1} />
       </Route>
     </Router>
   </LanguageContext.Provider>

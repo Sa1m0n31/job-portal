@@ -1,4 +1,4 @@
-import {Body, Controller, Post} from '@nestjs/common';
+import {Body, Controller, Get, Param, Post} from '@nestjs/common';
 import {AgencyService} from "./agency.service";
 
 @Controller('agency')
@@ -16,5 +16,10 @@ export class AgencyController {
     @Post('/verify')
     verifyUser(@Body() body) {
         return this.agencyService.verifyAgency(body.token);
+    }
+
+    @Get('/getAgencyData/:email')
+    getAgencyData(@Param('email') email) {
+        return this.agencyService.getAgencyData(email);
     }
 }

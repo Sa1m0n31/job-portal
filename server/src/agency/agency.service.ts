@@ -83,4 +83,8 @@ export class AgencyService {
             throw new HttpException('Niepoprawny token', 400);
         }
     }
+
+    async getAgencyData(email: string) {
+        return this.agencyRepository.findOneBy({email});
+    }
 }

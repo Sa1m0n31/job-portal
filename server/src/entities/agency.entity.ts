@@ -14,7 +14,8 @@ export class Agency {
     password: string;
 
     @Column({
-        nullable: true
+        nullable: true,
+        length: 64000
     })
     data: string;
 
@@ -22,4 +23,9 @@ export class Agency {
         default: false
     })
     active: boolean;
+
+    @Column({
+        default: false
+    })
+    accepted: boolean;
 }

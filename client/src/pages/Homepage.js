@@ -63,10 +63,10 @@ const Homepage = () => {
                         </span>
                     </span>
                 </a>
-                <button className="btn btn--zone center">
+                <a className="btn btn--zone center" href="/strefa-pracownika">
                     Przejdź do strefy
                     <img className="img" src={smallWhiteArrowIcon} alt="przejdz-dalej" />
-                </button>
+                </a>
             </div>
 
             <div className="home__zone">
@@ -91,10 +91,10 @@ const Homepage = () => {
                         </span>
                     </span>
                 </a>
-                <button className="btn btn--zone center">
+                <a className="btn btn--zone center" href="/strefa-pracodawcy">
                     Przejdź do strefy
                     <img className="img" src={smallWhiteArrowIcon} alt="przejdz-dalej" />
-                </button>
+                </a>
             </div>
         </div>
     </div>

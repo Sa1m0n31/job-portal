@@ -8,7 +8,7 @@ import UserForm1 from "../components/UserForm1";
 import UserForm2 from "../components/UserForm2";
 import UserForm3 from "../components/UserForm3";
 import UserForm4A from "../components/UserForm4a";
-import {isElementInArray} from "../helpers/others";
+import {getLoggedUserEmail, isElementInArray} from "../helpers/others";
 import UserForm4B from "../components/UserForm4b";
 import UserForm5b from "../components/UserForm5b";
 import UserForm5a from "../components/UserForm5a";
@@ -17,6 +17,7 @@ import UserForm5D from "../components/UserForm5d";
 import MobileHeader from "../components/MobileHeader";
 import {getUserData, updateUser} from "../helpers/user";
 import UserFormSummary from "../components/UserFormSummary";
+import settings from "../static/settings";
 
 const UserDataContext = React.createContext(null);
 
@@ -195,17 +196,21 @@ const UserEditData = () => {
     }, [error]);
 
     useEffect(() => {
+        setUserData(prevState => ({
+            ...prevState,
+            email: getLoggedUserEmail()
+        }));
+
         getUserData()
             .then((res) => {
                 if(res?.status === 200) {
                     const data = JSON.parse(res.data.data);
-                    console.log(data);
                     setUserData({
                         ...data,
                         profileImage: null,
-                        profileImageUrl: '',
-                        bsnNumberDocument: null,
-                        attachments: []
+                        profileImageUrl: data.profileImage ? `${settings.API_URL}/${data.profileImage}` : null,
+                        bsnNumberDocument: data.bsnNumberDocument ? data.bsnNumberDocument : null,
+                        attachments: data.attachments ? data.attachments : []
                     });
                 }
             });
@@ -550,6 +555,32 @@ const UserEditData = () => {
         });
     }
 
+    const prevStep = () => {
+        if(step === 3) {
+            if(substep === 0) {
+                setStep(2);
+            }
+            else {
+                setSubstep(0);
+            }
+        }
+        else if(step === 4) {
+            if(substep === 0) {
+                setStep(3);
+                setSubstep(1);
+            }
+            else {
+                setSubstep(prevState => (prevState-1));
+            }
+        }
+        else if(step === 0) {
+            window.location = '/';
+        }
+        else {
+            setStep(prevState => (prevState-1));
+        }
+    }
+
     return <UserDataContext.Provider value={{
         setStep, setSubstep, daysVisible, monthsVisible, yearsVisible, countriesVisible, phoneNumbersCountriesVisible,
         educationVisible,
@@ -594,11 +625,11 @@ const UserEditData = () => {
                             <img className="img" src={homeIcon} alt="home" />
                             Strona główna
                         </a>
-                        {/* TODO: logowanie tu nie ma sensu, trzeba dac cos innego */}
-                        <a href="/strefa-pracownika" className="editData__main__header__left__link flex">
+                        <button onClick={() => { prevStep(); }}
+                            className="editData__main__header__left__link flex">
                             <img className="img" src={backArrow} alt="logowanie" />
-                            Ekran logowania
-                        </a>
+                            Wróć
+                        </button>
                     </div>
 
                     <LanguageSwitcher />

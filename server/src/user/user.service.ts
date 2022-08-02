@@ -121,11 +121,11 @@ export class UserService {
         let userData = JSON.parse(data.userData);
         userData = {
             ...userData,
-            profileImage: files.profileImage ? files.profileImage[0].path : null,
-            bsnNumberDocument: files.bsnNumber ? files.bsnNumber[0].path : null,
+            profileImage: files.profileImage ? files.profileImage[0].path : userData.profileImageUrl,
+            bsnNumberDocument: files.bsnNumber ? files.bsnNumber[0].path : userData.bsnNumberDocument,
             attachments: files.attachments ? Array.from(files.attachments).map((item: any) => {
                 return item.path;
-            }) : null
+            }) : data.attachments
         }
 
         // Modify record in database

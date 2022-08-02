@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {getAuthHeader, getLoggedUserEmail} from "./others";
+import settings from "../static/settings";
 
 const authUser = () => {
     return axios.post('/user/auth', {}, {
@@ -34,6 +35,11 @@ const updateUser = (data) => {
             'Content-Type': 'multipart/form-data',
             Authorization: getAuthHeader()
         }
+    }
+
+    data = {
+        ...data,
+        profileImageUrl: data?.profileImageUrl?.replaceAll(settings.API_URL, '')
     }
 
     formData.append('userData', JSON.stringify(data));

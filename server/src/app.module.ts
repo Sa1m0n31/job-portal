@@ -7,6 +7,8 @@ import {ConfigModule} from "@nestjs/config";
 import * as Joi from "@hapi/joi";
 import {MailerModule} from "@nestjs-modules/mailer";
 import {AgencyModule} from "./agency/agency.module";
+import {join} from "path";
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [UserModule, AgencyModule,
@@ -17,6 +19,9 @@ import {AgencyModule} from "./agency/agency.module";
         DATABASE_PORT: Joi.number().default(3306)
       })
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..'),
+    }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATABASE_HOST,
@@ -25,7 +30,7 @@ import {AgencyModule} from "./agency/agency.module";
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
       autoLoadEntities: true, // models will be loaded automatically
-      synchronize: true // your entities will be synced with the database(recommended: disable in prod)
+      synchronize: false // your entities will be synced with the database(recommended: disable in prod)
     }),
     MailerModule.forRoot({
       transport: `smtp://${process.env.EMAIL_ADDRESS}:${process.env.EMAIL_PASSWORD}@${process.env.EMAIL_HOST}`,

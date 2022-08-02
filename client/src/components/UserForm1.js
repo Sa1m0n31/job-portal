@@ -71,8 +71,8 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
                 <p className="label--extraInfo label--extraInfo--marginBottom">
                     Dodaj swoje zdjęcie profilowe. Zalecane wymiary to 250 x 250px.
                 </p>
-                <div className={!userData?.profileImage ? "filesUploadLabel center" : "filesUploadLabel filesUploadLabel--noBorder center"}>
-                    {!userData?.profileImage ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : <div className="filesUploadLabel__profileImage">
+                <div className={!userData?.profileImageUrl ? "filesUploadLabel center" : "filesUploadLabel filesUploadLabel--noBorder center"}>
+                    {!userData.profileImageUrl ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : <div className="filesUploadLabel__profileImage">
                         <button className="removeProfileImageBtn" onClick={() => { removeProfileImage(); }}>
                             <img className="img" src={trashIcon} alt="usun" />
                         </button>

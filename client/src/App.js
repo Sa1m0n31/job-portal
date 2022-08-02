@@ -39,6 +39,9 @@ function App() {
       <Route path="/konto-pracownika">
         <UserWrapper page={2} />
       </Route>
+      <Route path="/konto-pracodawcy">
+        <UserWrapper page={3} />
+      </Route>
     </Router>
   </LanguageContext.Provider>
 }

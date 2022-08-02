@@ -1,3 +1,5 @@
+import poland from '../static/img/poland.svg'
+
 const steps = [
     'Dane osobowe', 'Wykształcenie', 'Doświadczenie zawodowe', 'Umiejętności',
     'Dodatkowe informacje', 'Podsumowanie'
@@ -160,6 +162,10 @@ const categories = [
     'Transport', 'Budownictwo', 'IT', 'Handel', 'Rolnictwo'
 ];
 
+const flags = [
+    poland
+];
+
 export { steps, stepsContent, stepsMainContent, months, countries, phoneNumbers, formErrors, educationLevels, languages, drivingLicences,
-    languageLevels, currencies, categories, attachmentsErrors
+    languageLevels, currencies, categories, attachmentsErrors, flags
 }

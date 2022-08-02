@@ -1,4 +1,5 @@
 import Cookies from "universal-cookie";
+import {months} from "../static/content";
 
 const isElementInArray = (el, arr) => {
     return arr.findIndex((item) => {
@@ -33,4 +34,8 @@ const getLoggedUserEmail = () => {
     return `${cookies.get('email_jooob')}@${cookies.get('email_jooob_domain')}`;
 }
 
-export { isEmail, isElementInArray, isPasswordStrong, getAuthHeader, numberRange, getLoggedUserEmail }
+const getDate = (day, month, year) => {
+    return `${day+1 >= 10 ? day+1 : `0${day+1}`}.${month+1 >= 10 ? month+1 : `0${month+1}`}.${year}`;
+}
+
+export { isEmail, isElementInArray, isPasswordStrong, getAuthHeader, numberRange, getLoggedUserEmail, getDate }

@@ -616,7 +616,7 @@ const UserEditData = () => {
                 </div>
             </div>
 
-            <MobileHeader />
+            <MobileHeader back="/" />
 
             <main className="editData__main">
                 <header className="editData__main__header flex">

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import UserHomepage from "../pages/UserHomepage";
-import {authUser} from "../helpers/user";
+import {authUser, getUserData} from "../helpers/user";
 import Loader from "./Loader";
 import UserEditData from "../pages/UserEditData";
 
@@ -12,16 +12,31 @@ const UserWrapper = ({page}) => {
             authUser()
                 .then((res) => {
                     if(res?.status === 201) {
-                        switch(page) {
-                            case 1:
-                                setRender(<UserEditData />);
-                                break;
-                            case 2:
-                                setRender(<UserHomepage />);
-                                break;
-                            default:
-                                window.location = '/';
-                        }
+                        getUserData()
+                            .then((res) => {
+                                if(res?.status === 200) {
+                                    const data = JSON.parse(res.data.data);
+                                    switch(page) {
+                                        case 1:
+                                            setRender(<UserEditData />);
+                                            break;
+                                        case 2:
+                                            setRender(<UserHomepage data={data}
+                                                                    visible={res.data.profileVisible}
+                                                                    working={res.data.working}
+                                            />);
+                                            break;
+                                        default:
+                                            window.location = '/';
+                                    }
+                                }
+                                else {
+                                    window.location = '/';
+                                }
+                            })
+                            .catch(() => {
+                               window.location = '/';
+                            });
                     }
                     else {
                         window.location = '/';

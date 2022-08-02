@@ -17,6 +17,22 @@
         flex-wrap: wrap;
     }
 
+    .userAccount__course,
+    .userAccount__box__language,
+    .userAccount__box__attachment,
+    .userAccount__box__value {
+        font-size: 14px;
+    }
+
+    .loggedUserHeader__desktop {
+        padding-left: 5vw;
+        padding-right: 5vw;
+    }
+
+    .userAccount {
+        max-width: 90vw;
+    }
+
     .userForm2 .form__school > * {
         margin-right: 10px;
     }
@@ -48,6 +64,56 @@
     .editData__left {
         width: 350px;
         padding: 30px;
+    }
+
+    .userAccount__box--10 {
+        width: 15%;
+    }
+
+    .userAccount__box--20 {
+        width: 18%;
+    }
+
+    .userAccount__box__pair {
+        width: 100%;
+    }
+
+    .userAccount__school__header {
+        font-size: 14px;
+    }
+
+    .userAccount__school__subheader, .userAccount__school__date {
+        font-size: 12px;
+    }
+
+    .userAccount__school figure {
+        width: 50px;
+        height: 50px;
+        flex-basis: 100%;
+        max-width: 50px;
+    }
+
+    .userAccount__school figure .img {
+        width: 30px;
+    }
+
+    .loggedUserHeader .logo {
+        width: 90px;
+    }
+
+    .loggedUserHeader__menu {
+        width: 40%;
+    }
+
+    .loggedUserHeader__userBtn figure,
+    .loggedUserHeader__notificationBtn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .loggedUserHeader__fullName,
+    .loggedUserHeader__menu__item {
+        font-size: 13px;
     }
 
     .filesUploadLabel,
@@ -112,6 +178,58 @@
         flex-direction: column;
     }
 
+    .flag {
+        height: 20px;
+        margin-left: 10px;
+    }
+
+    .userAccount__box--100 {
+        padding: 30px;
+    }
+
+    .userAccount__top__btn .img {
+        width: 12px;
+    }
+
+    .userAccount__box__fullName {
+        font-size: 24px;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .userAccount__box__right__item,
+    .userAccount__box__downloadCV,
+    .btn--whatsApp,
+    .btn--writeMessage,
+    .userAccount__top__btn {
+        font-size: 13px;
+    }
+
+    .userAccount__box__mainData__text,
+    .userAccount__top__loginInfo {
+        font-size: 12px;
+    }
+
+    .loggedUserHeader__fullName {
+        display: none;
+    }
+
+    .loggedUserHeader__menu {
+        width: 50%;
+    }
+
+    .loggedUserHeader__userDropdownMenu {
+        width: 150px;
+        left: unset;
+        right: 0;
+        transform: translate(0, 100%);
+    }
+
+    .loggedUserHeader__userBtn .arrowImg {
+        margin-left: 15px;
+    }
+
     .label--date--address > .flex > *,
     .label--date--address > .flex > * > *
     {
@@ -149,6 +267,44 @@
         width: 400px;
     }
 
+    .userAccount__box--20 {
+        width: 49%;
+    }
+
+    .userAccount__box--40 {
+        width: 75%;
+    }
+
+    .userAccount__box--10 {
+        width: 23%;
+    }
+
+    .userAccount__box__fullName {
+        font-size: 21px;
+    }
+
+    .userAccount__box__left figure {
+        height: 150px;
+    }
+
+    .loggedUserHeader__notificationBtn {
+        margin-right: 10px;
+        width: 30px;
+        height: 30px;
+    }
+
+    .loggedUserHeader__desktop {
+        padding: 30px 5vw;
+    }
+
+    .loggedUserHeader__menu {
+        width: 55%;
+    }
+
+    .loggedUserHeader__menu__item {
+        font-size: 12px;
+    }
+
     .userForm .label--friendLink {
         max-width: 400px;
     }
@@ -168,9 +324,112 @@
 }
 
 @media(max-width: 996px) {
+    .userAccount__top,
+    .loggedUserHeader__desktop,
     .editData__main__header,
     .editData__left {
         display: none;
+    }
+
+    .mobileSettingsBtn {
+        display: block;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 16px;
+    }
+
+    .userAccount {
+        margin-top: 100px;
+    }
+
+    .userAccount__box {
+        position: relative;
+        width: 100% !important;
+        border: 1px solid #C1C1C1;
+        box-shadow: none;
+        border-radius: 5px;
+        min-height: 1px;
+    }
+
+    .flag:not(.flag--mobile) {
+        display: none;
+    }
+
+    .flag--mobile {
+        display: block;
+        position: absolute;
+        top: 3px;
+        right: 5px;
+        width: 15px;
+        z-index: 5;
+    }
+
+    .userAccount__box__mainData {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .userAccount__box__mainData__buttons {
+        order: -1;
+        margin: 10px auto;
+        border-bottom: 1px solid #C1C1C1;
+        padding-bottom: 20px;
+    }
+
+    .userAccount .tooltip {
+        display: none;
+    }
+
+    .userAccount__box__left {
+        width: 100%;
+    }
+
+    .userAccount__box__right__item,
+    .userAccount__box__right {
+        justify-content: flex-start;
+        padding-left: 0;
+    }
+
+    .userAccount__box__downloadCV,
+    .userAccount__box__right {
+        align-items: center;
+    }
+
+    .userAccount__box__downloadCV {
+        margin: 10px 0;
+        padding: 15px 0;
+        border-top: 1px solid #C1C1C1;
+        border-bottom: 1px solid#C1C1C1;
+        width: 100%;
+    }
+
+    .userAccount__box__mainData__buttons .btn {
+        height: 30px;
+    }
+
+    .btn--downloadCV {
+        height: 30px;
+    }
+
+    .userAccount__box__fullName {
+        font-weight: 500;
+        order: -2;
+        margin-bottom: 0;
+    }
+
+    .userAccount__box__left figure {
+        height: 125px;
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    .userAccount__box__left,
+    .userAccount__box__top {
+        flex-direction: column;
+        align-items: center;
     }
 
     .filesUploadLabel, .label--rel, .input--situation,
@@ -198,6 +457,23 @@
         height: auto;
         padding-right: 0;
         overflow-y: visible;
+    }
+
+    .userAccount__school figure .img--suitcase {
+        width: 20px;
+    }
+
+    .userAccount__box__header {
+        font-size: 12px;
+    }
+
+    .userAccount__school__header,
+    .userAccount__box__value {
+        font-size: 13px;
+    }
+
+    .userAccount__box__key {
+        font-size: 10px;
     }
 
     .formBottom {
@@ -260,7 +536,7 @@
         position: fixed;
         top: 0;
         left: 0;
-        z-index: 3;
+        z-index: 50;
     }
 
     .mobileHeader::after {
@@ -314,11 +590,33 @@
     .btn--widthAuto {
         padding: 8px 15px;
     }
+
+    .userAccount__box__right__item > *:not(:last-child) {
+        margin-right: 0;
+    }
 }
 
 @media(max-width: 768px) {
     .editData__formWrapper__header {
         font-size: 18px;
+    }
+
+    .userAccount__box--40 .userAccount__box__pair {
+        width: 100%;
+    }
+
+    .userAccount__box__subheader {
+        margin-top: 5px;
+        font-size: 13px;
+    }
+
+    .userAccount__box {
+        padding: 15px;
+    }
+
+    .mobileSettingsBtn {
+        top: 10px;
+        right: 10px;
     }
 
     .filesUploadLabel {
@@ -382,6 +680,10 @@
 @media(max-width: 576px) {
     .editData__main {
         padding: 30px 20px;
+    }
+
+    .userAccount__box__fullName {
+        font-size: 16px;
     }
 
     .userForm--summary__header {

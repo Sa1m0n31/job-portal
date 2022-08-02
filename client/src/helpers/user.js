@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {getAuthHeader, getLoggedUserEmail} from "./others";
 import settings from "../static/settings";
+import Cookies from "universal-cookie";
 
 const authUser = () => {
     return axios.post('/user/auth', {}, {
@@ -61,4 +62,30 @@ const getUserData = () => {
     });
 }
 
-export { registerUser, verifyUser, loginUser, authUser, updateUser, getUserData }
+const toggleUserVisibility = () => {
+    return axios.patch(`/user/toggleUserVisibility/${getLoggedUserEmail()}`, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
+}
+
+const toggleUserWorking = () => {
+    return axios.patch(`/user/toggleUserWorking/${getLoggedUserEmail()}`, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
+}
+
+const logout = () => {
+    const cookies = new Cookies();
+    cookies.remove('jwt', { path: '/' });
+    cookies.remove('email_jooob_domain', { path: '/' });
+    cookies.remove('email_jooob', { path: '/' });
+    window.location = '/';
+}
+
+export { registerUser, verifyUser, loginUser, authUser, updateUser, getUserData, logout,
+    toggleUserVisibility, toggleUserWorking
+}

@@ -29,6 +29,7 @@ const LoginPage = ({type}) => {
                                 cookies.set('access_token', jwt, { path: '/' });
                                 cookies.set('email_jooob', email.toString().split('@')[0], { path: '/' });
                                 cookies.set('email_jooob_domain', email.toString().split('@')[1], { path: '/' });
+                                window.location = '/konto-pracownika';
                             }
                             else {
                                 setError('Coś poszło nie tak... Prosimy spróbować później');

@@ -8,7 +8,7 @@
 }
 
 :root {
-    --primary: #0A73FE;
+    --primary: #0a73fe;
     --hover: #0862ED;
     --grey: #888888;
 }
@@ -708,10 +708,6 @@ input {
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--primary) #C1DCFF;
-}
-
-.userForm::-webkit-scrollbar {
-    /*display: none;  !* Safari and Chrome *!*/
 }
 
 .userForm::-webkit-scrollbar {
@@ -1488,4 +1484,535 @@ input {
 
 .btn--userForm:disabled {
     opacity: .3;
+}
+
+.loggedUserHeader__desktop {
+    background: #fff;
+    height: 150px;
+    box-shadow: 0px 1px 10px #0000000D;
+    width: 100%;
+    padding: 55px 85px;
+}
+
+.loggedUserHeader__desktop .logo {
+    width: 195px;
+    display: block;
+}
+
+.loggedUserHeader__menu {
+    width: 45%;
+}
+
+.loggedUserHeader__menu__item {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--grey);
+}
+
+.loggedUserHeader__menu__item:hover {
+    opacity: .75;
+}
+
+.loggedUserHeader__menu__item--blue {
+    color: var(--primary);
+}
+
+.loggedUserHeader__menu__item--red {
+    color: #CB4949;
+}
+
+.loggedUserHeader__notificationBtn {
+    background: #F9F9F9;
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loggedUserHeader__notificationBtn .img {
+    width: 40%;
+}
+
+.loggedUserHeader__notificationBtn--new::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #CB4949;
+}
+
+.loggedUserHeader__notificationsContainer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.loggedUserHeader__notificationBtn {
+    margin-right: 35px;
+}
+
+.loggedUserHeader__userBtn {
+    background: #F9F9F9;
+    border-radius: 5px;
+    padding-right: 15px;
+}
+
+.loggedUserHeader__userBtn figure {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: block;
+}
+
+.loggedUserHeader__fullName {
+    color: var(--primary);
+    font-weight: 700;
+    padding-left: 20px;
+    padding-right: 60px;
+    max-width: 250px;
+}
+
+.loggedUserHeader__userBtn .arrowImg {
+    width: 7px;
+    filter: invert(48%) sepia(85%) saturate(6081%) hue-rotate(208deg) brightness(102%) contrast(104%);
+}
+
+.rel {
+    position: relative;
+}
+
+.loggedUserHeader__userDropdownMenu__item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 14px;
+    padding: 10px 5px;
+    background: transparent;
+    width: 100%;
+}
+
+.loggedUserHeader__userDropdownMenu__item:hover {
+    opacity: .8;
+}
+
+.loggedUserHeader__userDropdownMenu__item:first-child {
+    border-bottom: 1px solid #C1C1C1;
+}
+
+.loggedUserHeader__userDropdownMenu {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: auto;
+    background: #F9F9F9;
+    transform: translateY(100%);
+    padding: 10px;
+}
+
+.loggedUserHeader__userDropdownMenu__item .img {
+    width: 12px;
+    margin-left: 10px;
+}
+
+.container--user {
+    background: #FCFCFC;
+}
+
+.userAccount {
+    padding-bottom: 50px;
+    max-width: 1750px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.userAccount > * {
+    width: 100%;
+    max-width: 1750px;
+}
+
+.userAccount__top {
+    padding: 25px 0;
+}
+
+.userAccount__top__loginInfo {
+    font-size: 14px;
+    color: var(--grey);
+}
+
+.userAccount__top__btn {
+    font-size: 15px;
+    background: transparent;
+    text-decoration: underline;
+}
+
+.userAccount__top__btn .img {
+    width: 15px;
+    margin-left: 8px;
+}
+
+.userAccount__top__btn:hover {
+    opacity: .8;
+}
+
+.userAccount__box {
+    box-shadow: 0px 0px 10px #0000000D;
+    background: #fff;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.userAccount__box--100 {
+    width: 100%;
+}
+
+.userAccount__box--30 {
+    width: 32%;
+    padding: 30px;
+    min-height: 280px;
+}
+
+.userAccount__box__top {
+    padding: 35px 60px;
+    align-items: flex-start;
+}
+
+.userAccount__box__left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.userAccount__box__left figure {
+    height: 225px;
+    width: auto;
+    overflow: hidden;
+    border: 12px solid #F9F9F9;
+    border-radius: 5px;
+    margin-right: 25px;
+}
+
+.userAccount__box__left .img {
+    height: 100%;
+    width: auto;
+}
+
+.userAccount__box__mainData__text {
+    color: var(--grey);
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.userAccount__box__fullName {
+    color: var(--primary);
+    font-size: 32px;
+    font-weight: 400;
+    margin-bottom: 15px;
+}
+
+.userAccount__box__mainData__text .img {
+    width: 12px;
+    margin-right: 10px;
+}
+
+.userAccount__box__downloadCV {
+    color: var(--grey);
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 30px;
+}
+
+.btn--downloadCV {
+    width: 120px;
+    height: 38px;
+    margin-top: 8px;
+}
+
+.btn--downloadCV .img {
+    width: 10px;
+    margin-right: 5px;
+}
+
+.userAccount__box__right {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: flex-end;
+}
+
+.tooltip {
+    background: var(--primary);
+    color: #fff;
+    font-size: 10px;
+    width: 18px;
+    height: 18px;
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.userAccount__box__right__item {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 20px;
+    color: var(--grey);
+}
+
+.userAccount__box__right__item > *:not(:last-child) {
+    margin-right: 10px;
+}
+
+.userAccount__box__right__item > *:last-child {
+    margin-left: 20px;
+}
+
+.tooltipVisible {
+    display: block;
+    background: var(--primary);
+    color: #fff;
+    padding: 20px;
+    font-size: 14px;
+    max-width: 250px;
+    border-radius: 5px;
+}
+
+.tippy-popper {
+    left: -10px !important;
+}
+
+.userAccount__box__mainData__buttons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.btn--writeMessage {
+    height: 42px;
+    padding: 0 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+}
+
+.btn--whatsApp .img,
+.btn--writeMessage .img {
+    width: 14px;
+    margin-right: 10px;
+}
+
+.btn--writeMessage .img {
+    filter: brightness(0) invert(1);
+}
+
+.btn--whatsApp {
+    margin-right: 15px;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 135px;
+    height: 42px;
+    padding: 0 10px;
+    background: #46DB3C;
+}
+
+.btn--whatsApp:hover {
+    background: #35C92B;
+}
+
+.userAccount__box__header {
+    color: var(--grey);
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: uppercase;
+    padding-left: 20px;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.userAccount__box__header::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 1px;
+    background: var(--primary);
+}
+
+.userAccount__box__pairsWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.userAccount__box__pair {
+    width: 48%;
+    margin: 10px 0;
+}
+
+.userAccount__box__key {
+    color: var(--grey);
+    text-transform: uppercase;
+    font-size: 12px;
+    display: block;
+}
+
+.userAcocunt__box__value {
+    display: block;
+    font-size: 16px;
+}
+
+.userAccount__school {
+    margin: 10px 0 20px;
+}
+
+.userAccount__school figure {
+    width: 65px;
+    height: 65px;
+    border-radius: 5px;
+    background: #F9F9F9;
+    margin-right: 20px;
+}
+
+.userAccount__school figure .img {
+    width: 50px;
+}
+
+.userAccount__school figure .img--suitcase {
+    width: 32px;
+}
+
+.userAccount__school__header {
+    font-weight: 400;
+}
+
+.userAccount__school__subheader,
+.userAccount__school__date {
+    color: var(--grey);
+    font-size: 14px;
+    font-weight: 400;
+    margin: 3px 0;
+}
+
+.userAccount__box--20 {
+    width: 20%;
+}
+
+.userAccount__box--40 {
+    width: 45%;
+}
+
+.userAccount__box--10 {
+    width: 10%;
+}
+
+.userAccount__box__subheader {
+    color: var(--grey);
+    text-transform: uppercase;
+    font-weight: 400;
+    margin: 25px 0 10px;
+    font-size: 14px;
+}
+
+.userAccount__box__language {
+    white-space: nowrap;
+}
+
+.userAccount__box__language .img {
+    width: 12px;
+    margin-right: 5px;
+}
+
+.userAccount__box__language .lvl {
+    color: var(--grey);
+    padding-left: 5px;
+}
+
+.userAccount__box__language {
+    color: #000;
+    font-size: 16px;
+    margin-right: 30px;
+    margin-bottom: 20px;
+}
+
+.userAccount__box--20 .flex {
+    flex-wrap: wrap;
+}
+
+.userAccount__course {
+    margin-bottom: 8px;
+}
+
+.userAccount__course .img {
+    width: 11px;
+    margin-right: 10px;
+}
+
+.userAccount__box--40 .userAccount__box__pair {
+    width: 30%;
+}
+
+.userAccount__box__attachment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--grey);
+    text-decoration: underline;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.userAccount__box__attachment .img--fileIcon {
+    margin-right: 7px;
+}
+
+.userAccount__box__attachment .img {
+    width: 15px;
+}
+
+.userAccount__box__attachment .img:last-of-type {
+    margin-left: 12px;
+}
+
+.userAccount__box__attachment {
+    max-width: 110px;
+}
+
+.userAccount__box__attachment:hover {
+    opacity: .8;
+}
+
+.flag {
+    height: 30px;
+    width: auto;
+    margin-left: 20px;
+}
+
+.flag--mobile,
+.mobileSettingsBtn {
+    display: none;
 }

@@ -265,6 +265,39 @@ const flags = [
     poland
 ];
 
+const rooms = [
+    'Pokój 1-osobowy', 'Pokój 2-osobowy', 'Pokój 3-osobowy'
+];
+
+const houses = [
+    'Blok mieszkalny', 'Dom jednorodzinny', 'Szeregowiec', 'Bungalow', 'Camping'
+];
+
+const paymentTypes = [
+    'Płatny dodatkowo', 'Bezpłatny'
+];
+
+const pensionType = [
+    'Wypłacane z pensji', 'Wypłacane osobno'
+];
+
+const paycheckFrequency = [
+    'Wypłacane co tydzień', 'Wypłacane co miesiąc'
+];
+
+const pensionFrequency = [
+    'Wypłacane jednorazowo', 'Co tydzień'
+];
+
+const paycheckDay = [
+    'W każdy poniedziałek', 'W każdy wtorek', 'W każdą środę', 'W każdy czwartek', 'W każdy piątek'
+];
+
+const healthInsuranceOptions = [
+    'Płatne dodatkowo', 'Darmowe'
+];
+
 export { steps, stepsContent, stepsMainContent, months, countries, phoneNumbers, formErrors, educationLevels, languages, drivingLicences,
-    languageLevels, currencies, categories, attachmentsErrors, flags, stepsAgency, stepsAgencyContent, stepsAgencyMainContent, nipCountries
+    languageLevels, currencies, categories, attachmentsErrors, flags, stepsAgency, stepsAgencyContent, stepsAgencyMainContent, nipCountries,
+    rooms, houses, paymentTypes, pensionType, paycheckFrequency, pensionFrequency, paycheckDay, healthInsuranceOptions
 }

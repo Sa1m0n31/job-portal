@@ -7,6 +7,7 @@ import { v4 as uuid } from 'uuid';
 import {MailerService} from "@nestjs-modules/mailer";
 import {Agency} from "../entities/agency.entity";
 import {Agency_verification} from "../entities/agency_verification";
+import {JwtService} from "@nestjs/jwt";
 
 @Injectable()
 export class AgencyService {
@@ -15,7 +16,8 @@ export class AgencyService {
         private readonly agencyRepository: Repository<Agency>,
         @InjectRepository(Agency_verification)
         private readonly agencyVerificationRepository: Repository<Agency_verification>,
-        private readonly mailerService: MailerService
+        private readonly mailerService: MailerService,
+        private readonly jwtTokenService: JwtService
     ) {
     }
 
@@ -58,7 +60,10 @@ export class AgencyService {
                 </div>`
             });
 
-            await this.agencyRepository.save(newUser);
+            await this.agencyRepository.save({
+                ...newUser,
+                accepted: false
+            });
 
             return this.agencyVerificationRepository.save({
                 email,
@@ -82,6 +87,67 @@ export class AgencyService {
         else {
             throw new HttpException('Niepoprawny token', 400);
         }
+    }
+
+    async loginAgency(email: string, password: string) {
+        const payload = { username: email, sub: password };
+        const passwordHash = crypto
+            .createHash('sha256')
+            .update(password)
+            .digest('hex');
+
+        const user = await this.agencyRepository.findOneBy({
+            email,
+            password: passwordHash
+        });
+
+        if(user) {
+            if(user.active) {
+                return {
+                    access_token: this.jwtTokenService.sign(payload, {
+                        secret: process.env.JWT_KEY
+                    })
+                };
+            }
+            else {
+                throw new HttpException('Aktywuj swoje konto', 403);
+            }
+        }
+        else {
+            throw new HttpException('Niepoprawna nazwa użytkownika lub hasło', 401);
+        }
+    }
+
+    async updateAgency(data, files) {
+        console.log(files);
+
+        // Get current gallery
+        let currentGallery = [];
+        const oldAgencyData = await this.agencyRepository.findOneBy({email: data.email});
+        currentGallery = oldAgencyData.data ? JSON.parse(oldAgencyData.data)?.gallery : [];
+
+        // Modify user data JSON - add file paths
+        const email = data.email;
+        let agencyData = JSON.parse(data.agencyData);
+        agencyData = {
+            ...agencyData,
+            logo: files.logo ? files.logo[0].path : agencyData.logoUrl,
+            gallery: files.gallery ? Array.from(files.gallery).map((item: any) => {
+                console.log(item);
+                return item.path ? item.path : (item?.url ? item.url : item);
+            }).concat(currentGallery) : agencyData.gallery?.map((item) => (item.url))
+        }
+
+        // Modify record in database
+        return this.agencyRepository.createQueryBuilder()
+            .update({
+                data: JSON.stringify(agencyData),
+                email: agencyData.email
+            })
+            .where({
+                email
+            })
+            .execute();
     }
 
     async getAgencyData(email: string) {

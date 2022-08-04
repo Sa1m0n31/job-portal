@@ -116,6 +116,8 @@ export class UserService {
     }
 
     async updateUser(data, files) {
+        console.log(files);
+
         // Modify user data JSON - add file paths
         const email = data.email;
         let userData = JSON.parse(data.userData);
@@ -124,6 +126,7 @@ export class UserService {
             profileImage: files.profileImage ? files.profileImage[0].path : userData.profileImageUrl,
             bsnNumberDocument: files.bsnNumber ? files.bsnNumber[0].path : userData.bsnNumberDocument,
             attachments: files.attachments ? Array.from(files.attachments).map((item: any) => {
+                console.log(item);
                 return item.path;
             }) : data.attachments
         }

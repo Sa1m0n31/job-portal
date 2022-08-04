@@ -38,7 +38,19 @@ const AccountVerification = () => {
                     }
                 })
                 .catch((err) => {
-                    window.location = '/';
+                    verifyAgency(token)
+                        .then((res) => {
+                            if(res?.status === 201) {
+                                setLoading(false);
+                                setRole(1);
+                            }
+                            else {
+                                window.location = '/';
+                            }
+                        })
+                        .catch(() => {
+                            window.location = '/';
+                        });
                 });
         }
         else {

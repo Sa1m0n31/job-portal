@@ -1,19 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
 import dropdownArrow from '../static/img/dropdown-arrow.svg'
 import {countries, formErrors, months, nipCountries, phoneNumbers} from "../static/content";
-import {numberRange} from "../helpers/others";
 import {AgencyDataContext} from "../pages/AgencyEditData";
 
 const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setNipCountriesVisible}) => {
     const { setStep, agencyData, handleChange, countriesVisible, phoneNumbersCountriesVisible, nipCountriesVisible } = useContext(AgencyDataContext);
 
-    const [days, setDays] = useState([]);
-    const [years, setYears] = useState([]);
     const [error, setError] = useState('');
-
-    useEffect(() => {
-        setYears(numberRange(1900, new Date().getFullYear()-14).reverse());
-    }, []);
 
     return <>
         <div className="userForm userForm--1 userForm--1--agency">

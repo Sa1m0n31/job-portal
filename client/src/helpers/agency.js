@@ -1,5 +1,6 @@
 import axios from "axios";
 import {getAuthHeader, getLoggedUserEmail} from "./others";
+import settings from "../static/settings";
 
 const loginAgency = (email, password) => {
     return axios.post('/agency/login', {
@@ -27,4 +28,29 @@ const getAgencyData = () => {
     });
 }
 
-export { registerAgency, verifyAgency, loginAgency, getAgencyData }
+const updateAgency = (data) => {
+    const formData = new FormData();
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: getAuthHeader()
+        }
+    }
+
+    data = {
+        ...data,
+        logoUrl: data?.logoUrl?.replaceAll(settings.API_URL, '')
+    }
+
+    formData.append('agencyData', JSON.stringify(data));
+    formData.append('email', getLoggedUserEmail());
+    formData.append('logo', data.logo);
+    for(const img of data.gallery) {
+        console.log(img);
+        formData.append('gallery', img.file);
+    }
+
+    return axios.post('/agency/update', formData, config);
+}
+
+export { registerAgency, verifyAgency, loginAgency, getAgencyData, updateAgency }

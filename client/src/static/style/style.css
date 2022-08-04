@@ -13,6 +13,17 @@
     --grey: #888888;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
 .container {
     position: relative;
 }
@@ -2033,4 +2044,148 @@ input {
 
 .userForm--1--agency .label--date--address .flex label:last-of-type {
     margin-left: 20px;
+}
+
+.userForm--2--agency .filesUploadLabel {
+    flex-wrap: wrap;
+}
+
+.userForm--2--agency .filesUploadLabel__item {
+    margin: 10px;
+}
+
+.userForm--3a--agency .input--textarea {
+    max-height: 200px;
+}
+
+.userForm--3b--agency .label {
+    position: relative;
+    max-width: 425px;
+}
+
+.socialMediaIconWrapper {
+    position: absolute;
+    bottom: 7px;
+    left: 0;
+    height: 34px;
+    width: auto;
+    padding: 5px 15px;
+    border-right: 1px solid #C1C1C1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.socialMediaIcon {
+    height: 80%;
+    width: auto;
+}
+
+.label--yt .socialMediaIcon {
+    height: 55%;
+}
+
+.userForm--3b--agency .input {
+    padding-left: 60px;
+}
+
+.userForm--4a--agency .flex {
+    justify-content: flex-start;
+}
+
+.label--date__input--houseType {
+    margin-left: 20px;
+}
+
+.label--agencyPrice {
+    width: 80px;
+    margin: 5px 20px 0;
+    position: relative;
+}
+
+.label--agencyPrice .input {
+    margin-top: 0;
+}
+
+.userForm--4b--agency {
+    margin-top: 5px;
+}
+
+.input:disabled {
+    opacity: .5;
+}
+
+.label--agencyPrice__arrows {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-60%);
+    right: 10px;
+    width: 10px;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.label--agencyPrice__button {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+    background: transparent;
+}
+
+.label--disabled {
+    pointer-events: none;
+    opacity: .5;
+}
+
+.carAndBikePriceInfo {
+    color: var(--grey);
+    font-size: 14px;
+    padding-left: 15px;
+    text-transform: none;
+}
+
+.userForm--4b--agency .label--date__input--currency,
+.userForm--4b--agency .label--date__input--currency *
+{
+    max-width: 90px;
+}
+
+.userForm--4c--agency .drivingLicenceWrapper {
+    margin-top: 0;
+}
+
+.label--date__input--pensionFrequency,
+.label--date__input--pensionFrequency .datepicker--country,
+.label--date__input--pensionFrequency .datepickerDropdown
+{
+    max-width: 250px;
+    width: 250px;
+}
+
+.userForm--4c--agency .pensionFrequency {
+    margin-top: 10px;
+}
+
+.userForm--4c--agency .label--flex {
+    margin-top: 20px;
+    max-width: 350px;
+}
+
+.userForm--4c .salary {
+    margin-top: 10px;
+}
+
+.datepicker--salary {
+    width: 250px;
+}
+
+.salary .label--date__input {
+    margin-right: 20px;
+}
+
+.userForm--4c--agency .label--date--address {
+    max-width: 550px !important;
 }

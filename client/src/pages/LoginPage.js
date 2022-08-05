@@ -18,7 +18,8 @@ const LoginPage = ({type}) => {
         setError('');
     }, [email, password]);
 
-    const login = () => {
+    const login = (e) => {
+        e.preventDefault();
         if(email && password) {
             const func = type === 0 ? loginUser : loginAgency;
             func(email, password)
@@ -62,7 +63,7 @@ const LoginPage = ({type}) => {
                     Powrót na stronę główną
                 </a>
             </header>
-            <main className="login__left__content">
+            <form className="login__left__content">
                 <h1 className="login__header">
                     Zaloguj się do swojego profilu
                 </h1>
@@ -85,7 +86,7 @@ const LoginPage = ({type}) => {
                 </span> : ''}
 
                 <button className="btn btn--login center"
-                        onClick={() => { login(); }}>
+                        onClick={(e) => { login(e); }}>
                     Zaloguj się
                     <img className="img" src={loginIcon} alt="logowanie" />
                 </button>
@@ -97,7 +98,7 @@ const LoginPage = ({type}) => {
                         Zapomniałem hasła
                     </a>
                 </div>
-            </main>
+            </form>
             <aside className="login__left__bottom flex">
                 <div className="login__left__bottom__links flex">
                     <a href="/polityka-prywatnosci">

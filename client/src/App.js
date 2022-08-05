@@ -40,13 +40,13 @@ function App() {
       <Route path="/konto-pracownika">
         <UserWrapper page={2} />
       </Route>
-      <Route path="/konto-pracodawcy">
-        <UserWrapper page={3} />
-      </Route>
 
       {/* AGENCY ROUTES */}
       <Route path="/edycja-danych-agencji">
         <AgencyWrapper page={1} />
+      </Route>
+      <Route path="/konto-agencji">
+        <AgencyWrapper page={2} />
       </Route>
     </Router>
   </LanguageContext.Provider>

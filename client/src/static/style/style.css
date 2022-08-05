@@ -1708,7 +1708,6 @@ input {
 .userAccount__box__left figure {
     height: 225px;
     width: auto;
-    overflow: hidden;
     border: 12px solid #F9F9F9;
     border-radius: 5px;
     margin-right: 25px;
@@ -1814,6 +1813,11 @@ input {
     justify-content: flex-start;
     align-items: center;
     margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.userAccount__box__mainData__buttons .btn {
+    margin-bottom: 10px;
 }
 
 .btn--writeMessage {
@@ -2180,6 +2184,8 @@ input {
 
 .datepicker--salary {
     width: 250px;
+    justify-content: space-between;
+    padding: 10px 15px;
 }
 
 .salary .label--date__input {
@@ -2188,4 +2194,280 @@ input {
 
 .userForm--4c--agency .label--date--address {
     max-width: 550px !important;
+}
+
+.userAccount__box__text {
+    font-size: 14px;
+    white-space: pre-line;
+}
+
+.agencyAccount__socialMediaItem {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 13px;
+    margin-bottom: 18px;
+    transition: .2s all;
+}
+
+.agencyAccount__socialMediaItem:hover {
+    opacity: .75;
+}
+
+.agencyAccount__socialMediaItem .img {
+    width: 20px;
+    filter: invert(34%) sepia(71%) saturate(6411%) hue-rotate(213deg) brightness(109%) contrast(99%);
+    margin-right: 15px;
+}
+
+.container--agency .flex--firstLine {
+    align-items: flex-start;
+}
+
+.container--agency__grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.userAccount__box__pairsWrapper .w-100 {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.container--agency .userAccount__box__pair {
+    width: 23%;
+    margin-bottom: 30px;
+    margin-right: 2%;
+}
+
+.container--agency__grid .flex {
+    width: 49%;
+    flex-direction: column;
+}
+
+.userAccount__box__value {
+    white-space: pre-wrap;
+}
+
+.userAccount__box__value--holidayAllowance {
+    white-space: normal;
+}
+
+.userAccount__box--employeesInfo {
+    justify-content: flex-start;
+}
+
+.userAccount__box--employeesInfo .userAccount__box__value {
+    font-size: 14px;
+}
+
+.userAccount__box__gallery {
+    height: 175px;
+    overflow-y: hidden;
+    overflow-x: scroll;
+}
+
+.userAccount__box__gallery .gallery__item {
+    height: 100%;
+    width: auto;
+    margin-right: 25px;
+}
+
+.userAccount__box__gallery .gallery__item .img {
+    height: 100%;
+    width: auto;
+}
+
+.container--agency .userAccount__box__gallery {
+    flex-direction: row;
+    width: 90%;
+}
+
+.userAccount__box__gallery__arrow {
+    background: transparent;
+    width: 20px;
+}
+
+.container--agency .flex--gallery {
+    width: 100%;
+    flex-direction: row;
+}
+
+.userAccount__box__gallery__arrow--prev .img {
+    transform: rotateY(180deg);
+}
+
+.gallery__item {
+    position: relative;
+}
+
+.gallery__item .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 115, 254, .6);
+    z-index: 4;
+    opacity: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .2s all;
+}
+
+.gallery__item:hover .overlay {
+    opacity: 1;
+}
+
+.overlay .img {
+    width: 30px !important;
+}
+
+.fullScreenGallery {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, .6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    transition: .3s opacity ease-in-out;
+}
+
+.gallery__btn {
+    background: transparent;
+    outline: none;
+    width: 30px;
+}
+
+.gallery__btn--prev .img {
+    transform: rotateY(180deg);
+}
+
+.slick-dots {
+    position: absolute;
+    z-index: 5;
+    top: 50%;
+    left: 5%;
+    width: auto !important;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    transform: translateY(-50%);
+    max-height: 120px;
+}
+
+.slick-arrow {
+    display: none !important;
+}
+
+.slick-active {
+    border: 1px solid #000;
+    border-radius: 50%;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.slick-slide > div {
+    width: 100%;
+}
+
+.slick-dots li button:before {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.fullScreenGallery__inner {
+    height: 80vh;
+    min-width: 300px;
+}
+
+.fullScreenGallery__close {
+    position: absolute;
+    top: 5px;
+    right: 25px;
+    background: transparent;
+    color: #fff;
+    font-size: 64px;
+    font-weight: 500;
+}
+
+.fullScreenGallery__inner * {
+    height: 100%;
+}
+
+.fullScreenGallery__inner .img {
+    margin: auto;
+    display: block;
+    max-width: 80vw;
+    max-height: 80vh;
+    width: auto;
+    height: auto;
+}
+
+.fullScreenGallery .slick-next,
+.fullScreenGallery .slick-prev {
+    width: 40px;
+    height: 40px;
+    color: transparent;
+    position: absolute;
+    top: 50%;
+    left: 50px;
+    z-index: 100;
+    display: block !important;
+    border-radius: 50%;
+    transition: .2s all;
+}
+
+.fullScreenGallery .slick-next {
+    right: 50px;
+    left: unset;
+}
+
+.fullScreenGallery .slick-active {
+    border: none;
+}
+
+.slick-track {
+    display: flex;
+}
+
+.fullScreenGallery__item {
+    display: flex !important;
+}
+
+.fullScreenGallery .slick-next::before,
+.fullScreenGallery .slick-prev::before {
+    content: url("../img/gallery-arrow.svg");
+    background: rgba(255, 255, 255, .3);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.fullScreenGallery .slick-prev::before {
+    transform: rotateY(180deg);
+}
+
+.opacity-0 {
+    opacity: 0;
+}
+
+.container--agency .userAccount__box__left {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.flex--firstLine .userAccount__box--30 {
+    align-items: flex-start;
 }

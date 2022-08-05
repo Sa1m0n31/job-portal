@@ -17,6 +17,18 @@
         flex-wrap: wrap;
     }
 
+    .flex--firstLine .userAccount__box--30 {
+        width: 44%;
+    }
+
+    .flex--firstLine .userAccount__box--40 {
+        width: 33%;
+    }
+
+    .container--agency .userAccount__box__fullName {
+        font-size: 24px;
+    }
+
     .userAccount__course,
     .userAccount__box__language,
     .userAccount__box__attachment,
@@ -178,6 +190,22 @@
         flex-direction: column;
     }
 
+    .flex--firstLine .userAccount__box__fullName {
+        text-align: left;
+    }
+
+    .userForm--4c--agency .label--date__input--country {
+        min-width: 190px;
+    }
+
+    .userForm--4c--agency .label--date--address > .flex {
+        flex-direction: row;
+    }
+
+    .userForm .label--agencyPrice {
+        max-width: 80px !important;
+    }
+
     .flag {
         height: 20px;
         margin-left: 10px;
@@ -236,8 +264,21 @@
         width: 100%;
     }
 
+    .userForm--4a--agency .label--date--address > .flex {
+        flex-direction: row;
+    }
+
+    .userForm--4a--agency:not(.userForm--4b--agency) .label--date--address > .flex > *,
+    .userForm--4a--agency:not(.userForm--4b--agency) .label--date--address > .flex > * > * {
+        width: unset;
+    }
+
     .label--date--address > .flex > * {
         margin-bottom: 10px;
+    }
+
+    .label--agencyPrice__arrows {
+        width: 10px !important;
     }
 
     .languagesWrapper {
@@ -260,11 +301,54 @@
     .label--rel {
         max-width: 90% !important;
     }
+
+    .userForm--1--agency .label--date--address .flex label:first-of-type {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    .userForm--1--agency .label--date--address .flex {
+        align-items: flex-start;
+    }
+
+    .userForm--1--agency .label--date--address .flex label:last-of-type {
+        margin-left: 0;
+    }
 }
 
 @media(max-width: 1200px) {
     .addNewBtn {
         width: 400px;
+    }
+
+    .fullScreenGallery__inner .img {
+        max-width: 70vw;
+    }
+
+    .container--agency .userAccount__box--20 {
+        width: 20%;
+    }
+
+    .userForm--4c--agency .label--flex.salary {
+        flex-direction: column;
+    }
+
+    .userForm--4c--agency .label--flex.salary > *:first-child {
+        margin-bottom: 20px;
+    }
+
+    .userForm--4b--agency .label--date__input--country {
+        min-width: 192px;
+    }
+
+    .container--agency__grid {
+        flex-direction: column;
+    }
+
+    .container--agency__grid .flex,
+    .container--agency__grid > *,
+    .container--agency__grid > * > * {
+        width: 100%;
     }
 
     .userAccount__box--20 {
@@ -329,6 +413,43 @@
     .editData__main__header,
     .editData__left {
         display: none;
+    }
+
+    .userAccount__box__left figure {
+        margin-right: 0;
+    }
+
+    .flex--firstLine {
+        flex-direction: column;
+    }
+
+    .container--agency .userAccount__box__fullName {
+        text-align: center;
+    }
+
+    .flex--firstLine > * {
+        width: 100%;
+    }
+
+    .userForm--4c--agency .label--date__input--country {
+        margin-right: 20px;
+    }
+
+    .userForm .label--agencyPrice {
+        margin-left: 0;
+    }
+
+    .userForm--4b--agency .label--date__input--country {
+        min-width: 100%;
+        width: 100%;
+    }
+
+    .carAndBikePriceInfo {
+        width: auto !important;
+    }
+
+    .userForm--4b--agency .label--date--address .flex {
+        flex-wrap: wrap;
     }
 
     .mobileSettingsBtn {
@@ -601,6 +722,62 @@
         font-size: 18px;
     }
 
+    .fullScreenGallery .slick-next, .fullScreenGallery .slick-prev {
+        transform: scale(.7);
+    }
+
+    .fullScreenGallery .slick-next {
+        right: 20px;
+    }
+
+    .fullScreenGallery .slick-prev {
+        left: 20px;
+    }
+
+    .userAccount__box__gallery__arrow {
+        display: none;
+    }
+
+    .userAccount__box__gallery {
+        flex-direction: column !important;
+        height: auto;
+        width: 100%;
+    }
+
+    .gallery__item .overlay {
+        display: none !important;
+    }
+
+    .gallery__item {
+        margin-bottom: 20px;
+    }
+
+    .userAccount__box__gallery .gallery__item .img,
+    .userAccount__box__gallery > * {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .userAccount__box__pairsWrapper .w-100 {
+        font-size: 12px;
+    }
+
+    .container--agency .userAccount__box__pair {
+        width: 46%;
+        margin-right: 4%;
+    }
+
+    .userForm--4c--agency .label--flex.salary > *,
+    .userForm--4c--agency .label--flex.salary > * > *
+    {
+        width: 100%;
+    }
+
+    .socialMediaIconWrapper {
+        height: 30px;
+        bottom: 2px;
+    }
+
     .userAccount__box--40 .userAccount__box__pair {
         width: 100%;
     }
@@ -675,11 +852,77 @@
         width: 48%;
         margin-right: 0;
     }
+
+    .userForm--4b--agency .drivingLicenceWrapper .label--date__input--drivingLicence,
+    .userForm--4b--agency .drivingLicenceWrapper .label--date__input--drivingLicence .datepicker--country ~ .datepickerDropdown,
+    .userForm--4b--agency .drivingLicenceWrapper .label--date__input--drivingLicence .datepicker--country ~ .datepickerDropdown .datepickerBtn,
+    .userForm--4b--agency .drivingLicenceWrapper .label--date__input--drivingLicence .datepicker
+    {
+        width: 100%;
+        max-width: 100% !important;
+    }
+
+    .label--agencyPrice__arrows {
+        height: 90%;
+    }
+
+    .userForm--4a--agency:not(.userForm--4b--agency) .label--date__input,
+    .userForm--4a--agency:not(.userForm--4b--agency) .label--date__input > *
+    {
+        width: 100% !important;
+    }
 }
 
 @media(max-width: 576px) {
     .editData__main {
         padding: 30px 20px;
+    }
+
+    .fullScreenGallery__close {
+        font-size: 32px;
+        top: 15px;
+        right: 15px;
+    }
+
+    .fullScreenGallery .slick-next {
+        right: 5px;
+    }
+
+    .fullScreenGallery .slick-prev {
+        left: 5px;
+    }
+
+    .fullScreenGallery__inner .img {
+        max-width: 55vw;
+    }
+
+    .userForm--4c--agency .label--date--address .flex {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .userForm--4c--agency .label--date--address .label--date__input--country {
+        min-width: 100%;
+    }
+
+    .userForm--4c--agency .label--date--address .label--date__input--currency {
+        width: auto;
+        min-width: 80px;
+    }
+
+    .userForm .label--agencyPrice {
+        max-width: 80px !important;
+    }
+
+    .userForm--4a--agency .label--date--address > .flex > *,
+    .userForm--4a--agency .label--date--address > .flex > * > *
+    {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .userForm--4a--agency:not(.userForm--4b--agency) .label--date--address > .flex {
+        flex-direction: column;
     }
 
     .userAccount__box__fullName {

@@ -8,7 +8,7 @@ import settings from "../static/settings";
 import {logout} from "../helpers/user";
 import logoutIcon from '../static/img/logout.svg'
 
-const LoggedUserHeader = ({data}) => {
+const LoggedUserHeader = ({data, agency}) => {
     const [messages, setMessages] = useState([]);
     const [notifications, setNotifications] = useState([]);
     const [userMenuVisible, setUserMenuVisible] = useState(false);
@@ -52,16 +52,18 @@ const LoggedUserHeader = ({data}) => {
             <div className="rel">
                 <button className="loggedUserHeader__userBtn flex" onClick={() => { setUserMenuVisible(!userMenuVisible); }}>
                     <figure>
-                        <img className="img" src={`${settings.API_URL}/${data.profileImage}`} alt="zdjecie-profilowe" />
+                        <img className="img"
+                             src={!agency ? `${settings.API_URL}/${data.profileImage}` : `${settings.API_URL}/${data.logo}`}
+                             alt="zdjecie-profilowe" />
                     </figure>
                     <span className="loggedUserHeader__fullName">
-                        {data.firstName} {data.lastName}
+                        {!agency ? (data.firstName ? `${data.firstName} ${data.lastName}` : 'Menu') : (data.name ? data.name : 'Menu')}
                     </span>
                     <img className="arrowImg" src={arrowDown} alt="rowiń" />
                 </button>
 
                 {userMenuVisible ? <div className="loggedUserHeader__userDropdownMenu">
-                    <a href="/edycja-danych"
+                    <a href={agency ? "/edycja-danych-agencji" : "/edycja-danych"}
                        className="loggedUserHeader__userDropdownMenu__item">
                         Edytuj profil
                     </a>

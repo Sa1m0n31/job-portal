@@ -31,6 +31,7 @@ const LoginPage = ({type}) => {
                             cookies.set('access_token', jwt, { path: '/' });
                             cookies.set('email_jooob', email.toString().split('@')[0], { path: '/' });
                             cookies.set('email_jooob_domain', email.toString().split('@')[1], { path: '/' });
+                            cookies.set('jooob_account_type', type === 0 ? 'user': 'agency');
                             window.location = type === 0 ? '/konto-pracownika' : '/konto-agencji';
                         }
                         else {

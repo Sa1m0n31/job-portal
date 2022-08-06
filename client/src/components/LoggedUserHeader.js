@@ -63,6 +63,16 @@ const LoggedUserHeader = ({data, agency}) => {
                 </button>
 
                 {userMenuVisible ? <div className="loggedUserHeader__userDropdownMenu">
+                    {agency ? <>
+                        <a href="/dodaj-oferte-pracy"
+                           className="loggedUserHeader__userDropdownMenu__item">
+                            Dodaj ofertę pracy
+                        </a>
+                        <a href="/dodaj-blyskawiczna-oferte-pracy"
+                           className="loggedUserHeader__userDropdownMenu__item">
+                            Dodaj błyskawiczną ofertę pracy
+                        </a>
+                    </> : ''}
                     <a href={agency ? "/edycja-danych-agencji" : "/edycja-danych"}
                        className="loggedUserHeader__userDropdownMenu__item">
                         Edytuj profil

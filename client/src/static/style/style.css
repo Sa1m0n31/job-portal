@@ -1613,7 +1613,7 @@ input {
     opacity: .8;
 }
 
-.loggedUserHeader__userDropdownMenu__item:first-child {
+.loggedUserHeader__userDropdownMenu__item:not(:last-child) {
     border-bottom: 1px solid #C1C1C1;
 }
 
@@ -1626,6 +1626,7 @@ input {
     background: #F9F9F9;
     transform: translateY(100%);
     padding: 10px;
+    z-index: 10;
 }
 
 .loggedUserHeader__userDropdownMenu__item .img {
@@ -2470,4 +2471,108 @@ input {
 
 .flex--firstLine .userAccount__box--30 {
     align-items: flex-start;
+}
+
+.container--addOffer {
+    border-top: 3px solid var(--primary);
+    background: #FCFCFC;
+    padding-bottom: 40px;
+}
+
+.container--addOffer .userAccount__top {
+    max-width: 1700px;
+    margin: auto;
+    width: 90%;
+    padding: 50px 0;
+}
+
+.container--addOffer .userAccount__top__btn {
+    text-decoration: none;
+    color: var(--grey);
+    font-size: 14px;
+}
+
+.container--addOffer .userAccount__top__btn .img {
+    margin-right: 10px;
+}
+
+.addOffer__logo {
+    display: block;
+    width: 200px;
+    margin: 30px auto 40px;
+}
+
+.addOffer {
+    box-shadow: 0px 0px 10px #0000000D;
+    background: #fff;
+    padding: 30px;
+    width: 820px;
+    max-width: 90%;
+    margin: 0 auto 40px;
+    border-radius: 5px;
+}
+
+.addOffer__header {
+    font-weight: 400;
+    font-size: 32px;
+    text-align: center;
+}
+
+.addOffer__text {
+    text-align: center;
+    color: var(--grey);
+    font-size: 18px;
+    margin: 20px 0 30px;
+}
+
+.container--addOffer .tooltip {
+    position: relative;
+}
+
+.container--addOffer .label--special > span > span {
+    padding-right: 8px;
+}
+
+.container--addOffer .input--situation {
+    width: 100%;
+    height: 200px;
+}
+
+.container--addOffer .label--rel {
+    margin-bottom: 0;
+}
+
+.container--addOffer .label--responsibility .input {
+    max-width: 450px;
+    margin-right: 20px;
+}
+
+.container--addOffer .drivingLicenceWrapper .flex--start--contractType {
+    margin-bottom: 10px;
+}
+
+.container--addOffer .flex--start > * {
+    margin-right: 10px;
+}
+
+.container--addOffer .datepicker--day {
+    min-width: 120px;
+}
+
+.container--addOffer .filesUploadLabel,
+.container--addOffer .input--file {
+    max-width: 100%;
+}
+
+.container--addOffer .filesUploadLabel--image {
+    background: #FBFBFB;
+}
+
+.container--addOffer .filesUploadLabel {
+    min-height: 100px;
+    height: auto;
+}
+
+.container--height100 {
+    height: 100vh;
 }

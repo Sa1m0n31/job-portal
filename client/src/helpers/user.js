@@ -80,6 +80,7 @@ const toggleUserWorking = () => {
 
 const logout = () => {
     const cookies = new Cookies();
+    cookies.remove('access_token', { path: '/' });
     cookies.remove('jwt', { path: '/' });
     cookies.remove('email_jooob_domain', { path: '/' });
     cookies.remove('email_jooob', { path: '/' });

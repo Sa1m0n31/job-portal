@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import backgroundImg from '../static/img/background.png'
 import logo from '../static/img/logo-biale.png'
 import userIcon from '../static/img/user-in-circle.svg'
@@ -6,9 +6,58 @@ import playIcon from '../static/img/play.svg'
 import smallArrowIcon from '../static/img/small-arrow.svg'
 import smallWhiteArrowIcon from '../static/img/small-white-arrow.svg'
 import LanguageSwitcher from "../components/LanguageSwitcher";
+import {authUser, getUserData} from "../helpers/user";
+import {getAgencyData} from "../helpers/agency";
+import Cookies from "universal-cookie";
+import Loader from "../components/Loader";
 
 const Homepage = () => {
-    return <div className="container container--home">
+    const [render, setRender] = useState(false);
+
+    useEffect(() => {
+        authUser()
+            .then((res) => {
+                if(res?.status === 201) {
+                    const cookies = new Cookies();
+                    if(cookies.get('jooob_account_type') === 'user') {
+                        getUserData()
+                            .then((res) => {
+                                if(res?.status === 200) {
+                                    window.location = '/konto-pracownika';
+                                }
+                                else {
+                                    setRender(true);
+                                }
+                            })
+                            .catch(() => {
+                                setRender(true);
+                            });
+                    }
+                    else {
+                        getAgencyData()
+                            .then((res) => {
+                                if(res?.status === 200) {
+                                    window.location = '/konto-agencji';
+                                }
+                                else {
+                                    setRender(true);
+                                }
+                            })
+                            .catch(() => {
+                                setRender(true);
+                            });
+                    }
+                }
+                else {
+                    setRender(true);
+                }
+            })
+            .catch(() => {
+                setRender(true);
+            })
+    }, []);
+
+    return render ? <div className="container container--home">
         <img className="homeImg" src={backgroundImg} alt="portal-z-ofertami-pracy" />
         <header className="home__header flex w-1400">
             <a href="." className="home__header__logo">
@@ -97,6 +146,8 @@ const Homepage = () => {
                 </a>
             </div>
         </div>
+    </div> : <div className="container container--height100 center">
+        <Loader />
     </div>
 };
 

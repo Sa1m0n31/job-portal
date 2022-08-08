@@ -194,6 +194,12 @@
         flex-direction: column;
     }
 
+    .container--addOffer .label--rel,
+    .container--addOffer .label--date--address {
+        max-width: none !important;
+        width: 100%;
+    }
+
     .flex--firstLine .userAccount__box__fullName {
         text-align: left;
     }
@@ -417,6 +423,29 @@
     .editData__main__header,
     .editData__left {
         display: none;
+    }
+
+    .container--addOffer {
+        background: #fff;
+        padding-top: 80px;
+    }
+
+    .addOffer {
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .addOffer__logo {
+        display: none;
+    }
+
+    .addOffer__header {
+        font-size: 20px;
+    }
+
+    .addOffer__text {
+        font-size: 15px;
+        margin-top: 8px;
     }
 
     .userAccount__box__left figure {
@@ -875,11 +904,80 @@
     {
         width: 100% !important;
     }
+
+    .container--addOffer .label--responsibility .input {
+        max-width: 88%;
+        margin-right: 10px;
+    }
+
+    .container--addOffer .btn--login {
+        font-size: 14px;
+    }
+
+    .container--addOffer .btn--login .img {
+        width: 12px;
+    }
+
+    .filesUploadLabel__item .fileName {
+        height: 35px;
+    }
 }
 
 @media(max-width: 576px) {
     .editData__main {
         padding: 30px 20px;
+    }
+
+    .addOfferSuccess .flex {
+        flex-direction: column;
+    }
+
+    .addOfferSuccess > .flex {
+        width: 100%;
+        margin-top: 25px;
+    }
+
+    .addOfferSuccess .flex .btn--white {
+         margin-top: 15px;
+    }
+
+    .addOfferSuccess .flex .btn {
+        font-size: 14px;
+        height: 35px;
+    }
+
+    .addOffer {
+        margin-bottom: 0;
+    }
+
+    .container--addOffer .drivingLicenceWrapper .label--flex.flex--start {
+        flex-direction: column;
+    }
+
+    .container--addOffer .drivingLicenceWrapper .label--flex.flex--start .datepicker,
+    .container--addOffer .drivingLicenceWrapper .label--flex.flex--start > * {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .container--addOffer .drivingLicenceWrapper .label--flex.flex--start > * {
+        margin-bottom: 12px;
+    }
+
+    .addOffer {
+        padding: 20px 0;
+    }
+
+    .addOffer__header {
+        font-size: 16px;
+    }
+
+    .addOffer__text {
+        font-size: 12px;
+    }
+
+    .container--addOffer .filesUploadLabel__item {
+        height: 35px;
     }
 
     .fullScreenGallery__close {

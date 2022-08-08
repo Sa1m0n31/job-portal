@@ -1,4 +1,15 @@
-import {Body, Controller, Get, Param, Post, UploadedFiles, UseGuards, UseInterceptors} from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Patch,
+    Post,
+    UploadedFiles,
+    UseGuards,
+    UseInterceptors
+} from '@nestjs/common';
 import {JwtAuthGuard} from "../common/jwt-auth.guard";
 import {FileFieldsInterceptor} from "@nestjs/platform-express";
 import {Express} from "express";
@@ -11,22 +22,45 @@ export class OfferController {
     ) {
     }
 
-
     @UseGuards(JwtAuthGuard)
     @Post('/add')
     @UseInterceptors(FileFieldsInterceptor([
         {name: 'image', maxCount: 1},
         {name: 'attachments', maxCount: 5}
     ]))
-    updateUser(@UploadedFiles() files: {
+    addOffer(@UploadedFiles() files: {
         image?: Express.Multer.File[],
         attachments?: Express.Multer.File[]
     }, @Body() body) {
         return this.offerService.addOffer(body, files);
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Patch('/update')
+    @UseInterceptors(FileFieldsInterceptor([
+        {name: 'image', maxCount: 1},
+        {name: 'attachments', maxCount: 5}
+    ]))
+    updateOffer(@UploadedFiles() files: {
+        image?: Express.Multer.File[],
+        attachments?: Express.Multer.File[]
+    }, @Body() body) {
+        return this.offerService.updateOffer(body, files);
+    }
+
     @Get('/getOffersByAgency/:email')
     getOffersByAgency(@Param('email') email) {
         return this.offerService.getOffersByAgency(email);
+    }
+
+    @Get('/get/:id')
+    getOfferById(@Param('id') id) {
+        return this.offerService.getOfferById(id);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete('/delete/:id')
+    deleteOffer(@Param('id') id) {
+        return this.offerService.deleteOffer(id);
     }
 }

@@ -76,4 +76,7 @@ export class Offer {
      */
     @Column()
     attachments: string;
+
+    @Column()
+    created_at: Date;
 }

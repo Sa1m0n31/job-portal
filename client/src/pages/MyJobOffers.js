@@ -1,16 +1,27 @@
 import React, {useEffect, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
-import {getJobOffersByAgency} from "../helpers/offer";
+import {deleteOffer, getJobOffersByAgency} from "../helpers/offer";
 import localization from '../static/img/location.svg'
 import settings from "../static/settings";
-import {categories, countries, currencies} from "../static/content";
+import {categories, countries, currencies, formErrors, myJobOffersFilter} from "../static/content";
 import salaryIcon from '../static/img/dolar-icon.svg'
 import magnifier from '../static/img/magnifier.svg'
 import pen from '../static/img/pen.svg'
 import trash from '../static/img/trash.svg'
+import Loader from "../components/Loader";
+import dropdownArrow from "../static/img/dropdown-arrow.svg";
+import Modal from "../components/Modal";
 
 const MyJobOffers = ({data}) => {
     const [offers, setOffers] = useState([]);
+    const [filteredOffers, setFilteredOffers] = useState([]);
+    const [render, setRender] = useState(false);
+    const [dropdownVisible, setDropdownVisible] = useState(false);
+    const [currentFilter, setCurrentFilter] = useState(0);
+    const [deleteCandidate, setDeleteCandidate] = useState(0);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [deleteMessage, setDeleteMessage] = useState('');
+    const [deleteSuccessful, setDeleteSuccessful] = useState(false);
 
     useEffect(() => {
         getJobOffersByAgency()
@@ -18,29 +29,113 @@ const MyJobOffers = ({data}) => {
                 if(res?.status === 200) {
                     setOffers(res?.data);
                 }
+                setRender(true);
             })
             .catch((err) => {
-                console.log(err);
+                setRender(true);
             });
-    }, []);
+    }, [deleteSuccessful]);
 
-    const openDeleteModal = () => {
+    useEffect(() => {
+        changeFilter(0);
+    }, [offers]);
 
+    const changeFilter = (i) => {
+        setCurrentFilter(i);
+        setDropdownVisible(false);
+
+        if(i === 0) {
+            // Actual
+            setFilteredOffers(offers?.filter((item) => {
+                return !item.timeBounded || (item.timeBounded && new Date(item.expireYear, item.expireMonth, item.expireDay+1) >= new Date());
+            }));
+        }
+        else if(i === 1) {
+            // Non actual
+            setFilteredOffers(offers?.filter((item) => {
+                return item.timeBounded && new Date(item.expireYear, item.expireMonth, item.expireDay+1) < new Date();
+            }));
+        }
+        else {
+            // All
+            setFilteredOffers(offers);
+        }
     }
 
-    return <div className="container container--agencyJobOffers">
+    const openDeleteModal = (i) => {
+        setDeleteCandidate(i);
+        setDeleteModal(true);
+    }
+
+    const deleteJobOffer = () => {
+        deleteOffer(deleteCandidate)
+            .then((res) => {
+                if(res?.status === 200) {
+                    setDeleteMessage('Oferta została usunięta');
+                    setDeleteSuccessful(!deleteSuccessful);
+                }
+                else {
+                    setDeleteMessage(formErrors[1]);
+                }
+            })
+            .catch((err) => {
+                setDeleteMessage(formErrors[1]);
+            });
+    }
+
+    const closeModal = () => {
+        setDeleteModal(false);
+        setDeleteMessage('');
+        setDeleteCandidate(0);
+    }
+
+    return <div className="container container--agencyJobOffers" onClick={() => { setDropdownVisible(false); }}>
         <LoggedUserHeader data={data} agency={true} />
+
+        {deleteModal ? <Modal header="Czy na pewno chcesz usunąć tę ofertę pracy?"
+                        message={deleteMessage}
+                        closeModal={closeModal}
+                        modalAction={deleteJobOffer}
+        /> : ''}
 
         <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
                     Zalogowany w: <span className="bold">Strefa Pracodawcy</span>
                 </span>
         </aside>
-        <div className="userAccount__top flex">
+        {render ? <div className="userAccount__top flex">
+            <h1 className="userAccount__top__jobOffersHeader">
+                Masz
+                <span className="number">
+                    {filteredOffers?.length}
+                </span>
+                {currentFilter === 0 ? 'aktualnych ' : (currentFilter === 1 ? 'nieaktualnych ' : '')}
+                ofert pracy
+            </h1>
 
-        </div>
-        {offers?.map((item, index) => {
+            <div className="label--date__input label--date__input--country">
+                <button className="datepicker datepicker--country"
+                        onClick={(e) => { e.stopPropagation(); setDropdownVisible(!dropdownVisible); }}
+                >
+                    {myJobOffersFilter[currentFilter]}
+                    <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
+                </button>
+                {dropdownVisible ? <div className="datepickerDropdown noscroll">
+                    {myJobOffersFilter?.map((item, index) => {
+                        return <button className="datepickerBtn center" key={index}
+                                       onClick={(e) => { changeFilter(index); }}>
+                            {item}
+                        </button>
+                    })}
+                </div> : ''}
+            </div>
+        </div> : ''}
+        {render ? filteredOffers?.map((item, index) => {
+            console.log(item);
             return <div className="offerItem flex" key={index}>
+                <span className="offerItem__date">
+                    {item.created_at?.substring(0, 10)}
+                </span>
                 <figure className="offerItem__figure">
                     <img className="img" src={`${settings.API_URL}/${data?.logo}`} alt="zdjecie-profilowe" />
                 </figure>
@@ -65,7 +160,7 @@ const MyJobOffers = ({data}) => {
                         {item.salaryFrom} {currencies[item.salaryCurrency]}
                     </span> - {item.salaryTo} {currencies[item.salaryCurrency]}
                     <span className="netto">
-                        netto/mies.
+                        netto/{item.salaryType === 1 ? 'tyg.' : 'mies.'}
                     </span>
                 </div>
                 <div className="offerItem__requirements">
@@ -86,14 +181,16 @@ const MyJobOffers = ({data}) => {
                         Edycja
                         <img className="img" src={pen} alt="podglad" />
                     </a>
-                    <button onClick={() => { openDeleteModal(); }}
+                    <button onClick={() => { openDeleteModal(item.id); }}
                        className="btn btn--grey">
                         Usuń
                         <img className="img" src={trash} alt="podglad" />
                     </button>
                 </div>
             </div>
-        })}
+        }) : <div className="center">
+            <Loader />
+        </div>}
     </div>
 };
 

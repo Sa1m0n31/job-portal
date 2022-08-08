@@ -2639,6 +2639,7 @@ input {
 }
 
 .offerItem {
+    position: relative;
     background: #fff;
     box-shadow: 0px 0px 10px #0000000D;
     padding: 20px;
@@ -2779,4 +2780,112 @@ input {
 
 .container--agencyJobOffers .nowrap {
     padding-right: 5px;
+}
+
+.userAccount__top__jobOffersHeader {
+    font-weight: 400;
+    font-size: 32px;
+}
+
+.container--agencyJobOffers .number {
+    font-weight: 700;
+    padding: 0 10px;
+}
+
+.modal {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, .6);
+    transition: .2s all;
+}
+
+.modal__inner {
+    width: 600px;
+    height: auto;
+    padding: 30px;
+    border-radius: 15px;
+    background: #fff;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+}
+
+.modal__inner__closeBtn {
+    position: absolute;
+    top: 5px;
+    right: 12px;
+    font-size: 32px;
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+.modal__header {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.modal__buttons {
+    justify-content: center;
+}
+
+.modal__buttons > * {
+    margin: 0 20px;
+    border-radius: 5px;
+    min-width: 200px;
+    height: 45px;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.btn--modal--delete {
+    background: #CB4949;
+    color: #fff;
+}
+
+.btn--modal--delete:hover {
+    background: #BA3838;
+}
+
+.btn--modal--cancel {
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: #000;
+}
+
+.btn--modal--cancel:hover {
+    background: #E2E7E9;
+    color: #000;
+}
+
+.img--x {
+    max-width: 100px;
+    margin: 0 auto 30px;
+}
+
+.container--addOffer .drivingLicenceWrapper .label--flex.flex--start .datepicker {
+    justify-content: space-between;
+    padding: 5px 15px;
+}
+
+.addOfferSuccess__header {
+    text-align: center;
+}
+
+.offerItem__date {
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    color: #C8C8C8;
+    font-size: 12px;
 }

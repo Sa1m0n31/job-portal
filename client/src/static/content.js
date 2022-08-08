@@ -308,8 +308,14 @@ const jobOfferErrors = [
     ''
 ]
 
+const myJobOffersFilter = [
+    'Aktualne',
+    'Nieaktualne',
+    'Wszystkie'
+]
+
 export { steps, stepsContent, stepsMainContent, months, countries, phoneNumbers, formErrors, educationLevels, languages, drivingLicences,
     languageLevels, currencies, categories, attachmentsErrors, flags, stepsAgency, stepsAgencyContent, stepsAgencyMainContent, nipCountries,
     rooms, houses, paymentTypes, pensionType, paycheckFrequency, pensionFrequency, paycheckDay, healthInsuranceOptions, noInfo, contracts,
-    jobOfferErrors
+    jobOfferErrors, myJobOffersFilter
 }

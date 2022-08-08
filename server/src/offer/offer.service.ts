@@ -16,22 +16,26 @@ export class OfferService {
 
 
     async addOffer(data, files) {
-        let agencyData = JSON.parse(data.agencyData);
+        let offerData = JSON.parse(data.offerData);
 
         // Add filenames
-        agencyData = {
-            ...agencyData,
-            image: files.image ? files.image[0].path : agencyData.imageUrl,
-            attachments: files.attachments ? Array.from(files.attachments).map((item: any) => {
-                return item.path;
+        offerData = {
+            ...offerData,
+            image: files.image ? files.image[0].path : offerData.imageUrl,
+            attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
+                return {
+                    name: offerData.attachments[index].name,
+                    path: item.path
+                }
             }) : data.attachments
         }
 
+        // Get offer data
         const { title, category, keywords, country, postalCode, city, description,
             responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
             salaryCurrency, contractType, timeBounded, expireDay, expireMonth, expireYear,
             image, attachments
-        } = agencyData;
+        } = offerData;
 
         // Get agency id
         const agency = await this.agencyRepository.findOneBy({email: data.email});
@@ -52,6 +56,49 @@ export class OfferService {
         });
     }
 
+    async updateOffer(data, files) {
+        let offerData = JSON.parse(data.offerData);
+
+        // Add filenames
+        offerData = {
+            ...offerData,
+            image: files.image ? files.image[0].path : offerData.imageUrl,
+            attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
+                return {
+                    name: offerData.attachments[index].name,
+                    path: item.path
+                }
+            }).concat(offerData.oldAttachments) : offerData.oldAttachments
+        }
+
+        // Get offer data
+        const { id, title, category, keywords, country, postalCode, city, description,
+            responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
+            salaryCurrency, contractType, timeBounded, expireDay, expireMonth, expireYear,
+            image, attachments
+        } = offerData;
+
+        // Get agency id
+        const agency = await this.agencyRepository.findOneBy({email: data.email});
+        const agencyId = agency.id;
+
+        // Update record in database
+        return this.offerRepository.createQueryBuilder()
+            .update({
+                agency: agencyId,
+                title, category, keywords, country, postalCode, city, description,
+                responsibilities: JSON.stringify(responsibilities),
+                requirements: JSON.stringify(requirements),
+                benefits: JSON.stringify(benefits),
+                salaryType, salaryFrom, salaryTo,
+                salaryCurrency, contractType, timeBounded,
+                expireDay, expireMonth, expireYear, image,
+                attachments: JSON.stringify(attachments)
+            })
+            .where({id})
+            .execute();
+    }
+
     async getOffersByAgency(email) {
         // Get agency id
         const agency = await this.agencyRepository.findOneBy({email});
@@ -59,5 +106,13 @@ export class OfferService {
 
         // Get job offers
         return this.offerRepository.findBy({agency: agencyId});
+    }
+
+    async deleteOffer(id) {
+        return this.offerRepository.delete({id});
+    }
+
+    async getOfferById(id) {
+        return this.offerRepository.findOneBy({id});
     }
 }

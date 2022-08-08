@@ -20,9 +20,12 @@ import {numberRange} from "../helpers/others";
 import fileIcon from "../static/img/doc.svg";
 import checkIcon from '../static/img/green-check.svg'
 import arrowIcon from '../static/img/small-white-arrow.svg'
-import {addOffer} from "../helpers/offer";
+import {addOffer, getOfferById, updateOffer} from "../helpers/offer";
+import settings from "../static/settings";
+import LoggedUserHeader from "../components/LoggedUserHeader";
+import MobileHeader from "../components/MobileHeader";
 
-const AddJobOffer = () => {
+const AddJobOffer = ({updateMode}) => {
     const [categoriesVisible, setCategoriesVisible] = useState(false);
     const [countriesVisible, setCountriesVisible] = useState(false);
     const [currenciesVisible, setCurrenciesVisible] = useState(false);
@@ -33,6 +36,7 @@ const AddJobOffer = () => {
     const [yearVisible, setYearVisible] = useState(false);
     const [success, setSuccess] = useState(false);
 
+    const [id, setId] = useState(0);
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState(-1);
     const [keywords, setKeywords] = useState('');
@@ -54,6 +58,7 @@ const AddJobOffer = () => {
     const [year, setYear] = useState(-1);
     const [image, setImage] = useState(null);
     const [attachments, setAttachments] = useState([]);
+    const [oldAttachments, setOldAttachments] = useState([]);
     const [imageUrl, setImageUrl] = useState('')
 
     const [days, setDays] = useState([]);
@@ -63,9 +68,59 @@ const AddJobOffer = () => {
     const addOfferForm = useRef(null);
     const addOfferSuccess = useRef(null);
 
+    const setInitialData = (data) => {
+        setOldAttachments(JSON.parse(data.attachments));
+        setBenefits(JSON.parse(data.benefits));
+        setCategory(parseInt(data.category));
+        setCity(data.city);
+        setContractType(data.contractType);
+        setCountry(data.country);
+        setDescription(data.description);
+        setDay(data.expireDay);
+        setMonth(data.expireMonth);
+        setYear(data.expireYear);
+        setId(data.id);
+        setImage(null);
+        setImageUrl(data.image);
+        setKeywords(data.keywords);
+        setPostalCode(data.postalCode);
+        setRequirements(JSON.parse(data.requirements));
+        setResponsibilities(JSON.parse(data.responsibilities));
+        setSalaryCurrency(data.salaryCurrency);
+        setSalaryFrom(data.salaryFrom);
+        setSalaryTo(data.salaryTo);
+        setSalaryType(data.salaryType);
+        setTimeBounded(data.timeBounded);
+        setTitle(data.title);
+    }
+
     useEffect(() => {
         setYears(numberRange(new Date().getFullYear(), new Date().getFullYear()+4));
     }, []);
+
+    useEffect(() => {
+        if(updateMode) {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            if(id) {
+                getOfferById(id)
+                    .then((res) => {
+                       if(res?.status === 200) {
+                           setInitialData(res?.data);
+                       }
+                       else {
+                           window.location = '/';
+                       }
+                    })
+                    .catch(() => {
+                        window.location = '/';
+                    });
+            }
+            else {
+                window.location = '/';
+            }
+        }
+    }, [updateMode]);
 
     useEffect(() => {
         const m = month;
@@ -169,7 +224,7 @@ const AddJobOffer = () => {
     const handleAttachments = (e) => {
         e.preventDefault();
 
-        if(e.target.files.length > 5) {
+        if(e.target.files.length + oldAttachments.length > 5) {
             e.preventDefault();
             setError(attachmentsErrors[0]);
         }
@@ -184,12 +239,20 @@ const AddJobOffer = () => {
         }
     }
 
-    const changeAttachmentName = (i, val) => {
-        setAttachments(prevState => (prevState.map((item, index) => {
+    const changeAttachmentName = (i, val, old = false) => {
+        let func;
+        if(old) {
+            func = setOldAttachments;
+        }
+        else {
+            func = setAttachments;
+        }
+
+        func(prevState => (prevState.map((item, index) => {
             if(index === i) {
                 return {
                     name: val,
-                    file: item
+                    file: item.file
                 }
             }
             else {
@@ -198,8 +261,13 @@ const AddJobOffer = () => {
         })));
     }
 
-    const removeAttachment = (i) => {
-        setAttachments(prevState => (prevState.filter((item, index) => (index !== i))));
+    const removeAttachment = (i, old = false) => {
+        if(old) {
+            setOldAttachments(prevState => (prevState.filter((item, index) => (index !== i))));
+        }
+        else {
+            setAttachments(prevState => (prevState.filter((item, index) => (index !== i))));
+        }
     }
 
     const jobOfferValidation = () => {
@@ -220,18 +288,36 @@ const AddJobOffer = () => {
 
         if(jobOfferValidation()) {
             try {
-                const offerResult = await addOffer({
-                    title, category, keywords, country, postalCode, city, description,
-                    responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
-                    salaryCurrency, contractType, timeBounded, expireDay: day, expireMonth: month,
-                    expireYear: year,
-                    image, attachments
-                });
-                if(offerResult.status === 201) {
-                    setSuccess(true);
+                if(updateMode) {
+                    const offerResult = await updateOffer({
+                        id, title, category, keywords, country, postalCode, city, description,
+                        responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
+                        salaryCurrency, contractType, timeBounded, expireDay: day, expireMonth: month,
+                        expireYear: year,
+                        image, attachments, oldAttachments
+                    });
+                    console.log(offerResult);
+                    if(offerResult.status === 200) {
+                        setSuccess(true);
+                    }
+                    else {
+                        setError(formErrors[1]);
+                    }
                 }
                 else {
-                    setError(formErrors[1]);
+                    const offerResult = await addOffer({
+                        title, category, keywords, country, postalCode, city, description,
+                        responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
+                        salaryCurrency, contractType, timeBounded, expireDay: day, expireMonth: month,
+                        expireYear: year,
+                        image, attachments
+                    });
+                    if(offerResult.status === 201) {
+                        setSuccess(true);
+                    }
+                    else {
+                        setError(formErrors[1]);
+                    }
                 }
             }
             catch(err) {
@@ -264,13 +350,16 @@ const AddJobOffer = () => {
                 Powrót
             </a>
         </aside>
+
+        <MobileHeader back="/" />
+
         <a className="addOffer__logo" href="/konto-agencji">
             <img className="img" src={logo} alt="logo" />
         </a>
         <div className="addOfferSuccess" ref={addOfferSuccess}>
             <img className="img" src={checkIcon} alt="check" />
             <h3 className="addOfferSuccess__header">
-                Twoja oferta pracy została dodana!
+                {updateMode ? 'Twoja oferta została zaktualizowana' : 'Twoja oferta pracy została dodana!'}
             </h3>
             <div className="flex">
                 <a className="btn" href="/">
@@ -283,7 +372,7 @@ const AddJobOffer = () => {
         </div>
         <form className="addOffer" ref={addOfferForm}>
             <h1 className="addOffer__header">
-                Dodawanie nowej oferty pracy
+                {updateMode ? 'Edycja oferty pracy' : 'Dodawanie nowej oferty pracy'}
             </h1>
             <p className="addOffer__text">
                 Podziel się szczegółami na temat Twojej oferty i wyczekuj aplikacji ze strony zainteresowanych kandydatów.
@@ -593,7 +682,7 @@ const AddJobOffer = () => {
                         <button className="removeProfileImageBtn" onClick={(e) => { e.preventDefault(); removeImage(); }}>
                             <img className="img" src={trashIcon} alt="usun" />
                         </button>
-                        <img className="img" src={imageUrl} alt="zdjecie-profilowe" />
+                        <img className="img" src={image ? imageUrl : `${settings.API_URL}/${imageUrl}`} alt="zdjecie-profilowe" />
                     </div>}
                     <input className="input input--file"
                            type="file"
@@ -615,6 +704,21 @@ const AddJobOffer = () => {
                            maxLength={5}
                            onChange={(e) => { handleAttachments(e); }} />
                 </label>
+
+                {oldAttachments?.map((item, index) => {
+                    return <div className="filesUploadLabel__item" key={index}>
+                        <button className="removeAttachmentBtn" onClick={(e) => { e.preventDefault(); e.stopPropagation(); removeAttachment(index, true); }}>
+                            <img className="img" src={trashIcon} alt="usun" />
+                        </button>
+                        <img className="img" src={fileIcon} alt={`file-${index}`} />
+                        <input className="fileName"
+                               onChange={(e) => { changeAttachmentName(index, e.target.value, true); }}
+                               value={item.name}
+                        >
+                        </input>
+                    </div>
+                })}
+
                 {Array.from(attachments)?.map((item, index) => {
                     return <div className="filesUploadLabel__item" key={index}>
                         <button className="removeAttachmentBtn" onClick={(e) => { e.preventDefault(); e.stopPropagation(); removeAttachment(index); }}>
@@ -636,7 +740,7 @@ const AddJobOffer = () => {
 
             <button className="btn btn--login center"
                     onClick={(e) => { handleSubmit(e); }}>
-                Dodaj nową ofertę
+                {updateMode ? 'Edytuj ofertę' : 'Dodaj nową ofertę'}
                 <img className="img" src={arrowIcon} alt="dodaj-oferte-pracy" />
             </button>
         </form>

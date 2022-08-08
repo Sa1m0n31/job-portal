@@ -17,6 +17,10 @@
         flex-wrap: wrap;
     }
 
+    .offerItem {
+        max-width: 90vw;
+    }
+
     .flex--firstLine .userAccount__box--30 {
         width: 44%;
     }

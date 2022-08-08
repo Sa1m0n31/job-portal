@@ -51,6 +51,9 @@ function App() {
       <Route path="/dodaj-oferte-pracy">
         <AgencyWrapper page={3} />
       </Route>
+      <Route path="/moje-oferty-pracy">
+        <AgencyWrapper page={4} />
+      </Route>
     </Router>
   </LanguageContext.Provider>
 }

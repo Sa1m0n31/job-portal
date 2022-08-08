@@ -30,10 +30,13 @@ const LoggedUserHeader = ({data, agency}) => {
                    href="/oferty-blyskawiczne">
                     Oferty błyskawiczne
                 </a>
-                <a className="loggedUserHeader__menu__item"
-                   href="/pracodawcy">
+                {agency ? <a className="loggedUserHeader__menu__item"
+                             href="/moje-oferty-pracy">
+                    Moje oferty
+                </a> : <a className="loggedUserHeader__menu__item"
+                          href="/pracodawcy">
                     Pracodawcy
-                </a>
+                </a>}
                 <a className="loggedUserHeader__menu__item"
                    href="/kontakt">
                     Kontakt

@@ -9,6 +9,7 @@ import {MailerModule} from "@nestjs-modules/mailer";
 import {AgencyModule} from "./agency/agency.module";
 import {join} from "path";
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { OfferModule } from './offer/offer.module';
 
 @Module({
   imports: [UserModule, AgencyModule,
@@ -41,7 +42,8 @@ import { ServeStaticModule } from '@nestjs/serve-static';
         },
         secure: false
       }
-    })
+    }),
+    OfferModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -7,6 +7,7 @@ import AgencyEditData from "../pages/AgencyEditData";
 import {getAgencyData} from "../helpers/agency";
 import AgencyHomepage from "../pages/AgencyHomepage";
 import AddJobOffer from "../pages/AddJobOffer";
+import MyJobOffers from "../pages/MyJobOffers";
 
 const AgencyWrapper = ({page}) => {
     const [render, setRender] = useState(null);
@@ -29,6 +30,9 @@ const AgencyWrapper = ({page}) => {
                                             break;
                                         case 3:
                                             setRender(<AddJobOffer />);
+                                            break;
+                                        case 4:
+                                            setRender(<MyJobOffers data={data} />);
                                             break;
                                         default:
                                             window.location = '/';

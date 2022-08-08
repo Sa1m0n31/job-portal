@@ -303,7 +303,13 @@ const contracts = [
     'Umowa o pracę', 'Umowa zlecenie', 'B2B'
 ];
 
+const jobOfferErrors = [
+    'Uzupełnij wymagane pola',
+    ''
+]
+
 export { steps, stepsContent, stepsMainContent, months, countries, phoneNumbers, formErrors, educationLevels, languages, drivingLicences,
     languageLevels, currencies, categories, attachmentsErrors, flags, stepsAgency, stepsAgencyContent, stepsAgencyMainContent, nipCountries,
-    rooms, houses, paymentTypes, pensionType, paycheckFrequency, pensionFrequency, paycheckDay, healthInsuranceOptions, noInfo, contracts
+    rooms, houses, paymentTypes, pensionType, paycheckFrequency, pensionFrequency, paycheckDay, healthInsuranceOptions, noInfo, contracts,
+    jobOfferErrors
 }

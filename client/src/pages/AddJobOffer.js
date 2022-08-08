@@ -1,16 +1,26 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import logo from '../static/img/logo-niebieskie.png'
 import backIcon from '../static/img/back-arrow-grey.svg'
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
-import {categories, contracts, countries, currencies, months, pensionFrequency, pensionType} from "../static/content";
+import {
+    attachmentsErrors,
+    categories,
+    contracts,
+    countries,
+    currencies, formErrors, jobOfferErrors,
+    months,
+    pensionFrequency,
+    pensionType
+} from "../static/content";
 import trashIcon from "../static/img/trash.svg";
 import {Tooltip} from "react-tippy";
 import plusIcon from "../static/img/plus-in-circle.svg";
 import plusGrey from '../static/img/plus-icon-opacity.svg'
 import {numberRange} from "../helpers/others";
 import fileIcon from "../static/img/doc.svg";
-import loginIcon from "../static/img/login-icon.svg";
+import checkIcon from '../static/img/green-check.svg'
 import arrowIcon from '../static/img/small-white-arrow.svg'
+import {addOffer} from "../helpers/offer";
 
 const AddJobOffer = () => {
     const [categoriesVisible, setCategoriesVisible] = useState(false);
@@ -21,6 +31,7 @@ const AddJobOffer = () => {
     const [dayVisible, setDayVisible] = useState(false);
     const [monthVisible, setMonthVisible] = useState(false);
     const [yearVisible, setYearVisible] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState(-1);
@@ -47,6 +58,10 @@ const AddJobOffer = () => {
 
     const [days, setDays] = useState([]);
     const [years, setYears] = useState([]);
+    const [error, setError] = useState('');
+
+    const addOfferForm = useRef(null);
+    const addOfferSuccess = useRef(null);
 
     useEffect(() => {
         setYears(numberRange(new Date().getFullYear(), new Date().getFullYear()+4));
@@ -153,15 +168,90 @@ const AddJobOffer = () => {
 
     const handleAttachments = (e) => {
         e.preventDefault();
+
+        if(e.target.files.length > 5) {
+            e.preventDefault();
+            setError(attachmentsErrors[0]);
+        }
+        else {
+            setError('');
+            setAttachments(Array.from(e.target.files).map((item) => {
+                return {
+                    name: item.name,
+                    file: item
+                }
+            }));
+        }
     }
 
-    const removeAttachment = (e) => {
-
+    const changeAttachmentName = (i, val) => {
+        setAttachments(prevState => (prevState.map((item, index) => {
+            if(index === i) {
+                return {
+                    name: val,
+                    file: item
+                }
+            }
+            else {
+                return item;
+            }
+        })));
     }
 
-    const handleSubmit = (e) => {
+    const removeAttachment = (i) => {
+        setAttachments(prevState => (prevState.filter((item, index) => (index !== i))));
+    }
+
+    const jobOfferValidation = () => {
+        if(!title || category === -1 || country === -1 || !postalCode || !city ||
+            !description || !responsibilities.length || !requirements.length || !benefits.length ||
+            salaryType === -1 || salaryFrom === null || salaryTo === null || (
+                timeBounded && (day === -1 || month === -1 || year === -1)
+            )
+        ) {
+            setError(jobOfferErrors[0]);
+            return 0;
+        }
+        return 1;
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if(jobOfferValidation()) {
+            try {
+                const offerResult = await addOffer({
+                    title, category, keywords, country, postalCode, city, description,
+                    responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
+                    salaryCurrency, contractType, timeBounded, expireDay: day, expireMonth: month,
+                    expireYear: year,
+                    image, attachments
+                });
+                if(offerResult.status === 201) {
+                    setSuccess(true);
+                }
+                else {
+                    setError(formErrors[1]);
+                }
+            }
+            catch(err) {
+                setError(formErrors[1]);
+            }
+        }
     }
+
+    useEffect(() => {
+        if(success) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            addOfferForm.current.style.opacity = '0';
+            addOfferSuccess.current.style.opacity = '1';
+            addOfferSuccess.current.style.height = 'auto';
+            addOfferSuccess.current.style.visibility = 'visible';
+        }
+    }, [success]);
 
     return <div className="container container--addOffer" onClick={() => { hideAllDropdowns(); }}>
         <aside className="userAccount__top flex">
@@ -177,7 +267,21 @@ const AddJobOffer = () => {
         <a className="addOffer__logo" href="/konto-agencji">
             <img className="img" src={logo} alt="logo" />
         </a>
-        <form className="addOffer">
+        <div className="addOfferSuccess" ref={addOfferSuccess}>
+            <img className="img" src={checkIcon} alt="check" />
+            <h3 className="addOfferSuccess__header">
+                Twoja oferta pracy została dodana!
+            </h3>
+            <div className="flex">
+                <a className="btn" href="/">
+                    Strona główna
+                </a>
+                <a className="btn btn--white" href="/moje-oferty-pracy">
+                    Moje oferty pracy
+                </a>
+            </div>
+        </div>
+        <form className="addOffer" ref={addOfferForm}>
             <h1 className="addOffer__header">
                 Dodawanie nowej oferty pracy
             </h1>
@@ -498,29 +602,37 @@ const AddJobOffer = () => {
                 </div>
             </div>
 
-            <label className="label">
+            <div className="label">
                 Załączniki
                 <p className="label--extraInfo label--extraInfo--marginBottom">
                     Tutaj możesz dodać dodatkowe załączniki, dostępne do pobrania na stronie oferty pracy.
                 </p>
-                <div className="filesUploadLabel center">
+                <label className="filesUploadLabel center">
                     {attachments?.length === 0 ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : ''}
                     <input className="input input--file"
                            type="file"
                            multiple={true}
                            maxLength={5}
                            onChange={(e) => { handleAttachments(e); }} />
+                </label>
+                {Array.from(attachments)?.map((item, index) => {
+                    return <div className="filesUploadLabel__item" key={index}>
+                        <button className="removeAttachmentBtn" onClick={(e) => { e.preventDefault(); e.stopPropagation(); removeAttachment(index); }}>
+                            <img className="img" src={trashIcon} alt="usun" />
+                        </button>
+                        <img className="img" src={fileIcon} alt={`file-${index}`} />
+                        <input className="fileName"
+                               onChange={(e) => { changeAttachmentName(index, e.target.value); }}
+                               value={item.name}
+                        >
+                        </input>
+                    </div>
+                })}
+            </div>
 
-                    {Array.from(attachments)?.map((item, index) => {
-                        return <div className="filesUploadLabel__item" key={index}>
-                            <button className="removeAttachmentBtn" onClick={(e) => { e.preventDefault(); e.stopPropagation(); removeAttachment(index); }}>
-                                <img className="img" src={trashIcon} alt="usun" />
-                            </button>
-                            <img className="img" src={fileIcon} alt={`file-${index}`} />
-                        </div>
-                    })}
-                </div>
-            </label>
+            {error ? <span className="info info--error">
+                {error}
+            </span> : ''}
 
             <button className="btn btn--login center"
                     onClick={(e) => { handleSubmit(e); }}>

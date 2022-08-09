@@ -27,6 +27,11 @@ export class OfferController {
         return this.offerService.getActiveOffers();
     }
 
+    @Get('/get/:id')
+    getOfferById(@Param('id') id) {
+        return this.offerService.getOfferById(id);
+    }
+
     @UseGuards(JwtAuthGuard)
     @Post('/add')
     @UseInterceptors(FileFieldsInterceptor([
@@ -56,11 +61,6 @@ export class OfferController {
     @Get('/getOffersByAgency/:email')
     getOffersByAgency(@Param('email') email) {
         return this.offerService.getOffersByAgency(email);
-    }
-
-    @Get('/get/:id')
-    getOfferById(@Param('id') id) {
-        return this.offerService.getOfferById(id);
     }
 
     @UseGuards(JwtAuthGuard)

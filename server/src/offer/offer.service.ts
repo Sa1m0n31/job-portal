@@ -15,7 +15,8 @@ export class OfferService {
     }
 
     async getActiveOffers() {
-        return this.offerRepository.createQueryBuilder('offer')
+        return this.offerRepository
+            .createQueryBuilder('offer')
             .where(`timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP`)
             .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
             .getRawMany();
@@ -119,6 +120,10 @@ export class OfferService {
     }
 
     async getOfferById(id) {
-        return this.offerRepository.findOneBy({id});
+        return this.offerRepository
+            .createQueryBuilder('o')
+            .where(`o.id = :id`, {id})
+            .innerJoinAndSelect('agency', 'a', 'o.agency = a.id')
+            .getRawMany();
     }
 }

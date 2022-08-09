@@ -221,6 +221,28 @@
         flex-direction: column;
     }
 
+    .jobOffer__topRow,
+    .jobOffer__pointsRow,
+    .jobOffer__section {
+        width: 100%;
+    }
+
+    .jobOffer__pointsRow {
+        margin-bottom: 30px;
+    }
+
+    .jobOffer__title {
+        font-size: 24px;
+    }
+
+    .jobOffer__section__gallery__item {
+        height: 100px;
+    }
+
+    .jobOffer__company {
+        font-size: 15px;
+    }
+
     .offerItem__salary,
     .offerItem__salary__category {
         margin-left: 2vw;
@@ -367,6 +389,22 @@
         width: 400px;
     }
 
+    .jobOffer__topRow__content {
+        padding-left: 220px;
+    }
+
+    .jobOffer__section__text > span,
+    .jobOffer__section__text,
+    .jobOffer__point {
+        font-size: 14px;
+    }
+
+    .btn--jobOfferApply {
+        height: 35px;
+        font-size: 14px;
+        width: 160px;
+    }
+
     .offerItem__buttons--user .btn:not(:last-child) {
         margin-right: 0;
     }
@@ -481,10 +519,180 @@
 }
 
 @media(max-width: 996px) {
+    .jobOffer__backgroundImg,
+    .jobOffer__topRow__right,
     .userAccount__top,
     .loggedUserHeader__desktop,
     .editData__main__header,
+    .jobOffer__pointsRow .jobOffer__point:first-of-type,
     .editData__left {
+        display: none;
+    }
+
+    .container--offer .userAccount__top {
+        padding: 25px 0 20px;
+    }
+
+    .jobOffer {
+        padding-top: 0;
+    }
+
+    .jobOffer__profileImageWrapper {
+        width: 150px;
+        height: 150px;
+        border-width: 15px;
+    }
+
+    .jobOffer__title {
+        font-size: 16px;
+        margin: 15px auto 5px;
+    }
+
+    .jobOffer__company {
+        font-size: 12px;
+    }
+
+    .jobOffer__section,
+    .jobOffer__mobileSection {
+        background: #fff;
+        border: 1px solid #C1C1C1;
+        border-radius: 5px;
+        padding: 15px;
+        max-width: 400px;
+        margin: 0 auto 20px;
+    }
+
+    .jobOffer__section__text > span, .jobOffer__section__text, .jobOffer__point {
+        font-size: 13px;
+    }
+
+    .jobOffer__section__text.flex {
+        flex-wrap: wrap;
+    }
+
+    .jobOffer__pointsRow {
+        flex-direction: column;
+        margin: 20px 0 0;
+    }
+
+    .jobOffer__point .img {
+        width: 15px;
+        height: auto;
+    }
+
+    .container--offer .userAccount__top__btn {
+        font-size: 12px;
+    }
+
+    .jobOffer__section__text--attachments {
+        min-height: 40px;
+        flex-wrap: wrap;
+    }
+
+    .jobOffer__attachmentBtn {
+        height: 32px;
+        font-size: 12px;
+    }
+
+    .jobOffer__section:last-of-type {
+        border-bottom: 1px solid #C1C1C1;
+    }
+
+    .jobOffer__section__text > span .icon {
+        width: 12px;
+    }
+
+    .jobOffer__section__header {
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    .jobOffer__point {
+        margin-bottom: 15px;
+        font-size: 13px;
+    }
+
+    .btn--stickyMobile {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50px;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+        z-index: 99;
+    }
+
+    .jobOffer__point:last-child {
+        margin-bottom: 0;
+    }
+
+    .jobOffer__topRow__content {
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .jobOffer__mobileCategoryWrapper {
+        display: block;
+        padding: 15px 0;
+        border-bottom: 1px solid #C1C1C1;
+    }
+
+    .jobOffer__mobileCategory {
+        height: 30px;
+        width: 100%;
+        border-radius: 5px;
+        border: 1px solid var(--primary);
+        color: var(--primary);
+        font-size: 14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .jobOffer__topRow {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-top: 0;
+    }
+
+    .jobOffer__profileImageWrapper {
+        position: relative;
+        top: 0;
+    }
+
+    .jobOffer__point--time .distance {
+        padding-left: 30px;
+    }
+
+    .container--offer .userAccount__top__btn .img {
+        margin-right: 7px;
+    }
+
+    .jobOffer {
+        background: transparent;
+        box-shadow: none;
+        width: 100%;
+    }
+
+    .container--offer .mobileHeader {
+        background: #FCFCFC;
+    }
+
+    .container--offer .userAccount__top {
+        display: flex;
+        margin-top: 60px;
+    }
+
+    .container--offer .userAccount__top .userAccount__top__loginInfo {
         display: none;
     }
 

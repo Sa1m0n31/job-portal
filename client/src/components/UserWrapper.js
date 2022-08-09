@@ -4,6 +4,8 @@ import {authUser, getUserData} from "../helpers/user";
 import Loader from "./Loader";
 import UserEditData from "../pages/UserEditData";
 import JobOfferList from "../pages/JobOffersList";
+import SingleOffer from "../pages/SingleOffer";
+import ApplicationForJobPage from "../pages/ApplicationForJobPage";
 
 const UserWrapper = ({page}) => {
     const [render, setRender] = useState(null);
@@ -33,6 +35,12 @@ const UserWrapper = ({page}) => {
                                             break;
                                         case 3:
                                             setRender(<JobOfferList data={data} />);
+                                            break;
+                                        case 4:
+                                            setRender(<SingleOffer data={data} />);
+                                            break;
+                                        case 5:
+                                            setRender(<ApplicationForJobPage data={data} />);
                                             break;
                                         default:
                                             window.location = '/';

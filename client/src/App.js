@@ -43,6 +43,12 @@ function App() {
       <Route path="/oferty-pracy">
         <UserWrapper page={3} />
       </Route>
+      <Route path="/oferta-pracy">
+        <UserWrapper page={4} />
+      </Route>
+      <Route path="/aplikuj">
+        <UserWrapper page={5} />
+      </Route>
 
       {/* AGENCY ROUTES */}
       <Route path="/edycja-danych-agencji">

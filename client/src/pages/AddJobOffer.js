@@ -69,29 +69,29 @@ const AddJobOffer = ({updateMode}) => {
     const addOfferSuccess = useRef(null);
 
     const setInitialData = (data) => {
-        setOldAttachments(JSON.parse(data.attachments));
-        setBenefits(JSON.parse(data.benefits));
-        setCategory(parseInt(data.category));
-        setCity(data.city);
-        setContractType(data.contractType);
-        setCountry(data.country);
-        setDescription(data.description);
-        setDay(data.expireDay);
-        setMonth(data.expireMonth);
-        setYear(data.expireYear);
-        setId(data.id);
+        setOldAttachments(JSON.parse(data.o_attachments));
+        setBenefits(JSON.parse(data.o_benefits));
+        setCategory(parseInt(data.o_category));
+        setCity(data.o_city);
+        setContractType(data.o_contractType);
+        setCountry(data.o_country);
+        setDescription(data.o_description);
+        setDay(data.o_expireDay);
+        setMonth(data.o_expireMonth);
+        setYear(data.o_expireYear);
+        setId(data.o_id);
         setImage(null);
-        setImageUrl(data.image);
-        setKeywords(data.keywords);
-        setPostalCode(data.postalCode);
-        setRequirements(JSON.parse(data.requirements));
-        setResponsibilities(JSON.parse(data.responsibilities));
-        setSalaryCurrency(data.salaryCurrency);
-        setSalaryFrom(data.salaryFrom);
-        setSalaryTo(data.salaryTo);
-        setSalaryType(data.salaryType);
-        setTimeBounded(data.timeBounded);
-        setTitle(data.title);
+        setImageUrl(data.o_image);
+        setKeywords(data.o_keywords);
+        setPostalCode(data.o_postalCode);
+        setRequirements(JSON.parse(data.o_requirements));
+        setResponsibilities(JSON.parse(data.o_responsibilities));
+        setSalaryCurrency(data.o_salaryCurrency);
+        setSalaryFrom(data.o_salaryFrom);
+        setSalaryTo(data.o_salaryTo);
+        setSalaryType(data.o_salaryType);
+        setTimeBounded(data.o_timeBounded);
+        setTitle(data.o_title);
     }
 
     useEffect(() => {
@@ -106,13 +106,13 @@ const AddJobOffer = ({updateMode}) => {
                 getOfferById(id)
                     .then((res) => {
                        if(res?.status === 200) {
-                           setInitialData(res?.data);
+                           setInitialData(res?.data[0]);
                        }
                        else {
                            window.location = '/';
                        }
                     })
-                    .catch(() => {
+                    .catch((err) => {
                         window.location = '/';
                     });
             }

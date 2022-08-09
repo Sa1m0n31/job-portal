@@ -2889,3 +2889,122 @@ input {
     color: #C8C8C8;
     font-size: 12px;
 }
+
+.offerItem__left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.offerItem__buttons--user .btn {
+    text-align: center;
+}
+
+.offerFilters {
+    padding: 25px;
+    width: 90%;
+    height: 125px;
+    box-shadow: 0px 0px 10px #0000000D;
+    margin: 0 auto 50px;
+    max-width: 1700px;
+}
+
+.offerFilters__section {
+    height: 100%;
+    padding: 0 20px;
+    border-left: 1px solid #D4D4D4;
+    border-right: 1px solid #D4D4D4;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-basis: 100%;
+}
+
+.btn--offerFiltersOpen {
+    background: #F3F9FB;
+    color: #000;
+    border-radius: 5px;
+    margin-right: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    padding: 4px 10px;
+    flex-basis: 100%;
+    max-width: 250px;
+}
+
+.btn--offerFiltersOpen:hover {
+    background: #E2E7E9;
+}
+
+.btn--offerFiltersOpen .img {
+    filter: brightness(0);
+    width: 15px;
+    margin-left: 12px;
+}
+
+.offerFilters__section__item {
+    color: #D4D4D4;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-right: 20px;
+}
+
+.offerFilters__section__frame {
+    border: 1px solid var(--primary);
+    border-radius: 5px;
+    padding: 8px 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--primary);
+    font-size: 14px;
+    margin-top: 10px;
+    font-weight: 600;
+    text-transform: none;
+}
+
+.offerFilters__section:nth-of-type(2) {
+    border-left: none;
+}
+
+.offerFilters__section__item .img {
+    height: 18px;
+    width: auto;
+    margin-right: 10px;
+}
+
+.offerFilters__section__value {
+    display: block;
+    margin-top: 10px;
+    color: #000;
+    font-size: 15px;
+    text-transform: none;
+}
+
+.offerFilters__section__value .distance {
+    padding-left: 10px;
+    color: #C1C1C1;
+    font-size: 13px;
+    text-transform: none;
+}
+
+.btn--filter {
+    font-size: 16px;
+    height: 50px;
+    padding: 5px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 30px;
+}
+
+.btn--filter .img {
+    width: 12px;
+    margin-left: 10px;
+}
+
+.offerFilters__section__value--location .img {
+    filter: invert(33%) sepia(70%) saturate(4050%) hue-rotate(206deg) brightness(101%) contrast(97%);
+}

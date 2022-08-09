@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Offer} from "../entities/offer.entity";
-import {Repository} from "typeorm";
+import {MoreThan, Repository} from "typeorm";
 import {Agency} from "../entities/agency.entity";
 
 @Injectable()
@@ -14,6 +14,12 @@ export class OfferService {
     ) {
     }
 
+    async getActiveOffers() {
+        return this.offerRepository.createQueryBuilder('offer')
+            .where(`timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP`)
+            .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+            .getRawMany();
+    }
 
     async addOffer(data, files) {
         let offerData = JSON.parse(data.offerData);

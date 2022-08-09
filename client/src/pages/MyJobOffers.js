@@ -103,7 +103,7 @@ const MyJobOffers = ({data}) => {
                     Zalogowany w: <span className="bold">Strefa Pracodawcy</span>
                 </span>
         </aside>
-        {render ? <div className="userAccount__top flex">
+        {render ? <div className="userAccount__top userAccount__top--offersInfo flex">
             <h1 className="userAccount__top__jobOffersHeader">
                 Masz
                 <span className="number">
@@ -131,25 +131,26 @@ const MyJobOffers = ({data}) => {
             </div>
         </div> : ''}
         {render ? filteredOffers?.map((item, index) => {
-            console.log(item);
             return <div className="offerItem flex" key={index}>
                 <span className="offerItem__date">
                     {item.created_at?.substring(0, 10)}
                 </span>
-                <figure className="offerItem__figure">
-                    <img className="img" src={`${settings.API_URL}/${data?.logo}`} alt="zdjecie-profilowe" />
-                </figure>
-                <div className="offerItem__mainInfo">
-                    <h2 className="offerItem__title">
-                        {item.title}
-                    </h2>
-                    <h3 className="offerItem__localization">
-                        <img className="icon" src={localization} alt="lokalizacja" />
-                        {item.city}, {countries[item.country]}
-                    </h3>
-                    <h5 className="offerItem__company">
-                        {data.name}
-                    </h5>
+                <div className="offerItem__left">
+                    <figure className="offerItem__figure">
+                        <img className="img" src={`${settings.API_URL}/${data?.logo}`} alt="zdjecie-profilowe" />
+                    </figure>
+                    <div className="offerItem__mainInfo">
+                        <h2 className="offerItem__title">
+                            {item.title}
+                        </h2>
+                        <h3 className="offerItem__localization">
+                            <img className="icon" src={localization} alt="lokalizacja" />
+                            {item.city}, {countries[item.country]}
+                        </h3>
+                        <h5 className="offerItem__company">
+                            {data.name}
+                        </h5>
+                    </div>
                 </div>
                 <div className="offerItem__category">
                     {categories[item.category]}

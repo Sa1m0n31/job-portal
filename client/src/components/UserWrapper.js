@@ -3,6 +3,7 @@ import UserHomepage from "../pages/UserHomepage";
 import {authUser, getUserData} from "../helpers/user";
 import Loader from "./Loader";
 import UserEditData from "../pages/UserEditData";
+import JobOfferList from "../pages/JobOffersList";
 
 const UserWrapper = ({page}) => {
     const [render, setRender] = useState(null);
@@ -14,8 +15,12 @@ const UserWrapper = ({page}) => {
                     if(res?.status === 201) {
                         getUserData()
                             .then((res) => {
+                                console.log(res);
                                 if(res?.status === 200) {
-                                    const data = JSON.parse(res.data.data);
+                                    let data;
+                                    if(res?.data?.data) {
+                                        data = JSON.parse(res.data.data);
+                                    }
                                     switch(page) {
                                         case 1:
                                             setRender(<UserEditData />);
@@ -26,6 +31,9 @@ const UserWrapper = ({page}) => {
                                                                     working={res.data.working}
                                             />);
                                             break;
+                                        case 3:
+                                            setRender(<JobOfferList data={data} />);
+                                            break;
                                         default:
                                             window.location = '/';
                                     }
@@ -34,7 +42,7 @@ const UserWrapper = ({page}) => {
                                     window.location = '/';
                                 }
                             })
-                            .catch(() => {
+                            .catch((err) => {
                                window.location = '/';
                             });
                     }

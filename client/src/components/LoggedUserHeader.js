@@ -56,11 +56,11 @@ const LoggedUserHeader = ({data, agency}) => {
                 <button className="loggedUserHeader__userBtn flex" onClick={() => { setUserMenuVisible(!userMenuVisible); }}>
                     <figure>
                         <img className="img"
-                             src={!agency ? `${settings.API_URL}/${data.profileImage}` : `${settings.API_URL}/${data.logo}`}
+                             src={!agency ? `${settings.API_URL}/${data?.profileImage}` : `${settings.API_URL}/${data?.logo}`}
                              alt="zdjecie-profilowe" />
                     </figure>
                     <span className="loggedUserHeader__fullName">
-                        {!agency ? (data.firstName ? `${data.firstName} ${data.lastName}` : 'Menu') : (data.name ? data.name : 'Menu')}
+                        {!agency ? (data?.firstName ? `${data?.firstName} ${data?.lastName}` : 'Menu') : (data?.name ? data?.name : 'Menu')}
                     </span>
                     <img className="arrowImg" src={arrowDown} alt="rowiń" />
                 </button>
@@ -76,9 +76,9 @@ const LoggedUserHeader = ({data, agency}) => {
                             Dodaj błyskawiczną ofertę pracy
                         </a>
                     </> : ''}
-                    <a href={agency ? "/edycja-danych-agencji" : "/edycja-danych"}
+                    <a href={agency ? "/konto-pracodawcy" : "/konto-pracownika"}
                        className="loggedUserHeader__userDropdownMenu__item">
-                        Edytuj profil
+                        Mój profil
                     </a>
                     <button onClick={() => { logout(); }}
                         className="loggedUserHeader__userDropdownMenu__item">

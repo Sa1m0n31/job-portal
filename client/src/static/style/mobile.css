@@ -82,6 +82,33 @@
         padding: 30px;
     }
 
+    .offerItem__company,
+    .offerItem__title {
+        font-size: 14px;
+    }
+
+    .offerItem__localization {
+        font-size: 12px;
+    }
+
+    .offerItem__buttons .btn {
+        height: 38px;
+        font-size: 14px;
+    }
+
+    .offerItem__buttons .btn:not(:last-child) {
+        margin-right: 10px;
+    }
+
+    .offerItem__salary {
+        font-size: 14px;
+    }
+
+    .offerItem__category {
+        font-size: 13px;
+        padding: 10px 15px;
+    }
+
     .userAccount__box--10 {
         width: 15%;
     }
@@ -192,6 +219,15 @@
 @media(max-width: 1400px) {
     .label--date--address > .flex {
         flex-direction: column;
+    }
+
+    .offerItem__salary,
+    .offerItem__salary__category {
+        margin-left: 2vw;
+    }
+
+    .offerItem__requirements {
+        margin: 0 3vw;
     }
 
     .container--addOffer .label--rel,
@@ -331,6 +367,33 @@
         width: 400px;
     }
 
+    .offerItem__buttons--user .btn:not(:last-child) {
+        margin-right: 0;
+    }
+
+    .userAccount__top__jobOffersHeader {
+        font-size: 24px;
+    }
+
+    .container--agencyJobOffers .userAccount__top {
+        padding: 25px 0;
+    }
+
+    .offerItem__date {
+        left: 50%;
+        transform: translateX(-50%);
+        right: unset;
+    }
+
+    .offerItem__buttons {
+        flex-direction: column;
+    }
+
+    .offerItem__buttons > * {
+        margin: 0 0 10px 0;
+        width: 120px;
+    }
+
     .fullScreenGallery__inner .img {
         max-width: 70vw;
     }
@@ -422,6 +485,28 @@
     .loggedUserHeader__desktop,
     .editData__main__header,
     .editData__left {
+        display: none;
+    }
+
+    .offerItem__buttons--user .btn--white {
+        width: 200px !important;
+    }
+
+    .userAccount__top--offersInfo {
+        display: flex;
+        justify-content: center;
+        margin-top: 80px !important;
+        padding-bottom: 0;
+        margin-bottom: -20px !important;
+    }
+
+    .userAccount__top--offersInfo .label--date__input {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+    }
+
+    .userAccount__top--offersInfo .userAccount__top__jobOffersHeader {
         display: none;
     }
 
@@ -748,11 +833,94 @@
     .userAccount__box__right__item > *:not(:last-child) {
         margin-right: 0;
     }
+
+    .offerItem {
+        border: 1px solid #C1C1C1;
+        box-shadow: none;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        max-width: 400px;
+        width: 90vw;
+        margin-bottom: 120px;
+    }
+
+    .offerItem__left {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .offerItem__company {
+        font-size: 12px;
+    }
+
+    .offerItem__category {
+        width: 100%;
+        margin: 20px auto;
+        text-align: center;
+        max-width: 300px;
+        height: 30px;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .offerItem__salary {
+        width: 100%;
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .offerItem__requirements {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        margin: 15px auto;
+    }
+
+    .offerItem__requirement {
+        margin: 0 5px;
+        font-size: 10px;
+    }
+
+    .offerItem__buttons {
+        display: flex;
+        flex-direction: row;
+        position: absolute;
+        bottom: -60px;
+        left: 0;
+        width: 100%;
+        height: auto;
+    }
+
+    .offerItem__buttons > * {
+        font-size: 12px !important;
+        width: 30% !important;
+    }
+
+    .offerItem__buttons > * .img {
+        width: 10px !important;
+        margin-left: 5px;
+    }
+
+    .offerItem__date {
+        top: -20px;
+        right: 0;
+        left: unset;
+        transform: none;
+    }
 }
 
 @media(max-width: 768px) {
     .editData__formWrapper__header {
         font-size: 18px;
+    }
+
+    .userAccount__top--offersInfo .label--date__input > *,
+    .userAccount__top--offersInfo .label--date__input {
+        width: 100%;
     }
 
     .fullScreenGallery .slick-next, .fullScreenGallery .slick-prev {
@@ -1165,5 +1333,9 @@
 
     .form__job .label--responsibility .input {
         max-width: 85%;
+    }
+
+    .offerItem__buttons--user .btn--white {
+        width: 170px !important;
     }
 }

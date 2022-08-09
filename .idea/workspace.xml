@@ -49,7 +49,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../annavinbotti" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../extendommerce-panel" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="ts.external.directory.path" value="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\node_modules\typescript\lib" />
@@ -58,10 +58,10 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\static\img" />
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\src\entities" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\components" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\src\common" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\src" />
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\src\entities" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -88,6 +88,7 @@
       <workItem from="1659690059997" duration="411000" />
       <workItem from="1659691182700" duration="123000" />
       <workItem from="1659692490773" duration="24225000" />
+      <workItem from="1659965268182" duration="19189000" />
     </task>
     <servers />
   </component>
@@ -111,10 +112,10 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1230" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1658866371098" />
-    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1659947698381">
+    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1659998935370">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659947698381" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659998935370" />
     <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1658958663256">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
@@ -135,17 +136,17 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1143" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659037306310" />
-    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1659784039191">
+    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1659974773528">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659784039191" />
-    <state x="-1304" y="240" key="run.anything.popup" timestamp="1659438232876">
+    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659974773528" />
+    <state x="-1304" y="240" key="run.anything.popup" timestamp="1659975889837">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659438232876" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1659786872122">
+    <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659975889837" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1659998259906">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659786872122" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659998259906" />
   </component>
 </project>

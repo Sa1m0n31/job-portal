@@ -22,6 +22,11 @@ export class OfferController {
     ) {
     }
 
+    @Get('/getActive')
+    getActiveOffers() {
+        return this.offerService.getActiveOffers();
+    }
+
     @UseGuards(JwtAuthGuard)
     @Post('/add')
     @UseInterceptors(FileFieldsInterceptor([

@@ -14,6 +14,8 @@ import {JwtAuthGuard} from "../common/jwt-auth.guard";
 import {FileFieldsInterceptor} from "@nestjs/platform-express";
 import {Express} from "express";
 import {OfferService} from "./offer.service";
+import {diskStorage} from "multer";
+import {FileUploadHelper} from "../common/FileUploadHelper";
 
 @Controller('offer')
 export class OfferController {
@@ -37,7 +39,12 @@ export class OfferController {
     @UseInterceptors(FileFieldsInterceptor([
         {name: 'image', maxCount: 1},
         {name: 'attachments', maxCount: 5}
-    ]))
+    ], {
+        storage: diskStorage({
+            filename: FileUploadHelper.customFileName,
+            destination: './uploads/offer'
+        })
+    }))
     addOffer(@UploadedFiles() files: {
         image?: Express.Multer.File[],
         attachments?: Express.Multer.File[]
@@ -50,7 +57,12 @@ export class OfferController {
     @UseInterceptors(FileFieldsInterceptor([
         {name: 'image', maxCount: 1},
         {name: 'attachments', maxCount: 5}
-    ]))
+    ], {
+        storage: diskStorage({
+            filename: FileUploadHelper.customFileName,
+            destination: './uploads/offer'
+        })
+    }))
     updateOffer(@UploadedFiles() files: {
         image?: Express.Multer.File[],
         attachments?: Express.Multer.File[]
@@ -67,5 +79,21 @@ export class OfferController {
     @Delete('/delete/:id')
     deleteOffer(@Param('id') id) {
         return this.offerService.deleteOffer(id);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(FileFieldsInterceptor([
+        {name: 'attachments', maxCount: 5}
+    ], {
+        storage: diskStorage({
+            filename: FileUploadHelper.customFileName,
+            destination: './uploads/offer'
+        })
+    }))
+    @Post('/addApplication')
+    addApplication(@UploadedFiles() files: {
+        attachments?: Express.Multer.File[]
+    }, @Body() body) {
+        return this.offerService.addApplication(body, files);
     }
 }

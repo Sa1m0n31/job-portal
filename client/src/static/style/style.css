@@ -2599,10 +2599,15 @@ input {
     border-radius: 5px;
 }
 
+.container--application .removeAttachmentBtn,
 .container--addOffer .removeAttachmentBtn {
     top: 50%;
     right: 0;
     transform: translateY(-50%);
+}
+
+.container--application .filesUploadLabel__item .removeAttachmentBtn .img {
+    margin-right: 0;
 }
 
 .addOfferSuccess {
@@ -3268,4 +3273,194 @@ input {
 .btn--stickyMobile,
 .jobOffer__mobileCategoryWrapper {
     display: none;
+}
+
+.container--application {
+    background: #FCFCFC;
+}
+
+.application {
+    align-items: flex-start;
+    padding-bottom: 50px;
+    width: 90%;
+    margin: auto;
+    max-width: 1700px;
+}
+
+.application__section {
+    padding: 25px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px #0000000D;
+}
+
+.application__section:first-of-type {
+    width: 50%;
+}
+
+.application__section:last-of-type {
+    width: 48%;
+}
+
+.application__profileImage {
+    width: 150px;
+    height: 150px;
+    border: 10px solid #F9F9F9;
+    overflow: hidden;
+    margin-bottom: 25px;
+}
+
+.application__header {
+    font-weight: 400;
+    font-size: 18px;
+    margin: 12px 0;
+}
+
+.application__buttons {
+    margin: 20px 0;
+}
+
+.btn--application {
+    padding: 5px 15px;
+    height: 35px;
+    border-radius: 5px;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn--application .img {
+    width: 15px;
+    margin-left: 8px;
+}
+
+.btn--application:first-child {
+    margin-right: 20px;
+}
+
+.input--application {
+    width: 90%;
+    height: 100px;
+    border-radius: 5px;
+    border: 1px solid var(--primary);
+    padding: 10px 15px;
+}
+
+.application__label {
+    position: relative;
+}
+
+.input__counter {
+    position: absolute;
+    color: var(--grey);
+    font-size: 14px;
+    bottom: -20px;
+    right: 0;
+}
+
+.application__header--marginTop {
+    margin-top: 25px;
+}
+
+.container--application .flex--start .label {
+    width: auto;
+    margin-right: 30px;
+}
+
+.container--application .flex--start .label:last-of-type {
+    margin-right: 0;
+}
+
+.container--offer .filesUploadLabel {
+    max-width: 250px;
+    height: 50px;
+}
+
+.container--offer .filesUploadLabel .img {
+    width: 25px;
+}
+
+.container--application .filesUploadLabel__item {
+    margin: 30px 0;
+    height: 35px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.container--application .filesUploadLabel__item .img {
+    margin-right: 20px;
+}
+
+.container--application .filesUploadLabel__item .input {
+    height: 30px;
+}
+
+.block {
+    display: block;
+}
+
+.application__text {
+    font-size: 14px;
+    white-space: pre-wrap;
+    margin-bottom: 15px;
+}
+
+.application__text .bold {
+    padding-right: 5px;
+}
+
+.application__section:last-of-type .label--checkbox {
+    padding-top: 20px;
+    border-top: 1px solid #E9E9E9;
+}
+
+.application__section:first-child .flex--start {
+    align-items: flex-start;
+}
+
+.application__extraInfo {
+    font-size: 12px;
+    color: var(--grey);
+}
+
+.application__extraInfo p:not(:last-of-type) {
+    margin-bottom: 15px;
+}
+
+.btn--applicationSubmit {
+    width: 100%;
+    height: 50px;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    border-radius: 5px;
+}
+
+.btn--applicationSubmit .img {
+    margin-left: 10px;
+    width: 15px;
+    transition: .2s all;
+}
+
+.btn--applicationSubmit:hover .img {
+    transform: translateX(3px);
+}
+
+.application__section .label--checkbox .checkbox {
+    flex-basis: 100%;
+    max-width: 15px;
+}
+
+.application__header--big {
+    font-size: 21px;
+    margin-bottom: 20px;
+}
+
+.container--application .info--error {
+    margin-top: 25px;
+    margin-bottom: -10px;
 }

@@ -15,7 +15,7 @@ export class Application {
     message: string;
 
     @Column()
-    preferableContact: number;
+    preferableContact: string;
 
     @Column()
     attachments: string;

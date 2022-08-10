@@ -67,5 +67,27 @@ const getOfferById = (id) => {
     });
 }
 
+const submitApplication = (id, message, contactForms, attachments) => {
+    const formData = new FormData();
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: getAuthHeader()
+        }
+    }
+
+    formData.append('id', id);
+    formData.append('attachmentsNames', JSON.stringify(attachments.map((item) => (item.name))));
+    formData.append('email', getLoggedUserEmail());
+    formData.append('contactForms', JSON.stringify(contactForms));
+    formData.append('message', message)
+    for(const att of attachments) {
+        console.log(att);
+        formData.append('attachments', att.file);
+    }
+
+    return axios.post('/offer/addApplication', formData, config);
+}
+
 export { addOffer, getJobOffersByAgency, getActiveJobOffers, deleteOffer,
-    getOfferById, updateOffer }
+    getOfferById, updateOffer, submitApplication }

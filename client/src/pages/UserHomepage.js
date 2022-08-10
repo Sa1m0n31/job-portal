@@ -21,7 +21,6 @@ import {getDate} from "../helpers/others";
 import checkIcon from '../static/img/check-small.svg'
 import starIcon from '../static/img/star.svg'
 import settingsCircle from '../static/img/settings-circle.svg'
-import Loader from "../components/Loader";
 
 const UserHomepage = ({data, visible, working}) => {
     const [profileVisible, setProfileVisible] = useState(visible);

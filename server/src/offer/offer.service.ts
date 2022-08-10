@@ -3,6 +3,7 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {Offer} from "../entities/offer.entity";
 import {MoreThan, Repository} from "typeorm";
 import {Agency} from "../entities/agency.entity";
+import {Application} from "../entities/applications.entity";
 
 @Injectable()
 export class OfferService {
@@ -10,7 +11,9 @@ export class OfferService {
         @InjectRepository(Offer)
         private readonly offerRepository: Repository<Offer>,
         @InjectRepository(Agency)
-        private readonly agencyRepository: Repository<Agency>
+        private readonly agencyRepository: Repository<Agency>,
+        @InjectRepository(Application)
+        private readonly applicationRepository: Repository<Application>
     ) {
     }
 
@@ -125,5 +128,24 @@ export class OfferService {
             .where(`o.id = :id`, {id})
             .innerJoinAndSelect('agency', 'a', 'o.agency = a.id')
             .getRawMany();
+    }
+
+    async addApplication(body, files) {
+        let attachments = [];
+        const attachmentNames = JSON.parse(body.attachmentsNames);
+        attachments = files.attachments.map((item, index) => {
+            return {
+                name: attachmentNames[index],
+                path: item.filename
+            }
+        });
+
+        return this.applicationRepository.save({
+            user: 14, // TODO: add real user id
+            offer: body.id,
+            message: body.message,
+            preferableContact: body.contactForms,
+            attachments: JSON.stringify(attachments)
+        });
     }
 }

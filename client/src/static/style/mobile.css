@@ -166,6 +166,10 @@
         max-width: 750px !important;
     }
 
+    .container--application .filesUploadLabel {
+        max-width: 250px !important;
+    }
+
     .editData__main__header__left__link .img {
         width: 14px;
     }
@@ -219,6 +223,14 @@
 @media(max-width: 1400px) {
     .label--date--address > .flex {
         flex-direction: column;
+    }
+
+    .application__header {
+        font-size: 16px;
+    }
+
+    .application__header--big {
+        font-size: 17px;
     }
 
     .jobOffer__topRow,
@@ -389,6 +401,15 @@
         width: 400px;
     }
 
+    .application__section:first-child .flex--start {
+        flex-wrap: wrap;
+    }
+
+    .btn--applicationSubmit {
+        font-size: 15px;
+        height: 45px;
+    }
+
     .jobOffer__topRow__content {
         padding-left: 220px;
     }
@@ -529,12 +550,92 @@
         display: none;
     }
 
+    .application__profileImage {
+        margin: 0 auto 20px;
+    }
+
+    .application__header--first {
+        padding-top: 20px;
+        border-top: 1px solid #C1C1C1;
+    }
+
+    .application__buttons {
+        flex-direction: column;
+    }
+
+    .btn--application {
+        width: 100%;
+        margin-bottom: 15px;
+        height: 35px;
+        margin-right: 0 !important;
+    }
+
+    .application__header {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .application {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .application__section {
+        max-width: 400px;
+        width: 100% !important;
+        position: relative;
+    }
+
     .container--offer .userAccount__top {
         padding: 25px 0 20px;
     }
 
+    .application__section:last-of-type .label--checkbox {
+        font-size: 11px;
+    }
+
     .jobOffer {
         padding-top: 0;
+    }
+
+    .input--application {
+        width: 100%;
+    }
+
+    .application__text {
+        font-size: 12px;
+    }
+
+    .application {
+        padding-bottom: 100px;
+    }
+
+    .btn--applicationSubmit {
+        height: 40px;
+        font-size: 14px;
+        position: absolute;
+        bottom: -60px;
+        left: 0;
+    }
+
+    .application__extraInfo {
+        font-size: 10px;
+    }
+
+    .container--application .flex--start .label {
+        margin-bottom: 15px;
+    }
+
+    .application__section:first-child .flex--start {
+        flex-direction: column;
+    }
+
+    .container--application .filesUploadLabel {
+        width: 100%;
+        max-width: 100% !important;
+        height: 50px;
+        min-height: 50px;
+        padding: 10px;
     }
 
     .jobOffer__profileImageWrapper {
@@ -552,6 +653,7 @@
         font-size: 12px;
     }
 
+    .application__section,
     .jobOffer__section,
     .jobOffer__mobileSection {
         background: #fff;
@@ -559,6 +661,7 @@
         border-radius: 5px;
         padding: 15px;
         max-width: 400px;
+        box-shadow: none;
         margin: 0 auto 20px;
     }
 
@@ -1302,6 +1405,10 @@
 @media(max-width: 576px) {
     .editData__main {
         padding: 30px 20px;
+    }
+
+    .container--application .filesUploadLabel__item .fileName {
+        max-width: 150px;
     }
 
     .addOfferSuccess .flex {

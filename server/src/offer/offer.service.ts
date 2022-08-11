@@ -1,9 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import {HttpException, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Offer} from "../entities/offer.entity";
-import {MoreThan, Repository} from "typeorm";
+import {Like, MoreThan, Repository} from "typeorm";
 import {Agency} from "../entities/agency.entity";
 import {Application} from "../entities/applications.entity";
+import {User} from "../entities/user.entity";
+
+// 0 - miesiecznie
+// 1 - tygodniowo
 
 @Injectable()
 export class OfferService {
@@ -13,15 +17,79 @@ export class OfferService {
         @InjectRepository(Agency)
         private readonly agencyRepository: Repository<Agency>,
         @InjectRepository(Application)
-        private readonly applicationRepository: Repository<Application>
+        private readonly applicationRepository: Repository<Application>,
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>
     ) {
     }
 
-    async getActiveOffers() {
+    async getActiveOffers(page: number) {
+        console.log('page: ' + page);
         return this.offerRepository
             .createQueryBuilder('offer')
             .where(`timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP`)
             .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+            .limit(parseInt(process.env.OFFERS_PER_PAGE))
+            .offset((page-1) * parseInt(process.env.OFFERS_PER_PAGE))
+            .getRawMany();
+    }
+
+    async filterOffers(page, title, category, country, city, distance, salaryFrom, salaryTo, salaryType, salaryCurrency) {
+        let where = '';
+        let parameters = {};
+
+        if(salaryFrom === null) salaryFrom = 0;
+        if(salaryTo === null) salaryTo = 999999;
+
+        if(category !== -1 && country !== -1) {
+            where = `category = :category 
+            AND country = :country AND 
+            (IF(salaryType = 1, salaryFrom * 4, salaryFrom) >= IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom)) AND
+            (IF(salaryType = 1, salaryTo * 4, salaryTo) <= IF(:salaryType = 1, :salaryTo * 4, :salaryTo)) 
+            AND salaryCurrency = :salaryCurrency`;
+            parameters = {
+                category, country, salaryType, salaryFrom, salaryTo, salaryCurrency
+            }
+        }
+        else if(category !== -1) {
+            where = `category = :category AND 
+            (IF(salaryType = 1, salaryFrom * 4, salaryFrom) >= IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom)) AND
+            (IF(salaryType = 1, salaryTo * 4, salaryTo) <= IF(:salaryType = 1, :salaryTo * 4, :salaryTo)) 
+            AND salaryCurrency = :salaryCurrency`;
+            parameters = {
+                category, salaryType, salaryFrom, salaryTo, salaryCurrency
+            }
+        }
+        else if(country !== -1) {
+            where = `country = :country AND 
+            (IF(salaryType = 1, salaryFrom * 4, salaryFrom) >= IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom)) AND
+            (IF(salaryType = 1, salaryTo * 4, salaryTo) <= IF(:salaryType = 1, :salaryTo * 4, :salaryTo)) 
+            AND salaryCurrency = :salaryCurrency`;
+            parameters = {
+                country, salaryType, salaryFrom, salaryTo, salaryCurrency
+            }
+        }
+        else {
+            where = `(IF(salaryType = 1, salaryFrom * 4, salaryFrom) >= IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom)) AND
+            (IF(salaryType = 1, salaryTo * 4, salaryTo) <= IF(:salaryType = 1, :salaryTo * 4, :salaryTo)) 
+            AND salaryCurrency = :salaryCurrency`;
+            parameters = {
+                salaryType, salaryFrom, salaryTo, salaryCurrency
+            }
+        }
+
+        console.log('page: ' + page);
+        console.log(where);
+        console.log(parameters);
+
+        return this.offerRepository
+            .createQueryBuilder('offer')
+            .where(where, parameters)
+            .andWhere({title: Like(`%${title}%`)})
+            .andWhere(`timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP`)
+            .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+            .limit(parseInt(process.env.OFFERS_PER_PAGE))
+            .offset((page-1) * parseInt(process.env.OFFERS_PER_PAGE))
             .getRawMany();
     }
 
@@ -133,19 +201,37 @@ export class OfferService {
     async addApplication(body, files) {
         let attachments = [];
         const attachmentNames = JSON.parse(body.attachmentsNames);
-        attachments = files.attachments.map((item, index) => {
-            return {
-                name: attachmentNames[index],
-                path: item.filename
-            }
+
+        // Get user id
+        const user = await this.userRepository.findOneBy({email: body.email});
+        const userId = user.id;
+
+        // Check if user already applied for that offer
+        const userApplication = await this.applicationRepository.findBy({
+            user: userId,
+            offer: body.id
         });
 
-        return this.applicationRepository.save({
-            user: 14, // TODO: add real user id
-            offer: body.id,
-            message: body.message,
-            preferableContact: body.contactForms,
-            attachments: JSON.stringify(attachments)
-        });
+        if(userApplication?.length) {
+            throw new HttpException('Aplikowałeś już na tę ofertę pracy', 502);
+        }
+        else {
+            if(files?.attachments) {
+                attachments = files.attachments.map((item, index) => {
+                    return {
+                        name: attachmentNames[index],
+                        path: item.filename
+                    }
+                });
+            }
+
+            return this.applicationRepository.save({
+                user: userId,
+                offer: body.id,
+                message: body.message,
+                preferableContact: body.contactForms,
+                attachments: JSON.stringify(attachments)
+            });
+        }
     }
 }

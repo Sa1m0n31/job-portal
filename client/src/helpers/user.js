@@ -78,6 +78,14 @@ const toggleUserWorking = () => {
     });
 }
 
+const getUserApplications = () => {
+    return axios.get(`/user/getUserApplications/${getLoggedUserEmail()}`, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
+}
+
 const logout = () => {
     const cookies = new Cookies();
     cookies.remove('access_token', { path: '/' });
@@ -88,5 +96,5 @@ const logout = () => {
 }
 
 export { registerUser, verifyUser, loginUser, authUser, updateUser, getUserData, logout,
-    toggleUserVisibility, toggleUserWorking
+    toggleUserVisibility, toggleUserWorking, getUserApplications
 }

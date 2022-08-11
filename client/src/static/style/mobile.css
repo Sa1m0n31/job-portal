@@ -1407,6 +1407,23 @@
         padding: 30px 20px;
     }
 
+    .application__success .application__header {
+        max-width: 90%;
+        margin: auto;
+    }
+
+    .application__success .buttons {
+        flex-direction: column;
+    }
+
+    .application__success .buttons .btn {
+        height: 35px;
+        width: 100%;
+        font-size: 13px;
+        padding: 5px 10px;
+        margin: 0 0 10px;
+    }
+
     .container--application .filesUploadLabel__item .fileName {
         max-width: 150px;
     }

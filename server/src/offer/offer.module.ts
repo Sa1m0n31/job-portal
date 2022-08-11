@@ -13,7 +13,7 @@ import {Application} from "../entities/applications.entity";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Offer, Agency, Application]),
+    TypeOrmModule.forFeature([Offer, Agency, Application, User]),
     JwtModule.register({
       secret: process.env.JWT_KEY,
       signOptions: {expiresIn: 60 * 300}

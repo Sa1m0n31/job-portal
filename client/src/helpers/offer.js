@@ -47,8 +47,8 @@ const getJobOffersByAgency = () => {
     });
 }
 
-const getActiveJobOffers = () => {
-    return axios.get('/offer/getActive');
+const getActiveJobOffers = (page) => {
+    return axios.get(`/offer/getActive/${page}`);
 }
 
 const deleteOffer = (id) => {
@@ -89,5 +89,11 @@ const submitApplication = (id, message, contactForms, attachments) => {
     return axios.post('/offer/addApplication', formData, config);
 }
 
+const filterOffers = (page, title, category, country, city, distance, salaryType, salaryFrom, salaryTo, salaryCurrency) => {
+    return axios.post(`/offer/filter`, {
+        page, title, category, country, city, distance, salaryType, salaryFrom, salaryTo, salaryCurrency
+    });
+}
+
 export { addOffer, getJobOffersByAgency, getActiveJobOffers, deleteOffer,
-    getOfferById, updateOffer, submitApplication }
+    getOfferById, updateOffer, submitApplication, filterOffers }

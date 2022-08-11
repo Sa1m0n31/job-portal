@@ -16,6 +16,8 @@ import {Express} from "express";
 import {OfferService} from "./offer.service";
 import {diskStorage} from "multer";
 import {FileUploadHelper} from "../common/FileUploadHelper";
+import {WrongExtensionException} from "../filters/WrongExtensionException";
+import {fileExtensionFilter} from "../common/FileExtensionFilter";
 
 @Controller('offer')
 export class OfferController {
@@ -24,9 +26,9 @@ export class OfferController {
     ) {
     }
 
-    @Get('/getActive')
-    getActiveOffers() {
-        return this.offerService.getActiveOffers();
+    @Get('/getActive/:page')
+    getActiveOffers(@Param('page') page) {
+        return this.offerService.getActiveOffers(page);
     }
 
     @Get('/get/:id')
@@ -85,6 +87,7 @@ export class OfferController {
     @UseInterceptors(FileFieldsInterceptor([
         {name: 'attachments', maxCount: 5}
     ], {
+        fileFilter: fileExtensionFilter,
         storage: diskStorage({
             filename: FileUploadHelper.customFileName,
             destination: './uploads/offer'
@@ -95,5 +98,11 @@ export class OfferController {
         attachments?: Express.Multer.File[]
     }, @Body() body) {
         return this.offerService.addApplication(body, files);
+    }
+
+    @Post('/filter')
+    filterOffers(@Body() body) {
+        const { page, title, category, country, city, distance, salaryFrom, salaryTo, salaryType, salaryCurrency } = body;
+        return this.offerService.filterOffers(page, title, category, country, city, distance, salaryFrom, salaryTo, salaryType, salaryCurrency);
     }
 }

@@ -62,4 +62,9 @@ export class UserController {
     toggleUserWorking(@Param('email') email) {
         return this.userService.toggleUserWorking(email);
     }
+
+    @Get('/getUserApplications/:email')
+    getUserApplications(@Param('email') email) {
+        return this.userService.getUserApplications(email);
+    }
 }

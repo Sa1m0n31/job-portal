@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import backArrow from "../static/img/back-arrow-grey.svg";
 import {getOfferById} from "../helpers/offer";
@@ -8,10 +8,11 @@ import pen from '../static/img/pen-blue.svg'
 import plusIcon from "../static/img/plus-icon-opacity.svg";
 import trashIcon from "../static/img/trash.svg";
 import fileIcon from "../static/img/doc.svg";
-import {attachmentsErrors, countries, currencies} from "../static/content";
+import {attachmentsErrors, countries, currencies, formErrors} from "../static/content";
 import arrow from '../static/img/small-white-arrow.svg'
 import {submitApplication} from "../helpers/offer";
 import {isElementInArray} from "../helpers/others";
+import checkIcon from '../static/img/green-check.svg'
 
 const ApplicationForJobPage = ({data}) => {
     const [offer, setOffer] = useState('');
@@ -21,6 +22,10 @@ const ApplicationForJobPage = ({data}) => {
     const [attachments, setAttachments] = useState([]);
     const [error, setError] = useState('');
     const [c1, setC1] = useState(false);
+    const [success, setSuccess] = useState(false);
+
+    const applicationRef = useRef(null);
+    const successRef = useRef(null);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -57,6 +62,30 @@ const ApplicationForJobPage = ({data}) => {
             setError('');
         }
     }, [c1, attachments]);
+
+    useEffect(() => {
+        if(success) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+
+            applicationRef.current.style.opacity = '0';
+            setTimeout(() => {
+                applicationRef.current.style.height = '0';
+                applicationRef.current.style.padding = '0';
+                applicationRef.current.style.margin = '0';
+                applicationRef.current.style.visibility = 'hidden';
+            }, 300);
+
+            successRef.current.style.visibility = 'visible';
+            successRef.current.style.height = 'auto';
+            successRef.current.style.paddingTop = '60px';
+            setTimeout(() => {
+                successRef.current.style.opacity = '1';
+            }, 300);
+        }
+    }, [success]);
 
     const updateMessage = (val) => {
         if(val.length <= 375) {
@@ -116,10 +145,23 @@ const ApplicationForJobPage = ({data}) => {
         else {
             submitApplication(offer.o_id, message, contactForms, attachments)
                 .then((res) => {
-                    console.log(res);
+                    if(res?.status === 201) {
+                        setSuccess(true);
+                    }
+                    else {
+                        setError(formErrors[1]);
+                    }
                 })
                 .catch((err) => {
-                   console.log(err);
+                   if(err.status === 415) {
+                       setError('Tylko załączniki w formatach: .png. .jpg, .pdf, .txt, .page, .txt są akceptowane');
+                   }
+                   else if(err.response.status === 502) {
+                       setError('Aplikowałeś już na tę ofertę pracy');
+                   }
+                   else {
+                       setError(formErrors[1]);
+                   }
                 });
         }
     }
@@ -137,7 +179,22 @@ const ApplicationForJobPage = ({data}) => {
             </a>
         </aside> : ''}
 
-        <main className="application flex">
+        <div className="application__success" ref={successRef}>
+            <img className="img" src={checkIcon} alt="dodano" />
+            <h3 className="application__header">
+                Twoje zgłoszenie zostało wysłane do pracodawcy!
+            </h3>
+            <div className="buttons center">
+                <a href="/oferty-pracy" className="btn">
+                    Przeglądaj oferty pracy
+                </a>
+                <a href="/konto-pracownika" className="btn btn--white">
+                    Moje konto
+                </a>
+            </div>
+        </div>
+
+        <main className="application flex" ref={applicationRef}>
             <div className="application__section">
                 <figure className="application__profileImage">
                     <img className="img" src={`${settings.API_URL}/${agency.logo}`} alt="logo" />

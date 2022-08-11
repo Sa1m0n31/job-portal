@@ -8,6 +8,7 @@ import {CreateUserDto} from "../dto/create-user.dto";
 import { v4 as uuid } from 'uuid';
 import {MailerService} from "@nestjs-modules/mailer";
 import {JwtService} from "@nestjs/jwt";
+import {Application} from '../entities/applications.entity'
 
 @Injectable()
 export class UserService {
@@ -16,6 +17,8 @@ export class UserService {
         private readonly userRepository: Repository<User>,
         @InjectRepository(User_verification)
         private readonly userVerificationRepository: Repository<User_verification>,
+        @InjectRepository(Application)
+        private readonly applicationRepository: Repository<Application>,
         private readonly mailerService: MailerService,
         private readonly jwtTokenService: JwtService
     ) {
@@ -116,8 +119,6 @@ export class UserService {
     }
 
     async updateUser(data, files) {
-        console.log(files);
-
         // Modify user data JSON - add file paths
         const email = data.email;
         let userData = JSON.parse(data.userData);
@@ -165,6 +166,11 @@ export class UserService {
             })
             .where({email})
             .execute();
+    }
+
+    async getUserApplications(email: string) {
+        const user = await this.userRepository.findOneBy({email});
+        return this.applicationRepository.findBy({user: user.id});
     }
 }
 

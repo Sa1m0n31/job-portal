@@ -10,6 +10,7 @@ import {MulterModule} from "@nestjs/platform-express";
 import {Offer} from "../entities/offer.entity";
 import {Agency} from "../entities/agency.entity";
 import {Application} from "../entities/applications.entity";
+import {HttpModule} from "@nestjs/axios";
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import {Application} from "../entities/applications.entity";
     }),
     MulterModule.register({
       dest: './uploads/offer',
-    })
+    }),
+      HttpModule
   ],
   controllers: [OfferController],
   providers: [OfferService, JwtStrategy]

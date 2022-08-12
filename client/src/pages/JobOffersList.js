@@ -96,13 +96,12 @@ const JobOfferList = ({data}) => {
     }
 
     const filterOffersWrapper = async () => {
-        console.log(page);
         if(page > 1) {
             const newOffersResponse = await filterOffers(page, title, category, country, city, distance, salaryType, salaryFrom, salaryTo, salaryCurrency);
             const newOffers = newOffersResponse.data;
 
-            console.log("NEW OFFERS");
-            console.log(newOffers);
+            console.log(page);
+            console.log(newOffersResponse);
 
             if(newOffers.length) {
                 setFilteredOffers(prevState => ([...prevState, ...newOffers]));
@@ -115,19 +114,28 @@ const JobOfferList = ({data}) => {
     }
 
     const submitFilter = () => {
+        setPage(2);
         setHasMore(true);
         setFilterActive(true);
         filterOffers(1, title, category, country, city, distance, salaryType, salaryFrom, salaryTo, salaryCurrency)
-            .then((res) => {
-                console.log(res);
+            .then(async (res) => {
                 if(res?.status === 201) {
-                    setFilteredOffers(res?.data);
+                    if(res?.data?.length) {
+                        console.log('initialize');
+                        setFilteredOffers(res?.data);
+                        if(res?.data?.length < 2) {
+                            setHasMore(false);
+                        }
+                    }
+                    else {
+                        await setHasMore(false);
+                        setFilteredOffers([]);
+                    }
                 }
             })
             .catch((err) => {
                 console.log(err);
             });
-        setPage(2);
     }
 
     return <div className="container container--agencyJobOffers container--jobOffers" onClick={() => { hideAllDropdowns(); setDropdownVisible(false); }}>
@@ -294,7 +302,7 @@ const JobOfferList = ({data}) => {
             </div>}
             endMessage={<span></span>}
         >
-            {render ? filteredOffers?.map((item, index) => {
+            {render ? (filteredOffers?.length ? filteredOffers?.map((item, index) => {
                 return <div className="offerItem flex" key={index}>
                 <span className="offerItem__date">
                     {item.offer_created_at?.substring(0, 10)}
@@ -346,7 +354,9 @@ const JobOfferList = ({data}) => {
                         </a>
                     </div>
                 </div>
-            }) : ''}
+            }) : <h4 className="noOffersFound">
+                Nie znaleziono ofert pracy o podanych kryteriach
+            </h4>) : ''}
         </InfiniteScroll>}
     </div>
 };

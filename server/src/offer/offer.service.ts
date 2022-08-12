@@ -5,9 +5,16 @@ import {Like, MoreThan, Repository} from "typeorm";
 import {Agency} from "../entities/agency.entity";
 import {Application} from "../entities/applications.entity";
 import {User} from "../entities/user.entity";
+import * as axios from 'axios'
+import { HttpService } from '@nestjs/axios'
+import {lastValueFrom, map} from "rxjs";
 
 // 0 - miesiecznie
 // 1 - tygodniowo
+
+const distances = [
+    100, 50, 40, 30, 20, 10, 5
+];
 
 @Injectable()
 export class OfferService {
@@ -19,12 +26,12 @@ export class OfferService {
         @InjectRepository(Application)
         private readonly applicationRepository: Repository<Application>,
         @InjectRepository(User)
-        private readonly userRepository: Repository<User>
+        private readonly userRepository: Repository<User>,
+        private readonly httpService: HttpService
     ) {
     }
 
     async getActiveOffers(page: number) {
-        console.log('page: ' + page);
         return this.offerRepository
             .createQueryBuilder('offer')
             .where(`timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP`)
@@ -37,16 +44,17 @@ export class OfferService {
     async filterOffers(page, title, category, country, city, distance, salaryFrom, salaryTo, salaryType, salaryCurrency) {
         let where = '';
         let parameters = {};
+        const offersPerPage = parseInt(process.env.OFFERS_PER_PAGE);
 
-        if(salaryFrom === null) salaryFrom = 0;
-        if(salaryTo === null) salaryTo = 999999;
+        if(salaryFrom === null || salaryFrom === '') salaryFrom = 0;
+        if(salaryTo === null || salaryFrom === '') salaryTo = 999999;
 
         if(category !== -1 && country !== -1) {
-            where = `category = :category 
-            AND country = :country AND 
-            (IF(salaryType = 1, salaryFrom * 4, salaryFrom) >= IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom)) AND
-            (IF(salaryType = 1, salaryTo * 4, salaryTo) <= IF(:salaryType = 1, :salaryTo * 4, :salaryTo)) 
-            AND salaryCurrency = :salaryCurrency`;
+            where = `offer.category = :category 
+            AND offer.country = :country AND 
+            (IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) >= IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom)) AND
+            (IF(offer.salaryType = 1, offer.salaryTo * 4, offer.salaryTo) <= IF(:salaryType = 1, :salaryTo * 4, :salaryTo)) 
+            AND offer.salaryCurrency = :salaryCurrency`;
             parameters = {
                 category, country, salaryType, salaryFrom, salaryTo, salaryCurrency
             }
@@ -78,19 +86,64 @@ export class OfferService {
             }
         }
 
-        console.log('page: ' + page);
-        console.log(where);
-        console.log(parameters);
+        if(city && distance !== null) {
+            // Filter all offers by title, category, country and salary
+            const filteredOffers = await this.offerRepository
+                .createQueryBuilder('offer')
+                .where(where, parameters)
+                .andWhere({title: Like(`%${title}%`)})
+                .andWhere(`(timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP)`)
+                .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+                .getRawMany();
 
-        return this.offerRepository
-            .createQueryBuilder('offer')
-            .where(where, parameters)
-            .andWhere({title: Like(`%${title}%`)})
-            .andWhere(`timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP`)
-            .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
-            .limit(parseInt(process.env.OFFERS_PER_PAGE))
-            .offset((page-1) * parseInt(process.env.OFFERS_PER_PAGE))
-            .getRawMany();
+            // Get distance of each offer
+            const maxDistance = distances[distance];
+            let offersToReturn = [];
+
+            for(const offer of filteredOffers) {
+                const destinationCity = offer.offer_city;
+                const distanceApiResult = await lastValueFrom(this.httpService
+                    .get(encodeURI(`https://www.dystans.org/route.json?stops=${city}|${destinationCity}`))
+                    .pipe(
+                        map(res => res.data)
+                    )
+                )
+                if(distanceApiResult) {
+                    const d = distanceApiResult.distance;
+                    offersToReturn.push({
+                        ...offer,
+                        distance: d
+                    });
+                }
+            }
+
+            // Filter - get only offers within range send in filter
+            offersToReturn = offersToReturn.filter((item) => (item.distance <= maxDistance));
+
+            // Sort them by distance from city send in filter
+            offersToReturn.sort((a, b) => {
+                if(a.distance < b.distance) return 1;
+                else if(a.distance > b.distance) return -1;
+                else {
+                    if(a.offer_id < b.offer_id) return 1;
+                    else return -1;
+                }
+            });
+
+            const startIndex = offersPerPage * (page-1);
+            return offersToReturn.slice(startIndex, startIndex+2);
+        }
+        else {
+            return await this.offerRepository
+                .createQueryBuilder('offer')
+                .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+                .andWhere(where, parameters)
+                .andWhere({title: Like(`%${title}%`)})
+                .andWhere(`(timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP)`)
+                .limit(offersPerPage)
+                .offset((page-1) * offersPerPage)
+                .getRawMany();
+        }
     }
 
     async addOffer(data, files) {

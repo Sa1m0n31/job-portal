@@ -3580,3 +3580,7 @@ input {
     align-items: center;
     font-size: 16px;
 }
+
+.noOffersFound {
+    text-align: center;
+}

@@ -225,6 +225,26 @@
         flex-direction: column;
     }
 
+    .preview__profileImage {
+        flex-basis: 100%;
+        max-width: 120px;
+        width: 120px;
+        height: 120px;
+        border-width: 10px;
+    }
+
+    .preview__fullName {
+        font-size: 15px;
+    }
+
+    .preview__data {
+        font-size: 12px;
+    }
+
+    .preview__buttons .btn {
+        font-size: 11px;
+    }
+
     .application__header {
         font-size: 16px;
     }
@@ -399,6 +419,10 @@
 @media(max-width: 1200px) {
     .addNewBtn {
         width: 400px;
+    }
+
+    .preview {
+        width: 100%;
     }
 
     .application__section:first-child .flex--start {

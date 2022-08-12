@@ -27,7 +27,7 @@ const AgencyWrapper = ({page}) => {
                                             setRender(<AgencyEditData />);
                                             break;
                                         case 2:
-                                            setRender(<AgencyHomepage data={data} />);
+                                            setRender(<AgencyHomepage email={res?.data?.email} data={data} />);
                                             break;
                                         case 3:
                                             setRender(<AddJobOffer />);

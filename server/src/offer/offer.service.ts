@@ -8,6 +8,7 @@ import {User} from "../entities/user.entity";
 import * as axios from 'axios'
 import { HttpService } from '@nestjs/axios'
 import {lastValueFrom, map} from "rxjs";
+import {calculateDistance} from "../common/calculateDistance";
 
 // 0 - miesiecznie
 // 1 - tygodniowo
@@ -96,42 +97,48 @@ export class OfferService {
                 .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
                 .getRawMany();
 
-            // Get distance of each offer
-            const maxDistance = distances[distance];
-            let offersToReturn = [];
+            // Get filter city latitude and longitude
+            const apiResponse = await lastValueFrom(this.httpService.get(encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${city}`)));
+            const apiData = apiResponse.data.data;
 
-            for(const offer of filteredOffers) {
-                const destinationCity = offer.offer_city;
-                const distanceApiResult = await lastValueFrom(this.httpService
-                    .get(encodeURI(`https://www.dystans.org/route.json?stops=${city}|${destinationCity}`))
-                    .pipe(
-                        map(res => res.data)
-                    )
-                )
-                if(distanceApiResult) {
-                    const d = distanceApiResult.distance;
+            if(apiData?.length) {
+                const lat = apiData[0].latitude;
+                const lng = apiData[0].longitude;
+
+                // Get distance of each offer
+                const maxDistance = distances[distance];
+                let offersToReturn = [];
+
+                for(const offer of filteredOffers) {
+                    const destinationLat = offer.offer_lat;
+                    const destinationLng = offer.offer_lng;
+                    const distanceResult = calculateDistance(lat, destinationLat, lng, destinationLng);
+                    console.log(distanceResult);
                     offersToReturn.push({
                         ...offer,
-                        distance: d
+                        distance: distanceResult
                     });
                 }
+
+                // Filter - get only offers within range send in filter
+                offersToReturn = offersToReturn.filter((item) => (item.distance <= maxDistance));
+
+                // Sort them by distance from city send in filter
+                offersToReturn.sort((a, b) => {
+                    if(a.distance < b.distance) return 1;
+                    else if(a.distance > b.distance) return -1;
+                    else {
+                        if(a.offer_id < b.offer_id) return 1;
+                        else return -1;
+                    }
+                });
+
+                const startIndex = offersPerPage * (page-1);
+                return offersToReturn.slice(startIndex, startIndex + offersPerPage);
             }
-
-            // Filter - get only offers within range send in filter
-            offersToReturn = offersToReturn.filter((item) => (item.distance <= maxDistance));
-
-            // Sort them by distance from city send in filter
-            offersToReturn.sort((a, b) => {
-                if(a.distance < b.distance) return 1;
-                else if(a.distance > b.distance) return -1;
-                else {
-                    if(a.offer_id < b.offer_id) return 1;
-                    else return -1;
-                }
-            });
-
-            const startIndex = offersPerPage * (page-1);
-            return offersToReturn.slice(startIndex, startIndex+2);
+            else {
+                return [];
+            }
         }
         else {
             return await this.offerRepository

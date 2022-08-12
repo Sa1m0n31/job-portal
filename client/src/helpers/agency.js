@@ -46,11 +46,26 @@ const updateAgency = (data) => {
     formData.append('email', getLoggedUserEmail());
     formData.append('logo', data.logo);
     for(const img of data.gallery) {
-        console.log(img);
         formData.append('gallery', img.file);
     }
 
     return axios.post('/agency/update', formData, config);
 }
 
-export { registerAgency, verifyAgency, loginAgency, getAgencyData, updateAgency }
+const getAllApprovedAgencies = (page) => {
+    return axios.get(`/agency/getAllApproved/${page}`);
+}
+
+const filterAgencies = (country, city, distance, page) => {
+    return axios.post(`/agency/filter`, {
+        country, city, distance, page
+    });
+}
+
+const sortAgencies = (type, page) => {
+    return axios.get(`/agency/sort/${type}/${page}`);
+}
+
+export { registerAgency, verifyAgency, loginAgency, getAgencyData, updateAgency, getAllApprovedAgencies,
+    filterAgencies, sortAgencies
+}

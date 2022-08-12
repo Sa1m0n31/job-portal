@@ -9,6 +9,8 @@ import { v4 as uuid } from 'uuid';
 import {MailerService} from "@nestjs-modules/mailer";
 import {JwtService} from "@nestjs/jwt";
 import {Application} from '../entities/applications.entity'
+import {HttpService} from "@nestjs/axios";
+import {lastValueFrom} from "rxjs";
 
 @Injectable()
 export class UserService {
@@ -20,7 +22,8 @@ export class UserService {
         @InjectRepository(Application)
         private readonly applicationRepository: Repository<Application>,
         private readonly mailerService: MailerService,
-        private readonly jwtTokenService: JwtService
+        private readonly jwtTokenService: JwtService,
+        private readonly httpService: HttpService
     ) {
     }
 
@@ -41,7 +44,7 @@ export class UserService {
             const newUser = new CreateUserDto({
                 email: email,
                 password: passwordHash,
-                data: null
+                data: {}
             });
 
             const token = await uuid();
@@ -132,16 +135,53 @@ export class UserService {
             }) : data.attachments
         }
 
-        // Modify record in database
-        return this.userRepository.createQueryBuilder()
-            .update({
-                data: JSON.stringify(userData),
-                email: userData.email
-            })
-            .where({
-                email
-            })
-            .execute();
+        // Get new latitude and longitude
+        if(userData.city) {
+            const apiResponse = await lastValueFrom(this.httpService.get(encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${userData.city}`)));
+            const apiData = apiResponse.data.data;
+
+            if(apiData?.length) {
+                const lat = apiData[0].latitude;
+                const lng = apiData[0].longitude;
+
+                // Modify record in database
+                return this.userRepository.createQueryBuilder()
+                    .update({
+                        data: JSON.stringify(userData),
+                        email: userData.email,
+                        lat,
+                        lng
+                    })
+                    .where({
+                        email
+                    })
+                    .execute();
+            }
+            else {
+                // Modify record in database
+                return this.userRepository.createQueryBuilder()
+                    .update({
+                        data: JSON.stringify(userData),
+                        email: userData.email
+                    })
+                    .where({
+                        email
+                    })
+                    .execute();
+            }
+        }
+        else {
+            // Modify record in database
+            return this.userRepository.createQueryBuilder()
+                .update({
+                    data: JSON.stringify(userData),
+                    email: userData.email
+                })
+                .where({
+                    email
+                })
+                .execute();
+        }
     }
 
     async getUserData(email : string) {

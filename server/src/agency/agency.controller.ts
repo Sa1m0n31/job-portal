@@ -43,4 +43,19 @@ export class AgencyController {
     }, @Body() body) {
         return this.agencyService.updateAgency(body, files);
     }
+
+    @Get('/getAllApproved/:page')
+    getAllApprovedAgencies(@Param('page') page) {
+        return this.agencyService.getAllApprovedAgencies(page);
+    }
+
+    @Post('/filter')
+    filterAgencies(@Body() body) {
+        return this.agencyService.filterAgencies(body);
+    }
+
+    @Get('/sort/:type/:page')
+    sortAgencies(@Param('type') type, @Param('page') page) {
+        return this.agencyService.sortAgencies(type, page);
+    }
 }

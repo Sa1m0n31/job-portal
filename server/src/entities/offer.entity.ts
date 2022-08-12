@@ -79,4 +79,10 @@ export class Offer {
 
     @Column()
     created_at: Date;
+
+    @Column()
+    lat: number;
+
+    @Column()
+    lng: number;
 }

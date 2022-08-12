@@ -11,6 +11,7 @@ import trash from '../static/img/trash.svg'
 import Loader from "../components/Loader";
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
 import Modal from "../components/Modal";
+import userPlaceholder from '../static/img/user-placeholder.svg'
 
 const MyJobOffers = ({data}) => {
     const [offers, setOffers] = useState([]);
@@ -137,7 +138,7 @@ const MyJobOffers = ({data}) => {
                 </span>
                 <div className="offerItem__left">
                     <figure className="offerItem__figure">
-                        <img className="img" src={`${settings.API_URL}/${data?.logo}`} alt="zdjecie-profilowe" />
+                        <img className="img" src={data?.logo ? `${settings.API_URL}/${data?.logo}` : userPlaceholder} alt="zdjecie-profilowe" />
                     </figure>
                     <div className="offerItem__mainInfo">
                         <h2 className="offerItem__title">
@@ -172,7 +173,7 @@ const MyJobOffers = ({data}) => {
                     })}
                 </div>
                 <div className="offerItem__buttons flex">
-                    <a href="/"
+                    <a href={`/oferta-pracy?id=${item.id}`}
                        className="btn btn--white">
                         Podgląd
                         <img className="img" src={magnifier} alt="podglad" />

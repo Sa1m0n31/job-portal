@@ -3,9 +3,7 @@ import LoggedUserHeader from "../components/LoggedUserHeader";
 import penIcon from "../static/img/pen-edit-account.svg";
 import settingsCircle from "../static/img/settings-circle.svg";
 import {
-    countries,
     currencies,
-    flags,
     houses, months, paycheckDay, paycheckFrequency,
     paymentTypes,
     pensionFrequency,
@@ -27,14 +25,15 @@ import galleryArrow from '../static/img/gallery-arrow.svg'
 import { noInfo } from "../static/content";
 import magnifierIcon from '../static/img/magnifier.svg'
 import Gallery from "../components/Gallery";
+import userPlaceholder from '../static/img/user-placeholder.svg'
 
-const AgencyHomepage = ({data}) => {
+const AgencyHomepage = ({data, email}) => {
     const [currentGalleryScroll, setCurrentGalleryScroll] = useState(0);
     const [galleryIndex, setGalleryIndex] = useState(-1);
 
     useEffect(() => {
         if(gallery) {
-            gallery.current.scroll({
+            gallery.current?.scroll({
                 left: currentGalleryScroll,
                 behavior: 'smooth'
             });
@@ -106,7 +105,7 @@ const AgencyHomepage = ({data}) => {
                             <img className="img" src={settingsCircle} alt="ustawienia" />
                         </a>
                         <figure>
-                            <img className="img" src={`${settings.API_URL}/${data.logo}`} alt="zdjecie-profilowe" />
+                            <img className="img" src={data?.logo ? `${settings.API_URL}/${data?.logo}` : userPlaceholder} alt="zdjecie-profilowe" />
                         </figure>
                         <div className="userAccount__box__mainData">
                             <h1 className="userAccount__box__fullName">
@@ -126,10 +125,10 @@ const AgencyHomepage = ({data}) => {
                             </p> : ''}
                             <p className="userAccount__box__mainData__text">
                                 <img className="img" src={messageIcon} alt="adres-e-mail" />
-                                {data.email}
+                                {email}
                             </p>
                             <div className="userAccount__box__mainData__buttons">
-                                <a
+                                {data?.phoneNumber ? <a
                                     href={`https://wa.me/${data.phoneNumberCountry.split('+')[1]}${data.phoneNumber}`}
                                     className="btn btn--whatsApp"
                                     target="_blank"
@@ -137,7 +136,7 @@ const AgencyHomepage = ({data}) => {
                                 >
                                     <img className="img" src={whatsAppIcon} alt="napisz-wiadomosc" />
                                     WhatsApp
-                                </a>
+                                </a> : ''}
                                 <a href="/napisz-wiadomosc"
                                    className="btn btn--writeMessage">
                                     <img className="img" src={messageIcon} alt="napisz-wiadomosc" />
@@ -244,7 +243,7 @@ const AgencyHomepage = ({data}) => {
                                 Typ pokoju
                             </span>
                             <p className="userAccount__box__value">
-                                {data.roomType !== null ? rooms[data.roomType] : noInfo}
+                                {data.roomType !== null && data.roomType !== undefined ? rooms[data.roomType] : noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
@@ -252,7 +251,7 @@ const AgencyHomepage = ({data}) => {
                                 Rodzaj zabudowy
                             </span>
                             <p className="userAccount__box__value">
-                                {data.houseType !== null ? houses[data.houseType] : noInfo}
+                                {data.houseType !== null && data.houseType !== undefined ? houses[data.houseType] : noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
@@ -268,7 +267,7 @@ const AgencyHomepage = ({data}) => {
                                 Parking
                             </span>
                             <p className="userAccount__box__value">
-                                {data.parking !== null ? (data.parking ? 'Tak' : 'Nie') : noInfo}
+                                {data.parking !== null && data.parking !== undefined ? (data.parking ? 'Tak' : 'Nie') : noInfo}
                             </p>
                         </span>
                             <span className="w-100">
@@ -279,7 +278,7 @@ const AgencyHomepage = ({data}) => {
                                 Samochód służbowy
                             </span>
                             <p className="userAccount__box__value">
-                                {data.car !== null ?
+                                {data.car === 0 || data.car ?
                                     (data.car === 1 ? 'Bezpłatny' : (`Płatny dodatkowo,\n${data.carPrice} ${currencies[data.carPriceCurrency]}/mies`)) : noInfo}
                             </p>
                         </span>
@@ -288,7 +287,7 @@ const AgencyHomepage = ({data}) => {
                                 Rower
                             </span>
                             <p className="userAccount__box__value">
-                                {data.bike !== null ?
+                                {data.bike === 0 || data.bike ?
                                     (data.bike === 1 ? 'Bezpłatny' : (`Płatny dodatkowo,\n${data.bikePrice} ${currencies[data.bikePriceCurrency]}/mies`)) : noInfo}
                             </p>
                         </span>
@@ -297,7 +296,7 @@ const AgencyHomepage = ({data}) => {
                                 Zwrot kosztów za dojazd
                             </span>
                             <p className="userAccount__box__value">
-                                {data.costReturnWithOwnTransport !== null ?
+                                {data.costReturnWithOwnTransport !== null && data.costReturnWithOwnTransport !== undefined ?
                                     (data.costReturnWithOwnTransport ? 'Tak' : 'Nie') : noInfo}
                             </p>
                         </span>
@@ -310,7 +309,7 @@ const AgencyHomepage = ({data}) => {
                                 Składki emerytalne
                             </span>
                             <p className="userAccount__box__value">
-                                {data.pensionContributions !== null ? pensionType[data.pensionContributions] : noInfo}
+                                {data.pensionContributions !== null && data.pensionContributions !== undefined ? pensionType[data.pensionContributions] : noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
@@ -318,9 +317,9 @@ const AgencyHomepage = ({data}) => {
                                 Świadczenia urlopowe
                             </span>
                             <p className="userAccount__box__value userAccount__box__value--holidayAllowance">
-                                {data.holidayAllowanceType !== null ? `${pensionType[data.holidayAllowanceType]}
+                                {data.holidayAllowanceType !== null && data.holidayAllowanceType !== undefined ? `${pensionType[data.holidayAllowanceType]}
                                 `: noInfo}<br/>
-                                {data.holidayAllowanceType !== null ? `${data.holidayAllowanceFrequency === 0 ? (pensionFrequency[data.holidayAllowanceFrequency] + ', ' + (parseInt(data.holidayAllowanceDay)+1) + ' ' + months[data.holidayAllowanceMonth]) : pensionFrequency[data.holidayAllowanceFrequency]}` : ''}
+                                {data.holidayAllowanceType !== null && data.holidayAllowanceType !== undefined ? `${data.holidayAllowanceFrequency === 0 ? (pensionFrequency[data.holidayAllowanceFrequency] + ', ' + (parseInt(data.holidayAllowanceDay)+1) + ' ' + months[data.holidayAllowanceMonth]) : pensionFrequency[data.holidayAllowanceFrequency]}` : ''}
                             </p>
                         </span>
                         <span className="userAccount__box__pair">
@@ -328,8 +327,8 @@ const AgencyHomepage = ({data}) => {
                                 Wynagrodzenie
                             </span>
                             <p className="userAccount__box__value">
-                                {data.paycheckFrequency !== null ? paycheckFrequency[data.paycheckFrequency] : noInfo}<br/>
-                                {data.paycheckFrequency !== null ? paycheckDay[data.paycheckDay] : ''}
+                                {data.paycheckFrequency !== null && data.paycheckFrequency !== undefined ? paycheckFrequency[data.paycheckFrequency] : noInfo}<br/>
+                                {data.paycheckFrequency !== null && data.paycheckFrequency !== undefined ? paycheckDay[data.paycheckDay] : ''}
                             </p>
                         </span>
                         <span className="userAccount__box__pair">
@@ -337,7 +336,7 @@ const AgencyHomepage = ({data}) => {
                                 Ubezp. zdrowotne
                             </span>
                             <p className="userAccount__box__value">
-                                {data.healthInsurance !== null ? paymentTypes[data.healthInsurance] : noInfo}<br/>
+                                {data.healthInsurance !== null && data.healthInsurance !== undefined ? paymentTypes[data.healthInsurance] : noInfo}<br/>
                                 {data.healthInsuranceCost !== null && data.healthInsurance === 0 ? data.healthInsuranceCost + ' ' + currencies[data.healthInsuranceCurrency] : ''}
                             </p>
                         </span>

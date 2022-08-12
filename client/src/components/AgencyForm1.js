@@ -23,7 +23,7 @@ const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setN
                     <button className="datepicker datepicker--country"
                             onClick={(e) => { e.stopPropagation(); setCountriesVisible(!countriesVisible); }}
                     >
-                        {countries[agencyData.country]}
+                        {agencyData?.country !== undefined ? countries[agencyData.country] : 'Wybierz kraj'}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {countriesVisible ? <div className="datepickerDropdown noscroll">
@@ -60,7 +60,7 @@ const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setN
             NIP
             <button className="phoneNumberBtn" onClick={(e) => { e.stopPropagation();
             setNipCountriesVisible(!nipCountriesVisible); }}>
-                {agencyData.nipCountry}
+                {agencyData.nipCountry ? agencyData.nipCountry : 'PL'}
             </button>
             {nipCountriesVisible ? <div className="datepickerDropdown datepickerDropdown--phoneNumbers noscroll">
                 {nipCountries?.map((item, index) => {
@@ -78,7 +78,7 @@ const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setN
         <div className="label label--phoneNumber">
             Numer telefonu
             <button className="phoneNumberBtn" onClick={(e) => { e.stopPropagation(); setPhoneNumbersCountriesVisible(!phoneNumbersCountriesVisible); }}>
-                {agencyData.phoneNumberCountry}
+                {agencyData.phoneNumberCountry ? agencyData.phoneNumberCountry : 'PL +48'}
             </button>
             {phoneNumbersCountriesVisible ? <div className="datepickerDropdown datepickerDropdown--phoneNumbers noscroll">
                 {phoneNumbers?.map((item, index) => {

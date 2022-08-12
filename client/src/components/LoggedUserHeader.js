@@ -7,6 +7,7 @@ import arrowDown from '../static/img/arrow-down.svg'
 import settings from "../static/settings";
 import {logout} from "../helpers/user";
 import logoutIcon from '../static/img/logout.svg'
+import userPlaceholder from '../static/img/user-placeholder.svg'
 
 const LoggedUserHeader = ({data, agency}) => {
     const [messages, setMessages] = useState([]);
@@ -56,7 +57,7 @@ const LoggedUserHeader = ({data, agency}) => {
                 <button className="loggedUserHeader__userBtn flex" onClick={() => { setUserMenuVisible(!userMenuVisible); }}>
                     <figure>
                         <img className="img"
-                             src={!agency ? `${settings.API_URL}/${data?.profileImage}` : `${settings.API_URL}/${data?.logo}`}
+                             src={data?.logo || data?.profileImage ? (!agency ? `${settings.API_URL}/${data?.profileImage}` : `${settings.API_URL}/${data?.logo}`) : userPlaceholder}
                              alt="zdjecie-profilowe" />
                     </figure>
                     <span className="loggedUserHeader__fullName">

@@ -33,4 +33,10 @@ export class User {
         default: false
     })
     active: boolean;
+
+    @Column()
+    lat: number;
+
+    @Column()
+    lng: number;
 }

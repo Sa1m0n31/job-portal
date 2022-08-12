@@ -1679,6 +1679,7 @@ input {
 }
 
 .userAccount__box {
+    width: 100%;
     box-shadow: 0px 0px 10px #0000000D;
     background: #fff;
     padding: 25px;
@@ -2479,6 +2480,7 @@ input {
     padding-bottom: 40px;
 }
 
+.agenciesList,
 .container--offer .userAccount__top,
 .container--agencyJobOffers .userAccount__top,
 .container--addOffer .userAccount__top {
@@ -2661,7 +2663,7 @@ input {
 .offerItem__figure {
     height: 125px;
     width: auto;
-    margin-right: 20px;
+    margin-right: 30px;
 }
 
 .offerItem__figure .img {
@@ -3052,6 +3054,7 @@ input {
     width: 200px;
     height: 200px;
     border: 25px solid #F9F9F9;
+    background: #fff;
     border-radius: 5px;
     overflow: hidden;
     position: absolute;
@@ -3583,4 +3586,129 @@ input {
 
 .noOffersFound {
     text-align: center;
+}
+
+.container--agenciesList {
+    min-height: 101vh;
+}
+
+.container--agenciesList .btn--filter {
+    font-size: 14px;
+    height: 40px;
+}
+
+.agenciesList {
+    flex-wrap: wrap;
+}
+
+.preview {
+    background: #fff;
+    box-shadow: 0px 0px 10px #0000000D;
+    width: 49%;
+    padding: 25px;
+    margin-bottom: 25px;
+}
+
+.preview__profileImage {
+    width: 175px;
+    height: 175px;
+    overflow: hidden;
+    border: 25px solid #F9F9F9;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.preview__fullName {
+    color: var(--primary);
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 15px;
+}
+
+.preview__data {
+    color: var(--grey);
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.preview__data .img {
+    width: 12px;
+    margin-right: 10px;
+}
+
+.preview__data--nip .img {
+    filter: invert(56%) sepia(0%) saturate(0%) hue-rotate(168deg) brightness(95%) contrast(95%);
+}
+
+.preview__buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    margin-left: 15px;
+}
+
+.preview__buttons .btn {
+    border-radius: 5px;
+    padding: 0 10px;
+    font-size: 12px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    margin-bottom: 10px;
+}
+
+.preview__buttons .btn .img {
+    width: 12px;
+    margin-right: 10px;
+}
+
+.agenciesList {
+    padding-top: 20px;
+}
+
+.preview__left {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.btn--filterSubmit .img {
+    width: 15px;
+    margin-left: 10px;
+}
+
+.modal--filters--agencies .modal__inner {
+    height: 440px;
+}
+
+.btn--bare {
+    background: transparent;
+    margin: 10px 0;
+}
+
+.btn--bare--selected {
+    font-weight: 700;
+}
+
+.btn--bare--marginTop {
+    margin: 20px 0 0;
+}
+
+.btn--bare--marginBottom {
+    margin-bottom: 30px;
+}
+
+.agenciesList > * > *,
+.agenciesList > * {
+    width: 100%;
+}
+
+.agenciesList .infinite-scroll-component {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }

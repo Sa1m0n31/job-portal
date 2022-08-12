@@ -28,4 +28,10 @@ export class Agency {
         default: false
     })
     accepted: boolean;
+
+    @Column()
+    lat: number;
+
+    @Column()
+    lng: number;
 }

@@ -80,7 +80,7 @@ const AgencyForm2 = ({removeLogo, handleFileUpload, removeGalleryImage}) => {
             <label className="label label--rel">
                 Opis firmy
                 <span className="letterCounter">
-                {agencyData.description.length} / 1000
+                {agencyData?.description?.length} / 1000
             </span>
                 <textarea className="input input--textarea input--situation"
                           value={agencyData.description}

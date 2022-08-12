@@ -16,6 +16,7 @@ import downloadIcon from '../static/img/download-white.svg'
 import Gallery from "../components/Gallery";
 import backArrow from '../static/img/back-arrow-grey.svg'
 import magnifier from '../static/img/magnifier.svg'
+import userPlaceholder from '../static/img/user-placeholder.svg'
 
 const SingleOffer = ({data}) => {
     const [offer, setOffer] = useState({});
@@ -71,7 +72,7 @@ const SingleOffer = ({data}) => {
                 <div className="jobOffer__mobileSection">
                     <div className="jobOffer__topRow flex">
                         <figure className="jobOffer__profileImageWrapper">
-                            <img className="img" src={offer.a_id ? `${settings.API_URL}/${JSON.parse(offer.a_data).logo}` : ''} alt="logo" />
+                            <img className="img" src={offer.a_id && JSON.parse(offer.a_data).logo ? `${settings.API_URL}/${JSON.parse(offer.a_data).logo}` : userPlaceholder} alt="logo" />
                         </figure>
                         <div className="jobOffer__topRow__content">
                             <h1 className="jobOffer__title">

@@ -6,11 +6,9 @@ import upArrow from '../static/img/input-up-arrow.svg'
 import downArrow from '../static/img/input-down-arrow.svg'
 
 const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, setBikeCurrencyVisible, setTransportCostReturnVisible}) => {
-    const { setStep, setSubstep, agencyData, handleChange, carVisible,
+    const { setSubstep, agencyData, handleChange, carVisible,
         carCurrencyVisible, bikeVisible, bikeCurrencyVisible, transportCostReturnVisible
     } = useContext(AgencyDataContext);
-
-
 
     return <>
         <div className="userForm userForm--4a userForm--4a--agency userForm--4b--agency">

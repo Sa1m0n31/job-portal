@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import {JwtStrategy} from "../common/jwt.strategy";
 import {MulterModule} from "@nestjs/platform-express";
 import {Application} from "../entities/applications.entity";
+import {HttpModule} from "@nestjs/axios";
 
 @Module({
   imports: [
@@ -18,7 +19,8 @@ import {Application} from "../entities/applications.entity";
       }),
       MulterModule.register({
           dest: './uploads/user',
-      })
+      }),
+      HttpModule
   ],
   controllers: [UserController],
   providers: [UserService, JwtStrategy]

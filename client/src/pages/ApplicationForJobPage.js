@@ -13,6 +13,7 @@ import arrow from '../static/img/small-white-arrow.svg'
 import {submitApplication} from "../helpers/offer";
 import {isElementInArray} from "../helpers/others";
 import checkIcon from '../static/img/green-check.svg'
+import userPlaceholder from '../static/img/user-placeholder.svg'
 
 const ApplicationForJobPage = ({data}) => {
     const [offer, setOffer] = useState('');
@@ -197,7 +198,7 @@ const ApplicationForJobPage = ({data}) => {
         <main className="application flex" ref={applicationRef}>
             <div className="application__section">
                 <figure className="application__profileImage">
-                    <img className="img" src={`${settings.API_URL}/${agency.logo}`} alt="logo" />
+                    <img className="img" src={agency?.logo ? `${settings.API_URL}/${agency.logo}` : userPlaceholder} alt="logo" />
                 </figure>
 
                 <h2 className="application__header application__header--first">

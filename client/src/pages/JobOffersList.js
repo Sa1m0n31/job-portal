@@ -12,6 +12,7 @@ import {getUserApplications} from "../helpers/user";
 import {isElementInArray} from "../helpers/others";
 import JobOffersFilters from "../components/JobOffersFilters";
 import InfiniteScroll from 'react-infinite-scroll-component';
+import userPlaceholder from '../static/img/user-placeholder.svg'
 
 const JobOfferList = ({data}) => {
     const [offers, setOffers] = useState([]);
@@ -247,7 +248,7 @@ const JobOfferList = ({data}) => {
                 </span>
                     <div className="offerItem__left">
                         <figure className="offerItem__figure">
-                            <img className="img" src={item.a_data ? `${settings.API_URL}/${JSON.parse(item.a_data).logo}` : `${settings.API_URL}/${item?.a_logo}`} alt="zdjecie-profilowe" />
+                            <img className="img" src={JSON.parse(item.a_data).logo ? `${settings.API_URL}/${JSON.parse(item.a_data).logo}` : userPlaceholder} alt="zdjecie-profilowe" />
                         </figure>
                         <div className="offerItem__mainInfo">
                             <h2 className="offerItem__title">
@@ -309,7 +310,7 @@ const JobOfferList = ({data}) => {
                 </span>
                     <div className="offerItem__left">
                         <figure className="offerItem__figure">
-                            <img className="img" src={item.a_data ? `${settings.API_URL}/${JSON.parse(item.a_data).logo}` : `${settings.API_URL}/${item?.a_logo}`} alt="zdjecie-profilowe" />
+                            <img className="img" src={JSON.parse(item.a_data).logo ? `${settings.API_URL}/${JSON.parse(item.a_data).logo}` : userPlaceholder} alt="zdjecie-profilowe" />
                         </figure>
                         <div className="offerItem__mainInfo">
                             <h2 className="offerItem__title">

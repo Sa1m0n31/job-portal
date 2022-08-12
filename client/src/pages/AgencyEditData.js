@@ -67,7 +67,7 @@ const AgencyEditData = () => {
         bike: null,
         bikePrice: null,
         bikePriceCurrency: 0,
-        costReturnWithOwnTransport: null,
+        costReturnWithOwnTransport: 0,
         // 4.3 Employees info
         pensionContributions: null,
         holidayAllowanceType: null,
@@ -125,17 +125,19 @@ const AgencyEditData = () => {
             .then((res) => {
                 if(res?.status === 200) {
                     const data = JSON.parse(res.data.data);
-                    setAgencyData({
-                        ...data,
-                        logo: null,
-                        logoUrl: data.logo ? `${settings.API_URL}/${data.logo}` : null,
-                        gallery: data.gallery ? data.gallery?.map((item) => {
-                            return {
-                                url: item,
-                                file: null
-                            }
-                        }) : []
-                    });
+                    if(data.name) {
+                        setAgencyData({
+                            ...data,
+                            logo: null,
+                            logoUrl: data.logo ? `${settings.API_URL}/${data.logo}` : null,
+                            gallery: data.gallery ? data.gallery?.map((item) => {
+                                return {
+                                    url: item,
+                                    file: null
+                                }
+                            }) : []
+                        });
+                    }
                 }
             });
     }, []);

@@ -78,6 +78,18 @@ function App() {
       <Route path="/edycja-oferty-pracy">
         <AgencyWrapper page={5} />
       </Route>
+      <Route path="/dodaj-blyskawiczna-oferte-pracy">
+        <AgencyWrapper page={6} />
+      </Route>
+      <Route path="/moje-blyskawiczne-ofery-pracy">
+        <AgencyWrapper page={7} />
+      </Route>
+      <Route path="/edycja-blyskawicznej-ofery-pracy">
+        <AgencyWrapper page={8} />
+      </Route>
+      <Route path="/kandydaci">
+        <AgencyWrapper page={9} />
+      </Route>
     </Router>
   </LanguageContext.Provider>
 }

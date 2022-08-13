@@ -3684,6 +3684,16 @@ input {
     height: 440px;
 }
 
+.modal--filters--users .modal__inner {
+    height: 920px;
+    padding: 40px;
+}
+
+.modal--filters--users .modal__inner .modal__inner__closeBtn {
+    top: 40px;
+    right: 40px;
+}
+
 .btn--bare {
     background: transparent;
     margin: 10px 0;
@@ -3711,4 +3721,47 @@ input {
     justify-content: space-between;
     align-items: flex-start;
     flex-wrap: wrap;
+}
+
+.container--agenciesList .noOffersFound {
+    padding-top: 50px;
+}
+
+div[data-testid=circles-loading] {
+    justify-content: center;
+    align-items: center;
+}
+
+.preview__buttons--mobile,
+.userAccount__top--mobile {
+    display: none;
+}
+
+.preview__buttons__section {
+    color: var(--grey);
+    font-size: 14px;
+}
+
+.preview__buttons__section--flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.preview__buttons__section--flex span {
+    text-align: right;
+    padding-bottom: 10px;
+}
+
+.preview__buttons__section--flex a:last-of-type {
+    margin-left: 10px;
+}
+
+.preview__buttons__section:first-of-type {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-end;
 }

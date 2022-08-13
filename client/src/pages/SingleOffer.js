@@ -41,7 +41,7 @@ const SingleOffer = ({data}) => {
         }
     }, []);
 
-    return offer ? <div className="container container--user container--offer">
+    return offer?.o_id ? <div className="container container--user container--offer">
             <LoggedUserHeader data={data}  />
 
             {galleryIndex !== -1 ? <Gallery images={offer.a_data ? JSON.parse(offer.a_data).gallery : offer}

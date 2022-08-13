@@ -67,4 +67,14 @@ export class UserController {
     getUserApplications(@Param('email') email) {
         return this.userService.getUserApplications(email);
     }
+
+    @Get('/getAll/:page')
+    getAll(@Param('page') page) {
+        return this.userService.getAllUsers(page);
+    }
+
+    @Get('/getAllVisible/:page')
+    getAllVisible(@Param('page') page) {
+        return this.userService.getAllVisibleUsers(page);
+    }
 }

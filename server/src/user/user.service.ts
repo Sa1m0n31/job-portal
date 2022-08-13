@@ -212,5 +212,30 @@ export class UserService {
         const user = await this.userRepository.findOneBy({email});
         return this.applicationRepository.findBy({user: user.id});
     }
+
+    async getAllUsers(page) {
+        const perPage = parseInt(process.env.OFFERS_PER_PAGE);
+        return this.userRepository
+            .createQueryBuilder()
+            .where({
+                active: true
+            })
+            .limit(perPage)
+            .offset((page-1) * perPage)
+            .getMany();
+    }
+
+    async getAllVisibleUsers(page) {
+        const perPage = parseInt(process.env.OFFERS_PER_PAGE);
+        return this.userRepository
+            .createQueryBuilder()
+            .where({
+                active: true,
+                profileVisible: true
+            })
+            .limit(perPage)
+            .offset((page-1) * perPage)
+            .getMany();
+    }
 }
 

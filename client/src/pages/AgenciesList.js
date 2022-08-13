@@ -6,7 +6,7 @@ import AgencyPreview from "../components/AgencyPreview";
 import Loader from "../components/Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import AgenciesFilters from "../components/AgenciesFilters";
-import {filterOffers, getActiveJobOffers} from "../helpers/offer";
+import filterIcon from '../static/img/filter-results-button.svg'
 
 const AgenciesList = ({data}) => {
     const [agencies, setAgencies] = useState([]);
@@ -121,6 +121,15 @@ const AgenciesList = ({data}) => {
                 <img className="img" src={magnifier} alt="powiększ" />
             </button>
         </aside>
+
+        <button className="userAccount__top--mobile" onClick={() => { setFiltersVisible(true); }}>
+            Filtry wyszukiwania
+            <img className="img" src={filterIcon} alt="filtry" />
+        </button>
+
+        {filtersActive && filteredAgencies?.length === 0 && !hasMore ? <h3 className="noOffersFound">
+            Nie znaleziono pracodawców o podanych kryteriach
+        </h3> : ''}
 
         <main className="agenciesList flex">
             {!filtersActive ? <InfiniteScroll

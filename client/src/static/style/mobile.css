@@ -225,6 +225,18 @@
         flex-direction: column;
     }
 
+    .preview--user {
+        width: 100%;
+    }
+
+    .preview__buttons__section {
+        font-size: 12px;
+    }
+
+    .container--agenciesList .label--date--address > .flex {
+        flex-direction: row
+    }
+
     .preview__profileImage {
         flex-basis: 100%;
         max-width: 120px;
@@ -362,6 +374,11 @@
     .label--date--address > .flex > * > *
     {
         width: 100%;
+    }
+
+    .container--agenciesList .label--date--address > .flex > *,
+    .container--agenciesList .label--date--address > .flex > * > * {
+        width: 200px;
     }
 
     .userForm--4a--agency .label--date--address > .flex {
@@ -572,6 +589,74 @@
     .jobOffer__pointsRow .jobOffer__point:first-of-type,
     .editData__left {
         display: none;
+    }
+
+    .userAccount__top--mobile {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+        margin: 100px auto 20px;
+        max-width: 400px;
+        padding: 10px;
+        border-radius: 5px;
+        background: #fff;
+        border: 1px solid #DBDBDB;
+        font-size: 13px;
+    }
+
+    .userAccount__top--mobile .img {
+        width: 15px;
+        height: auto;
+    }
+
+    .preview {
+        border: 1px solid #C1C1C1;
+        box-shadow: none;
+        flex-direction: column;
+        max-width: 400px;
+        margin: 0 auto 20px;
+        border-radius: 5px;
+        padding: 15px;
+    }
+
+    .preview__left {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .preview__profileImage {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .preview__fullName {
+        text-align: center;
+    }
+
+    .preview__buttons:not(.preview__buttons--mobile) {
+        display: none;
+    }
+
+    .preview__buttons--mobile {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-left: 0;
+        margin-bottom: 20px;
+        border-bottom: 1px solid #C1C1C1;
+    }
+
+    .preview__buttons .btn {
+        background: var(--primary);
+        color: #fff;
+        margin: 0 5px 20px;
+    }
+
+    .preview__buttons .btn .img {
+        filter: brightness(0) invert(1);
     }
 
     .application__profileImage {
@@ -1251,6 +1336,58 @@
 @media(max-width: 768px) {
     .editData__formWrapper__header {
         font-size: 18px;
+    }
+
+    .noOffersFound {
+        font-size: 15px;
+        max-width: 90%;
+        margin: auto;
+    }
+
+    .modal--filters .modal__inner {
+        padding: 15px;
+        width: 300px;
+        height: auto;
+    }
+
+    .btn--bare--marginTop {
+        margin-top: 12px;
+    }
+
+    .btn--filterSubmit {
+        height: 35px;
+        font-size: 13px;
+    }
+
+    .btn--filterSubmit .img {
+        display: none;
+    }
+
+    .container--agenciesList .modal--filters .label {
+        margin-bottom: 10px;
+    }
+
+    .btn--bare {
+        font-size: 12px;
+    }
+
+    .container--agenciesList .label--date--address > .flex > *, .container--agenciesList .label--date--address > .flex > * > * {
+        width: 160px;
+    }
+
+    .container--agenciesList .label--date--address > .flex {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .modal--filters .modal__inner__closeBtn {
+        max-width: 20px;
+        top: 0;
+        right: 10px;
+    }
+
+    .modal--filters .modal__header {
+        font-size: 14px;
     }
 
     .userAccount__top--offersInfo .label--date__input > *,

@@ -126,8 +126,6 @@ export class AgencyService {
     }
 
     async updateAgency(data, files) {
-        console.log(files);
-
         // Get current gallery
         let currentGallery = [];
         const oldAgencyData = await this.agencyRepository.findOneBy({email: data.email});
@@ -140,7 +138,6 @@ export class AgencyService {
             ...agencyData,
             logo: files.logo ? files.logo[0].path : agencyData.logoUrl,
             gallery: files.gallery ? Array.from(files.gallery).map((item: any) => {
-                console.log(item);
                 return item.path ? item.path : (item?.url ? item.url : item);
             }).concat(currentGallery) : agencyData.gallery?.map((item) => (item.url))
         }
@@ -162,8 +159,6 @@ export class AgencyService {
     }
 
     async getAllApprovedAgencies(page) {
-        console.log('HERE');
-        console.log(page);
         const perPage = parseInt(process.env.OFFERS_PER_PAGE);
         return this.agencyRepository.createQueryBuilder()
             .where({
@@ -245,8 +240,6 @@ export class AgencyService {
         ];
         const offersPerPage = parseInt(process.env.OFFERS_PER_PAGE);
 
-        console.log(country, distance, city, page);
-
         if(city) {
             // Get all agencies
             const allAgencies = await this.agencyRepository.findBy({
@@ -281,7 +274,6 @@ export class AgencyService {
                     const destinationLat = agency.lat;
                     const destinationLng = agency.lng;
                     const distanceResult = calculateDistance(lat, destinationLat, lng, destinationLng);
-                    console.log(distanceResult);
                     agenciesToReturn.push({
                         ...agency,
                         distance: distanceResult
@@ -326,7 +318,6 @@ export class AgencyService {
 
             const startIndex = offersPerPage * (page-1);
             return allAgencies.filter((item) => {
-                console.log(JSON.parse(item.data)?.country, country);
                 return JSON.parse(item.data)?.country === country;
             }).slice(startIndex, startIndex + offersPerPage);
         }

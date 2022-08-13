@@ -23,18 +23,31 @@ const LoggedUserHeader = ({data, agency}) => {
             </a>
 
             <div className="loggedUserHeader__menu flex">
-                <a className="loggedUserHeader__menu__item loggedUserHeader__menu__item--blue"
-                   href="/oferty-pracy">
-                    Aktywne oferty pracy
-                </a>
-                <a className="loggedUserHeader__menu__item loggedUserHeader__menu__item--red"
-                   href="/oferty-blyskawiczne">
-                    Oferty błyskawiczne
-                </a>
-                {agency ? <a className="loggedUserHeader__menu__item"
-                             href="/moje-oferty-pracy">
-                    Moje oferty
-                </a> : <a className="loggedUserHeader__menu__item"
+                {!agency ? <>
+                    <a className="loggedUserHeader__menu__item loggedUserHeader__menu__item--blue"
+                       href="/oferty-pracy">
+                        Aktywne oferty pracy
+                    </a>
+                    <a className="loggedUserHeader__menu__item loggedUserHeader__menu__item--red"
+                       href="/oferty-blyskawiczne">
+                        Oferty błyskawiczne
+                    </a>
+                </> : <>
+                    <a className="loggedUserHeader__menu__item loggedUserHeader__menu__item--blue"
+                       href="/oferty-pracy">
+                        Zgłoszenia
+                    </a>
+                </>}
+                {agency ? <>
+                    <a className="loggedUserHeader__menu__item"
+                       href="/moje-oferty-pracy">
+                        Moje oferty
+                    </a>
+                    <a className="loggedUserHeader__menu__item"
+                       href="/kandydaci">
+                        Kandydaci
+                    </a>
+                </> : <a className="loggedUserHeader__menu__item"
                           href="/pracodawcy">
                     Pracodawcy
                 </a>}
@@ -77,7 +90,7 @@ const LoggedUserHeader = ({data, agency}) => {
                             Dodaj błyskawiczną ofertę pracy
                         </a>
                     </> : ''}
-                    <a href={agency ? "/konto-pracodawcy" : "/konto-pracownika"}
+                    <a href={agency ? "/konto-agencji" : "/konto-pracownika"}
                        className="loggedUserHeader__userDropdownMenu__item">
                         Mój profil
                     </a>

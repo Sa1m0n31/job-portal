@@ -95,6 +95,23 @@ const logout = () => {
     window.location = '/';
 }
 
+const getAllUsers = (page) => {
+    return axios.get(`/user/getAll/${page}`);
+}
+
+const getAllVisibleUsers = (page) => {
+    return axios.get(`/user/getAllVisible/${page}`);
+}
+
+const filterUsers = (category, country, city, distance, salaryType, salaryFrom, salaryTo,
+                     salaryCurrency, ownTransport, bsnNumber, languages, drivingLicences, page) => {
+    return axios.post(`/user/filter`, {
+        category, country, city, distance, salaryType, salaryFrom, salaryTo,
+        salaryCurrency, ownTransport, bsnNumber, languages, drivingLicences, page
+    });
+}
+
 export { registerUser, verifyUser, loginUser, authUser, updateUser, getUserData, logout,
-    toggleUserVisibility, toggleUserWorking, getUserApplications
+    toggleUserVisibility, toggleUserWorking, getUserApplications, getAllUsers, getAllVisibleUsers,
+    filterUsers
 }

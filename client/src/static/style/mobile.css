@@ -591,6 +591,10 @@
         display: none;
     }
 
+    .container--userProfile .userAccount__box__right {
+        min-width: 100%;
+    }
+
     .userAccount__top--mobile {
         display: flex;
         justify-content: space-between;
@@ -1076,7 +1080,7 @@
     .userAccount__box__fullName {
         font-weight: 500;
         order: -2;
-        margin-bottom: 0;
+        margin-bottom: 15px;
     }
 
     .userAccount__box__left figure {

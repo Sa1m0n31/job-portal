@@ -158,6 +158,10 @@ export class AgencyService {
         return this.agencyRepository.findOneBy({email});
     }
 
+    async getAgencyById(id) {
+        return this.agencyRepository.findOneBy({id});
+    }
+
     async getAllApprovedAgencies(page) {
         const perPage = parseInt(process.env.OFFERS_PER_PAGE);
         return this.agencyRepository.createQueryBuilder()

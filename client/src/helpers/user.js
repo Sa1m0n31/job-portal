@@ -62,6 +62,14 @@ const getUserData = () => {
     });
 }
 
+const getUserById = (id) => {
+    return axios.get(`/user/getUserById/${id}`, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
+}
+
 const toggleUserVisibility = () => {
     return axios.patch(`/user/toggleUserVisibility/${getLoggedUserEmail()}`, {
         headers: {
@@ -113,5 +121,5 @@ const filterUsers = (category, country, city, distance, salaryType, salaryFrom, 
 
 export { registerUser, verifyUser, loginUser, authUser, updateUser, getUserData, logout,
     toggleUserVisibility, toggleUserWorking, getUserApplications, getAllUsers, getAllVisibleUsers,
-    filterUsers
+    filterUsers, getUserById
 }

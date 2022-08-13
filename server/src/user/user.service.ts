@@ -11,6 +11,7 @@ import {JwtService} from "@nestjs/jwt";
 import {Application} from '../entities/applications.entity'
 import {HttpService} from "@nestjs/axios";
 import {lastValueFrom} from "rxjs";
+import {calculateDistance} from "../common/calculateDistance";
 
 @Injectable()
 export class UserService {
@@ -188,6 +189,10 @@ export class UserService {
         return this.userRepository.findOneBy({email});
     }
 
+    async getUserById(id) {
+        return this.userRepository.findOneBy({id});
+    }
+
     async toggleUserVisibility(email: string) {
         const user = await this.userRepository.findOneBy({email});
         return this.userRepository.createQueryBuilder()
@@ -236,6 +241,147 @@ export class UserService {
             .limit(perPage)
             .offset((page-1) * perPage)
             .getMany();
+    }
+
+    isElementInArray(el, arr) {
+        if(arr) {
+            return arr.findIndex((item) => {
+                return item === el
+            }) !== -1;
+        }
+        else {
+            return false;
+        }
+    }
+
+    isOneOfElementsInArray(elements, arr) {
+        if(arr?.length) {
+            return arr.findIndex((item) => {
+                return this.isElementInArray(item, elements);
+            }) !== -1;
+        }
+        else {
+            return false;
+        }
+    }
+
+    async filter(body) {
+        let { category, country, city, distance, salaryType, salaryFrom, salaryTo,
+            salaryCurrency, ownTransport, bsnNumber, languages, drivingLicences, page } = body;
+
+        const distances = [
+            100, 50, 40, 30, 20, 10, 5
+        ];
+        const perPage = parseInt(process.env.OFFERS_PER_PAGE);
+
+        let users = await this.userRepository.findBy({
+            active: true,
+            profileVisible: true
+        });
+
+        if(category !== -1) {
+            console.log(users.length);
+           users = users.filter((item) => {
+               console.log(category, JSON.parse(item.data).categories);
+               return this.isElementInArray(category, JSON.parse(item.data).categories);
+           });
+        }
+
+        if(country !== -1) {
+            users = users.filter((item) => {
+                return JSON.parse(item.data).country === country;
+            });
+        }
+
+        if(city) {
+            // Get distance of each user
+            const maxDistance = distances[distance];
+            let usersWithDistances = [];
+
+            const apiResponse = await lastValueFrom(this.httpService.get(encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${city}`)));
+            const apiData = apiResponse.data.data;
+
+            if(apiData?.length) {
+                const lat = apiData[0].latitude;
+                const lng = apiData[0].longitude;
+
+                for (const user of users) {
+                    const destinationLat = user.lat;
+                    const destinationLng = user.lng;
+                    if(destinationLat && destinationLng) {
+                        const distanceResult = calculateDistance(lat, destinationLat, lng, destinationLng);
+                        usersWithDistances.push({
+                            ...user,
+                            distance: distanceResult
+                        });
+                    }
+                }
+
+                console.log(usersWithDistances?.map((item) => (item.distance)));
+
+                // Filter - get only users within range send in filter
+                usersWithDistances = usersWithDistances.filter((item) => (item.distance <= maxDistance));
+
+                // Sort them by distance from city send in filter
+                usersWithDistances.sort((a, b) => {
+                    if(a.distance < b.distance) return 1;
+                    else if(a.distance > b.distance) return -1;
+                    else {
+                        if(a.id < b.id) return 1;
+                        else return -1;
+                    }
+                });
+
+                users = usersWithDistances;
+            }
+        }
+
+        if(salaryType !== -1 && (salaryFrom || salaryTo)) {
+            if(!salaryFrom) salaryFrom = 0;
+            if(!salaryTo) salaryTo = 999999;
+
+            users = users.filter((item) => {
+                const data = JSON.parse(item.data);
+                if(salaryType === parseInt(data.salaryType)) {
+                    return (parseInt(data.salaryFrom) >= salaryFrom) && (parseInt(data.salaryTo) <= salaryTo) && salaryCurrency === data.salaryCurrency;
+                }
+                else if(salaryType === 1 && data.salaryType === 0) {
+                    return (parseInt(data.salaryFrom) >= salaryFrom * 4) || (parseInt(data.salaryTo) <= salaryTo * 4);
+                }
+                else {
+                    return (parseInt(data.salaryFrom) * 4 >= salaryFrom) || (parseInt(data.salaryTo) * 4 <= salaryTo);
+                }
+            });
+        }
+
+        if(ownTransport !== null) {
+            users = users.filter((item) => {
+                return JSON.parse(item.data).ownTransport === ownTransport;
+            });
+        }
+
+        if(bsnNumber !== null) {
+            users = users.filter((item) => {
+                return JSON.parse(item.data).hasBsnNumber === bsnNumber;
+            });
+        }
+
+        if(languages?.length) {
+            users = users.filter((item) => {
+                const userLanguages = JSON.parse(item.data).languages?.map((item) => (item.language));
+                return this.isOneOfElementsInArray(languages, userLanguages);
+            });
+        }
+
+        if(drivingLicences?.length) {
+            users = users.filter((item) => {
+                const userDrivingLicences = JSON.parse(item.data).drivingLicenceCategories;
+                return this.isOneOfElementsInArray(drivingLicences, userDrivingLicences);
+            });
+        }
+
+        const startIndex = perPage * (page-1);
+        return users.slice(startIndex, startIndex + perPage);
     }
 }
 

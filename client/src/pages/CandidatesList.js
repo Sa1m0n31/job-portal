@@ -11,6 +11,7 @@ import AgencyPreview from "../components/AgencyPreview";
 import UserPreview from "../components/UserPreview";
 import AgenciesFilters from "../components/AgenciesFilters";
 import UsersFilters from "../components/UsersFilters";
+import {currencies} from "../static/content";
 
 const CandidatesList = ({data}) => {
     const [users, setUsers] = useState([]);
@@ -70,7 +71,7 @@ const CandidatesList = ({data}) => {
     const filterUsersWrapper = async () => {
         if(page > 1) {
             const newUsersResponse = await filterUsers(category, country, city, distance, salaryType, salaryFrom, salaryTo,
-                salaryCurrency, ownTransport, bsnNumber, languages, drivingLicences, page);
+                currencies[salaryCurrency], ownTransport, bsnNumber, languages, drivingLicences, page);
             const newUsers = newUsersResponse.data;
 
             if(newUsers.length) {
@@ -90,9 +91,8 @@ const CandidatesList = ({data}) => {
         setFiltersActive(true);
 
         filterUsers(category, country, city, distance, salaryType, salaryFrom, salaryTo,
-            salaryCurrency, ownTransport, bsnNumber, languages, drivingLicences, 1)
+            currencies[salaryCurrency], ownTransport, bsnNumber, languages, drivingLicences, 1)
             .then(async (res) => {
-                console.log(res);
                 if(res?.status === 201) {
                     if(res?.data?.length) {
                         setFilteredUsers(res?.data);

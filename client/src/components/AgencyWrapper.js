@@ -10,6 +10,7 @@ import AddJobOffer from "../pages/AddJobOffer";
 import MyJobOffers from "../pages/MyJobOffers";
 import EditJobOffer from "../pages/EditJobOffer";
 import CandidatesList from "../pages/CandidatesList";
+import CandidateProfile from "../pages/CandidateProfile";
 
 const AgencyWrapper = ({page}) => {
     const [render, setRender] = useState(null);
@@ -41,6 +42,9 @@ const AgencyWrapper = ({page}) => {
                                             break;
                                         case 9:
                                             setRender(<CandidatesList data={data} />);
+                                            break;
+                                        case 10:
+                                            setRender(<CandidateProfile data={data} />);
                                             break;
                                         default:
                                             window.location = '/';

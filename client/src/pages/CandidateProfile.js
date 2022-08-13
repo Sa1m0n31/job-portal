@@ -1,30 +1,51 @@
 import React, {useEffect, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
-import penIcon from '../static/img/pen-edit-account.svg'
+import {categories, countries, drivingLicences, flags, languages, noInfo} from "../static/content";
 import settings from "../static/settings";
-import locationIcon from '../static/img/location.svg'
-import whatsAppIcon from '../static/img/whatsapp.svg'
-import suitcaseIcon from '../static/img/suitcase-grey.svg'
-import phoneIcon from '../static/img/phone-grey.svg'
-import messageIcon from '../static/img/message-grey.svg'
-import downloadWhite from '../static/img/download-white.svg'
-import downloadIcon from '../static/img/download-grey.svg'
-import suitcaseBlue from '../static/img/suitcase-blue.svg'
-import fileIcon from '../static/img/file-icon.svg'
-import graduateIcon from '../static/img/students-cap.svg'
-import Switch from "react-switch";
-import { Tooltip } from 'react-tippy';
-import 'react-whatsapp-widget/dist/index.css';
-import {toggleUserVisibility, toggleUserWorking} from "../helpers/user";
-import {categories, countries, drivingLicences, flags, languageLevels, languages} from "../static/content";
-import {getDate} from "../helpers/others";
-import checkIcon from '../static/img/check-small.svg'
-import starIcon from '../static/img/star.svg'
-import settingsCircle from '../static/img/settings-circle.svg'
+import locationIcon from "../static/img/location.svg";
+import suitcaseIcon from "../static/img/suitcase-grey.svg";
+import phoneIcon from "../static/img/phone-grey.svg";
+import messageIcon from "../static/img/message-grey.svg";
+import whatsAppIcon from "../static/img/whatsapp.svg";
+import downloadWhite from "../static/img/download-white.svg";
+import backIcon from '../static/img/back-arrow-grey.svg'
+import {getDate, getLoggedUserEmail} from "../helpers/others";
+import graduateIcon from "../static/img/students-cap.svg";
+import suitcaseBlue from "../static/img/suitcase-blue.svg";
+import checkIcon from "../static/img/check-small.svg";
+import starIcon from "../static/img/star.svg";
+import fileIcon from "../static/img/file-icon.svg";
+import downloadIcon from "../static/img/download-grey.svg";
+import {getUserById} from "../helpers/user";
+import Loader from "../components/Loader";
+import userPlaceholder from '../static/img/user-placeholder.svg'
 
-const UserHomepage = ({data, visible, working}) => {
-    const [profileVisible, setProfileVisible] = useState(visible);
-    const [userWorking, setUserWorking] = useState(working);
+const CandidateProfile = ({data}) => {
+    const [user, setUser] = useState(null);
+    const [id, setId] = useState(null);
+    const [email, setEmail] = useState('');
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        if(id) {
+            setId(parseInt(id));
+            getUserById(id)
+                .then((res) => {
+                    console.log(res);
+                    if(res?.status === 200) {
+                        setEmail(res?.data?.email);
+                        setUser(JSON.parse(res?.data?.data));
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+        else {
+            window.location = '/';
+        }
+    }, []);
 
     useEffect(() => {
         if(window.innerWidth >= 996) {
@@ -50,65 +71,69 @@ const UserHomepage = ({data, visible, working}) => {
                 item.style.height = `${maxHeight}px`;
             });
         }
-    }, [data]);
+    }, [user]);
 
     const downloadCV = () => {
 
     }
 
-    const changeProfileVisibility = () => {
-        setProfileVisible(!profileVisible);
-        toggleUserVisibility();
-    }
+    return user ? <div className="container container--user container--userProfile">
+        <LoggedUserHeader data={data} agency={true} />
 
-    const changeProfileWorking = () => {
-        setUserWorking(!userWorking);
-        toggleUserWorking();
-    }
-
-    return <div className="container container--user">
-        <LoggedUserHeader data={data} />
         <div className="userAccount">
             <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
-                    Zalogowany w: <span className="bold">Strefa Pracownika</span>
+                    Zalogowany w: <span className="bold">Strefa Pracodawcy</span>
                 </span>
-                <a href="/edycja-danych"
+                <a href="javascript: history.go(-1)"
                    className="userAccount__top__btn">
-                    Edytuj profil
-                    <img className="img" src={penIcon} alt="edytuj" />
+                    <img className="img" src={backIcon} alt="edytuj" />
+                    Powrót
                 </a>
             </aside>
             <main className="userAccount__box userAccount__box__top userAccount__box--100 flex">
                 <div className="userAccount__box__left">
-                    <a href="/edycja-danych" className="mobileSettingsBtn">
-                        <img className="img" src={settingsCircle} alt="ustawienia" />
-                    </a>
                     <figure>
-                        <img className="flag flag--mobile" src={flags[data?.country]} alt="flaga" />
-                        <img className="img" src={`${settings.API_URL}/${data?.profileImage}`} alt="zdjecie-profilowe" />
+                        {user?.country ? <img className="flag flag--mobile" src={flags[user?.country]} alt="flaga" /> : ''}
+                        <img className="img" src={user?.profileImage ? `${settings.API_URL}/${user?.profileImage}` : userPlaceholder} alt="zdjecie-profilowe" />
                     </figure>
                     <div className="userAccount__box__mainData">
                         <h1 className="userAccount__box__fullName">
-                            {data?.firstName} {data?.lastName}
-                            <img className="flag" src={flags[data?.country]} alt="flaga" />
+                            {user?.firstName ? `${user.firstName} ${user?.lastName}` : 'Anonimowy'}
+                            {user?.country ? <img className="flag" src={flags[user?.country]} alt="flaga" /> : ''}
                         </h1>
                         <p className="userAccount__box__mainData__text">
                             <img className="img" src={locationIcon} alt="lokalizacja" />
-                            {data?.city}
+                            {user?.city ? user?.city : noInfo}
                         </p>
                         <p className="userAccount__box__mainData__text">
                             <img className="img" src={suitcaseIcon} alt="branża" />
-                            {categories[data?.categories[0]]}
+                            {user?.categories ? categories[user?.categories[0]] : noInfo}
                         </p>
                         <p className="userAccount__box__mainData__text">
                             <img className="img" src={phoneIcon} alt="numer-telefonu" />
-                            {data?.phoneNumberCountry} {data?.phoneNumber}
+                            {user?.phoneNumber ? `${user?.phoneNumberCountry} ${user?.phoneNumber}` : noInfo}
                         </p>
                         <p className="userAccount__box__mainData__text">
                             <img className="img" src={messageIcon} alt="adres-e-mail" />
-                            {data?.email}
+                            {email}
                         </p>
+                        <div className="userAccount__box__mainData__buttons">
+                            {user?.phoneNumber && user?.phoneNumberCountry ? <a
+                                href={`https://wa.me/${user?.phoneNumberCountry?.split('+')[1]}${user?.phoneNumber}`}
+                                className="btn btn--whatsApp"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <img className="img" src={whatsAppIcon} alt="napisz-wiadomosc" />
+                                WhatsApp
+                            </a> : ''}
+                            <a href={`/napisz-wiadomosc?kandydat=${id}`}
+                               className="btn btn--writeMessage">
+                                <img className="img" src={messageIcon} alt="napisz-wiadomosc" />
+                                Wiadomość
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -121,45 +146,6 @@ const UserHomepage = ({data, visible, working}) => {
                             Pobierz CV
                         </button>
                     </label>
-
-                    <div className="userAccount__box__right__bottom">
-                        <div className="userAccount__box__right__item">
-                            <Tooltip
-                                html={<span className="tooltipVisible">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam molestie ipsum metus. Nullam vitae turpis tellus. Nullam vel gravida nunc, et hendrerit dolor. Integer posuere nisl eu porta cursus.
-                                </span>}
-                                position="left">
-                                <span className="tooltip">
-                                    ?
-                                </span>
-                            </Tooltip>
-
-                            Widoczność profilu:
-                            <Switch onChange={() => { changeProfileVisibility(); }}
-                                    offColor="#CB4949"
-                                    width={window.innerWidth > 996 ? 56 : 28}
-                                    height={window.innerWidth > 996 ? 28 : 14}
-                                    checked={profileVisible} />
-                        </div>
-                        <div className="userAccount__box__right__item">
-                            <Tooltip
-                                html={<span className="tooltipVisible">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam molestie ipsum metus. Nullam vitae turpis tellus. Nullam vel gravida nunc, et hendrerit dolor. Integer posuere nisl eu porta cursus.
-                                </span>}
-                                position="left">
-                                <span className="tooltip">
-                                    ?
-                                </span>
-                            </Tooltip>
-
-                            Pracuję, ale chcę otrzymywać oferty
-                            <Switch onChange={() => { changeProfileWorking(); }}
-                                    offColor="#CB4949"
-                                    width={window.innerWidth > 996 ? 56 : 28}
-                                    height={window.innerWidth > 996 ? 28 : 14}
-                                    checked={userWorking} />
-                        </div>
-                    </div>
                 </div>
             </main>
 
@@ -173,7 +159,7 @@ const UserHomepage = ({data, visible, working}) => {
                             Imię i nazwisko
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.firstName} {data?.lastName}
+                            {user?.firstName ? `${user.firstName} ${user?.lastName}` : 'Anonimowy'}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
@@ -181,7 +167,7 @@ const UserHomepage = ({data, visible, working}) => {
                             Nr tel.
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.phoneNumberCountry} {data?.phoneNumber}
+                            {user?.phoneNumber ? `${user?.phoneNumberCountry} ${user?.phoneNumber}` : noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
@@ -189,7 +175,7 @@ const UserHomepage = ({data, visible, working}) => {
                             Data urodzenia
                         </span>
                         <p className="userAccount__box__value">
-                            {getDate(data?.birthdayDay, data?.birthdayMonth, data?.birthdayYear)}
+                            {user?.birthdayDay >= 0 ? getDate(user?.birthdayDay, user?.birthdayMonth, user?.birthdayYear) : noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
@@ -197,7 +183,7 @@ const UserHomepage = ({data, visible, working}) => {
                             Adres e-mail
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.email}
+                            {email}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
@@ -205,8 +191,10 @@ const UserHomepage = ({data, visible, working}) => {
                             Adres zamieszkania
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.city}, {data?.address}<br/>
-                            kraj: {countries[data?.country]}
+                            {user?.city ? <span>
+                                {user?.city}, {user?.address}<br/>
+                                kraj: {countries[user?.country]}
+                            </span> : noInfo}
                         </p>
                     </span>
                 </div>
@@ -216,7 +204,7 @@ const UserHomepage = ({data, visible, working}) => {
                 <h3 className="userAccount__box__header">
                     Ukończone szkoły
                 </h3>
-                {data?.schools?.map((item, index) => {
+                {user?.schools?.map((item, index) => {
                     return <div className="userAccount__school flex flex--start" key={index}>
                         <figure className="center">
                             <img className="img" src={graduateIcon} alt="absolwent" />
@@ -240,7 +228,7 @@ const UserHomepage = ({data, visible, working}) => {
                 <h3 className="userAccount__box__header">
                     Doświadczenie zawodowe
                 </h3>
-                {data?.jobs?.map((item, index) => {
+                {user?.jobs?.map((item, index) => {
                     return <div className="userAccount__school flex flex--start" key={index}>
                         <figure className="center">
                             <img className="img img--suitcase" src={suitcaseBlue} alt="praca" />
@@ -265,12 +253,12 @@ const UserHomepage = ({data, visible, working}) => {
                 <h3 className="userAccount__box__header">
                     Umiejętności
                 </h3>
-                {data?.languages?.length ? <>
+                {user?.languages?.length ? <>
                     <h4 className="userAccount__box__subheader">
                         Języki obce
                     </h4>
                     <div className="flex flex--start">
-                        {data.languages?.map((item, index) => {
+                        {user.languages?.map((item, index) => {
                             return <div className="userAccount__box__language" key={index}>
                                 <img className="img" src={checkIcon} alt="język" />
                                 {languages[item.language]}
@@ -282,12 +270,12 @@ const UserHomepage = ({data, visible, working}) => {
                     </div>
                 </> : ''}
 
-                {data?.drivingLicenceCategories?.length ? <>
+                {user?.drivingLicenceCategories?.length ? <>
                     <h4 className="userAccount__box__subheader">
                         Prawo jazdy
                     </h4>
                     <div className="flex flex--start">
-                        {data?.drivingLicenceCategories?.map((item, index) => {
+                        {user?.drivingLicenceCategories?.map((item, index) => {
                             return <div className="userAccount__box__language" key={index}>
                                 <img className="img" src={checkIcon} alt="język" />
                                 {drivingLicences[item]}
@@ -301,14 +289,14 @@ const UserHomepage = ({data, visible, working}) => {
                 <h3 className="userAccount__box__header">
                     Ukończone kursy i szkolenia
                 </h3>
-                {data?.courses?.map((item, index) => {
+                {user?.courses?.map((item, index) => {
                     return <div className="userAccount__course" key={index}>
                         <img className="img" src={starIcon} alt="gwiazdka" />
                         {item}
                     </div>
                 })}
 
-                {data?.certificates?.map((item, index) => {
+                {user?.certificates?.map((item, index) => {
                     return <div className="userAccount__course" key={index}>
                         <img className="img" src={starIcon} alt="gwiazdka" />
                         {item}
@@ -326,7 +314,7 @@ const UserHomepage = ({data, visible, working}) => {
                             Aktualne miejsce pobytu
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.currentCity}, {countries[data?.currentCountry]}
+                            {user?.currentCity ? `${user?.currentCity}, ${countries[user?.currentCountry]}` : noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
@@ -334,7 +322,7 @@ const UserHomepage = ({data, visible, working}) => {
                             Dyspozycyjność
                         </span>
                         <p className="userAccount__box__value">
-                            od {getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear)}
+                            {user?.availabilityYear ? `od ${getDate(user?.availabilityDay, user?.availabilityMonth, user?.availabilityYear)}` : noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
@@ -342,7 +330,7 @@ const UserHomepage = ({data, visible, working}) => {
                             Własny śr. transportu
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.ownTransport ? 'Tak' : 'Nie'}
+                            {user?.ownTransport !== undefined ? (user?.ownTransport ? 'Tak' : 'Nie') : noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
@@ -350,7 +338,7 @@ const UserHomepage = ({data, visible, working}) => {
                             Nr BSN/SOFI
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.hasBsnNumber ? data?.bsnNumber : '-'}
+                            {user?.hasBsnNumber !== null && user?.hasBsnNumber !== undefined ? (user?.hasBsnNumber ? user?.bsnNumber : '-') : noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
@@ -358,7 +346,7 @@ const UserHomepage = ({data, visible, working}) => {
                             Praca na długi okres
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.longTermJobSeeker ? 'Tak' : 'Nie'}
+                            {user?.longTermJobSeeker !== undefined ? (user?.longTermJobSeeker ? 'Tak' : 'Nie') : noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
@@ -366,7 +354,7 @@ const UserHomepage = ({data, visible, working}) => {
                             Własne zakw. w Holandii
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.ownAccommodation ? data?.accommodationPlace : 'Nie'}
+                            {user?.ownAccommodation !== undefined ? (user?.ownAccommodation ? user?.accommodationPlace : 'Nie') : noInfo}
                         </p>
                     </span>
                 </div>
@@ -376,7 +364,7 @@ const UserHomepage = ({data, visible, working}) => {
                 <h3 className="userAccount__box__header">
                     Załączniki
                 </h3>
-                {data?.attachments?.map((item, index) => {
+                {user?.attachments?.map((item, index) => {
                     return <a key={index}
                               href={`${settings.API_URL}/${item}`}
                               className="userAccount__box__attachment">
@@ -389,7 +377,9 @@ const UserHomepage = ({data, visible, working}) => {
                 })}
             </div>
         </div>
+    </div> : <div className="center">
+        <Loader />
     </div>
 };
 
-export default UserHomepage;
+export default CandidateProfile;

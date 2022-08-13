@@ -48,10 +48,10 @@ const UserPreview = ({i, id, data}) => {
                     <img className="img" src={nipIcon} alt="lokalizacja" />
                     {data.categories.map((item, index, array) => {
                         if(index !== array.length-1) {
-                            return `${item}, `;
+                            return `${categories[item]}, `;
                         }
                         else {
-                            return item;
+                            return categories[item];
                         }
                     })}
                 </p> : ''}
@@ -87,12 +87,12 @@ const UserPreview = ({i, id, data}) => {
                     Działania
                 </span>
                 <a className="btn btn--white"
-                   href={`/profil-agencji?id=${id}`}>
+                   href={`/profil-kandydata?id=${id}`}>
                     <img className="img" src={eyeIcon} alt="profil" />
                     Zobacz profil
                 </a>
                 <a className="btn btn--white"
-                   href={`/napisz-wiadomosc?id=${id}`}>
+                   href={`/napisz-wiadomosc?pracownik=${id}`}>
                     <img className="img" src={messageIcon} alt="wiadomość" />
                     Napisz
                 </a>

@@ -28,6 +28,14 @@ const getAgencyData = () => {
     });
 }
 
+const getAgencyById = (id) => {
+    return axios.get(`/agency/getAgencyById/${id}`, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
+}
+
 const updateAgency = (data) => {
     const formData = new FormData();
     const config = {
@@ -67,5 +75,5 @@ const sortAgencies = (type, page) => {
 }
 
 export { registerAgency, verifyAgency, loginAgency, getAgencyData, updateAgency, getAllApprovedAgencies,
-    filterAgencies, sortAgencies
+    filterAgencies, sortAgencies, getAgencyById
 }

@@ -23,7 +23,7 @@ const AgencyPreview = ({i, id, data}) => {
 
                 <div className="preview__buttons preview__buttons--mobile">
                     <a className="btn btn--white"
-                       href={`/napisz-wiadomosc?id=${id}`}>
+                       href={`/napisz-wiadomosc?agencja=${id}`}>
                         <img className="img" src={messageIcon} alt="wiadomość" />
                         Napisz
                     </a>
@@ -63,7 +63,7 @@ const AgencyPreview = ({i, id, data}) => {
 
         <div className="preview__buttons">
             <a className="btn btn--white"
-               href={`/napisz-wiadomosc?id=${id}`}>
+               href={`/napisz-wiadomosc?agencja=${id}`}>
                 <img className="img" src={messageIcon} alt="wiadomość" />
                 Napisz
             </a>

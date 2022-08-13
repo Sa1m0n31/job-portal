@@ -3687,11 +3687,18 @@ input {
 .modal--filters--users .modal__inner {
     height: 920px;
     padding: 40px;
+    max-height: 95vh;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .modal--filters--users .modal__inner .modal__inner__closeBtn {
     top: 40px;
     right: 40px;
+}
+
+.modal--filters--users .btn--filterSubmit {
+    min-height: 50px;
 }
 
 .btn--bare {
@@ -3764,4 +3771,43 @@ div[data-testid=circles-loading] {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-end;
+}
+
+.modal--filters--users .drivingLicenceWrapper--salary,
+.modal--filters--users .drivingLicenceWrapper {
+    margin: 10px 0 20px;
+}
+
+.modal--filters--users .salaryInputsWrapper {
+    margin-bottom: 0;
+}
+
+.modal--filters--users .drivingLicenceCategoriesWrapper {
+    margin-bottom: 20px;
+}
+
+.modal--filters--users .label--smallMarginBottom {
+    margin-bottom: 5px;
+}
+
+.modal--filters--users .languagesWrapper {
+    padding-top: 5px;
+}
+
+.modal--filters--users .label--date__input--bool,
+.modal--filters--users .label--date__input--bool * {
+    max-width: 120px !important;
+}
+
+.container--userProfile .userAccount__top__btn {
+    text-decoration: none;
+}
+
+.container--userProfile .userAccount__top__btn .img {
+    margin: 0 8px 0 0;
+    transition: .2s all;
+}
+
+.container--userProfile .userAccount__top__btn:hover .img {
+    transform: translateX(-3px);
 }

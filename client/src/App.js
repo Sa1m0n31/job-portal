@@ -61,6 +61,9 @@ function App() {
       <Route path="/napisz-wiadomosc">
         <UserWrapper page={9} />
       </Route>
+      <Route path="/profil-agencji">
+        <UserWrapper page={10} />
+      </Route>
 
       {/* AGENCY ROUTES */}
       <Route path="/edycja-danych-agencji">
@@ -89,6 +92,9 @@ function App() {
       </Route>
       <Route path="/kandydaci">
         <AgencyWrapper page={9} />
+      </Route>
+      <Route path="/profil-kandydata">
+        <AgencyWrapper page={10} />
       </Route>
     </Router>
   </LanguageContext.Provider>

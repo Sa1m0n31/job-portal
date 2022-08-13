@@ -58,4 +58,9 @@ export class AgencyController {
     sortAgencies(@Param('type') type, @Param('page') page) {
         return this.agencyService.sortAgencies(type, page);
     }
+
+    @Get('/getAgencyById/:id')
+    getAgencyById(@Param('id') id) {
+        return this.agencyService.getAgencyById(id);
+    }
 }

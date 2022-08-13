@@ -1,35 +1,64 @@
 import React, {useEffect, useRef, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
+import Gallery from "../components/Gallery";
 import penIcon from "../static/img/pen-edit-account.svg";
 import settingsCircle from "../static/img/settings-circle.svg";
-import {
-    currencies,
-    houses, months, paycheckDay, paycheckFrequency,
-    paymentTypes,
-    pensionFrequency,
-    pensionType,
-    rooms
-} from "../static/content";
 import settings from "../static/settings";
+import userPlaceholder from "../static/img/user-placeholder.svg";
 import locationIcon from "../static/img/location.svg";
 import suitcaseIcon from "../static/img/suitcase-grey.svg";
 import phoneIcon from "../static/img/phone-grey.svg";
 import messageIcon from "../static/img/message-grey.svg";
 import whatsAppIcon from "../static/img/whatsapp.svg";
-import websiteIcon from '../static/img/www-icon.svg'
-import fbIcon from '../static/img/facebook-icon.svg'
-import instagramIcon from '../static/img/instagram-icon.svg'
-import ytIcon from '../static/img/youtube-icon.svg'
-import linkedinIcon from '../static/img/linedin-icon.svg'
-import galleryArrow from '../static/img/gallery-arrow.svg'
-import { noInfo } from "../static/content";
-import magnifierIcon from '../static/img/magnifier.svg'
-import Gallery from "../components/Gallery";
-import userPlaceholder from '../static/img/user-placeholder.svg'
+import fbIcon from "../static/img/facebook-icon.svg";
+import instagramIcon from "../static/img/instagram-icon.svg";
+import ytIcon from "../static/img/youtube-icon.svg";
+import linkedinIcon from "../static/img/linedin-icon.svg";
+import websiteIcon from "../static/img/www-icon.svg";
+import {
+    currencies,
+    houses,
+    months,
+    noInfo, paycheckDay,
+    paycheckFrequency, paymentTypes,
+    pensionFrequency,
+    pensionType,
+    rooms
+} from "../static/content";
+import galleryArrow from "../static/img/gallery-arrow.svg";
+import magnifierIcon from "../static/img/magnifier.svg";
+import {getAgencyById} from "../helpers/agency";
+import Loader from "../components/Loader";
+import backIcon from "../static/img/back-arrow-grey.svg";
 
-const AgencyHomepage = ({data, email}) => {
+const AgencyProfile = ({data}) => {
     const [currentGalleryScroll, setCurrentGalleryScroll] = useState(0);
     const [galleryIndex, setGalleryIndex] = useState(-1);
+    const [id, setId] = useState(null);
+    const [email, setEmail] = useState('');
+    const [agency, setAgency] = useState(null);
+
+    useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        if(id) {
+            setId(parseInt(id));
+            getAgencyById(id)
+                .then((res) => {
+                    console.log(res);
+                    if(res?.status === 200) {
+                        setEmail(res?.data?.email);
+                        setAgency(JSON.parse(res?.data?.data));
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+        else {
+            window.location = '/';
+        }
+    }, []);
 
     useEffect(() => {
         if(gallery) {
@@ -80,22 +109,22 @@ const AgencyHomepage = ({data, email}) => {
         setGalleryIndex(n);
     }
 
-    return <div className="container container--agency">
-        <LoggedUserHeader data={data} agency={true} />
+    return agency ? <div className="container container--agency container--userProfile">
+        <LoggedUserHeader data={data} />
 
-        {galleryIndex !== -1 ? <Gallery images={data.gallery}
+        {galleryIndex !== -1 ? <Gallery images={agency.gallery}
                                         setIndex={setGalleryIndex}
                                         index={galleryIndex} /> : ''}
 
         <div className="userAccount">
             <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
-                    Zalogowany w: <span className="bold">Strefa Pracodawcy</span>
+                    Zalogowany w: <span className="bold">Strefa Pracownika</span>
                 </span>
-                <a href="/edycja-danych-agencji"
+                <a href="javascript: history.go(-1)"
                    className="userAccount__top__btn">
-                    Edytuj profil
-                    <img className="img" src={penIcon} alt="edytuj" />
+                    <img className="img" src={backIcon} alt="edytuj" />
+                    Powrót
                 </a>
             </aside>
             <div className="flex flex--firstLine">
@@ -105,28 +134,44 @@ const AgencyHomepage = ({data, email}) => {
                             <img className="img" src={settingsCircle} alt="ustawienia" />
                         </a>
                         <figure>
-                            <img className="img" src={data?.logo ? `${settings.API_URL}/${data?.logo}` : userPlaceholder} alt="zdjecie-profilowe" />
+                            <img className="img" src={agency?.logo ? `${settings.API_URL}/${agency?.logo}` : userPlaceholder} alt="zdjecie-profilowe" />
                         </figure>
                         <div className="userAccount__box__mainData">
                             <h1 className="userAccount__box__fullName">
-                                {data.name}
+                                {agency.name}
                             </h1>
-                            {data.city ? <p className="userAccount__box__mainData__text">
+                            {agency.city ? <p className="userAccount__box__mainData__text">
                                 <img className="img" src={locationIcon} alt="lokalizacja" />
-                                {data.city}
+                                {agency.city}
                             </p> : ''}
-                            {data.nip ? <p className="userAccount__box__mainData__text">
+                            {agency.nip ? <p className="userAccount__box__mainData__text">
                                 <img className="img" src={suitcaseIcon} alt="branża" />
-                                NIP: {data.nip}
+                                NIP: {agency.nip}
                             </p> : ''}
-                            {data.phoneNumber ? <p className="userAccount__box__mainData__text">
+                            {agency.phoneNumber ? <p className="userAccount__box__mainData__text">
                                 <img className="img" src={phoneIcon} alt="numer-telefonu" />
-                                {data.phoneNumberCountry} {data.phoneNumber}
+                                {agency.phoneNumberCountry} {agency.phoneNumber}
                             </p> : ''}
                             <p className="userAccount__box__mainData__text">
                                 <img className="img" src={messageIcon} alt="adres-e-mail" />
                                 {email}
                             </p>
+                            <div className="userAccount__box__mainData__buttons">
+                                {agency?.phoneNumber ? <a
+                                    href={`https://wa.me/${agency.phoneNumberCountry.split('+')[1]}${agency.phoneNumber}`}
+                                    className="btn btn--whatsApp"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <img className="img" src={whatsAppIcon} alt="napisz-wiadomosc" />
+                                    WhatsApp
+                                </a> : ''}
+                                <a href={`/napisz-wiadomosc?agencja=${id}`}
+                                   className="btn btn--writeMessage">
+                                    <img className="img" src={messageIcon} alt="napisz-wiadomosc" />
+                                    Wiadomość
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </main>
@@ -135,7 +180,7 @@ const AgencyHomepage = ({data, email}) => {
                         Dlaczego warto nas wybrać
                     </h3>
                     <div className="userAccount__box__text"
-                        dangerouslySetInnerHTML={{__html: data.benefits}}
+                         dangerouslySetInnerHTML={{__html: agency.benefits}}
                     >
 
                     </div>
@@ -144,47 +189,47 @@ const AgencyHomepage = ({data, email}) => {
                     <h3 className="userAccount__box__header">
                         Social media
                     </h3>
-                    {data.facebook ?
+                    {agency.facebook ?
                         <a className="agencyAccount__socialMediaItem"
                            target="_blank"
                            rel="noreferrer"
-                           href={data.facebook}
+                           href={agency.facebook}
                         >
                             <img className="img" src={fbIcon} alt="facebook" />
                             Facebook
                         </a> : ''}
-                    {data.instagram ?
+                    {agency.instagram ?
                         <a className="agencyAccount__socialMediaItem"
                            target="_blank"
                            rel="noreferrer"
-                           href={data.instagram}
+                           href={agency.instagram}
                         >
                             <img className="img" src={instagramIcon} alt="instagram" />
                             Instagram
                         </a> : ''}
-                    {data.youtube ?
+                    {agency.youtube ?
                         <a className="agencyAccount__socialMediaItem"
                            target="_blank"
                            rel="noreferrer"
-                           href={data.youtube}
+                           href={agency.youtube}
                         >
                             <img className="img" src={ytIcon} alt="youtube" />
                             Youtube
                         </a> : ''}
-                    {data.linkedin ?
+                    {agency.linkedin ?
                         <a className="agencyAccount__socialMediaItem"
                            target="_blank"
                            rel="noreferrer"
-                           href={data.linkedin}
+                           href={agency.linkedin}
                         >
                             <img className="img" src={linkedinIcon} alt="linkedin" />
                             LinkedIn
                         </a> : ''}
-                    {data.website ?
+                    {agency.website ?
                         <a className="agencyAccount__socialMediaItem"
                            target="_blank"
                            rel="noreferrer"
-                           href={data.website}
+                           href={agency.website}
                         >
                             <img className="img" src={websiteIcon} alt="strona-internetowa" />
                             Strona www
@@ -198,7 +243,7 @@ const AgencyHomepage = ({data, email}) => {
                             O firmie
                         </h3>
                         <div className="userAccount__box__text"
-                             dangerouslySetInnerHTML={{__html: data.description}}>
+                             dangerouslySetInnerHTML={{__html: agency.description}}>
 
                         </div>
                     </div>
@@ -207,7 +252,7 @@ const AgencyHomepage = ({data, email}) => {
                             O procesie rekrutacji
                         </h3>
                         <div className="userAccount__box__text"
-                             dangerouslySetInnerHTML={{__html: data.recruitmentProcess}}>
+                             dangerouslySetInnerHTML={{__html: agency.recruitmentProcess}}>
 
                         </div>
                     </div>
@@ -227,7 +272,7 @@ const AgencyHomepage = ({data, email}) => {
                                 Typ pokoju
                             </span>
                             <p className="userAccount__box__value">
-                                {data.roomType !== null && data.roomType !== undefined ? rooms[data.roomType] : noInfo}
+                                {agency.roomType !== null && agency.roomType !== undefined ? rooms[agency.roomType] : noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
@@ -235,7 +280,7 @@ const AgencyHomepage = ({data, email}) => {
                                 Rodzaj zabudowy
                             </span>
                             <p className="userAccount__box__value">
-                                {data.houseType !== null && data.houseType !== undefined ? houses[data.houseType] : noInfo}
+                                {agency.houseType !== null && agency.houseType !== undefined ? houses[agency.houseType] : noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
@@ -243,7 +288,7 @@ const AgencyHomepage = ({data, email}) => {
                                 Wyposażenie
                             </span>
                             <p className="userAccount__box__value">
-                                {data.roomDescription ? data.roomDescription : noInfo}
+                                {agency.roomDescription ? agency.roomDescription : noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
@@ -251,7 +296,7 @@ const AgencyHomepage = ({data, email}) => {
                                 Parking
                             </span>
                             <p className="userAccount__box__value">
-                                {data.parking !== null && data.parking !== undefined ? (data.parking ? 'Tak' : 'Nie') : noInfo}
+                                {agency.parking !== null && agency.parking !== undefined ? (agency.parking ? 'Tak' : 'Nie') : noInfo}
                             </p>
                         </span>
                             <span className="w-100">
@@ -262,8 +307,8 @@ const AgencyHomepage = ({data, email}) => {
                                 Samochód służbowy
                             </span>
                             <p className="userAccount__box__value">
-                                {data.car === 0 || data.car ?
-                                    (data.car === 1 ? 'Bezpłatny' : (`Płatny dodatkowo,\n${data.carPrice} ${currencies[data.carPriceCurrency]}/mies`)) : noInfo}
+                                {agency.car === 0 || agency.car ?
+                                    (agency.car === 1 ? 'Bezpłatny' : (`Płatny dodatkowo,\n${agency.carPrice} ${currencies[agency.carPriceCurrency]}/mies`)) : noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
@@ -271,8 +316,8 @@ const AgencyHomepage = ({data, email}) => {
                                 Rower
                             </span>
                             <p className="userAccount__box__value">
-                                {data.bike === 0 || data.bike ?
-                                    (data.bike === 1 ? 'Bezpłatny' : (`Płatny dodatkowo,\n${data.bikePrice} ${currencies[data.bikePriceCurrency]}/mies`)) : noInfo}
+                                {agency.bike === 0 || agency.bike ?
+                                    (agency.bike === 1 ? 'Bezpłatny' : (`Płatny dodatkowo,\n${agency.bikePrice} ${currencies[agency.bikePriceCurrency]}/mies`)) : noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
@@ -280,12 +325,12 @@ const AgencyHomepage = ({data, email}) => {
                                 Zwrot kosztów za dojazd
                             </span>
                             <p className="userAccount__box__value">
-                                {data.costReturnWithOwnTransport !== null && data.costReturnWithOwnTransport !== undefined ?
-                                    (data.costReturnWithOwnTransport ? 'Tak' : 'Nie') : noInfo}
+                                {agency.costReturnWithOwnTransport !== null && agency.costReturnWithOwnTransport !== undefined ?
+                                    (agency.costReturnWithOwnTransport ? 'Tak' : 'Nie') : noInfo}
                             </p>
                         </span>
 
-                        <span className="w-100">
+                            <span className="w-100">
                             Składki, ulgi i opłaty
                         </span>
                             <span className="userAccount__box__pair">
@@ -293,7 +338,7 @@ const AgencyHomepage = ({data, email}) => {
                                 Składki emerytalne
                             </span>
                             <p className="userAccount__box__value">
-                                {data.pensionContributions !== null && data.pensionContributions !== undefined ? pensionType[data.pensionContributions] : noInfo}
+                                {agency.pensionContributions !== null && agency.pensionContributions !== undefined ? pensionType[agency.pensionContributions] : noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
@@ -301,27 +346,27 @@ const AgencyHomepage = ({data, email}) => {
                                 Świadczenia urlopowe
                             </span>
                             <p className="userAccount__box__value userAccount__box__value--holidayAllowance">
-                                {data.holidayAllowanceType !== null && data.holidayAllowanceType !== undefined ? `${pensionType[data.holidayAllowanceType]}
+                                {agency.holidayAllowanceType !== null && agency.holidayAllowanceType !== undefined ? `${pensionType[agency.holidayAllowanceType]}
                                 `: noInfo}<br/>
-                                {data.holidayAllowanceType !== null && data.holidayAllowanceType !== undefined ? `${data.holidayAllowanceFrequency === 0 ? (pensionFrequency[data.holidayAllowanceFrequency] + ', ' + (parseInt(data.holidayAllowanceDay)+1) + ' ' + months[data.holidayAllowanceMonth]) : pensionFrequency[data.holidayAllowanceFrequency]}` : ''}
+                                {agency.holidayAllowanceType !== null && agency.holidayAllowanceType !== undefined ? `${agency.holidayAllowanceFrequency === 0 ? (pensionFrequency[agency.holidayAllowanceFrequency] + ', ' + (parseInt(agency.holidayAllowanceDay)+1) + ' ' + months[agency.holidayAllowanceMonth]) : pensionFrequency[agency.holidayAllowanceFrequency]}` : ''}
                             </p>
                         </span>
-                        <span className="userAccount__box__pair">
+                            <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
                                 Wynagrodzenie
                             </span>
                             <p className="userAccount__box__value">
-                                {data.paycheckFrequency !== null && data.paycheckFrequency !== undefined ? paycheckFrequency[data.paycheckFrequency] : noInfo}<br/>
-                                {data.paycheckFrequency !== null && data.paycheckFrequency !== undefined ? paycheckDay[data.paycheckDay] : ''}
+                                {agency.paycheckFrequency !== null && agency.paycheckFrequency !== undefined ? paycheckFrequency[agency.paycheckFrequency] : noInfo}<br/>
+                                {agency.paycheckFrequency !== null && agency.paycheckFrequency !== undefined ? paycheckDay[agency.paycheckDay] : ''}
                             </p>
                         </span>
-                        <span className="userAccount__box__pair">
+                            <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
                                 Ubezp. zdrowotne
                             </span>
                             <p className="userAccount__box__value">
-                                {data.healthInsurance !== null && data.healthInsurance !== undefined ? paymentTypes[data.healthInsurance] : noInfo}<br/>
-                                {data.healthInsuranceCost !== null && data.healthInsurance === 0 ? data.healthInsuranceCost + ' ' + currencies[data.healthInsuranceCurrency] : ''}
+                                {agency.healthInsurance !== null && agency.healthInsurance !== undefined ? paymentTypes[agency.healthInsurance] : noInfo}<br/>
+                                {agency.healthInsuranceCost !== null && agency.healthInsurance === 0 ? agency.healthInsuranceCost + ' ' + currencies[agency.healthInsuranceCurrency] : ''}
                             </p>
                         </span>
                         </div>
@@ -332,13 +377,13 @@ const AgencyHomepage = ({data, email}) => {
                             Benefity - co zyskasz?
                         </h3>
                         <div className="userAccount__box__text"
-                             dangerouslySetInnerHTML={{__html: data.benefits}}
+                             dangerouslySetInnerHTML={{__html: agency.benefits}}
                         >
 
                         </div>
                     </div>
 
-                    {data?.gallery?.length ? <div className="userAccount__box userAccount__box--100">
+                    {agency?.gallery?.length ? <div className="userAccount__box userAccount__box--100">
                         <h3 className="userAccount__box__header">
                             Galeria zdjęć
                         </h3>
@@ -348,7 +393,7 @@ const AgencyHomepage = ({data, email}) => {
                                 <img className="img" src={galleryArrow} alt="przesun" />
                             </button> : ''}
                             <div ref={gallery} className="userAccount__box__gallery noscroll flex">
-                                {data.gallery?.map((item, index) => {
+                                {agency.gallery?.map((item, index) => {
                                     return <button className="gallery__item"
                                                    key={index}
                                                    onClick={() => { enlargeGallery(index); }}>
@@ -368,7 +413,9 @@ const AgencyHomepage = ({data, email}) => {
                 </div>
             </div>
         </div>
+    </div> : <div className="center container--height100">
+        <Loader />
     </div>
 };
 
-export default AgencyHomepage;
+export default AgencyProfile;

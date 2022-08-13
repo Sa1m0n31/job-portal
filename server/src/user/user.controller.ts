@@ -77,4 +77,14 @@ export class UserController {
     getAllVisible(@Param('page') page) {
         return this.userService.getAllVisibleUsers(page);
     }
+
+    @Post('/filter')
+    filterUsers(@Body() body) {
+        return this.userService.filter(body);
+    }
+
+    @Get('/getUserById/:id')
+    getUserById(@Param('id') id) {
+        return this.userService.getUserById(id);
+    }
 }

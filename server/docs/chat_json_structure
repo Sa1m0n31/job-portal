@@ -1,0 +1,8 @@
+[
+    {
+        fromAgency: true,
+        content: 'Message content...',
+        created_at: 23321823234,
+        read: false
+    }
+]

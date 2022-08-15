@@ -219,15 +219,25 @@ export class UserService {
     }
 
     async getAllUsers(page) {
-        const perPage = parseInt(process.env.OFFERS_PER_PAGE);
-        return this.userRepository
-            .createQueryBuilder()
-            .where({
-                active: true
-            })
-            .limit(perPage)
-            .offset((page-1) * perPage)
-            .getMany();
+        if(!isNaN(page)) {
+            const perPage = parseInt(process.env.OFFERS_PER_PAGE);
+            return this.userRepository
+                .createQueryBuilder()
+                .where({
+                    active: true
+                })
+                .limit(perPage)
+                .offset((page-1) * perPage)
+                .getMany();
+        }
+        else {
+            return this.userRepository
+                .createQueryBuilder()
+                .where({
+                    active: true
+                })
+                .getMany();
+        }
     }
 
     async getAllVisibleUsers(page) {

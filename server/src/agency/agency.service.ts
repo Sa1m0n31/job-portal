@@ -163,15 +163,25 @@ export class AgencyService {
     }
 
     async getAllApprovedAgencies(page) {
-        const perPage = parseInt(process.env.OFFERS_PER_PAGE);
-        return this.agencyRepository.createQueryBuilder()
-            .where({
-                active: true,
-                accepted: true
-            })
-            .limit(perPage)
-            .offset((page-1) * perPage)
-            .getMany();
+        if(!isNaN(page)) {
+            const perPage = parseInt(process.env.OFFERS_PER_PAGE);
+            return this.agencyRepository.createQueryBuilder()
+                .where({
+                    active: true,
+                    accepted: true
+                })
+                .limit(perPage)
+                .offset((page-1) * perPage)
+                .getMany();
+        }
+        else {
+            return this.agencyRepository.createQueryBuilder()
+                .where({
+                    active: true,
+                    accepted: true
+                })
+                .getMany();
+        }
     }
 
     async sortAgencies(sortType, page) {

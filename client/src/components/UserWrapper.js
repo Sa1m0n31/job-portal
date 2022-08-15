@@ -8,6 +8,8 @@ import SingleOffer from "../pages/SingleOffer";
 import ApplicationForJobPage from "../pages/ApplicationForJobPage";
 import AgenciesList from "../pages/AgenciesList";
 import AgencyProfile from "../pages/AgencyProfile";
+import MessageList from "../pages/MessageList";
+import SendMessage from "../pages/SendMessage";
 
 const UserWrapper = ({page}) => {
     const [render, setRender] = useState(null);
@@ -46,6 +48,12 @@ const UserWrapper = ({page}) => {
                                             break;
                                         case 6:
                                             setRender(<AgenciesList data={data} />);
+                                            break;
+                                        case 8:
+                                            setRender(<MessageList data={data} agency={false} />);
+                                            break;
+                                        case 9:
+                                            setRender(<SendMessage data={data} agency={false} />);
                                             break;
                                         case 10:
                                             setRender(<AgencyProfile data={data} />);

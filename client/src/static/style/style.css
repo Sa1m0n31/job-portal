@@ -2480,6 +2480,7 @@ input {
     padding-bottom: 40px;
 }
 
+.writeMessage,
 .agenciesList,
 .container--offer .userAccount__top,
 .container--agencyJobOffers .userAccount__top,
@@ -3810,4 +3811,57 @@ div[data-testid=circles-loading] {
 
 .container--userProfile .userAccount__top__btn:hover .img {
     transform: translateX(-3px);
+}
+
+.writeMessage {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px #0000000D;
+    padding: 35px;
+}
+
+.writeMessage .label {
+    max-width: 750px;
+}
+
+.writeMessage > .label > div > .css-1s2u09g-control {
+    border: 1px solid var(--primary);
+    height: 50px;
+}
+
+.contentLabel {
+    display: block;
+    padding: 30px 0;
+    margin: 35px 0;
+    border-top: 1px solid #E8E8E8;
+    border-bottom: 1px solid #E8E8E8;
+}
+
+.textarea--content {
+    border: none;
+    outline: none;
+    background: transparent;
+    resize: none;
+    height: auto;
+    min-height: 300px;
+    width: 100%;
+    font-size: 18px;
+}
+
+.writeMessage .label:first-of-type {
+    margin-bottom: 25px;
+}
+
+.btn--sendMessage {
+    border-radius: 5px;
+    padding: 10px 25px;
+}
+
+.btn--sendMessage .img {
+    width: 15px;
+    margin-left: 10px;
+}
+
+.input--messageTitle:disabled {
+    opacity: 1;
 }

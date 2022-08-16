@@ -108,6 +108,10 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                 </>}
                 {agency ? <>
                     <a className="loggedUserHeader__menu__item"
+                       href="/moje-blyskawiczne-oferty-pracy">
+                        Moje błyskawiczne oferty
+                    </a>
+                    <a className="loggedUserHeader__menu__item"
                        href="/moje-oferty-pracy">
                         Moje oferty
                     </a>

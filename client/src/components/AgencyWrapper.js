@@ -13,6 +13,8 @@ import CandidatesList from "../pages/CandidatesList";
 import CandidateProfile from "../pages/CandidateProfile";
 import MessageList from "../pages/MessageList";
 import SendMessage from "../pages/SendMessage";
+import AddFastJobOffer from "../pages/AddFastJobOffer";
+import MyFastJobOffers from "../pages/MyFastJobOffers";
 
 const AgencyWrapper = ({page}) => {
     const [render, setRender] = useState(null);
@@ -41,6 +43,15 @@ const AgencyWrapper = ({page}) => {
                                             break;
                                         case 5:
                                             setRender(<AddJobOffer updateMode={true} />);
+                                            break;
+                                        case 6:
+                                            setRender(<AddFastJobOffer />);
+                                            break;
+                                        case 7:
+                                            setRender(<MyFastJobOffers data={data} />);
+                                            break;
+                                        case 8:
+                                            setRender(<AddFastJobOffer updateMode={true} />);
                                             break;
                                         case 9:
                                             setRender(<CandidatesList data={data} />);

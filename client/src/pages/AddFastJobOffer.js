@@ -16,16 +16,23 @@ import trashIcon from "../static/img/trash.svg";
 import {Tooltip} from "react-tippy";
 import plusIcon from "../static/img/plus-in-circle.svg";
 import plusGrey from '../static/img/plus-icon-opacity.svg'
-import {numberRange} from "../helpers/others";
+import {getLoggedUserEmail, numberRange} from "../helpers/others";
 import fileIcon from "../static/img/doc.svg";
 import checkIcon from '../static/img/green-check.svg'
 import arrowIcon from '../static/img/small-white-arrow.svg'
-import {addOffer, getOfferById, updateOffer} from "../helpers/offer";
+import {
+    addFastOffer,
+    addOffer,
+    getActiveFastOffers,
+    getOfferById,
+    updateFastOffer,
+    updateOffer
+} from "../helpers/offer";
 import settings from "../static/settings";
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import MobileHeader from "../components/MobileHeader";
 
-const AddJobOffer = ({updateMode}) => {
+const AddFastJobOffer = ({updateMode}) => {
     const [categoriesVisible, setCategoriesVisible] = useState(false);
     const [countriesVisible, setCountriesVisible] = useState(false);
     const [currenciesVisible, setCurrenciesVisible] = useState(false);
@@ -65,11 +72,13 @@ const AddJobOffer = ({updateMode}) => {
     const [years, setYears] = useState([]);
     const [error, setError] = useState('');
 
+    const [numberOfFastOffers, setNumberOfFastOffers] = useState(0);
+    const [limitExceeded, setLimitExceeded] = useState(0); // 1 - global limit, 2 - user limit
+
     const addOfferForm = useRef(null);
     const addOfferSuccess = useRef(null);
 
     const setInitialData = (data) => {
-        console.log(JSON.parse(data.o_attachments));
         setOldAttachments(JSON.parse(data.o_attachments));
         setBenefits(JSON.parse(data.o_benefits));
         setCategory(parseInt(data.o_category));
@@ -97,6 +106,25 @@ const AddJobOffer = ({updateMode}) => {
 
     useEffect(() => {
         setYears(numberRange(new Date().getFullYear(), new Date().getFullYear()+4));
+
+        getActiveFastOffers()
+            .then((res) => {
+               if(res?.status === 200) {
+                   let n = res?.data?.length;
+                   setNumberOfFastOffers(n);
+                   if(n >= 15) {
+                       setLimitExceeded(1);
+                   }
+                   else {
+                       const agencyEmail = getLoggedUserEmail();
+                       if(res?.data?.filter((item) => {
+                           return item.a_email === agencyEmail;
+                       })?.length >= 2) {
+                           setLimitExceeded(2);
+                       }
+                   }
+               }
+            });
     }, []);
 
     useEffect(() => {
@@ -104,7 +132,7 @@ const AddJobOffer = ({updateMode}) => {
             const params = new URLSearchParams(window.location.search);
             const id = params.get('id');
             if(id) {
-                getOfferById(id)
+                getActiveFastOffers(id)
                     .then((res) => {
                        if(res?.status === 200) {
                            setInitialData(res?.data[0]);
@@ -297,7 +325,7 @@ const AddJobOffer = ({updateMode}) => {
         if(jobOfferValidation()) {
             try {
                 if(updateMode) {
-                    const offerResult = await updateOffer({
+                    const offerResult = await updateFastOffer({
                         id, title, category, keywords, country, postalCode, city, description,
                         responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
                         salaryCurrency, contractType, timeBounded, expireDay: day, expireMonth: month,
@@ -312,7 +340,7 @@ const AddJobOffer = ({updateMode}) => {
                     }
                 }
                 else {
-                    const offerResult = await addOffer({
+                    const offerResult = await addFastOffer({
                         title, category, keywords, country, postalCode, city, description,
                         responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
                         salaryCurrency, contractType, timeBounded, expireDay: day, expireMonth: month,
@@ -371,23 +399,29 @@ const AddJobOffer = ({updateMode}) => {
         <div className="addOfferSuccess" ref={addOfferSuccess}>
             <img className="img" src={checkIcon} alt="check" />
             <h3 className="addOfferSuccess__header">
-                {updateMode ? 'Twoja oferta została zaktualizowana' : 'Twoja oferta pracy została dodana!'}
+                {updateMode ? 'Twoja błyskawiczna oferta została zaktualizowana' : 'Twoja błyskawiczna oferta pracy została dodana!'}
             </h3>
             <div className="flex">
                 <a className="btn" href="/">
                     Strona główna
                 </a>
-                <a className="btn btn--white" href="/moje-oferty-pracy">
-                    Moje oferty pracy
+                <a className="btn btn--white" href="/moje-blyskawiczne-oferty-pracy">
+                    Moje błyskawiczne oferty pracy
                 </a>
             </div>
         </div>
         <form className="addOffer" ref={addOfferForm}>
             <h1 className="addOffer__header">
-                {updateMode ? 'Edycja oferty pracy' : 'Dodawanie nowej oferty pracy'}
+                {updateMode ? 'Edycja błyskawicznej oferty pracy' : 'Dodawanie nowej błyskawicznej oferty pracy'}
             </h1>
             <p className="addOffer__text">
-                Podziel się szczegółami na temat Twojej oferty i wyczekuj aplikacji ze strony zainteresowanych kandydatów.
+                Oferta błyskawiczna pozwoli Ci na znalezienie kandydatów dostępnych od ręki, którzy będą gotowi do podjęcia pracy natychmiastowo.
+            </p>
+            <p className="addOffer__text addOffer__text--fast">
+                Spiesz się! Dobowa ilość ofert jest ograniczona.
+            </p>
+            <p className="addOffer__text addOffer__text--fast addOffer__text--fast--limitInfo">
+                Dobowy limit ofert: <span className="red">{numberOfFastOffers}/15</span>
             </p>
 
             <label className="label">
@@ -759,4 +793,4 @@ const AddJobOffer = ({updateMode}) => {
     </div>
 };
 
-export default AddJobOffer;
+export default AddFastJobOffer;

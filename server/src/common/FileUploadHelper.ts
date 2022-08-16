@@ -1,8 +1,6 @@
-import {BadRequestException, HttpException} from "@nestjs/common";
-
 export class FileUploadHelper {
     static customFileName(req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        const uniqueSuffix = Date.now() + Math.round(Math.random() * 1e9);
         let fileExtension = "";
         if(file.mimetype.indexOf("jpeg") > -1){
             fileExtension = "jpg"
@@ -16,8 +14,14 @@ export class FileUploadHelper {
         else if(file.mimetype.indexOf('pdf') > -1) {
             fileExtension = 'pdf';
         }
-        else {
-            console.log('wrong extension');
+        else if(file.mimetype.indexOf('text') > -1) {
+            fileExtension = 'txt';
+        }
+        else if(file.mimetype.indexOf('pages') > -1) {
+            fileExtension = 'pages';
+        }
+        else if(file.mimetype.indexOf('docx') > -1) {
+            fileExtension = 'docx';
         }
 
         const originalName = file.originalname.split(".")[0];

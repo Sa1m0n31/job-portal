@@ -4246,3 +4246,24 @@ div[data-testid=circles-loading] {
     width: 16px;
     margin-left: 2px;
 }
+
+.label--disabled > * {
+    opacity: .6;
+    pointer-events: none;
+}
+
+.addOffer__text--fast {
+    margin: 0;
+    padding: 0;
+    font-size: 18px;
+}
+
+.addOffer__text--fast--limitInfo {
+    font-weight: 700;
+    margin: 5px 0 35px;
+    color: #000;
+}
+
+.red {
+    color: #CB4949;
+}

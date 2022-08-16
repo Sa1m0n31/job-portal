@@ -42,6 +42,7 @@ export class OfferController {
         {name: 'image', maxCount: 1},
         {name: 'attachments', maxCount: 5}
     ], {
+        fileFilter: fileExtensionFilter,
         storage: diskStorage({
             filename: FileUploadHelper.customFileName,
             destination: './uploads/offer'
@@ -60,6 +61,7 @@ export class OfferController {
         {name: 'image', maxCount: 1},
         {name: 'attachments', maxCount: 5}
     ], {
+        fileFilter: fileExtensionFilter,
         storage: diskStorage({
             filename: FileUploadHelper.customFileName,
             destination: './uploads/offer'
@@ -104,5 +106,81 @@ export class OfferController {
     filterOffers(@Body() body) {
         const { page, title, category, country, city, distance, salaryFrom, salaryTo, salaryType, salaryCurrency } = body;
         return this.offerService.filterOffers(page, title, category, country, city, distance, salaryFrom, salaryTo, salaryType, salaryCurrency);
+    }
+
+    @Get('/getActiveFastOffers')
+    getActiveFastOffers() {
+        return this.offerService.getActiveFastOffers();
+    }
+
+    @Get('/getFastOffer/:id')
+    getFastOfferById(@Param('id') id) {
+        return this.offerService.getFastOfferById(id);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('/addFastOffer')
+    @UseInterceptors(FileFieldsInterceptor([
+        {name: 'image', maxCount: 1},
+        {name: 'attachments', maxCount: 5}
+    ], {
+        fileFilter: fileExtensionFilter,
+        storage: diskStorage({
+            filename: FileUploadHelper.customFileName,
+            destination: './uploads/offer'
+        })
+    }))
+    addFastOffer(@UploadedFiles() files: {
+        image?: Express.Multer.File[],
+        attachments?: Express.Multer.File[]
+    }, @Body() body) {
+        return this.offerService.addFastOffer(body, files);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Patch('/updateFastOffer')
+    @UseInterceptors(FileFieldsInterceptor([
+        {name: 'image', maxCount: 1},
+        {name: 'attachments', maxCount: 5}
+    ], {
+        fileFilter: fileExtensionFilter,
+        storage: diskStorage({
+            filename: FileUploadHelper.customFileName,
+            destination: './uploads/offer'
+        })
+    }))
+    updateFastOffer(@UploadedFiles() files: {
+        image?: Express.Multer.File[],
+        attachments?: Express.Multer.File[]
+    }, @Body() body) {
+        return this.offerService.updateFastOffer(body, files);
+    }
+
+    @Get('/getFastOffersByAgency/:email')
+    getFastOffersByAgency(@Param('email') email) {
+        return this.offerService.getFastOffersByAgency(email);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete('/deleteFastOffer/:id')
+    deleteFastOffer(@Param('id') id) {
+        return this.offerService.deleteFastOffer(id);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(FileFieldsInterceptor([
+        {name: 'attachments', maxCount: 5}
+    ], {
+        fileFilter: fileExtensionFilter,
+        storage: diskStorage({
+            filename: FileUploadHelper.customFileName,
+            destination: './uploads/offer'
+        })
+    }))
+    @Post('/addFastApplication')
+    addFastApplication(@UploadedFiles() files: {
+        attachments?: Express.Multer.File[]
+    }, @Body() body) {
+        return this.offerService.addFastApplication(body, files);
     }
 }

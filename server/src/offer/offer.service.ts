@@ -9,6 +9,8 @@ import * as axios from 'axios'
 import { HttpService } from '@nestjs/axios'
 import {lastValueFrom, map} from "rxjs";
 import {calculateDistance} from "../common/calculateDistance";
+import {Fast_offer} from "../entities/fast_offer.entity";
+import {Fast_applications} from "../entities/fast_applications.entity";
 
 // 0 - miesiecznie
 // 1 - tygodniowo
@@ -22,10 +24,14 @@ export class OfferService {
     constructor(
         @InjectRepository(Offer)
         private readonly offerRepository: Repository<Offer>,
+        @InjectRepository(Fast_offer)
+        private readonly fastOfferRepository: Repository<Fast_offer>,
         @InjectRepository(Agency)
         private readonly agencyRepository: Repository<Agency>,
         @InjectRepository(Application)
         private readonly applicationRepository: Repository<Application>,
+        @InjectRepository(Fast_applications)
+        private readonly fastApplicationsRepository: Repository<Fast_applications>,
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
         private readonly httpService: HttpService
@@ -39,6 +45,13 @@ export class OfferService {
             .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
             .limit(parseInt(process.env.OFFERS_PER_PAGE))
             .offset((page-1) * parseInt(process.env.OFFERS_PER_PAGE))
+            .getRawMany();
+    }
+
+    async getActiveFastOffers() {
+        return this.fastOfferRepository
+            .createQueryBuilder('offer')
+            .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
             .getRawMany();
     }
 
@@ -194,6 +207,52 @@ export class OfferService {
         });
     }
 
+    async addFastOffer(data, files) {
+        let offerData = JSON.parse(data.offerData);
+
+        // Add filenames
+        offerData = {
+            ...offerData,
+            image: files.image ? files.image[0].path : offerData.imageUrl,
+            attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
+                return {
+                    name: offerData.attachments[index].name,
+                    path: item.path
+                }
+            }) : data.attachments
+        }
+
+        // Get offer data
+        const { title, category, keywords, country, postalCode, city, street, description,
+            accommodationCountry, accommodationCity, accommodationStreet, accommodationPostalCode,
+            accommodationDay, accommodationMonth, accommodationYear, accommodationHour,
+            startDay, startMonth, startYear, startHour, contactPerson, contactNumberCountry, contactNumber,
+            responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
+            salaryCurrency, contractType, image, attachments
+        } = offerData;
+
+        // Get agency id
+        const agency = await this.agencyRepository.findOneBy({email: data.email});
+        const agencyId = agency.id;
+
+        // Add record to database
+        return this.fastOfferRepository.insert({
+            id: null,
+            agency: agencyId,
+            title, category, keywords, country, postalCode, city, street, description,
+            accommodationCountry, accommodationCity, accommodationPostalCode, accommodationStreet,
+            accommodationDay, accommodationHour, accommodationMonth, accommodationYear,
+            startDay, startMonth, startYear, startHour,
+            responsibilities: JSON.stringify(responsibilities),
+            requirements: JSON.stringify(requirements),
+            benefits: JSON.stringify(benefits),
+            salaryType, salaryFrom, salaryTo,
+            salaryCurrency, contractType,
+            contactPerson, contactNumberCountry, contactNumber, image,
+            attachments: JSON.stringify(attachments)
+        });
+    }
+
     async updateOffer(data, files) {
         let offerData = JSON.parse(data.offerData);
 
@@ -237,6 +296,54 @@ export class OfferService {
             .execute();
     }
 
+    async updateFastOffer(data, files) {
+        let offerData = JSON.parse(data.offerData);
+
+        // Add filenames
+        offerData = {
+            ...offerData,
+            image: files.image ? files.image[0].path : offerData.imageUrl,
+            attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
+                return {
+                    name: offerData.attachments[index].name,
+                    path: item.path
+                }
+            }).concat(offerData.oldAttachments) : offerData.oldAttachments
+        }
+
+        // Get offer data
+        const { id, title, category, keywords, country, postalCode, city, street, description,
+            accommodationCountry, accommodationCity, accommodationStreet, accommodationPostalCode,
+            accommodationDay, accommodationMonth, accommodationYear, accommodationHour,
+            startDay, startMonth, startYear, startHour, contactPerson, contactNumberCountry, contactNumber,
+            responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
+            salaryCurrency, contractType, image, attachments
+        } = offerData;
+
+        // Get agency id
+        const agency = await this.agencyRepository.findOneBy({email: data.email});
+        const agencyId = agency.id;
+
+        // Update record in database
+        return this.fastOfferRepository.createQueryBuilder()
+            .update({
+                agency: agencyId,
+                title, category, keywords, country, postalCode, city, street, description,
+                accommodationCountry, accommodationCity, accommodationPostalCode, accommodationStreet,
+                accommodationDay, accommodationHour, accommodationMonth, accommodationYear,
+                startDay, startMonth, startYear, startHour,
+                responsibilities: JSON.stringify(responsibilities),
+                requirements: JSON.stringify(requirements),
+                benefits: JSON.stringify(benefits),
+                salaryType, salaryFrom, salaryTo,
+                contactPerson, contactNumberCountry, contactNumber,
+                salaryCurrency, contractType, image,
+                attachments: JSON.stringify(attachments)
+            })
+            .where({id})
+            .execute();
+    }
+
     async getOffersByAgency(email) {
         // Get agency id
         const agency = await this.agencyRepository.findOneBy({email});
@@ -246,12 +353,33 @@ export class OfferService {
         return this.offerRepository.findBy({agency: agencyId});
     }
 
+    async getFastOffersByAgency(email) {
+        // Get agency id
+        const agency = await this.agencyRepository.findOneBy({email});
+        const agencyId = agency.id;
+
+        // Get job offers
+        return this.fastOfferRepository.findBy({agency: agencyId});
+    }
+
     async deleteOffer(id) {
         return this.offerRepository.delete({id});
     }
 
+    async deleteFastOffer(id) {
+        return this.fastOfferRepository.delete({id});
+    }
+
     async getOfferById(id) {
         return this.offerRepository
+            .createQueryBuilder('o')
+            .where(`o.id = :id`, {id})
+            .innerJoinAndSelect('agency', 'a', 'o.agency = a.id')
+            .getRawMany();
+    }
+
+    async getFastOfferById(id) {
+        return this.fastOfferRepository
             .createQueryBuilder('o')
             .where(`o.id = :id`, {id})
             .innerJoinAndSelect('agency', 'a', 'o.agency = a.id')
@@ -286,6 +414,43 @@ export class OfferService {
             }
 
             return this.applicationRepository.save({
+                user: userId,
+                offer: body.id,
+                message: body.message,
+                preferableContact: body.contactForms,
+                attachments: JSON.stringify(attachments)
+            });
+        }
+    }
+
+    async addFastApplication(body, files) {
+        let attachments = [];
+        const attachmentNames = JSON.parse(body.attachmentsNames);
+
+        // Get user id
+        const user = await this.userRepository.findOneBy({email: body.email});
+        const userId = user.id;
+
+        // Check if user already applied for that offer
+        const userApplication = await this.fastApplicationsRepository.findBy({
+            user: userId,
+            offer: body.id
+        });
+
+        if(userApplication?.length) {
+            throw new HttpException('Aplikowałeś już na tę ofertę pracy', 502);
+        }
+        else {
+            if(files?.attachments) {
+                attachments = files.attachments.map((item, index) => {
+                    return {
+                        name: attachmentNames[index],
+                        path: item.filename
+                    }
+                });
+            }
+
+            return this.fastApplicationsRepository.save({
                 user: userId,
                 offer: body.id,
                 message: body.message,

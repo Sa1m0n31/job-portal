@@ -84,7 +84,7 @@ function App() {
       <Route path="/dodaj-blyskawiczna-oferte-pracy">
         <AgencyWrapper page={6} />
       </Route>
-      <Route path="/moje-blyskawiczne-ofery-pracy">
+      <Route path="/moje-blyskawiczne-oferty-pracy">
         <AgencyWrapper page={7} />
       </Route>
       <Route path="/edycja-blyskawicznej-ofery-pracy">

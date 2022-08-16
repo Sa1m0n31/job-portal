@@ -225,6 +225,53 @@
         flex-direction: column;
     }
 
+    .textarea--content {
+        font-size: 16px;
+    }
+
+    .messages__chatHeader {
+        padding: 15px;
+    }
+
+    .messages__section {
+        padding: 20px;
+    }
+
+    .messages__header {
+        font-size: 24px;
+    }
+
+    .messages__currentChatButtons .btn {
+        font-size: 12px;
+        height: 32px;
+    }
+
+    .messages__currentChatContent,
+    .messages__chatHeader__header,
+    .messagePreview__recipient,
+    .messagePreview__title {
+        font-size: 15px;
+    }
+
+    .messagePreview--new::after {
+        width: 8px;
+        height: 8px;
+    }
+
+    .messagePreview__time {
+        font-size: 12px;
+    }
+
+    .messages__buttons .btn {
+        font-size: 14px;
+    }
+
+    .btn--newMessage {
+        height: 44px;
+        padding: 5px 10px;
+        font-size: 15px;
+    }
+
     .preview--user {
         width: 100%;
     }
@@ -438,6 +485,22 @@
         width: 400px;
     }
 
+    .messages {
+        flex-direction: column;
+    }
+
+    .messages__previews,
+    .messages__section {
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        max-height: none;
+    }
+
+    .messages__section:first-of-type {
+        margin-bottom: 30px;
+    }
+
     .preview {
         width: 100%;
     }
@@ -591,6 +654,15 @@
         display: none;
     }
 
+    .contentLabel {
+        margin: 10px 0;
+        padding: 18px 0;
+    }
+
+    .writeMessage > .label > div > .css-1s2u09g-control {
+        height: 30px;
+    }
+
     .container--userProfile .userAccount__box__right {
         min-width: 100%;
     }
@@ -614,6 +686,14 @@
         height: auto;
     }
 
+    .d-mobile {
+        display: block;
+    }
+
+    .d-desktop {
+        display: none;
+    }
+
     .preview {
         border: 1px solid #C1C1C1;
         box-shadow: none;
@@ -622,6 +702,136 @@
         margin: 0 auto 20px;
         border-radius: 5px;
         padding: 15px;
+    }
+
+    .messages {
+        padding-top: 10px;
+        align-items: center;
+    }
+
+    .messages__buttons {
+        margin: 20px 0 15px;
+    }
+
+    .messagePreview {
+        padding: 15px 0;
+    }
+
+    .messages__previews {
+        margin-top: 15px;
+    }
+
+    .messages__dropdownSection {
+        height: 35px;
+    }
+
+    .container--messages .userAccount__top {
+        display: none !important;
+    }
+
+    .messages {
+        margin-top: 80px;
+    }
+
+    .messages__buttons .btn {
+        padding: 5px;
+        margin-right: 10px;
+        font-size: 12px;
+    }
+
+    .messages__chatHeader__header {
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    .messages__currentChatContent {
+        font-size: 12px;
+        margin-bottom: 20px;
+    }
+
+    .messagePreview__left {
+        margin-right: 15px;
+    }
+
+    .messages__currentChatButtons {
+        flex-direction: column;
+        padding-bottom: 10px;
+    }
+
+    .messages__currentChatButtons .btn {
+        width: 100%;
+        margin-bottom: 10px;
+        margin-right: 0;
+    }
+
+    .newMessages .messagePreview {
+        align-items: flex-start;
+    }
+
+    .messagePreview--new::after {
+        top: unset;
+        bottom: 15px;
+        transform: none;
+    }
+
+    .messages__dropdownSection .btn {
+        height: 35px;
+        font-size: 11px;
+    }
+
+    .messages__buttons .btn:last-of-type {
+        margin-right: 0;
+    }
+
+    .messages__dropdownSection .btn:last-of-type .img,
+    .messages__buttons .btn .img {
+        width: 12px;
+    }
+
+    .messages__section:first-of-type {
+        margin-bottom: 10px;
+    }
+
+    .messages__dropdownSection .btn {
+        font-size: 12px;
+    }
+
+    .newMessages .messagePreview {
+        padding-right: 0;
+    }
+
+    .messagePreview__checkbox {
+        margin-right: 15px;
+    }
+
+    .messages__header {
+        font-size: 15px;
+    }
+
+    .messagePreview__recipient,
+    .messagePreview__title {
+        font-size: 12px;
+    }
+
+    .btn--newMessage {
+        font-size: 12px;
+        height: 25px;
+    }
+
+    .writeMessage,
+    .messages__section {
+        border: 1px solid #C1C1C1;
+        box-shadow: none;
+        padding: 15px;
+        max-width: 400px;
+    }
+
+    .textarea--content {
+        font-size: 15px;
+    }
+
+    .btn--sendMessage {
+        width: 100%;
     }
 
     .preview__left {

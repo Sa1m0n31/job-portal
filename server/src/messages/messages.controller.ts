@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post} from '@nestjs/common';
+import {Body, Controller, Get, Param, Patch, Post} from '@nestjs/common';
 import {MessagesService} from "./messages.service";
 
 @Controller('messages')
@@ -9,7 +9,7 @@ export class MessagesController {
     }
 
     @Get('/getChat/:id')
-    getChat(@Param('user') id) {
+    getChat(@Param('id') id) {
         return this.messagesService.getChat(id);
     }
 
@@ -26,5 +26,15 @@ export class MessagesController {
     @Get('/getAgencyMessages/:agency')
     getAgencyMessages(@Param('agency') agency) {
         return this.messagesService.getAgencyMessages(agency);
+    }
+
+    @Patch(`/archiveMessages`)
+    archiveMessages(@Body() body) {
+        return this.messagesService.archiveMessages(body.ids, body.byAgency);
+    }
+
+    @Patch(`/restoreMessages`)
+    restoreMessages(@Body() body) {
+        return this.messagesService.restoreMessages(body.ids, body.byAgency);
     }
 }

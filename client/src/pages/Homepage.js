@@ -23,7 +23,7 @@ const Homepage = () => {
                         getUserData()
                             .then((res) => {
                                 if(res?.status === 200) {
-                                    window.location = '/konto-pracownika';
+                                    window.location = '/oferty-pracy';
                                 }
                                 else {
                                     setRender(true);

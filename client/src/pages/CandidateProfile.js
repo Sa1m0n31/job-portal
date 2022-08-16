@@ -128,7 +128,7 @@ const CandidateProfile = ({data}) => {
                                 <img className="img" src={whatsAppIcon} alt="napisz-wiadomosc" />
                                 WhatsApp
                             </a> : ''}
-                            <a href={`/napisz-wiadomosc?kandydat=${id}`}
+                            <a href={`/nowa-wiadomosc?kandydat=${id}`}
                                className="btn btn--writeMessage">
                                 <img className="img" src={messageIcon} alt="napisz-wiadomosc" />
                                 Wiadomość

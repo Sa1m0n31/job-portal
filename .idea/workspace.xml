@@ -23,19 +23,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06c2c867-885a-4984-820a-27e97dc3ed90" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/helpers/messages.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/MessageList.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/SendMessage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/docs/chat_json_structure" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/entities/messages.entity.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/messages-arrow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/reply-icon.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyWrapper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/LoggedUserHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/LoggedUserHeader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserPreview.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserPreview.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/UserWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserWrapper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/messages.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/messages.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/CandidateProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/CandidateProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/MessageList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/MessageList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/SendMessage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SendMessage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/agency/agency.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/agency/agency.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/user/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/entities/messages.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/entities/messages.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/messages/messages.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/messages/messages.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/messages/messages.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/messages/messages.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/messages/messages.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/messages/messages.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -64,7 +69,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/client/src/static/img" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="ts.external.directory.path" value="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\node_modules\typescript\lib" />
@@ -72,8 +77,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\components" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\static\img" />
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\components" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\src\entities" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\src\common" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\src" />
@@ -109,7 +114,7 @@
       <workItem from="1660089615195" duration="9912000" />
       <workItem from="1660216635172" duration="18496000" />
       <workItem from="1660264392991" duration="25411000" />
-      <workItem from="1660560494516" duration="6780000" />
+      <workItem from="1660560494516" duration="27725000" />
     </task>
     <servers />
   </component>
@@ -162,17 +167,17 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1143" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659037306310" />
-    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1660343417091">
+    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1660586841431">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1660343417091" />
+    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1660586841431" />
     <state x="-1304" y="240" key="run.anything.popup" timestamp="1660079085154">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1660079085154" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1660569172598">
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1660607798467">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1660569172598" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1660607798467" />
   </component>
 </project>

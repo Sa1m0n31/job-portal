@@ -28,7 +28,7 @@ const UserPreview = ({i, id, data}) => {
 
                 <div className="preview__buttons preview__buttons--mobile">
                     <a className="btn btn--white"
-                       href={`/napisz-wiadomosc?id=${id}`}>
+                       href={`/nowa-wiadomosc?kandydat=${id}`}>
                         <img className="img" src={messageIcon} alt="wiadomość" />
                         Napisz
                     </a>
@@ -92,7 +92,7 @@ const UserPreview = ({i, id, data}) => {
                     Zobacz profil
                 </a>
                 <a className="btn btn--white"
-                   href={`/napisz-wiadomosc?pracownik=${id}`}>
+                   href={`/nowa-wiadomosc?kandydat=${id}`}>
                     <img className="img" src={messageIcon} alt="wiadomość" />
                     Napisz
                 </a>

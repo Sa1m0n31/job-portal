@@ -21,7 +21,6 @@ const UserWrapper = ({page}) => {
                     if(res?.status === 201) {
                         getUserData()
                             .then((res) => {
-                                console.log(res);
                                 if(res?.status === 200) {
                                     let data;
                                     if(res?.data?.data) {
@@ -50,7 +49,9 @@ const UserWrapper = ({page}) => {
                                             setRender(<AgenciesList data={data} />);
                                             break;
                                         case 8:
-                                            setRender(<MessageList data={data} agency={false} />);
+                                            setRender(<MessageList data={data}
+                                                                   id={res?.data?.id}
+                                                                   agency={false} />);
                                             break;
                                         case 9:
                                             setRender(<SendMessage data={data} agency={false} />);

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Messages} from "../entities/messages.entity";
-import {Repository} from "typeorm";
+import {In, Repository} from "typeorm";
 
 @Injectable()
 export class MessagesService {
@@ -21,7 +21,9 @@ export class MessagesService {
         if(user && agency && title) {
             return this.messagesRepository.save({
                 id, user, agency, title,
-                chat: JSON.stringify(chat)
+                chat: JSON.stringify(chat),
+                archivedByUser: false,
+                archivedByAgency: false
             });
         }
         else if(id) {
@@ -33,10 +35,46 @@ export class MessagesService {
     }
 
     async getUserMessages(user: number) {
-        return this.messagesRepository.findBy({user});
+        return this.messagesRepository
+            .createQueryBuilder('m')
+            .where({user})
+            .innerJoinAndSelect('agency', 'a', 'a.id = m.agency')
+            .getRawMany();
     }
 
     async getAgencyMessages(agency: number) {
-        return this.messagesRepository.findBy({agency});
+        return this.messagesRepository
+            .createQueryBuilder('m')
+            .where({agency})
+            .innerJoinAndSelect('user', 'u', 'u.id = m.user')
+            .getRawMany();
+    }
+
+    async archiveMessages(ids, byAgency) {
+        return this.messagesRepository
+            .createQueryBuilder()
+            .update(byAgency ? {
+                archivedByAgency: true
+            } : {
+                archivedByUser: true
+            })
+            .where({
+                id: In(ids)
+            })
+            .execute();
+    }
+
+    async restoreMessages(ids, byAgency) {
+        return this.messagesRepository
+            .createQueryBuilder()
+            .update(byAgency ? {
+                archivedByAgency: false
+            } : {
+                archivedByUser: false
+            })
+            .where({
+                id: In(ids)
+            })
+            .execute();
     }
 }

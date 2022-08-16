@@ -5,16 +5,84 @@ import messageIcon from '../static/img/message-blue.svg'
 import bellIcon from '../static/img/bell-ring.svg'
 import arrowDown from '../static/img/arrow-down.svg'
 import settings from "../static/settings";
-import {logout} from "../helpers/user";
+import {getUserData, logout} from "../helpers/user";
 import logoutIcon from '../static/img/logout.svg'
 import userPlaceholder from '../static/img/user-placeholder.svg'
+import {getAgencyMessages, getUserMessages} from "../helpers/messages";
+import {getAgencyData} from "../helpers/agency";
+import messagesIcon from '../static/img/messages-arrow.svg'
 
-const LoggedUserHeader = ({data, agency}) => {
+const LoggedUserHeader = ({data, agency, messageUpdate}) => {
     const [messages, setMessages] = useState([]);
     const [notifications, setNotifications] = useState([]);
     const [userMenuVisible, setUserMenuVisible] = useState(false);
+    const [messagesDropdown, setMessagesDropdown] = useState(false);
+    const [notificationsDropdown, setNotificationsDropdown] = useState(false);
+    const [newMessages, setNewMessages] = useState(0);
+    const [newNotifications, setNewNotifications] = useState(false);
 
-    return <header className="loggedUserHeader">
+    useEffect(() => {
+        document.addEventListener('keyup', (e) => {
+            if(e.key === 'Escape') {
+                setMessagesDropdown(false);
+                setNotificationsDropdown(false);
+            }
+        });
+    }, []);
+
+    useEffect(() => {
+        async function setupMessages() {
+            if(agency) {
+                const agencyData = await getAgencyData();
+                const agencyMessages = await getAgencyMessages(agencyData?.data?.id);
+                setMessages(agencyMessages?.data?.filter((item) => {
+                    const chat = JSON.parse(item.m_chat);
+                    return chat.findIndex((item) => {
+                        return item.fromAgency !== agency;
+                    }) !== -1 && !item.m_archivedByAgency;
+                }));
+            }
+            else {
+                const userData = await getUserData();
+                const userMessages = await getUserMessages(userData?.data?.id);
+                setMessages(userMessages?.data?.filter((item) => {
+                    const chat = JSON.parse(item.m_chat);
+                    return chat.findIndex((item) => {
+                        return item.fromAgency !== agency;
+                    }) !== -1 && !item.m_archivedByUser;
+                }));
+            }
+        }
+
+        setupMessages();
+    }, [agency, messageUpdate]);
+
+    useEffect(() => {
+        if(messages?.length) {
+            setNewMessages(messages.filter((item) => {
+                return isNew(JSON.parse(item.m_chat));
+            })?.length);
+        }
+    }, [messages]);
+
+    const isNew = (chat) => {
+        let lastMessage;
+        if(agency) {
+            lastMessage = chat?.filter((item) => (!item.fromAgency));
+        }
+        else {
+            lastMessage = chat?.filter((item) => (item.fromAgency));
+        }
+
+        if(lastMessage?.length) {
+            return !lastMessage.slice(-1)[0]?.read;
+        }
+        else {
+            return false;
+        }
+    }
+
+    return <header className="loggedUserHeader" onClick={() => { setMessagesDropdown(false); setNotificationsDropdown(false); }}>
         <MobileHeader loggedUser={true} />
 
         <div className="loggedUserHeader__desktop flex">
@@ -58,12 +126,45 @@ const LoggedUserHeader = ({data, agency}) => {
             </div>
 
             <div className="loggedUserHeader__notificationsContainer">
-                <button className={!messages.length ? "loggedUserHeader__notificationBtn" : "loggedUserHeader__notificationBtn loggedUserHeader__notificationBtn--new"}>
-                    <img className="img" src={messageIcon} alt="wiadomosci" />
-                </button>
-                <button className={!notifications.length ? "loggedUserHeader__notificationBtn" : "loggedUserHeader__notificationBtn loggedUserHeader__notificationBtn--new"}>
-                    <img className="img" src={bellIcon} alt="wiadomosci" />
-                </button>
+                <div className="rel">
+                    <button className={!newMessages ? "loggedUserHeader__notificationBtn" : "loggedUserHeader__notificationBtn loggedUserHeader__notificationBtn--new"}
+                            onClick={(e) => { e.stopPropagation(); setMessagesDropdown(!messagesDropdown); }}>
+                        <img className="img" src={messageIcon} alt="wiadomosci" />
+                    </button>
+
+                    {messagesDropdown ? <div className="notifications__dropdown">
+                        <a className="notifications__dropdown__item notifications__dropdown__item--bottom"
+                           href={agency ? '/wiadomosci' : '/moje-wiadomosci'}>
+                            {messages?.length ? `Nowe wiadomości: ${newMessages}` : 'Nie masz jeszcze żadnych wiadomości'}
+                        </a>
+                        {messages?.map((item, index) => {
+                            if(index < 2) {
+                                const receiverData = agency ? JSON.parse(item.u_data) : JSON.parse(item.a_data);
+                                const receiver = !agency ? (receiverData.name ? receiverData.name : 'Anonimowy') : (receiverData.firstName ? `${receiverData.firstName} ${receiverData.lastName}` : 'Anonimowy');
+                                return <a className="notifications__dropdown__item"
+                                          key={index}
+                                          href={agency ? '/wiadomosci' : '/moje-wiadomosci'}>
+                                    <span className="notifications__dropdown__item__recipient">
+                                        {receiver}
+                                    </span>
+                                    <span className="notifications__dropdown__item__title">
+                                        {item.m_title}
+                                    </span>
+                                </a>
+                            }
+                        })}
+                        {messages?.length ? <a className="notifications__dropdown__item notifications__dropdown__item--bottom"
+                                               href={agency ? '/wiadomosci' : '/moje-wiadomosci'}>
+                            Wszystkie wiadomości
+                            <img className="img" src={messagesIcon} alt="wiadomosci" />
+                        </a>: ''}
+                    </div> : ''}
+                </div>
+                <div className="rel">
+                    <button className={!newNotifications ? "loggedUserHeader__notificationBtn" : "loggedUserHeader__notificationBtn loggedUserHeader__notificationBtn--new"}>
+                        <img className="img" src={bellIcon} alt="wiadomosci" />
+                    </button>
+                </div>
             </div>
 
             <div className="rel">

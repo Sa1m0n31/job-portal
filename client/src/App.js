@@ -55,7 +55,7 @@ function App() {
       <Route path="/blyskawiczne-oferty-pracy">
         <UserWrapper page={7} />
       </Route>
-      <Route path="/wiadomosci">
+      <Route path="/moje-wiadomosci">
         <UserWrapper page={8} />
       </Route>
       <Route path="/napisz-wiadomosc">
@@ -95,6 +95,12 @@ function App() {
       </Route>
       <Route path="/profil-kandydata">
         <AgencyWrapper page={10} />
+      </Route>
+      <Route path="/wiadomosci">
+        <AgencyWrapper page={11} />
+      </Route>
+      <Route path="/nowa-wiadomosc">
+        <AgencyWrapper page={12} />
       </Route>
     </Router>
   </LanguageContext.Provider>

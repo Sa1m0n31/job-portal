@@ -11,6 +11,8 @@ import MyJobOffers from "../pages/MyJobOffers";
 import EditJobOffer from "../pages/EditJobOffer";
 import CandidatesList from "../pages/CandidatesList";
 import CandidateProfile from "../pages/CandidateProfile";
+import MessageList from "../pages/MessageList";
+import SendMessage from "../pages/SendMessage";
 
 const AgencyWrapper = ({page}) => {
     const [render, setRender] = useState(null);
@@ -45,6 +47,12 @@ const AgencyWrapper = ({page}) => {
                                             break;
                                         case 10:
                                             setRender(<CandidateProfile data={data} />);
+                                            break;
+                                        case 11:
+                                            setRender(<MessageList data={data} agency={true} id={res?.data?.id} />);
+                                            break;
+                                        case 12:
+                                            setRender(<SendMessage data={data} isAgency={true} />);
                                             break;
                                         default:
                                             window.location = '/';

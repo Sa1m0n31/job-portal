@@ -18,4 +18,17 @@ const getAgencyMessages = (agency) => {
     return axios.get(`/messages/getAgencyMessages/${agency}`);
 }
 
-export { getChat, sendMessage, getUserMessages, getAgencyMessages }
+const archiveMessagesByIds = (ids, byAgency) => {
+    return axios.patch(`/messages/archiveMessages`, {
+        ids, byAgency
+    });
+}
+
+const restoreMessagesByIds = (ids, byAgency) => {
+    return axios.patch(`/messages/restoreMessages`, {
+        ids, byAgency
+    });
+}
+
+export { getChat, sendMessage, getUserMessages, getAgencyMessages,
+    archiveMessagesByIds, restoreMessagesByIds }

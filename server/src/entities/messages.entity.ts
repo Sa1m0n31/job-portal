@@ -16,4 +16,10 @@ export class Messages {
 
     @Column()
     chat: string;
+
+    @Column()
+    archivedByUser: boolean;
+
+    @Column()
+    archivedByAgency: boolean;
 }

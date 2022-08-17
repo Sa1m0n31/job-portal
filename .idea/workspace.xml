@@ -23,21 +23,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06c2c867-885a-4984-820a-27e97dc3ed90" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/pages/AddFastJobOffer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/MyFastJobOffers.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/entities/fast_applications.entity.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/entities/fast_offer.entity.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/AgencyApplications.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/FastJobOffersList.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/pages/SingleFastOffer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/home-icon-blue.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/AgencyWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyWrapper.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/LoggedUserHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/LoggedUserHeader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm1.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserPreview.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserPreview.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserWrapper.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/helpers/offer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/offer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/others.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/others.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AddFastJobOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AddFastJobOffer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/AddJobOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AddJobOffer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/ApplicationForJobPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/ApplicationForJobPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/MyFastJobOffers.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/MyFastJobOffers.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/content.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/content.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/common/FileExtensionFilter.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/common/FileExtensionFilter.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/common/FileUploadHelper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/common/FileUploadHelper.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/offer/offer.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/offer/offer.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/offer/offer.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/offer/offer.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/user/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/user/user.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/user/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +78,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/server/src/entities" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../annavinbotti" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -75,9 +87,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\src\entities" />
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\pages" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\static\img" />
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\pages" />
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\src\entities" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\components" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\src\common" />
     </key>
@@ -113,7 +125,7 @@
       <workItem from="1660216635172" duration="18496000" />
       <workItem from="1660264392991" duration="25411000" />
       <workItem from="1660560494516" duration="28576000" />
-      <workItem from="1660658240540" duration="5986000" />
+      <workItem from="1660658240540" duration="22017000" />
     </task>
     <servers />
   </component>
@@ -141,10 +153,10 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1230" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1658866371098" />
-    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1660347800422">
+    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1660695241857">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1660347800422" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1660695241857" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1660251453652" />
     <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1658958663256">
       <screen x="-1920" y="0" width="1920" height="1040" />
@@ -178,9 +190,9 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1660079085154" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1660673297958">
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1660695403580">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1660673297958" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1660695403580" />
   </component>
 </project>

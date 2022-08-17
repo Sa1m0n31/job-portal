@@ -69,8 +69,7 @@ const AddJobOffer = ({updateMode}) => {
     const addOfferSuccess = useRef(null);
 
     const setInitialData = (data) => {
-        console.log(JSON.parse(data.o_attachments));
-        setOldAttachments(JSON.parse(data.o_attachments));
+        setOldAttachments(data.o_attachments ? JSON.parse(data.o_attachments) : []);
         setBenefits(JSON.parse(data.o_benefits));
         setCategory(parseInt(data.o_category));
         setCity(data.o_city);

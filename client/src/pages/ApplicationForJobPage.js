@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import backArrow from "../static/img/back-arrow-grey.svg";
-import {getOfferById} from "../helpers/offer";
+import {getFastOfferById, getOfferById, submitFastApplication} from "../helpers/offer";
 import settings from "../static/settings";
 import magnifier from '../static/img/magnifier.svg'
 import pen from '../static/img/pen-blue.svg'
@@ -22,6 +22,7 @@ const ApplicationForJobPage = ({data}) => {
     const [contactForms, setContactForms] = useState([]);
     const [attachments, setAttachments] = useState([]);
     const [error, setError] = useState('');
+    const [fast, setFast] = useState(false);
     const [c1, setC1] = useState(false);
     const [success, setSuccess] = useState(false);
 
@@ -31,16 +32,32 @@ const ApplicationForJobPage = ({data}) => {
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
+        const type = params.get('typ');
+
         if(id) {
-            getOfferById(id)
-                .then((res) => {
-                    if(res?.status === 200) {
-                        setOffer(res?.data[0]);
-                    }
-                })
-                .catch(() => {
-                    window.location = '/';
-                });
+            if(type === 'blyskawiczna') {
+                getFastOfferById(id)
+                    .then((res) => {
+                        if(res?.status === 200) {
+                            setOffer(res?.data[0]);
+                            setFast(true);
+                        }
+                    })
+                    .catch(() => {
+                        window.location = '/';
+                    });
+            }
+            else {
+                getOfferById(id)
+                    .then((res) => {
+                        if(res?.status === 200) {
+                            setOffer(res?.data[0]);
+                        }
+                    })
+                    .catch(() => {
+                        window.location = '/';
+                    });
+            }
         }
         else {
             window.location = '/';
@@ -144,7 +161,8 @@ const ApplicationForJobPage = ({data}) => {
             setError('Wyraź zgodę na przetwarzanie danych osobowych');
         }
         else {
-            submitApplication(offer.o_id, message, contactForms, attachments)
+            let func = fast ? submitFastApplication : submitApplication;
+            func(offer.o_id, message, contactForms, attachments)
                 .then((res) => {
                     if(res?.status === 201) {
                         setSuccess(true);

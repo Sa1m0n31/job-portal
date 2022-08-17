@@ -318,8 +318,15 @@ const distances = [
     '+100 km', '+50 km', '+40 km', '+30 km', '+20 km', '+10 km', '+5 km'
 ];
 
+const preferableContactForms = [
+    'telefonicznie',
+    'mailowo',
+    'prywatna wiadomość przez Jooob.eu',
+    'brak'
+]
+
 export { steps, stepsContent, stepsMainContent, months, countries, phoneNumbers, formErrors, educationLevels, languages, drivingLicences,
     languageLevels, currencies, categories, attachmentsErrors, flags, stepsAgency, stepsAgencyContent, stepsAgencyMainContent, nipCountries,
     rooms, houses, paymentTypes, pensionType, paycheckFrequency, pensionFrequency, paycheckDay, healthInsuranceOptions, noInfo, contracts,
-    jobOfferErrors, myJobOffersFilter, distances
+    jobOfferErrors, myJobOffersFilter, distances, preferableContactForms
 }

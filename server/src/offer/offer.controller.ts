@@ -183,4 +183,14 @@ export class OfferController {
     }, @Body() body) {
         return this.offerService.addFastApplication(body, files);
     }
+
+    @Get('/getApplicationsByAgency/:email')
+    getApplicationsByAgency(@Param('email') email) {
+        return this.offerService.getApplicationsByAgency(email);
+    }
+
+    @Get('/getFastApplicationsByAgency/:email')
+    getFastApplicationsByAgency(@Param('email') email) {
+        return this.offerService.getFastApplicationsByAgency(email);
+    }
 }

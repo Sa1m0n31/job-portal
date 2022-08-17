@@ -6,17 +6,13 @@ import phoneIcon from '../static/img/phone-grey.svg'
 import mailIcon from '../static/img/message-grey.svg'
 import websiteIcon from '../static/img/www-icon.svg'
 import settings from "../static/settings";
-import {categories, countries} from "../static/content";
+import {categories, countries, preferableContactForms} from "../static/content";
 import eyeIcon from '../static/img/eye-icon.svg'
 import messageIcon from '../static/img/message-empty.svg'
 import downloadIcon from '../static/img/download-white.svg'
 
-const UserPreview = ({i, id, data}) => {
-    useEffect(() => {
-        console.log(data);
-    }, [data]);
-
-    return data ? <div className="preview preview--agency preview--user flex" key={i}>
+const UserPreview = ({i, id, data, application}) => {
+    return data ? <div className={application ? "preview preview--agency preview--user flex flex-wrap" : "preview preview--agency preview--user flex"} key={i}>
         <div className="preview__left">
             <figure className="preview__profileImage">
                 <img className="img" src={data?.profileImage ? `${settings.API_URL}/${data.profileImage}` : userPlaceholder} alt="logo" />
@@ -98,6 +94,50 @@ const UserPreview = ({i, id, data}) => {
                 </a>
             </div>
         </div>
+
+        {application ? <div className="preview__bottom">
+            <div className="preview__bottom__section">
+                <h4 className="preview__bottom__header">
+                    Wiadomość
+                </h4>
+                <div className="preview__bottom__content">
+                    {application.message}
+                </div>
+            </div>
+            <div className="preview__bottom__section">
+                <h4 className="preview__bottom__header">
+                    Preferowana forma kontaktu
+                </h4>
+                <div className="preview__bottom__content">
+                    {application.preferableContact?.map((item, index, array) => {
+                        if(index === array.length-1) {
+                            return preferableContactForms[item];
+                        }
+                        else {
+                            return preferableContactForms[item] + ', ';
+                        }
+                    })}
+                </div>
+            </div>
+            {application?.attachments?.length ? <div className="preview__bottom__section">
+                <h3 className="preview__bottom__header">
+                    Załączniki
+                </h3>
+                <div className="jobOffer__section__text jobOffer__section__text--attachments">
+                    {application.attachments?.map((item, index) => {
+                        return <a href={`${settings.API_URL}/uploads/offer/${item.path}`}
+                                  download
+                                  target="_blank"
+                            // download={`${item.path.replace(`-${item.path.split('-')?.slice(-1)[0]}`, '')}.${item.path.split('.').slice(-1)[0]}`.split('\\').slice(-1)[0]}
+                                  key={index}
+                                  className="jobOffer__attachmentBtn">
+                            <img className="img" src={downloadIcon} alt="pobierz" />
+                            {item.name}
+                        </a>
+                    })}
+                </div>
+            </div> : ''}
+        </div> : ''}
     </div> : ''
 };
 

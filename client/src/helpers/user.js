@@ -94,6 +94,14 @@ const getUserApplications = () => {
     });
 }
 
+const getUserFastApplications = () => {
+    return axios.get(`/user/getUserFastApplications/${getLoggedUserEmail()}`, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
+}
+
 const logout = () => {
     const cookies = new Cookies();
     cookies.remove('access_token', { path: '/' });
@@ -121,5 +129,5 @@ const filterUsers = (category, country, city, distance, salaryType, salaryFrom, 
 
 export { registerUser, verifyUser, loginUser, authUser, updateUser, getUserData, logout,
     toggleUserVisibility, toggleUserWorking, getUserApplications, getAllUsers, getAllVisibleUsers,
-    filterUsers, getUserById
+    filterUsers, getUserById, getUserFastApplications
 }

@@ -221,7 +221,7 @@
 }
 
 @media(max-width: 1400px) {
-    .label--date--address > .flex {
+    .label--date--address > .flex:not(.flex--fastOffer) {
         flex-direction: column;
     }
 
@@ -417,8 +417,8 @@
         margin-left: 15px;
     }
 
-    .label--date--address > .flex > *,
-    .label--date--address > .flex > * > *
+    .label--date--address > .flex:not(.flex--fastOffer) > *,
+    .label--date--address > .flex:not(.flex--fastOffer) > * > *
     {
         width: 100%;
     }
@@ -437,7 +437,7 @@
         width: unset;
     }
 
-    .label--date--address > .flex > * {
+    .label--date--address > .flex:not(.flex--fastOffer) > * {
         margin-bottom: 10px;
     }
 
@@ -1545,11 +1545,53 @@
         left: unset;
         transform: none;
     }
+
+    .drivingLicenceWrapper .label--city {
+        max-width: 55vw;
+    }
 }
 
 @media(max-width: 768px) {
     .editData__formWrapper__header {
         font-size: 18px;
+    }
+
+    .jobOffer__point .distance,
+    .jobOffer__point--time .distance,
+    .jobOffer__point p span:last-of-type {
+        font-size: 12px;
+    }
+
+    .container--addFastOffer .addOfferSuccess > .flex {
+        max-width: 100%;
+    }
+
+    .drivingLicenceWrapper .flex--fastOffer,
+    .label--date--address > .flex--fastOffer {
+        flex-direction: column;
+    }
+
+    .drivingLicenceWrapper .label--city .datepicker--month {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .flex--fastOffer .label--city .datepickerDropdown {
+        max-width: 100%;
+    }
+
+    .drivingLicenceWrapper .flex--fastOffer > *,
+    .drivingLicenceWrapper .flex--fastOffer > * > *,
+    .label--date--address > .flex--fastOffer > *,
+    .label--date--address > .flex--fastOffer > * > *
+    {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .drivingLicenceWrapper .flex--fastOffer > *,
+    .label--date--address > .flex--fastOffer > * {
+        margin: 5px 0;
     }
 
     .noOffersFound {

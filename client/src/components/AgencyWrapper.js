@@ -15,6 +15,7 @@ import MessageList from "../pages/MessageList";
 import SendMessage from "../pages/SendMessage";
 import AddFastJobOffer from "../pages/AddFastJobOffer";
 import MyFastJobOffers from "../pages/MyFastJobOffers";
+import AgencyApplications from "../pages/AgencyApplications";
 
 const AgencyWrapper = ({page}) => {
     const [render, setRender] = useState(null);
@@ -64,6 +65,9 @@ const AgencyWrapper = ({page}) => {
                                             break;
                                         case 12:
                                             setRender(<SendMessage data={data} isAgency={true} />);
+                                            break;
+                                        case 13:
+                                            setRender(<AgencyApplications data={data} />);
                                             break;
                                         default:
                                             window.location = '/';

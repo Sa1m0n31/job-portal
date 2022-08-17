@@ -52,7 +52,7 @@ function App() {
       <Route path="/pracodawcy">
         <UserWrapper page={6} />
       </Route>
-      <Route path="/blyskawiczne-oferty-pracy">
+      <Route path="/oferty-blyskawiczne">
         <UserWrapper page={7} />
       </Route>
       <Route path="/moje-wiadomosci">
@@ -63,6 +63,9 @@ function App() {
       </Route>
       <Route path="/profil-agencji">
         <UserWrapper page={10} />
+      </Route>
+      <Route path="/blyskawiczna-oferta-pracy">
+        <UserWrapper page={11} />
       </Route>
 
       {/* AGENCY ROUTES */}
@@ -87,7 +90,7 @@ function App() {
       <Route path="/moje-blyskawiczne-oferty-pracy">
         <AgencyWrapper page={7} />
       </Route>
-      <Route path="/edycja-blyskawicznej-ofery-pracy">
+      <Route path="/edycja-blyskawicznej-oferty-pracy">
         <AgencyWrapper page={8} />
       </Route>
       <Route path="/kandydaci">
@@ -101,6 +104,9 @@ function App() {
       </Route>
       <Route path="/nowa-wiadomosc">
         <AgencyWrapper page={12} />
+      </Route>
+      <Route path="/zgloszenia">
+        <AgencyWrapper page={13} />
       </Route>
     </Router>
   </LanguageContext.Provider>

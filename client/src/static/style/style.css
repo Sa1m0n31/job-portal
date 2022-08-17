@@ -2652,6 +2652,16 @@ input {
     background: #fff;
 }
 
+.container--addFastOffer .addOfferSuccess .btn--white {
+    width: auto;
+    padding: 5px 15px;
+}
+
+.container--addFastOffer .addOfferSuccess > .flex {
+    width: 450px;
+    max-width: 450px;
+}
+
 .offerItem {
     position: relative;
     background: #fff;
@@ -4266,4 +4276,195 @@ div[data-testid=circles-loading] {
 
 .red {
     color: #CB4949;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.preview.flex-wrap {
+    justify-content: space-between;
+}
+
+.label--city {
+    flex-basis: 100%;
+    max-width: 350px;
+    margin: 0 0 0 15px;
+}
+
+.label--city .input--address {
+    max-width: 270px;
+    width: 270px;
+}
+
+.drivingLicenceWrapper .label--city .datepicker--month {
+    max-width: 300px;
+    width: 300px;
+}
+
+.label--postalCode {
+    margin: 10px 15px 0 0;
+}
+
+.label--street {
+    margin-top: 10px;
+}
+
+.drivingLicenceWrapper .label--city {
+    max-width: 550px;
+}
+
+.drivingLicenceWrapper .flex--fastOffer {
+    margin-top: 5px;
+}
+
+.flex--fastOffer .datepicker--day {
+    padding: 0 15px;
+    justify-content: space-between;
+}
+
+.flex--fastOffer .label--city .datepickerDropdown {
+    max-width: 250px;
+}
+
+.label--normal .input {
+    padding-left: 15px;
+}
+
+.container--addFastOffer .label--phoneNumber .label--normal {
+    margin-bottom: 8px;
+}
+
+.container--addFastOffer .label--phoneNumber > * {
+    max-width: 350px;
+}
+
+.container--addFastOffer .label--phoneNumber > .label--normal {
+    max-width: 400px;
+    margin-top: 4px;
+}
+
+.container--addFastOffer .datepickerDropdown--phoneNumbers {
+    flex-wrap: wrap;
+}
+
+.container--addFastOffer .datepickerDropdown--phoneNumbers .datepickerBtn {
+    max-width: 20%;
+}
+
+.container--addFastOffer {
+    min-height: 100vh;
+}
+
+.limitWarning {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.limitWarning .img {
+    max-width: 100px;
+    margin: 30px auto 40px;
+}
+
+.limitWarning__header {
+    text-align: center;
+    font-size: 28px;
+    max-width: 600px;
+}
+
+.limitWarning__header:last-of-type {
+    font-weight: 400;
+    font-size: 21px;
+    margin-top: 25px;
+}
+
+.limitWarning .btn {
+    padding: 12px 25px;
+    margin-top: 30px;
+    min-width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container--jobOffers .userAccount__top--offersInfo .userAccount__top__jobOffersHeader {
+    margin: -40px 0 -20px;
+}
+
+.container--offer--fast .jobOffer__point {
+    align-items: flex-start;
+}
+
+.jobOffer__point p {
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.jobOffer__point p span:last-of-type {
+    color: var(--grey);
+    font-size: 14px;
+}
+
+.applicationsSection__header {
+    max-width: 1700px;
+    margin: auto;
+    font-size: 32px;
+    font-weight: 400;
+}
+
+.btn--showCandidates {
+    height: 45px;
+    padding: 5px 20px !important;
+}
+
+.btn--showCandidates .img {
+    filter: brightness(0) invert(1) !important;
+}
+
+.noCandidates {
+    padding-right: 20px;
+}
+
+.offerCandidates {
+    max-width: 1700px;
+    width: 90%;
+    margin: auto;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.offerCandidates > * {
+    width: 49%;
+}
+
+.preview__bottom {
+    width: 100%;
+}
+
+.preview__bottom__section {
+    margin-bottom: 20px;
+}
+
+.preview__bottom {
+    margin-top: 25px;
+}
+
+.preview__bottom__header {
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--grey);
+}
+
+.preview__bottom__section .jobOffer__section__text--attachments {
+    margin-top: 10px;
+}
+
+.btn--showCandidates--visible .img {
+    transform: rotateX(180deg);
 }

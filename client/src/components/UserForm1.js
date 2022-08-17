@@ -5,7 +5,6 @@ import {countries, formErrors, months, phoneNumbers} from "../static/content";
 import {numberRange} from "../helpers/others";
 import plusIcon from "../static/img/plus-icon-opacity.svg";
 import trashIcon from "../static/img/trash.svg";
-import fileIcon from "../static/img/doc.svg";
 
 const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMonthsVisible, setYearsVisible, setCountriesVisible, setPhoneNumbersCountriesVisible}) => {
     const { setStep, userData, handleChange, countriesVisible,

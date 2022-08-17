@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {getOfferById} from "../helpers/offer";
+import {getFastOfferById, getOfferById} from "../helpers/offer";
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import settings from "../static/settings";
 import arrow from '../static/img/small-white-arrow.svg'
@@ -9,7 +9,7 @@ import locationIcon from '../static/img/location.svg'
 import salaryIcon from '../static/img/dolar-icon.svg'
 import agreementIcon from '../static/img/agreement-icon.svg'
 import calendarIcon from '../static/img/calendar-icon.svg'
-import {categories, contracts, countries, currencies} from "../static/content";
+import {categories, contracts, countries, currencies, phoneNumbers} from "../static/content";
 import resIcon from '../static/img/responsibilities-icon.svg'
 import benIcon from '../static/img/benefit-icon.svg'
 import downloadIcon from '../static/img/download-white.svg'
@@ -17,8 +17,10 @@ import Gallery from "../components/Gallery";
 import backArrow from '../static/img/back-arrow-grey.svg'
 import magnifier from '../static/img/magnifier.svg'
 import userPlaceholder from '../static/img/user-placeholder.svg'
+import {addLeadingZero} from "../helpers/others";
+import homeIcon from '../static/img/home-icon-blue.svg'
 
-const SingleOffer = ({data}) => {
+const SingleFastOffer = ({data}) => {
     const [offer, setOffer] = useState({});
     const [galleryIndex, setGalleryIndex] = useState(-1);
 
@@ -26,7 +28,7 @@ const SingleOffer = ({data}) => {
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
         if(id) {
-            getOfferById(id)
+            getFastOfferById(id)
                 .then((res) => {
                    if(res?.status === 200) {
                        setOffer(res?.data[0]);
@@ -41,7 +43,7 @@ const SingleOffer = ({data}) => {
         }
     }, []);
 
-    return offer?.o_id ? <div className="container container--user container--offer">
+    return offer?.o_id ? <div className="container container--user container--offer container--offer--fast">
             <LoggedUserHeader data={data}  />
 
             {galleryIndex !== -1 ? <Gallery images={offer.a_data ? JSON.parse(offer.a_data).gallery : offer}
@@ -58,7 +60,7 @@ const SingleOffer = ({data}) => {
                 </a>
             </aside>
 
-            <a href={`/aplikuj?id=${offer.o_id}`}
+            <a href={`/aplikuj?id=${offer.o_id}&typ=blyskawiczna`}
                className="btn btn--jobOfferApply btn--stickyMobile">
                 Aplikuj
                 <img className="img" src={arrow} alt="przejdź-dalej" />
@@ -86,7 +88,7 @@ const SingleOffer = ({data}) => {
                     <span className="jobOffer__sideInfo">
                         Dodano: {offer.o_created_at?.substring(0, 10)}, id ogłoszenia: {offer.o_id}
                     </span>
-                            <a href={`/aplikuj?id=${offer.o_id}`}
+                            <a href={`/aplikuj?id=${offer.o_id}&typ=blyskawiczna`}
                                className="btn btn--jobOfferApply">
                                 Aplikuj
                                 <img className="img" src={arrow} alt="przejdź-dalej" />
@@ -105,26 +107,34 @@ const SingleOffer = ({data}) => {
                             <img className="img" src={infoIcon} alt="branża" />
                             {offer.o_category !== null ? categories[offer.o_category] : ''}
                         </span>
-                            <span className="jobOffer__point jobOffer__point--location flex">
+                        <span className="jobOffer__point jobOffer__point--location flex">
                             <img className="img" src={locationIcon} alt="branża" />
-                                {offer.o_category !== null ? offer.o_city + ', ' + countries[offer.o_country] : ''}
+                                {offer.o_category !== null ? countries[offer.o_country] : ''}<br/>
+                                {offer.o_category !== null ? offer.o_postalCode + ' ' +  offer.o_city + ', ' + offer.o_street : ''}
                         </span>
-                            <span className="jobOffer__point flex">
+                        <span className="jobOffer__point flex flex-wrap">
+                            <img className="img" src={homeIcon} alt="branża" />
+                            <p>
+                                <span>
+                                    {offer.o_category !== null ? `${offer.o_accommodationPostalCode} ${offer.o_accommodationCity}, ${offer.o_accommodationStreet}` : ''}
+                                </span>
+                                <span>
+                                    {offer.o_category !== null ? `Meldunek od: ${addLeadingZero(offer.o_accommodationDay+1)}.${addLeadingZero(offer.o_accommodationMonth+1)}.${offer.o_accommodationYear}, ${offer.o_accommodationHour}` : ''}
+                                </span>
+                            </p>
+                        </span>
+                        <span className="jobOffer__point flex">
                             <img className="img" src={salaryIcon} alt="branża" />
                                 {offer.o_category !== null ? `${offer.o_salaryFrom} - ${offer.o_salaryTo} ${currencies[offer.o_salaryCurrency]}` : ''}
                                 <span className="distance">
                                 {offer.o_category !== null ? `netto/${offer.o_salary_type === 1 ? 'mies.' : 'tyg.'}` : ''}
                             </span>
                         </span>
-                            <span className="jobOffer__point flex">
-                            <img className="img" src={agreementIcon} alt="branża" />
-                                {offer.o_category !== null ? contracts[offer.o_contractType] : ''}
-                        </span>
                             <span className="jobOffer__point jobOffer__point--time flex">
                             <img className="img" src={calendarIcon} alt="branża" />
-                            Oferta aktualna
+                            Start pracy:
                             <span className="distance">
-                                {offer.o_category !== null ? (offer.o_timeBounded ? '' : 'Bezterminowa') : ''}
+                                {offer.o_category !== null ? `${addLeadingZero(offer.o_startDay+1)}.${addLeadingZero(offer.o_startMonth+1)}.${offer.o_startYear}, ${offer.o_startHour}` : ''}
                             </span>
                         </span>
                     </div>
@@ -181,6 +191,15 @@ const SingleOffer = ({data}) => {
 
                 <div className="jobOffer__section">
                     <h3 className="jobOffer__section__header">
+                        Dane kontaktowe osoby rekrutującej
+                    </h3>
+                    <div className="jobOffer__section__text">
+                        {offer.o_contactPerson}{offer.o_contactNumber ? `, tel: +${phoneNumbers[offer.o_contactNumberCountry]?.split('+')[1]} ${offer.o_contactNumber}` : ''}
+                    </div>
+                </div>
+
+                <div className="jobOffer__section">
+                    <h3 className="jobOffer__section__header">
                         O firmie
                     </h3>
                     <div className="jobOffer__section__text">
@@ -229,4 +248,4 @@ const SingleOffer = ({data}) => {
         </div>
 };
 
-export default SingleOffer;
+export default SingleFastOffer;

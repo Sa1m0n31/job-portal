@@ -183,7 +183,15 @@ const submitFastApplication = (id, message, contactForms, attachments) => {
     return axios.post('/offer/addFastApplication', formData, config);
 }
 
+const getApplicationsByAgency = () => {
+    return axios.get(`/offer/getApplicationsByAgency/${getLoggedUserEmail()}`);
+}
+
+const getFastApplicationsByAgency = () => {
+    return axios.get(`/offer/getFastApplicationsByAgency/${getLoggedUserEmail()}`);
+}
+
 export { addOffer, getJobOffersByAgency, getActiveJobOffers, deleteOffer,
     getOfferById, updateOffer, submitApplication, filterOffers, getActiveFastOffers,
     addFastOffer, updateFastOffer, getFastJobOffersByAgency, deleteFastOffer,
-    getFastOfferById, submitFastApplication }
+    getFastOfferById, submitFastApplication, getApplicationsByAgency, getFastApplicationsByAgency }

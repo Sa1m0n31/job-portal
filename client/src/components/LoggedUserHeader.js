@@ -102,7 +102,7 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                     </a>
                 </> : <>
                     <a className="loggedUserHeader__menu__item loggedUserHeader__menu__item--blue"
-                       href="/oferty-pracy">
+                       href="/zgloszenia">
                         Zgłoszenia
                     </a>
                 </>}

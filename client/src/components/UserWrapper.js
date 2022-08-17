@@ -10,6 +10,8 @@ import AgenciesList from "../pages/AgenciesList";
 import AgencyProfile from "../pages/AgencyProfile";
 import MessageList from "../pages/MessageList";
 import SendMessage from "../pages/SendMessage";
+import FastJobOfferList from "../pages/FastJobOffersList";
+import SingleFastOffer from "../pages/SingleFastOffer";
 
 const UserWrapper = ({page}) => {
     const [render, setRender] = useState(null);
@@ -48,6 +50,9 @@ const UserWrapper = ({page}) => {
                                         case 6:
                                             setRender(<AgenciesList data={data} />);
                                             break;
+                                        case 7:
+                                            setRender(<FastJobOfferList data={data} />);
+                                            break;
                                         case 8:
                                             setRender(<MessageList data={data}
                                                                    id={res?.data?.id}
@@ -58,6 +63,9 @@ const UserWrapper = ({page}) => {
                                             break;
                                         case 10:
                                             setRender(<AgencyProfile data={data} />);
+                                            break;
+                                        case 11:
+                                            setRender(<SingleFastOffer data={data} />);
                                             break;
                                         default:
                                             window.location = '/';

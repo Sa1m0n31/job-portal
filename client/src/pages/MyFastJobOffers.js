@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
-import {deleteOffer, getFastJobOffersByAgency, getJobOffersByAgency} from "../helpers/offer";
+import {deleteFastOffer, deleteOffer, getFastJobOffersByAgency, getJobOffersByAgency} from "../helpers/offer";
 import localization from '../static/img/location.svg'
 import settings from "../static/settings";
 import {categories, countries, currencies, formErrors, myJobOffersFilter} from "../static/content";
@@ -41,7 +41,7 @@ const MyFastJobOffers = ({data}) => {
     }
 
     const deleteJobOffer = () => {
-        deleteOffer(deleteCandidate)
+        deleteFastOffer(deleteCandidate)
             .then((res) => {
                 if(res?.status === 200) {
                     setDeleteMessage('Oferta została usunięta');
@@ -78,11 +78,7 @@ const MyFastJobOffers = ({data}) => {
         </aside>
         {render ? <div className="userAccount__top userAccount__top--offersInfo flex">
             <h1 className="userAccount__top__jobOffersHeader">
-                Masz
-                <span className="number">
-                    {offers?.length}
-                </span>
-                błyskawicznych ofert pracy
+                Twoje błyskawiczne oferty pracy (lista resetuje się o 00:00)
             </h1>
         </div> : ''}
         {render ? offers?.map((item, index) => {
@@ -132,7 +128,7 @@ const MyFastJobOffers = ({data}) => {
                         Podgląd
                         <img className="img" src={magnifier} alt="podglad" />
                     </a>
-                    <a href={`/edycja-oferty-pracy?id=${item.id}`}
+                    <a href={`/edycja-blyskawicznej-oferty-pracy?id=${item.id}`}
                        className="btn">
                         Edycja
                         <img className="img" src={pen} alt="podglad" />

@@ -12,6 +12,7 @@ import {Application} from '../entities/applications.entity'
 import {HttpService} from "@nestjs/axios";
 import {lastValueFrom} from "rxjs";
 import {calculateDistance} from "../common/calculateDistance";
+import {Fast_applications} from "../entities/fast_applications.entity";
 
 @Injectable()
 export class UserService {
@@ -22,6 +23,8 @@ export class UserService {
         private readonly userVerificationRepository: Repository<User_verification>,
         @InjectRepository(Application)
         private readonly applicationRepository: Repository<Application>,
+        @InjectRepository(Fast_applications)
+        private readonly fastApplicationRepository: Repository<Fast_applications>,
         private readonly mailerService: MailerService,
         private readonly jwtTokenService: JwtService,
         private readonly httpService: HttpService
@@ -216,6 +219,11 @@ export class UserService {
     async getUserApplications(email: string) {
         const user = await this.userRepository.findOneBy({email});
         return this.applicationRepository.findBy({user: user.id});
+    }
+
+    async getUserFastApplications(email: string) {
+        const user = await this.userRepository.findOneBy({email});
+        return this.fastApplicationRepository.findBy({user: user.id});
     }
 
     async getAllUsers(page) {

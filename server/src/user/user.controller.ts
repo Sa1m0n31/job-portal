@@ -68,6 +68,11 @@ export class UserController {
         return this.userService.getUserApplications(email);
     }
 
+    @Get('/getUserFastApplications/:email')
+    getUserFastApplications(@Param('email') email) {
+        return this.userService.getUserFastApplications(email);
+    }
+
     @Get('/getAll/:page')
     getAll(@Param('page') page) {
         return this.userService.getAllUsers(page);

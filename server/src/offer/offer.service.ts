@@ -459,4 +459,32 @@ export class OfferService {
             });
         }
     }
+
+    async getApplicationsByAgency(email) {
+        // Get agency id
+        const agency = await this.agencyRepository.findOneBy({email});
+        const agencyId = agency.id;
+
+        // Get applications
+        return this.offerRepository
+            .createQueryBuilder('o')
+            .leftJoinAndSelect('application', 'application', 'o.id = application.offer')
+            .leftJoinAndSelect('user', 'u', 'u.id = application.user')
+            .where('o.agency = :agencyId', {agencyId})
+            .getRawMany();
+    }
+
+    async getFastApplicationsByAgency(email) {
+        // Get agency id
+        const agency = await this.agencyRepository.findOneBy({email});
+        const agencyId = agency.id;
+
+        // Get applications
+        return this.fastOfferRepository
+            .createQueryBuilder('o')
+            .leftJoinAndSelect('fast_applications', 'app', 'o.id = app.offer')
+            .leftJoinAndSelect('user', 'u', 'u.id = app.user')
+            .where('o.agency = :agencyId', {agencyId})
+            .getRawMany();
+    }
 }

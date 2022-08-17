@@ -10,7 +10,7 @@ import {
     currencies, formErrors, jobOfferErrors,
     months,
     pensionFrequency,
-    pensionType
+    pensionType, phoneNumbers
 } from "../static/content";
 import trashIcon from "../static/img/trash.svg";
 import {Tooltip} from "react-tippy";
@@ -22,25 +22,28 @@ import checkIcon from '../static/img/green-check.svg'
 import arrowIcon from '../static/img/small-white-arrow.svg'
 import {
     addFastOffer,
-    addOffer,
-    getActiveFastOffers,
-    getOfferById,
-    updateFastOffer,
-    updateOffer
+    getActiveFastOffers, getFastOfferById,
+    updateFastOffer
 } from "../helpers/offer";
 import settings from "../static/settings";
-import LoggedUserHeader from "../components/LoggedUserHeader";
+import xIcon from '../static/img/x-button.svg'
 import MobileHeader from "../components/MobileHeader";
+import Loader from "../components/Loader";
 
 const AddFastJobOffer = ({updateMode}) => {
     const [categoriesVisible, setCategoriesVisible] = useState(false);
     const [countriesVisible, setCountriesVisible] = useState(false);
+    const [accommodationCountriesVisible, setAccommodationCountriesVisible] = useState(false);
     const [currenciesVisible, setCurrenciesVisible] = useState(false);
     const [contractTypeVisible, setContractTypeVisible] = useState(false);
     const [timeBoundedVisible, setTimeBoundedVisible] = useState(false);
     const [dayVisible, setDayVisible] = useState(false);
     const [monthVisible, setMonthVisible] = useState(false);
     const [yearVisible, setYearVisible] = useState(false);
+    const [startDayVisible, setStartDayVisible] = useState(false);
+    const [startMonthVisible, setStartMonthVisible] = useState(false);
+    const [startYearVisible, setStartYearVisible] = useState(false);
+    const [numberVisible, setNumberVisible] = useState(false);
     const [success, setSuccess] = useState(false);
 
     const [id, setId] = useState(0);
@@ -50,6 +53,11 @@ const AddFastJobOffer = ({updateMode}) => {
     const [country, setCountry] = useState(-1);
     const [postalCode, setPostalCode] = useState('');
     const [city, setCity] = useState('');
+    const [street, setStreet] = useState('');
+    const [accommodationCountry, setAccommodationCountry] = useState(-1);
+    const [accommodationPostalCode, setAccommodationPostalCode] = useState('');
+    const [accommodationCity, setAccommodationCity] = useState('');
+    const [accommodationStreet, setAccommodationStreet] = useState('');
     const [description, setDescription] = useState('');
     const [responsibilities, setResponsibilities] = useState(['']);
     const [requirements, setRequirements] = useState(['']);
@@ -63,32 +71,42 @@ const AddFastJobOffer = ({updateMode}) => {
     const [day, setDay] = useState(-1);
     const [month, setMonth] = useState(-1);
     const [year, setYear] = useState(-1);
+    const [hour, setHour] = useState('');
+    const [startDay, setStartDay] = useState(-1);
+    const [startMonth, setStartMonth] = useState(-1);
+    const [startYear, setStartYear] = useState(-1);
+    const [startHour, setStartHour] = useState('');
     const [image, setImage] = useState(null);
     const [attachments, setAttachments] = useState([]);
     const [oldAttachments, setOldAttachments] = useState([]);
-    const [imageUrl, setImageUrl] = useState('')
+    const [imageUrl, setImageUrl] = useState('');
+    const [contactPerson, setContactPerson] = useState('');
+    const [contactNumberCountry, setContactNumberCountry] = useState(0);
+    const [contactNumber, setContactNumber] = useState('');
 
     const [days, setDays] = useState([]);
     const [years, setYears] = useState([]);
+    const [startDays, setStartDays] = useState([]);
     const [error, setError] = useState('');
 
     const [numberOfFastOffers, setNumberOfFastOffers] = useState(0);
-    const [limitExceeded, setLimitExceeded] = useState(0); // 1 - global limit, 2 - user limit
+    const [limitExceeded, setLimitExceeded] = useState(-1); // 1 - global limit, 2 - user limit
 
     const addOfferForm = useRef(null);
     const addOfferSuccess = useRef(null);
 
     const setInitialData = (data) => {
-        setOldAttachments(JSON.parse(data.o_attachments));
+        setOldAttachments(data.o_attachments ? JSON.parse(data.o_attachments) : []);
         setBenefits(JSON.parse(data.o_benefits));
         setCategory(parseInt(data.o_category));
         setCity(data.o_city);
         setContractType(data.o_contractType);
         setCountry(data.o_country);
         setDescription(data.o_description);
-        setDay(data.o_expireDay);
-        setMonth(data.o_expireMonth);
-        setYear(data.o_expireYear);
+        setDay(data.o_accommodationDay);
+        setMonth(data.o_accommodationMonth);
+        setYear(data.o_accommodationYear);
+        setHour(data.o_accommodationHour);
         setId(data.o_id);
         setImage(null);
         setImageUrl(data.o_image);
@@ -102,6 +120,18 @@ const AddFastJobOffer = ({updateMode}) => {
         setSalaryType(data.o_salaryType);
         setTimeBounded(data.o_timeBounded);
         setTitle(data.o_title);
+        setStreet(data.o_street);
+        setAccommodationStreet(data.o_accommodationStreet);
+        setAccommodationCountry(data.o_accommodationCountry);
+        setAccommodationCity(data.o_accommodationCity);
+        setAccommodationPostalCode(data.o_accommodationPostalCode);
+        setStartYear(data.o_startYear);
+        setStartMonth(data.o_startMonth);
+        setStartDay(data.o_startDay);
+        setStartHour(data.o_startHour);
+        setContactPerson(data.o_contactPerson);
+        setContactNumberCountry(data.o_contactNumberCountry);
+        setContactNumber(data.o_contactNumber);
     }
 
     useEffect(() => {
@@ -122,6 +152,9 @@ const AddFastJobOffer = ({updateMode}) => {
                        })?.length >= 2) {
                            setLimitExceeded(2);
                        }
+                       else {
+                           setLimitExceeded(0);
+                       }
                    }
                }
             });
@@ -132,7 +165,7 @@ const AddFastJobOffer = ({updateMode}) => {
             const params = new URLSearchParams(window.location.search);
             const id = params.get('id');
             if(id) {
-                getActiveFastOffers(id)
+                getFastOfferById(id)
                     .then((res) => {
                        if(res?.status === 200) {
                            setInitialData(res?.data[0]);
@@ -142,7 +175,8 @@ const AddFastJobOffer = ({updateMode}) => {
                        }
                     })
                     .catch((err) => {
-                        window.location = '/';
+                        console.log(err);
+                        // window.location = '/';
                     });
             }
             else {
@@ -169,6 +203,24 @@ const AddFastJobOffer = ({updateMode}) => {
         }
     }, [month, year]);
 
+    useEffect(() => {
+        const m = startMonth;
+        const y = startYear;
+
+        if(m === 0 || m === 2 || m === 4 || m === 6 || m === 7 || m === 9 || m === 11) {
+            setStartDays(Array.from(Array(31).keys()));
+        }
+        else if(m === 1 && ((y % 4 === 0) && (y % 100 !== 0))) {
+            setStartDays(Array.from(Array(29).keys()));
+        }
+        else if(m === 1) {
+            setStartDays(Array.from(Array(28).keys()));
+        }
+        else {
+            setStartDays(Array.from(Array(30).keys()));
+        }
+    }, [startMonth, startYear]);
+
     const hideAllDropdowns = () => {
         setCountriesVisible(false);
         setCategoriesVisible(false);
@@ -178,6 +230,11 @@ const AddFastJobOffer = ({updateMode}) => {
         setMonthVisible(false);
         setYearVisible(false);
         setContractTypeVisible(false);
+        setAccommodationCountriesVisible(false);
+        setStartDayVisible(false);
+        setStartMonthVisible(false);
+        setStartYearVisible(false);
+        setNumberVisible(false);
     }
 
     const updateResponsibilities = (value, i) => {
@@ -307,11 +364,13 @@ const AddFastJobOffer = ({updateMode}) => {
     }
 
     const jobOfferValidation = () => {
-        if(!title || category === -1 || country === -1 || !postalCode || !city ||
+        if(!title || category === -1 || country === -1 || !postalCode || !city || !street ||
             !description || !responsibilities.length || !requirements.length || !benefits.length ||
-            salaryType === -1 || salaryFrom === null || salaryTo === null || (
-                timeBounded && (day === -1 || month === -1 || year === -1)
-            )
+            salaryType === -1 || salaryFrom === null || salaryTo === null ||
+            day === -1 || month === -1 || year === -1 || !hour ||
+            startDay === -1 || startMonth === -1 || startYear === -1 || !startHour ||
+            accommodationCountry === -1 || !accommodationPostalCode || !accommodationCity || !accommodationStreet ||
+            !contactPerson || !contactNumber
         ) {
             setError(jobOfferErrors[0]);
             return 0;
@@ -326,10 +385,15 @@ const AddFastJobOffer = ({updateMode}) => {
             try {
                 if(updateMode) {
                     const offerResult = await updateFastOffer({
-                        id, title, category, keywords, country, postalCode, city, description,
+                        id, title, category, keywords, country, postalCode, city, street, description,
+                        accommodationCountry, accommodationPostalCode, accommodationCity, accommodationStreet,
+                        accommodationDay: day,
+                        accommodationMonth: month,
+                        accommodationYear: year,
+                        accommodationHour: hour,
+                        startDay, startMonth, startYear, startHour,
                         responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
-                        salaryCurrency, contractType, timeBounded, expireDay: day, expireMonth: month,
-                        expireYear: year,
+                        salaryCurrency, contractType, contactPerson, contactNumberCountry, contactNumber,
                         image, attachments, oldAttachments
                     });
                     if(offerResult.status === 200) {
@@ -341,10 +405,15 @@ const AddFastJobOffer = ({updateMode}) => {
                 }
                 else {
                     const offerResult = await addFastOffer({
-                        title, category, keywords, country, postalCode, city, description,
+                        title, category, keywords, country, postalCode, city, street, description,
+                        accommodationCountry, accommodationPostalCode, accommodationCity, accommodationStreet,
+                        accommodationDay: day,
+                        accommodationMonth: month,
+                        accommodationYear: year,
+                        accommodationHour: hour,
+                        startDay, startMonth, startYear, startHour,
                         responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
-                        salaryCurrency, contractType, timeBounded, expireDay: day, expireMonth: month,
-                        expireYear: year,
+                        salaryCurrency, contractType, contactPerson, contactNumberCountry, contactNumber,
                         image, attachments
                     });
                     if(offerResult.status === 201) {
@@ -379,7 +448,7 @@ const AddFastJobOffer = ({updateMode}) => {
         }
     }, [success]);
 
-    return <div className="container container--addOffer" onClick={() => { hideAllDropdowns(); }}>
+    return <div className="container container--addOffer container--addFastOffer" onClick={() => { hideAllDropdowns(); }}>
         <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
                     Zalogowany w: <span className="bold">Strefa Pracodawcy</span>
@@ -410,7 +479,7 @@ const AddFastJobOffer = ({updateMode}) => {
                 </a>
             </div>
         </div>
-        <form className="addOffer" ref={addOfferForm}>
+        {!limitExceeded ? <form className="addOffer" ref={addOfferForm}>
             <h1 className="addOffer__header">
                 {updateMode ? 'Edycja błyskawicznej oferty pracy' : 'Dodawanie nowej błyskawicznej oferty pracy'}
             </h1>
@@ -473,7 +542,7 @@ const AddFastJobOffer = ({updateMode}) => {
 
             <div className="label label--date label--date--address">
                 Miejsce pracy
-                <div className="flex">
+                <div className="flex flex-wrap flex--fastOffer">
                     <div className="label--date__input label--date__input--country">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCountriesVisible(!countriesVisible); }}
@@ -490,17 +559,189 @@ const AddFastJobOffer = ({updateMode}) => {
                             })}
                         </div> : ''}
                     </div>
-                    <label>
+                    <label className="label--city">
+                        <input className="input input--address"
+                               value={city}
+                               onChange={(e) => { setCity(e.target.value); }}
+                               placeholder="Miejscowość" />
+                    </label>
+                    <label className="label--postalCode">
                         <input className="input input--city"
                                value={postalCode}
                                onChange={(e) => { setPostalCode(e.target.value); }}
                                placeholder="Kod pocztowy" />
                     </label>
-                    <label>
+                    <label className="label--street">
                         <input className="input input--address"
-                               value={city}
-                               onChange={(e) => { setCity(e.target.value); }}
+                               value={street}
+                               onChange={(e) => { setStreet(e.target.value); }}
+                               placeholder="Ulica i nr budynku" />
+                    </label>
+                </div>
+            </div>
+
+            <div className="label label--date label--date--address">
+                Miejsce zakwaterowania
+                <div className="flex flex-wrap flex--fastOffer">
+                    <div className="label--date__input label--date__input--country">
+                        <button className="datepicker datepicker--country"
+                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setAccommodationCountriesVisible(!accommodationCountriesVisible); }}
+                        >
+                            {accommodationCountry !== -1 ? countries[accommodationCountry] : 'Wybierz kraj'}
+                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
+                        </button>
+                        {accommodationCountriesVisible ? <div className="datepickerDropdown noscroll">
+                            {countries?.map((item, index) => {
+                                return <button className="datepickerBtn center" key={index}
+                                               onClick={(e) => { e.preventDefault(); setAccommodationCountry(index); setAccommodationCountriesVisible(false); }}>
+                                    {item}
+                                </button>
+                            })}
+                        </div> : ''}
+                    </div>
+                    <label className="label--city">
+                        <input className="input input--address"
+                               value={accommodationCity}
+                               onChange={(e) => { setAccommodationCity(e.target.value); }}
                                placeholder="Miejscowość" />
+                    </label>
+                    <label className="label--postalCode">
+                        <input className="input input--city"
+                               value={accommodationPostalCode}
+                               onChange={(e) => { setAccommodationPostalCode(e.target.value); }}
+                               placeholder="Kod pocztowy" />
+                    </label>
+                    <label className="label--street">
+                        <input className="input input--address"
+                               value={accommodationStreet}
+                               onChange={(e) => { setAccommodationStreet(e.target.value); }}
+                               placeholder="Ulica i nr budynku" />
+                    </label>
+                </div>
+            </div>
+
+            <div className="label drivingLicenceWrapper">
+                Data zameldowania (od kiedy)
+                <div className="flex flex-wrap flex--fastOffer">
+                    {/* DAY */}
+                    <div className="label--date__input">
+                        <button className="datepicker datepicker--day"
+                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setDayVisible(!dayVisible); }}
+                        >
+                            {day !== -1 ? day+1 : 'Dzień'}
+                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
+                        </button>
+                        {dayVisible ? <div className="datepickerDropdown noscroll">
+                            {days?.map((item, index) => {
+                                return <button className="datepickerBtn center" key={index}
+                                               onClick={(e) => { e.preventDefault(); setDayVisible(false); setDay(item); }}>
+                                    {item+1}
+                                </button>
+                            })}
+                        </div> : ''}
+                    </div>
+                    {/* MONTH */}
+                    <div className="label--date__input label--city">
+                        <button className="datepicker datepicker--month"
+                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setMonthVisible(!monthVisible); }}
+                        >
+                            {month !== -1 ? months[month] : 'Miesiąc'}
+                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
+                        </button>
+                        {monthVisible ? <div className="datepickerDropdown noscroll">
+                            {months?.map((item, index) => {
+                                return <button className="datepickerBtn center" key={index}
+                                               onClick={(e) => { e.preventDefault(); e.stopPropagation(); setMonthVisible(false); setMonth(index); }}>
+                                    {item}
+                                </button>
+                            })}
+                        </div> : ''}
+                    </div>
+                    {/* YEARS */}
+                    <div className="label--date__input label--postalCode">
+                        <button className="datepicker datepicker--year"
+                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setYearVisible(!yearVisible); }}
+                        >
+                            {year !== -1 ? year : 'Rok'}
+                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
+                        </button>
+                        {yearVisible ? <div className="datepickerDropdown noscroll">
+                            {years?.map((item, index) => {
+                                return <button className="datepickerBtn center" key={index}
+                                               onClick={(e) => { e.preventDefault(); e.stopPropagation(); setYearVisible(false); setYear(item); }}>
+                                    {item}
+                                </button>
+                            })}
+                        </div> : ''}
+                    </div>
+                    <label className="label--street">
+                        <input className="input input--address"
+                               value={hour}
+                               onChange={(e) => { setHour(e.target.value); }}
+                               placeholder="Godzina" />
+                    </label>
+                </div>
+            </div>
+
+            <div className="label drivingLicenceWrapper">
+                Data i godzina rozpoczęcia pracy
+                <div className="flex flex-wrap flex--fastOffer">
+                    {/* DAY */}
+                    <div className="label--date__input">
+                        <button className="datepicker datepicker--day"
+                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStartDayVisible(!startDayVisible); }}
+                        >
+                            {startDay !== -1 ? startDay+1 : 'Dzień'}
+                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
+                        </button>
+                        {startDayVisible ? <div className="datepickerDropdown noscroll">
+                            {startDays?.map((item, index) => {
+                                return <button className="datepickerBtn center" key={index}
+                                               onClick={(e) => { e.preventDefault(); setStartDayVisible(false); setStartDay(item); }}>
+                                    {item+1}
+                                </button>
+                            })}
+                        </div> : ''}
+                    </div>
+                    {/* MONTH */}
+                    <div className="label--date__input label--city">
+                        <button className="datepicker datepicker--month"
+                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStartMonthVisible(!startMonthVisible); }}
+                        >
+                            {startMonth !== -1 ? months[startMonth] : 'Miesiąc'}
+                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
+                        </button>
+                        {startMonthVisible ? <div className="datepickerDropdown noscroll">
+                            {months?.map((item, index) => {
+                                return <button className="datepickerBtn center" key={index}
+                                               onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStartMonthVisible(false); setStartMonth(index); }}>
+                                    {item}
+                                </button>
+                            })}
+                        </div> : ''}
+                    </div>
+                    {/* YEARS */}
+                    <div className="label--date__input label--postalCode">
+                        <button className="datepicker datepicker--year"
+                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStartYearVisible(!startYearVisible); }}
+                        >
+                            {startYear !== -1 ? startYear : 'Rok'}
+                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
+                        </button>
+                        {startYearVisible ? <div className="datepickerDropdown noscroll">
+                            {years?.map((item, index) => {
+                                return <button className="datepickerBtn center" key={index}
+                                               onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStartYearVisible(false); setStartYear(item); }}>
+                                    {item}
+                                </button>
+                            })}
+                        </div> : ''}
+                    </div>
+                    <label className="label--street">
+                        <input className="input input--address"
+                               value={startHour}
+                               onChange={(e) => { setStartHour(e.target.value); }}
+                               placeholder="Godzina" />
                     </label>
                 </div>
             </div>
@@ -610,7 +851,7 @@ const AddFastJobOffer = ({updateMode}) => {
                         {currenciesVisible ? <div className="datepickerDropdown noscroll">
                             {currencies?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
-                                               onClick={(e) => { e.stopPropagation();
+                                               onClick={(e) => { e.preventDefault(); e.stopPropagation();
                                                    setCurrenciesVisible(false);
                                                    setSalaryCurrency(index); }}>
                                     {item}
@@ -634,7 +875,7 @@ const AddFastJobOffer = ({updateMode}) => {
                         {contractTypeVisible ? <div className="datepickerDropdown noscroll">
                             {contracts?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
-                                               onClick={(e) => { setContractType(index); }}>
+                                               onClick={(e) => { e.preventDefault(); setContractType(index); }}>
                                     {item}
                                 </button>
                             })}
@@ -643,79 +884,28 @@ const AddFastJobOffer = ({updateMode}) => {
                 </div>
             </div>
 
-            <div className="label drivingLicenceWrapper">
-                Ważność oferty
-                <div className="flex flex--start flex--start--contractType">
-                    <div className="flex flex--start">
-                        <div className="label--date__input label--date__input--drivingLicence">
-                            <button className="datepicker datepicker--country"
-                                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); setTimeBoundedVisible(!timeBoundedVisible); }}
-                            >
-                                {timeBounded ? 'Terminowa' : 'Bezterminowa'}
-                                <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
-                            </button>
-                            {timeBoundedVisible? <div className="datepickerDropdown noscroll">
-                                <button className="datepickerBtn center"
-                                        onClick={(e) => { e.preventDefault(); setTimeBoundedVisible(false); setTimeBounded(!timeBounded); }}>
-                                    {!timeBounded ? 'Terminowa' : 'Bezterminowa'}
-                                </button>
-                            </div> : ''}
-                        </div>
-                    </div>
-                </div>
-                <div className={!timeBounded ? "label--flex flex--start label--disabled" : "label--flex flex--start"}>
-                    {/* DAY */}
-                    <div className="label--date__input">
-                        <button className="datepicker datepicker--day"
-                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setDayVisible(!dayVisible); }}
-                        >
-                            {day !== -1 ? day+1 : 'Dzień'}
-                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
+            <div className="label label--phoneNumber">
+                Dane osoby rekrutującej
+                <label className="label label--normal">
+                    <input className="input"
+                           value={contactPerson}
+                           onChange={(e) => { setContactPerson(e.target.value); }} />
+                </label>
+
+                <button className="phoneNumberBtn" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setNumberVisible(!numberVisible); }}>
+                    {phoneNumbers[contactNumberCountry]}
+                </button>
+                {numberVisible ? <div className="datepickerDropdown datepickerDropdown--phoneNumbers noscroll">
+                    {phoneNumbers?.map((item, index) => {
+                        return <button className="datepickerBtn center" key={index}
+                                       onClick={(e) => { e.preventDefault(); setNumberVisible(false); setContactNumberCountry(index); }}>
+                            {item}
                         </button>
-                        {dayVisible ? <div className="datepickerDropdown noscroll">
-                            {days?.map((item, index) => {
-                                return <button className="datepickerBtn center" key={index}
-                                               onClick={(e) => { e.preventDefault(); setDayVisible(false); setDay(item); }}>
-                                    {item+1}
-                                </button>
-                            })}
-                        </div> : ''}
-                    </div>
-                    {/* MONTH */}
-                    <div className="label--date__input">
-                        <button className="datepicker datepicker--month"
-                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setMonthVisible(!monthVisible); }}
-                        >
-                            {month !== -1 ? months[month] : 'Miesiąc'}
-                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
-                        </button>
-                        {monthVisible ? <div className="datepickerDropdown noscroll">
-                            {months?.map((item, index) => {
-                                return <button className="datepickerBtn center" key={index}
-                                               onClick={(e) => { e.preventDefault(); e.stopPropagation(); setMonthVisible(false); setMonth(index); }}>
-                                    {item}
-                                </button>
-                            })}
-                        </div> : ''}
-                    </div>
-                    {/* YEARS */}
-                    <div className="label--date__input">
-                        <button className="datepicker datepicker--year"
-                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setYearVisible(!yearVisible); }}
-                        >
-                            {year !== -1 ? year : 'Rok'}
-                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
-                        </button>
-                        {yearVisible ? <div className="datepickerDropdown noscroll">
-                            {years?.map((item, index) => {
-                                return <button className="datepickerBtn center" key={index}
-                                               onClick={(e) => { e.preventDefault(); e.stopPropagation(); setYearVisible(false); setYear(item); }}>
-                                    {item}
-                                </button>
-                            })}
-                        </div> : ''}
-                    </div>
-                </div>
+                    })}
+                </div> : ''}
+                <input className="input"
+                       value={contactNumber}
+                       onChange={(e) => { setContactNumber(e.target.value); }} />
             </div>
 
             <div className="label">
@@ -789,7 +979,28 @@ const AddFastJobOffer = ({updateMode}) => {
                 {updateMode ? 'Edytuj ofertę' : 'Dodaj nową ofertę'}
                 <img className="img" src={arrowIcon} alt="dodaj-oferte-pracy" />
             </button>
-        </form>
+        </form> : (limitExceeded === 1 ? <div className="limitWarning">
+            <img className="img" src={xIcon} alt="przekroczony-limit" />
+            <h3 className="limitWarning__header">
+                Przekroczony został dzienny limit ofert błyskawicznych.
+            </h3>
+            <h3 className="limitWarning__header">
+                Oferty resetują się o północy. Spróbuj dodać swoją ofertę jutro!
+            </h3>
+        </div> : (limitExceeded === 2 ? <div className="limitWarning">
+            <img className="img" src={xIcon} alt="przekroczony-limit" />
+            <h3 className="limitWarning__header">
+                Przekroczony został Twój dzienny limit ofert błyskawicznych.
+            </h3>
+            <h3 className="limitWarning__header">
+                Jednej doby możesz dodać maksymalnie dwie oferty błyskawiczne.
+            </h3>
+            <a className="btn" href="/">
+                Strona główna
+            </a>
+        </div> : <div className="center">
+            <Loader />
+        </div>))}
     </div>
 };
 

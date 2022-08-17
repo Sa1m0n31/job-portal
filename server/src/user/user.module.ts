@@ -9,10 +9,11 @@ import {JwtStrategy} from "../common/jwt.strategy";
 import {MulterModule} from "@nestjs/platform-express";
 import {Application} from "../entities/applications.entity";
 import {HttpModule} from "@nestjs/axios";
+import {Fast_applications} from "../entities/fast_applications.entity";
 
 @Module({
   imports: [
-      TypeOrmModule.forFeature([User, User_verification, Application]),
+      TypeOrmModule.forFeature([User, User_verification, Application, Fast_applications]),
       JwtModule.register({
           secret: process.env.JWT_KEY,
           signOptions: {expiresIn: 60 * 300}

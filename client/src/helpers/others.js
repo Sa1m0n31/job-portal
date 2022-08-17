@@ -38,4 +38,25 @@ const getDate = (day, month, year) => {
     return `${day+1 >= 10 ? day+1 : `0${day+1}`}.${month+1 >= 10 ? month+1 : `0${month+1}`}.${year}`;
 }
 
-export { isEmail, isElementInArray, isPasswordStrong, getAuthHeader, numberRange, getLoggedUserEmail, getDate }
+const addLeadingZero = (n) => {
+    if(n < 10) {
+        return `0${n}`;
+    }
+    else {
+        return n;
+    }
+}
+
+const groupBy = (items, key) => items.reduce(
+    (result, item) => ({
+        ...result,
+        [item[key]]: [
+            ...(result[item[key]] || []),
+            item,
+        ],
+    }),
+    {},
+)
+
+export { isEmail, isElementInArray, isPasswordStrong, getAuthHeader, numberRange,
+    getLoggedUserEmail, getDate, addLeadingZero, groupBy }

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
+import ReactDOM from 'react-dom';
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import penIcon from '../static/img/pen-edit-account.svg'
 import settings from "../static/settings";
 import locationIcon from '../static/img/location.svg'
-import whatsAppIcon from '../static/img/whatsapp.svg'
 import suitcaseIcon from '../static/img/suitcase-grey.svg'
 import phoneIcon from '../static/img/phone-grey.svg'
 import messageIcon from '../static/img/message-grey.svg'
@@ -16,11 +16,13 @@ import Switch from "react-switch";
 import { Tooltip } from 'react-tippy';
 import 'react-whatsapp-widget/dist/index.css';
 import {toggleUserVisibility, toggleUserWorking} from "../helpers/user";
-import {categories, countries, drivingLicences, flags, languageLevels, languages} from "../static/content";
+import {categories, countries, drivingLicences, flags, languageLevels, languages, noInfo} from "../static/content";
 import {getDate} from "../helpers/others";
 import checkIcon from '../static/img/check-small.svg'
 import starIcon from '../static/img/star.svg'
 import settingsCircle from '../static/img/settings-circle.svg'
+import ReactPDF, {PDFDownloadLink} from '@react-pdf/renderer';
+import CV from '../components/CV'
 
 const UserHomepage = ({data, visible, working}) => {
     const [profileVisible, setProfileVisible] = useState(visible);
@@ -53,7 +55,7 @@ const UserHomepage = ({data, visible, working}) => {
     }, [data]);
 
     const downloadCV = () => {
-
+        ReactDOM.render(<CV />, document.getElementById('root'));
     }
 
     const changeProfileVisibility = () => {
@@ -68,6 +70,7 @@ const UserHomepage = ({data, visible, working}) => {
 
     return <div className="container container--user">
         <LoggedUserHeader data={data} />
+
         <div className="userAccount">
             <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
@@ -115,11 +118,26 @@ const UserHomepage = ({data, visible, working}) => {
                 <div className="userAccount__box__right">
                     <label className="userAccount__box__downloadCV">
                         Wygeneruj i pobierz CV:
-                        <button className="btn btn--downloadCV"
-                                onClick={() => { downloadCV(); }}>
+                        {data ? <PDFDownloadLink document={<CV profileImage={`${settings.API_URL}/${data?.profileImage}`}
+                                                               fullName={`${data.firstName} ${data.lastName}`}
+                                                               categories={data.categories}
+                                                               email={data.email}
+                                                               birthday={getDate(data?.birthdayDay, data?.birthdayMonth, data?.birthdayYear)}
+                                                               schools={data.schools}
+                                                               jobs={data.jobs}
+                                                               additionalLanguages={data.extraLanguages}
+                                                               languages={data.languages}
+                                                               drivingLicence={data.drivingLicenceCategories}
+                                                               certs={data.certificates.concat(data.courses)}
+                                                               desc={data.situationDescription}
+                                                               phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : noInfo}
+                                                               location={data.country >= 0 ? `${data.city}, ${countries[data.country]}` : noInfo}
+                        />}
+                                                 fileName={`CV-${data.firstName}_${data.lastName}.pdf`}
+                                                 className="btn btn--downloadCV">
                             <img className="img" src={downloadWhite} alt="pobierz" />
                             Pobierz CV
-                        </button>
+                        </PDFDownloadLink> : ''}
                     </label>
 
                     <div className="userAccount__box__right__bottom">

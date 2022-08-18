@@ -401,5 +401,9 @@ export class UserService {
         const startIndex = perPage * (page-1);
         return users.slice(startIndex, startIndex + perPage);
     }
+
+    async downloadCV() {
+
+    }
 }
 

@@ -4,7 +4,12 @@ import settings from "../static/settings";
 import Cookies from "universal-cookie";
 
 const authUser = () => {
-    return axios.post('/user/auth', {}, {
+    const cookies = new Cookies();
+
+    return axios.post('/user/auth', {
+        email: getLoggedUserEmail(),
+        role: cookies.get('jooob_account_type')
+    }, {
         headers: {
             Authorization: getAuthHeader()
         }
@@ -127,7 +132,24 @@ const filterUsers = (category, country, city, distance, salaryType, salaryFrom, 
     });
 }
 
+const getUserNotifications = () => {
+    return axios.get(`/user/getNotifications/${getLoggedUserEmail()}`);
+}
+
+const readNotification = (id) => {
+    return axios.patch(`/user/readNotification`, {
+        id
+    });
+}
+
+const sendContactForm = (name, email, msg) => {
+    return axios.post('/user/sendContactForm', {
+        name, email, msg
+    });
+}
+
 export { registerUser, verifyUser, loginUser, authUser, updateUser, getUserData, logout,
     toggleUserVisibility, toggleUserWorking, getUserApplications, getAllUsers, getAllVisibleUsers,
-    filterUsers, getUserById, getUserFastApplications
+    filterUsers, getUserById, getUserFastApplications, getUserNotifications, readNotification,
+    sendContactForm
 }

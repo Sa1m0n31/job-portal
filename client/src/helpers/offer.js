@@ -67,7 +67,7 @@ const getOfferById = (id) => {
     });
 }
 
-const submitApplication = (id, message, contactForms, attachments) => {
+const submitApplication = (id, message, contactForms, attachments, agencyId) => {
     const formData = new FormData();
     const config = {
         headers: {
@@ -80,7 +80,8 @@ const submitApplication = (id, message, contactForms, attachments) => {
     formData.append('attachmentsNames', JSON.stringify(attachments.map((item) => (item.name))));
     formData.append('email', getLoggedUserEmail());
     formData.append('contactForms', JSON.stringify(contactForms));
-    formData.append('message', message)
+    formData.append('message', message);
+    formData.append('agencyId', agencyId);
     for(const att of attachments) {
         console.log(att);
         formData.append('attachments', att.file);
@@ -161,7 +162,7 @@ const getFastOfferById = (id) => {
     });
 }
 
-const submitFastApplication = (id, message, contactForms, attachments) => {
+const submitFastApplication = (id, message, contactForms, attachments, agencyId) => {
     const formData = new FormData();
     const config = {
         headers: {
@@ -174,7 +175,8 @@ const submitFastApplication = (id, message, contactForms, attachments) => {
     formData.append('attachmentsNames', JSON.stringify(attachments.map((item) => (item.name))));
     formData.append('email', getLoggedUserEmail());
     formData.append('contactForms', JSON.stringify(contactForms));
-    formData.append('message', message)
+    formData.append('message', message);
+    formData.append('agencyId', agencyId);
     for(const att of attachments) {
         console.log(att);
         formData.append('attachments', att.file);

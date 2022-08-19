@@ -22,7 +22,6 @@ import checkIcon from '../static/img/green-check.svg'
 import arrowIcon from '../static/img/small-white-arrow.svg'
 import {addOffer, getOfferById, updateOffer} from "../helpers/offer";
 import settings from "../static/settings";
-import LoggedUserHeader from "../components/LoggedUserHeader";
 import MobileHeader from "../components/MobileHeader";
 
 const AddJobOffer = ({updateMode}) => {

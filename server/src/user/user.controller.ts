@@ -124,4 +124,19 @@ export class UserController {
     getUserById(@Param('id') id) {
         return this.userService.getUserById(id);
     }
+
+    @Get('/getNotifications/:email')
+    getUserNotifications(@Param('email') email) {
+        return this.userService.getUserNotifications(email);
+    }
+
+    @Patch('/readNotification')
+    readNotification(@Body() body) {
+        return this.userService.readNotification(body.id);
+    }
+
+    @Post('/sendContactForm')
+    sendContactForm(@Body() body) {
+        return this.userService.sendContactForm(body.name, body.email, body.msg);
+    }
 }

@@ -12,6 +12,7 @@ import {lastValueFrom, map} from "rxjs";
 import { HttpService } from '@nestjs/axios'
 import {Offer} from "../entities/offer.entity";
 import {calculateDistance} from "../common/calculateDistance";
+import {Notifications} from "../entities/notifications.entity";
 
 @Injectable()
 export class AgencyService {
@@ -22,6 +23,8 @@ export class AgencyService {
         private readonly agencyVerificationRepository: Repository<Agency_verification>,
         @InjectRepository(Offer)
         private readonly offerRepository: Repository<Offer>,
+        @InjectRepository(Notifications)
+        private readonly notificationsRepository: Repository<Notifications>,
         private readonly mailerService: MailerService,
         private readonly jwtTokenService: JwtService,
         private readonly httpService: HttpService
@@ -349,5 +352,14 @@ export class AgencyService {
                 .offset((page-1) * offersPerPage)
                 .getMany();
         }
+    }
+
+    async getAgencyNotifications(email) {
+        return this.notificationsRepository
+            .createQueryBuilder('n')
+            .leftJoinAndSelect('agency', 'a', 'a.id = n.recipient')
+            .leftJoinAndSelect('user', 'u', 'u.id = n.userId')
+            .where('a.email = :email AND (n.type = 3 OR n.type = 4)', {email})
+            .getRawMany();
     }
 }

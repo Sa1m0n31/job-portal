@@ -10,4 +10,16 @@ export class Notifications {
 
     @Column()
     link: string;
+
+    @Column()
+    recipient: number;
+
+    @Column()
+    agencyId: number;
+
+    @Column()
+    userId: number;
+
+    @Column()
+    checked: boolean;
 }

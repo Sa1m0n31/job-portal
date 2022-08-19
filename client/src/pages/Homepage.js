@@ -7,9 +7,15 @@ import smallArrowIcon from '../static/img/small-arrow.svg'
 import smallWhiteArrowIcon from '../static/img/small-white-arrow.svg'
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import {authUser, getUserData} from "../helpers/user";
-import {getAgencyData} from "../helpers/agency";
+import {authAgency, getAgencyData} from "../helpers/agency";
 import Cookies from "universal-cookie";
 import Loader from "../components/Loader";
+import GoogleTranslate from "../components/GoogleTranslate";
+import AdsSection from "../components/AdsSection";
+import HomeBenefits from "../components/HomeBenefits";
+import Partners from "../components/Partners";
+import Tools from "../components/Tools";
+import Footer from "../components/Footer";
 
 const Homepage = () => {
     const [render, setRender] = useState(false);
@@ -18,46 +24,52 @@ const Homepage = () => {
         authUser()
             .then((res) => {
                 if(res?.status === 201) {
-                    const cookies = new Cookies();
-                    if(cookies.get('jooob_account_type') === 'user') {
-                        getUserData()
-                            .then((res) => {
-                                if(res?.status === 200) {
-                                    window.location = '/oferty-pracy';
-                                }
-                                else {
-                                    setRender(true);
-                                }
-                            })
-                            .catch(() => {
+                    getUserData()
+                        .then((res) => {
+                            if(res?.status === 200) {
+                                window.location = '/oferty-pracy';
+                            }
+                            else {
                                 setRender(true);
-                            });
-                    }
-                    else {
-                        getAgencyData()
-                            .then((res) => {
-                                if(res?.status === 200) {
-                                    window.location = '/konto-agencji';
-                                }
-                                else {
-                                    setRender(true);
-                                }
-                            })
-                            .catch(() => {
-                                setRender(true);
-                            });
-                    }
+                            }
+                        })
+                        .catch(() => {
+                            setRender(true);
+                        });
                 }
                 else {
                     setRender(true);
                 }
             })
             .catch(() => {
-                setRender(true);
+                authAgency()
+                    .then((res) => {
+                        if(res?.status === 201) {
+                            getAgencyData()
+                                .then((res) => {
+                                    if(res?.status === 200) {
+                                        window.location = '/konto-agencji';
+                                    }
+                                    else {
+                                        setRender(true);
+                                    }
+                                })
+                                .catch(() => {
+                                    setRender(true);
+                                });
+                        }
+                        else {
+                            setRender(true);
+                        }
+                    })
+                    .catch(() => {
+                        setRender(true);
+                    })
             })
     }, []);
 
     return render ? <div className="container container--home">
+
         <img className="homeImg" src={backgroundImg} alt="portal-z-ofertami-pracy" />
         <header className="home__header flex w-1400">
             <a href="." className="home__header__logo">
@@ -67,13 +79,13 @@ const Homepage = () => {
                 <a className="home__header__menu__item" href="/">
                     Strona główna
                 </a>
-                <a className="home__header__menu__item" href="/">
+                <a className="home__header__menu__item" href="#funkcje">
                     Funkcje portalu
                 </a>
-                <a className="home__header__menu__item" href="/">
+                <a className="home__header__menu__item" href="#partnerzy">
                     Partnerzy
                 </a>
-                <a className="home__header__menu__item" href="/">
+                <a className="home__header__menu__item" href="/kontakt">
                     Kontakt
                 </a>
             </div>
@@ -146,6 +158,14 @@ const Homepage = () => {
                 </a>
             </div>
         </div>
+
+
+        <AdsSection />
+        <HomeBenefits />
+        <Partners />
+        <Tools />
+        <Footer />
+
     </div> : <div className="container container--height100 center">
         <Loader />
     </div>

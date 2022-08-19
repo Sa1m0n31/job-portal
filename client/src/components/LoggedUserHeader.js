@@ -1,16 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import MobileHeader from "./MobileHeader";
-import logo from '../static/img/logo-niebieskie.png'
+import logo from '../static/img/logo-biale.png'
 import messageIcon from '../static/img/message-blue.svg'
 import bellIcon from '../static/img/bell-ring.svg'
 import arrowDown from '../static/img/arrow-down.svg'
 import settings from "../static/settings";
-import {getUserData, logout} from "../helpers/user";
+import {getUserData, getUserNotifications, logout, readNotification} from "../helpers/user";
 import logoutIcon from '../static/img/logout.svg'
 import userPlaceholder from '../static/img/user-placeholder.svg'
 import {getAgencyMessages, getUserMessages} from "../helpers/messages";
-import {getAgencyData} from "../helpers/agency";
+import {getAgencyData, getAgencyNotifications} from "../helpers/agency";
 import messagesIcon from '../static/img/messages-arrow.svg'
+import LanguageSwitcher from "./LanguageSwitcher";
+import {notificationTitles} from "../static/content";
 
 const LoggedUserHeader = ({data, agency, messageUpdate}) => {
     const [messages, setMessages] = useState([]);
@@ -31,30 +33,66 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
     }, []);
 
     useEffect(() => {
-        async function setupMessages() {
+        async function setupMessagesAndNotifications() {
             if(agency) {
                 const agencyData = await getAgencyData();
+
                 const agencyMessages = await getAgencyMessages(agencyData?.data?.id);
+                const agencyNotifications = await getAgencyNotifications();
+
                 setMessages(agencyMessages?.data?.filter((item) => {
                     const chat = JSON.parse(item.m_chat);
                     return chat.findIndex((item) => {
                         return item.fromAgency !== agency;
                     }) !== -1 && !item.m_archivedByAgency;
                 }));
+                if(agencyNotifications?.data) {
+                    setNotifications(agencyNotifications.data?.map((item) => {
+                        return {
+                            id: item.n_id,
+                            image: item.u_data ? JSON.parse(item.u_data)?.profileImage : userPlaceholder,
+                            type: item.n_type,
+                            read: item.n_checked,
+                            link: item.n_link,
+                            user: item.u_data ? (JSON.parse(item.u_data)?.firstName ? JSON.parse(item.u_data)?.firstName + ' ' + JSON.parse(item.u_data)?.lastName : 'Ktoś') : 'Ktoś'
+                        }
+                    }).sort((a, b) => {
+                        if(a.read && !b.read) return 1;
+                        else return -1;
+                    }));
+                }
             }
             else {
                 const userData = await getUserData();
+
                 const userMessages = await getUserMessages(userData?.data?.id);
+                const userNotifications = await getUserNotifications();
+
                 setMessages(userMessages?.data?.filter((item) => {
                     const chat = JSON.parse(item.m_chat);
                     return chat.findIndex((item) => {
                         return item.fromAgency !== agency;
                     }) !== -1 && !item.m_archivedByUser;
                 }));
+                if(userNotifications?.data) {
+                    setNotifications(userNotifications.data?.map((item) => {
+                        return {
+                            id: item.n_id,
+                            image: item.a_data ? JSON.parse(item.a_data)?.logo : userPlaceholder,
+                            type: item.n_type,
+                            read: item.n_checked,
+                            link: item.n_link,
+                            agency: item.a_data ? JSON.parse(item.a_data)?.name : null
+                        }
+                    }).sort((a, b) => {
+                        if(a.read && !b.read) return 1;
+                        else return -1;
+                    }));
+                }
             }
         }
 
-        setupMessages();
+        setupMessagesAndNotifications();
     }, [agency, messageUpdate]);
 
     useEffect(() => {
@@ -64,6 +102,14 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
             })?.length);
         }
     }, [messages]);
+
+    useEffect(() => {
+        if(notifications?.length) {
+            setNewNotifications(notifications.filter((item) => {
+                return !item.read;
+            })?.length);
+        }
+    }, [notifications]);
 
     const isNew = (chat) => {
         let lastMessage;
@@ -80,6 +126,11 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
         else {
             return false;
         }
+    }
+
+    const readNotificationAndRedirect = async (read, link, notificationId) => {
+        if(!read) await readNotification(notificationId);
+        window.location = link;
     }
 
     return <header className="loggedUserHeader" onClick={() => { setMessagesDropdown(false); setNotificationsDropdown(false); }}>
@@ -119,27 +170,30 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                        href="/kandydaci">
                         Kandydaci
                     </a>
-                </> : <a className="loggedUserHeader__menu__item"
-                          href="/pracodawcy">
-                    Pracodawcy
-                </a>}
-                <a className="loggedUserHeader__menu__item"
-                   href="/kontakt">
-                    Kontakt
-                </a>
+                </> : <>
+                    <a className="loggedUserHeader__menu__item"
+                       href="/pracodawcy">
+                        Pracodawcy
+                    </a>
+                    <a className="loggedUserHeader__menu__item"
+                       href="/kontakt">
+                        Kontakt
+                    </a>
+                </>
+                }
             </div>
 
             <div className="loggedUserHeader__notificationsContainer">
                 <div className="rel">
                     <button className={!newMessages ? "loggedUserHeader__notificationBtn" : "loggedUserHeader__notificationBtn loggedUserHeader__notificationBtn--new"}
-                            onClick={(e) => { e.stopPropagation(); setMessagesDropdown(!messagesDropdown); }}>
+                            onClick={(e) => { e.stopPropagation(); setMessagesDropdown(!messagesDropdown); setNotificationsDropdown(false); }}>
                         <img className="img" src={messageIcon} alt="wiadomosci" />
                     </button>
 
                     {messagesDropdown ? <div className="notifications__dropdown">
                         <a className="notifications__dropdown__item notifications__dropdown__item--bottom"
                            href={agency ? '/wiadomosci' : '/moje-wiadomosci'}>
-                            {messages?.length ? `Nowe wiadomości: ${newMessages}` : 'Nie masz jeszcze żadnych wiadomości'}
+                            {newMessages?.length ? `Nowe wiadomości: ${newMessages}` : 'Nie masz nowych wiadomości'}
                         </a>
                         {messages?.map((item, index) => {
                             if(index < 2) {
@@ -148,7 +202,7 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                                 return <a className="notifications__dropdown__item"
                                           key={index}
                                           href={agency ? '/wiadomosci' : '/moje-wiadomosci'}>
-                                    <span className="notifications__dropdown__item__recipient">
+                                    <span className={isNew(JSON.parse(item.m_chat)) ? "notifications__dropdown__item__recipient bold" : "notifications__dropdown__item__recipient"}>
                                         {receiver}
                                     </span>
                                     <span className="notifications__dropdown__item__title">
@@ -165,9 +219,36 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                     </div> : ''}
                 </div>
                 <div className="rel">
-                    <button className={!newNotifications ? "loggedUserHeader__notificationBtn" : "loggedUserHeader__notificationBtn loggedUserHeader__notificationBtn--new"}>
+                    <button className={!newNotifications ? "loggedUserHeader__notificationBtn" : "loggedUserHeader__notificationBtn loggedUserHeader__notificationBtn--new"}
+                            onClick={(e) => { e.stopPropagation(); setNotificationsDropdown(!notificationsDropdown); setMessagesDropdown(false); }}>
                         <img className="img" src={bellIcon} alt="wiadomosci" />
                     </button>
+
+                    {notificationsDropdown ? <div className="notifications__dropdown">
+                        <a className="notifications__dropdown__item notifications__dropdown__item--bottom"
+                           href="/powiadomienia">
+                            {newNotifications ? `Nowe powiadomienia: ${newNotifications}` : 'Nie masz nowych powiadomień'}
+                        </a>
+                        {notifications?.map((item, index) => {
+                            if(index < 2) {
+                                return <button className="notifications__dropdown__item"
+                                          key={index}
+                                         onClick={() => { readNotificationAndRedirect(item.read, item.link, item.id); }}>
+                                    <span className={!item.read ? "notifications__dropdown__item__recipient bold" : "notifications__dropdown__item__recipient"}>
+                                        {item.type !== 3 ? notificationTitles[item.type-1] : `${item.user} ${notificationTitles[2]}`}
+                                    </span>
+                                    <span className="notifications__dropdown__item__title">
+                                        {((item.type === 1 || item.type === 2) && item.agency) ? `Od ${item.agency}` : 'Sprawdź profil kandydata'}
+                                    </span>
+                                </button>
+                            }
+                        })}
+                        {notifications?.length ? <a className="notifications__dropdown__item notifications__dropdown__item--bottom"
+                                               href="/powiadomienia">
+                            Wszystkie powiadomienia
+                            <img className="img" src={messagesIcon} alt="wiadomosci" />
+                        </a>: ''}
+                    </div> : ''}
                 </div>
             </div>
 

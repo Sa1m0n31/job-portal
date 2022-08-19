@@ -98,7 +98,7 @@ const ApplicationForJobPage = ({data}) => {
 
             successRef.current.style.visibility = 'visible';
             successRef.current.style.height = 'auto';
-            successRef.current.style.paddingTop = '60px';
+            successRef.current.style.padding = '60px 0 40px';
             setTimeout(() => {
                 successRef.current.style.opacity = '1';
             }, 300);
@@ -162,7 +162,7 @@ const ApplicationForJobPage = ({data}) => {
         }
         else {
             let func = fast ? submitFastApplication : submitApplication;
-            func(offer.o_id, message, contactForms, attachments)
+            func(offer.o_id, message, contactForms, attachments, offer.a_id)
                 .then((res) => {
                     if(res?.status === 201) {
                         setSuccess(true);

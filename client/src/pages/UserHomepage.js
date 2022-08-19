@@ -16,8 +16,17 @@ import Switch from "react-switch";
 import { Tooltip } from 'react-tippy';
 import 'react-whatsapp-widget/dist/index.css';
 import {toggleUserVisibility, toggleUserWorking} from "../helpers/user";
-import {categories, countries, drivingLicences, flags, languageLevels, languages, noInfo} from "../static/content";
-import {getDate} from "../helpers/others";
+import {
+    categories,
+    countries,
+    currencies,
+    drivingLicences,
+    flags,
+    languageLevels,
+    languages,
+    noInfo
+} from "../static/content";
+import {getDate, getLoggedUserEmail} from "../helpers/others";
 import checkIcon from '../static/img/check-small.svg'
 import starIcon from '../static/img/star.svg'
 import settingsCircle from '../static/img/settings-circle.svg'
@@ -53,10 +62,6 @@ const UserHomepage = ({data, visible, working}) => {
             });
         }
     }, [data]);
-
-    const downloadCV = () => {
-        ReactDOM.render(<CV />, document.getElementById('root'));
-    }
 
     const changeProfileVisibility = () => {
         setProfileVisible(!profileVisible);
@@ -110,7 +115,7 @@ const UserHomepage = ({data, visible, working}) => {
                         </p>
                         <p className="userAccount__box__mainData__text">
                             <img className="img" src={messageIcon} alt="adres-e-mail" />
-                            {data?.email}
+                            {getLoggedUserEmail()}
                         </p>
                     </div>
                 </div>
@@ -132,6 +137,11 @@ const UserHomepage = ({data, visible, working}) => {
                                                                desc={data.situationDescription}
                                                                phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : noInfo}
                                                                location={data.country >= 0 ? `${data.city}, ${countries[data.country]}` : noInfo}
+                                                               currentPlace={data.currentCountry >= 0 ? `${countries[data.currentCountry]}, ${data.currentCity}`: noInfo}
+                                                               availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : noInfo}
+                                                               ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}
+                                                               ownTools={data.ownTools ? 'Tak' : ''}
+                                                               salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency} netto/${data.salaryType === 0 ? 'mies.' : 'tyg.'}` : noInfo}
                         />}
                                                  fileName={`CV-${data.firstName}_${data.lastName}.pdf`}
                                                  className="btn btn--downloadCV">

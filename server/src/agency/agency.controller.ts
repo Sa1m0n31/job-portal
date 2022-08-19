@@ -63,4 +63,9 @@ export class AgencyController {
     getAgencyById(@Param('id') id) {
         return this.agencyService.getAgencyById(id);
     }
+
+    @Get('/getNotifications/:email')
+    getAgencyNotifications(@Param('email') email) {
+        return this.agencyService.getAgencyNotifications(email);
+    }
 }

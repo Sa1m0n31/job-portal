@@ -8,6 +8,12 @@ import Register from "./pages/Register";
 import AccountVerification from "./pages/AccountVerification";
 import UserWrapper from "./components/UserWrapper";
 import AgencyWrapper from "./components/AgencyWrapper";
+import TextPage from "./pages/TextPage";
+import {privacyPolicy, termsOfService} from "./static/content";
+import {Text} from "@react-pdf/renderer";
+import GoogleTranslate from "./components/GoogleTranslate";
+import Notifications from "./pages/Notifications";
+import ContactPage from "./pages/ContactPage";
 
 const LanguageContext = React.createContext(null);
 
@@ -31,6 +37,20 @@ function App() {
       </Route>
       <Route path="/weryfikacja">
         <AccountVerification />
+      </Route>
+      <Route path="/regulamin">
+        <TextPage header="Regulamin" content={termsOfService} />
+      </Route>
+      <Route path="/polityka-prywatnosci">
+        <TextPage header="Polityka prywatności" content={privacyPolicy} />
+      </Route>
+
+      {/* COMMON LOGGED ROUTER */}
+      <Route path="/powiadomienia">
+        <Notifications />
+      </Route>
+      <Route path="/kontakt">
+        <ContactPage />
       </Route>
 
       {/* USER ROUTES */}

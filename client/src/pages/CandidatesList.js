@@ -12,6 +12,8 @@ import UserPreview from "../components/UserPreview";
 import AgenciesFilters from "../components/AgenciesFilters";
 import UsersFilters from "../components/UsersFilters";
 import {currencies} from "../static/content";
+import settings from "../static/settings";
+import CV from "../components/CV";
 
 const CandidatesList = ({data}) => {
     const [users, setUsers] = useState([]);
@@ -194,6 +196,8 @@ const CandidatesList = ({data}) => {
                 {users?.map((item, index) => {
                     return <UserPreview key={index}
                                           id={item.id}
+                                          companyLogo={`${settings.API_URL}/${data.logo}`}
+                                          companyName={data.name}
                                           data={JSON.parse(item.data)} />
                 })}
             </InfiniteScroll> : <InfiniteScroll
@@ -208,6 +212,8 @@ const CandidatesList = ({data}) => {
                 {filteredUsers?.map((item, index) => {
                     return <UserPreview key={index}
                                           id={item.id}
+                                          companyLogo={`${settings.API_URL}/${data.logo}`}
+                                          companyName={data.name}
                                           data={JSON.parse(item.data)} />
                 })}
             </InfiniteScroll>}

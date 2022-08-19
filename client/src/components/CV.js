@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {Page, Text, Font, View, Document, StyleSheet, Image, Svg} from '@react-pdf/renderer';
 import {categories as allCategories, drivingLicences, languages as allLanguages} from "../static/content";
-import phoneIcon from '../static/img/phone-grey.svg'
+import {addLeadingZero} from "../helpers/others";
 
 Font.register({
     family: "Roboto",
@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
         width: '150px',
         height: 'auto',
         border: '5px solid #F9F9F9',
-        borderRadius: '50%'
+        borderRadius: '3px'
     },
     mainSection: {
         width: '100%',
@@ -86,10 +86,16 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
     textBig: {
-        fontSize: '19px',
+        fontSize: '21px',
         fontWeight: 700,
         textAlign: 'center',
         margin: '20px auto 0'
+    },
+    textBigCompany: {
+        fontSize: '21px',
+        fontWeight: 700,
+        textAlign: 'left',
+        margin: '20px 0 0'
     },
     categories: {
         fontSize: '12px',
@@ -97,6 +103,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: '#888888',
         margin: '5px auto 25px'
+    },
+    categoriesCompany: {
+        fontSize: '12px',
+        fontWeight: 300,
+        textAlign: 'left',
+        color: '#888888',
+        margin: '5px 0 25px'
     },
     icon: {
         width: '15px',
@@ -125,13 +138,38 @@ const styles = StyleSheet.create({
         color: '#888888',
         fontSize: '11px',
         margin: '4px 0'
+    },
+    topRow: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+        width: '100%'
+    },
+    topRowRight: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-end'
+    },
+    logo: {
+        width: '50px'
+    },
+    companyName: {
+        color: '#888888',
+        fontSize: '9px',
+        margin: '8px 0 2px',
+        textAlign: 'right'
+    },
+    date: {
+        color: '#888888',
+        fontSize: '6px',
+        textAlign: 'right'
     }
 });
 
-console.log(phoneIcon)
-
 const CV = ({profileImage, fullName, phoneNumber, email, location, categories, birthday, schools, jobs, languages, additionalLanguages,
-                drivingLicence, certs, desc}) => {
+                drivingLicence, certs, desc, companyLogo, companyName, currentPlace, availability, ownAccommodation, ownTools, salary}) => {
     useEffect(() => {
         console.log(categories);
     }, [categories]);
@@ -139,22 +177,56 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
     return <Document>
         <Page size="A4" style={styles.page}>
             <View style={styles.column}>
-                <Image src={profileImage} style={styles.profileImage}>
+                {companyLogo ? <View style={styles.topRow}>
+                    <View>
+                        <Image src={profileImage} style={styles.profileImage}>
 
-                </Image>
-                <Text style={styles.textBig}>
-                    {fullName}
-                </Text>
-                <Text style={styles.categories}>
-                    {categories?.map((item, index, array) => {
-                        if(index === array.length - 1) {
-                            return allCategories[item];
-                        }
-                        else {
-                            return `${allCategories[item]}, `;
-                        }
-                    })}
-                </Text>
+                        </Image>
+                        <Text style={styles.textBigCompany}>
+                            {fullName}
+                        </Text>
+                        <Text style={styles.categoriesCompany}>
+                            {categories?.map((item, index, array) => {
+                                if(index === array.length - 1) {
+                                    return allCategories[item];
+                                }
+                                else {
+                                    return `${allCategories[item]}, `;
+                                }
+                            })}
+                        </Text>
+                    </View>
+                    <View style={styles.topRowRight}>
+                        <Image src={companyLogo} style={styles.logo}>
+
+                        </Image>
+                        <Text style={styles.companyName}>
+                            {companyName}
+                        </Text>
+                        <Text style={styles.date}>
+                            Wygenerowano: {addLeadingZero(new Date().getDate())}.{addLeadingZero(new Date().getMonth()+1)}.{new Date().getFullYear()}
+                        </Text>
+                    </View>
+                </View> : <>
+                    <Image src={profileImage} style={styles.profileImage}>
+
+                    </Image>
+                    <Text style={styles.textBig}>
+                        {fullName}
+                    </Text>
+                    <Text style={styles.categories}>
+                        {categories?.map((item, index, array) => {
+                            if(index === array.length - 1) {
+                                return allCategories[item];
+                            }
+                            else {
+                                return `${allCategories[item]}, `;
+                            }
+                        })}
+                    </Text>
+                </>
+                }
+
                 <View style={styles.mainSection}>
                     <Text style={styles.sectionHeader}>
                         Podstawowe dane
@@ -273,12 +345,46 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
 
                 {desc ? <View style={styles.mainSection}>
                     <Text style={styles.sectionHeader}>
-                        Opis aktualnej sytuacj
+                        Opis aktualnej sytuacji
                     </Text>
                     <Text style={styles.descText}>
                         {desc}
                     </Text>
                 </View> : ''}
+
+                <View style={styles.mainSection}>
+                    <Text style={styles.sectionHeader}>
+                        Dodatkowe informacje
+                    </Text>
+                    <Text style={styles.textSmall}>aktualne miejsce pobytu: </Text>
+                    <Text style={styles.text}>
+                        {currentPlace}
+                    </Text>
+
+                    <Text style={styles.textSmall}>dostępność od: </Text>
+                    <Text style={styles.text}>
+                        {availability}
+                    </Text>
+
+                    <Text style={styles.textSmall}>oczekiwania finansowe: </Text>
+                    <Text style={styles.text}>
+                        {salary}
+                    </Text>
+
+                    {ownAccommodation ? <>
+                        <Text style={styles.textSmall}>własne zakwaterowanie w Holandii: </Text>
+                        <Text style={styles.text}>
+                            {ownAccommodation}
+                        </Text>
+                    </> : ''}
+
+                    {ownTools ? <>
+                        <Text style={styles.textSmall}>własne narzędzia: </Text>
+                        <Text style={styles.text}>
+                            Tak
+                        </Text>
+                    </>: ''}
+                </View>
             </View>
         </Page>
     </Document>

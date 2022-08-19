@@ -19,6 +19,8 @@ import downloadIcon from "../static/img/download-grey.svg";
 import {getUserById} from "../helpers/user";
 import Loader from "../components/Loader";
 import userPlaceholder from '../static/img/user-placeholder.svg'
+import {PDFDownloadLink} from "@react-pdf/renderer";
+import CV from "../components/CV";
 
 const CandidateProfile = ({data}) => {
     const [user, setUser] = useState(null);
@@ -72,10 +74,6 @@ const CandidateProfile = ({data}) => {
             });
         }
     }, [user]);
-
-    const downloadCV = () => {
-
-    }
 
     return user ? <div className="container container--user container--userProfile">
         <LoggedUserHeader data={data} agency={true} />
@@ -140,11 +138,33 @@ const CandidateProfile = ({data}) => {
                 <div className="userAccount__box__right">
                     <label className="userAccount__box__downloadCV">
                         Wygeneruj i pobierz CV:
-                        <button className="btn btn--downloadCV"
-                                onClick={() => { downloadCV(); }}>
+                        {user ? <PDFDownloadLink document={<CV profileImage={user.profileImage ? `${settings.API_URL}/${user?.profileImage}` : userPlaceholder}
+                                                               companyLogo={`${settings.API_URL}/${data.logo}`}
+                                                               companyName={data.name}
+                                                               fullName={`${user.firstName} ${user.lastName}`}
+                                                               categories={user.categories}
+                                                               email={user.email}
+                                                               birthday={getDate(user?.birthdayDay, user?.birthdayMonth, user?.birthdayYear)}
+                                                               schools={user.schools}
+                                                               jobs={user.jobs}
+                                                               additionalLanguages={user.extraLanguages}
+                                                               languages={user.languages}
+                                                               drivingLicence={user.drivingLicenceCategories}
+                                                               certs={user.certificates.concat(user.courses)}
+                                                               desc={user.situationDescription}
+                                                               phoneNumber={user.phoneNumber ? `${user.phoneNumberCountry} ${user.phoneNumber}` : noInfo}
+                                                               location={user.country >= 0 ? `${user.city}, ${countries[user.country]}` : noInfo}
+                                                               currentPlace={user.currentCountry >= 0 ? `${countries[user.currentCountry]}, ${user.currentCity}`: noInfo}
+                                                               availability={user.availabilityDay >= 0 ? getDate(user?.availabilityDay, user?.availabilityMonth, user?.availabilityYear) : noInfo}
+                                                               ownAccommodation={user.ownAccommodation ? user.accommodationPlace : ''}
+                                                               ownTools={user.ownTools ? 'Tak' : ''}
+                                                               salary={user.salaryFrom && user.salaryTo ? `${user.salaryFrom} - ${user.salaryTo} ${user.salaryCurrency} netto/${user.salaryType === 0 ? 'mies.' : 'tyg.'}` : noInfo}
+                        />}
+                                                 fileName={`CV-${user.firstName}_${user.lastName}.pdf`}
+                                                 className="btn btn--downloadCV">
                             <img className="img" src={downloadWhite} alt="pobierz" />
                             Pobierz CV
-                        </button>
+                        </PDFDownloadLink> : ''}
                     </label>
                 </div>
             </main>

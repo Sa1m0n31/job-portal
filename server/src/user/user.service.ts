@@ -13,6 +13,7 @@ import {HttpService} from "@nestjs/axios";
 import {lastValueFrom} from "rxjs";
 import {calculateDistance} from "../common/calculateDistance";
 import {Fast_applications} from "../entities/fast_applications.entity";
+import {Notifications} from "../entities/notifications.entity";
 
 @Injectable()
 export class UserService {
@@ -25,6 +26,8 @@ export class UserService {
         private readonly applicationRepository: Repository<Application>,
         @InjectRepository(Fast_applications)
         private readonly fastApplicationRepository: Repository<Fast_applications>,
+        @InjectRepository(Notifications)
+        private readonly notificationsRepository: Repository<Notifications>,
         private readonly mailerService: MailerService,
         private readonly jwtTokenService: JwtService,
         private readonly httpService: HttpService
@@ -134,7 +137,6 @@ export class UserService {
             profileImage: files.profileImage ? files.profileImage[0].path : userData.profileImageUrl,
             bsnNumberDocument: files.bsnNumber ? files.bsnNumber[0].path : userData.bsnNumberDocument,
             attachments: files.attachments ? Array.from(files.attachments).map((item: any) => {
-                console.log(item);
                 return item.path;
             }) : data.attachments
         }
@@ -402,8 +404,43 @@ export class UserService {
         return users.slice(startIndex, startIndex + perPage);
     }
 
-    async downloadCV() {
+    async getUserNotifications(email) {
+        return this.notificationsRepository
+            .createQueryBuilder('n')
+            .leftJoinAndSelect('user', 'u', 'u.id = n.recipient')
+            .leftJoinAndSelect('agency', 'a', 'a.id = n.agencyId')
+            .where('u.email = :email AND (n.type = 1 OR n.type = 2)', {email})
+            .getRawMany();
+    }
 
+    async readNotification(id) {
+        return this.notificationsRepository
+            .createQueryBuilder()
+            .update({
+                checked: true
+            })
+            .where({
+                id: id
+            })
+            .execute();
+    }
+
+    async sendContactForm(name, email, msg) {
+        return this.mailerService.sendMail({
+            to: process.env.CONTACT_FORM_ADDRESS,
+            from: process.env.EMAIL_ADDRESS,
+            subject: 'Nowa wiadomość w formularzu kontaktowym',
+            html: `<div>
+                    <h2>
+                        Ktoś wysłał wiadomość w formularzu kontaktowym na Jooob.eu!
+                    </h2>
+                    <p>
+                        Imię: ${name}<br/>
+                        Email: ${email}<br/>
+                        Wiadomość: ${msg}
+                    </p>
+                </div>`
+        });
     }
 }
 

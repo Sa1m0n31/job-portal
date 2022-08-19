@@ -17,19 +17,28 @@ import Gallery from "../components/Gallery";
 import backArrow from '../static/img/back-arrow-grey.svg'
 import magnifier from '../static/img/magnifier.svg'
 import userPlaceholder from '../static/img/user-placeholder.svg'
+import {getUserApplications} from "../helpers/user";
 
 const SingleOffer = ({data}) => {
     const [offer, setOffer] = useState({});
     const [galleryIndex, setGalleryIndex] = useState(-1);
+    const [userAlreadyApplied, setUserAlreadyApplied] = useState(null);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
         if(id) {
             getOfferById(id)
-                .then((res) => {
+                .then(async (res) => {
                    if(res?.status === 200) {
                        setOffer(res?.data[0]);
+                       const offerId = res?.data[0]?.o_id;
+
+                       const userApplicationResponse = await getUserApplications();
+                       if(userApplicationResponse) {
+                           const userApplications = userApplicationResponse?.data;
+                           setUserAlreadyApplied(userApplications?.findIndex((item) => (item.offer === offerId)) !== -1);
+                       }
                    }
                 })
                 .catch(() => {
@@ -41,7 +50,7 @@ const SingleOffer = ({data}) => {
         }
     }, []);
 
-    return offer?.o_id ? <div className="container container--user container--offer">
+    return offer?.o_id ? <div className="container container--user container--offer container--offerPage">
             <LoggedUserHeader data={data}  />
 
             {galleryIndex !== -1 ? <Gallery images={offer.a_data ? JSON.parse(offer.a_data).gallery : offer}
@@ -58,11 +67,11 @@ const SingleOffer = ({data}) => {
                 </a>
             </aside>
 
-            <a href={`/aplikuj?id=${offer.o_id}`}
-               className="btn btn--jobOfferApply btn--stickyMobile">
-                Aplikuj
-                <img className="img" src={arrow} alt="przejdź-dalej" />
-            </a>
+        {userAlreadyApplied === false ? <a href={`/aplikuj?id=${offer.o_id}`}
+                                           className="btn btn--jobOfferApply btn--stickyMobile">
+            Aplikuj
+            <img className="img" src={arrow} alt="przejdź-dalej" />
+        </a> : ''}
 
             <main className="jobOffer">
                 <figure className="jobOffer__backgroundImg">
@@ -86,11 +95,11 @@ const SingleOffer = ({data}) => {
                     <span className="jobOffer__sideInfo">
                         Dodano: {offer.o_created_at?.substring(0, 10)}, id ogłoszenia: {offer.o_id}
                     </span>
-                            <a href={`/aplikuj?id=${offer.o_id}`}
-                               className="btn btn--jobOfferApply">
+                            {userAlreadyApplied === false ? <a href={`/aplikuj?id=${offer.o_id}`}
+                                                               className="btn btn--jobOfferApply">
                                 Aplikuj
                                 <img className="img" src={arrow} alt="przejdź-dalej" />
-                            </a>
+                            </a> : ''}
                         </div>
                     </div>
 

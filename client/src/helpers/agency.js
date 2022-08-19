@@ -1,6 +1,20 @@
 import axios from "axios";
 import {getAuthHeader, getLoggedUserEmail} from "./others";
 import settings from "../static/settings";
+import Cookies from "universal-cookie";
+
+const authAgency = () => {
+    const cookies = new Cookies();
+
+    return axios.post('/user/authAgency', {
+        email: getLoggedUserEmail(),
+        role: cookies.get('jooob_account_type')
+    }, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
+}
 
 const loginAgency = (email, password) => {
     return axios.post('/agency/login', {
@@ -74,6 +88,10 @@ const sortAgencies = (type, page) => {
     return axios.get(`/agency/sort/${type}/${page}`);
 }
 
+const getAgencyNotifications = () => {
+    return axios.get(`/agency/getNotifications/${getLoggedUserEmail()}`);
+}
+
 export { registerAgency, verifyAgency, loginAgency, getAgencyData, updateAgency, getAllApprovedAgencies,
-    filterAgencies, sortAgencies, getAgencyById
+    filterAgencies, sortAgencies, getAgencyById, authAgency, getAgencyNotifications
 }

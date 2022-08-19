@@ -6,12 +6,16 @@ import phoneIcon from '../static/img/phone-grey.svg'
 import mailIcon from '../static/img/message-grey.svg'
 import websiteIcon from '../static/img/www-icon.svg'
 import settings from "../static/settings";
-import {categories, countries, preferableContactForms} from "../static/content";
+import {categories, countries, noInfo, preferableContactForms} from "../static/content";
 import eyeIcon from '../static/img/eye-icon.svg'
 import messageIcon from '../static/img/message-empty.svg'
 import downloadIcon from '../static/img/download-white.svg'
+import {PDFDownloadLink} from "@react-pdf/renderer";
+import CV from "./CV";
+import {getDate} from "../helpers/others";
+import downloadWhite from "../static/img/download-white.svg";
 
-const UserPreview = ({i, id, data, application}) => {
+const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
     return data ? <div className={application ? "preview preview--agency preview--user flex flex-wrap" : "preview preview--agency preview--user flex"} key={i}>
         <div className="preview__left">
             <figure className="preview__profileImage">
@@ -70,13 +74,36 @@ const UserPreview = ({i, id, data, application}) => {
         </div>
 
         <div className="preview__buttons">
-            <div className="preview__buttons__section">
-                Wygeneruj i pobierz CV
-                <button className="btn btn--downloadCV">
-                    <img className="img" src={downloadIcon} alt="pobierz" />
+            {data?.firstName && data?.lastName ? <div className="preview__buttons__section preview__buttons__section--cv">
+                Wygeneruj i pobierz CV:
+                <PDFDownloadLink document={<CV profileImage={`${settings.API_URL}/${data?.profileImage}`}
+                                                       fullName={`${data.firstName} ${data.lastName}`}
+                                                       companyName={companyName}
+                                                       companyLogo={companyLogo}
+                                                       categories={data.categories}
+                                                       email={data.email}
+                                                       birthday={getDate(data?.birthdayDay, data?.birthdayMonth, data?.birthdayYear)}
+                                                       schools={data.schools}
+                                                       jobs={data.jobs}
+                                                       additionalLanguages={data.extraLanguages}
+                                                       languages={data.languages}
+                                                       drivingLicence={data.drivingLicenceCategories}
+                                                       certs={data.certificates?.concat(data.courses)}
+                                                       desc={data.situationDescription}
+                                                       phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : noInfo}
+                                                       location={data.country >= 0 ? `${data.city}, ${countries[data.country]}` : noInfo}
+                                                       currentPlace={data.currentCountry >= 0 ? `${countries[data.currentCountry]}, ${data.currentCity}`: noInfo}
+                                                       availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : noInfo}
+                                                       ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}
+                                                       ownTools={data.ownTools ? 'Tak' : ''}
+                                                       salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency} netto/${data.salaryType === 0 ? 'mies.' : 'tyg.'}` : noInfo}
+                />}
+                                         fileName={`CV-${data.firstName}_${data.lastName}.pdf`}
+                                         className="btn btn--downloadCV">
+                    <img className="img" src={downloadWhite} alt="pobierz" />
                     Pobierz CV
-                </button>
-            </div>
+                </PDFDownloadLink>
+            </div> : ''}
 
             <div className="preview__buttons__section preview__buttons__section--flex">
                 <span className="w-100">

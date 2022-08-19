@@ -4,11 +4,10 @@ import {authUser, getUserData} from "../helpers/user";
 import Loader from "./Loader";
 import UserEditData from "../pages/UserEditData";
 import AgencyEditData from "../pages/AgencyEditData";
-import {getAgencyData} from "../helpers/agency";
+import {authAgency, getAgencyData} from "../helpers/agency";
 import AgencyHomepage from "../pages/AgencyHomepage";
 import AddJobOffer from "../pages/AddJobOffer";
 import MyJobOffers from "../pages/MyJobOffers";
-import EditJobOffer from "../pages/EditJobOffer";
 import CandidatesList from "../pages/CandidatesList";
 import CandidateProfile from "../pages/CandidateProfile";
 import MessageList from "../pages/MessageList";
@@ -16,13 +15,14 @@ import SendMessage from "../pages/SendMessage";
 import AddFastJobOffer from "../pages/AddFastJobOffer";
 import MyFastJobOffers from "../pages/MyFastJobOffers";
 import AgencyApplications from "../pages/AgencyApplications";
+import LoggedUserFooter from "./LoggedUserFooter";
 
 const AgencyWrapper = ({page}) => {
     const [render, setRender] = useState(null);
 
     useEffect(() => {
         if(page) {
-            authUser()
+            authAgency()
                 .then((res) => {
                     if(res?.status === 201) {
                         getAgencyData()
@@ -91,7 +91,10 @@ const AgencyWrapper = ({page}) => {
         }
     }, [page]);
 
-    return render ? render : <div className="container container--loader center">
+    return render ? <>
+        {render}
+        <LoggedUserFooter />
+    </> : <div className="container container--loader center">
         <Loader />
     </div>
 };

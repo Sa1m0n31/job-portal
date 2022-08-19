@@ -12,6 +12,7 @@ import MessageList from "../pages/MessageList";
 import SendMessage from "../pages/SendMessage";
 import FastJobOfferList from "../pages/FastJobOffersList";
 import SingleFastOffer from "../pages/SingleFastOffer";
+import LoggedUserFooter from "./LoggedUserFooter";
 
 const UserWrapper = ({page}) => {
     const [render, setRender] = useState(null);
@@ -76,7 +77,7 @@ const UserWrapper = ({page}) => {
                                 }
                             })
                             .catch((err) => {
-                               window.location = '/';
+                                window.location = '/';
                             });
                     }
                     else {
@@ -89,7 +90,10 @@ const UserWrapper = ({page}) => {
         }
     }, [page]);
 
-    return render ? render : <div className="container container--loader center">
+    return render ? <>
+        {render}
+        <LoggedUserFooter />
+    </> : <div className="container container--loader center">
         <Loader />
     </div>
 };

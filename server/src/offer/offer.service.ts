@@ -11,6 +11,7 @@ import {lastValueFrom, map} from "rxjs";
 import {calculateDistance} from "../common/calculateDistance";
 import {Fast_offer} from "../entities/fast_offer.entity";
 import {Fast_applications} from "../entities/fast_applications.entity";
+import {Notifications} from "../entities/notifications.entity";
 
 // 0 - miesiecznie
 // 1 - tygodniowo
@@ -34,8 +35,17 @@ export class OfferService {
         private readonly fastApplicationsRepository: Repository<Fast_applications>,
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
+        @InjectRepository(Notifications)
+        private readonly notificationsRepository: Repository<Notifications>,
         private readonly httpService: HttpService
     ) {
+    }
+
+    async isElementInArray(el, arr) {
+        if(!arr?.length) return false;
+        return arr.findIndex((item) => {
+            return item === el;
+        }) !== -1;
     }
 
     async getActiveOffers(page: number) {
@@ -166,6 +176,60 @@ export class OfferService {
         }
     }
 
+    getMultipleRandom(arr, num) {
+        const shuffled = [...arr].sort(() => 0.5 - Math.random());
+        return shuffled.slice(0, num);
+    }
+
+    async sendNotificationsToAgency(offer, agencyId) {
+        const allUsers = await this.userRepository.findBy({active: true});
+
+        let matches = allUsers.filter((item) => {
+            const userData = JSON.parse(item.data);
+            if(userData) {
+                const userSalaryFrom = userData.salaryType === 1 ? userData.salaryFrom * 4 : userData.salaryFrom;
+                const offerSalaryFrom = offer.salaryType === 1 ? offer.salaryFrom * 4 : offer.salaryFrom;
+                const offerSalaryTo = offer.salaryType === 1 ? offer.salaryTo * 4 : offer.salaryTo;
+
+                console.log(userSalaryFrom, offerSalaryFrom, offerSalaryTo);
+
+                // Match by category and salary
+                return this.isElementInArray(offer.category, userData.categories)
+                    && ((userSalaryFrom > offerSalaryFrom) && (userSalaryFrom < offerSalaryTo));
+            }
+            else {
+                return false;
+            }
+        });
+
+        const matchesLength = matches?.length
+        if(matchesLength) {
+            if(matchesLength > 3) {
+                matches = this.getMultipleRandom(matches, 3);
+            }
+
+            return this.notificationsRepository
+                .createQueryBuilder()
+                .insert()
+                .values(
+                    matches.map((item) => {
+                        return {
+                            type: 4,
+                            link: `${process.env.WEBSITE_URL}/profil-kandydata?id=${item.id}`,
+                            recipient: agencyId,
+                            agencyId: null,
+                            userId: item.id,
+                            checked: false
+                        }
+                    })
+                )
+                .execute();
+        }
+        else {
+            return true;
+        }
+    }
+
     async addOffer(data, files) {
         let offerData = JSON.parse(data.offerData);
 
@@ -193,7 +257,7 @@ export class OfferService {
         const agencyId = agency.id;
 
         // Add record to database
-        return this.offerRepository.insert({
+        const addOfferResult = await this.offerRepository.insert({
             id: null,
             agency: agencyId,
             title, category, keywords, country, postalCode, city, description,
@@ -205,6 +269,50 @@ export class OfferService {
             expireDay, expireMonth, expireYear, image,
             attachments: JSON.stringify(attachments)
         });
+
+        // Add notifications for agencies about matches
+        await this.sendNotificationsToAgency(offerData, agencyId);
+
+        // Add notifications for users with that category
+        if(addOfferResult) {
+            const offerId = addOfferResult.identifiers[0].id;
+
+            // Get users with given category
+            const allUsers = await this.userRepository.find();
+            const notificationRecipients = allUsers.filter((item) => {
+                const data = JSON.parse(item.data);
+                if(data) {
+                    return this.isElementInArray(category, data.categories);
+                }
+                else {
+                    return false;
+                }
+            }).map((item) => (item.id));
+
+            if(notificationRecipients?.length) {
+                return this.notificationsRepository.createQueryBuilder()
+                    .insert()
+                    .values(
+                        notificationRecipients.map((item) => {
+                            return {
+                                type: 1,
+                                link: `${process.env.WEBSITE_URL}/oferta-pracy?id=${offerId}`,
+                                recipient: item,
+                                agencyId: agencyId,
+                                userId: null,
+                                checked: false
+                            }
+                        })
+                    )
+                    .execute();
+            }
+            else {
+                return true;
+            }
+        }
+        else {
+            return false;
+        }
     }
 
     async addFastOffer(data, files) {
@@ -236,7 +344,7 @@ export class OfferService {
         const agencyId = agency.id;
 
         // Add record to database
-        return this.fastOfferRepository.insert({
+        const addOfferResult = await this.fastOfferRepository.insert({
             id: null,
             agency: agencyId,
             title, category, keywords, country, postalCode, city, street, description,
@@ -251,6 +359,53 @@ export class OfferService {
             contactPerson, contactNumberCountry, contactNumber, image,
             attachments: JSON.stringify(attachments)
         });
+
+        if(addOfferResult) {
+            const offerId = addOfferResult.identifiers[0].id;
+
+            const isElementInArray = (el, arr) => {
+                if(!arr?.length) return false;
+                return arr.findIndex((item) => {
+                    return item === el;
+                }) !== -1;
+            }
+
+            // Get users with given category
+            const allUsers = await this.userRepository.find();
+            const notificationRecipients = allUsers.filter((item) => {
+                const data = JSON.parse(item.data);
+                if(data) {
+                    return isElementInArray(category, data.categories);
+                }
+                else {
+                    return false;
+                }
+            }).map((item) => (item.id));
+
+            if(notificationRecipients?.length) {
+                return this.notificationsRepository.createQueryBuilder()
+                    .insert()
+                    .values(
+                        notificationRecipients.map((item) => {
+                            return {
+                                type: 2,
+                                link: `${process.env.WEBSITE_URL}/blyskawiczna-oferta-pracy?id=${offerId}`,
+                                recipient: item,
+                                agencyId: agencyId,
+                                userId: null,
+                                checked: false
+                            }
+                        })
+                    )
+                    .execute();
+            }
+            else {
+                return true;
+            }
+        }
+        else {
+            return false;
+        }
     }
 
     async updateOffer(data, files) {
@@ -413,13 +568,28 @@ export class OfferService {
                 });
             }
 
-            return this.applicationRepository.save({
+            const applicationResult = await this.applicationRepository.save({
                 user: userId,
                 offer: body.id,
                 message: body.message,
                 preferableContact: body.contactForms,
                 attachments: JSON.stringify(attachments)
             });
+
+            // Add notification to agency
+            if(applicationResult) {
+                return this.notificationsRepository.insert({
+                    type: 3,
+                    link: `${process.env.WEBSITE_URL}/profil-kandydata?id=${userId}`,
+                    recipient: body.agencyId,
+                    agencyId: null,
+                    userId: userId,
+                    checked: false
+                });
+            }
+            else {
+                return false;
+            }
         }
     }
 
@@ -450,13 +620,28 @@ export class OfferService {
                 });
             }
 
-            return this.fastApplicationsRepository.save({
+            const applicationResult = await this.fastApplicationsRepository.save({
                 user: userId,
                 offer: body.id,
                 message: body.message,
                 preferableContact: body.contactForms,
                 attachments: JSON.stringify(attachments)
             });
+
+            // Add notification to agency
+            if(applicationResult) {
+                return this.notificationsRepository.insert({
+                    type: 3,
+                    link: `${process.env.WEBSITE_URL}/profil-kandydata?id=${userId}`,
+                    recipient: body.agencyId,
+                    agencyId: null,
+                    userId: userId,
+                    checked: false
+                });
+            }
+            else {
+                return false;
+            }
         }
     }
 

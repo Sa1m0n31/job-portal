@@ -97,7 +97,7 @@ export class UserService {
     }
 
     async loginUser(email: string, password: string) {
-        const payload = { username: email, sub: password };
+        const payload = { username: email, sub: password, role: 'user' };
         const passwordHash = crypto
             .createHash('sha256')
             .update(password)

@@ -1,19 +1,50 @@
-import {Body, Controller, Get, Param, Patch, Post, UploadedFiles, UseGuards, UseInterceptors} from '@nestjs/common';
+import {
+    Body,
+    Controller,
+    Get,
+    Param,
+    Patch,
+    Post,
+    Req, UnauthorizedException,
+    UploadedFiles,
+    UseGuards,
+    UseInterceptors
+} from '@nestjs/common';
 import {UserService} from "./user.service";
 import {JwtAuthGuard} from "../common/jwt-auth.guard";
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
+import {JwtService} from "@nestjs/jwt";
 
 @Controller('user')
 export class UserController {
     constructor(
-        private readonly userService: UserService
+        private readonly userService: UserService,
+        private readonly jwtService: JwtService
     ) {
     }
 
     @UseGuards(JwtAuthGuard)
     @Post('/auth')
-    auth() {
+    auth(@Req() req) {
+        const decodedJwt: any = this.jwtService.decode(req.headers.authorization.split(' ')[1]);
+
+        if((decodedJwt.username !== req.body.email) || (decodedJwt.role !== req.body.role) || (decodedJwt.role !== 'user')) {
+            throw new UnauthorizedException();
+        }
+
+        return true;
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('/authAgency')
+    authAgency(@Req() req) {
+        const decodedJwt: any = this.jwtService.decode(req.headers.authorization.split(' ')[1]);
+
+        if((decodedJwt.username !== req.body.email) || (decodedJwt.role !== req.body.role) || (decodedJwt.role !== 'agency')) {
+            throw new UnauthorizedException();
+        }
+
         return true;
     }
 
@@ -48,6 +79,7 @@ export class UserController {
         return this.userService.updateUser(body, files);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getUserData/:email')
     getUserData(@Param('email') email) {
         return this.userService.getUserData(email);

@@ -97,7 +97,7 @@ export class AgencyService {
     }
 
     async loginAgency(email: string, password: string) {
-        const payload = { username: email, sub: password };
+        const payload = { username: email, sub: password, role: 'agency' };
         const passwordHash = crypto
             .createHash('sha256')
             .update(password)
@@ -141,6 +141,8 @@ export class AgencyService {
                 return item.path ? item.path : (item?.url ? item.url : item);
             }).concat(currentGallery) : agencyData.gallery?.map((item) => (item.url))
         }
+
+        // TODO: email update
 
         // Modify record in database
         return this.agencyRepository.createQueryBuilder()

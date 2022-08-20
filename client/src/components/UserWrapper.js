@@ -92,7 +92,7 @@ const UserWrapper = ({page}) => {
 
     return render ? <>
         {render}
-        <LoggedUserFooter />
+        {page !== 1 ? <LoggedUserFooter /> : ''}
     </> : <div className="container container--loader center">
         <Loader />
     </div>

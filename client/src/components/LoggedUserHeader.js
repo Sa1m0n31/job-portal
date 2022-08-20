@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import MobileHeader from "./MobileHeader";
-import logo from '../static/img/logo-biale.png'
+import logo from '../static/img/logo-czarne.png'
 import messageIcon from '../static/img/message-blue.svg'
 import bellIcon from '../static/img/bell-ring.svg'
 import arrowDown from '../static/img/arrow-down.svg'

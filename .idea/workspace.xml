@@ -23,53 +23,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06c2c867-885a-4984-820a-27e97dc3ed90" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/AdsSection.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/Footer.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/GoogleTranslate.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/HomeBenefits.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/HomeSectionHeader.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/Partners.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/Tools.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/ContactPage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/pages/Notifications.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/baner-testowy.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/dostepnosc.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/friends.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/google.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/magnifier-icon.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/static/img/right-blue-arrow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/HomepageTop.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/MobileMenu.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/PageHeader.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/burger-menu.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/logo-czarne.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/user-menu.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/client/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/AgencyWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyWrapper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/CV.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/CV.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/LoggedUserFooter.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/LoggedUserFooter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Footer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/LoggedUserHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/LoggedUserHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserPreview.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserPreview.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/MobileHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/MobileHeader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Partners.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Partners.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/UserWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserWrapper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/agency.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/agency.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/offer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/offer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/AddJobOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AddJobOffer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/ApplicationForJobPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/ApplicationForJobPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/CandidateProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/CandidateProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/CandidatesList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/CandidatesList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/ContactPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/ContactPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/Homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Homepage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/LoginPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/TextPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/TextPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/UserHomepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/UserHomepage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/content.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/content.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/agency/agency.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/agency/agency.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/agency/agency.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/agency/agency.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/agency/agency.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/agency/agency.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/entities/notifications.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/entities/notifications.entity.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/offer/offer.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/offer/offer.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/offer/offer.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/offer/offer.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/user/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/user/user.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/user/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +73,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/client/src/static/img" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/client/src/components" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -107,10 +82,10 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\components" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\static\img" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\pages" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\src\entities" />
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\components" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\src\common" />
     </key>
   </component>
@@ -150,7 +125,8 @@
       <workItem from="1660857760504" duration="9258000" />
       <workItem from="1660870341430" duration="3221000" />
       <workItem from="1660917354572" duration="661000" />
-      <workItem from="1660935107570" duration="15306000" />
+      <workItem from="1660935107570" duration="15571000" />
+      <workItem from="1660955822318" duration="13138000" />
     </task>
     <servers />
   </component>
@@ -178,10 +154,10 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1230" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1658866371098" />
-    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1660921181307">
+    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1660952582783">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1660921181307" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1660952582783" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1660251453652" />
     <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1660853274637">
       <screen x="-1920" y="0" width="1920" height="1040" />
@@ -215,9 +191,9 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1660942069285" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1660951905297">
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1661003425489">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1660951905297" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661003425489" />
   </component>
 </project>

@@ -358,8 +358,66 @@ const notificationTitles = [
     'Znaleźliśmy kandydata pasującego do Twojej oferty pracy'
 ];
 
+const homeMenu = [
+    {
+        label: 'Strona główna',
+        link: '/'
+    },
+    {
+        label: 'Funkcje portalu',
+        link: '/#funkcje'
+    },
+    {
+        label: 'Partnerzy',
+        link: '/#partnerzy'
+    },
+    {
+        label: 'Kontakt',
+        link: '/kontakt'
+    }
+];
+
+const userMenu = [
+    {
+        label: 'Aktywne oferty pracy',
+        link: '/oferty-pracy'
+    },
+    {
+        label: 'Oferty błyskawiczne',
+        link: '/oferty-blyskawiczne'
+    },
+    {
+        label: 'Pracodawcy',
+        link: '/pracodawcy'
+    },
+    {
+        label: 'Kontakt',
+        link: '/kontakt'
+    }
+]
+
+const agencyMenu = [
+    {
+        label: 'Zgłoszenia',
+        link: '/zgloszenia'
+    },
+    {
+        label: 'Moje oferty',
+        link: '/moje-oferty-pracy'
+    },
+    {
+        label: 'Moje oferty błyskawiczne',
+        link: '/moje-oferty-blyskawiczne'
+    },
+    {
+        label: 'Kandydaci',
+        link: '/kandydaci'
+    }
+]
+
 export { steps, stepsContent, stepsMainContent, months, countries, phoneNumbers, formErrors, educationLevels, languages, drivingLicences,
     languageLevels, currencies, categories, attachmentsErrors, flags, stepsAgency, stepsAgencyContent, stepsAgencyMainContent, nipCountries,
     rooms, houses, paymentTypes, pensionType, paycheckFrequency, pensionFrequency, paycheckDay, healthInsuranceOptions, noInfo, contracts,
-    jobOfferErrors, myJobOffersFilter, distances, preferableContactForms, privacyPolicy, termsOfService, notificationTitles
+    jobOfferErrors, myJobOffersFilter, distances, preferableContactForms, privacyPolicy, termsOfService, notificationTitles,
+    homeMenu, userMenu, agencyMenu
 }

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import background from '../static/img/register-background.png'
-import logo from '../static/img/logo-niebieskie.png'
+import logo from '../static/img/logo-czarne.png'
 import arrowWhite from '../static/img/small-white-arrow.svg'
 import dropdownArrow from '../static/img/dropdown-arrow.svg'
 import AfterRegister from "../components/AfterRegister";

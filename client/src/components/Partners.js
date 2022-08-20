@@ -49,7 +49,7 @@ const Partners = () => {
                         </p>
                         <a href={item.link}
                            className="partners__link"
-                           target="+_blank" rel="noreferrer">
+                           target="_blank" rel="noreferrer">
                             Dowiedz się więcej
                             <img className="img" src={arrow} alt="arrow" />
                         </a>

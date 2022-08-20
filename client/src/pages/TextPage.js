@@ -3,6 +3,8 @@ import {authUser, getUserData} from "../helpers/user";
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import LoggedUserFooter from "../components/LoggedUserFooter";
 import {authAgency, getAgencyData} from "../helpers/agency";
+import PageHeader from "../components/PageHeader";
+import Footer from "../components/Footer";
 
 const TextPage = ({content, header}) => {
     const [data, setData] = useState(null);
@@ -37,9 +39,9 @@ const TextPage = ({content, header}) => {
     }, []);
 
     return <div className="container">
-        {data ? <LoggedUserHeader data={data} agency={agency} /> : ''}
+        {data ? <LoggedUserHeader data={data} agency={agency} /> : <PageHeader />}
 
-        <main className="page">
+        <main className={data ? "page" : "page page--narrow"}>
             <h1 className="page__header">
                 {header}
             </h1>
@@ -50,7 +52,7 @@ const TextPage = ({content, header}) => {
             })}
         </main>
 
-        <LoggedUserFooter />
+        {data ? <LoggedUserFooter /> : <Footer />}
     </div>
 };
 

@@ -8,6 +8,7 @@ import {getLoggedUserEmail, isEmail} from "../helpers/others";
 import arrow from "../static/img/small-white-arrow.svg";
 import {formErrors} from "../static/content";
 import checkIcon from '../static/img/green-check.svg'
+import PageHeader from "../components/PageHeader";
 
 const ContactPage = () => {
     const [data, setData] = useState(null);
@@ -105,9 +106,9 @@ const ContactPage = () => {
     }, [success]);
 
     return <div className="container container--contact">
-        {data ? <LoggedUserHeader data={data} agency={agency} /> : ''}
+        {data ? <LoggedUserHeader data={data} agency={agency} /> : <PageHeader />}
 
-        <main className="page">
+        <main className={!data ? "page page--narrow" : "page"}>
             <h1 className="page__header bold">
                 Dane kontaktowe
             </h1>

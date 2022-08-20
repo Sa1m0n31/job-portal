@@ -225,6 +225,146 @@
         flex-direction: column;
     }
 
+    .footer__socialMedia {
+        white-space: nowrap;
+    }
+
+    .tools__header {
+        font-size: 14px;
+    }
+
+    .tools__figure {
+        width: 80px;
+        height: 80px;
+        border-width: 10px;
+    }
+
+    .tools__text {
+        font-size: 12px;
+    }
+
+    .partners__content {
+        max-width: calc(100% - 150px);
+    }
+
+    .partners__header {
+        font-size: 18px;
+    }
+
+    .partners__link,
+    .partners__text {
+        font-size: 12px;
+    }
+
+    .partners__text {
+        margin: 5px 0 8px;
+    }
+
+    .partners__link .img {
+        width: 10px;
+        margin-left: 8px;
+    }
+
+    .partners__figure {
+        width: 120px;
+        height: 120px;
+        max-width: 120px;
+        border-width: 12px;
+    }
+
+    .adsSection {
+        margin-bottom: 50px;
+    }
+
+    .homeHeader::before {
+        width: 30px;
+    }
+
+    .home__benefit__header {
+        font-size: 13px;
+        margin-bottom: 3px;
+    }
+
+    .home__benefit__figure {
+        width: 70px;
+        height: 70px;
+        max-width: 70px;
+        border-width: 8px;
+    }
+
+    .home__benefit__text {
+        font-size: 12px;
+    }
+
+    .homeHeader {
+        font-size: 28px;
+    }
+
+    .home__header__logo {
+        width: 150px;
+    }
+
+    .home__zone__header {
+        font-size: 44px;
+    }
+
+    .homeImg {
+        min-height: 800px;
+        height: 800px;
+    }
+
+    .btn--zone {
+        font-size: 17px;
+        height: 45px;
+    }
+
+    .btn--quickLogin {
+        font-size: 12px;
+    }
+
+    .home__h1 {
+        font-size: 34px;
+        margin: 100px auto 40px;
+    }
+
+    .home__h2 {
+        font-size: 21px;
+    }
+
+    .container--home .languageSwitcher .arrowDown {
+        margin-left: 5px;
+    }
+
+    .languageSwitcher__currentLang .img, .languageSwitcher__btn .img {
+        width: 15px;
+        margin-right: 5px;
+    }
+
+    .mobileMenu .languageSwitcher__currentLang, .mobileMenu .languageSwitcher__btn {
+        color: var(--grey);
+    }
+
+    .mobileMenu .languageSwitcher {
+        width: 50px;
+    }
+
+    .mobileMenu .languageSwitcher__btn .img {
+        width: 20px;
+        margin-right: 5px;
+    }
+
+    .mobileMenu .languageSwitcher__currentLang {
+        margin-right: 0;
+    }
+
+    .container--home .languageSwitcher .arrowDown {
+        filter: brightness(.4);
+    }
+
+    .home__header__menu__item {
+        font-size: 13px;
+    }
+
     .page__header {
         font-size: 24px;
     }
@@ -521,8 +661,30 @@
         width: 400px;
     }
 
+    .footer__socialMedia span,
+    .footer__col__text,
+    .footer__data {
+        font-size: 12px;
+    }
+
+    .footer__header {
+        font-size: 13px;
+    }
+
+    .btn--quickLogin {
+        display: none;
+    }
+
     .messages {
         flex-direction: column;
+    }
+
+    .homeSection--benefits > .flex {
+        flex-wrap: wrap;
+    }
+
+    .home__benefit {
+        width: 48%;
     }
 
     .messages__previews,
@@ -688,6 +850,111 @@
     .jobOffer__pointsRow .jobOffer__point:first-of-type,
     .editData__left {
         display: none;
+    }
+
+    .footer__inner {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer__col__logo {
+        margin: auto;
+        max-width: 140px;
+    }
+
+    .footer__col {
+        width: 100% !important;
+        margin-right: 0 !important;
+    }
+
+    .footer__header,
+    .footer__col__text,
+    .footer__data {
+        text-align: center;
+    }
+
+    .footer .loggedUserFooter__bottom {
+        font-size: 12px;
+        padding-top: 5px;
+    }
+
+    .footer__col:not(.footer__col--big) {
+        margin-top: 25px;
+    }
+
+    .footer__header--socialMedia {
+        margin-top: 20px;
+    }
+
+    .footer__socialMedia {
+        justify-content: center;
+    }
+
+    .footer__socialMedia span {
+        display: none;
+    }
+
+    .tools,
+    .partners {
+        flex-wrap: wrap;
+    }
+
+    .tools__item,
+    .partners__item {
+        width: 100%;
+    }
+
+    .tools__item {
+        margin: 10px auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .tools__item > * {
+        text-align: center;
+    }
+
+    .homeImg {
+        min-height: 0;
+        height: 640px;
+    }
+
+    .home__content {
+        padding-bottom: 100px;
+    }
+
+    .home__h1 {
+        margin-top: 80px;
+        font-size: 24px;
+    }
+
+    .home__zone__subheader {
+        font-size: 13px;
+    }
+
+    .home__zone__instruction .img {
+        width: 20px;
+        margin-right: 10px;
+    }
+
+    .btn--zone {
+        margin-top: 20px;
+        font-size: 15px;
+        height: 40px;
+    }
+
+    .home__h2 {
+        font-size: 15px;
+    }
+
+    .home__zone__header {
+        font-size: 23px;
+    }
+
+    .home__header__menu {
+        width: 60%;
     }
 
     .container--contact .page__header {
@@ -1534,7 +1801,7 @@
         width: auto;
     }
 
-    .mobileHeader .img {
+    .mobileHeader .img:not(.languageSwitcher .img) {
         height: 100%;
         width: auto;
     }
@@ -1655,11 +1922,171 @@
     .drivingLicenceWrapper .label--city {
         max-width: 55vw;
     }
+
+    .homeHeader {
+        font-size: 18px;
+        max-width: 85%;
+        margin: 0 auto 15px;
+    }
 }
 
 @media(max-width: 768px) {
     .editData__formWrapper__header {
         font-size: 18px;
+    }
+
+    .partners__item {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .partners {
+        padding-top: 10px;
+    }
+
+    .partners__figure {
+        margin-bottom: 20px;
+        min-height: 120px;
+    }
+
+    .homeSection--partners {
+        padding-top: 50px;
+    }
+
+    .partners__header {
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+    .partners__content {
+        max-width: 100%;
+        text-align: center;
+        margin-left: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .partners__link {
+        margin: 5px auto 0;
+    }
+
+    .homeSection--partners,
+    .homeSection--benefits {
+        margin-bottom: 0;
+        padding-bottom: 10px;
+    }
+
+    .homeSection--tools {
+        margin-top: 0;
+    }
+
+    .home__benefit {
+        width: 100%;
+        padding: 15px;
+        margin-bottom: 12px;
+    }
+
+    .homeImg {
+        height: 620px;
+    }
+
+    .home__zone__instruction__text__dark {
+        text-decoration: underline;
+        color: var(--primary);
+    }
+
+    .d-700 {
+        display: none;
+    }
+
+    .home__header {
+        padding: 24px 0 15px;
+        border-bottom: 1px solid #72849D;
+    }
+
+    .home__header__mobile {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .home__header__mobile__btn {
+        width: 18px;
+        background: transparent;
+    }
+
+    .home__header__logo {
+        width: 140px;
+    }
+
+    .home__header__mobile__btn:first-child {
+        margin-right: 20px;
+    }
+
+    .home__content {
+        max-width: 90%;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 30px;
+    }
+
+    .adsSection {
+        margin-bottom: 20px;
+    }
+
+    .home__zone:first-of-type {
+        margin-bottom: 30px;
+    }
+
+    .home__zone__header {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    .home__zone__subheader {
+        font-size: 12px;
+        text-align: center;
+        margin: 5px 0 12px;
+    }
+
+    .btn--zone {
+        margin-top: 10px;
+    }
+
+    .home__h1,
+    .home__h2 {
+        text-align: left;
+        max-width: 400px !important;
+    }
+
+    .home__zone {
+        width: 100%;
+        padding: 15px;
+        max-width: 400px;
+    }
+
+    .home__zone__instruction {
+        margin: auto;
+    }
+
+    .home__h1 {
+        margin: 20px auto 15px;
+        font-size: 20px;
+    }
+
+    .btn--zone {
+        height: 25px;
+        font-size: 12px;
+    }
+
+    .btn--zone .img {
+        width: 11px;
+        margin-left: 6px;
+    }
+
+    .home__h2 {
+        font-size: 12px;
     }
 
     .contact__text {
@@ -1675,13 +2102,18 @@
     }
 
     .loggedUserFooter {
-        padding-top: 5px;
+        padding: 5px 0;
     }
 
     .loggedUserFooter__links {
         flex-direction: column;
         border-bottom: 1px solid #C1C1C1;
         padding-bottom: 10px;
+        width: 100%;
+    }
+
+    .loggedUserFooter__bottom {
+        margin-top: 5px;
     }
 
     .application {
@@ -1963,6 +2395,10 @@
 @media(max-width: 576px) {
     .editData__main {
         padding: 30px 20px;
+    }
+
+    .home__h1 {
+        width: 90%;
     }
 
     .application__success .application__header {

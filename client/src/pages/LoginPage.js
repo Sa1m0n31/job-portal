@@ -2,17 +2,67 @@ import React, {useEffect, useState} from 'react';
 import backgroundImg from '../static/img/logowanie.png'
 import backgroundImgAgency from '../static/img/login-agencja.png'
 import loginIcon from '../static/img/login-icon.svg'
-import logo from '../static/img/logo-niebieskie.png'
+import logo from '../static/img/logo-czarne.png'
 import backArrowGrey from '../static/img/back-arrow-grey.svg'
 import LanguageSwitcher from "../components/LanguageSwitcher";
-import {loginUser} from "../helpers/user";
-import {loginAgency} from "../helpers/agency";
+import {authUser, getUserData, loginUser} from "../helpers/user";
+import {authAgency, getAgencyData, loginAgency} from "../helpers/agency";
 import Cookies from 'universal-cookie';
+import Loader from "../components/Loader";
 
 const LoginPage = ({type}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState('');
+    const [render, setRender] = useState(false);
+
+    useEffect(() => {
+        authUser()
+            .then((res) => {
+                if(res?.status === 201) {
+                    getUserData()
+                        .then((res) => {
+                            if(res?.status === 200) {
+                                window.location = '/oferty-pracy';
+                            }
+                            else {
+                                setRender(true);
+                            }
+                        })
+                        .catch(() => {
+                            setRender(true);
+                        });
+                }
+                else {
+                    setRender(true);
+                }
+            })
+            .catch(() => {
+                authAgency()
+                    .then((res) => {
+                        if(res?.status === 201) {
+                            getAgencyData()
+                                .then((res) => {
+                                    if(res?.status === 200) {
+                                        window.location = '/konto-agencji';
+                                    }
+                                    else {
+                                        setRender(true);
+                                    }
+                                })
+                                .catch(() => {
+                                    setRender(true);
+                                });
+                        }
+                        else {
+                            setRender(true);
+                        }
+                    })
+                    .catch(() => {
+                        setRender(true);
+                    })
+            })
+    }, []);
 
     useEffect(() => {
         setError('');
@@ -53,7 +103,7 @@ const LoginPage = ({type}) => {
         }
     }
 
-    return <div className="container container--login flex">
+    return render ? <div className="container container--login flex">
         <div className="login__left">
             <header className="login__left__header flex">
                 <a href="." className="login__left__header__logo">
@@ -116,6 +166,8 @@ const LoginPage = ({type}) => {
         <div className="login__right">
             <img className="img" src={type === 0 ? backgroundImg : backgroundImgAgency} alt="logowanie" />
         </div>
+    </div> : <div className="container container--height100 center">
+        <Loader />
     </div>
 };
 

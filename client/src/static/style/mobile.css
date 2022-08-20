@@ -225,12 +225,40 @@
         flex-direction: column;
     }
 
+    .login__left__header__logo {
+        width: 140px;
+    }
+
     .footer__socialMedia {
         white-space: nowrap;
     }
 
+    .login__left__bottom__links a,
+    .login__left__content .label,
+    .login__bottom > a {
+        font-size: 12px;
+    }
+
+    .btn--login {
+        height: 40px;
+        font-size: 15px;
+    }
+
+    .btn--login .img {
+        width: 18px;
+    }
+
+    .login__left__content .input {
+        height: 40px;
+    }
+
+    .login__left__header__backBtn,
     .tools__header {
         font-size: 14px;
+    }
+
+    .login__header {
+        font-size: 21px;
     }
 
     .tools__figure {
@@ -661,6 +689,10 @@
         width: 400px;
     }
 
+    .login__left {
+        padding: 50px 40px;
+    }
+
     .footer__socialMedia span,
     .footer__col__text,
     .footer__data {
@@ -850,6 +882,38 @@
     .jobOffer__pointsRow .jobOffer__point:first-of-type,
     .editData__left {
         display: none;
+    }
+
+    .login__left__header,
+    .login__right {
+        display: none;
+    }
+
+    .info--error {
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .login__header {
+        font-size: 18px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .btn--login,
+    .login__left__content .input {
+        height: 35px;
+    }
+
+    .login__left {
+        width: 90%;
+        margin: 100px auto 0;
+        height: auto;
+        padding: 0;
+    }
+
+    .login__left__bottom {
+        margin-top: 80px;
     }
 
     .footer__inner {
@@ -1928,11 +1992,38 @@
         max-width: 85%;
         margin: 0 auto 15px;
     }
+
+    .container--passwordRemind .login__left {
+        margin-top: -450px;
+    }
+
+    .register__accountType {
+        height: 35px;
+        font-size: 12px;
+    }
 }
 
 @media(max-width: 768px) {
     .editData__formWrapper__header {
         font-size: 18px;
+    }
+
+    .login__left__bottom__links {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .login__left__bottom__links a:last-of-type {
+        margin-top: 15px;
+    }
+
+    .login__left__bottom {
+        border-top: 1px solid #c1c1c1;
+        padding-top: 15px;
+    }
+
+    .container--passwordRemind .login__left__bottom {
+        margin-top: 40px;
     }
 
     .partners__item {

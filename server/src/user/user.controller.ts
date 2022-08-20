@@ -139,4 +139,9 @@ export class UserController {
     sendContactForm(@Body() body) {
         return this.userService.sendContactForm(body.name, body.email, body.msg);
     }
+
+    @Post('/remindPassword')
+    remindPassword(@Body() body) {
+        return this.userService.remindPassword(body.email);
+    }
 }

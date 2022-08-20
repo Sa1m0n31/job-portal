@@ -68,4 +68,14 @@ export class AgencyController {
     getAgencyNotifications(@Param('email') email) {
         return this.agencyService.getAgencyNotifications(email);
     }
+
+    @Post('/remindPassword')
+    remindPassword(@Body() body) {
+        return this.agencyService.remindPassword(body.email);
+    }
+
+    @Get('/verifyPasswordToken/:token')
+    verifyToken(@Param('token') token) {
+        return this.agencyService.verifyPasswordToken(token);
+    }
 }

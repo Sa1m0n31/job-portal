@@ -14,6 +14,8 @@ import {Text} from "@react-pdf/renderer";
 import GoogleTranslate from "./components/GoogleTranslate";
 import Notifications from "./pages/Notifications";
 import ContactPage from "./pages/ContactPage";
+import RemindPassword from "./pages/RemindPassword";
+import SetNewPassword from "./pages/SetNewPassword";
 
 const LanguageContext = React.createContext(null);
 
@@ -43,6 +45,12 @@ function App() {
       </Route>
       <Route path="/polityka-prywatnosci">
         <TextPage header="Polityka prywatności" content={privacyPolicy} />
+      </Route>
+      <Route path="/przypomnienie-hasla">
+        <RemindPassword />
+      </Route>
+      <Route path="/ustaw-nowe-haslo">
+        <SetNewPassword />
       </Route>
 
       {/* COMMON LOGGED ROUTER */}

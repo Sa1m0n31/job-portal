@@ -9,10 +9,11 @@ import {MulterModule} from "@nestjs/platform-express";
 import {Offer} from "../entities/offer.entity";
 import {HttpModule} from "@nestjs/axios";
 import {Notifications} from "../entities/notifications.entity";
+import {Password_tokens} from "../entities/password_tokens.entity";
 
 @Module({
   imports: [
-      TypeOrmModule.forFeature([Agency, Agency_verification, Offer, Notifications]),
+      TypeOrmModule.forFeature([Agency, Agency_verification, Offer, Notifications, Password_tokens]),
       JwtModule.register({
           secret: process.env.JWT_KEY,
           signOptions: {expiresIn: 60 * 300}

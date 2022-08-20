@@ -92,6 +92,23 @@ const getAgencyNotifications = () => {
     return axios.get(`/agency/getNotifications/${getLoggedUserEmail()}`);
 }
 
+const remindAgencyPassword = (email) => {
+    return axios.post('/agency/remindPassword', {
+        email
+    });
+}
+
+const changeAgencyPassword = (oldPassword, newPassword, email) => {
+    return axios.post('/agency/changePassword', {
+        oldPassword, newPassword, email
+    });
+}
+
+const verifyPasswordToken = (token) => {
+    return axios.get(`/agency/verifyPasswordToken/${token}`);
+}
+
 export { registerAgency, verifyAgency, loginAgency, getAgencyData, updateAgency, getAllApprovedAgencies,
-    filterAgencies, sortAgencies, getAgencyById, authAgency, getAgencyNotifications
+    filterAgencies, sortAgencies, getAgencyById, authAgency, getAgencyNotifications, remindAgencyPassword,
+    changeAgencyPassword, verifyPasswordToken
 }

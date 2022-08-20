@@ -9,6 +9,7 @@ import {authUser, getUserData, loginUser} from "../helpers/user";
 import {authAgency, getAgencyData, loginAgency} from "../helpers/agency";
 import Cookies from 'universal-cookie';
 import Loader from "../components/Loader";
+import MobileHeader from "../components/MobileHeader";
 
 const LoginPage = ({type}) => {
     const [email, setEmail] = useState("");
@@ -104,6 +105,8 @@ const LoginPage = ({type}) => {
     }
 
     return render ? <div className="container container--login flex">
+        <MobileHeader back="/" />
+
         <div className="login__left">
             <header className="login__left__header flex">
                 <a href="." className="login__left__header__logo">
@@ -143,7 +146,7 @@ const LoginPage = ({type}) => {
                 </button>
                 <div className="login__bottom flex">
                     <a href={type === 0 ? "/rejestracja" : "/rejestracja?typ=pracodawca"}>
-                        Nie masz konta? Zarejestruj się
+                        <span className="d-desktop">Nie masz konta?</span> Zarejestruj się
                     </a>
                     <a href="/przypomnienie-hasla">
                         Zapomniałem hasła

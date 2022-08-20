@@ -1,4 +1,4 @@
-import {HttpException, Injectable} from '@nestjs/common';
+import {BadRequestException, HttpException, Injectable} from '@nestjs/common';
 import * as crypto from 'crypto'
 import {InjectRepository} from "@nestjs/typeorm";
 import {createQueryBuilder, Like, Repository} from "typeorm";
@@ -13,6 +13,7 @@ import { HttpService } from '@nestjs/axios'
 import {Offer} from "../entities/offer.entity";
 import {calculateDistance} from "../common/calculateDistance";
 import {Notifications} from "../entities/notifications.entity";
+import {Password_tokens} from "../entities/password_tokens.entity";
 
 @Injectable()
 export class AgencyService {
@@ -25,6 +26,8 @@ export class AgencyService {
         private readonly offerRepository: Repository<Offer>,
         @InjectRepository(Notifications)
         private readonly notificationsRepository: Repository<Notifications>,
+        @InjectRepository(Password_tokens)
+        private readonly passwordRepository: Repository<Password_tokens>,
         private readonly mailerService: MailerService,
         private readonly jwtTokenService: JwtService,
         private readonly httpService: HttpService
@@ -361,5 +364,47 @@ export class AgencyService {
             .leftJoinAndSelect('user', 'u', 'u.id = n.userId')
             .where('a.email = :email AND (n.type = 3 OR n.type = 4)', {email})
             .getRawMany();
+    }
+
+    async remindPassword(email: string) {
+        const user = await this.agencyRepository.findBy({
+            active: true,
+            email
+        });
+
+        if(user?.length) {
+            const token = await uuid();
+            const expire = new Date().setHours(new Date().getHours()+1);
+
+            // Send email
+            await this.mailerService.sendMail({
+                to: email,
+                from: process.env.EMAIL_ADDRESS,
+                subject: 'Odzyskaj swoje hasło na portalu Jooob.eu',
+                html: `<div>
+                    <p>
+                        Zresetuj swoje hasło na portalu Jooob.eu klikając w poniższy link i ustawiając nowe hasło:  
+                    </p>
+                    <a href="${process.env.WEBSITE_URL}/ustaw-nowe-haslo?token=${token}">
+                         Resetuj hasło
+                    </a>
+                </div>`
+            });
+
+            // Add token to DB
+            return this.passwordRepository.save({
+                token: token,
+                user: null,
+                agency: email,
+                expire: expire
+            });
+        }
+        else {
+            throw new BadRequestException('Podany użytkownik nie istnieje');
+        }
+    }
+
+    async verifyPasswordToken(token) {
+        return this.passwordRepository.findBy({token});
     }
 }

@@ -34,7 +34,6 @@ const MobileMenu = ({closeMenu, type}) => {
 
         <div className="mobileMenu__menu">
             {menu.map((item, index) => {
-                console.log(item);
                 return <a className="mobileMenu__link"
                           onClick={(e) => { closeMenu(); }}
                           key={index}

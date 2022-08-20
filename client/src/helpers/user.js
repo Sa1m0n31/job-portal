@@ -148,8 +148,20 @@ const sendContactForm = (name, email, msg) => {
     });
 }
 
+const remindUserPassword = (email) => {
+    return axios.post('/user/remindPassword', {
+        email
+    });
+}
+
+const changeUserPassword = (oldPassword, newPassword, email) => {
+    return axios.patch('/user/changePassword', {
+        oldPassword, newPassword, email
+    });
+}
+
 export { registerUser, verifyUser, loginUser, authUser, updateUser, getUserData, logout,
     toggleUserVisibility, toggleUserWorking, getUserApplications, getAllUsers, getAllVisibleUsers,
     filterUsers, getUserById, getUserFastApplications, getUserNotifications, readNotification,
-    sendContactForm
+    sendContactForm, remindUserPassword, changeUserPassword
 }

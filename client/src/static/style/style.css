@@ -266,6 +266,13 @@ input {
     position: fixed;
     top: 0;
     right: 0;
+    height: 100vh;
+}
+
+.login__right .img {
+    width: auto;
+    min-height: 100%;
+    min-width: 100%;
 }
 
 .login__left__header__logo {
@@ -5036,4 +5043,32 @@ a.footer__data:hover {
 
 .mobileHeader .home__header__mobile .img {
     filter: invert(48%) sepia(85%) saturate(6081%) hue-rotate(208deg) brightness(102%) contrast(104%);
+}
+
+.container--login {
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden;
+}
+
+.container--login .application__success {
+    display: none;
+    overflow: hidden;
+}
+
+.login__left {
+    height: 100vh;
+}
+
+.container--login .application__header {
+    text-align: center;
+}
+
+.container--login .loading {
+    margin-top: 25px;
+}
+
+.container--login .loading > div {
+    margin: auto;
+    width: 40px;
 }

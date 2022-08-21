@@ -5,10 +5,11 @@ import backArrowGrey from "../static/img/back-arrow-grey.svg";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import backgroundImg from "../static/img/logowanie.png";
 import checkIcon from "../static/img/green-check.svg";
-import {changeUserPassword} from "../helpers/user";
-import {changeAgencyPassword, verifyPasswordToken} from "../helpers/agency";
+import {changeUserPassword, resetUserPassword} from "../helpers/user";
+import {changeAgencyPassword, resetAgencyPassword, verifyPasswordToken} from "../helpers/agency";
 import {formErrors} from "../static/content";
 import Loader from "../components/Loader";
+import {isPasswordStrength} from "../helpers/others";
 
 const SetNewPassword = () => {
     const [password, setPassword] = useState('');
@@ -30,30 +31,38 @@ const SetNewPassword = () => {
                 .then((res) => {
                     if(res?.data?.length) {
                         const d = res?.data[0];
-                        if(d.user) {
-                            setEmail(d.user);
-                            setRole(0);
-                            setRender(true);
-                        }
-                        else if(d.agency) {
-                            setEmail(d.agency);
-                            setRole(1);
-                            setRender(true);
+                        const expire = new Date(d.expire)
+                        expire.setDate(expire.getDate() + 1);
+
+                        if(new Date() < expire) {
+                            if(d.user) {
+                                setEmail(d.user);
+                                setRole(0);
+                                setRender(true);
+                            }
+                            else if(d.agency) {
+                                setEmail(d.agency);
+                                setRole(1);
+                                setRender(true);
+                            }
+                            else {
+                                window.location = '/';
+                            }
                         }
                         else {
-                            // window.location = '/';
+                            window.location = '/';
                         }
                     }
                     else {
-                        // window.location = '/';
+                        window.location = '/';
                     }
                 })
                 .catch(() => {
-                    // window.location = '/';
+                    window.location = '/';
                 });
         }
         else {
-            // window.location = '/';
+            window.location = '/';
         }
     }, []);
 
@@ -86,24 +95,24 @@ const SetNewPassword = () => {
         e.preventDefault();
 
         if(password === repeatPassword) {
-            if(1) {
-                let func = role === 0 ? changeUserPassword : changeAgencyPassword;
+            if(isPasswordStrength(password)) {
+                let func = role === 0 ? resetUserPassword : resetAgencyPassword;
 
-                func(null, password, email)
+                func(password, email)
                     .then((res) => {
-                        if(res?.status === 201) {
+                        if(res?.status === 200) {
                             setSuccess(true);
                         }
                         else {
                             setError(formErrors[1]);
                         }
                     })
-                    .catch(() => {
+                    .catch((err) => {
                         setError(formErrors[1]);
                     });
             }
             else {
-                setError('Slabe hasło');
+                setError('Hasło powinno mieć co najmniej 8 znaków i zawierać co najmniej jedną cyfrę i jedną wielką literę');
             }
         }
         else {
@@ -111,7 +120,7 @@ const SetNewPassword = () => {
         }
     }
 
-    return <div className="container container--login container--passwordRemind flex">
+    return render ? <div className="container container--login container--passwordRemind flex">
         <MobileHeader back="/" />
 
         <div className="login__left">
@@ -131,7 +140,7 @@ const SetNewPassword = () => {
                     Udało się! Twoje hasło zostało zmienione!
                 </h3>
                 <div className="buttons center">
-                    <a href="/" className="btn">
+                    <a href={role === 0 ? "/strefa-pracownika" : "/strefa-pracodawcy"} className="btn">
                         Zaloguj się
                     </a>
                 </div>
@@ -183,7 +192,9 @@ const SetNewPassword = () => {
         <div className="login__right">
             <img className="img" src={backgroundImg} alt="logowanie" />
         </div>
-    </div>;
+    </div> : <div className="container container--height100 center">
+        <Loader />
+    </div>
 };
 
 export default SetNewPassword;

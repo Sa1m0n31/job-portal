@@ -11,7 +11,6 @@ import userPlaceholder from '../static/img/user-placeholder.svg'
 import {getAgencyMessages, getUserMessages} from "../helpers/messages";
 import {getAgencyData, getAgencyNotifications} from "../helpers/agency";
 import messagesIcon from '../static/img/messages-arrow.svg'
-import LanguageSwitcher from "./LanguageSwitcher";
 import {notificationTitles} from "../static/content";
 
 const LoggedUserHeader = ({data, agency, messageUpdate}) => {
@@ -34,60 +33,62 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
 
     useEffect(() => {
         async function setupMessagesAndNotifications() {
-            if(agency) {
-                const agencyData = await getAgencyData();
+            if(agency !== null) {
+                if(agency) {
+                    const agencyData = await getAgencyData();
 
-                const agencyMessages = await getAgencyMessages(agencyData?.data?.id);
-                const agencyNotifications = await getAgencyNotifications();
+                    const agencyMessages = await getAgencyMessages(agencyData?.data?.id);
+                    const agencyNotifications = await getAgencyNotifications();
 
-                setMessages(agencyMessages?.data?.filter((item) => {
-                    const chat = JSON.parse(item.m_chat);
-                    return chat.findIndex((item) => {
-                        return item.fromAgency !== agency;
-                    }) !== -1 && !item.m_archivedByAgency;
-                }));
-                if(agencyNotifications?.data) {
-                    setNotifications(agencyNotifications.data?.map((item) => {
-                        return {
-                            id: item.n_id,
-                            image: item.u_data ? JSON.parse(item.u_data)?.profileImage : userPlaceholder,
-                            type: item.n_type,
-                            read: item.n_checked,
-                            link: item.n_link,
-                            user: item.u_data ? (JSON.parse(item.u_data)?.firstName ? JSON.parse(item.u_data)?.firstName + ' ' + JSON.parse(item.u_data)?.lastName : 'Ktoś') : 'Ktoś'
-                        }
-                    }).sort((a, b) => {
-                        if(a.read && !b.read) return 1;
-                        else return -1;
+                    setMessages(agencyMessages?.data?.filter((item) => {
+                        const chat = JSON.parse(item.m_chat);
+                        return chat.findIndex((item) => {
+                            return item.fromAgency !== agency;
+                        }) !== -1 && !item.m_archivedByAgency;
                     }));
+                    if(agencyNotifications?.data) {
+                        setNotifications(agencyNotifications.data?.map((item) => {
+                            return {
+                                id: item.n_id,
+                                image: item.u_data ? JSON.parse(item.u_data)?.profileImage : userPlaceholder,
+                                type: item.n_type,
+                                read: item.n_checked,
+                                link: item.n_link,
+                                user: item.u_data ? (JSON.parse(item.u_data)?.firstName ? JSON.parse(item.u_data)?.firstName + ' ' + JSON.parse(item.u_data)?.lastName : 'Ktoś') : 'Ktoś'
+                            }
+                        }).sort((a, b) => {
+                            if(a.read && !b.read) return 1;
+                            else return -1;
+                        }));
+                    }
                 }
-            }
-            else {
-                const userData = await getUserData();
+                else {
+                    const userData = await getUserData();
 
-                const userMessages = await getUserMessages(userData?.data?.id);
-                const userNotifications = await getUserNotifications();
+                    const userMessages = await getUserMessages(userData?.data?.id);
+                    const userNotifications = await getUserNotifications();
 
-                setMessages(userMessages?.data?.filter((item) => {
-                    const chat = JSON.parse(item.m_chat);
-                    return chat.findIndex((item) => {
-                        return item.fromAgency !== agency;
-                    }) !== -1 && !item.m_archivedByUser;
-                }));
-                if(userNotifications?.data) {
-                    setNotifications(userNotifications.data?.map((item) => {
-                        return {
-                            id: item.n_id,
-                            image: item.a_data ? JSON.parse(item.a_data)?.logo : userPlaceholder,
-                            type: item.n_type,
-                            read: item.n_checked,
-                            link: item.n_link,
-                            agency: item.a_data ? JSON.parse(item.a_data)?.name : null
-                        }
-                    }).sort((a, b) => {
-                        if(a.read && !b.read) return 1;
-                        else return -1;
+                    setMessages(userMessages?.data?.filter((item) => {
+                        const chat = JSON.parse(item.m_chat);
+                        return chat.findIndex((item) => {
+                            return item.fromAgency !== agency;
+                        }) !== -1 && !item.m_archivedByUser;
                     }));
+                    if(userNotifications?.data) {
+                        setNotifications(userNotifications.data?.map((item) => {
+                            return {
+                                id: item.n_id,
+                                image: item.a_data ? JSON.parse(item.a_data)?.logo : userPlaceholder,
+                                type: item.n_type,
+                                read: item.n_checked,
+                                link: item.n_link,
+                                agency: item.a_data ? JSON.parse(item.a_data)?.name : null
+                            }
+                        }).sort((a, b) => {
+                            if(a.read && !b.read) return 1;
+                            else return -1;
+                        }));
+                    }
                 }
             }
         }
@@ -134,7 +135,7 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
     }
 
     return <header className="loggedUserHeader" onClick={() => { setMessagesDropdown(false); setNotificationsDropdown(false); }}>
-        <MobileHeader loggedUser={true} />
+        <MobileHeader loggedUser={true} newMessages={newMessages} newNotifications={newNotifications} />
 
         <div className="loggedUserHeader__desktop flex">
             <a href="/" className="logo">
@@ -196,6 +197,7 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                             {newMessages?.length ? `Nowe wiadomości: ${newMessages}` : 'Nie masz nowych wiadomości'}
                         </a>
                         {messages?.map((item, index) => {
+                            console.log(item);
                             if(index < 2) {
                                 const receiverData = agency ? JSON.parse(item.u_data) : JSON.parse(item.a_data);
                                 const receiver = !agency ? (receiverData.name ? receiverData.name : 'Anonimowy') : (receiverData.firstName ? `${receiverData.firstName} ${receiverData.lastName}` : 'Anonimowy');
@@ -279,6 +281,10 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                     <a href={agency ? "/konto-agencji" : "/konto-pracownika"}
                        className="loggedUserHeader__userDropdownMenu__item">
                         Mój profil
+                    </a>
+                    <a href="/zmiana-hasla"
+                       className="loggedUserHeader__userDropdownMenu__item">
+                        Zmień hasło
                     </a>
                     <button onClick={() => { logout(); }}
                         className="loggedUserHeader__userDropdownMenu__item">

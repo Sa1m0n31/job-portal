@@ -67,7 +67,7 @@ const getOfferById = (id) => {
     });
 }
 
-const submitApplication = (id, message, contactForms, attachments, agencyId) => {
+const submitApplication = (id, message, friendLink, contactForms, attachments, agencyId) => {
     const formData = new FormData();
     const config = {
         headers: {
@@ -82,6 +82,7 @@ const submitApplication = (id, message, contactForms, attachments, agencyId) => 
     formData.append('contactForms', JSON.stringify(contactForms));
     formData.append('message', message);
     formData.append('agencyId', agencyId);
+    formData.append('friendLink', friendLink);
     for(const att of attachments) {
         console.log(att);
         formData.append('attachments', att.file);
@@ -162,7 +163,7 @@ const getFastOfferById = (id) => {
     });
 }
 
-const submitFastApplication = (id, message, contactForms, attachments, agencyId) => {
+const submitFastApplication = (id, message, friendLink, contactForms, attachments, agencyId) => {
     const formData = new FormData();
     const config = {
         headers: {
@@ -177,6 +178,7 @@ const submitFastApplication = (id, message, contactForms, attachments, agencyId)
     formData.append('contactForms', JSON.stringify(contactForms));
     formData.append('message', message);
     formData.append('agencyId', agencyId);
+    formData.append('friendLink', friendLink);
     for(const att of attachments) {
         console.log(att);
         formData.append('attachments', att.file);

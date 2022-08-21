@@ -146,6 +146,7 @@ const AgencyApplications = ({data}) => {
                                                 application={{
                                                     message: item.app_message,
                                                     preferableContact: JSON.parse(item.app_preferableContact),
+                                                    friendLink: item.app_friendLink,
                                                     attachments: JSON.parse(item.app_attachments)
                                                 }}
                                                 data={JSON.parse(item.u_data)} />
@@ -220,6 +221,7 @@ const AgencyApplications = ({data}) => {
                                                 application={{
                                                     message: item.application_message,
                                                     preferableContact: JSON.parse(item.application_preferableContact),
+                                                    friendLink: item.application_friendLink,
                                                     attachments: JSON.parse(item.application_attachments)
                                                 }}
                                                 data={JSON.parse(item.u_data)} />

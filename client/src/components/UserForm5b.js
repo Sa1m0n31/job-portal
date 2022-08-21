@@ -125,13 +125,13 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
                             <button className="datepicker datepicker--country datepicker--category"
                                     onClick={(e) => { e.stopPropagation(); categoriesVisible === index ? setCategoriesVisible(-1) : setCategoriesVisible(index); }}
                             >
-                                {item}
+                                {item >= 0 ? categories[item] : 'Wybierz branżę'}
                                 <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                             </button>
                             {categoriesVisible === index ? <div className="datepickerDropdown noscroll">
                                 {categories?.map((item, childIndex) => {
                                     return <button className="datepickerBtn center" key={childIndex}
-                                                   onClick={(e) => { e.stopPropagation(); setCategoriesVisible(-1); handleChange('categories', item, null, index); }}>
+                                                   onClick={(e) => { e.stopPropagation(); setCategoriesVisible(-1); handleChange('categories', childIndex, null, index); }}>
                                         {item}
                                     </button>
                                 })}

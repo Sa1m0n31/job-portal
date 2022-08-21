@@ -123,14 +123,22 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
         </div>
 
         {application ? <div className="preview__bottom">
-            <div className="preview__bottom__section">
+            {application.message ? <div className="preview__bottom__section">
                 <h4 className="preview__bottom__header">
                     Wiadomość
                 </h4>
                 <div className="preview__bottom__content">
                     {application.message}
                 </div>
-            </div>
+            </div> : ''}
+            {application.friendLink ? <div className="preview__bottom__section">
+                <h4 className="preview__bottom__header">
+                    Link do profilu partnera
+                </h4>
+                <a className="preview__bottom__content" href={application.friendLink}>
+                    {application.friendLink}
+                </a>
+            </div> : ''}
             <div className="preview__bottom__section">
                 <h4 className="preview__bottom__header">
                     Preferowana forma kontaktu

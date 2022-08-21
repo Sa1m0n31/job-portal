@@ -15,6 +15,9 @@ export class Application {
     message: string;
 
     @Column()
+    friendLink: string;
+
+    @Column()
     preferableContact: string;
 
     @Column()

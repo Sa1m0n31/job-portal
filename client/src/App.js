@@ -16,6 +16,11 @@ import Notifications from "./pages/Notifications";
 import ContactPage from "./pages/ContactPage";
 import RemindPassword from "./pages/RemindPassword";
 import SetNewPassword from "./pages/SetNewPassword";
+import ChangePassword from "./pages/ChangePassword";
+import SingleOffer from "./pages/SingleOffer";
+import SingleFastOffer from "./pages/SingleFastOffer";
+import AgencyProfile from "./pages/AgencyProfile";
+import CandidateProfile from "./pages/CandidateProfile";
 
 const LanguageContext = React.createContext(null);
 
@@ -53,12 +58,26 @@ function App() {
         <SetNewPassword />
       </Route>
 
+      {/* COMMON ROUTES */}
+      <Route path="/kontakt">
+        <ContactPage />
+      </Route>
+
       {/* COMMON LOGGED ROUTER */}
       <Route path="/powiadomienia">
         <Notifications />
       </Route>
-      <Route path="/kontakt">
-        <ContactPage />
+      <Route path="/zmiana-hasla">
+        <ChangePassword />
+      </Route>
+      <Route path="/oferta-pracy">
+        <SingleOffer />
+      </Route>
+      <Route path="/blyskawiczna-oferta-pracy">
+        <SingleFastOffer />
+      </Route>
+      <Route path="/profil-kandydata">
+        <CandidateProfile />
       </Route>
 
       {/* USER ROUTES */}
@@ -70,9 +89,6 @@ function App() {
       </Route>
       <Route path="/oferty-pracy">
         <UserWrapper page={3} />
-      </Route>
-      <Route path="/oferta-pracy">
-        <UserWrapper page={4} />
       </Route>
       <Route path="/aplikuj">
         <UserWrapper page={5} />
@@ -91,9 +107,6 @@ function App() {
       </Route>
       <Route path="/profil-agencji">
         <UserWrapper page={10} />
-      </Route>
-      <Route path="/blyskawiczna-oferta-pracy">
-        <UserWrapper page={11} />
       </Route>
 
       {/* AGENCY ROUTES */}
@@ -123,9 +136,6 @@ function App() {
       </Route>
       <Route path="/kandydaci">
         <AgencyWrapper page={9} />
-      </Route>
-      <Route path="/profil-kandydata">
-        <AgencyWrapper page={10} />
       </Route>
       <Route path="/wiadomosci">
         <AgencyWrapper page={11} />

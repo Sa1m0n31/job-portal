@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import logo from '../static/img/logo-niebieskie.png'
+import logo from '../static/img/logo-czarne.png'
 import backIcon from '../static/img/back-arrow-grey.svg'
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
 import {

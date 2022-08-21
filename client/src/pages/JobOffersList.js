@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
-import {deleteOffer, filterOffers, getActiveJobOffers, getJobOffersByAgency} from "../helpers/offer";
+import {filterOffers, getActiveJobOffers} from "../helpers/offer";
 import localization from '../static/img/location.svg'
 import settings from "../static/settings";
-import {categories, countries, currencies, distances, formErrors, myJobOffersFilter} from "../static/content";
+import {categories, countries, currencies, distances} from "../static/content";
 import salaryIcon from '../static/img/dolar-icon.svg'
 import magnifier from '../static/img/magnifier.svg'
 import dolarIcon from '../static/img/dolar-icon.svg'
@@ -25,6 +25,7 @@ const JobOfferList = ({data}) => {
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [filterActive, setFilterActive] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     {/* FILTERS */}
     const [title, setTitle] = useState('');
@@ -101,9 +102,6 @@ const JobOfferList = ({data}) => {
             const newOffersResponse = await filterOffers(page, title, category, country, city, distance, salaryType, salaryFrom, salaryTo, salaryCurrency);
             const newOffers = newOffersResponse.data;
 
-            console.log(page);
-            console.log(newOffersResponse);
-
             if(newOffers.length) {
                 setFilteredOffers(prevState => ([...prevState, ...newOffers]));
             }
@@ -115,14 +113,15 @@ const JobOfferList = ({data}) => {
     }
 
     const submitFilter = () => {
+        setLoading(true);
         setPage(2);
         setHasMore(true);
         setFilterActive(true);
         filterOffers(1, title, category, country, city, distance, salaryType, salaryFrom, salaryTo, salaryCurrency)
             .then(async (res) => {
+                setLoading(false);
                 if(res?.status === 201) {
                     if(res?.data?.length) {
-                        console.log('initialize');
                         setFilteredOffers(res?.data);
                         if(res?.data?.length < 2) {
                             setHasMore(false);
@@ -135,7 +134,7 @@ const JobOfferList = ({data}) => {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                setLoading(false);
             });
     }
 
@@ -232,7 +231,7 @@ const JobOfferList = ({data}) => {
             </button>
         </div>
 
-        {!filterActive ? <InfiniteScroll
+        {!loading ? (!filterActive ? <InfiniteScroll
             dataLength={offers?.length ? offers?.length : 2}
             next={fetchJobOffers}
             hasMore={hasMore}
@@ -358,7 +357,9 @@ const JobOfferList = ({data}) => {
             }) : <h4 className="noOffersFound">
                 Nie znaleziono ofert pracy o podanych kryteriach
             </h4>) : ''}
-        </InfiniteScroll>}
+        </InfiniteScroll>) : <div className="offersLoader">
+            <Loader />
+        </div>}
     </div>
 };
 

@@ -58,5 +58,14 @@ const groupBy = (items, key) => items.reduce(
     {},
 )
 
+const isPasswordStrength = (password) => {
+    if(!password) return false;
+    if(password.length < 8) return false; // min. 8 characters
+    if(!(/\d/.test(password))) return false; // number
+    if(password.toLowerCase() === password) return false; // uppercase
+
+    return true;
+}
+
 export { isEmail, isElementInArray, isPasswordStrong, getAuthHeader, numberRange,
-    getLoggedUserEmail, getDate, addLeadingZero, groupBy }
+    getLoggedUserEmail, getDate, addLeadingZero, groupBy, isPasswordStrength }

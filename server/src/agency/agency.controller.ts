@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post, UploadedFiles, UseGuards, UseInterceptors} from '@nestjs/common';
+import {Body, Controller, Get, Param, Patch, Post, UploadedFiles, UseGuards, UseInterceptors} from '@nestjs/common';
 import {AgencyService} from "./agency.service";
 import {JwtAuthGuard} from "../common/jwt-auth.guard";
 import {FileFieldsInterceptor} from "@nestjs/platform-express";
@@ -77,5 +77,15 @@ export class AgencyController {
     @Get('/verifyPasswordToken/:token')
     verifyToken(@Param('token') token) {
         return this.agencyService.verifyPasswordToken(token);
+    }
+
+    @Patch('/changePassword')
+    changePassword(@Body() body) {
+        return this.agencyService.changePassword(body.oldPassword, body.newPassword, body.email);
+    }
+
+    @Patch('/resetPassword')
+    resetPassword(@Body() body) {
+        return this.agencyService.resetPassword(body.password, body.email);
     }
 }

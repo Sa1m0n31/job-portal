@@ -17,6 +17,10 @@
         flex-wrap: wrap;
     }
 
+    .fastOfferInfo span {
+        font-size: 13px;
+    }
+
     .offerItem {
         max-width: 90vw;
     }
@@ -882,6 +886,22 @@
     .jobOffer__pointsRow .jobOffer__point:first-of-type,
     .editData__left {
         display: none;
+    }
+
+    .fastOfferInfo {
+        margin-top: 15px;
+    }
+
+    .fastOfferInfo span {
+        text-align: center;
+    }
+
+    .btn--copyLink {
+        margin: 10px auto;
+    }
+
+    .page p {
+        font-size: 14px;
     }
 
     .login__left__header,
@@ -2001,6 +2021,10 @@
         height: 35px;
         font-size: 12px;
     }
+
+    .container--changePassword .page__header {
+        margin-top: 60px;
+    }
 }
 
 @media(max-width: 768px) {
@@ -2105,14 +2129,34 @@
     .home__header__mobile__btn {
         width: 18px;
         background: transparent;
+        position: relative;
+    }
+
+    .mobileHeader__right .loggedUserHeader__notificationBtn--new::after {
+        right: -6px;
+        width: 8px;
+        height: 8px;
+    }
+
+    .mobileHeader__right a:last-of-type.loggedUserHeader__notificationBtn--new::after {
+        top: -5px;
+    }
+
+    .home__header__mobile__btn .img {
+        width: 100% !important;
+        height: auto !important;
     }
 
     .home__header__logo {
         width: 140px;
     }
 
-    .home__header__mobile__btn:first-child {
+    a.home__header__mobile__btn {
         margin-right: 20px;
+    }
+
+    .home__header__mobile__btn--messages .img {
+        margin-top: 6px;
     }
 
     .home__content {

@@ -154,6 +154,12 @@ const remindUserPassword = (email) => {
     });
 }
 
+const resetUserPassword = (password, email) => {
+    return axios.patch('/user/resetPassword', {
+        password, email
+    });
+}
+
 const changeUserPassword = (oldPassword, newPassword, email) => {
     return axios.patch('/user/changePassword', {
         oldPassword, newPassword, email
@@ -163,5 +169,5 @@ const changeUserPassword = (oldPassword, newPassword, email) => {
 export { registerUser, verifyUser, loginUser, authUser, updateUser, getUserData, logout,
     toggleUserVisibility, toggleUserWorking, getUserApplications, getAllUsers, getAllVisibleUsers,
     filterUsers, getUserById, getUserFastApplications, getUserNotifications, readNotification,
-    sendContactForm, remindUserPassword, changeUserPassword
+    sendContactForm, remindUserPassword, changeUserPassword, resetUserPassword
 }

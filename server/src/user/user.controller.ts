@@ -144,4 +144,14 @@ export class UserController {
     remindPassword(@Body() body) {
         return this.userService.remindPassword(body.email);
     }
+
+    @Patch('/changePassword')
+    changePassword(@Body() body) {
+        return this.userService.changePassword(body.oldPassword, body.newPassword, body.email);
+    }
+
+    @Patch('/resetPassword')
+    resetPassword(@Body() body) {
+        return this.userService.resetPassword(body.password, body.email);
+    }
 }

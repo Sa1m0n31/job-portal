@@ -16,16 +16,51 @@ import checkIcon from "../static/img/check-small.svg";
 import starIcon from "../static/img/star.svg";
 import fileIcon from "../static/img/file-icon.svg";
 import downloadIcon from "../static/img/download-grey.svg";
-import {getUserById} from "../helpers/user";
+import {authUser, getUserById, getUserData} from "../helpers/user";
 import Loader from "../components/Loader";
 import userPlaceholder from '../static/img/user-placeholder.svg'
 import {PDFDownloadLink} from "@react-pdf/renderer";
 import CV from "../components/CV";
+import {authAgency, getAgencyData} from "../helpers/agency";
 
-const CandidateProfile = ({data}) => {
+const CandidateProfile = () => {
+    const [data, setData] = useState({});
+    const [agency, setAgency] = useState(null);
     const [user, setUser] = useState(null);
     const [id, setId] = useState(null);
     const [email, setEmail] = useState('');
+
+    useEffect(() => {
+        authUser()
+            .then((res) => {
+                if(res?.status === 201) {
+                    getUserData()
+                        .then(async (res) => {
+                            if(res?.status === 200) {
+                                setAgency(false);
+                                setData(JSON.parse(res?.data?.data));
+                            }
+                        });
+                }
+            })
+            .catch(() => {
+                authAgency()
+                    .then((res) => {
+                        if(res?.status === 201) {
+                            getAgencyData()
+                                .then(async (res) => {
+                                    if(res?.status === 200) {
+                                        setAgency(true);
+                                        setData(JSON.parse(res?.data?.data));
+                                    }
+                                });
+                        }
+                    })
+                    .catch(() => {
+                        window.location = '/';
+                    });
+            });
+    }, []);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -34,7 +69,6 @@ const CandidateProfile = ({data}) => {
             setId(parseInt(id));
             getUserById(id)
                 .then((res) => {
-                    console.log(res);
                     if(res?.status === 200) {
                         setEmail(res?.data?.email);
                         setUser(JSON.parse(res?.data?.data));
@@ -76,12 +110,13 @@ const CandidateProfile = ({data}) => {
     }, [user]);
 
     return user ? <div className="container container--user container--userProfile">
-        <LoggedUserHeader data={data} agency={true} />
+        <LoggedUserHeader data={data}
+                          agency={agency} />
 
         <div className="userAccount">
             <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
-                    Zalogowany w: <span className="bold">Strefa Pracodawcy</span>
+                    Zalogowany w: <span className="bold">{agency ? 'Strefa Pracodawcy' : 'Strefa Pracownika'}</span>
                 </span>
                 <a href="javascript: history.go(-1)"
                    className="userAccount__top__btn">
@@ -116,7 +151,7 @@ const CandidateProfile = ({data}) => {
                             <img className="img" src={messageIcon} alt="adres-e-mail" />
                             {email}
                         </p>
-                        <div className="userAccount__box__mainData__buttons">
+                        {agency ? <div className="userAccount__box__mainData__buttons">
                             {user?.phoneNumber && user?.phoneNumberCountry ? <a
                                 href={`https://wa.me/${user?.phoneNumberCountry?.split('+')[1]}${user?.phoneNumber}`}
                                 className="btn btn--whatsApp"
@@ -131,7 +166,7 @@ const CandidateProfile = ({data}) => {
                                 <img className="img" src={messageIcon} alt="napisz-wiadomosc" />
                                 Wiadomość
                             </a>
-                        </div>
+                        </div> : ''}
                     </div>
                 </div>
 

@@ -49,9 +49,7 @@ export class AgencyService {
                 .digest('hex');
 
             const newUser = new CreateUserDto({
-                email: email,
-                password: passwordHash,
-                data: {}
+
             });
 
             const token = await uuid();
@@ -74,8 +72,13 @@ export class AgencyService {
             });
 
             await this.agencyRepository.save({
-                ...newUser,
-                accepted: false
+                email: email,
+                password: passwordHash,
+                data: '{}',
+                accepted: true, // TODO: admin panel
+                active: false,
+                lat: null,
+                lng: null
             });
 
             return this.agencyVerificationRepository.save({
@@ -134,12 +137,14 @@ export class AgencyService {
     async updateAgency(data, files) {
         // Get current gallery
         let currentGallery = [];
+        let lat, lng;
         const oldAgencyData = await this.agencyRepository.findOneBy({email: data.email});
-        currentGallery = oldAgencyData.data ? JSON.parse(oldAgencyData.data)?.gallery : [];
+        currentGallery = oldAgencyData.data && oldAgencyData.data !== '{}' ? JSON.parse(oldAgencyData.data)?.gallery : [];
 
         // Modify user data JSON - add file paths
         const email = data.email;
         let agencyData = JSON.parse(data.agencyData);
+
         agencyData = {
             ...agencyData,
             logo: files.logo ? files.logo[0].path : agencyData.logoUrl,
@@ -150,11 +155,20 @@ export class AgencyService {
 
         // TODO: email update
 
+        const apiResponse = await lastValueFrom(this.httpService.get(encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${agencyData.city}`)));
+        const apiData = apiResponse.data.data;
+
+        if(apiData?.length) {
+            lat = apiData[0].latitude;
+            lng = apiData[0].longitude;
+        }
+
         // Modify record in database
         return this.agencyRepository.createQueryBuilder()
             .update({
                 data: JSON.stringify(agencyData),
-                email: agencyData.email
+                email: agencyData.email,
+                lat, lng
             })
             .where({
                 email
@@ -212,7 +226,7 @@ export class AgencyService {
                     if(a.id > b.id) return -1;
                     else return 1;
                 }
-            })
+            });
         }
         else if(sortType === 1) {
             // Sort by number of offers (most)
@@ -374,7 +388,7 @@ export class AgencyService {
 
         if(user?.length) {
             const token = await uuid();
-            const expire = new Date().setHours(new Date().getHours()+1);
+            const expire = new Date();
 
             // Send email
             await this.mailerService.sendMail({
@@ -406,5 +420,54 @@ export class AgencyService {
 
     async verifyPasswordToken(token) {
         return this.passwordRepository.findBy({token});
+    }
+
+    async resetPassword(password, email) {
+        const passwordHash = crypto
+            .createHash('sha256')
+            .update(password)
+            .digest('hex');
+
+        return this.agencyRepository
+            .createQueryBuilder()
+            .update({
+                password: passwordHash
+            })
+            .where({
+                email
+            })
+            .execute();
+    }
+
+    async changePassword(oldPassword, newPassword, email) {
+        const passwordHash = crypto
+            .createHash('sha256')
+            .update(oldPassword)
+            .digest('hex');
+
+        const user = await this.agencyRepository.findBy({
+            email,
+            password: passwordHash
+        });
+
+        if(user?.length) {
+            const newPasswordHash = crypto
+                .createHash('sha256')
+                .update(newPassword)
+                .digest('hex');
+
+            return this.agencyRepository
+                .createQueryBuilder()
+                .update({
+                    password: newPasswordHash
+                })
+                .where({
+                    email
+                })
+                .execute();
+        }
+        else {
+            throw new BadRequestException('Niepoprawne hasło');
+        }
     }
 }

@@ -123,7 +123,7 @@ const MyFastJobOffers = ({data}) => {
                     })}
                 </div>
                 <div className="offerItem__buttons flex">
-                    <a href={`/oferta-pracy?id=${item.id}`}
+                    <a href={`/blyskawiczna-oferta-pracy?id=${item.id}`}
                        className="btn btn--white">
                         Podgląd
                         <img className="img" src={magnifier} alt="podglad" />

@@ -35,15 +35,13 @@ const UserWrapper = ({page}) => {
                                             break;
                                         case 2:
                                             setRender(<UserHomepage data={data}
+                                                                    userId={res?.data?.id}
                                                                     visible={res.data.profileVisible}
                                                                     working={res.data.working}
                                             />);
                                             break;
                                         case 3:
                                             setRender(<JobOfferList data={data} />);
-                                            break;
-                                        case 4:
-                                            setRender(<SingleOffer data={data} />);
                                             break;
                                         case 5:
                                             setRender(<ApplicationForJobPage data={data} />);

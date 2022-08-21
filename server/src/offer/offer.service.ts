@@ -67,46 +67,237 @@ export class OfferService {
 
     async filterOffers(page, title, category, country, city, distance, salaryFrom, salaryTo, salaryType, salaryCurrency) {
         let where = '';
-        let parameters = {};
+        let parameters: any = {};
         const offersPerPage = parseInt(process.env.OFFERS_PER_PAGE);
 
         if(salaryFrom === null || salaryFrom === '') salaryFrom = 0;
-        if(salaryTo === null || salaryFrom === '') salaryTo = 999999;
+        if(salaryTo === null || salaryTo === '') salaryTo = 999999;
 
         if(category !== -1 && country !== -1) {
-            where = `offer.category = :category 
+            if(salaryFrom === 0 && salaryTo === 999999) {
+                where = `(offer.category = :category 
             AND offer.country = :country AND 
-            (IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) >= IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom)) AND
-            (IF(offer.salaryType = 1, offer.salaryTo * 4, offer.salaryTo) <= IF(:salaryType = 1, :salaryTo * 4, :salaryTo)) 
-            AND offer.salaryCurrency = :salaryCurrency`;
-            parameters = {
-                category, country, salaryType, salaryFrom, salaryTo, salaryCurrency
+            (
+            (
+            IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) 
+            BETWEEN IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) AND IF(:salaryType = 1, :salaryTo * 4, :salaryTo)
+            )
+            OR 
+            (
+            IF(offer.salaryType = 1, offer.salaryTo * 4, offer.salaryTo) 
+            BETWEEN IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) AND IF(:salaryType = 1, :salaryTo * 4, :salaryTo)
+            ) 
+            OR
+            (
+            IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) 
+            BETWEEN IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) AND IF(offer.salaryType = 1, offer.salaryTo* 4, offer.salaryTo)
+            )
+            OR 
+            (
+            IF(:salaryType = 1, :salaryTo * 4, :salaryTo) 
+            BETWEEN IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) AND IF(offer.salaryType = 1, offer.salaryTo* 4, offer.salaryTo)
+            )
+            ))`;
+                parameters = {
+                    category, country, salaryType, salaryFrom, salaryTo
+                }
+            }
+            else {
+                where = `(offer.category = :category 
+            AND offer.country = :country AND 
+            (
+            (
+            IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) 
+            BETWEEN IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) AND IF(:salaryType = 1, :salaryTo * 4, :salaryTo)
+            )
+            OR 
+            (
+            IF(offer.salaryType = 1, offer.salaryTo * 4, offer.salaryTo) 
+            BETWEEN IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) AND IF(:salaryType = 1, :salaryTo * 4, :salaryTo)
+            ) 
+            OR
+            (
+            IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) 
+            BETWEEN IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) AND IF(offer.salaryType = 1, offer.salaryTo* 4, offer.salaryTo)
+            )
+            OR 
+            (
+            IF(:salaryType = 1, :salaryTo * 4, :salaryTo) 
+            BETWEEN IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) AND IF(offer.salaryType = 1, offer.salaryTo* 4, offer.salaryTo)
+            )
+            ) AND offer.salaryCurrency = :salaryCurrency)`;
+                parameters = {
+                    category, country, salaryType, salaryFrom, salaryTo, salaryCurrency
+                }
             }
         }
         else if(category !== -1) {
-            where = `category = :category AND 
-            (IF(salaryType = 1, salaryFrom * 4, salaryFrom) >= IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom)) AND
-            (IF(salaryType = 1, salaryTo * 4, salaryTo) <= IF(:salaryType = 1, :salaryTo * 4, :salaryTo)) 
-            AND salaryCurrency = :salaryCurrency`;
-            parameters = {
-                category, salaryType, salaryFrom, salaryTo, salaryCurrency
+            if(salaryFrom === 0 && salaryTo === 999999) {
+                where = `(category = :category AND 
+            (
+            (
+            IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) 
+            BETWEEN IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) AND IF(:salaryType = 1, :salaryTo * 4, :salaryTo)
+            )
+            OR 
+            (
+            IF(offer.salaryType = 1, offer.salaryTo * 4, offer.salaryTo) 
+            BETWEEN IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) AND IF(:salaryType = 1, :salaryTo * 4, :salaryTo)
+            ) 
+            OR
+            (
+            IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) 
+            BETWEEN IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) AND IF(offer.salaryType = 1, offer.salaryTo* 4, offer.salaryTo)
+            )
+            OR 
+            (
+            IF(:salaryType = 1, :salaryTo * 4, :salaryTo) 
+            BETWEEN IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) AND IF(offer.salaryType = 1, offer.salaryTo* 4, offer.salaryTo)
+            )
+            ))`;
+                parameters = {
+                    category, salaryType, salaryFrom, salaryTo
+                }
+            }
+            else {
+                where = `(category = :category AND 
+            (
+            (
+            IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) 
+            BETWEEN IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) AND IF(:salaryType = 1, :salaryTo * 4, :salaryTo)
+            )
+            OR 
+            (
+            IF(offer.salaryType = 1, offer.salaryTo * 4, offer.salaryTo) 
+            BETWEEN IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) AND IF(:salaryType = 1, :salaryTo * 4, :salaryTo)
+            ) 
+            OR
+            (
+            IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) 
+            BETWEEN IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) AND IF(offer.salaryType = 1, offer.salaryTo* 4, offer.salaryTo)
+            )
+            OR 
+            (
+            IF(:salaryType = 1, :salaryTo * 4, :salaryTo) 
+            BETWEEN IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) AND IF(offer.salaryType = 1, offer.salaryTo* 4, offer.salaryTo)
+            )
+            ) 
+            AND salaryCurrency = :salaryCurrency)`;
+                parameters = {
+                    category, salaryType, salaryFrom, salaryTo, salaryCurrency
+                }
             }
         }
         else if(country !== -1) {
-            where = `country = :country AND 
-            (IF(salaryType = 1, salaryFrom * 4, salaryFrom) >= IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom)) AND
-            (IF(salaryType = 1, salaryTo * 4, salaryTo) <= IF(:salaryType = 1, :salaryTo * 4, :salaryTo)) 
-            AND salaryCurrency = :salaryCurrency`;
-            parameters = {
-                country, salaryType, salaryFrom, salaryTo, salaryCurrency
+            if(salaryFrom === 0 && salaryTo === 999999) {
+                where = `(country = :country AND 
+            (
+            (
+            IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) 
+            BETWEEN IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) AND IF(:salaryType = 1, :salaryTo * 4, :salaryTo)
+            )
+            OR 
+            (
+            IF(offer.salaryType = 1, offer.salaryTo * 4, offer.salaryTo) 
+            BETWEEN IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) AND IF(:salaryType = 1, :salaryTo * 4, :salaryTo)
+            ) 
+            OR
+            (
+            IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) 
+            BETWEEN IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) AND IF(offer.salaryType = 1, offer.salaryTo* 4, offer.salaryTo)
+            )
+            OR 
+            (
+            IF(:salaryType = 1, :salaryTo * 4, :salaryTo) 
+            BETWEEN IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) AND IF(offer.salaryType = 1, offer.salaryTo* 4, offer.salaryTo)
+            )
+            ))`;
+                parameters = {
+                    country, salaryType, salaryFrom, salaryTo
+                }
+            }
+            else {
+                where = `(country = :country AND 
+            (
+            (
+            IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) 
+            BETWEEN IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) AND IF(:salaryType = 1, :salaryTo * 4, :salaryTo)
+            )
+            OR 
+            (
+            IF(offer.salaryType = 1, offer.salaryTo * 4, offer.salaryTo) 
+            BETWEEN IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) AND IF(:salaryType = 1, :salaryTo * 4, :salaryTo)
+            ) 
+            OR
+            (
+            IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) 
+            BETWEEN IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) AND IF(offer.salaryType = 1, offer.salaryTo* 4, offer.salaryTo)
+            )
+            OR 
+            (
+            IF(:salaryType = 1, :salaryTo * 4, :salaryTo) 
+            BETWEEN IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) AND IF(offer.salaryType = 1, offer.salaryTo* 4, offer.salaryTo)
+            )
+            )
+            AND salaryCurrency = :salaryCurrency)`;
+                parameters = {
+                    country, salaryType, salaryFrom, salaryTo, salaryCurrency
+                }
             }
         }
         else {
-            where = `(IF(salaryType = 1, salaryFrom * 4, salaryFrom) >= IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom)) AND
-            (IF(salaryType = 1, salaryTo * 4, salaryTo) <= IF(:salaryType = 1, :salaryTo * 4, :salaryTo)) 
-            AND salaryCurrency = :salaryCurrency`;
-            parameters = {
-                salaryType, salaryFrom, salaryTo, salaryCurrency
+            if(salaryFrom === 0 && salaryTo === 999999) {
+                where = `(
+            (
+            IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) 
+            BETWEEN IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) AND IF(:salaryType = 1, :salaryTo * 4, :salaryTo)
+            )
+            OR 
+            (
+            IF(offer.salaryType = 1, offer.salaryTo * 4, offer.salaryTo) 
+            BETWEEN IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) AND IF(:salaryType = 1, :salaryTo * 4, :salaryTo)
+            ) 
+            OR
+            (
+            IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) 
+            BETWEEN IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) AND IF(offer.salaryType = 1, offer.salaryTo* 4, offer.salaryTo)
+            )
+            OR 
+            (
+            IF(:salaryType = 1, :salaryTo * 4, :salaryTo) 
+            BETWEEN IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) AND IF(offer.salaryType = 1, offer.salaryTo* 4, offer.salaryTo)
+            )
+            )`;
+                parameters = {
+                    salaryType, salaryFrom, salaryTo
+                }
+            }
+            else {
+                where = `((
+            (
+            IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) 
+            BETWEEN IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) AND IF(:salaryType = 1, :salaryTo * 4, :salaryTo)
+            )
+            OR 
+            (
+            IF(offer.salaryType = 1, offer.salaryTo * 4, offer.salaryTo) 
+            BETWEEN IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) AND IF(:salaryType = 1, :salaryTo * 4, :salaryTo)
+            ) 
+            OR
+            (
+            IF(:salaryType = 1, :salaryFrom * 4, :salaryFrom) 
+            BETWEEN IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) AND IF(offer.salaryType = 1, offer.salaryTo* 4, offer.salaryTo)
+            )
+            OR 
+            (
+            IF(:salaryType = 1, :salaryTo * 4, :salaryTo) 
+            BETWEEN IF(offer.salaryType = 1, offer.salaryFrom * 4, offer.salaryFrom) AND IF(offer.salaryType = 1, offer.salaryTo* 4, offer.salaryTo)
+            )
+            )
+            AND salaryCurrency = :salaryCurrency)`;
+                parameters = {
+                    salaryType, salaryFrom, salaryTo, salaryCurrency
+                }
             }
         }
 
@@ -114,7 +305,7 @@ export class OfferService {
             // Filter all offers by title, category, country and salary
             const filteredOffers = await this.offerRepository
                 .createQueryBuilder('offer')
-                .where(where, parameters)
+                .andWhere(where, parameters)
                 .andWhere({title: Like(`%${title}%`)})
                 .andWhere(`(timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP)`)
                 .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
@@ -136,7 +327,6 @@ export class OfferService {
                     const destinationLat = offer.offer_lat;
                     const destinationLng = offer.offer_lng;
                     const distanceResult = calculateDistance(lat, destinationLat, lng, destinationLng);
-                    console.log(distanceResult);
                     offersToReturn.push({
                         ...offer,
                         distance: distanceResult
@@ -167,7 +357,7 @@ export class OfferService {
             return await this.offerRepository
                 .createQueryBuilder('offer')
                 .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
-                .andWhere(where, parameters)
+                .where(where, parameters)
                 .andWhere({title: Like(`%${title}%`)})
                 .andWhere(`(timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP)`)
                 .limit(offersPerPage)
@@ -190,8 +380,6 @@ export class OfferService {
                 const userSalaryFrom = userData.salaryType === 1 ? userData.salaryFrom * 4 : userData.salaryFrom;
                 const offerSalaryFrom = offer.salaryType === 1 ? offer.salaryFrom * 4 : offer.salaryFrom;
                 const offerSalaryTo = offer.salaryType === 1 ? offer.salaryTo * 4 : offer.salaryTo;
-
-                console.log(userSalaryFrom, offerSalaryFrom, offerSalaryTo);
 
                 // Match by category and salary
                 return this.isElementInArray(offer.category, userData.categories)
@@ -232,6 +420,7 @@ export class OfferService {
 
     async addOffer(data, files) {
         let offerData = JSON.parse(data.offerData);
+        let lat, lng;
 
         // Add filenames
         offerData = {
@@ -256,6 +445,15 @@ export class OfferService {
         const agency = await this.agencyRepository.findOneBy({email: data.email});
         const agencyId = agency.id;
 
+        // Get lat and lng
+        const apiResponse = await lastValueFrom(this.httpService.get(encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${city}`)));
+        const apiData = apiResponse.data.data;
+
+        if(apiData) {
+            lat = apiData[0].latitude;
+            lng = apiData[0].longitude;
+        }
+
         // Add record to database
         const addOfferResult = await this.offerRepository.insert({
             id: null,
@@ -267,7 +465,9 @@ export class OfferService {
             salaryType, salaryFrom, salaryTo,
             salaryCurrency, contractType, timeBounded,
             expireDay, expireMonth, expireYear, image,
-            attachments: JSON.stringify(attachments)
+            attachments: JSON.stringify(attachments),
+            lat,
+            lng
         });
 
         // Add notifications for agencies about matches
@@ -410,6 +610,7 @@ export class OfferService {
 
     async updateOffer(data, files) {
         let offerData = JSON.parse(data.offerData);
+        let lat, lng;
 
         // Add filenames
         offerData = {
@@ -434,6 +635,15 @@ export class OfferService {
         const agency = await this.agencyRepository.findOneBy({email: data.email});
         const agencyId = agency.id;
 
+        // Get lat and lng
+        const apiResponse = await lastValueFrom(this.httpService.get(encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${city}`)));
+        const apiData = apiResponse.data.data;
+
+        if(apiData) {
+            lat = apiData[0].latitude;
+            lng = apiData[0].longitude;
+        }
+
         // Update record in database
         return this.offerRepository.createQueryBuilder()
             .update({
@@ -445,7 +655,9 @@ export class OfferService {
                 salaryType, salaryFrom, salaryTo,
                 salaryCurrency, contractType, timeBounded,
                 expireDay, expireMonth, expireYear, image,
-                attachments: JSON.stringify(attachments)
+                attachments: JSON.stringify(attachments),
+                lat,
+                lng
             })
             .where({id})
             .execute();
@@ -572,6 +784,7 @@ export class OfferService {
                 user: userId,
                 offer: body.id,
                 message: body.message,
+                friendLink: body.friendLink,
                 preferableContact: body.contactForms,
                 attachments: JSON.stringify(attachments)
             });
@@ -624,6 +837,7 @@ export class OfferService {
                 user: userId,
                 offer: body.id,
                 message: body.message,
+                friendLink: body.friendLink,
                 preferableContact: body.contactForms,
                 attachments: JSON.stringify(attachments)
             });

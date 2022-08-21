@@ -98,6 +98,12 @@ const remindAgencyPassword = (email) => {
     });
 }
 
+const resetAgencyPassword = (password, email) => {
+    return axios.patch('/agency/resetPassword', {
+        password, email
+    });
+}
+
 const changeAgencyPassword = (oldPassword, newPassword, email) => {
     return axios.post('/agency/changePassword', {
         oldPassword, newPassword, email
@@ -110,5 +116,5 @@ const verifyPasswordToken = (token) => {
 
 export { registerAgency, verifyAgency, loginAgency, getAgencyData, updateAgency, getAllApprovedAgencies,
     filterAgencies, sortAgencies, getAgencyById, authAgency, getAgencyNotifications, remindAgencyPassword,
-    changeAgencyPassword, verifyPasswordToken
+    changeAgencyPassword, verifyPasswordToken, resetAgencyPassword
 }

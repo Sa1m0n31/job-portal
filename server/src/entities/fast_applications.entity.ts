@@ -15,6 +15,9 @@ export class Fast_applications {
     message: string;
 
     @Column()
+    friendLink: string;
+
+    @Column()
     preferableContact: string;
 
     @Column()

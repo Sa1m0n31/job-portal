@@ -483,5 +483,54 @@ export class UserService {
             throw new BadRequestException('Podany użytkownik nie istnieje');
         }
     }
+
+    async resetPassword(password, email) {
+        const passwordHash = crypto
+            .createHash('sha256')
+            .update(password)
+            .digest('hex');
+
+        return this.userRepository
+            .createQueryBuilder()
+            .update({
+                password: passwordHash
+            })
+            .where({
+                email
+            })
+            .execute();
+    }
+
+    async changePassword(oldPassword, newPassword, email) {
+        const passwordHash = crypto
+            .createHash('sha256')
+            .update(oldPassword)
+            .digest('hex');
+
+        const user = await this.userRepository.findBy({
+            email,
+            password: passwordHash
+        });
+
+        if(user?.length) {
+            const newPasswordHash = crypto
+                .createHash('sha256')
+                .update(newPassword)
+                .digest('hex');
+
+            return this.userRepository
+                .createQueryBuilder()
+                .update({
+                    password: newPasswordHash
+                })
+                .where({
+                    email
+                })
+                .execute();
+        }
+        else {
+            throw new BadRequestException('Niepoprawne hasło');
+        }
+    }
 }
 

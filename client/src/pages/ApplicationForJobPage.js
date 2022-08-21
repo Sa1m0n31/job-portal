@@ -22,12 +22,19 @@ const ApplicationForJobPage = ({data}) => {
     const [contactForms, setContactForms] = useState([]);
     const [attachments, setAttachments] = useState([]);
     const [error, setError] = useState('');
+    const [friendLink, setFriendLink] = useState('');
     const [fast, setFast] = useState(false);
     const [c1, setC1] = useState(false);
     const [success, setSuccess] = useState(false);
 
     const applicationRef = useRef(null);
     const successRef = useRef(null);
+
+    useEffect(() => {
+        if(data?.friendLink) {
+            setFriendLink(data.friendLink);
+        }
+    }, [data]);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -162,7 +169,7 @@ const ApplicationForJobPage = ({data}) => {
         }
         else {
             let func = fast ? submitFastApplication : submitApplication;
-            func(offer.o_id, message, contactForms, attachments, offer.a_id)
+            func(offer.o_id, message, friendLink, contactForms, attachments, offer.a_id)
                 .then((res) => {
                     if(res?.status === 201) {
                         setSuccess(true);
@@ -248,6 +255,16 @@ const ApplicationForJobPage = ({data}) => {
                         {message.length}/300
                     </span>
                 </label>
+
+                <h4 className="application__header">
+                    Link do profilu partnera
+                </h4>
+                <label className="application__label">
+                    <input className="input input--friendLink"
+                              value={friendLink}
+                              onChange={(e) => { setFriendLink(e.target.value); }} />
+                </label>
+
                 <h5 className="application__header application__header--marginTop">
                     Preferowane formy kontaktu
                 </h5>

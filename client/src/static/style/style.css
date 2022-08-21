@@ -1586,6 +1586,8 @@ input {
 .loggedUserHeader__userBtn {
     background: #F9F9F9;
     border-radius: 5px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
     padding-right: 15px;
 }
 
@@ -5071,4 +5073,69 @@ a.footer__data:hover {
 .container--login .loading > div {
     margin: auto;
     width: 40px;
+}
+
+.container--changePassword .btn--login,
+.container--changePassword .label {
+    max-width: 700px;
+}
+
+.container--changePassword .page__header {
+    text-align: center;
+    margin-top: 100px;
+}
+
+.container--changePassword .page {
+    min-height: 70vh;
+}
+
+.container--changePassword .login__left__content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.flex--end {
+    justify-content: flex-end;
+}
+
+.btn--copyLink {
+    height: 35px;
+    padding: 5px 15px;
+    margin-top: 15px;
+}
+
+.btn--copyLink .img {
+    width: 16px;
+    margin-left: 8px;
+    filter: brightness(0) invert(1);
+}
+
+.copyInfo {
+    color: var(--grey);
+    font-size: 15px;
+    display: block;
+    padding-top: 20px;
+}
+
+.copyInfo .img {
+    width: 15px;
+    margin-right: 8px;
+}
+
+.input--friendLink {
+    max-width: 500px;
+}
+
+a.preview__bottom__content {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+.fastOfferInfo span {
+    display: block;
+    color: #CB4949;
+    font-size: 18px;
 }

@@ -17,12 +17,47 @@ import Gallery from "../components/Gallery";
 import backArrow from '../static/img/back-arrow-grey.svg'
 import magnifier from '../static/img/magnifier.svg'
 import userPlaceholder from '../static/img/user-placeholder.svg'
-import {getUserApplications} from "../helpers/user";
+import {authUser, getUserApplications, getUserData} from "../helpers/user";
+import {authAgency, getAgencyData} from "../helpers/agency";
 
-const SingleOffer = ({data}) => {
+const SingleOffer = () => {
+    const [data, setData] = useState({});
+    const [agency, setAgency] = useState(null);
     const [offer, setOffer] = useState({});
     const [galleryIndex, setGalleryIndex] = useState(-1);
     const [userAlreadyApplied, setUserAlreadyApplied] = useState(null);
+
+    useEffect(() => {
+        authUser()
+            .then((res) => {
+                if(res?.status === 201) {
+                    getUserData()
+                        .then(async (res) => {
+                            if(res?.status === 200) {
+                                setAgency(false);
+                                setData(JSON.parse(res?.data?.data));
+                            }
+                        });
+                }
+            })
+            .catch(() => {
+                authAgency()
+                    .then((res) => {
+                        if(res?.status === 201) {
+                            getAgencyData()
+                                .then(async (res) => {
+                                    if(res?.status === 200) {
+                                        setAgency(true);
+                                        setData(JSON.parse(res?.data?.data));
+                                    }
+                                });
+                        }
+                    })
+                    .catch(() => {
+                        window.location = '/';
+                    });
+            });
+    }, []);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -51,7 +86,8 @@ const SingleOffer = ({data}) => {
     }, []);
 
     return offer?.o_id ? <div className="container container--user container--offer container--offerPage">
-            <LoggedUserHeader data={data}  />
+            <LoggedUserHeader data={data}
+                              agency={agency} />
 
             {galleryIndex !== -1 ? <Gallery images={offer.a_data ? JSON.parse(offer.a_data).gallery : offer}
                                         setIndex={setGalleryIndex}
@@ -59,15 +95,15 @@ const SingleOffer = ({data}) => {
 
             <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
-                    Zalogowany w: <span className="bold">Strefa Pracownika</span>
+                    Zalogowany w: <span className="bold">{agency ? 'Strefa pracodawcy' : 'Strefa Pracownika'}</span>
                 </span>
-                <a href="/oferty-pracy" className="userAccount__top__btn">
+                <a href={!agency ? "/oferty-pracy" : "/moje-oferty-pracy"} className="userAccount__top__btn">
                     <img className="img" src={backArrow} alt="powrót" />
-                    Wróć do ofert
+                    {!agency ? 'Wróć do ofert' : 'Wróć'}
                 </a>
             </aside>
 
-        {userAlreadyApplied === false ? <a href={`/aplikuj?id=${offer.o_id}`}
+        {userAlreadyApplied === false && agency === false ? <a href={`/aplikuj?id=${offer.o_id}`}
                                            className="btn btn--jobOfferApply btn--stickyMobile">
             Aplikuj
             <img className="img" src={arrow} alt="przejdź-dalej" />
@@ -95,7 +131,7 @@ const SingleOffer = ({data}) => {
                     <span className="jobOffer__sideInfo">
                         Dodano: {offer.o_created_at?.substring(0, 10)}, id ogłoszenia: {offer.o_id}
                     </span>
-                            {userAlreadyApplied === false ? <a href={`/aplikuj?id=${offer.o_id}`}
+                            {userAlreadyApplied === false && agency === false ? <a href={`/aplikuj?id=${offer.o_id}`}
                                                                className="btn btn--jobOfferApply">
                                 Aplikuj
                                 <img className="img" src={arrow} alt="przejdź-dalej" />
@@ -214,7 +250,7 @@ const SingleOffer = ({data}) => {
                     </div>
                 </div>
 
-                {offer?.o_attachments ? <div className="jobOffer__section">
+                {offer?.o_attachments?.length ? <div className="jobOffer__section">
                     <h3 className="jobOffer__section__header">
                         Dodatkowe informacje
                     </h3>

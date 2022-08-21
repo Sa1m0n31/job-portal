@@ -19,10 +19,8 @@ import {toggleUserVisibility, toggleUserWorking} from "../helpers/user";
 import {
     categories,
     countries,
-    currencies,
     drivingLicences,
     flags,
-    languageLevels,
     languages,
     noInfo
 } from "../static/content";
@@ -32,10 +30,12 @@ import starIcon from '../static/img/star.svg'
 import settingsCircle from '../static/img/settings-circle.svg'
 import ReactPDF, {PDFDownloadLink} from '@react-pdf/renderer';
 import CV from '../components/CV'
+import copyIcon from '../static/img/copy-icon.svg'
 
-const UserHomepage = ({data, visible, working}) => {
+const UserHomepage = ({data, userId, visible, working}) => {
     const [profileVisible, setProfileVisible] = useState(visible);
     const [userWorking, setUserWorking] = useState(working);
+    const [copied, setCopied] = useState(false);
 
     useEffect(() => {
         if(window.innerWidth >= 996) {
@@ -71,6 +71,17 @@ const UserHomepage = ({data, visible, working}) => {
     const changeProfileWorking = () => {
         setUserWorking(!userWorking);
         toggleUserWorking();
+    }
+
+    const copyLinkToClipboard = () => {
+        const input = document.createElement('textarea');
+        input.innerHTML = `${settings.WEBSITE_URL}/profil-kandydata?id=${userId}`;
+        document.body.appendChild(input);
+        input.select();
+        const result = document.execCommand('copy');
+        document.body.removeChild(input);
+        setCopied(true);
+        return result;
     }
 
     return <div className="container container--user">
@@ -117,6 +128,13 @@ const UserHomepage = ({data, visible, working}) => {
                             <img className="img" src={messageIcon} alt="adres-e-mail" />
                             {getLoggedUserEmail()}
                         </p>
+                        {copied ? <span className="copyInfo">
+                            <img className="img" src={checkIcon} alt="check" />
+                            Skopiowano
+                        </span> : <button className="btn btn--copyLink flex" onClick={() => { copyLinkToClipboard(); }}>
+                            Kopiuj link do profilu
+                            <img className="img" src={copyIcon} alt="kopiuj" />
+                        </button>}
                     </div>
                 </div>
 

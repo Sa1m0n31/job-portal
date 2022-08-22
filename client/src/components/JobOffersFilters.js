@@ -4,7 +4,7 @@ import {categories, countries, currencies, distances} from "../static/content";
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
 
 const JobOffersFilters = ({closeModal, title, category, country, city, distance,
-                              salaryType, salaryFrom, salaryTo, salaryCurrency,
+                              salaryType, salaryFrom, salaryTo, salaryCurrency, submitFilters,
     setTitle, setCategory, setCountry, setCity, setDistance, setSalaryType, setSalaryFrom, setSalaryTo, setSalaryCurrency,
     countriesVisible, categoriesVisible, currenciesVisible, distanceVisible, setCountriesVisible, setCategoriesVisible, setCurrenciesVisible, setDistanceVisible
                           }) => {
@@ -96,7 +96,7 @@ const JobOffersFilters = ({closeModal, title, category, country, city, distance,
                 <p className="label--extraInfo">
                     Oczekiwania finansowe <span className="bold">netto</span>
                 </p>
-                <div className="flex flex--start">
+                <div className="flex flex--start jobOfferFilters__salaryType">
                     <label className={salaryType === 1 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                         <button className="checkbox center"
                                 onClick={() => { setSalaryType(1); }}>
@@ -133,7 +133,7 @@ const JobOffersFilters = ({closeModal, title, category, country, city, distance,
                             {currencies[salaryCurrency]}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
-                        {currenciesVisible ? <div className="datepickerDropdown noscroll">
+                        {currenciesVisible ? <div className="datepickerDropdown datepickerDropdown--currencies noscroll">
                             {currencies?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
                                                onClick={(e) => { e.stopPropagation();
@@ -147,7 +147,7 @@ const JobOffersFilters = ({closeModal, title, category, country, city, distance,
                 </div>
             </div>
 
-            <button className="btn btn--filterSubmit" onClick={() => { closeModal(); }}>
+            <button className="btn btn--filterSubmit" onClick={() => { closeModal(); submitFilters(); }}>
                 Zatwierdź filtry
             </button>
         </div>

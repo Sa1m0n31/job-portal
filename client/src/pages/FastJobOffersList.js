@@ -47,7 +47,7 @@ const FastJobOfferList = ({data}) => {
 
         <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
-                    Zalogowany w: <span className="bold">Strefa Pracodawcy</span>
+                    Zalogowany w: <span className="bold">Strefa Pracownika</span>
                 </span>
         </aside>
 

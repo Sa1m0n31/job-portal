@@ -1365,7 +1365,7 @@ input {
     border: none;
     cursor: pointer;
     transition: .2s all;
-    z-index: 100;
+    z-index: 50;
 }
 
 .removeAttachmentBtn:hover {
@@ -1818,10 +1818,10 @@ input {
 
 .tooltipVisible {
     display: block;
-    background: var(--primary);
-    color: #fff;
-    padding: 20px;
-    font-size: 14px;
+    background: #DFDFDF;
+    color: #000;
+    padding: 10px;
+    font-size: 12px;
     max-width: 250px;
     border-radius: 5px;
 }
@@ -1965,6 +1965,7 @@ input {
 
 .userAccount__box--10 {
     width: 10%;
+    min-width: 200px;
 }
 
 .userAccount__box__subheader {
@@ -2015,11 +2016,12 @@ input {
 
 .userAccount__box__attachment {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
     color: var(--grey);
     text-decoration: underline;
     width: 100%;
+    font-size: 14px;
     margin-bottom: 15px;
 }
 
@@ -2028,11 +2030,13 @@ input {
 }
 
 .userAccount__box__attachment .img {
-    width: 15px;
+    max-width: 10px;
+    min-width: 10px;
+    width: 10px;
 }
 
 .userAccount__box__attachment .img:last-of-type {
-    margin-left: 12px;
+    margin-left: 7px;
 }
 
 .userAccount__box__attachment {
@@ -2925,6 +2929,7 @@ input {
 
 .addOfferSuccess__header {
     text-align: center;
+    font-weight: 400;
 }
 
 .offerItem__date {
@@ -3027,6 +3032,7 @@ input {
     color: #000;
     font-size: 15px;
     text-transform: none;
+    white-space: nowrap;
 }
 
 .offerFilters__section__value .distance {
@@ -3554,6 +3560,8 @@ input {
     max-width: 95%;
     padding: 50px;
     border-radius: 5px;
+    max-height: 95vh;
+    overflow-y: auto;
 }
 
 .modal--filters .modal__inner__closeBtn {
@@ -3615,6 +3623,7 @@ input {
     justify-content: center;
     align-items: center;
     font-size: 16px;
+    min-height: 50px;
 }
 
 .noOffersFound {
@@ -3722,6 +3731,10 @@ input {
     padding: 40px;
     max-height: 95vh;
     overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.modal__inner {
     overflow-x: hidden;
 }
 
@@ -3993,6 +4006,7 @@ div[data-testid=circles-loading] {
 }
 
 .messages {
+    padding-top: 20px;
     align-items: flex-start;
 }
 
@@ -4439,6 +4453,7 @@ div[data-testid=circles-loading] {
     margin: auto;
     font-size: 32px;
     font-weight: 400;
+    width: 90%;
 }
 
 .btn--showCandidates {
@@ -5034,6 +5049,13 @@ a.footer__data:hover {
     margin: auto;
 }
 
+.loggedUserHeader {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 99;
+}
+
 .loggedUserHeader .home__header__menu__item {
     color: var(--grey);
     font-weight: 600;
@@ -5138,4 +5160,93 @@ a.preview__bottom__content {
     display: block;
     color: #CB4949;
     font-size: 18px;
+}
+
+.userForm .filesUploadLabel__item {
+    margin: 30px 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.userForm .filesUploadLabel__item .fileName {
+    margin: 0 0 0 20px;
+}
+
+.userForm .filesUploadLabel__item .removeAttachmentBtn {
+    top: 50%;
+    left: 270px;
+    transform: translateY(-50%);
+}
+
+.container--editData .btn--downloadCV {
+    height: 45px;
+    margin-top: 0;
+}
+
+.container--editData .info--error {
+    width: 100%;
+    text-align: left;
+}
+
+.container--login .loggedUserFooter,
+.container--register .loggedUserFooter {
+    display: none;
+}
+
+.container--messages {
+    min-height: 100px;
+}
+
+.certificatesWrapper > span {
+    color: #C1C1C1;
+    text-transform: uppercase;
+    font-size: 14px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+    margin-bottom: 5px;
+}
+
+.userForm .tooltip {
+    margin: -3px 0 0 8px;
+}
+
+.userForm .tooltipVisible {
+    margin-left: 18px !important;
+}
+
+.modal__inner {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) #C1DCFF;
+}
+
+.userForm::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+.modal__inner::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+}
+.modal__inner::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border: 33px none #ffffff;
+    border-radius: 36px;
+}
+.modal__inner::-webkit-scrollbar-thumb:hover {
+    background: var(--hover);
+}
+.modal__inner::-webkit-scrollbar-thumb:active {
+    background: var(--hover);
+}
+.modal__inner::-webkit-scrollbar-track {
+    background: #C1DCFF;
+    border: 49px none #C1DCFF;
+    border-radius: 50px;
+}
+.modal__inner::-webkit-scrollbar-corner {
+    background: transparent;
 }

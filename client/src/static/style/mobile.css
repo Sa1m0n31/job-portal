@@ -229,6 +229,54 @@
         flex-direction: column;
     }
 
+    .applicationsSection__header {
+        font-size: 24px;
+    }
+
+    .userAccount__top__jobOffersHeader {
+        font-size: 26px;
+    }
+
+    .container--jobOffers .label--date--address > .flex:not(.flex--fastOffer) {
+        flex-direction: row;
+    }
+
+    .offerFilters__section__frame,
+    .offerFilters__section__value {
+        font-size: 12px;
+    }
+
+    .offerFilters__section__frame {
+        margin-top: 4px;
+        text-align: center;
+    }
+
+    .offerFilters__section__item .img {
+        height: 12px;
+    }
+
+    .btn--filter span {
+        display: none;
+    }
+
+    .btn--filter .img {
+        margin: 0;
+    }
+
+    .container--agencyJobOffers .btn--filter .img,
+    .container--agenciesList .btn--filter .img {
+        margin-left: 8px;
+    }
+
+    .btn--offerFiltersOpen {
+        font-size: 13px;
+        margin-right: 20px;
+    }
+
+    .offerFilters__section {
+        padding: 0 10px;
+    }
+
     .login__left__header__logo {
         width: 140px;
     }
@@ -631,6 +679,16 @@
         width: 100%;
     }
 
+    .container--candidatesList .label--date--address > .flex:not(.flex--fastOffer) > *,
+    .container--jobOffers .label--date--address > .flex:not(.flex--fastOffer) > * {
+        margin-right: 0;
+    }
+
+    .container--candidatesList .label--date--address > .flex:not(.flex--fastOffer) > * > *,
+    .container--jobOffers .label--date--address > .flex:not(.flex--fastOffer) > * > * {
+        width: 200px;
+    }
+
     .container--agenciesList .label--date--address > .flex > *,
     .container--agenciesList .label--date--address > .flex > * > * {
         width: 200px;
@@ -691,6 +749,36 @@
 @media(max-width: 1200px) {
     .addNewBtn {
         width: 400px;
+    }
+
+    .offerFilters {
+        height: auto;
+    }
+
+    .preview__bottom__content {
+        font-size: 14px;
+    }
+
+    .btn--showCandidates {
+        width: 50px;
+        max-width: 50px;
+    }
+
+    .btn--showCandidates span {
+        display: none;
+    }
+
+    .btn--showCandidates .img {
+        margin: 0;
+    }
+
+    .offerFilters__section {
+        flex-direction: column;
+    }
+
+    .offerFilters__section__item {
+        margin: 0 0 15px 0;
+        text-align: center;
     }
 
     .login__left {
@@ -881,11 +969,209 @@
     .jobOffer__backgroundImg,
     .jobOffer__topRow__right,
     .userAccount__top,
+    .offerFilters,
+    .login__left__bottom,
     .loggedUserHeader__desktop,
     .editData__main__header,
     .jobOffer__pointsRow .jobOffer__point:first-of-type,
+    .registerImg, .register__logo,
+    .register .login__left__bottom,
     .editData__left {
         display: none;
+    }
+
+    .container--agencyJobOffers .userAccount__top {
+        flex-direction: column;
+    }
+
+    .container--agencyJobOffers .userAccount__top .userAccount__top__jobOffersHeader {
+        margin-bottom: 10px;
+    }
+
+    .container--agencyJobOffers .offerItem__buttons > .btn--showCandidates {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .offerItem__buttons > .noCandidates {
+        width: 100% !important;
+        text-align: center;
+        margin-top: -30px;
+        padding-right: 0;
+        font-size: 14px;
+    }
+
+    .container--agencyJobOffers .offerItem {
+        margin-bottom: 100px;
+    }
+
+    .offerCandidates {
+        margin-top: -30px;
+    }
+
+    .container--agencyJobOffers .applicationsSection {
+        margin-top: 40px;
+    }
+
+    .container--agencyJobOffers .applicationsSection:first-of-type {
+        margin-top: 100px;
+    }
+
+    .btn--showCandidates span {
+        display: inline;
+    }
+
+    .applicationsSection__header {
+        text-align: center;
+        font-size: 17px;
+    }
+
+    .messages__section:first-of-type::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+    }
+    .messages__section:first-of-type::-webkit-scrollbar-button {
+        width: 0px;
+        height: 0px;
+    }
+    .messages__section:first-of-type::-webkit-scrollbar-thumb {
+        background: var(--primary);
+        border: 33px none #ffffff;
+        border-radius: 36px;
+    }
+    .messages__section:first-of-type::-webkit-scrollbar-thumb:hover {
+        background: var(--hover);
+    }
+    .messages__section:first-of-type::-webkit-scrollbar-thumb:active {
+        background: var(--hover);
+    }
+    .messages__section:first-of-type::-webkit-scrollbar-track {
+        background: #C1DCFF;
+        border: 49px none #C1DCFF;
+        border-radius: 50px;
+    }
+    .messages__section:first-of-type::-webkit-scrollbar-corner {
+        background: transparent;
+    }
+
+    .userForm .tooltip {
+        display: none;
+    }
+
+    .textarea--content {
+        font-size: 14px !important;
+        padding: 20px 0;
+    }
+
+    .container--application .info--error {
+        margin-bottom: 0;
+    }
+
+    .messages__section:first-of-type {
+        scrollbar-width: thin;
+        scrollbar-color: var(--primary) #C1DCFF;
+    }
+
+    .application__header--friendLink {
+        margin: 25px auto 5px;
+    }
+
+    .messages {
+        padding-bottom: 30px;
+    }
+
+    .messages__section {
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    .container--jobOffers .userAccount__top--offersInfo .userAccount__top__jobOffersHeader {
+        margin: 5px auto;
+    }
+
+    .loggedUserFooter {
+        padding-top: 10px;
+    }
+
+    .container--login .loggedUserFooter,
+    .container--register .loggedUserFooter {
+        display: flex;
+    }
+
+    .container--login,
+    .register {
+        height: auto;
+        min-height: 1px;
+    }
+
+    .container--register {
+        height: auto;
+    }
+
+    .container--register .label--checkbox {
+        flex-wrap: wrap;
+        margin-bottom: 35px;
+    }
+
+    .container--register .label--checkbox .checkbox {
+        width: 15px;
+        max-width: 15px;
+        flex-basis: 100%;
+        margin: 0;
+    }
+
+    .container--register .label--checkbox a {
+        padding: 0;
+    }
+
+    .label--checkbox > span {
+        padding-left: 25px;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .container--register .register__link {
+        font-size: 12px;
+    }
+
+    .container--register {
+        display: block;
+        margin-top: 50px;
+    }
+
+    .container--login {
+        display: block;
+    }
+
+    .container--register .footer {
+        display: block;
+    }
+
+    .register__header {
+        font-size: 18px;
+    }
+
+    .register__subheader {
+        font-size: 12px;
+    }
+
+    .register .input {
+        height: 35px;
+    }
+
+    .register .label {
+        font-size: 12px;
+    }
+
+    .register__header,
+    .register__subheader {
+        text-align: center;
+    }
+
+    .register {
+        width: 100%;
+        padding: 20px;
     }
 
     .fastOfferInfo {
@@ -927,7 +1213,7 @@
 
     .login__left {
         width: 90%;
-        margin: 100px auto 0;
+        margin: 100px auto 40px;
         height: auto;
         padding: 0;
     }
@@ -1598,7 +1884,9 @@
     }
 
     .userAccount__top--offersInfo .userAccount__top__jobOffersHeader {
-        display: none;
+        font-size: 17px;
+        text-align: center;
+        margin: 10px 0 0;
     }
 
     .container--addOffer {
@@ -1826,6 +2114,10 @@
         margin-right: 10px;
     }
 
+    .register .label--flex > a:not(:last-child) {
+        margin-right: 0;
+    }
+
     .datepickerDropdown--phoneNumbers {
         flex-wrap: wrap;
     }
@@ -1837,6 +2129,13 @@
 
     .formBottom {
         padding-top: 0;
+        height: auto;
+        padding-bottom: 0;
+        align-items: flex-start;
+    }
+
+    .filesUploadLabel__profileImage {
+        max-width: 85%;
     }
 
     .btn--userForm {
@@ -1915,6 +2214,13 @@
 
     .userForm--summary .btn--userForm {
         width: 150px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container--editData .btn--downloadCV {
+        height: 35px;
     }
 
     .btn--widthAuto {
@@ -1938,7 +2244,6 @@
 
     .offerItem__left {
         width: 100%;
-        justify-content: center;
     }
 
     .offerItem__company {
@@ -1957,22 +2262,35 @@
         align-items: center;
     }
 
+    .container--jobOffers .nowrap {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
     .offerItem__salary {
         width: 100%;
-        justify-content: center;
+        justify-content: flex-start;
         margin-bottom: 10px;
+        font-size: 13px;
+        margin-left: 0;
+    }
+
+    .offerItem__salary .netto {
+        font-size: 11px;
     }
 
     .offerItem__requirements {
         width: 100%;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: flex-start;
-        margin: 15px auto;
+        flex-wrap: wrap;
+        margin: 8px auto 0;
     }
 
     .offerItem__requirement {
-        margin: 0 5px;
+        margin: 0 5px 8px 0;
         font-size: 10px;
     }
 
@@ -2013,10 +2331,6 @@
         margin: 0 auto 15px;
     }
 
-    .container--passwordRemind .login__left {
-        margin-top: -450px;
-    }
-
     .register__accountType {
         height: 35px;
         font-size: 12px;
@@ -2025,11 +2339,170 @@
     .container--changePassword .page__header {
         margin-top: 60px;
     }
+
+    div[data-testid=circles-loading] svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    .contact__flex {
+        margin-top: 25px;
+    }
+
+    .contact__form {
+        margin-top: 30px;
+    }
+
+    .home__header__mobile {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .home__header__mobile__btn .img {
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    a.home__header__mobile__btn {
+        margin-right: 20px;
+    }
+
+    .home__header__mobile__btn {
+        width: 18px;
+        background: transparent;
+        position: relative;
+    }
+
+    .page {
+        min-height: 1px !important;
+    }
+
+    .container--changePassword .loggedUserFooter {
+        margin-top: 40px;
+    }
+
+    .container--changePassword .page__header {
+        margin-top: 50px;
+    }
+
+    .container--jobOffers .offerItem__buttons {
+        flex-direction: column;
+        bottom: -110px;
+    }
+
+    .container--jobOffers .offerItem {
+        margin-bottom: 150px;
+    }
+
+    .container--jobOffers .offerItem__buttons .btn {
+        width: 100% !important;
+    }
+
+    .offerItem__figure {
+        height: 75px;
+        margin-right: 20px;
+    }
 }
 
 @media(max-width: 768px) {
     .editData__formWrapper__header {
         font-size: 18px;
+    }
+
+    .form__school > .deleteSchoolBtn {
+        margin-left: 8px;
+    }
+
+    .userForm .filesUploadLabel__item {
+        margin: 15px 0;
+    }
+
+    .input--special:focus,
+    .input--special:active {
+        height: 35px;
+        padding: 3px 0;
+    }
+
+    .jobOfferFilters__salaryType {
+        display: none;
+    }
+
+    .container--jobOffers .drivingLicenceWrapper--salary {
+        margin-bottom: 0;
+    }
+
+    .btn--filterSubmit {
+        min-height: 35px !important;
+    }
+
+    .container--candidatesList .datepickerDropdown--currencies,
+    .container--jobOffers .datepickerDropdown--currencies {
+        width: 80px;
+    }
+
+    .container--candidatesList .datepickerBtn,
+    .container--jobOffers .datepickerBtn {
+        font-size: 12px;
+    }
+
+    .container--candidatesList .datepicker--currency,
+    .container--jobOffers .datepicker--currency {
+        width: 80px;
+        font-size: 12px;
+    }
+
+    .modal--filters--users .modal__inner {
+        max-height: 90vh;
+    }
+
+    .modal--filters--users .modal__inner .modal__inner__closeBtn {
+        top: 5px;
+        right: 15px;
+    }
+
+    .modal--filters--users .drivingLicenceWrapper {
+        margin-top: -3px;
+    }
+
+    .container--candidatesList .label--date--address > .flex:not(.flex--fastOffer) > * > *,
+    .container--candidatesList .label--category .datepicker--category,
+    .container--candidatesList .label--category .datepickerDropdown, .label--date__input--category,
+    .container--jobOffers .label--date--address > .flex:not(.flex--fastOffer) > * > *,
+    .container--jobOffers .label--category .datepicker--category,
+    .container--jobOffers .label--category .datepickerDropdown, .label--date__input--category {
+        width: 100%;
+    }
+
+    .container--jobOffers .label--date--address {
+        margin-bottom: 0;
+    }
+
+    .container--jobOffers .distanceFilterWrapper .datepicker--distance .datepickerDropdown {
+        width: 100px;
+    }
+
+    .container--jobOffers .label--date--address > .flex:not(.flex--fastOffer) {
+        flex-direction: column;
+    }
+
+    .btn--copyLink {
+        font-size: 12px;
+    }
+
+    .home__header__mobile__btn--messages .img {
+        margin-top: 6px;
+    }
+
+    .btn--copyLink .img {
+        width: 12px;
+    }
+
+    .filesUploadLabel__item > .img {
+        max-height: 30px;
+    }
+
+    .userForm .filesUploadLabel__item .removeAttachmentBtn {
+        left: 250px;
     }
 
     .login__left__bottom__links {
@@ -2121,17 +2594,6 @@
         border-bottom: 1px solid #72849D;
     }
 
-    .home__header__mobile {
-        display: flex;
-        justify-content: flex-end;
-    }
-
-    .home__header__mobile__btn {
-        width: 18px;
-        background: transparent;
-        position: relative;
-    }
-
     .mobileHeader__right .loggedUserHeader__notificationBtn--new::after {
         right: -6px;
         width: 8px;
@@ -2153,10 +2615,6 @@
 
     a.home__header__mobile__btn {
         margin-right: 20px;
-    }
-
-    .home__header__mobile__btn--messages .img {
-        margin-top: 6px;
     }
 
     .home__content {
@@ -2320,7 +2778,7 @@
 
     .btn--filterSubmit {
         height: 35px;
-        font-size: 13px;
+        font-size: 12px;
     }
 
     .btn--filterSubmit .img {
@@ -2525,11 +2983,28 @@
     .filesUploadLabel__item .fileName {
         height: 35px;
     }
+
+    .copyInfo {
+        display: block;
+        text-align: center;
+        width: 100%;
+        margin-bottom: 10px;
+        font-size: 12px;
+    }
 }
 
 @media(max-width: 576px) {
     .editData__main {
         padding: 30px 20px;
+    }
+
+    .container--jobOffers .userAccount__top--offersInfo .userAccount__top__jobOffersHeader {
+        font-size: 15px;
+    }
+
+    .container--editData .btn--downloadCV {
+        width: 100%;
+        margin: 0;
     }
 
     .home__h1 {

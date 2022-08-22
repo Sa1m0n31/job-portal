@@ -51,7 +51,7 @@ const AgenciesList = ({data}) => {
 
     const filterAgenciesWrapper = async () => {
         if(page > 1) {
-            const newAgenciesResponse = await filterAgencies(country, city, distance, page);
+            const newAgenciesResponse = await filterAgencies(country, city, distance, sorting, page);
             const newAgencies = newAgenciesResponse.data;
 
             console.log(newAgencies);
@@ -71,13 +71,10 @@ const AgenciesList = ({data}) => {
         setPage(2);
         setHasMore(true);
         setFiltersActive(true);
-        filterAgencies(country, city, distance, 1)
+        filterAgencies(country, city, distance, sorting, 1)
             .then(async (res) => {
-                console.log(res);
                 if(res?.status === 201) {
                     if(res?.data?.length) {
-                        console.log('initialize');
-                        console.log(res?.data);
                         setFilteredAgencies(res?.data);
                         if(res?.data?.length < 10) {
                             setHasMore(false);

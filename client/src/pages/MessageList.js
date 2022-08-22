@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
-import JobOffersFilters from "../components/JobOffersFilters";
 import {
     archiveMessagesByIds,
     getAgencyMessages,

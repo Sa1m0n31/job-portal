@@ -135,7 +135,10 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
     }
 
     return <header className="loggedUserHeader" onClick={() => { setMessagesDropdown(false); setNotificationsDropdown(false); }}>
-        <MobileHeader loggedUser={true} newMessages={newMessages} newNotifications={newNotifications} />
+        <MobileHeader loggedUser={!agency}
+                      loggedAgency={agency}
+                      newMessages={newMessages}
+                      newNotifications={newNotifications} />
 
         <div className="loggedUserHeader__desktop flex">
             <a href="/" className="logo">
@@ -197,7 +200,6 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                             {newMessages?.length ? `Nowe wiadomości: ${newMessages}` : 'Nie masz nowych wiadomości'}
                         </a>
                         {messages?.map((item, index) => {
-                            console.log(item);
                             if(index < 2) {
                                 const receiverData = agency ? JSON.parse(item.u_data) : JSON.parse(item.a_data);
                                 const receiver = !agency ? (receiverData.name ? receiverData.name : 'Anonimowy') : (receiverData.firstName ? `${receiverData.firstName} ${receiverData.lastName}` : 'Anonimowy');

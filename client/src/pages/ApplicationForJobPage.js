@@ -8,12 +8,15 @@ import pen from '../static/img/pen-blue.svg'
 import plusIcon from "../static/img/plus-icon-opacity.svg";
 import trashIcon from "../static/img/trash.svg";
 import fileIcon from "../static/img/doc.svg";
-import {attachmentsErrors, countries, currencies, formErrors} from "../static/content";
+import {attachmentsErrors, countries, currencies, formErrors, noInfo} from "../static/content";
 import arrow from '../static/img/small-white-arrow.svg'
 import {submitApplication} from "../helpers/offer";
-import {isElementInArray} from "../helpers/others";
+import {getDate, isElementInArray} from "../helpers/others";
 import checkIcon from '../static/img/green-check.svg'
 import userPlaceholder from '../static/img/user-placeholder.svg'
+import {PDFDownloadLink} from "@react-pdf/renderer";
+import CV from "../components/CV";
+import downloadWhite from "../static/img/download-white.svg";
 
 const ApplicationForJobPage = ({data}) => {
     const [offer, setOffer] = useState('');
@@ -233,10 +236,31 @@ const ApplicationForJobPage = ({data}) => {
                     Załączyliśmy Twoje automatycznie wygenerowane CV
                 </h3>
                 <div className="application__buttons flex flex--start">
-                    <button className="btn btn--application">
+                    {data ? <PDFDownloadLink document={<CV profileImage={`${settings.API_URL}/${data?.profileImage}`}
+                                                           fullName={`${data.firstName} ${data.lastName}`}
+                                                           categories={data.categories}
+                                                           email={data.email}
+                                                           birthday={getDate(data?.birthdayDay, data?.birthdayMonth, data?.birthdayYear)}
+                                                           schools={data.schools}
+                                                           jobs={data.jobs}
+                                                           additionalLanguages={data.extraLanguages}
+                                                           languages={data.languages}
+                                                           drivingLicence={data.drivingLicenceCategories}
+                                                           certs={data.certificates.concat(data.courses)}
+                                                           desc={data.situationDescription}
+                                                           phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : noInfo}
+                                                           location={data.country >= 0 ? `${data.city}, ${countries[data.country]}` : noInfo}
+                                                           currentPlace={data.currentCountry >= 0 ? `${countries[data.currentCountry]}, ${data.currentCity}`: noInfo}
+                                                           availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : noInfo}
+                                                           ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}
+                                                           ownTools={data.ownTools ? 'Tak' : ''}
+                                                           salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency} netto/${data.salaryType === 0 ? 'mies.' : 'tyg.'}` : noInfo}
+                    />}
+                                             fileName={`CV-${data.firstName}_${data.lastName}.pdf`}
+                                             className="btn btn--application">
                         Podgląd
-                        <img className="img" src={magnifier} alt="zobacz-cv" />
-                    </button>
+                        <img className="img" src={magnifier} alt="pobierz" />
+                    </PDFDownloadLink> : ''}
                     <a className="btn btn--application btn--white" href="/edycja-danych">
                         Edycja
                         <img className="img" src={pen} alt="edytuj-dane-kandydata" />
@@ -256,7 +280,7 @@ const ApplicationForJobPage = ({data}) => {
                     </span>
                 </label>
 
-                <h4 className="application__header">
+                <h4 className="application__header application__header--friendLink">
                     Link do profilu partnera
                 </h4>
                 <label className="application__label">

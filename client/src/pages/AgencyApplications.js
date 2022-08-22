@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
-import {getApplicationsByAgency, getFastApplicationsByAgency, getJobOffersByAgency} from "../helpers/offer";
+import {getApplicationsByAgency, getFastApplicationsByAgency} from "../helpers/offer";
 import {groupBy, isElementInArray} from "../helpers/others";
 import settings from "../static/settings";
 import userPlaceholder from "../static/img/user-placeholder.svg";
@@ -131,7 +131,9 @@ const AgencyApplications = ({data}) => {
                         <div className="offerItem__buttons flex">
                             {fastOffersCandidates[index]?.length ? <button onClick={() => { handleVisibleFastOffers(index); }}
                                                                        className={isElementInArray(index, visibleFastOffers) ? "btn btn--showCandidates btn--showCandidates--visible" : "btn btn--showCandidates"}>
-                                {isElementInArray(index, visibleFastOffers) ? 'Schowaj kandydatów' : 'Pokaż kandydatów'}
+                                <span>
+                                    {isElementInArray(index, visibleFastOffers) ? 'Schowaj kandydatów' : 'Pokaż kandydatów'}
+                                </span>
                                 <img className="img" src={arrowDown} alt="podglad" />
                             </button> : <span className="noCandidates">
                             Brak przesłanych CV
@@ -143,6 +145,8 @@ const AgencyApplications = ({data}) => {
                         {fastOffersCandidates[index]?.map((item, index) => {
                             return <UserPreview key={index}
                                                 id={item.u_id}
+                                                companyName={data?.name}
+                                                companyLogo={`${settings.API_URL}/${data?.logo}`}
                                                 application={{
                                                     message: item.app_message,
                                                     preferableContact: JSON.parse(item.app_preferableContact),
@@ -206,7 +210,9 @@ const AgencyApplications = ({data}) => {
                         <div className="offerItem__buttons flex">
                             {offersCandidates[index]?.length ? <button onClick={() => { handleVisibleOffers(index); }}
                                                                        className={isElementInArray(index, visibleOffers) ? "btn btn--showCandidates btn--showCandidates--visible" : "btn btn--showCandidates"}>
-                                {isElementInArray(index, visibleOffers) ? 'Schowaj kandydatów' : 'Pokaż kandydatów'}
+                                <span>
+                                    {isElementInArray(index, visibleOffers) ? 'Schowaj kandydatów' : 'Pokaż kandydatów'}
+                                </span>
                                 <img className="img" src={arrowDown} alt="podglad" />
                             </button> : <span className="noCandidates">
                             Brak przesłanych CV
@@ -218,6 +224,8 @@ const AgencyApplications = ({data}) => {
                         {offersCandidates[index]?.map((item, index) => {
                             return <UserPreview key={index}
                                                 id={item.u_id}
+                                                companyName={data?.name}
+                                                companyLogo={`${settings.API_URL}/${data?.logo}`}
                                                 application={{
                                                     message: item.application_message,
                                                     preferableContact: JSON.parse(item.application_preferableContact),

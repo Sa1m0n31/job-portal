@@ -12,10 +12,11 @@ export const fileExtensionFilter = (
         !(file.mimetype.indexOf("png") > -1) &&
         !(file.mimetype.indexOf('svg') > -1) &&
         !(file.mimetype.indexOf('pdf') > -1) &&
+        !(file.mimetype.indexOf('odt') > -1) &&
         !(file.mimetype.indexOf('docx') > -1)
     ){
         callback(
-            new UnsupportedMediaTypeException('Dozwolone są tylko pliki w następujących formatach: jpg, txt, pages, png, svg, pdf, docx'),
+            new UnsupportedMediaTypeException('Dozwolone są tylko pliki w następujących formatach: jpg, txt, pages, png, svg, pdf, docx, odt'),
             false,
         );
     }

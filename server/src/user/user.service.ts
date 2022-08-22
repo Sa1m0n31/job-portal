@@ -135,13 +135,17 @@ export class UserService {
         // Modify user data JSON - add file paths
         const email = data.email;
         let userData = JSON.parse(data.userData);
+
         userData = {
             ...userData,
             profileImage: files.profileImage ? files.profileImage[0].path : userData.profileImageUrl,
             bsnNumberDocument: files.bsnNumber ? files.bsnNumber[0].path : userData.bsnNumberDocument,
-            attachments: files.attachments ? Array.from(files.attachments).map((item: any) => {
-                return item.path;
-            }) : data.attachments
+            attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
+                return {
+                    name: userData.attachments[index].name,
+                    path: item.path
+                }
+            }).concat(userData.oldAttachments) : userData.oldAttachments
         }
 
         // Get new latitude and longitude
@@ -303,9 +307,7 @@ export class UserService {
         });
 
         if(category !== -1) {
-            console.log(users.length);
-           users = users.filter((item) => {
-               console.log(category, JSON.parse(item.data).categories);
+            users = users.filter((item) => {
                return this.isElementInArray(category, JSON.parse(item.data).categories);
            });
         }
@@ -339,8 +341,6 @@ export class UserService {
                         });
                     }
                 }
-
-                console.log(usersWithDistances?.map((item) => (item.distance)));
 
                 // Filter - get only users within range send in filter
                 usersWithDistances = usersWithDistances.filter((item) => (item.distance <= maxDistance));

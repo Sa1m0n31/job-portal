@@ -12,6 +12,7 @@ import {remindUserPassword} from "../helpers/user";
 import {remindAgencyPassword} from "../helpers/agency";
 import {formErrors} from "../static/content";
 import Loader from "../components/Loader";
+import LoggedUserFooter from "../components/LoggedUserFooter";
 
 const RemindPassword = () => {
     const [email, setEmail] = useState('');
@@ -153,6 +154,8 @@ const RemindPassword = () => {
         <div className="login__right">
             <img className="img" src={backgroundImg} alt="logowanie" />
         </div>
+
+        <LoggedUserFooter />
     </div>;
 };
 

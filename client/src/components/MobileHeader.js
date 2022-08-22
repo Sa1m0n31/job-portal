@@ -7,11 +7,16 @@ import messagesIcon from '../static/img/message-blue.svg'
 import notificationsIcon from '../static/img/bell-ring.svg'
 import MobileMenu from "./MobileMenu";
 
-const MobileHeader = ({back, loggedUser, loggedAgency, newMessages, newNotifications}) => {
+const MobileHeader = ({back, backFunction, loggedUser, loggedAgency, newMessages, newNotifications}) => {
     const mobileMenu = useRef(null);
 
     const handleBack = () => {
-        window.location = back ? back : '/';
+        if(backFunction) {
+            backFunction();
+        }
+        else {
+            window.location = back ? back : '/';
+        }
     }
 
     const openMenu = () => {

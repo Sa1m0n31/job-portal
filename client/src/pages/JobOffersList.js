@@ -13,6 +13,7 @@ import {isElementInArray} from "../helpers/others";
 import JobOffersFilters from "../components/JobOffersFilters";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import userPlaceholder from '../static/img/user-placeholder.svg'
+import filterIcon from "../static/img/filter-results-button.svg";
 
 const JobOfferList = ({data}) => {
     const [offers, setOffers] = useState([]);
@@ -143,6 +144,7 @@ const JobOfferList = ({data}) => {
 
         {filtersVisible ? <JobOffersFilters closeModal={() => { setFiltersVisible(false); }}
                                             title={title}
+                                            submitFilters={submitFilter}
                                             category={category}
                                             country={country}
                                             city={city}
@@ -171,9 +173,14 @@ const JobOfferList = ({data}) => {
 
         <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
-                    Zalogowany w: <span className="bold">Strefa Pracodawcy</span>
+                    Zalogowany w: <span className="bold">Strefa Pracownika</span>
                 </span>
         </aside>
+
+        <button className="userAccount__top--mobile" onClick={() => { setFiltersVisible(true); }}>
+            Filtry wyszukiwania
+            <img className="img" src={filterIcon} alt="filtry" />
+        </button>
 
         <div className="offerFilters flex">
             <button className="btn btn--offerFiltersOpen"
@@ -226,7 +233,7 @@ const JobOfferList = ({data}) => {
             </div>
 
             <button className="btn btn--filter" onClick={() => { submitFilter(); }}>
-                Wyszukaj
+                <span>Wyszukaj</span>
                 <img className="img" src={magnifier} alt="wyszukiwarka" />
             </button>
         </div>

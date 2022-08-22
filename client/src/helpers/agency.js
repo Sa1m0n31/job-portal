@@ -78,9 +78,10 @@ const getAllApprovedAgencies = (page) => {
     return axios.get(`/agency/getAllApproved/${page}`);
 }
 
-const filterAgencies = (country, city, distance, page) => {
+const filterAgencies = (country, city, distance, sorting, page) => {
+    console.log('filter');
     return axios.post(`/agency/filter`, {
-        country, city, distance, page
+        country, city, distance, page, sorting
     });
 }
 

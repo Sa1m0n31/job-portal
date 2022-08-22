@@ -9,6 +9,7 @@ import arrow from "../static/img/small-white-arrow.svg";
 import {formErrors} from "../static/content";
 import checkIcon from '../static/img/green-check.svg'
 import PageHeader from "../components/PageHeader";
+import Loader from "../components/Loader";
 
 const ContactPage = () => {
     const [data, setData] = useState(null);
@@ -18,6 +19,7 @@ const ContactPage = () => {
     const [name, setName] = useState('');
     const [msg, setMsg] = useState('');
     const [error, setError] = useState(0);
+    const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
 
     const successRef = useRef(null);
@@ -61,6 +63,7 @@ const ContactPage = () => {
 
     const handleSubmit = () => {
         if(isEmail(email) && name) {
+            setLoading(true);
             sendContactForm(name, email, msg)
                 .then((res) => {
                     if(res?.status === 201) {
@@ -69,9 +72,11 @@ const ContactPage = () => {
                     else {
                         setError(2);
                     }
+                    setLoading(false);
                 })
                 .catch(() => {
                     setError(2);
+                    setLoading(false);
                 });
         }
         else {
@@ -188,10 +193,12 @@ const ContactPage = () => {
                         {error === 1 ? 'Uzupelnij poprawnie wymagane dane' : formErrors[1]}
                     </span> : ''}
 
-                        <button className="btn btn--applicationSubmit" onClick={() => { handleSubmit(); }}>
+                        {!loading ? <button className="btn btn--applicationSubmit" onClick={() => { handleSubmit(); }}>
                             Wyślij wiadomość
                             <img className="img" src={arrow} alt="wyślij" />
-                        </button>
+                        </button> : <div className="center marginTop">
+                            <Loader />
+                        </div>}
                     </div>
                 </div>
             </div>

@@ -15,6 +15,9 @@ import {JwtAuthGuard} from "../common/jwt-auth.guard";
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import { Express } from 'express';
 import {JwtService} from "@nestjs/jwt";
+import {fileExtensionFilter} from "../common/FileExtensionFilter";
+import {diskStorage} from "multer";
+import {FileUploadHelper} from "../common/FileUploadHelper";
 
 @Controller('user')
 export class UserController {
@@ -70,7 +73,13 @@ export class UserController {
         {name: 'bsnNumber', maxCount: 1},
         {name: 'profileImage', maxCount: 1},
         {name: 'attachments', maxCount: 5}
-    ]))
+    ], {
+        fileFilter: fileExtensionFilter,
+        storage: diskStorage({
+            filename: FileUploadHelper.customFileName,
+            destination: './uploads/user'
+        })
+    }))
     updateUser(@UploadedFiles() files: {
         profileImage?: Express.Multer.File[],
         bsnNumber?: Express.Multer.File[],

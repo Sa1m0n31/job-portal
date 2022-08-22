@@ -10,11 +10,13 @@ import {authAgency, getAgencyData, loginAgency} from "../helpers/agency";
 import Cookies from 'universal-cookie';
 import Loader from "../components/Loader";
 import MobileHeader from "../components/MobileHeader";
+import LoggedUserFooter from "../components/LoggedUserFooter";
 
 const LoginPage = ({type}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const [render, setRender] = useState(false);
 
     useEffect(() => {
@@ -71,10 +73,12 @@ const LoginPage = ({type}) => {
 
     const login = (e) => {
         e.preventDefault();
+        setLoading(true);
         if(email && password) {
             const func = type === 0 ? loginUser : loginAgency;
             func(email, password)
                 .then((res) => {
+                    setLoading(false);
                     if(res?.status === 201) {
                         const jwt = res?.data?.access_token;
                         if(jwt) {
@@ -94,6 +98,7 @@ const LoginPage = ({type}) => {
                     }
                 })
                 .catch((err) => {
+                    setLoading(false);
                     if(err?.response?.status === 403) {
                         setError('Aby się zalogować, musisz najpierw aktywować swoje konto');
                     }
@@ -139,11 +144,13 @@ const LoginPage = ({type}) => {
                     {error}
                 </span> : ''}
 
-                <button className="btn btn--login center"
-                        onClick={(e) => { login(e); }}>
+                {!loading ? <button className="btn btn--login center"
+                                    onClick={(e) => { login(e); }}>
                     Zaloguj się
                     <img className="img" src={loginIcon} alt="logowanie" />
-                </button>
+                </button> : <div className="center">
+                    <Loader />
+                </div>}
                 <div className="login__bottom flex">
                     <a href={type === 0 ? "/rejestracja" : "/rejestracja?typ=pracodawca"}>
                         <span className="d-desktop">Nie masz konta?</span> Zarejestruj się
@@ -169,6 +176,8 @@ const LoginPage = ({type}) => {
         <div className="login__right">
             <img className="img" src={type === 0 ? backgroundImg : backgroundImgAgency} alt="logowanie" />
         </div>
+
+        <LoggedUserFooter />
     </div> : <div className="container container--height100 center">
         <Loader />
     </div>

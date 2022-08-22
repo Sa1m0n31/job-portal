@@ -1,24 +1,51 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import magnifier from '../static/img/magnifier.svg'
 import pen from '../static/img/pen-blue.svg'
 import {UserDataContext} from "../pages/UserEditData";
+import CV from "./CV";
+import {getDate} from "../helpers/others";
+import {countries, noInfo} from "../static/content";
+import {PDFDownloadLink} from "@react-pdf/renderer";
 
 const UserFormSummary = () => {
-    const { setStep } = useContext(UserDataContext);
+    const { userData } = useContext(UserDataContext);
 
-    const showCV = () => {
+    const [data, setData] = useState({});
 
-    }
+    useEffect(() => {
+        setData(userData);
+    }, [userData]);
 
     return <div className="userForm userForm--summary">
         <h3 className="userForm--summary__header">
             Twoje wygenerowane CV
         </h3>
         <div className="userForm--summary__buttons flex">
-            <button className="btn btn--userForm" onClick={() => { showCV(); }}>
+            {data?.certificates ? <PDFDownloadLink document={<CV profileImage={data?.profileImageUrl}
+                                                                 fullName={`${data.firstName} ${data.lastName}`}
+                                                                 categories={data.categories}
+                                                                 email={data.email}
+                                                                 birthday={getDate(data?.birthdayDay, data?.birthdayMonth, data?.birthdayYear)}
+                                                                 schools={data.schools}
+                                                                 jobs={data.jobs}
+                                                                 additionalLanguages={data.extraLanguages}
+                                                                 languages={data.languages}
+                                                                 drivingLicence={data.drivingLicenceCategories}
+                                                                 certs={data.certificates.concat(data.courses)}
+                                                                 desc={data.situationDescription}
+                                                                 phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : noInfo}
+                                                                 location={data.country >= 0 ? `${data.city}, ${countries[data.country]}` : noInfo}
+                                                                 currentPlace={data.currentCountry >= 0 ? `${countries[data.currentCountry]}, ${data.currentCity}`: noInfo}
+                                                                 availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : noInfo}
+                                                                 ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}
+                                                                 ownTools={data.ownTools ? 'Tak' : ''}
+                                                                 salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency} netto/${data.salaryType === 0 ? 'mies.' : 'tyg.'}` : noInfo}
+            />}
+                                                   fileName={`CV-${data.firstName}_${data.lastName}.pdf`}
+                                                   className="btn btn--downloadCV">
+                <img className="img" src={magnifier} alt="pobierz" />
                 Podgląd
-                <img className="img" src={magnifier} alt="powieksz" />
-            </button>
+            </PDFDownloadLink> : ''}
             <button className="btn btn--userForm btn--white" onClick={() => { window.location.reload(); }}>
                 Edycja
                 <img className="img" src={pen} alt="edytuj" />
@@ -32,7 +59,7 @@ const UserFormSummary = () => {
             <a className="btn btn--userForm btn--widthAuto" href="/oferty-pracy">
                 Przeglądaj oferty pracy
             </a>
-            <a className="btn btn--userForm btn--widthAuto btn--white" href="/moj-profil">
+            <a className="btn btn--userForm btn--widthAuto btn--white" href="/konto-pracownika">
                 Zobacz mój profil
             </a>
             <a className="btn btn--userForm btn--widthAuto btn--userFormBack" href="/">

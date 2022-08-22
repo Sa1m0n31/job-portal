@@ -9,6 +9,9 @@ import {isEmail, isPasswordStrong} from "../helpers/others";
 import {registerUser} from "../helpers/user";
 import {registerAgency} from "../helpers/agency";
 import Loader from "../components/Loader";
+import MobileHeader from "../components/MobileHeader";
+import Footer from "../components/Footer";
+import LoggedUserFooter from "../components/LoggedUserFooter";
 
 const Register = () => {
     const [loading, setLoading] = useState(false);
@@ -95,6 +98,9 @@ const Register = () => {
 
     return <div className="container container--register center" onClick={() => { setDropdownRoleVisible(false); }}>
         <img className="registerImg" src={background} alt="rejestracja" />
+
+        <MobileHeader back="/" />
+
         {registered ? <AfterRegister type={role} /> : (loading ? <Loader /> : <main className="register">
             <img className="register__logo" src={logo} alt="portal-pracy" />
             <h1 className="register__header">
@@ -140,7 +146,9 @@ const Register = () => {
                 <button className={checkbox ? "checkbox checkbox--selected center" : "checkbox center"} onClick={() => { setCheckbox(!checkbox); }}>
                     <span></span>
                 </button>
-                Akceptuję <a href="/regulamin">Regulamin</a> i postanowienia <a href="/polityka prywatności">Polityki prywatności</a>.
+                <span>
+                    Akceptuję <a href="/regulamin">Regulamin</a> i postanowienia <a href="/polityka prywatności">Polityki prywatności</a>.
+                </span>
             </label>
 
             {error ? <span className="info info--error">
@@ -156,6 +164,8 @@ const Register = () => {
             </a>
             <LoginAndRegisterAside />
         </main>)}
+
+        <LoggedUserFooter />
     </div>
 };
 

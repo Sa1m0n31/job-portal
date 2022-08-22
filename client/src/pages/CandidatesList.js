@@ -122,7 +122,7 @@ const CandidatesList = ({data}) => {
         setBsnNumberVisible(false);
     }
 
-    return <div className="container container--agencyJobOffers" onClick={() => { hideAllDropdowns(); }}>
+    return <div className="container container--agencyJobOffers container--candidatesList" onClick={() => { hideAllDropdowns(); }}>
         <LoggedUserHeader data={data} agency={true} />
 
         {filtersVisible ? <UsersFilters country={country}

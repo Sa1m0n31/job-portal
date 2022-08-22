@@ -6,13 +6,13 @@ import trashIcon from '../static/img/trash.svg'
 import {attachmentsErrors} from "../static/content";
 import Loader from "./Loader";
 
-const UserForm5D = ({submitUserData, removeAttachment, error, loading}) => {
-    const { userData, setSubstep, handleChange } = useContext(UserDataContext);
+const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, removeOldAttachment}) => {
+    const { userData, setSubstep, handleChange, error, loading } = useContext(UserDataContext);
 
     const [attachmentsError, setAttachmentsError] = useState('');
 
     const handleAttachments = (e) => {
-        if(e.target.files.length > 5) {
+        if(e.target.files.length + userData.oldAttachments?.length + userData.attachments.length > 5) {
             e.preventDefault();
             setAttachmentsError(attachmentsErrors[0]);
         }
@@ -42,29 +42,48 @@ const UserForm5D = ({submitUserData, removeAttachment, error, loading}) => {
                       placeholder="Tutaj zamieść opis aktualnej sytuacji: miejsce pobytu, plany na przyszłość, preferowane stanowisko etc." />
         </label>
 
-        <label className="label">
-            Załączniki
-            <p className="label--extraInfo label--extraInfo--marginBottom">
-                Tutaj możesz dodać załączniki do swojego profilu i CV, np. skany certyfikatów czy zdjęcia portfolio.
-            </p>
-            <div className="filesUploadLabel center">
-                {userData?.attachments?.length === 0 ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : ''}
-                <input className="input input--file"
-                       type="file"
-                       multiple={true}
-                       maxLength={5}
-                       onChange={(e) => { handleAttachments(e); }} />
+            <div className="label">
+                Załączniki
+                <p className="label--extraInfo label--extraInfo--marginBottom">
+                    Tutaj możesz dodać załączniki do swojego profilu i CV, np. skany certyfikatów czy zdjęcia portfolio.
+                </p>
+                <label className="filesUploadLabel center">
+                    {userData?.attachments?.length === 0 ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : ''}
+                    <input className="input input--file"
+                           type="file"
+                           multiple={true}
+                           maxLength={5}
+                           onChange={(e) => { handleAttachments(e); }} />
+                </label>
 
-                {Array.from(userData.attachments)?.map((item, index) => {
+                {userData?.oldAttachments?.map((item, index) => {
                     return <div className="filesUploadLabel__item" key={index}>
-                        <button className="removeAttachmentBtn" onClick={(e) => { e.stopPropagation(); removeAttachment(index); }}>
+                        <button className="removeAttachmentBtn" onClick={(e) => { e.preventDefault(); e.stopPropagation(); removeOldAttachment(index, true); }}>
                             <img className="img" src={trashIcon} alt="usun" />
                         </button>
                         <img className="img" src={fileIcon} alt={`file-${index}`} />
+                        <input className="fileName"
+                               onChange={(e) => { changeAttachmentName(index, e.target.value, true); }}
+                               value={item.name}
+                        >
+                        </input>
+                    </div>
+                })}
+
+                {Array.from(userData?.attachments)?.map((item, index) => {
+                    return <div className="filesUploadLabel__item" key={index}>
+                        <button className="removeAttachmentBtn" onClick={(e) => { e.preventDefault(); e.stopPropagation(); removeAttachment(index); }}>
+                            <img className="img" src={trashIcon} alt="usun" />
+                        </button>
+                        <img className="img" src={fileIcon} alt={`file-${index}`} />
+                        <input className="fileName"
+                               onChange={(e) => { changeAttachmentName(index, e.target.value); }}
+                               value={item.name}
+                        >
+                        </input>
                     </div>
                 })}
             </div>
-        </label>
 
         {attachmentsError ? <span className="info info--error">
             {attachmentsError}
@@ -76,24 +95,24 @@ const UserForm5D = ({submitUserData, removeAttachment, error, loading}) => {
                 </button>
                 Wyrażam zgodę na przetwarzanie moich danych osobowych dla potrzeb niezbędnych do realizacji procesu rekrutacji (zgodnie z ustawą z dnia 10 maja 2018 roku o ochronie danych osobowych (Dz. Ustaw z 2018, poz. 1000) oraz zgodnie z Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. w sprawie ochrony osób fizycznych w związku z przetwarzaniem danych osobowych i w sprawie swobodnego przepływu takich danych oraz uchylenia dyrektywy 95/46/WE (RODO).
             </label>
+
+            {error ? <span className="info info--error">
+                {error}
+            </span> : ''}
     </div>
 
     <div className="formBottom flex">
         {loading ? <div className="center">
             <Loader />
         </div> : <>
-            {error ? <span className="info info--error">
-                {error}
-            </span> : <>
-                <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(2); }}>
-                    Wstecz
-                </button>
-                <button className="btn btn--userForm"
-                        disabled={!userData.checkbox}
-                        onClick={() => { submitUserData(userData); }}>
-                    Zakończ
-                </button>
-            </>}
+            <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(2); }}>
+                Wstecz
+            </button>
+            <button className="btn btn--userForm"
+                    disabled={!userData.checkbox}
+                    onClick={() => { submitUserData(userData); }}>
+                Zakończ
+            </button>
         </>}
     </div>
     </>

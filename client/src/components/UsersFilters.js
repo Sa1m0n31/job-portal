@@ -41,7 +41,7 @@ const UsersFilters = ({closeModal, country, city, distance,
     }
 
     return <div className="modal modal--filters modal--filters--users center">
-        <div className="modal__inner">
+        <div className="modal__inner noscroll">
             <button className="modal__inner__closeBtn"
                     onClick={() => { closeModal(); }}
             >
@@ -116,7 +116,7 @@ const UsersFilters = ({closeModal, country, city, distance,
 
             <div className="label drivingLicenceWrapper drivingLicenceWrapper--salary">
                 Finanse
-                <div className="flex flex--start">
+                <div className="flex flex--start jobOfferFilters__salaryType">
                     <label className={salaryType === 1 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                         <button className="checkbox center"
                                 onClick={() => { setSalaryType(1); }}>

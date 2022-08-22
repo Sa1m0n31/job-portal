@@ -10,6 +10,8 @@ const stepsAgency = [
     'Podsumowanie'
 ];
 
+const unsupportedMediaTypeInfo = 'Dozwolone są tylko pliki w następujących formatach: jpg, txt, pages, png, svg, pdf, docx, odt';
+
 const stepsContent = [
     [
         {
@@ -379,6 +381,10 @@ const homeMenu = [
 
 const userMenu = [
     {
+        label: 'Moje konto',
+        link: '/konto-pracownika'
+    },
+    {
         label: 'Aktywne oferty pracy',
         link: '/oferty-pracy'
     },
@@ -393,10 +399,18 @@ const userMenu = [
     {
         label: 'Kontakt',
         link: '/kontakt'
+    },
+    {
+        label: 'Zmień hasło',
+        link: '/zmien-haslo'
     }
 ]
 
 const agencyMenu = [
+    {
+        label: 'Moje konto',
+        link: '/konto-agencji'
+    },
     {
         label: 'Zgłoszenia',
         link: '/zgloszenia'
@@ -407,11 +421,23 @@ const agencyMenu = [
     },
     {
         label: 'Moje oferty błyskawiczne',
-        link: '/moje-oferty-blyskawiczne'
+        link: '/moje-blyskawiczne-oferty-pracy'
+    },
+    {
+        label: 'Dodaj ofertę pracy',
+        link: '/dodaj-oferte-pracy'
+    },
+    {
+        label: 'Dodaj błyskawiczną ofertę pracy',
+        link: '/dodaj-blyskawiczna-oferte-pracy'
     },
     {
         label: 'Kandydaci',
         link: '/kandydaci'
+    },
+    {
+        label: 'Zmień hasło',
+        link: '/zmien-haslo'
     }
 ]
 
@@ -419,5 +445,5 @@ export { steps, stepsContent, stepsMainContent, months, countries, phoneNumbers,
     languageLevels, currencies, categories, attachmentsErrors, flags, stepsAgency, stepsAgencyContent, stepsAgencyMainContent, nipCountries,
     rooms, houses, paymentTypes, pensionType, paycheckFrequency, pensionFrequency, paycheckDay, healthInsuranceOptions, noInfo, contracts,
     jobOfferErrors, myJobOffersFilter, distances, preferableContactForms, privacyPolicy, termsOfService, notificationTitles,
-    homeMenu, userMenu, agencyMenu
+    homeMenu, userMenu, agencyMenu, unsupportedMediaTypeInfo
 }

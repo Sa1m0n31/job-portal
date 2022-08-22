@@ -53,7 +53,7 @@ const updateUser = (data) => {
     formData.append('profileImage', data.profileImage);
     formData.append('bsnNumber', data.bsnNumberDocument);
     for(const att of data.attachments) {
-        formData.append('attachments', att);
+        formData.append('attachments', att.file);
     }
 
     return axios.post('/user/update', formData, config);

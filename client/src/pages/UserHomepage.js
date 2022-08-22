@@ -174,7 +174,8 @@ const UserHomepage = ({data, userId, visible, working}) => {
                                 html={<span className="tooltipVisible">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam molestie ipsum metus. Nullam vitae turpis tellus. Nullam vel gravida nunc, et hendrerit dolor. Integer posuere nisl eu porta cursus.
                                 </span>}
-                                position="left">
+                                position="left"
+                            >
                                 <span className="tooltip">
                                     ?
                                 </span>
@@ -183,8 +184,8 @@ const UserHomepage = ({data, userId, visible, working}) => {
                             Widoczność profilu:
                             <Switch onChange={() => { changeProfileVisibility(); }}
                                     offColor="#CB4949"
-                                    width={window.innerWidth > 996 ? 56 : 28}
-                                    height={window.innerWidth > 996 ? 28 : 14}
+                                    width={window.innerWidth > 996 ? 44 : 22}
+                                    height={window.innerWidth > 996 ? 24 : 12}
                                     checked={profileVisible} />
                         </div>
                         <div className="userAccount__box__right__item">
@@ -201,8 +202,8 @@ const UserHomepage = ({data, userId, visible, working}) => {
                             Pracuję, ale chcę otrzymywać oferty
                             <Switch onChange={() => { changeProfileWorking(); }}
                                     offColor="#CB4949"
-                                    width={window.innerWidth > 996 ? 56 : 28}
-                                    height={window.innerWidth > 996 ? 28 : 14}
+                                    width={window.innerWidth > 996 ? 44 : 22}
+                                    height={window.innerWidth > 996 ? 24 : 12}
                                     checked={userWorking} />
                         </div>
                     </div>
@@ -424,11 +425,13 @@ const UserHomepage = ({data, userId, visible, working}) => {
                 </h3>
                 {data?.attachments?.map((item, index) => {
                     return <a key={index}
-                              href={`${settings.API_URL}/${item}`}
+                              download={`${item.path.replace(`-${item.path.split('-')?.slice(-1)[0]}`, '')}.${item.path.split('.').slice(-1)[0]}`.split('\\').slice(-1)[0]}
+                              target="_blank"
+                              href={`${settings.API_URL}/${item.path}`}
                               className="userAccount__box__attachment">
                         <img className="img img--fileIcon" src={fileIcon} alt="plik" />
                         <span>
-                            Zał. {index+1}
+                            {item.name ? item.name : index+1}
                         </span>
                         <img className="img" src={downloadIcon} alt="download" />
                     </a>

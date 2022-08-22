@@ -206,70 +206,61 @@ export class AgencyService {
         }
     }
 
-    async sortAgencies(sortType, page) {
-        const perPage = parseInt(process.env.OFFERS_PER_PAGE);
+    async sortAgencies(allAgencies, sorting) {
+        // Sorting
+        sorting = parseInt(sorting);
+        if(sorting >= 0) {
+            if (sorting === 0) {
+                // By name
+                return allAgencies.sort((a, b) => {
+                    const aData = JSON.parse(a.data);
+                    const bData = JSON.parse(b.data);
 
-        if(sortType === 0) {
-            // Sort alphabetically
-            const allAgencies = await this.agencyRepository.findBy({
-                accepted: true,
-                active: true
-            });
-
-            return allAgencies.sort((a, b) => {
-                const aName = JSON.parse(a.data).name;
-                const bName = JSON.parse(b.data).name;
-
-                if(aName > bName) return 1;
-                else if(aName < bName) return -1;
-                else {
-                    if(a.id > b.id) return -1;
-                    else return 1;
-                }
-            });
-        }
-        else if(sortType === 1) {
-            // Sort by number of offers (most)
-            const allOffers = await this.offerRepository.find();
-            const allAgencies = await this.agencyRepository.findBy({
-                accepted: true,
-                active: true
-            });
-
-            const getNumberOfOffers = (agency) => {
-                return allOffers.filter((item) => {
-                    return item.agency === agency;
-                }).length;
+                    if (aData.name > bData.name) return 1;
+                    else return -1;
+                });
             }
+            else {
+                // By number of offers
+                const allOffers = await this.offerRepository.find();
 
-            // Add number of offers to each agency
-            const agenciesWithNumberOfOffers = await allAgencies.map((item) => {
-                return {
-                    ...item,
-                    offers: getNumberOfOffers(item.id)
+                const getNumberOfOffersByAgency = (agency) => {
+                    return allOffers.filter((item) => (item.agency === agency)).length;
                 }
-            });
 
-            // Sort by number of offers
-            const sortedAgencies = agenciesWithNumberOfOffers.sort((a, b) => {
-                if(a.offers > b.offers) return 1;
-                else if(a.offers < b.offers) return -1;
+                if (sorting === 1) {
+                    // Most
+                    return allAgencies.sort((a, b) => {
+                        const aOffers = getNumberOfOffersByAgency(a.id);
+                        const bOffers = getNumberOfOffersByAgency(b.id);
+
+                        if (aOffers < bOffers) return 1;
+                        else return -1;
+                    });
+                } else if (sorting === 2) {
+                    // Least
+                    return allAgencies.sort((a, b) => {
+                        const aOffers = getNumberOfOffersByAgency(a.id);
+                        const bOffers = getNumberOfOffersByAgency(b.id);
+
+                        if (aOffers > bOffers) return 1;
+                        else return -1;
+                    });
+                }
                 else {
-                    if(a.id > b.id) return -1;
-                    else return 1;
+                    return allAgencies;
                 }
-            });
-
-            const startIndex = perPage * (page-1);
-            return sortedAgencies.slice(startIndex, startIndex + perPage);
+            }
         }
         else {
-            // Sort by number of offers (least)
+            return allAgencies;
         }
     }
 
     async filterAgencies(body) {
-        const { country, distance, city, page } = body;
+        let { country, distance, city, sorting, page } = body;
+
+        console.log(page);
 
         const distances = [
             100, 50, 40, 30, 20, 10, 5
@@ -278,10 +269,12 @@ export class AgencyService {
 
         if(city) {
             // Get all agencies
-            const allAgencies = await this.agencyRepository.findBy({
+            let allAgencies = await this.agencyRepository.findBy({
                 accepted: true,
                 active: true
             });
+
+            allAgencies = await this.sortAgencies(allAgencies, sorting);
 
             let filteredAgencies;
             if(country !== null && country !== undefined && country !== -1) {
@@ -344,13 +337,15 @@ export class AgencyService {
         }
         else if(country !== null && country !== undefined && country !== -1) {
             // Filter by country
-            const allAgencies = await this.agencyRepository
+            let allAgencies = await this.agencyRepository
                 .createQueryBuilder()
                 .where({
                     active: true,
                     accepted: true
                 })
                 .getMany();
+
+            allAgencies = await this.sortAgencies(allAgencies, sorting);
 
             const startIndex = offersPerPage * (page-1);
             return allAgencies.filter((item) => {
@@ -359,15 +354,18 @@ export class AgencyService {
         }
         else {
             // Return all
-            return this.agencyRepository
+            let allAgencies = await this.agencyRepository
                 .createQueryBuilder()
                 .where({
                     active: true,
                     accepted: true
                 })
-                .limit(offersPerPage)
-                .offset((page-1) * offersPerPage)
                 .getMany();
+
+            allAgencies = await this.sortAgencies(allAgencies, sorting);
+
+            const startIndex = offersPerPage * (page-1);
+            return allAgencies.slice(startIndex, startIndex + offersPerPage);
         }
     }
 

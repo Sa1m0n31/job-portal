@@ -299,15 +299,16 @@ const SingleFastOffer = () => {
                     </h3>
                     <div className="jobOffer__section__text jobOffer__section__text--attachments">
                         {offer.a_data ? JSON.parse(offer.o_attachments)?.map((item, index) => {
-                            return <a href={`${settings.API_URL}/${item.path}`}
-                                      download
-                                      target="_blank"
-                                // download={`${item.path.replace(`-${item.path.split('-')?.slice(-1)[0]}`, '')}.${item.path.split('.').slice(-1)[0]}`.split('\\').slice(-1)[0]}
-                                      key={index}
-                                      className="jobOffer__attachmentBtn">
-                                <img className="img" src={downloadIcon} alt="pobierz" />
-                                {item.name}
-                            </a>
+                            if(item.path) {
+                                return <a href={`${settings.API_URL}/${item.path}`}
+                                          target="_blank"
+                                          download={`${item.path.replace(`-${item.path.split('-')?.slice(-1)[0]}`, '')}.${item.path.split('.').slice(-1)[0]}`.split('\\').slice(-1)[0]}
+                                          key={index}
+                                          className="jobOffer__attachmentBtn">
+                                    <img className="img" src={downloadIcon} alt="pobierz" />
+                                    {item.name ? item.name : index+1}
+                                </a>
+                            }
                         }) : ''}
                     </div>
                 </div> : ''}

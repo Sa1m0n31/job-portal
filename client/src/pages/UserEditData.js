@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import logo from '../static/img/logo-biale.png'
 import backArrow from '../static/img/back-arrow-grey.svg'
 import homeIcon from '../static/img/home-icon.svg'
-import {formErrors, steps, stepsContent, stepsMainContent} from "../static/content";
+import {formErrors, steps, stepsContent, stepsMainContent, unsupportedMediaTypeInfo} from "../static/content";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import UserForm1 from "../components/UserForm1";
 import UserForm2 from "../components/UserForm2";
@@ -74,6 +74,7 @@ const UserEditData = () => {
         // 5.3 Additional info
         situationDescription: '',
         attachments: [],
+        oldAttachments: [],
         checkbox: false,
         // 5.4 Additional info
         friendLink: ''
@@ -175,7 +176,9 @@ const UserEditData = () => {
                     setCurrentForm(<UserForm5D submitUserData={submitUserData}
                                                loading={loading}
                                                error={error}
+                                               changeAttachmentName={changeAttachmentName}
                                                removeAttachment={removeAttachment}
+                                               removeOldAttachment={removeOldAttachment}
                     />);
                 }
                 break;
@@ -186,14 +189,6 @@ const UserEditData = () => {
                 break;
         }
     }, [step, substep]);
-
-    useEffect(() => {
-        if(error) {
-            setTimeout(() => {
-                setError('');
-            }, 3000);
-        }
-    }, [error]);
 
     useEffect(() => {
         setUserData(prevState => ({
@@ -210,11 +205,61 @@ const UserEditData = () => {
                         profileImage: null,
                         profileImageUrl: data.profileImage ? `${settings.API_URL}/${data.profileImage}` : null,
                         bsnNumberDocument: data.bsnNumberDocument ? data.bsnNumberDocument : null,
-                        attachments: data.attachments ? data.attachments : []
+                        oldAttachments: data.attachments ? data.attachments : [],
+                        attachments: []
                     });
                 }
             });
     }, []);
+
+    useEffect(() => {
+        console.log(userData.attachments);
+        console.log(userData.oldAttachments);
+    }, [userData]);
+
+    const changeAttachmentName = (i, val, old = false) => {
+        if(old) {
+            setUserData(prevState => ({
+                ...prevState,
+                oldAttachments: prevState.oldAttachments.map((item, index) => {
+                    if(index === i) {
+                        return {
+                            name: val,
+                            path: item.path
+                        }
+                    }
+                    else {
+                        return item;
+                    }
+                })
+            }));
+        }
+        else {
+            setUserData(prevState => ({
+                ...prevState,
+                attachments: prevState.attachments.map((item, index) => {
+                    if(index === i) {
+                        return {
+                            name: val,
+                            file: item.file
+                        }
+                    }
+                    else {
+                        return item;
+                    }
+                })
+            }));
+        }
+    }
+
+    useEffect(() => {
+        if(window.innerWidth < 996) {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    }, [step, substep]);
 
     const submitUserData = async (userData) => {
         setLoading(true);
@@ -233,7 +278,12 @@ const UserEditData = () => {
             }
         }
         catch(err) {
-            setError(formErrors[1]);
+            if(err?.response?.status === 415) {
+                setError(unsupportedMediaTypeInfo);
+            }
+            else {
+                setError(formErrors[1]);
+            }
             setLoading(false);
         }
     }
@@ -275,6 +325,15 @@ const UserEditData = () => {
         setUserData(prevState => ({
             ...prevState,
             attachments: Array.from(prevState.attachments).filter((item, index) => {
+                return i !== index;
+            })
+        }))
+    }
+
+    const removeOldAttachment = (i) => {
+        setUserData(prevState => ({
+            ...prevState,
+            oldAttachments: Array.from(prevState.oldAttachments).filter((item, index) => {
                 return i !== index;
             })
         }))
@@ -544,7 +603,12 @@ const UserEditData = () => {
         if(field === 'attachments') {
             setUserData(prevState => ({
                 ...prevState,
-                attachments: Array.from(value)
+                attachments: [...prevState.attachments, Array.from(value).map((item) => {
+                    return {
+                        name: item.name,
+                        file: item
+                    }
+                })].flat()
             }));
             return 0;
         }
@@ -585,7 +649,7 @@ const UserEditData = () => {
         setStep, setSubstep, daysVisible, monthsVisible, yearsVisible, countriesVisible, phoneNumbersCountriesVisible,
         educationVisible,
         levelsVisible, drivingLicenceVisible,
-        bsnVisible,
+        bsnVisible, error, loading,
         categoriesVisible, currenciesVisible,
         userData, handleChange
     }}>
@@ -616,7 +680,7 @@ const UserEditData = () => {
                 </div>
             </div>
 
-            <MobileHeader back="/" />
+            <MobileHeader back={true} backFunction={prevStep} />
 
             <main className="editData__main">
                 <header className="editData__main__header flex">

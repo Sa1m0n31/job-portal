@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import userPlaceholder from '../static/img/user-placeholder.svg'
 import location from '../static/img/location.svg'
 import nipIcon from '../static/img/info-icon.svg'

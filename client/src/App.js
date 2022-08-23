@@ -19,7 +19,7 @@ import SetNewPassword from "./pages/SetNewPassword";
 import ChangePassword from "./pages/ChangePassword";
 import SingleOffer from "./pages/SingleOffer";
 import SingleFastOffer from "./pages/SingleFastOffer";
-import AgencyProfile from "./pages/AgencyProfile";
+import "/node_modules/flag-icons/css/flag-icons.min.css";
 import CandidateProfile from "./pages/CandidateProfile";
 
 const LanguageContext = React.createContext(null);

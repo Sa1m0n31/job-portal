@@ -438,7 +438,7 @@
     }
 
     .container--home .languageSwitcher .arrowDown {
-        filter: brightness(.4);
+        /*filter: brightness(.4);*/
     }
 
     .home__header__menu__item {
@@ -2402,11 +2402,27 @@
         height: 75px;
         margin-right: 20px;
     }
+
+    .loggedUserFooter .languageSwitcher__currentLang {
+        transform: translate(8%, 30%);
+    }
 }
 
 @media(max-width: 768px) {
     .editData__formWrapper__header {
         font-size: 18px;
+    }
+
+    .modal--languages .fi {
+        height: 25px;
+    }
+
+    .languages__btn {
+        width: 40px;
+    }
+
+    .languages {
+        justify-content: flex-start;
     }
 
     .form__school > .deleteSchoolBtn {

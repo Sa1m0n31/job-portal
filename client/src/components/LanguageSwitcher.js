@@ -2,6 +2,8 @@ import React, {useContext, useEffect, useState} from 'react';
 import poland from '../static/img/poland.svg'
 import {LanguageContext} from "../App";
 import arrowDown from '../static/img/arrow-down.svg'
+import LanguagePopup from "./LanguagePopup";
+import {languageVersions} from "../static/content";
 
 const languages = [
     {
@@ -25,32 +27,23 @@ const LanguageSwitcher = ({horizontal}) => {
     const [languagesVisible, setLanguagesVisible] = useState(false);
 
     useEffect(() => {
+        console.log(language);
         localStorage.setItem('lang', language);
         setLanguagesVisible(false);
-        setCurrentLanguage(languages.findIndex((item) => {
-            return item.code === language;
+        setCurrentLanguage(languageVersions.findIndex((item) => {
+            return item === language;
         }));
     }, [language]);
 
     return <div className={horizontal ? "languageSwitcher languageSwitcher--horizontal" : "languageSwitcher"}>
         {currentLanguage >= 0 ?  <button className="languageSwitcher__currentLang flex"
                                          onClick={() => { !languagesVisible ? setLanguagesVisible(true) : setLanguagesVisible(false); }}>
-            <img className="img" src={languages[currentLanguage].flag} alt={languages[currentLanguage].code} />
-            {languages[currentLanguage].code}
+            <span className={`fi fi-${languageVersions[currentLanguage].toLowerCase()}`}></span>
+            {languageVersions[currentLanguage]}
             <img className="arrowDown" src={arrowDown} alt="rozwiń" />
         </button> : ''}
-        {languagesVisible ? <div className="languageSwitcher__languages">
-            {languages.map((item, index) => {
-                if(index !== currentLanguage) {
-                    return <button key={index}
-                                   className="languageSwitcher__btn flex"
-                                   onClick={() => { setLanguage(languages[index].code); }}>
-                            <img className="img" src={item.flag} alt={item.code} />
-                        {item.code}
-                    </button>
-                }
-            })}
-        </div> : ''}
+
+        {languagesVisible ? <LanguagePopup closeModal={() => { setLanguagesVisible(false); }} /> : ''}
     </div>
 };
 

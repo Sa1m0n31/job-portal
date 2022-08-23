@@ -441,9 +441,15 @@ const agencyMenu = [
     }
 ]
 
+const languageVersions = [
+    'BG', 'HR', 'CZ', 'DK', 'DE', 'GB', 'EE', 'FI', 'FR', 'NL',
+    'GR', 'HU', 'IT', 'LV', 'LT', 'MT', 'PL', 'PT', 'RO', 'SK',
+    'SI', 'ES', 'SE', 'NO', 'UA', 'TR', 'BY'
+]
+
 export { steps, stepsContent, stepsMainContent, months, countries, phoneNumbers, formErrors, educationLevels, languages, drivingLicences,
     languageLevels, currencies, categories, attachmentsErrors, flags, stepsAgency, stepsAgencyContent, stepsAgencyMainContent, nipCountries,
     rooms, houses, paymentTypes, pensionType, paycheckFrequency, pensionFrequency, paycheckDay, healthInsuranceOptions, noInfo, contracts,
     jobOfferErrors, myJobOffersFilter, distances, preferableContactForms, privacyPolicy, termsOfService, notificationTitles,
-    homeMenu, userMenu, agencyMenu, unsupportedMediaTypeInfo
+    homeMenu, userMenu, agencyMenu, unsupportedMediaTypeInfo, languageVersions
 }

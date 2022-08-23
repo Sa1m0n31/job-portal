@@ -398,6 +398,10 @@ input {
     color: #fff;
 }
 
+.container--home .languageSwitcher .modal * {
+    color: #000;
+}
+
 .container--home .languageSwitcher .arrowDown {
     filter: brightness(0) invert(1);
 }
@@ -5249,4 +5253,42 @@ a.preview__bottom__content {
 }
 .modal__inner::-webkit-scrollbar-corner {
     background: transparent;
+}
+
+.modal--languages .modal__inner {
+    height: 300px;
+    min-height: 300px;
+    overflow: hidden;
+}
+
+.languageSwitcher .fi {
+    margin-right: 7px;
+}
+
+.modal--languages .fi {
+    margin-right: 7px;
+    display: block;
+    background-size: 100% !important;
+    width: 100% !important;
+    height: 35px;
+}
+
+.languages {
+    flex-wrap: wrap;
+}
+
+.languages__btn {
+    width: 50px;
+    background: transparent;
+    margin: 0 10px 20px;
+    opacity: .75;
+    transition: .2s all;
+}
+
+.languages__btn:hover {
+    opacity: 1;
+}
+
+.loggedUserFooter .languageSwitcher__currentLang {
+    transform: translate(8%, 0);
 }

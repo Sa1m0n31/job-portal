@@ -1,11 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import backgroundImg from '../static/img/background.png'
-import logo from '../static/img/logo-biale.png'
-import userIcon from '../static/img/user-in-circle.svg'
-import playIcon from '../static/img/play.svg'
-import smallArrowIcon from '../static/img/small-arrow.svg'
-import smallWhiteArrowIcon from '../static/img/small-white-arrow.svg'
-import LanguageSwitcher from "../components/LanguageSwitcher";
+import turkey from '../static/img/turkey.svg'
 import {authUser, getUserData} from "../helpers/user";
 import {authAgency, getAgencyData} from "../helpers/agency";
 import Cookies from "universal-cookie";

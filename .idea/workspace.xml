@@ -23,40 +23,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06c2c867-885a-4984-820a-27e97dc3ed90" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/components/LanguagePopup.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/static/img/turkey.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/JobOffersFilters.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/JobOffersFilters.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/LoggedUserHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/LoggedUserHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/MobileHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/MobileHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm4b.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm4b.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm5d.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm5d.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserFormSummary.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserFormSummary.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserPreview.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserPreview.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UsersFilters.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UsersFilters.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/agency.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/agency.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/AgenciesList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgenciesList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyApplications.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyApplications.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/ApplicationForJobPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/ApplicationForJobPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/CandidateProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/CandidateProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/CandidatesList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/CandidatesList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/ContactPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/ContactPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/FastJobOffersList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/FastJobOffersList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/JobOffersList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/JobOffersList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/LoginPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/MessageList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/MessageList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/RemindPassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/RemindPassword.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/SingleFastOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SingleFastOffer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/UserEditData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/UserEditData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/UserHomepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/UserHomepage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/LanguageSwitcher.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/LanguageSwitcher.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/Homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Homepage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/content.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/content.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/agency/agency.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/agency/agency.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/common/FileExtensionFilter.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/common/FileExtensionFilter.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/user/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/user/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +62,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../annavinbotti" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/client/src/static/img" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -139,7 +116,7 @@
       <workItem from="1660917354572" duration="661000" />
       <workItem from="1660935107570" duration="15571000" />
       <workItem from="1660955822318" duration="35660000" />
-      <workItem from="1661180003931" duration="19587000" />
+      <workItem from="1661180003931" duration="23355000" />
     </task>
     <servers />
   </component>
@@ -196,18 +173,18 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1143" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659037306310" />
-    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1661204274831">
+    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1661211587454">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661204274831" />
+    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661211587454" />
     <state x="-1304" y="240" key="run.anything.popup" timestamp="1661183038793">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661183038793" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1661209137380">
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1661212082016">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661209137380" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661212082016" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import './static/style/style.css'
 import './static/style/mobile.css'
 import Homepage from "./pages/Homepage";
@@ -10,8 +10,6 @@ import UserWrapper from "./components/UserWrapper";
 import AgencyWrapper from "./components/AgencyWrapper";
 import TextPage from "./pages/TextPage";
 import {privacyPolicy, termsOfService} from "./static/content";
-import {Text} from "@react-pdf/renderer";
-import GoogleTranslate from "./components/GoogleTranslate";
 import Notifications from "./pages/Notifications";
 import ContactPage from "./pages/ContactPage";
 import RemindPassword from "./pages/RemindPassword";
@@ -21,13 +19,29 @@ import SingleOffer from "./pages/SingleOffer";
 import SingleFastOffer from "./pages/SingleFastOffer";
 import "/node_modules/flag-icons/css/flag-icons.min.css";
 import CandidateProfile from "./pages/CandidateProfile";
+import {getSiteContent} from "./helpers/translation";
 
 const LanguageContext = React.createContext(null);
 
 function App() {
   const [language, setLanguage] = useState(localStorage.getItem('lang') ? localStorage.getItem('lang') : 'PL');
+  const [c, setC] = useState({});
 
-  return <LanguageContext.Provider value={{language, setLanguage}}>
+  useEffect(() => {
+    getSiteContent()
+        .then((res) => {
+          console.log(res?.data);
+          if(res?.data?.length) {
+            setC(res.data.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), {}));
+          }
+        });
+  }, []);
+
+  useEffect(() => {
+    console.log(c);
+  }, [c]);
+
+  return <LanguageContext.Provider value={{language, setLanguage, c}}>
     <Router>
       {/* PUBLIC ROUTES */}
       <Route exact path="/">

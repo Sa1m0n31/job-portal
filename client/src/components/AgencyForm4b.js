@@ -1,30 +1,32 @@
 import React, {useContext} from 'react';
-import {countries, currencies, houses, nipCountries, paymentTypes, phoneNumbers, rooms} from "../static/content";
+import {currencies} from "../static/content";
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
 import {AgencyDataContext} from "../pages/AgencyEditData";
 import upArrow from '../static/img/input-up-arrow.svg'
 import downArrow from '../static/img/input-down-arrow.svg'
+import {LanguageContext} from "../App";
 
 const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, setBikeCurrencyVisible, setTransportCostReturnVisible}) => {
     const { setSubstep, agencyData, handleChange, carVisible,
         carCurrencyVisible, bikeVisible, bikeCurrencyVisible, transportCostReturnVisible
     } = useContext(AgencyDataContext);
+    const { c } = useContext(LanguageContext);
 
     return <>
         <div className="userForm userForm--4a userForm--4a--agency userForm--4b--agency">
             <div className="label label--date label--date--address">
-                Samochód służbowy
+                {c.car}
                 <div className="flex">
                     <div className="label--date__input label--date__input--country">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation();
                                 setCarVisible(!carVisible); }}
                         >
-                            {agencyData.car !== null ? paymentTypes[agencyData.car] : 'Wybierz'}
+                            {agencyData.car !== null && c.paymentTypes ? JSON.parse(c.paymentTypes)[agencyData.car] : c.choose}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {carVisible ? <div className="datepickerDropdown noscroll">
-                            {paymentTypes?.map((item, index) => {
+                            {JSON.parse(c.paymentTypes)?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
                                                onClick={(e) => { handleChange('car', index); }}>
                                     {item}
@@ -69,24 +71,24 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
                         </div> : ''}
                     </div>
                     <span className="carAndBikePriceInfo">
-                        miesięcznie
+                        {c.monthly}
                     </span>
                 </div>
             </div>
 
             <div className="label label--date label--date--address">
-                Rower
+                {c.bike}
                 <div className="flex">
                     <div className="label--date__input label--date__input--country">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation();
                                     setBikeVisible(!bikeVisible); }}
                         >
-                            {agencyData.bike !== null ? paymentTypes[agencyData.bike] : 'Wybierz'}
+                            {agencyData.bike !== null && c.paymentTypes ? JSON.parse(c.paymentTypes)[agencyData.bike] : c.choose}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {bikeVisible ? <div className="datepickerDropdown noscroll">
-                            {paymentTypes?.map((item, index) => {
+                            {JSON.parse(c.paymentTypes)?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
                                                onClick={(e) => { handleChange('bike', index); }}>
                                     {item}
@@ -131,24 +133,24 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
                         </div> : ''}
                     </div>
                     <span className="carAndBikePriceInfo">
-                        miesięcznie
+                        {c.monthly}
                     </span>
                 </div>
 
                 <div className="label drivingLicenceWrapper">
-                    Zwrot kosztów przy własnym transporcie
+                    {c.costReturnWithOwnTransport}
                     <div className="flex flex--start">
                         <div className="label--date__input label--date__input--bool label--date__input--drivingLicence">
                             <button className="datepicker datepicker--country"
                                     onClick={(e) => { e.stopPropagation(); setTransportCostReturnVisible(!transportCostReturnVisible); }}
                             >
-                                {agencyData.costReturnWithOwnTransport ? 'Tak' : 'Nie'}
+                                {agencyData.costReturnWithOwnTransport ? c.yes : c.no}
                                 <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                             </button>
                             {transportCostReturnVisible ? <div className="datepickerDropdown noscroll">
                                 <button className="datepickerBtn center"
                                         onClick={() => { setTransportCostReturnVisible(false); handleChange('costReturnWithOwnTransport', !agencyData.costReturnWithOwnTransport); }}>
-                                    {agencyData.costReturnWithOwnTransport ? 'Nie' : 'Tak'}
+                                    {agencyData.costReturnWithOwnTransport ? c.no : c.yes}
                                 </button>
                             </div> : ''}
                         </div>
@@ -158,10 +160,10 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
         </div>
         <div className="formBottom flex">
             <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(0); }}>
-                Wstecz
+                {c.back}
             </button>
             <button className="btn btn--userForm" onClick={() => { setSubstep(2); }}>
-                Dalej
+                {c.next}
             </button>
         </div>
     </>

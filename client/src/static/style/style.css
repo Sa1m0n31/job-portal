@@ -921,6 +921,11 @@ input {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    flex-wrap: wrap;
+}
+
+.datepickerDropdown--phoneNumbers .datepickerBtn {
+    max-width: 75px;
 }
 
 .datepickerDropdown--phoneNumbers .datepickerBtn::after {

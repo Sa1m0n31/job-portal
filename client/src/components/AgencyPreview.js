@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import userPlaceholder from '../static/img/user-placeholder.svg'
 import location from '../static/img/location.svg'
 import nipIcon from '../static/img/info-icon.svg'
@@ -6,11 +6,13 @@ import phoneIcon from '../static/img/phone-grey.svg'
 import mailIcon from '../static/img/message-grey.svg'
 import websiteIcon from '../static/img/www-icon.svg'
 import settings from "../static/settings";
-import {countries} from "../static/content";
 import eyeIcon from '../static/img/eye-icon.svg'
 import messageIcon from '../static/img/message-empty.svg'
+import {LanguageContext} from "../App";
 
 const AgencyPreview = ({i, id, data}) => {
+    const { c } = useContext(LanguageContext);
+
     return data ? <div className="preview preview--agency flex" key={i}>
         <div className="preview__left">
             <figure className="preview__profileImage">
@@ -25,18 +27,18 @@ const AgencyPreview = ({i, id, data}) => {
                     <a className="btn btn--white"
                        href={`/napisz-wiadomosc?agencja=${id}`}>
                         <img className="img" src={messageIcon} alt="wiadomość" />
-                        Napisz
+                        {c.write}
                     </a>
                     <a className="btn btn--white"
                        href={`/profil-agencji?id=${id}`}>
                         <img className="img" src={eyeIcon} alt="profil" />
-                        Zobacz profil
+                        {c.seeProfile}
                     </a>
                 </div>
 
                 {data.address || data.postalCode || data.city || data.country ? <p className="preview__data">
                     <img className="img" src={location} alt="lokalizacja" />
-                    {data.address ? data.address + ',' : ''} {data.postalCode ? data.postalCode : ''} {data.city}{data.country !== null && data.country !== undefined ? ', ' + countries[data.country] : ''}
+                    {data.address ? data.address + ',' : ''} {data.postalCode ? data.postalCode : ''} {data.city}{data.country !== null && data.country !== undefined && c.countries ? ', ' + JSON.parse(c.countries)[data.country] : ''}
                 </p> : ''}
 
                 {data.nip ? <p className="preview__data preview__data--nip">
@@ -65,12 +67,12 @@ const AgencyPreview = ({i, id, data}) => {
             <a className="btn btn--white"
                href={`/napisz-wiadomosc?agencja=${id}`}>
                 <img className="img" src={messageIcon} alt="wiadomość" />
-                Napisz
+                {c.write}
             </a>
             <a className="btn btn--white"
                href={`/profil-agencji?id=${id}`}>
                 <img className="img" src={eyeIcon} alt="profil" />
-                Zobacz profil
+                {c.seeProfile}
             </a>
         </div>
     </div> : ''

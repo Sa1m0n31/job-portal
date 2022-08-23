@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import turkey from '../static/img/turkey.svg'
 import {authUser, getUserData} from "../helpers/user";
 import {authAgency, getAgencyData} from "../helpers/agency";
-import Cookies from "universal-cookie";
 import Loader from "../components/Loader";
-import GoogleTranslate from "../components/GoogleTranslate";
 import AdsSection from "../components/AdsSection";
 import HomeBenefits from "../components/HomeBenefits";
 import Partners from "../components/Partners";

@@ -1,14 +1,14 @@
 import React, {useContext, useState} from 'react';
-import {attachmentsErrors, countries, nipCountries, phoneNumbers} from "../static/content";
-import dropdownArrow from "../static/img/dropdown-arrow.svg";
+import {attachmentsErrors} from "../static/content";
 import {AgencyDataContext} from "../pages/AgencyEditData";
 import plusIcon from "../static/img/plus-icon-opacity.svg";
 import trashIcon from "../static/img/trash.svg";
-import fileIcon from "../static/img/doc.svg";
 import settings from "../static/settings";
+import {LanguageContext} from "../App";
 
 const AgencyForm2 = ({removeLogo, handleFileUpload, removeGalleryImage}) => {
     const { setStep, agencyData, handleChange } = useContext(AgencyDataContext);
+    const { c } = useContext(LanguageContext);
 
     const [galleryError, setGalleryError] = useState('');
 
@@ -33,9 +33,9 @@ const AgencyForm2 = ({removeLogo, handleFileUpload, removeGalleryImage}) => {
     return <>
         <div className="userForm userForm--1 userForm--2--agency">
             <div className="label">
-                Logo
+                {c.logo}
                 <p className="label--extraInfo label--extraInfo--marginBottom">
-                    Załącz logo lub znak firmowy. Zalecane wymiary to 250x 250px.
+                    {c.logoDescription}
                 </p>
                 <div className={!agencyData?.logoUrl ? "filesUploadLabel center" : "filesUploadLabel filesUploadLabel--noBorder center"}>
                     {!agencyData.logoUrl ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : <div className="filesUploadLabel__profileImage">
@@ -52,20 +52,19 @@ const AgencyForm2 = ({removeLogo, handleFileUpload, removeGalleryImage}) => {
             </div>
 
             <div className="label">
-                Galeria zdjęć
+                {c.gallery}
                 <p className="label--extraInfo label--extraInfo--marginBottom">
-                    Możesz wgrać kilka zdjęć prezentujących Twoją firme: jej wnętrze, pracowników, sposób pracy itd. Maksymalna liczba zdjęć to 15.
+                    {c.galleryDescription}
                 </p>
                 <div className="filesUploadLabel center">
                     {agencyData?.gallery?.length === 0 ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : ''}
                     <input className="input input--file"
                            type="file"
                            multiple={true}
-                           maxLength={10}
+                           maxLength={15}
                            onChange={(e) => { handleGallery(e); }} />
 
                     {Array.from(agencyData?.gallery)?.map((item, index) => {
-                        console.log(item);
                         return <div className="filesUploadLabel__item" key={index}>
                             <button className="removeAttachmentBtn" onClick={(e) => { e.stopPropagation();
                             removeGalleryImage(index); }}>
@@ -78,22 +77,22 @@ const AgencyForm2 = ({removeLogo, handleFileUpload, removeGalleryImage}) => {
             </div>
 
             <label className="label label--rel">
-                Opis firmy
+                {c.companyDescription}
                 <span className="letterCounter">
                 {agencyData?.description?.length} / 1000
             </span>
                 <textarea className="input input--textarea input--situation"
                           value={agencyData.description}
                           onChange={(e) => { handleDescriptionChange(e); }}
-                          placeholder="Tutaj zamieść opis firmy: historia, cele, przesłanie, charakterystyka, czym firma się wyróżnia etc." />
+                          placeholder={c.companyDescriptionPlaceholder} />
             </label>
         </div>
         <div className="formBottom flex">
             <button className="btn btn--userForm btn--userFormBack" onClick={() => { setStep(0); }}>
-                Wstecz
+                {c.back}
             </button>
             <button className="btn btn--userForm" onClick={() => { setStep(2); }}>
-                Dalej
+                {c.next}
             </button>
         </div>
     </>

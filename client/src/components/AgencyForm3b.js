@@ -5,10 +5,11 @@ import fbIcon from '../static/img/facebook-icon.svg'
 import instagramIcon from '../static/img/instagram-icon.svg'
 import ytIcon from '../static/img/youtube-icon.svg'
 import linkedinIcon from '../static/img/linedin-icon.svg'
+import {LanguageContext} from "../App";
 
 const AgencyForm3b = () => {
     const { setStep, setSubstep, agencyData, handleChange } = useContext(AgencyDataContext);
-
+    const { c } = useContext(LanguageContext);
 
     return <>
         <div className="userForm userForm--3a userForm--3b--agency">
@@ -16,7 +17,7 @@ const AgencyForm3b = () => {
                 <figure className="socialMediaIconWrapper">
                     <img className="socialMediaIcon" src={wwwIcon} alt="www" />
                 </figure>
-                Strona www
+                {c.website}
                 <input className="input"
                        value={agencyData.website}
                        onChange={(e) => { handleChange('website', e.target.value); }} />
@@ -60,10 +61,10 @@ const AgencyForm3b = () => {
         </div>
         <div className="formBottom flex">
             <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(0); }}>
-                Wstecz
+                {c.back}
             </button>
             <button className="btn btn--userForm" onClick={() => { setSubstep(0); setStep(3); }}>
-                Dalej
+                {c.next}
             </button>
         </div>
     </>

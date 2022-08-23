@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useState} from 'react';
-import arrow from '../static/img/gallery-arrow.svg'
 import Slider from 'react-slick'
 import settings from '../static/settings'
 
@@ -24,8 +23,6 @@ const Gallery = ({images, index, setIndex}) => {
                setIndex(-1);
            }
         });
-
-        console.log(sliderGalleryRef);
 
         if(sliderGalleryRef?.current) {
             sliderGalleryRef.current.slickGoTo(index);

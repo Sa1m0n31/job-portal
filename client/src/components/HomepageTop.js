@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useContext, useRef, useState} from 'react';
 import backgroundImg from "../static/img/background.png";
 import logo from "../static/img/logo-biale.png";
 import userIcon from "../static/img/user-in-circle.svg";
@@ -9,10 +9,13 @@ import smallWhiteArrowIcon from "../static/img/small-white-arrow.svg";
 import ModalVideo from 'react-modal-video'
 import menuIcon from '../static/img/burger-menu.svg'
 import MobileMenu from "./MobileMenu";
+import {LanguageContext} from "../App";
 
 const HomepageTop = () => {
     const [video1, setVideo1] = useState(false);
     const [video2, setVideo2] = useState(false);
+
+    const { c } = useContext(LanguageContext);
 
     const mobileMenu = useRef(null);
 
@@ -51,22 +54,22 @@ const HomepageTop = () => {
             {/* DESKTOP */}
             <div className="home__header__menu flex d-700">
                 <a className="home__header__menu__item" href="/">
-                    Strona główna
+                    {c.homepage}
                 </a>
                 <a className="home__header__menu__item"
                    href="#funkcje">
-                    Funkcje portalu
+                    {c.appFunctions}
                 </a>
                 <a className="home__header__menu__item" href="#partnerzy">
-                    Partnerzy
+                    {c.partners}
                 </a>
                 <a className="home__header__menu__item" href="/kontakt">
-                    Kontakt
+                    {c.contact}
                 </a>
             </div>
             <a className="btn btn--quickLogin center" href="/strefa-pracownika">
                 <img className="img" src={userIcon} alt="logowanie" />
-                Szybkie logowanie
+                {c.quickLogin}
             </a>
             <div className="d-700">
                 <LanguageSwitcher homepage={true} />
@@ -83,66 +86,60 @@ const HomepageTop = () => {
             </div>
         </header>
         <h1 className="home__h1">
-            Platforma łącząca pracownika z pracodawcą na równych zasadach
+            {c.homepageH1}
         </h1>
         <div className="home__content flex">
             <h2 className="home__h2">
-                Zarejestruj się, aby mieć dostęp do <span className="bold">bezpośrednich ofert pracy i kandydatów</span> na lata:
+                {c.homepageH21} <span className="bold">{c.homepageH22}</span> {c.homepageH23}:
             </h2>
             <div className="home__zone">
-                <h3 className="home__zone__header">
-                    Strefa
-                    <span>
-                        Pracownika
-                    </span>
+                <h3 dangerouslySetInnerHTML={{__html: c.userZoneHtml}} className="home__zone__header">
+
                 </h3>
                 <h4 className="home__zone__subheader">
-                    kandydaci, fachowcy, specjaliści etc.
+                    {c.userZoneDescription}
                 </h4>
                 <button className="home__zone__instruction flex"
                         onClick={() => { setVideo1(true); }}>
                     <img className="img" src={playIcon} alt="video-play" />
                     <span className="home__zone__instruction__text">
                         <span className="home__zone__instruction__text__dark">
-                            Jak to działa?
+                            {c.howItWorks}
                         </span>
                         <span className="home__zone__instruction__text__light d-700">
-                            Zobacz video z instrukcją
+                            {c.seeVideo}
                             <img className="smallArrow" src={smallArrowIcon} alt="przejdz-dalej" />
                         </span>
                     </span>
                 </button>
                 <a className="btn btn--zone center" href="/strefa-pracownika">
-                    Przejdź do strefy
+                    {c.goToZone}
                     <img className="img" src={smallWhiteArrowIcon} alt="przejdz-dalej" />
                 </a>
             </div>
 
             <div className="home__zone">
-                <h3 className="home__zone__header">
-                    Strefa
-                    <span>
-                        Pracodawcy
-                    </span>
+                <h3 dangerouslySetInnerHTML={{__html: c.agencyZoneHtml}} className="home__zone__header">
+
                 </h3>
                 <h4 className="home__zone__subheader">
-                    agencje, firmy rekrutujące
+                    {c.agencyZoneDescription}
                 </h4>
                 <button className="home__zone__instruction flex"
                         onClick={() => { setVideo2(true); }}>
                     <img className="img" src={playIcon} alt="video-play" />
                     <span className="home__zone__instruction__text">
                         <span className="home__zone__instruction__text__dark">
-                            Jak to działa?
+                            {c.howItWorks}
                         </span>
                         <span className="home__zone__instruction__text__light d-700">
-                            Zobacz video z instrukcją
+                            {c.seeVideo}
                             <img className="smallArrow" src={smallArrowIcon} alt="przejdz-dalej" />
                         </span>
                     </span>
                 </button>
                 <a className="btn btn--zone center" href="/strefa-pracodawcy">
-                    Przejdź do strefy
+                    {c.goToZone}
                     <img className="img" src={smallWhiteArrowIcon} alt="przejdz-dalej" />
                 </a>
             </div>

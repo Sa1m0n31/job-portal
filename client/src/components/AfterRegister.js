@@ -1,26 +1,29 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import logo from "../static/img/logo-niebieskie.png";
 import loginIcon from "../static/img/login-icon.svg";
 import LoginAndRegisterAside from "./LoginAndRegisterAside";
+import {LanguageContext} from "../App";
 
 const AfterRegister = ({type}) => {
+    const { c } = useContext(LanguageContext);
+
     return <div className="register register--after">
         <img className="register__logo" src={logo} alt="portal-pracy" />
         <h1 className="register__header">
-            Potwierdź swoje konto.
+            {c.verifyAccount}
         </h1>
         <h2 className="register__subheader">
-            Na podany przez Ciebie adres e-mail wysłaliśmy <span className="bold">link aktywacyjny</span>. Po kliknięciu w link Twoje konto zostanie automatycznie aktywowane.
+            {c.registerSubheader1} <span className="bold">{c.registerSubheader2}</span>. {c.registerSubheader3}
         </h2>
         <h3 className="register__subheader">
-            Po aktywowaniu konta zostaniesz automatycznie przekierowany do <span className="bold">kolejnego etapu rejestracji - uzupełniania swojego profilu (CV)</span>.
+            {c.registerSubheader4} <span className="bold">{type === 0 ? c.registerSubheader5 : c.registerSubheader6}</span>.
         </h3>
         <a className="btn btn--login center" href={type === 0 ? "/strefa-pracownika" : "/strefa-pracodawcy"}>
-            Zaloguj się
+            {c.login}
             <img className="img" src={loginIcon} alt="logowanie" />
         </a>
         <a className="btn btn--neutral center" href="/">
-            Strona główna
+            {c.homepage}
         </a>
         <LoginAndRegisterAside />
     </div>

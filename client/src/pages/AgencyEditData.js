@@ -1,13 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import logo from "../static/img/logo-biale.png";
 import {
     formErrors,
-    steps,
     stepsAgency,
     stepsAgencyContent,
     stepsAgencyMainContent,
-    stepsContent,
-    stepsMainContent
 } from "../static/content";
 import MobileHeader from "../components/MobileHeader";
 import homeIcon from "../static/img/home-icon.svg";
@@ -25,6 +22,7 @@ import {getUserData, updateUser} from "../helpers/user";
 import {getAgencyData, updateAgency} from "../helpers/agency";
 import {getLoggedUserEmail} from "../helpers/others";
 import settings from "../static/settings";
+import {LanguageContext} from "../App";
 
 const AgencyDataContext = React.createContext(null);
 
@@ -106,6 +104,8 @@ const AgencyEditData = () => {
     const [paycheckDayVisible, setPaycheckDayVisible] = useState(false);
     const [healthInsuranceVisible, setHealthInsuranceVisible] = useState(false);
     const [healthInsuranceCurrencyVisible, setHealthInsuranceCurrencyVisible] = useState(false);
+
+    const { c } = useContext(LanguageContext);
 
     useEffect(() => {
         document.addEventListener('keydown', (e) => {

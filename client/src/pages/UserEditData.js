@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import logo from '../static/img/logo-biale.png'
 import backArrow from '../static/img/back-arrow-grey.svg'
 import homeIcon from '../static/img/home-icon.svg'
@@ -18,10 +18,13 @@ import MobileHeader from "../components/MobileHeader";
 import {getUserData, updateUser} from "../helpers/user";
 import UserFormSummary from "../components/UserFormSummary";
 import settings from "../static/settings";
+import {LanguageContext} from "../App";
 
 const UserDataContext = React.createContext(null);
 
 const UserEditData = () => {
+    const { c } = useContext(LanguageContext);
+
     const [userData, setUserData] = useState({
         // 1. Personal data
         profileImage: null,
@@ -667,7 +670,7 @@ const UserEditData = () => {
                 </p>
 
                 <div className="editData__left__steps">
-                    {steps.map((item, index) => {
+                    {JSON.parse(c.steps).map((item, index) => {
                         return <div className={step === index ? "flex editData__step editData__step--current" : "flex editData__step"} key={index}>
                         <span className="editData__left__step__number center">
                             {index+1}

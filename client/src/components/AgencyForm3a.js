@@ -1,35 +1,34 @@
 import React, {useContext} from 'react';
-import {countries, nipCountries, phoneNumbers} from "../static/content";
-import dropdownArrow from "../static/img/dropdown-arrow.svg";
 import {AgencyDataContext} from "../pages/AgencyEditData";
+import {LanguageContext} from "../App";
 
 const AgencyForm3a = () => {
     const { setStep, setSubstep, agencyData, handleChange } = useContext(AgencyDataContext);
-
+    const { c } = useContext(LanguageContext);
 
     return <>
         <div className="userForm userForm--3a userForm--3a--agency">
             <label className="label label--rel">
-                Proces rekrutacyjny
+                {c.recruitmentProcess}
                 <textarea className="input input--textarea input--situation"
                           value={agencyData.recruitmentProcess}
                           onChange={(e) => { handleChange('recruitmentProcess', e.target.value); }}
-                          placeholder="Opisz dokładnie proces rekrutacji w Twojej firmie." />
+                          placeholder={c.recruitmentProcessPlaceholder} />
             </label>
             <label className="label label--rel">
-                Benefity
+                {c.benefits}
                 <textarea className="input input--textarea input--situation"
                           value={agencyData.benefits}
                           onChange={(e) => { handleChange('benefits', e.target.value); }}
-                          placeholder="Wskaż co zyskuje pracownik, kiedy dołącza do Twojej firmy." />
+                          placeholder={c.benefitsPlaceholder} />
             </label>
         </div>
         <div className="formBottom flex">
             <button className="btn btn--userForm btn--userFormBack" onClick={() => { setStep(1); }}>
-                Wstecz
+                {c.back}
             </button>
             <button className="btn btn--userForm" onClick={() => { setSubstep(1); }}>
-                Dalej
+                {c.next}
             </button>
         </div>
     </>

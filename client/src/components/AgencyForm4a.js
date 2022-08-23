@@ -1,22 +1,23 @@
 import React, {useContext} from 'react';
-import {countries, currencies, houses, nipCountries, paymentTypes, phoneNumbers, rooms} from "../static/content";
+import {houses, rooms} from "../static/content";
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
 import {AgencyDataContext} from "../pages/AgencyEditData";
+import {LanguageContext} from "../App";
 
 const AgencyForm4a = ({setRoomVisible, setHouseVisible, setParkingVisible}) => {
     const { setStep, setSubstep, agencyData, handleChange, roomVisible, houseVisible, parkingVisible } = useContext(AgencyDataContext);
-
+    const { c } = useContext(LanguageContext);
 
     return <>
         <div className="userForm userForm--4a userForm--4a--agency">
             <div className="label label--date label--date--address">
-                Zakwaterowanie
+                {c.accommodation}
                 <div className="flex">
                     <div className="label--date__input label--date__input--country">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation(); setRoomVisible(!roomVisible); }}
                         >
-                            {agencyData.roomType ? rooms[agencyData.roomType] : 'Wybierz pokój'}
+                            {agencyData.roomType ? rooms[agencyData.roomType] : c.chooseRoom}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {roomVisible ? <div className="datepickerDropdown noscroll">
@@ -32,7 +33,7 @@ const AgencyForm4a = ({setRoomVisible, setHouseVisible, setParkingVisible}) => {
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation(); setHouseVisible(!houseVisible); }}
                         >
-                            {agencyData.houseType ? houses[agencyData.houseType] : 'Wybierz budynek'}
+                            {agencyData.houseType ? houses[agencyData.houseType] : c.chooseBuilding}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {houseVisible ? <div className="datepickerDropdown noscroll">
@@ -48,28 +49,28 @@ const AgencyForm4a = ({setRoomVisible, setHouseVisible, setParkingVisible}) => {
             </div>
 
             <div className="label label--special">
-                Wyposażenie zakwaterowania
+                {c.accommodationEquipment}
                 <input className="input--special"
                        value={agencyData.roomDescription}
                        onChange={(e) => { handleChange('roomDescription', e.target.value); }}
-                       placeholder="np. osobna łazienka, TV, Internet" />
+                       placeholder={c.accommodationEquipmentPlaceholder} />
             </div>
 
 
             <div className="label drivingLicenceWrapper">
-                Parking
+                {c.parking}
                 <div className="flex flex--start">
                     <div className="label--date__input label--date__input--bool label--date__input--drivingLicence">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation(); setParkingVisible(!parkingVisible); }}
                         >
-                            {agencyData.parking ? 'Tak' : 'Nie'}
+                            {agencyData.parking ? c.yes : c.no}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {parkingVisible? <div className="datepickerDropdown noscroll">
                             <button className="datepickerBtn center"
                                     onClick={() => { setParkingVisible(false); handleChange('parking', !agencyData.parking); }}>
-                                {agencyData.parking ? 'Nie' : 'Tak'}
+                                {agencyData.parking ? c.no : c.yes}
                             </button>
                         </div> : ''}
                     </div>
@@ -78,10 +79,10 @@ const AgencyForm4a = ({setRoomVisible, setHouseVisible, setParkingVisible}) => {
         </div>
         <div className="formBottom flex">
             <button className="btn btn--userForm btn--userFormBack" onClick={() => { setStep(2); setSubstep(1); }}>
-                Wstecz
+                {c.back}
             </button>
             <button className="btn btn--userForm" onClick={() => { setSubstep(1); }}>
-                Dalej
+                {c.next}
             </button>
         </div>
     </>

@@ -1,7 +1,8 @@
-import React, {useEffect} from 'react';
-import {Page, Text, Font, View, Document, StyleSheet, Image, Svg} from '@react-pdf/renderer';
+import React, {useContext} from 'react';
+import {Page, Text, Font, View, Document, StyleSheet, Image} from '@react-pdf/renderer';
 import {categories as allCategories, drivingLicences, languages as allLanguages} from "../static/content";
 import {addLeadingZero} from "../helpers/others";
+import {LanguageContext} from "../App";
 
 Font.register({
     family: "Roboto",
@@ -170,9 +171,8 @@ const styles = StyleSheet.create({
 
 const CV = ({profileImage, fullName, phoneNumber, email, location, categories, birthday, schools, jobs, languages, additionalLanguages,
                 drivingLicence, certs, desc, companyLogo, companyName, currentPlace, availability, ownAccommodation, ownTools, salary}) => {
-    useEffect(() => {
-        console.log(categories);
-    }, [categories]);
+
+    const { c } = useContext(LanguageContext);
 
     return <Document>
         <Page size="A4" style={styles.page}>
@@ -204,7 +204,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                             {companyName}
                         </Text>
                         <Text style={styles.date}>
-                            Wygenerowano: {addLeadingZero(new Date().getDate())}.{addLeadingZero(new Date().getMonth()+1)}.{new Date().getFullYear()}
+                            {c.generated}: {addLeadingZero(new Date().getDate())}.{addLeadingZero(new Date().getMonth()+1)}.{new Date().getFullYear()}
                         </Text>
                     </View>
                 </View> : <>
@@ -229,28 +229,28 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
 
                 <View style={styles.mainSection}>
                     <Text style={styles.sectionHeader}>
-                        Podstawowe dane
+                        {c.mainData}
                     </Text>
                     <View style={styles.textContainer}>
-                        <Text style={styles.textSmall}>data urodzenia: </Text>
+                        <Text style={styles.textSmall}>{c.birthday?.toLowerCase()}: </Text>
                         <Text style={styles.text}>
                             {birthday}
                         </Text>
                     </View>
                     <View style={styles.textContainer}>
-                        <Text style={styles.textSmall}>tel: </Text>
+                        <Text style={styles.textSmall}>{c.telShortcut}: </Text>
                         <Text style={styles.text}>
                             {phoneNumber}
                         </Text>
                     </View>
                     <View style={styles.textContainer}>
-                        <Text style={styles.textSmall}>email: </Text>
+                        <Text style={styles.textSmall}>{c.emailShortcut}: </Text>
                         <Text style={styles.text}>
                             {email}
                         </Text>
                     </View>
                     <View style={styles.textContainer}>
-                        <Text style={styles.textSmall}>miejsce zamieszkania: </Text>
+                        <Text style={styles.textSmall}>{c.livingLocation}: </Text>
                         <Text style={styles.text}>
                             {location}
                         </Text>
@@ -259,7 +259,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
 
                 {schools?.length ? <View style={styles.mainSection}>
                     <Text style={styles.sectionHeader}>
-                        Wykształcenie
+                        {c.education}
                     </Text>
                     {schools?.map((item) => {
                         return <View style={styles.textContainer}>
@@ -270,7 +270,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                                 {item.title}
                             </Text>
                             <Text style={styles.schoolDate}>
-                                {item.from} - {item.to ? item.to : 'w trakcie'}
+                                {item.from} - {item.to ? item.to : c.during}
                             </Text>
                         </View>
                     })}
@@ -278,7 +278,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
 
                 {jobs?.length ? <View style={styles.mainSection}>
                     <Text style={styles.sectionHeader}>
-                        Doświadczenie zawodowe
+                        {c.jobExperience}
                     </Text>
                     {jobs?.map((item) => {
                         return <View style={styles.textContainer}>
@@ -289,7 +289,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                                 {item.title}
                             </Text>
                             <Text style={styles.schoolDate}>
-                                {item.from} - {item.to ? item.to : 'w trakcie'}
+                                {item.from} - {item.to ? item.to : c.during}
                             </Text>
                         </View>
                     })}
@@ -297,10 +297,10 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
 
                 {languages?.length || drivingLicence?.length ? <View style={styles.mainSection}>
                     <Text style={styles.sectionHeader}>
-                        Umiejętności
+                        {c.skills}
                     </Text>
                     {languages?.length ? <View style={styles.textContainer}>
-                        <Text style={styles.textSmall}>języki obce: </Text>
+                        <Text style={styles.textSmall}>{c.foreignLanguages}: </Text>
                         <Text style={styles.text}>
                             {languages.map((item, index, array) => {
                                 if(index === array.length-1 && !additionalLanguages) {
@@ -316,7 +316,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                         </Text>
                     </View> : ""}
                     {drivingLicence?.length ? <View style={styles.textContainer}>
-                        <Text style={styles.textSmall}>prawo jazdy: </Text>
+                        <Text style={styles.textSmall}>{c.drivingLicence}: </Text>
                         <Text style={styles.text}>
                             {drivingLicence.map((item, index, array) => {
                                 if(index === array.length-1) {
@@ -332,7 +332,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
 
                 {certs?.length ? <View style={styles.mainSection}>
                     <Text style={styles.sectionHeader}>
-                        Szkolenia i certyfikaty
+                        {c.coursesAndCertificates}
                     </Text>
                     {certs?.map((item) => {
                         return <View style={styles.textContainer}>
@@ -345,7 +345,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
 
                 {desc ? <View style={styles.mainSection}>
                     <Text style={styles.sectionHeader}>
-                        Opis aktualnej sytuacji
+                        {c.currentSituationDescription}
                     </Text>
                     <Text style={styles.descText}>
                         {desc}
@@ -354,32 +354,32 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
 
                 <View style={styles.mainSection}>
                     <Text style={styles.sectionHeader}>
-                        Dodatkowe informacje
+                        {c.additionalInfo}
                     </Text>
-                    <Text style={styles.textSmall}>aktualne miejsce pobytu: </Text>
+                    <Text style={styles.textSmall}>{c.currentLivingPlace}: </Text>
                     <Text style={styles.text}>
                         {currentPlace}
                     </Text>
 
-                    <Text style={styles.textSmall}>dostępność od: </Text>
+                    <Text style={styles.textSmall}>{c.availabilityFrom}: </Text>
                     <Text style={styles.text}>
                         {availability}
                     </Text>
 
-                    <Text style={styles.textSmall}>oczekiwania finansowe: </Text>
+                    <Text style={styles.textSmall}>{c.salaryExpectations}: </Text>
                     <Text style={styles.text}>
                         {salary}
                     </Text>
 
                     {ownAccommodation ? <>
-                        <Text style={styles.textSmall}>własne zakwaterowanie w Holandii: </Text>
+                        <Text style={styles.textSmall}>{c.ownAccommodationInNetherlands}: </Text>
                         <Text style={styles.text}>
                             {ownAccommodation}
                         </Text>
                     </> : ''}
 
                     {ownTools ? <>
-                        <Text style={styles.textSmall}>własne narzędzia: </Text>
+                        <Text style={styles.textSmall}>{c.ownTools}: </Text>
                         <Text style={styles.text}>
                             Tak
                         </Text>

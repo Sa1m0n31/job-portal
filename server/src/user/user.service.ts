@@ -54,7 +54,7 @@ export class UserService {
             const newUser = new CreateUserDto({
                 email: email,
                 password: passwordHash,
-                data: {}
+                data: '{}',
             });
 
             const token = await uuid();

@@ -11,6 +11,7 @@ import {join} from "path";
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { OfferModule } from './offer/offer.module';
 import { MessagesModule } from './messages/messages.module';
+import { TranslationModule } from './translation/translation.module';
 
 @Module({
   imports: [UserModule, AgencyModule,
@@ -45,7 +46,8 @@ import { MessagesModule } from './messages/messages.module';
       }
     }),
     OfferModule,
-    MessagesModule
+    MessagesModule,
+    TranslationModule
   ],
   controllers: [AppController],
   providers: [AppService],

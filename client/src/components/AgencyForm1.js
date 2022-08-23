@@ -1,33 +1,33 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import dropdownArrow from '../static/img/dropdown-arrow.svg'
-import {countries, formErrors, months, nipCountries, phoneNumbers} from "../static/content";
+import {nipCountries, phoneNumbers} from "../static/content";
 import {AgencyDataContext} from "../pages/AgencyEditData";
+import {LanguageContext} from "../App";
 
 const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setNipCountriesVisible}) => {
     const { setStep, agencyData, handleChange, countriesVisible, phoneNumbersCountriesVisible, nipCountriesVisible } = useContext(AgencyDataContext);
-
-    const [error, setError] = useState('');
+    const { c } = useContext(LanguageContext);
 
     return <>
         <div className="userForm userForm--1 userForm--1--agency">
         <label className="label">
-            Nazwa firmy
+            {c.companyName}
             <input className="input"
                    value={agencyData.name}
                    onChange={(e) => { handleChange('name', e.target.value); }} />
         </label>
         <div className="label label--date label--date--address">
-            Adres siedziby
+            {c.companyAddress}
             <div className="flex">
                 <div className="label--date__input label--date__input--country">
                     <button className="datepicker datepicker--country"
                             onClick={(e) => { e.stopPropagation(); setCountriesVisible(!countriesVisible); }}
                     >
-                        {agencyData?.country !== undefined ? countries[agencyData.country] : 'Wybierz kraj'}
+                        {agencyData?.country !== undefined && c.countries ? JSON.parse(c.countries)[agencyData.country] : c.chooseCountry}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {countriesVisible ? <div className="datepickerDropdown noscroll">
-                        {countries?.map((item, index) => {
+                        {JSON.parse(c.countries)?.map((item, index) => {
                             return <button className="datepickerBtn center" key={index}
                                            onClick={(e) => { handleChange('country', index); }}>
                                 {item}
@@ -39,25 +39,25 @@ const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setN
                     <input className="input input--postalCode"
                            value={agencyData.postalCode}
                            onChange={(e) => { handleChange('postalCode', e.target.value); }}
-                           placeholder="Kod pocztowy" />
+                           placeholder={c.postalCode} />
                 </label>
                 <label>
                     <input className="input input--city"
                            value={agencyData.city}
                            onChange={(e) => { handleChange('city', e.target.value); }}
-                           placeholder="Miejscowość" />
+                           placeholder={c.city} />
                 </label>
                 <label>
                     <input className="input input--address"
                            value={agencyData.address}
                            onChange={(e) => { handleChange('address', e.target.value); }}
-                           placeholder="Ulica i nr domu" />
+                           placeholder={c.streetAndBuilding} />
                 </label>
             </div>
         </div>
 
         <div className="label label--phoneNumber">
-            NIP
+            {c.nip}
             <button className="phoneNumberBtn" onClick={(e) => { e.stopPropagation();
             setNipCountriesVisible(!nipCountriesVisible); }}>
                 {agencyData.nipCountry ? agencyData.nipCountry : 'PL'}
@@ -76,7 +76,7 @@ const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setN
         </div>
 
         <div className="label label--phoneNumber">
-            Numer telefonu
+            {c.phoneNumber}
             <button className="phoneNumberBtn" onClick={(e) => { e.stopPropagation(); setPhoneNumbersCountriesVisible(!phoneNumbersCountriesVisible); }}>
                 {agencyData.phoneNumberCountry ? agencyData.phoneNumberCountry : 'PL +48'}
             </button>
@@ -94,7 +94,7 @@ const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setN
         </div>
 
         <label className="label">
-            Adres e-mail
+            {c.email}
             <input className="input"
                    value={agencyData.email}
                    onChange={(e) => { handleChange('email', e.target.value); }} />
@@ -102,12 +102,8 @@ const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setN
     </div>
     <div className="formBottom flex">
         <button className="btn btn--userForm" onClick={() => { setStep(1); }}>
-            Dalej
+            {c.next}
         </button>
-
-        {error ? <span className="info info--error">
-                {error}
-            </span> : ''}
     </div>
     </>
 };

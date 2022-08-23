@@ -1,14 +1,17 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import LanguageSwitcher from "./LanguageSwitcher";
+import {LanguageContext} from "../App";
 
 const LoginAndRegisterAside = () => {
+    const { c } = useContext(LanguageContext);
+
     return <aside className="login__left__bottom flex">
         <div className="login__left__bottom__links flex">
             <a href="/polityka-prywatnosci">
-                Polityka prywatności
+                {c.privacyPolicyHeader}
             </a>
             <a href="/polityka-prywatnosci">
-                Regulamin portalu
+                {c.termsOfServiceHeader}
             </a>
         </div>
 

@@ -1,21 +1,23 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import {getApplicationsByAgency, getFastApplicationsByAgency} from "../helpers/offer";
 import {groupBy, isElementInArray} from "../helpers/others";
 import settings from "../static/settings";
 import userPlaceholder from "../static/img/user-placeholder.svg";
 import localization from "../static/img/location.svg";
-import {categories, countries, currencies} from "../static/content";
+import {currencies} from "../static/content";
 import salaryIcon from "../static/img/dolar-icon.svg";
 import arrowDown from '../static/img/arrow-down.svg'
 import UserPreview from "../components/UserPreview";
+import {LanguageContext} from "../App";
 
 const AgencyApplications = ({data}) => {
+    const { c } = useContext(LanguageContext);
+
     const [offers, setOffers] = useState([]);
     const [fastOffers, setFastOffers] = useState([]);
     const [offersCandidates, setOffersCandidates] = useState([]);
     const [fastOffersCandidates, setFastOffersCandidates] = useState([]);
-
     const [visibleOffers, setVisibleOffers] = useState([]);
     const [visibleFastOffers, setVisibleFastOffers] = useState([]);
 
@@ -25,7 +27,6 @@ const AgencyApplications = ({data}) => {
             setOffers(Object.entries(groupBy(offersResponse?.data, 'o_id')));
 
             const fastOffersResponse = await getFastApplicationsByAgency();
-            console.log(fastOffersResponse);
             setFastOffers(Object.entries(groupBy(fastOffersResponse?.data, 'o_id')))
         }
 
@@ -43,7 +44,6 @@ const AgencyApplications = ({data}) => {
 
     useEffect(() => {
         if(fastOffers?.length) {
-            console.log(fastOffers);
             setFastOffersCandidates(fastOffers?.map((item) => {
                 return item[1]?.filter((item) => (item.app_id));
             }));
@@ -68,22 +68,18 @@ const AgencyApplications = ({data}) => {
         }
     }
 
-    const showCandidates = (i) => {
-
-    }
-
     return <div className="container container--agencyJobOffers">
         <LoggedUserHeader data={data} agency={true} />
 
         <aside className="userAccount__top flex">
             <span className="userAccount__top__loginInfo">
-                Zalogowany w: <span className="bold">Strefa Pracodawcy</span>
+                {c.loggedIn}: <span className="bold">{c.agencyZone}</span>
             </span>
         </aside>
 
         {fastOffers?.length ? <section className="applicationsSection">
             <h2 className="applicationsSection__header">
-                Błyskawiczne oferty pracy
+                {c.fastJobOffers}
             </h2>
             {fastOffers?.map((preItem, index) => {
                 const item = preItem[1][0];
@@ -102,7 +98,7 @@ const AgencyApplications = ({data}) => {
                                 </h2>
                                 <h3 className="offerItem__localization">
                                     <img className="icon" src={localization} alt="lokalizacja" />
-                                    {item.o_city}, {countries[item.o_country]}
+                                    {item.o_city}, {JSON.parse(c.countries)[item.o_country]}
                                 </h3>
                                 <h5 className="offerItem__company">
                                     {data.o_name}
@@ -110,7 +106,7 @@ const AgencyApplications = ({data}) => {
                             </div>
                         </div>
                         <div className="offerItem__category">
-                            {categories[item.o_category]}
+                            {JSON.parse(c.categories)[item.o_category]}
                         </div>
                         <div className="offerItem__salary">
                     <span className="nowrap">
@@ -118,7 +114,7 @@ const AgencyApplications = ({data}) => {
                         {item.o_salaryFrom} {currencies[item.o_salaryCurrency]}
                     </span> - {item.o_salaryTo} {currencies[item.o_salaryCurrency]}
                             <span className="netto">
-                        netto/{item.o_salaryType === 1 ? 'tyg.' : 'mies.'}
+                                {c.netto}/{item.o_salaryType === 1 ? c.weeklyShortcut : c.monthlyShortcut}
                     </span>
                         </div>
                         <div className="offerItem__requirements">
@@ -132,11 +128,11 @@ const AgencyApplications = ({data}) => {
                             {fastOffersCandidates[index]?.length ? <button onClick={() => { handleVisibleFastOffers(index); }}
                                                                        className={isElementInArray(index, visibleFastOffers) ? "btn btn--showCandidates btn--showCandidates--visible" : "btn btn--showCandidates"}>
                                 <span>
-                                    {isElementInArray(index, visibleFastOffers) ? 'Schowaj kandydatów' : 'Pokaż kandydatów'}
+                                    {isElementInArray(index, visibleFastOffers) ? c.hideCandidates : c.showCandidates}
                                 </span>
                                 <img className="img" src={arrowDown} alt="podglad" />
                             </button> : <span className="noCandidates">
-                            Brak przesłanych CV
+                                {c.noCVs}
                         </span>}
                         </div>
                     </div>
@@ -162,7 +158,7 @@ const AgencyApplications = ({data}) => {
 
         {offers?.length ? <section className="applicationsSection">
             <h2 className="applicationsSection__header">
-                Oferty pracy
+                {c.jobOffers}
             </h2>
             {offers?.map((preItem, index) => {
                 const item = preItem[1][0];
@@ -181,7 +177,7 @@ const AgencyApplications = ({data}) => {
                                 </h2>
                                 <h3 className="offerItem__localization">
                                     <img className="icon" src={localization} alt="lokalizacja" />
-                                    {item.o_city}, {countries[item.o_country]}
+                                    {item.o_city}, {JSON.parse(c.countries)[item.o_country]}
                                 </h3>
                                 <h5 className="offerItem__company">
                                     {data.o_name}
@@ -189,7 +185,7 @@ const AgencyApplications = ({data}) => {
                             </div>
                         </div>
                         <div className="offerItem__category">
-                            {categories[item.o_category]}
+                            {JSON.parse(c.categories)[item.o_category]}
                         </div>
                         <div className="offerItem__salary">
                     <span className="nowrap">
@@ -197,7 +193,7 @@ const AgencyApplications = ({data}) => {
                         {item.o_salaryFrom} {currencies[item.o_salaryCurrency]}
                     </span> - {item.o_salaryTo} {currencies[item.o_salaryCurrency]}
                             <span className="netto">
-                        netto/{item.o_salaryType === 1 ? 'tyg.' : 'mies.'}
+                                {c.netto}/{item.o_salaryType === 1 ? c.weeklyShortcut : c.monthlyShortcut}
                     </span>
                         </div>
                         <div className="offerItem__requirements">
@@ -211,11 +207,11 @@ const AgencyApplications = ({data}) => {
                             {offersCandidates[index]?.length ? <button onClick={() => { handleVisibleOffers(index); }}
                                                                        className={isElementInArray(index, visibleOffers) ? "btn btn--showCandidates btn--showCandidates--visible" : "btn btn--showCandidates"}>
                                 <span>
-                                    {isElementInArray(index, visibleOffers) ? 'Schowaj kandydatów' : 'Pokaż kandydatów'}
+                                    {isElementInArray(index, visibleOffers) ? c.hideCandidates : c.showCandidates}
                                 </span>
                                 <img className="img" src={arrowDown} alt="podglad" />
                             </button> : <span className="noCandidates">
-                            Brak przesłanych CV
+                                {c.noCVs}
                         </span>}
                         </div>
                     </div>

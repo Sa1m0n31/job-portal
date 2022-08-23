@@ -1,33 +1,16 @@
 import React, {useContext, useEffect, useState} from 'react';
-import poland from '../static/img/poland.svg'
 import {LanguageContext} from "../App";
 import arrowDown from '../static/img/arrow-down.svg'
 import LanguagePopup from "./LanguagePopup";
 import {languageVersions} from "../static/content";
 
-const languages = [
-    {
-        code: 'PL',
-        flag: poland
-    },
-    {
-        code: 'EN',
-        flag: poland
-    },
-    {
-        code: 'NL',
-        flag: poland
-    }
-]
-
 const LanguageSwitcher = ({horizontal}) => {
-    const { language, setLanguage } = useContext(LanguageContext);
+    const { language } = useContext(LanguageContext);
 
     const [currentLanguage, setCurrentLanguage] = useState(0);
     const [languagesVisible, setLanguagesVisible] = useState(false);
 
     useEffect(() => {
-        console.log(language);
         localStorage.setItem('lang', language);
         setLanguagesVisible(false);
         setCurrentLanguage(languageVersions.findIndex((item) => {

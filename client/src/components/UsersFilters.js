@@ -1,16 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import closeIcon from '../static/img/close-icon.svg'
 import {
-    categories,
-    countries,
     currencies,
-    distances,
-    drivingLicences as allDrivingLicences,
-    languages as allLanguages
+    distances
 } from "../static/content";
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
 import magnifier from '../static/img/magnifier.svg'
 import {isElementInArray} from "../helpers/others";
+import {LanguageContext} from "../App";
 
 const UsersFilters = ({closeModal, country, city, distance,
     setCountry, setCity, setDistance,
@@ -21,6 +18,8 @@ const UsersFilters = ({closeModal, country, city, distance,
     categoriesVisible, setCategoriesVisible, ownTransportVisible, setOwnTransportVisible,
     bsnNumberVisible, setBsnNumberVisible, currenciesVisible, setCurrenciesVisible
                           }) => {
+
+    const { c } = useContext(LanguageContext);
 
     const toggleLanguage = (i) => {
         if(isElementInArray(i, languages)) {
@@ -48,20 +47,20 @@ const UsersFilters = ({closeModal, country, city, distance,
                 <img className="img" src={closeIcon} alt="zamknij" />
             </button>
             <h3 className="modal__header">
-                Filtry wyszukiwania
+                {c.filters}
             </h3>
 
             <div className="label label--responsibility label--category">
-                Branża
+                {c.category}
                 <div className="label--date__input label--date__input--country label--date__input--category">
                     <button className="datepicker datepicker--country datepicker--category"
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCategoriesVisible(!categoriesVisible); }}
                     >
-                        {category !== -1 ? categories[category] : 'Wybierz branżę'}
+                        {category !== -1 ? JSON.parse(c.categories)[category] : c.chooseCategory}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {categoriesVisible ? <div className="datepickerDropdown noscroll">
-                        {categories?.map((item, index) => {
+                        {JSON.parse(c.categories)?.map((item, index) => {
                             return <button className="datepickerBtn center" key={index}
                                            onClick={(e) => { e.stopPropagation(); setCategoriesVisible(false); setCategory(index); }}>
                                 {item}
@@ -71,19 +70,19 @@ const UsersFilters = ({closeModal, country, city, distance,
                 </div>
             </div>
             <div className="label label--date label--date--address">
-                Lokalizacja
+                {c.location}
                 <div className="flex flex--start">
                     <div className="label--date__input label--date__input--country">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation(); setCountriesVisible(!countriesVisible); }}
                         >
-                            {country !== -1 ? countries[country] : 'Wybierz kraj'}
+                            {country !== -1 ? JSON.parse(c.countries)[country] : c.chooseCountry}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {countriesVisible ? <div className="datepickerDropdown noscroll">
-                            {countries?.map((item, index) => {
+                            {JSON.parse(c.countries)?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
-                                               onClick={(e) => { setCountry(index); }}>
+                                               onClick={() => { setCountry(index); }}>
                                     {item}
                                 </button>
                             })}
@@ -93,7 +92,7 @@ const UsersFilters = ({closeModal, country, city, distance,
                         <input className="input input--city"
                                value={city}
                                onChange={(e) => { setCity(e.target.value); }}
-                               placeholder="Miejscowość" />
+                               placeholder={city} />
                         <div className="label--date__input label--date__input--distance">
                             <button className="datepicker datepicker--distance"
                                     onClick={(e) => { e.stopPropagation(); setDistanceVisible(!distanceVisible); }}
@@ -115,21 +114,21 @@ const UsersFilters = ({closeModal, country, city, distance,
             </div>
 
             <div className="label drivingLicenceWrapper drivingLicenceWrapper--salary">
-                Finanse
+                {c.finance}
                 <div className="flex flex--start jobOfferFilters__salaryType">
                     <label className={salaryType === 1 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                         <button className="checkbox center"
                                 onClick={() => { setSalaryType(1); }}>
                             <span></span>
                         </button>
-                        tygodniowo
+                        {c.weekly}
                     </label>
                     <label className={salaryType === 0 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                         <button className="checkbox center"
                                 onClick={() => { setSalaryType(0); }}>
                             <span></span>
                         </button>
-                        miesięcznie
+                        {c.monthly}
                     </label>
                 </div>
                 <div className="flex flex--start salaryInputsWrapper">
@@ -168,28 +167,28 @@ const UsersFilters = ({closeModal, country, city, distance,
             </div>
 
             <div className="label drivingLicenceWrapper">
-                Własny transport
+                {c.ownTransport}
                 <div className="flex flex--start">
                     <div className="label--date__input label--date__input--bool label--date__input--drivingLicence">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation(); setOwnTransportVisible(!ownTransportVisible); }}
                         >
-                            {(ownTransport !== null ? (ownTransport ? 'Tak' : 'Nie') : 'Wybierz')}
+                            {(ownTransport !== null ? (ownTransport ? c.yes : c.no) : c.choose)}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {ownTransportVisible ? (ownTransport !== null ? <div className="datepickerDropdown noscroll">
                             <button className="datepickerBtn center"
                                     onClick={() => { setOwnTransportVisible(false); setOwnTransport(!ownTransport); }}>
-                                {ownTransport ? 'Nie' : 'Tak'}
+                                {ownTransport ? c.no : c.yes}
                             </button>
                         </div> : <div className="datepickerDropdown noscroll">
                             <button className="datepickerBtn center"
                                     onClick={() => { setOwnTransportVisible(false); setOwnTransport(true); }}>
-                                Tak
+                                {c.yes}
                             </button>
                             <button className="datepickerBtn center"
                                     onClick={() => { setOwnTransportVisible(false); setOwnTransport(false); }}>
-                                Nie
+                                {c.no}
                             </button>
                         </div>) : ''}
                     </div>
@@ -197,28 +196,28 @@ const UsersFilters = ({closeModal, country, city, distance,
             </div>
 
             <div className="label drivingLicenceWrapper">
-                Nr BSN/SOFI
+                {c.bsnNumber}
                 <div className="flex flex--start">
                     <div className="label--date__input label--date__input--bool label--date__input--drivingLicence">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation(); setBsnNumberVisible(!bsnNumberVisible); }}
                         >
-                            {bsnNumber !== null ? (bsnNumber ? 'Tak' : 'Nie') : 'Wybierz'}
+                            {bsnNumber !== null ? (bsnNumber ? c.yes : c.no) : c.choose}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {bsnNumberVisible ? (bsnNumber !== null ? <div className="datepickerDropdown noscroll">
                             <button className="datepickerBtn center"
                                     onClick={() => { setBsnNumberVisible(false); setBsnNumber(!bsnNumber); }}>
-                                {bsnNumber ? 'Nie' : 'Tak'}
+                                {bsnNumber ? c.no : c.yes}
                             </button>
                         </div> : <div className="datepickerDropdown noscroll">
                             <button className="datepickerBtn center"
                                     onClick={() => { setBsnNumberVisible(false); setBsnNumber(true); }}>
-                                Tak
+                                {c.yes}
                             </button>
                             <button className="datepickerBtn center"
                                     onClick={() => { setBsnNumberVisible(false); setBsnNumber(false); }}>
-                                Nie
+                                {c.no}
                             </button>
                         </div>) : ''}
                     </div>
@@ -226,9 +225,9 @@ const UsersFilters = ({closeModal, country, city, distance,
             </div>
 
             <div className="label label--smallMarginBottom">
-                Języki obce
+                {c.foreignLanguages.chatAt(0).toUpperCase() + c.foreignLanguages.slice(1)}
                 <div className="languagesWrapper flex">
-                    {allLanguages.map((item, index) => {
+                    {JSON.parse(c.languages).map((item, index) => {
                         return <label className={isElementInArray(index, languages) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"} key={index}>
                             <button className={isElementInArray(index, languages) ? "checkbox checkbox--selected center" : "checkbox center"}
                                     onClick={() => { toggleLanguage(index); }}>
@@ -242,9 +241,9 @@ const UsersFilters = ({closeModal, country, city, distance,
 
             <div className="label drivingLicenceCategoriesWrapper">
             <span className="w-100">
-                Kategoria prawa jazdy
+                {c.drivingLicenceCategory}
             </span>
-                {allDrivingLicences.map((item, index) => {
+                {JSON.parse(c.drivingLicences).map((item, index) => {
                     return <label className={isElementInArray(index, drivingLicences) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"} key={index}>
                         <button className="checkbox center"
                                 onClick={() => { toggleDrivingLicence(index); }}>
@@ -256,7 +255,7 @@ const UsersFilters = ({closeModal, country, city, distance,
             </div>
 
             <button className="btn btn--filterSubmit" onClick={() => { closeModal(); submitFilter(); }}>
-                Zatwierdź filtry i szukaj
+                {c.submitFiltersAndSearch}
                 <img className="img" src={magnifier} alt="powiększ" />
             </button>
         </div>

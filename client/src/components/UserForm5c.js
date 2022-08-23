@@ -1,15 +1,17 @@
 import React, {useContext} from 'react';
 import {UserDataContext} from "../pages/UserEditData";
+import {LanguageContext} from "../App";
 
 const UserForm5C = () => {
     const { userData, setSubstep, handleChange } = useContext(UserDataContext);
+    const { c } = useContext(LanguageContext);
 
     return <>
         <div className="userForm">
         <label className="label label--friendLink">
-            Współpracownik
+            {c.partner}
             <p className="label--extraInfo">
-                Jeśli masz współpracownika i chcecie otrzymywać razem oferty, wklej link do jego istniejącego profilu na Jooob.eu.
+                {c.partnerDescription}
             </p>
             <input className="input"
                    value={userData.friendLink}
@@ -18,10 +20,10 @@ const UserForm5C = () => {
     </div>
     <div className="formBottom flex">
         <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(1); }}>
-            Wstecz
+            {c.back}
         </button>
         <button className="btn btn--userForm" onClick={() => { setSubstep(3); }}>
-            Dalej
+            {c.next}
         </button>
     </div>
     </>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import background from '../static/img/register-background.png'
 import logo from "../static/img/logo-niebieskie.png";
 import check from '../static/img/green-check.svg'
@@ -7,10 +7,13 @@ import LoginAndRegisterAside from "../components/LoginAndRegisterAside";
 import {verifyUser} from "../helpers/user";
 import Loader from "../components/Loader";
 import {verifyAgency} from "../helpers/agency";
+import {LanguageContext} from "../App";
 
 const AccountVerification = () => {
     const [loading, setLoading] = useState(true);
     const [role, setRole] = useState(0);
+
+    const { c } = useContext(LanguageContext);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -37,7 +40,7 @@ const AccountVerification = () => {
                             });
                     }
                 })
-                .catch((err) => {
+                .catch(() => {
                     verifyAgency(token)
                         .then((res) => {
                             if(res?.status === 201) {
@@ -63,18 +66,18 @@ const AccountVerification = () => {
         {loading ? <Loader /> : <main className="register register--verification">
             <img className="register__logo" src={logo} alt="portal-pracy" />
             <h1 className="register__header">
-                Twoje konto zostało aktywowane.
+                {c.yourAccountIsActive}
                 <img className="check" src={check} alt="potwierdzenie" />
             </h1>
             <h2 className="register__subheader">
-                Teraz możesz przejść do następnego etapu rejestracji - <span className="bold">{role === 0 ? 'uzupełnienia profilu (CV)' : 'uzupełnienia danych agencji'}</span>.
+                {c.nowYouCan} <span className="bold">{role === 0 ? c.registerSubheader5 : c.registerSubheader6}</span>.
             </h2>
             <a className="btn btn--login center" href={role === 0 ? "/edycja-danych-pracownika" : "/edycja-danych-agencji"}>
-                Uzupełnij profil {role === 0 ? 'i wygeneruj CV' : ''}
+                {c.fillProfile} {role === 0 ? c.andGenerateCV : ''}
                 <img className="img" src={arrowIcon} alt="uzupelnienie-danych" />
             </a>
             <a className="btn btn--neutral center" href="/">
-                Strona główna
+                {c.homepage}
             </a>
             <LoginAndRegisterAside />
         </main>}

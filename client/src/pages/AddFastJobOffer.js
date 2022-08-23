@@ -1,16 +1,10 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import logo from '../static/img/logo-czarne.png'
 import backIcon from '../static/img/back-arrow-grey.svg'
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
 import {
-    attachmentsErrors,
-    categories,
-    contracts,
-    countries,
-    currencies, formErrors, jobOfferErrors,
-    months,
-    pensionFrequency,
-    pensionType, phoneNumbers
+    currencies,
+    phoneNumbers
 } from "../static/content";
 import trashIcon from "../static/img/trash.svg";
 import {Tooltip} from "react-tippy";
@@ -29,8 +23,11 @@ import settings from "../static/settings";
 import xIcon from '../static/img/x-button.svg'
 import MobileHeader from "../components/MobileHeader";
 import Loader from "../components/Loader";
+import {LanguageContext} from "../App";
 
 const AddFastJobOffer = ({updateMode}) => {
+    const { c } = useContext(LanguageContext);
+
     const [categoriesVisible, setCategoriesVisible] = useState(false);
     const [countriesVisible, setCountriesVisible] = useState(false);
     const [accommodationCountriesVisible, setAccommodationCountriesVisible] = useState(false);
@@ -174,9 +171,8 @@ const AddFastJobOffer = ({updateMode}) => {
                            window.location = '/';
                        }
                     })
-                    .catch((err) => {
-                        console.log(err);
-                        // window.location = '/';
+                    .catch(() => {
+                        window.location = '/';
                     });
             }
             else {
@@ -312,7 +308,7 @@ const AddFastJobOffer = ({updateMode}) => {
 
         if(e.target.files.length + oldAttachments.length > 5) {
             e.preventDefault();
-            setError(attachmentsErrors[0]);
+            setError(JSON.parse(c.attachmentsErrors)[0]);
         }
         else {
             setError('');
@@ -372,7 +368,7 @@ const AddFastJobOffer = ({updateMode}) => {
             accommodationCountry === -1 || !accommodationPostalCode || !accommodationCity || !accommodationStreet ||
             !contactPerson || !contactNumber
         ) {
-            setError(jobOfferErrors[0]);
+            setError(JSON.parse(c.jobOfferErrors)[0]);
             return 0;
         }
         return 1;
@@ -400,7 +396,7 @@ const AddFastJobOffer = ({updateMode}) => {
                         setSuccess(true);
                     }
                     else {
-                        setError(formErrors[1]);
+                        setError(JSON.parse(c.formErrors)[1]);
                     }
                 }
                 else {
@@ -420,16 +416,16 @@ const AddFastJobOffer = ({updateMode}) => {
                         setSuccess(true);
                     }
                     else {
-                        setError(formErrors[1]);
+                        setError(JSON.parse(c.formErrors)[1]);
                     }
                 }
             }
             catch(err) {
                 if(err.response.data.statusCode === 415) {
-                    setError('Dozwolone są tylko pliki w następujących formatach: jpg, txt, pages, png, svg, pdf, docx');
+                    setError(c.unsupportedMediaTypeInfo);
                 }
                 else {
-                    setError(formErrors[1]);
+                    setError(JSON.parse(c.formErrors)[1]);
                 }
             }
         }
@@ -451,12 +447,12 @@ const AddFastJobOffer = ({updateMode}) => {
     return <div className="container container--addOffer container--addFastOffer" onClick={() => { hideAllDropdowns(); }}>
         <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
-                    Zalogowany w: <span className="bold">Strefa Pracodawcy</span>
+                    {c.loggedIn}: <span className="bold">{c.agencyZone}</span>
                 </span>
             <a href="/konto-agencji"
                className="userAccount__top__btn">
                 <img className="img" src={backIcon} alt="edytuj" />
-                Powrót
+                {c.comeback}
             </a>
         </aside>
 
@@ -468,48 +464,48 @@ const AddFastJobOffer = ({updateMode}) => {
         <div className="addOfferSuccess" ref={addOfferSuccess}>
             <img className="img" src={checkIcon} alt="check" />
             <h3 className="addOfferSuccess__header">
-                {updateMode ? 'Twoja błyskawiczna oferta została zaktualizowana' : 'Twoja błyskawiczna oferta pracy została dodana!'}
+                {updateMode ? c.fastOfferUpdated : c.fastOfferAdded}
             </h3>
             <div className="flex">
                 <a className="btn" href="/">
-                    Strona główna
+                    {c.homepage}
                 </a>
                 <a className="btn btn--white" href="/moje-blyskawiczne-oferty-pracy">
-                    Moje błyskawiczne oferty pracy
+                    {c.myFastOffers}
                 </a>
             </div>
         </div>
         {!limitExceeded ? <form className="addOffer" ref={addOfferForm}>
             <h1 className="addOffer__header">
-                {updateMode ? 'Edycja błyskawicznej oferty pracy' : 'Dodawanie nowej błyskawicznej oferty pracy'}
+                {updateMode ? c.fastOfferEdition : c.fastOfferAdding}
             </h1>
             <p className="addOffer__text">
-                Oferta błyskawiczna pozwoli Ci na znalezienie kandydatów dostępnych od ręki, którzy będą gotowi do podjęcia pracy natychmiastowo.
+                {c.fastOfferAddingDescription}
             </p>
             <p className="addOffer__text addOffer__text--fast">
-                Spiesz się! Dobowa ilość ofert jest ograniczona.
+                {c.fastOfferLimitInfo}
             </p>
             <p className="addOffer__text addOffer__text--fast addOffer__text--fast--limitInfo">
-                Dobowy limit ofert: <span className="red">{numberOfFastOffers}/15</span>
+                {c.limitInfo}: <span className="red">{numberOfFastOffers}/15</span>
             </p>
 
             <label className="label">
-                Stanowisko
+                {c.post}
                 <input className="input"
                        value={title}
                        onChange={(e) => { setTitle(e.target.value); }} />
             </label>
             <div className="label label--responsibility label--category">
-                Branża
+                {c.category}
                 <div className="label--date__input label--date__input--country label--date__input--category">
                     <button className="datepicker datepicker--country datepicker--category"
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCategoriesVisible(!categoriesVisible); }}
                     >
-                        {category !== -1 ? categories[category] : 'Wybierz branżę'}
+                        {category !== -1 ? JSON.parse(c.categories)[category] : c.chooseCategory}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {categoriesVisible ? <div className="datepickerDropdown noscroll">
-                        {categories?.map((item, index) => {
+                        {JSON.parse(c.categories)?.map((item, index) => {
                             return <button className="datepickerBtn center" key={index}
                                            onClick={(e) => { e.stopPropagation(); setCategoriesVisible(false); setCategory(index); }}>
                                 {item}
@@ -522,11 +518,11 @@ const AddFastJobOffer = ({updateMode}) => {
             <div className="label label--special">
                 <span className="flex flex--start">
                     <span>
-                        Słowa kluczowe
+                        {c.keywords}
                     </span>
                     <Tooltip
                         html={<span className="tooltipVisible">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam molestie ipsum metus. Nullam vitae turpis tellus. Nullam vel gravida nunc, et hendrerit dolor. Integer posuere nisl eu porta cursus.
+                            {c.keywordsTooltip}
                                     </span>}
                         followCursor={true}>
                             <span className="tooltip">
@@ -537,23 +533,25 @@ const AddFastJobOffer = ({updateMode}) => {
                 <input className="input--special"
                        value={keywords}
                        onChange={(e) => { setKeywords(e.target.value); }}
-                       placeholder="np. produkcja, magazyn, przemysł" />
+                       placeholder={c.keywordsPlaceholder} />
             </div>
 
             <div className="label label--date label--date--address">
-                Miejsce pracy
+                {c.jobPlace}
                 <div className="flex flex-wrap flex--fastOffer">
                     <div className="label--date__input label--date__input--country">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCountriesVisible(!countriesVisible); }}
                         >
-                            {country !== -1 ? countries[country] : 'Wybierz kraj'}
+                            {country !== -1 ? JSON.parse(c.countries)[country] : c.chooseCountry}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {countriesVisible ? <div className="datepickerDropdown noscroll">
-                            {countries?.map((item, index) => {
+                            {JSON.parse(c.countries)?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
-                                               onClick={(e) => { e.preventDefault(); setCountry(index); setCountriesVisible(false); }}>
+                                               onClick={(e) => { e.preventDefault();
+                                               setCountry(index);
+                                               setCountriesVisible(false); }}>
                                     {item}
                                 </button>
                             })}
@@ -563,35 +561,35 @@ const AddFastJobOffer = ({updateMode}) => {
                         <input className="input input--address"
                                value={city}
                                onChange={(e) => { setCity(e.target.value); }}
-                               placeholder="Miejscowość" />
+                               placeholder={c.city} />
                     </label>
                     <label className="label--postalCode">
                         <input className="input input--city"
                                value={postalCode}
                                onChange={(e) => { setPostalCode(e.target.value); }}
-                               placeholder="Kod pocztowy" />
+                               placeholder={c.postalCode} />
                     </label>
                     <label className="label--street">
                         <input className="input input--address"
                                value={street}
                                onChange={(e) => { setStreet(e.target.value); }}
-                               placeholder="Ulica i nr budynku" />
+                               placeholder={c.streetAndBuilding} />
                     </label>
                 </div>
             </div>
 
             <div className="label label--date label--date--address">
-                Miejsce zakwaterowania
+                {c.accommodationPlace}
                 <div className="flex flex-wrap flex--fastOffer">
                     <div className="label--date__input label--date__input--country">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setAccommodationCountriesVisible(!accommodationCountriesVisible); }}
                         >
-                            {accommodationCountry !== -1 ? countries[accommodationCountry] : 'Wybierz kraj'}
+                            {accommodationCountry !== -1 ? JSON.parse(c.countries)[accommodationCountry] : 'Wybierz kraj'}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {accommodationCountriesVisible ? <div className="datepickerDropdown noscroll">
-                            {countries?.map((item, index) => {
+                            {JSON.parse(c.countries)?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
                                                onClick={(e) => { e.preventDefault(); setAccommodationCountry(index); setAccommodationCountriesVisible(false); }}>
                                     {item}
@@ -603,32 +601,32 @@ const AddFastJobOffer = ({updateMode}) => {
                         <input className="input input--address"
                                value={accommodationCity}
                                onChange={(e) => { setAccommodationCity(e.target.value); }}
-                               placeholder="Miejscowość" />
+                               placeholder={c.city} />
                     </label>
                     <label className="label--postalCode">
                         <input className="input input--city"
                                value={accommodationPostalCode}
                                onChange={(e) => { setAccommodationPostalCode(e.target.value); }}
-                               placeholder="Kod pocztowy" />
+                               placeholder={c.postalCode} />
                     </label>
                     <label className="label--street">
                         <input className="input input--address"
                                value={accommodationStreet}
                                onChange={(e) => { setAccommodationStreet(e.target.value); }}
-                               placeholder="Ulica i nr budynku" />
+                               placeholder={c.streetAndBuilding} />
                     </label>
                 </div>
             </div>
 
             <div className="label drivingLicenceWrapper">
-                Data zameldowania (od kiedy)
+                {c.accommodationDate}
                 <div className="flex flex-wrap flex--fastOffer">
                     {/* DAY */}
                     <div className="label--date__input">
                         <button className="datepicker datepicker--day"
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setDayVisible(!dayVisible); }}
                         >
-                            {day !== -1 ? day+1 : 'Dzień'}
+                            {day !== -1 ? day+1 : c.day}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {dayVisible ? <div className="datepickerDropdown noscroll">
@@ -645,11 +643,11 @@ const AddFastJobOffer = ({updateMode}) => {
                         <button className="datepicker datepicker--month"
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setMonthVisible(!monthVisible); }}
                         >
-                            {month !== -1 ? months[month] : 'Miesiąc'}
+                            {month !== -1 ? JSON.parse(c.months)[month] : c.month}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {monthVisible ? <div className="datepickerDropdown noscroll">
-                            {months?.map((item, index) => {
+                            {JSON.parse(c.months)?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
                                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setMonthVisible(false); setMonth(index); }}>
                                     {item}
@@ -662,7 +660,7 @@ const AddFastJobOffer = ({updateMode}) => {
                         <button className="datepicker datepicker--year"
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setYearVisible(!yearVisible); }}
                         >
-                            {year !== -1 ? year : 'Rok'}
+                            {year !== -1 ? year : c.year}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {yearVisible ? <div className="datepickerDropdown noscroll">
@@ -678,20 +676,20 @@ const AddFastJobOffer = ({updateMode}) => {
                         <input className="input input--address"
                                value={hour}
                                onChange={(e) => { setHour(e.target.value); }}
-                               placeholder="Godzina" />
+                               placeholder={c.hour} />
                     </label>
                 </div>
             </div>
 
             <div className="label drivingLicenceWrapper">
-                Data i godzina rozpoczęcia pracy
+                {c.startWorkDate}
                 <div className="flex flex-wrap flex--fastOffer">
                     {/* DAY */}
                     <div className="label--date__input">
                         <button className="datepicker datepicker--day"
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStartDayVisible(!startDayVisible); }}
                         >
-                            {startDay !== -1 ? startDay+1 : 'Dzień'}
+                            {startDay !== -1 ? startDay+1 : c.day}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {startDayVisible ? <div className="datepickerDropdown noscroll">
@@ -708,11 +706,11 @@ const AddFastJobOffer = ({updateMode}) => {
                         <button className="datepicker datepicker--month"
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStartMonthVisible(!startMonthVisible); }}
                         >
-                            {startMonth !== -1 ? months[startMonth] : 'Miesiąc'}
+                            {startMonth !== -1 ? JSON.parse(c.months)[startMonth] : c.month}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {startMonthVisible ? <div className="datepickerDropdown noscroll">
-                            {months?.map((item, index) => {
+                            {JSON.parse(c.months)?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
                                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStartMonthVisible(false); setStartMonth(index); }}>
                                     {item}
@@ -725,7 +723,7 @@ const AddFastJobOffer = ({updateMode}) => {
                         <button className="datepicker datepicker--year"
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStartYearVisible(!startYearVisible); }}
                         >
-                            {startYear !== -1 ? startYear : 'Rok'}
+                            {startYear !== -1 ? startYear : c.year}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {startYearVisible ? <div className="datepickerDropdown noscroll">
@@ -740,22 +738,22 @@ const AddFastJobOffer = ({updateMode}) => {
                     <label className="label--street">
                         <input className="input input--address"
                                value={startHour}
-                               onChange={(e) => { setStartHour(e.target.value); }}
-                               placeholder="Godzina" />
+                               onChange={() => { setStartHour(e.target.value); }}
+                               placeholder={c.hour} />
                     </label>
                 </div>
             </div>
 
             <label className="label label--rel">
-                Opis stanowiska
+                {c.postDescriotion}
                 <textarea className="input input--textarea input--situation"
                           value={description}
                           onChange={(e) => { setDescription(e.target.value); }}
-                          placeholder="Opisz swoją ofertę oraz podaj najważniejsze cechy stanowiska, które oferujesz." />
+                          placeholder={c.postDescriptionPlaceholder} />
             </label>
 
             <div className="label">
-                Zakres obowiązków
+                {c.responsibilities}
                 {responsibilities.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
                         <input className="input"
@@ -768,12 +766,12 @@ const AddFastJobOffer = ({updateMode}) => {
                 })}
 
                 <button className="addNewBtn addNewBtn--responsibility flex" onClick={(e) => { e.preventDefault(); addNewResponsibility(); }}>
-                    Dodaj obowiązek
+                    {c.addResponsibility}
                     <img className="img" src={plusIcon} alt="dodaj" />
                 </button>
             </div>
             <div className="label">
-                Wymagania
+                {c.requirements}
                 {requirements.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
                         <input className="input"
@@ -786,12 +784,12 @@ const AddFastJobOffer = ({updateMode}) => {
                 })}
 
                 <button className="addNewBtn addNewBtn--responsibility flex" onClick={(e) => { e.preventDefault(); addNewRequirement(); }}>
-                    Dodaj obowiązek
+                    {c.addRequirement}
                     <img className="img" src={plusIcon} alt="dodaj" />
                 </button>
             </div>
             <div className="label">
-                Co oferujesz
+                {c.whatYouOffer}
                 {benefits.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
                         <input className="input"
@@ -804,27 +802,27 @@ const AddFastJobOffer = ({updateMode}) => {
                 })}
 
                 <button className="addNewBtn addNewBtn--responsibility flex" onClick={(e) => { e.preventDefault(); addNewBenefit(); }}>
-                    Dodaj obowiązek
+                    {c.addWhatYouOffer}
                     <img className="img" src={plusIcon} alt="dodaj" />
                 </button>
             </div>
 
             <div className="label drivingLicenceWrapper drivingLicenceWrapper--salary">
-                Wynagrodzenie
+                {c.salary}
                 <div className="flex flex--start">
                     <label className={salaryType === 1 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                         <button className="checkbox center"
                                 onClick={(e) => { e.preventDefault(); setSalaryType(1); }}>
                             <span></span>
                         </button>
-                        tygodniowo
+                        {c.weekly}
                     </label>
                     <label className={salaryType === 0 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                         <button className="checkbox center"
                                 onClick={(e) => { e.preventDefault(); setSalaryType(0); }}>
                             <span></span>
                         </button>
-                        miesięcznie
+                        {c.monthly}
                     </label>
                 </div>
                 <div className="flex flex--start salaryInputsWrapper">
@@ -863,17 +861,17 @@ const AddFastJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label drivingLicenceWrapper">
-                Typ umowy
+                {c.contractType}
                 <div className="flex flex--start">
                     <div className="label--date__input label--date__input--drivingLicence">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setContractTypeVisible(!contractTypeVisible); }}
                         >
-                            {contractType !== -1 ? contracts[contractType] : 'Wybierz'}
+                            {contractType !== -1 ? JSON.parse(c.contracts)[contractType] : c.choose}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {contractTypeVisible ? <div className="datepickerDropdown noscroll">
-                            {contracts?.map((item, index) => {
+                            {JSON.parse(c.contracts)?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
                                                onClick={(e) => { e.preventDefault(); setContractType(index); }}>
                                     {item}
@@ -885,7 +883,7 @@ const AddFastJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label label--phoneNumber">
-                Dane osoby rekrutującej
+                {c.recruitmentPersonData}
                 <label className="label label--normal">
                     <input className="input"
                            value={contactPerson}
@@ -909,9 +907,9 @@ const AddFastJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label">
-                Zdjęcie w tle oferty
+                {c.backgroundImage}
                 <p className="label--extraInfo label--extraInfo--marginBottom">
-                    Załącz zdjęcie w tle oferty. Zalecane wymiary to 1600 x 350px.
+                    {c.backgroundImageDescription}
                 </p>
                 <div className={!image ? "filesUploadLabel filesUploadLabel--image center" : "filesUploadLabel filesUploadLabel--image filesUploadLabel--noBorder center"}>
                     {!imageUrl ? <img className="img" src={plusGrey} alt="dodaj-pliki" /> : <div className="filesUploadLabel__profileImage">
@@ -928,9 +926,9 @@ const AddFastJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label">
-                Załączniki
+                {c.attachments}
                 <p className="label--extraInfo label--extraInfo--marginBottom">
-                    Tutaj możesz dodać dodatkowe załączniki, dostępne do pobrania na stronie oferty pracy.
+                    {c.offerAttachmentsDescription}
                 </p>
                 <label className="filesUploadLabel center">
                     {attachments?.length === 0 ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : ''}
@@ -976,27 +974,27 @@ const AddFastJobOffer = ({updateMode}) => {
 
             <button className="btn btn--login center"
                     onClick={(e) => { handleSubmit(e); }}>
-                {updateMode ? 'Edytuj ofertę' : 'Dodaj nową ofertę'}
+                {updateMode ? c.editOffer : c.addNewOffer}
                 <img className="img" src={arrowIcon} alt="dodaj-oferte-pracy" />
             </button>
         </form> : (limitExceeded === 1 ? <div className="limitWarning">
             <img className="img" src={xIcon} alt="przekroczony-limit" />
             <h3 className="limitWarning__header">
-                Przekroczony został dzienny limit ofert błyskawicznych.
+                {c.dailyLimitExceeded}
             </h3>
             <h3 className="limitWarning__header">
-                Oferty resetują się o północy. Spróbuj dodać swoją ofertę jutro!
+                {c.dailyLimitExceededInfo}
             </h3>
         </div> : (limitExceeded === 2 ? <div className="limitWarning">
             <img className="img" src={xIcon} alt="przekroczony-limit" />
             <h3 className="limitWarning__header">
-                Przekroczony został Twój dzienny limit ofert błyskawicznych.
+                {c.personalLimitExeeded}
             </h3>
             <h3 className="limitWarning__header">
-                Jednej doby możesz dodać maksymalnie dwie oferty błyskawiczne.
+                {c.personalLimitExeededInfo}
             </h3>
             <a className="btn" href="/">
-                Strona główna
+                {c.homepage}
             </a>
         </div> : <div className="center">
             <Loader />

@@ -6,9 +6,11 @@ import CV from "./CV";
 import {getDate} from "../helpers/others";
 import {countries, noInfo} from "../static/content";
 import {PDFDownloadLink} from "@react-pdf/renderer";
+import {LanguageContext} from "../App";
 
 const UserFormSummary = () => {
     const { userData } = useContext(UserDataContext);
+    const { c } = useContext(LanguageContext);
 
     const [data, setData] = useState({});
 
@@ -18,7 +20,7 @@ const UserFormSummary = () => {
 
     return <div className="userForm userForm--summary">
         <h3 className="userForm--summary__header">
-            Twoje wygenerowane CV
+            {c.yourGeneratedCV}
         </h3>
         <div className="userForm--summary__buttons flex">
             {data?.certificates ? <PDFDownloadLink document={<CV profileImage={data?.profileImageUrl}
@@ -44,26 +46,26 @@ const UserFormSummary = () => {
                                                    fileName={`CV-${data.firstName}_${data.lastName}.pdf`}
                                                    className="btn btn--downloadCV">
                 <img className="img" src={magnifier} alt="pobierz" />
-                Podgląd
+                {c.preview}
             </PDFDownloadLink> : ''}
             <button className="btn btn--userForm btn--white" onClick={() => { window.location.reload(); }}>
-                Edycja
+                {c.edition}
                 <img className="img" src={pen} alt="edytuj" />
             </button>
         </div>
 
         <h4 className="userForm--summary__header userForm--summary__header--marginTop">
-            Dalsze działania
+            {c.nextActions}
         </h4>
         <div className="userForm--summary__buttons flex">
             <a className="btn btn--userForm btn--widthAuto" href="/oferty-pracy">
-                Przeglądaj oferty pracy
+                {c.seeJobOffers}
             </a>
             <a className="btn btn--userForm btn--widthAuto btn--white" href="/konto-pracownika">
-                Zobacz mój profil
+                {c.myAccount}
             </a>
             <a className="btn btn--userForm btn--widthAuto btn--userFormBack" href="/">
-                Strona główna
+                {c.homepage}
             </a>
         </div>
     </div>

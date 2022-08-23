@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import closeIcon from '../static/img/close-icon.svg'
-import {categories, countries, currencies, distances} from "../static/content";
+import {currencies, distances} from "../static/content";
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
+import {LanguageContext} from "../App";
 
 const JobOffersFilters = ({closeModal, title, category, country, city, distance,
                               salaryType, salaryFrom, salaryTo, salaryCurrency, submitFilters,
     setTitle, setCategory, setCountry, setCity, setDistance, setSalaryType, setSalaryFrom, setSalaryTo, setSalaryCurrency,
     countriesVisible, categoriesVisible, currenciesVisible, distanceVisible, setCountriesVisible, setCategoriesVisible, setCurrenciesVisible, setDistanceVisible
                           }) => {
+    const { c } = useContext(LanguageContext);
+
     return <div className="modal modal--filters center">
         <div className="modal__inner">
             <button className="modal__inner__closeBtn"
@@ -16,28 +19,28 @@ const JobOffersFilters = ({closeModal, title, category, country, city, distance,
                 <img className="img" src={closeIcon} alt="zamknij" />
             </button>
             <h3 className="modal__header">
-                Filtry wyszukiwania
+                {c.filters}
             </h3>
 
             <div className="label label--special">
-                Stanowisko
+                {c.post}
                 <input className="input--special"
                        value={title}
                        onChange={(e) => { e.target.value.length < 50 ? setTitle(e.target.value) : setTitle(title)}}
-                       placeholder="np. kierowca" />
+                       placeholder={c.postPlaceholder} />
             </div>
 
             <div className="label label--responsibility label--category">
-                Branża
+                {c.category}
                 <div className="label--date__input label--date__input--country label--date__input--category">
                     <button className="datepicker datepicker--country datepicker--category"
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCategoriesVisible(!categoriesVisible); }}
                     >
-                        {category !== -1 ? categories[category] : 'Wybierz branżę'}
+                        {category !== -1 ? JSON.parse(c.categories)[category] : c.chooseCategory}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {categoriesVisible ? <div className="datepickerDropdown noscroll">
-                        {categories?.map((item, index) => {
+                        {JSON.parse(c.categories)?.map((item, index) => {
                             return <button className="datepickerBtn center" key={index}
                                            onClick={(e) => { e.stopPropagation(); setCategoriesVisible(false); setCategory(index); }}>
                                 {item}
@@ -48,17 +51,17 @@ const JobOffersFilters = ({closeModal, title, category, country, city, distance,
             </div>
 
             <div className="label label--date label--date--address">
-                Lokalizacja
+                {c.location}
                 <div className="flex flex--start">
                     <div className="label--date__input label--date__input--country">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation(); setCountriesVisible(!countriesVisible); }}
                         >
-                            {country !== -1 ? countries[country] : 'Wybierz kraj'}
+                            {country !== -1 ? JSON.parse(c.countries)[country] : c.chooseCountry}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {countriesVisible ? <div className="datepickerDropdown noscroll">
-                            {countries?.map((item, index) => {
+                            {JSON.parse(c.countries)?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
                                                onClick={(e) => { setCountry(index); }}>
                                     {item}
@@ -70,7 +73,7 @@ const JobOffersFilters = ({closeModal, title, category, country, city, distance,
                         <input className="input input--city"
                                value={city}
                                onChange={(e) => { setCity(e.target.value); }}
-                               placeholder="Miejscowość" />
+                               placeholder={c.city} />
                         <div className="label--date__input label--date__input--distance">
                             <button className="datepicker datepicker--distance"
                                     onClick={(e) => { e.stopPropagation(); setDistanceVisible(!distanceVisible); }}
@@ -92,9 +95,9 @@ const JobOffersFilters = ({closeModal, title, category, country, city, distance,
             </div>
 
             <div className="label drivingLicenceWrapper drivingLicenceWrapper--salary">
-                Finanse
+                {c.finances}
                 <p className="label--extraInfo">
-                    Oczekiwania finansowe <span className="bold">netto</span>
+                    {c.salaryExpectations.charAt(0).toUpperCase() + c.salaryExpectations.slice(1)} <span className="bold">{c.netto}</span>
                 </p>
                 <div className="flex flex--start jobOfferFilters__salaryType">
                     <label className={salaryType === 1 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
@@ -102,14 +105,14 @@ const JobOffersFilters = ({closeModal, title, category, country, city, distance,
                                 onClick={() => { setSalaryType(1); }}>
                             <span></span>
                         </button>
-                        tygodniowo
+                        {c.weekly}
                     </label>
                     <label className={salaryType === 0 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                         <button className="checkbox center"
                                 onClick={() => { setSalaryType(0); }}>
                             <span></span>
                         </button>
-                        miesięcznie
+                        {c.monthly}
                     </label>
                 </div>
                 <div className="flex flex--start salaryInputsWrapper">
@@ -148,7 +151,7 @@ const JobOffersFilters = ({closeModal, title, category, country, city, distance,
             </div>
 
             <button className="btn btn--filterSubmit" onClick={() => { closeModal(); submitFilters(); }}>
-                Zatwierdź filtry
+                {c.submitFilters}
             </button>
         </div>
     </div>

@@ -4,7 +4,7 @@ import {languageVersions} from "../static/content";
 import {LanguageContext} from "../App";
 
 const LanguagePopup = ({closeModal}) => {
-    const { language, setLanguage } = useContext(LanguageContext);
+    const { setLanguage, c } = useContext(LanguageContext);
 
     useEffect(() => {
         document.addEventListener('keyup', (e) => {
@@ -22,7 +22,7 @@ const LanguagePopup = ({closeModal}) => {
                 <img className="img" src={closeIcon} alt="zamknij" />
             </button>
             <h3 className="modal__header">
-                Wybierz język
+                {c.chooseLanguage}
             </h3>
             <div className="languages flex">
                 {languageVersions.map((item, index) => {

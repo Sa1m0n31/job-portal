@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useRef} from 'react';
 import logo from '../static/img/logo-czarne.png'
 import arrow from '../static/img/left-blue-arrow.svg'
 import userIcon from "../static/img/user-in-circle.svg";
@@ -39,7 +39,7 @@ const MobileHeader = ({back, backFunction, loggedUser, loggedAgency, newMessages
 
         {back ? <button className="mobileHeader__backBtn"
                         onClick={() => { handleBack(); }}>
-            <img className="img" src={arrow} alt="powrot" />
+            <img className="img" src={arrow} alt="back" />
         </button> : <div className="mobileHeader__right">
             <div className="home__header__mobile flex">
                 {!loggedUser && !loggedAgency ? <a href="/strefa-pracownika" className="home__header__mobile__btn">

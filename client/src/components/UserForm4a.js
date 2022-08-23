@@ -1,19 +1,20 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {UserDataContext} from "../pages/UserEditData";
-import {drivingLicences, languageLevels, languages} from "../static/content";
+import {languageLevels} from "../static/content";
 import {isElementInArray} from "../helpers/others";
-import penIcon from '../static/img/pen.svg'
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
+import {LanguageContext} from "../App";
 
 const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCategory, setLevelsVisible, setDrivingLicenceVisible}) => {
     const { userData, setStep, setSubstep, handleChange, levelsVisible, drivingLicenceVisible } = useContext(UserDataContext);
+    const { c } = useContext(LanguageContext);
 
     return <>
         <div className="userForm">
         <div className="label">
-            Języki obce
+            {c.foreignLanguages.charAt(0).toUpperCase() + c.foreignLanguages.slice(1)}
             <div className="languagesWrapper flex">
-                {languages.map((item, index) => {
+                {JSON.parse(c.languages).map((item, index) => {
                     return <label className={isElementInArray(index, userData.languages.map((item) => (item.language))) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"} key={index}>
                         <button className={isElementInArray(index, userData.languages.map((item) => (item.language))) ? "checkbox checkbox--selected center" : "checkbox center"}
                                 onClick={() => { toggleLanguage(index); }}>
@@ -25,22 +26,22 @@ const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCate
             </div>
         </div>
         <div className="label label--special">
-            Wpisz inne języki obce, wraz z poziomem
+            {c.otherLanguages}
             <input className="input--special"
                    value={userData.extraLanguages}
                    onChange={(e) => { handleChange('extraLanguages', e.target.value); }}
-                   placeholder="np. chiński - A2" />
+                   placeholder={c.otherLanguagesPlaceholder} />
         </div>
         {userData.languages.length ? <div className="label">
-            Stopień zaawansowania języka obcego
+            {c.foreignLanguageLevel}
             <p className="label--extraInfo">
-                Wybierz poziom, na jaki określasz swoją znajomość wybranych języków obcych:
+                {c.foreignLanguageLevelDescription}:
             </p>
             <div className="languageLvlWrapper flex">
                 {userData.languages.map((item, index) => {
                     const langIndex = item.language;
                     return <div className="languageLvl flex" key={index}>
-                        {languages[item.language]}
+                        {JSON.parse(c.languages)[item.language]}
 
                         <div className="label--date__input label--date__input--languageLvl">
                             <button className="datepicker datepicker--languageLvl"
@@ -64,22 +65,22 @@ const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCate
         </div> : ''}
 
         <div className="label drivingLicenceWrapper">
-            Prawo jazdy
+            {c.drivingLicence.chatAt(0).toUpperCase() + c.drivingLicence.slice(1)}
             <p className="label--extraInfo">
-                Czy posiadasz prawo jazdy?
+                {c.drivingLicenceDescription}
             </p>
             <div className="flex flex--start">
                 <div className="label--date__input label--date__input--bool label--date__input--drivingLicence">
                     <button className="datepicker datepicker--country"
                             onClick={(e) => { e.stopPropagation(); setDrivingLicenceVisible(!drivingLicenceVisible); }}
                     >
-                        {userData.drivingLicence ? 'Tak' : 'Nie'}
+                        {userData.drivingLicence ? c.yes : c.no}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {drivingLicenceVisible ? <div className="datepickerDropdown noscroll">
                         <button className="datepickerBtn center"
                                 onClick={() => { setDrivingLicenceVisible(false); handleChange('drivingLicence', !userData.drivingLicence); }}>
-                            {userData.drivingLicence ? 'Nie' : 'Tak'}
+                            {userData.drivingLicence ? c.no : c.yes}
                         </button>
                     </div> : ''}
                 </div>
@@ -88,9 +89,9 @@ const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCate
 
         {userData.drivingLicence ? <div className="label drivingLicenceCategoriesWrapper">
             <span className="w-100">
-                Kategoria prawa jazdy
+                {c.drivingLicenceCategory}
             </span>
-            {drivingLicences.map((item, index) => {
+            {JSON.parse(c.drivingLicences).map((item, index) => {
                 return <label className={isElementInArray(index, userData.drivingLicenceCategories) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"} key={index}>
                     <button className="checkbox center"
                             onClick={() => { toggleDrivingLicenceCategory(index); }}>
@@ -103,10 +104,10 @@ const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCate
     </div>
     <div className="formBottom flex">
         <button className="btn btn--userForm btn--userFormBack" onClick={() => { setStep(2); }}>
-            Wstecz
+            {c.back}
         </button>
         <button className="btn btn--userForm" onClick={() => { setSubstep(1); }}>
-            Dalej
+            {c.next}
         </button>
     </div>
     </>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import userPlaceholder from '../static/img/user-placeholder.svg'
 import location from '../static/img/location.svg'
 import nipIcon from '../static/img/info-icon.svg'
@@ -14,8 +14,11 @@ import {PDFDownloadLink} from "@react-pdf/renderer";
 import CV from "./CV";
 import {getDate} from "../helpers/others";
 import downloadWhite from "../static/img/download-white.svg";
+import {LanguageContext} from "../App";
 
 const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
+    const { c } = useContext(LanguageContext);
+
     return data ? <div className={application ? "preview preview--agency preview--user flex flex-wrap" : "preview preview--agency preview--user flex"} key={i}>
         <div className="preview__left">
             <figure className="preview__profileImage">
@@ -23,19 +26,19 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
             </figure>
             <div className="preview__content">
                 <h3 className="preview__fullName">
-                    {data?.firstName ? `${data.firstName} ${data?.lastName}` : 'Anonimowy'}
+                    {data?.firstName ? `${data.firstName} ${data?.lastName}` : c.anonim}
                 </h3>
 
                 <div className="preview__buttons preview__buttons--mobile">
                     <a className="btn btn--white"
                        href={`/nowa-wiadomosc?kandydat=${id}`}>
                         <img className="img" src={messageIcon} alt="wiadomość" />
-                        Napisz
+                        {c.write}
                     </a>
                     <a className="btn btn--white"
                        href={`/profil-kandydata?id=${id}`}>
                         <img className="img" src={eyeIcon} alt="profil" />
-                        Zobacz profil
+                        {c.seeProfile}
                     </a>
                 </div>
 
@@ -75,7 +78,7 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
 
         <div className="preview__buttons">
             {data?.firstName && data?.lastName ? <div className="preview__buttons__section preview__buttons__section--cv">
-                Wygeneruj i pobierz CV:
+                {c.generateAndDownloadCV}:
                 <PDFDownloadLink document={<CV profileImage={`${settings.API_URL}/${data?.profileImage}`}
                                                        fullName={`${data.firstName} ${data.lastName}`}
                                                        companyName={companyName}
@@ -101,23 +104,23 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
                                          fileName={`CV-${data.firstName}_${data.lastName}.pdf`}
                                          className="btn btn--downloadCV">
                     <img className="img" src={downloadWhite} alt="pobierz" />
-                    Pobierz CV
+                    {c.downloadCV}
                 </PDFDownloadLink>
             </div> : ''}
 
             <div className="preview__buttons__section preview__buttons__section--flex">
                 <span className="w-100">
-                    Działania
+                    {c.actions}
                 </span>
                 <a className="btn btn--white"
                    href={`/profil-kandydata?id=${id}`}>
                     <img className="img" src={eyeIcon} alt="profil" />
-                    Zobacz profil
+                    {c.seeProfile}
                 </a>
                 <a className="btn btn--white"
                    href={`/nowa-wiadomosc?kandydat=${id}`}>
                     <img className="img" src={messageIcon} alt="wiadomość" />
-                    Napisz
+                    {c.write}
                 </a>
             </div>
         </div>
@@ -125,7 +128,7 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
         {application ? <div className="preview__bottom">
             {application.message ? <div className="preview__bottom__section">
                 <h4 className="preview__bottom__header">
-                    Wiadomość
+                    {c.message}
                 </h4>
                 <div className="preview__bottom__content">
                     {application.message}
@@ -133,7 +136,7 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
             </div> : ''}
             {application.friendLink ? <div className="preview__bottom__section">
                 <h4 className="preview__bottom__header">
-                    Link do profilu partnera
+                    {c.friendLink}
                 </h4>
                 <a className="preview__bottom__content" href={application.friendLink}>
                     {application.friendLink}
@@ -141,7 +144,7 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
             </div> : ''}
             <div className="preview__bottom__section">
                 <h4 className="preview__bottom__header">
-                    Preferowana forma kontaktu
+                    {c.preferableContact}
                 </h4>
                 <div className="preview__bottom__content">
                     {application.preferableContact?.map((item, index, array) => {
@@ -156,7 +159,7 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
             </div>
             {application?.attachments?.length ? <div className="preview__bottom__section">
                 <h3 className="preview__bottom__header">
-                    Załączniki
+                    {c.attachments}
                 </h3>
                 <div className="jobOffer__section__text jobOffer__section__text--attachments">
                     {application.attachments?.map((item, index) => {

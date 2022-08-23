@@ -1,34 +1,21 @@
-import React from 'react';
+import React, {useContext} from "react";
 import HomeSectionHeader from "./HomeSectionHeader";
-import icon1 from '../static/img/magnifier-icon.svg'
+import icon1 from "../static/img/magnifier-icon.svg"
+import {LanguageContext} from "../App";
 
-const items = [
-    {
-        img: icon1,
-        header: 'Wyszukiwarka ofert',
-        text: 'Portal umożliwia znajdowanie ofert, wyszukując na podstawie takich kryteriów jak branża, widełki płacowe czy miejsce pracy.'
-    },
-    {
-        img: icon1,
-        header: 'Wyszukiwarka ofert',
-        text: 'Portal umożliwia znajdowanie ofert, wyszukując na podstawie takich kryteriów jak branża, widełki płacowe czy miejsce pracy.'
-    },
-    {
-        img: icon1,
-        header: 'Wyszukiwarka ofert',
-        text: 'Portal umożliwia znajdowanie ofert, wyszukując na podstawie takich kryteriów jak branża, widełki płacowe czy miejsce pracy.'
-    }
-]
+const icons = [icon1, icon1, icon1];
 
 const Tools = () => {
+    const { c } = useContext(LanguageContext);
+
     return <div className="homeSection homeSection--tools" id="funkcje">
-        <HomeSectionHeader content="Dostępne narzędzia" />
+        <HomeSectionHeader content={c.toolsHeader} />
 
         <div className="tools flex">
-            {items?.map((item, index) => {
+            {JSON.parse(c.toolsContent)?.map((item, index) => {
                 return <div key={index} className="tools__item">
                     <figure className="tools__figure center">
-                        <img className="img" src={item.img} alt="img" />
+                        <img className="img" src={icons[index]} alt="img" />
                     </figure>
                     <h5 className="tools__header">
                         {item.header}

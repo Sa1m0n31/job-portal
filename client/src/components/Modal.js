@@ -1,7 +1,10 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import xIcon from '../static/img/x-button.svg'
+import {LanguageContext} from "../App";
 
 const Modal = ({header, closeModal, modalAction, message}) => {
+    const { c } = useContext(LanguageContext);
+
     useEffect(() => {
         document.addEventListener('keyup', (e) => {
             if(e.key === 'Escape') {
@@ -22,10 +25,10 @@ const Modal = ({header, closeModal, modalAction, message}) => {
                 </h4>
                 <div className="modal__buttons flex">
                     <button className="btn btn--modal btn--modal--delete" onClick={() => { modalAction(); }}>
-                        Usuń
+                        {c.delete}
                     </button>
                     <button className="btn btn--modal btn--modal--cancel" onClick={() => { closeModal(); }}>
-                        Anuluj
+                        {c.cancel}
                     </button>
                 </div>
             </> : <h4 className="modal__header">

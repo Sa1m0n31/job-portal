@@ -4,7 +4,6 @@ import {authUser, getUserData} from "../helpers/user";
 import Loader from "./Loader";
 import UserEditData from "../pages/UserEditData";
 import JobOfferList from "../pages/JobOffersList";
-import SingleOffer from "../pages/SingleOffer";
 import ApplicationForJobPage from "../pages/ApplicationForJobPage";
 import AgenciesList from "../pages/AgenciesList";
 import AgencyProfile from "../pages/AgencyProfile";

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import magnifier from '../static/img/magnifier.svg'
 import {filterAgencies, getAllApprovedAgencies} from "../helpers/agency";
@@ -7,8 +7,11 @@ import Loader from "../components/Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import AgenciesFilters from "../components/AgenciesFilters";
 import filterIcon from '../static/img/filter-results-button.svg'
+import {LanguageContext} from "../App";
 
 const AgenciesList = ({data}) => {
+    const { c } = useContext(LanguageContext);
+
     const [agencies, setAgencies] = useState([]);
     const [filtersActive, setFiltersActive] = useState(false);
     const [hasMore, setHasMore] = useState(true);
@@ -25,7 +28,6 @@ const AgenciesList = ({data}) => {
     useEffect(() => {
         getAllApprovedAgencies(1)
             .then((res) => {
-                console.log(res);
                 if(res?.status === 200) {
                     setAgencies(res?.data);
                 }
@@ -53,8 +55,6 @@ const AgenciesList = ({data}) => {
         if(page > 1) {
             const newAgenciesResponse = await filterAgencies(country, city, distance, sorting, page);
             const newAgencies = newAgenciesResponse.data;
-
-            console.log(newAgencies);
 
             if(newAgencies.length) {
                 setFilteredAgencies(prevState => ([...prevState, ...newAgencies]));
@@ -111,21 +111,21 @@ const AgenciesList = ({data}) => {
 
         <aside className="userAccount__top flex">
             <span className="userAccount__top__loginInfo">
-                Zalogowany w: <span className="bold">Strefa Pracodawcy</span>
+                {c.loggedIn}: <span className="bold">{c.userZone}</span>
             </span>
             <button className="btn btn--filter" onClick={() => { setFiltersVisible(true); }}>
-                Filtry wyszukiwania
+                {c.filters}
                 <img className="img" src={magnifier} alt="powiększ" />
             </button>
         </aside>
 
         <button className="userAccount__top--mobile" onClick={() => { setFiltersVisible(true); }}>
-            Filtry wyszukiwania
+            {c.filters}
             <img className="img" src={filterIcon} alt="filtry" />
         </button>
 
         {filtersActive && filteredAgencies?.length === 0 && !hasMore ? <h3 className="noOffersFound">
-            Nie znaleziono pracodawców o podanych kryteriach
+            {c.noAgenciesFound}
         </h3> : ''}
 
         <main className="agenciesList flex">

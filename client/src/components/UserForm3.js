@@ -1,13 +1,12 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {UserDataContext} from "../pages/UserEditData";
-import {countries, educationLevels} from "../static/content";
-import dropdownArrow from "../static/img/dropdown-arrow.svg";
 import plusIcon from '../static/img/plus-in-circle.svg'
 import trashIcon from '../static/img/trash.svg'
+import {LanguageContext} from "../App";
 
 const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsibilities, addNewResponsibility, deleteResponsibility}) => {
     const { setStep, userData, handleChange } = useContext(UserDataContext);
-
+    const { c } = useContext(LanguageContext);
 
     return <>
         <div className="userForm userForm3">
@@ -15,14 +14,14 @@ const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsi
             return <div className="form__job">
                 <div className="form__school form__school--job flex" key={index}>
                     <label className="label">
-                        Nazwa firmy
+                        {c.companyName}
                         <input className="input"
                                value={item.name}
                                onChange={(e) => { handleChange('jobs', e.target.value, 'name', index); }} />
                     </label>
                     <label className="label">
                         <span className="oneline">
-                            Okres pracy
+                            {c.workingYears}
                         </span>
                         <input className="input"
                                type="number"
@@ -43,7 +42,7 @@ const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsi
                                 onClick={() => { toggleJobInProgress(index); }}>
                             <span></span>
                         </button>
-                        W trakcie
+                        {c.during}
                     </label>
 
                     <button className="deleteSchoolBtn" onClick={() => { deleteJob(index); }}>
@@ -51,17 +50,17 @@ const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsi
                     </button>
                 </div>
                 <label className="label label--jobTitle">
-                    Stanowisko
+                    {c.post}
                     <input className="input"
                            value={item.title}
                            onChange={(e) => { handleChange('jobs', e.target.value, 'title', index); }} />
                 </label>
                 <div className="label">
-                    Zakres obowiązków
+                    {c.responsibilities}
                     {item.responsibilities.map((item, resIndex) => {
                         return <label className="label label--responsibility" key={resIndex}>
                             <input className="input"
-                                   placeholder="Napisz za co byłeś odpowiedzialny..."
+                                   placeholder={c.responsibilitiesPlaceholder}
                                    value={item}
                                    onChange={(e) => { updateJobResponsibilities(index, resIndex, e.target.value); }} />
                             <button className="deleteSchoolBtn" onClick={() => { deleteResponsibility(index, resIndex); }}>
@@ -71,7 +70,7 @@ const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsi
                     })}
 
                     <button className="addNewBtn addNewBtn--responsibility flex" onClick={() => { addNewResponsibility(index); }}>
-                        Dodaj obowiązek
+                        {c.addResponsibility}
                         <img className="img" src={plusIcon} alt="dodaj" />
                     </button>
                 </div>
@@ -79,16 +78,16 @@ const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsi
         })}
 
         <button className="addNewBtn flex" onClick={() => { addNewJob(); }}>
-            Naciśnij + by dodać kolejną firmę i stanowisko
+            {c.addNewCompany}
             <img className="img" src={plusIcon} alt="dodaj" />
         </button>
     </div>
     <div className="formBottom flex">
         <button className="btn btn--userForm btn--userFormBack" onClick={() => { setStep(1); }}>
-            Wstecz
+            {c.back}
         </button>
         <button className="btn btn--userForm" onClick={() => { setStep(3); }}>
-            Dalej
+            {c.next}
         </button>
     </div>
     </>

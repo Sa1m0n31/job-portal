@@ -1,19 +1,20 @@
 import React, {useContext, useEffect, useState} from 'react';
 import dropdownArrow from '../static/img/dropdown-arrow.svg'
 import {UserDataContext} from "../pages/UserEditData";
-import {countries, formErrors, months, phoneNumbers} from "../static/content";
+import {phoneNumbers} from "../static/content";
 import {numberRange} from "../helpers/others";
 import plusIcon from "../static/img/plus-icon-opacity.svg";
 import trashIcon from "../static/img/trash.svg";
+import {LanguageContext} from "../App";
 
 const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMonthsVisible, setYearsVisible, setCountriesVisible, setPhoneNumbersCountriesVisible}) => {
     const { setStep, userData, handleChange, countriesVisible,
         daysVisible, monthsVisible, yearsVisible, phoneNumbersCountriesVisible
     } = useContext(UserDataContext);
+    const { c } = useContext(LanguageContext);
 
     const [days, setDays] = useState([]);
     const [years, setYears] = useState([]);
-    const [error, setError] = useState('');
 
     useEffect(() => {
         setYears(numberRange(1900, new Date().getFullYear()-14).reverse());
@@ -54,21 +55,15 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
     }, [userData.country]);
 
     const validateData = () => {
-        // if(!userData.firstName || !userData.lastName || !userData.city || !userData.address || !userData.phoneNumber) {
-        //     setError(formErrors[0]);
-        // }
-        // else {
-        //     setStep(1);
-        // }
         setStep(1);
     }
 
     return <>
         <div className="userForm userForm--1">
             <div className="label">
-                Zdjęcie profilowe
+                {c.profileImage}
                 <p className="label--extraInfo label--extraInfo--marginBottom">
-                    Dodaj swoje zdjęcie profilowe. Zalecane wymiary to 250 x 250px.
+                    {c.profileImageDescription}
                 </p>
                 <div className={!userData?.profileImageUrl ? "filesUploadLabel center" : "filesUploadLabel filesUploadLabel--noBorder center"}>
                     {!userData.profileImageUrl ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : <div className="filesUploadLabel__profileImage">
@@ -85,19 +80,19 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
             </div>
 
         <label className="label">
-            Imię lub imiona
+            {c.firstName}
             <input className="input"
                    value={userData.firstName}
                    onChange={(e) => { handleChange('firstName', e.target.value); }} />
         </label>
         <label className="label">
-            Nazwisko
+            {c.lastName}
             <input className="input"
                    value={userData.lastName}
                    onChange={(e) => { handleChange('lastName', e.target.value); }} />
         </label>
         <div className="label label--date">
-            Data urodzenia
+            {c.birthday}
             <div className="label--flex">
                 {/* DAY */}
                 <div className="label--date__input">
@@ -121,11 +116,11 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
                     <button className="datepicker datepicker--month"
                             onClick={(e) => { e.stopPropagation(); setMonthsVisible(!monthsVisible); }}
                     >
-                        {months[userData.birthdayMonth]}
+                        {JSON.parse(c.months)[userData.birthdayMonth]}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {monthsVisible ? <div className="datepickerDropdown noscroll">
-                        {months?.map((item, index) => {
+                        {JSON.parse(c.months)?.map((item, index) => {
                             return <button className="datepickerBtn center" key={index}
                                            onClick={(e) => { e.stopPropagation(); handleChange('birthdayMonth', index); }}>
                                 {item}
@@ -154,17 +149,17 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
         </div>
 
         <div className="label label--date label--date--address">
-            Adres zamieszkania
+            {c.livingAddress}
             <div className="flex">
                 <div className="label--date__input label--date__input--country">
                     <button className="datepicker datepicker--country"
                             onClick={(e) => { e.stopPropagation(); setCountriesVisible(!countriesVisible); }}
                     >
-                        {countries[userData.country]}
+                        {JSON.parse(c.countries)[userData.country]}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {countriesVisible ? <div className="datepickerDropdown noscroll">
-                        {countries?.map((item, index) => {
+                        {JSON.parse(c.countries)?.map((item, index) => {
                             return <button className="datepickerBtn center" key={index}
                                            onClick={(e) => { handleChange('country', index); }}>
                                 {item}
@@ -176,19 +171,19 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
                     <input className="input input--city"
                            value={userData.city}
                            onChange={(e) => { handleChange('city', e.target.value); }}
-                           placeholder="Miejscowość" />
+                           placeholder={c.city} />
                 </label>
                 <label>
                     <input className="input input--address"
                            value={userData.address}
                            onChange={(e) => { handleChange('address', e.target.value); }}
-                           placeholder="Ulica i nr domu" />
+                           placeholder={c.streetAndBuilding} />
                 </label>
             </div>
         </div>
 
         <div className="label label--phoneNumber">
-            Numer telefonu
+            {c.phoneNumber}
             <button className="phoneNumberBtn" onClick={(e) => { e.stopPropagation(); setPhoneNumbersCountriesVisible(!phoneNumbersCountriesVisible); }}>
                 {userData.phoneNumberCountry}
             </button>
@@ -206,7 +201,7 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
         </div>
 
         <label className="label">
-            Adres e-mail
+            {c.email}
             <input className="input"
                    value={userData.email}
                    onChange={(e) => { handleChange('email', e.target.value); }} />
@@ -214,12 +209,8 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
     </div>
     <div className="formBottom flex">
         <button className="btn btn--userForm" onClick={() => { validateData(); }}>
-            Dalej
+            {c.next}
         </button>
-
-        {error ? <span className="info info--error">
-                {error}
-            </span> : ''}
     </div>
     </>
 };

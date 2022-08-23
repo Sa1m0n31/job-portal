@@ -1,20 +1,22 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {UserDataContext} from "../pages/UserEditData";
 import plusIcon from '../static/img/plus-in-circle.svg'
 import trashIcon from '../static/img/trash.svg'
 import {Tooltip} from "react-tippy";
+import {LanguageContext} from "../App";
 
 const UserForm4B = ({addNewCourse, deleteCourse, addNewCertificate, deleteCertificate}) => {
     const { setStep, setSubstep, userData, handleChange } = useContext(UserDataContext);
+    const { c } = useContext(LanguageContext);
 
     return <>
         <div className="userForm">
         <div className="certificatesWrapper">
             <span>
-                Ukończone szkolenia
+                {c.finishedCourses}
                 <Tooltip
                     html={<span className="tooltipVisible">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam molestie ipsum metus. Nullam vitae turpis tellus. Nullam vel gravida nunc, et hendrerit dolor. Integer posuere nisl eu porta cursus.
+                        {c.coursesTooltip}
                                 </span>}
                     position="left"
                 >
@@ -27,7 +29,7 @@ const UserForm4B = ({addNewCourse, deleteCourse, addNewCertificate, deleteCertif
                 return <div className="form__job flex">
                     <label className="label">
                         <input className="input"
-                               placeholder="Nazwa szkolenia"
+                               placeholder={c.courseName}
                                value={item}
                                onChange={(e) => { handleChange('courses', e.target.value, null, index); }} />
                     </label>
@@ -37,17 +39,17 @@ const UserForm4B = ({addNewCourse, deleteCourse, addNewCertificate, deleteCertif
                 </div>
             })}
             <button className="addNewBtn flex" onClick={() => { addNewCourse(); }}>
-                Naciśnij + by dodać następne szkolenie
+                {c.addCourse}
                 <img className="img" src={plusIcon} alt="dodaj" />
             </button>
         </div>
 
         <div className="certificatesWrapper">
             <span>
-                Certyfikaty
+                {c.certificates}
                 <Tooltip
                     html={<span className="tooltipVisible">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam molestie ipsum metus. Nullam vitae turpis tellus. Nullam vel gravida nunc, et hendrerit dolor. Integer posuere nisl eu porta cursus.
+                        {c.certificatesTooltip}
                                 </span>}
                     position="left"
                 >
@@ -60,7 +62,7 @@ const UserForm4B = ({addNewCourse, deleteCourse, addNewCertificate, deleteCertif
                 return <div className="form__job flex">
                     <label className="label">
                         <input className="input"
-                               placeholder="Nazwa certyfikatu"
+                               placeholder={c.certificateName}
                                value={item}
                                onChange={(e) => { handleChange('certificates', e.target.value, null, index); }} />
                     </label>
@@ -70,17 +72,17 @@ const UserForm4B = ({addNewCourse, deleteCourse, addNewCertificate, deleteCertif
                 </div>
             })}
             <button className="addNewBtn flex" onClick={() => { addNewCertificate(); }}>
-                Naciśnij + by dodać certyfikat/dyplom
+                {c.addCertificate}
                 <img className="img" src={plusIcon} alt="dodaj" />
             </button>
         </div>
     </div>
     <div className="formBottom flex">
         <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(0); }}>
-            Wstecz
+            {c.back}
         </button>
         <button className="btn btn--userForm" onClick={() => { setSubstep(0); setStep(4); }}>
-            Dalej
+            {c.next}
         </button>
     </div>
     </>

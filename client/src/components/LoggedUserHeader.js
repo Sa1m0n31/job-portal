@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import MobileHeader from "./MobileHeader";
 import logo from '../static/img/logo-czarne.png'
 import messageIcon from '../static/img/message-blue.svg'
@@ -12,8 +12,11 @@ import {getAgencyMessages, getUserMessages} from "../helpers/messages";
 import {getAgencyData, getAgencyNotifications} from "../helpers/agency";
 import messagesIcon from '../static/img/messages-arrow.svg'
 import {notificationTitles} from "../static/content";
+import {LanguageContext} from "../App";
 
 const LoggedUserHeader = ({data, agency, messageUpdate}) => {
+    const { c } = useContext(LanguageContext);
+
     const [messages, setMessages] = useState([]);
     const [notifications, setNotifications] = useState([]);
     const [userMenuVisible, setUserMenuVisible] = useState(false);
@@ -149,39 +152,39 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                 {!agency ? <>
                     <a className="loggedUserHeader__menu__item loggedUserHeader__menu__item--blue"
                        href="/oferty-pracy">
-                        Aktywne oferty pracy
+                        {c.activeJobOffers}
                     </a>
                     <a className="loggedUserHeader__menu__item loggedUserHeader__menu__item--red"
                        href="/oferty-blyskawiczne">
-                        Oferty błyskawiczne
+                        {c.fastOffers}
                     </a>
                 </> : <>
                     <a className="loggedUserHeader__menu__item loggedUserHeader__menu__item--blue"
                        href="/zgloszenia">
-                        Zgłoszenia
+                        {c.applications}
                     </a>
                 </>}
                 {agency ? <>
                     <a className="loggedUserHeader__menu__item"
                        href="/moje-blyskawiczne-oferty-pracy">
-                        Moje błyskawiczne oferty
+                        {c.myFastOffers}
                     </a>
                     <a className="loggedUserHeader__menu__item"
                        href="/moje-oferty-pracy">
-                        Moje oferty
+                        {c.myOffers}
                     </a>
                     <a className="loggedUserHeader__menu__item"
                        href="/kandydaci">
-                        Kandydaci
+                        {c.candidates}
                     </a>
                 </> : <>
                     <a className="loggedUserHeader__menu__item"
                        href="/pracodawcy">
-                        Pracodawcy
+                        {c.agencies}
                     </a>
                     <a className="loggedUserHeader__menu__item"
                        href="/kontakt">
-                        Kontakt
+                        {c.contact}
                     </a>
                 </>
                 }
@@ -197,12 +200,12 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                     {messagesDropdown ? <div className="notifications__dropdown">
                         <a className="notifications__dropdown__item notifications__dropdown__item--bottom"
                            href={agency ? '/wiadomosci' : '/moje-wiadomosci'}>
-                            {newMessages?.length ? `Nowe wiadomości: ${newMessages}` : 'Nie masz nowych wiadomości'}
+                            {newMessages?.length ? `${c.newMessages}: ${newMessages}` : c.noMessages}
                         </a>
                         {messages?.map((item, index) => {
                             if(index < 2) {
                                 const receiverData = agency ? JSON.parse(item.u_data) : JSON.parse(item.a_data);
-                                const receiver = !agency ? (receiverData.name ? receiverData.name : 'Anonimowy') : (receiverData.firstName ? `${receiverData.firstName} ${receiverData.lastName}` : 'Anonimowy');
+                                const receiver = !agency ? (receiverData.name ? receiverData.name : c.anonim) : (receiverData.firstName ? `${receiverData.firstName} ${receiverData.lastName}` : 'Anonimowy');
                                 return <a className="notifications__dropdown__item"
                                           key={index}
                                           href={agency ? '/wiadomosci' : '/moje-wiadomosci'}>
@@ -217,7 +220,7 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                         })}
                         {messages?.length ? <a className="notifications__dropdown__item notifications__dropdown__item--bottom"
                                                href={agency ? '/wiadomosci' : '/moje-wiadomosci'}>
-                            Wszystkie wiadomości
+                            {c.allMessages}
                             <img className="img" src={messagesIcon} alt="wiadomosci" />
                         </a>: ''}
                     </div> : ''}
@@ -231,7 +234,7 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                     {notificationsDropdown ? <div className="notifications__dropdown">
                         <a className="notifications__dropdown__item notifications__dropdown__item--bottom"
                            href="/powiadomienia">
-                            {newNotifications ? `Nowe powiadomienia: ${newNotifications}` : 'Nie masz nowych powiadomień'}
+                            {newNotifications ? `Nowe powiadomienia: ${newNotifications}` : c.noNotifications}
                         </a>
                         {notifications?.map((item, index) => {
                             if(index < 2) {
@@ -239,17 +242,17 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                                           key={index}
                                          onClick={() => { readNotificationAndRedirect(item.read, item.link, item.id); }}>
                                     <span className={!item.read ? "notifications__dropdown__item__recipient bold" : "notifications__dropdown__item__recipient"}>
-                                        {item.type !== 3 ? notificationTitles[item.type-1] : `${item.user} ${notificationTitles[2]}`}
+                                        {item.type !== 3 ? notificationTitles[item.type-1] : `${item.user} ${JSON.parse(c.notificationTitles)[2]}`}
                                     </span>
                                     <span className="notifications__dropdown__item__title">
-                                        {((item.type === 1 || item.type === 2) && item.agency) ? `Od ${item.agency}` : 'Sprawdź profil kandydata'}
+                                        {((item.type === 1 || item.type === 2) && item.agency) ? `${c.from} ${item.agency}` : c.checkCandidateProfile}
                                     </span>
                                 </button>
                             }
                         })}
                         {notifications?.length ? <a className="notifications__dropdown__item notifications__dropdown__item--bottom"
                                                href="/powiadomienia">
-                            Wszystkie powiadomienia
+                            {c.allNotifications}
                             <img className="img" src={messagesIcon} alt="wiadomosci" />
                         </a>: ''}
                     </div> : ''}
@@ -273,24 +276,24 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                     {agency ? <>
                         <a href="/dodaj-oferte-pracy"
                            className="loggedUserHeader__userDropdownMenu__item">
-                            Dodaj ofertę pracy
+                            {c.addNewJobOffer}
                         </a>
                         <a href="/dodaj-blyskawiczna-oferte-pracy"
                            className="loggedUserHeader__userDropdownMenu__item">
-                            Dodaj błyskawiczną ofertę pracy
+                            {c.addNewFastJobOffer}
                         </a>
                     </> : ''}
                     <a href={agency ? "/konto-agencji" : "/konto-pracownika"}
                        className="loggedUserHeader__userDropdownMenu__item">
-                        Mój profil
+                        {c.myAccount}
                     </a>
                     <a href="/zmiana-hasla"
                        className="loggedUserHeader__userDropdownMenu__item">
-                        Zmień hasło
+                        {c.changePassword}
                     </a>
                     <button onClick={() => { logout(); }}
                         className="loggedUserHeader__userDropdownMenu__item">
-                        Wyloguj się
+                        {c.logout}
                         <img className="img" src={logoutIcon} alt="wyloguj-sie" />
                     </button>
                 </div> : ''}

@@ -1,5 +1,4 @@
 import Cookies from "universal-cookie";
-import {months} from "../static/content";
 
 const isElementInArray = (el, arr) => {
     return arr.findIndex((item) => {

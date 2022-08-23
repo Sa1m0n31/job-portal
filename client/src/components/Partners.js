@@ -1,44 +1,23 @@
-import React from 'react';
+import React, {useContext} from "react";
 import HomeSectionHeader from "./HomeSectionHeader";
-import logo from '../static/img/google.png'
-import arrow from '../static/img/right-blue-arrow.svg'
+import logo from "../static/img/google.png"
+import arrow from "../static/img/right-blue-arrow.svg"
+import {LanguageContext} from "../App";
 
-const items = [
-    {
-        logo: logo,
-        name: 'Google Inc.',
-        text: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur',
-        link: 'https://google.com'
-    },
-    {
-        logo: logo,
-        name: 'Google Inc.',
-        text: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur',
-        link: 'https://google.com'
-    },
-    {
-        logo: logo,
-        name: 'Google Inc.',
-        text: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur',
-        link: 'https://google.com'
-    },
-    {
-        logo: logo,
-        name: 'Google Inc.',
-        text: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur',
-        link: 'https://google.com'
-    }
-]
+const logos = [logo, logo, logo, logo];
+const links = ["https://google.com", "https://google.com", "https://google.com", "https://google.com"];
 
 const Partners = () => {
+    const { c } = useContext(LanguageContext);
+
     return <div className="homeSection homeSection--partners" id="partnerzy">
-        <HomeSectionHeader content="Partnerzy serwisu" />
+        <HomeSectionHeader content={c.partnersHeader} />
 
         <div className="partners flex">
-            {items?.map((item, index) => {
+            {JSON.parse(c.partnersContent)?.map((item, index) => {
                 return <div className="partners__item flex flex--start" key={index}>
                     <figure className="partners__figure center">
-                        <img className="img" src={item.logo} alt="logo" />
+                        <img className="img" src={logos[index]} alt="logo" />
                     </figure>
                     <div className="partners__content">
                         <h4 className="partners__header">
@@ -47,10 +26,10 @@ const Partners = () => {
                         <p className="partners__text">
                             {item.text}
                         </p>
-                        <a href={item.link}
+                        <a href={links[index]}
                            className="partners__link"
                            target="_blank" rel="noreferrer">
-                            Dowiedz się więcej
+                            {c.getToKnowMore}
                             <img className="img" src={arrow} alt="arrow" />
                         </a>
                     </div>

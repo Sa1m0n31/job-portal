@@ -1,13 +1,15 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {UserDataContext} from "../pages/UserEditData";
 import plusIcon from '../static/img/plus-icon-opacity.svg'
 import fileIcon from '../static/img/doc.svg'
 import trashIcon from '../static/img/trash.svg'
 import {attachmentsErrors} from "../static/content";
 import Loader from "./Loader";
+import {LanguageContext} from "../App";
 
 const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, removeOldAttachment}) => {
     const { userData, setSubstep, handleChange, error, loading } = useContext(UserDataContext);
+    const { c } = useContext(LanguageContext);
 
     const [attachmentsError, setAttachmentsError] = useState('');
 
@@ -32,20 +34,20 @@ const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, rem
     return <>
         <div className="userForm userForm--5d">
         <label className="label label--rel">
-            Opis aktualnej sytuacji
+            {c.currentSituationDescription}
             <span className="letterCounter">
                 {userData.situationDescription.length} / 150
             </span>
             <textarea className="input input--textarea input--situation"
                       value={userData.situationDescription}
                       onChange={(e) => { handleDescriptionChange(e); }}
-                      placeholder="Tutaj zamieść opis aktualnej sytuacji: miejsce pobytu, plany na przyszłość, preferowane stanowisko etc." />
+                      placeholder={c.currentSituationPlaceholder} />
         </label>
 
             <div className="label">
-                Załączniki
+                {c.attachments}
                 <p className="label--extraInfo label--extraInfo--marginBottom">
-                    Tutaj możesz dodać załączniki do swojego profilu i CV, np. skany certyfikatów czy zdjęcia portfolio.
+                    {c.userAttachmentsDescription}
                 </p>
                 <label className="filesUploadLabel center">
                     {userData?.attachments?.length === 0 ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : ''}
@@ -64,8 +66,7 @@ const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, rem
                         <img className="img" src={fileIcon} alt={`file-${index}`} />
                         <input className="fileName"
                                onChange={(e) => { changeAttachmentName(index, e.target.value, true); }}
-                               value={item.name}
-                        >
+                               value={item.name}>
                         </input>
                     </div>
                 })}
@@ -93,7 +94,7 @@ const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, rem
                 <button className={userData.checkbox ? "checkbox checkbox--selected center" : "checkbox center"} onClick={() => { handleChange('checkbox', !userData.checkbox); }}>
                     <span></span>
                 </button>
-                Wyrażam zgodę na przetwarzanie moich danych osobowych dla potrzeb niezbędnych do realizacji procesu rekrutacji (zgodnie z ustawą z dnia 10 maja 2018 roku o ochronie danych osobowych (Dz. Ustaw z 2018, poz. 1000) oraz zgodnie z Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. w sprawie ochrony osób fizycznych w związku z przetwarzaniem danych osobowych i w sprawie swobodnego przepływu takich danych oraz uchylenia dyrektywy 95/46/WE (RODO).
+                {c.updateUserAgreement}
             </label>
 
             {error ? <span className="info info--error">
@@ -106,12 +107,12 @@ const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, rem
             <Loader />
         </div> : <>
             <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(2); }}>
-                Wstecz
+                {c.back}
             </button>
             <button className="btn btn--userForm"
                     disabled={!userData.checkbox}
                     onClick={() => { submitUserData(userData); }}>
-                Zakończ
+                {c.end}
             </button>
         </>}
     </div>

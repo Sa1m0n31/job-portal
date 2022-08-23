@@ -1,16 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import logo from '../static/img/logo-czarne.png'
 import backIcon from '../static/img/back-arrow-grey.svg'
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
 import {
-    attachmentsErrors,
-    categories,
-    contracts,
-    countries,
-    currencies, formErrors, jobOfferErrors,
-    months,
-    pensionFrequency,
-    pensionType
+    currencies
 } from "../static/content";
 import trashIcon from "../static/img/trash.svg";
 import {Tooltip} from "react-tippy";
@@ -23,8 +16,11 @@ import arrowIcon from '../static/img/small-white-arrow.svg'
 import {addOffer, getOfferById, updateOffer} from "../helpers/offer";
 import settings from "../static/settings";
 import MobileHeader from "../components/MobileHeader";
+import {LanguageContext} from "../App";
 
 const AddJobOffer = ({updateMode}) => {
+    const { c } = useContext(LanguageContext);
+
     const [categoriesVisible, setCategoriesVisible] = useState(false);
     const [countriesVisible, setCountriesVisible] = useState(false);
     const [currenciesVisible, setCurrenciesVisible] = useState(false);
@@ -34,7 +30,6 @@ const AddJobOffer = ({updateMode}) => {
     const [monthVisible, setMonthVisible] = useState(false);
     const [yearVisible, setYearVisible] = useState(false);
     const [success, setSuccess] = useState(false);
-
     const [id, setId] = useState(0);
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState(-1);
@@ -225,7 +220,7 @@ const AddJobOffer = ({updateMode}) => {
 
         if(e.target.files.length + oldAttachments.length > 5) {
             e.preventDefault();
-            setError(attachmentsErrors[0]);
+            setError(JSON.parse(c.attachmentsErrors)[0]);
         }
         else {
             setError('');
@@ -283,7 +278,7 @@ const AddJobOffer = ({updateMode}) => {
                 timeBounded && (day === -1 || month === -1 || year === -1)
             )
         ) {
-            setError(jobOfferErrors[0]);
+            setError(JSON.parse(c.jobOfferErrors)[0]);
             return 0;
         }
         return 1;
@@ -306,7 +301,7 @@ const AddJobOffer = ({updateMode}) => {
                         setSuccess(true);
                     }
                     else {
-                        setError(formErrors[1]);
+                        setError(JSON.parse(c.formErrors)[1]);
                     }
                 }
                 else {
@@ -321,16 +316,16 @@ const AddJobOffer = ({updateMode}) => {
                         setSuccess(true);
                     }
                     else {
-                        setError(formErrors[1]);
+                        setError(JSON.parse(c.formErrors)[1]);
                     }
                 }
             }
             catch(err) {
                 if(err.response.data.statusCode === 415) {
-                    setError('Dozwolone są tylko pliki w następujących formatach: jpg, txt, pages, png, svg, pdf, docx');
+                    setError(c.unsupportedMediaTypeInfo);
                 }
                 else {
-                    setError(formErrors[1]);
+                    setError(JSON.parse(c.formErrors)[1]);
                 }
             }
         }
@@ -352,12 +347,12 @@ const AddJobOffer = ({updateMode}) => {
     return <div className="container container--addOffer" onClick={() => { hideAllDropdowns(); }}>
         <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
-                    Zalogowany w: <span className="bold">Strefa Pracodawcy</span>
+                    {c.loggedIn}: <span className="bold">{c.agencyZone}</span>
                 </span>
             <a href="/konto-agencji"
                className="userAccount__top__btn">
                 <img className="img" src={backIcon} alt="edytuj" />
-                Powrót
+                {c.comeback}
             </a>
         </aside>
 
@@ -369,42 +364,42 @@ const AddJobOffer = ({updateMode}) => {
         <div className="addOfferSuccess" ref={addOfferSuccess}>
             <img className="img" src={checkIcon} alt="check" />
             <h3 className="addOfferSuccess__header">
-                {updateMode ? 'Twoja oferta została zaktualizowana' : 'Twoja oferta pracy została dodana!'}
+                {updateMode ? c.jobOfferUpdated : c.jobOfferAdded}
             </h3>
             <div className="flex">
                 <a className="btn" href="/">
-                    Strona główna
+                    {c.homepage}
                 </a>
                 <a className="btn btn--white" href="/moje-oferty-pracy">
-                    Moje oferty pracy
+                    {c.myOffers}
                 </a>
             </div>
         </div>
         <form className="addOffer" ref={addOfferForm}>
             <h1 className="addOffer__header">
-                {updateMode ? 'Edycja oferty pracy' : 'Dodawanie nowej oferty pracy'}
+                {updateMode ? c.offerEdition : c.offerAdding}
             </h1>
             <p className="addOffer__text">
-                Podziel się szczegółami na temat Twojej oferty i wyczekuj aplikacji ze strony zainteresowanych kandydatów.
+                {c.offerAddingDescription}
             </p>
 
             <label className="label">
-                Stanowisko
+                {c.post}
                 <input className="input"
                        value={title}
                        onChange={(e) => { setTitle(e.target.value); }} />
             </label>
             <div className="label label--responsibility label--category">
-                Branża
+                {c.category}
                 <div className="label--date__input label--date__input--country label--date__input--category">
                     <button className="datepicker datepicker--country datepicker--category"
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCategoriesVisible(!categoriesVisible); }}
                     >
-                        {category !== -1 ? categories[category] : 'Wybierz branżę'}
+                        {category !== -1 ? JSON.parse(c.categories)[category] : c.chooseCategory}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {categoriesVisible ? <div className="datepickerDropdown noscroll">
-                        {categories?.map((item, index) => {
+                        {JSON.parse(c.categories)?.map((item, index) => {
                             return <button className="datepickerBtn center" key={index}
                                            onClick={(e) => { e.stopPropagation(); setCategoriesVisible(false); setCategory(index); }}>
                                 {item}
@@ -417,12 +412,12 @@ const AddJobOffer = ({updateMode}) => {
             <div className="label label--special">
                 <span className="flex flex--start">
                     <span>
-                        Słowa kluczowe
+                        {c.keywords}
                     </span>
                     <Tooltip
                         html={<span className="tooltipVisible">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam molestie ipsum metus. Nullam vitae turpis tellus. Nullam vel gravida nunc, et hendrerit dolor. Integer posuere nisl eu porta cursus.
-                                    </span>}
+                            {c.keywordsTooltip}
+                        </span>}
                         followCursor={true}>
                             <span className="tooltip">
                                 ?
@@ -432,21 +427,21 @@ const AddJobOffer = ({updateMode}) => {
                 <input className="input--special"
                        value={keywords}
                        onChange={(e) => { setKeywords(e.target.value); }}
-                       placeholder="np. produkcja, magazyn, przemysł" />
+                       placeholder={c.keywordsPlaceholder} />
             </div>
 
             <div className="label label--date label--date--address">
-                Miejsce pracy
+                {c.jobPlace}
                 <div className="flex">
                     <div className="label--date__input label--date__input--country">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCountriesVisible(!countriesVisible); }}
                         >
-                            {country !== -1 ? countries[country] : 'Wybierz kraj'}
+                            {country !== -1 ? JSON.parse(c.countries)[country] : c.chooseCountry}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {countriesVisible ? <div className="datepickerDropdown noscroll">
-                            {countries?.map((item, index) => {
+                            {JSON.parse(c.countries)?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
                                                onClick={(e) => { e.preventDefault(); setCountry(index); setCountriesVisible(false); }}>
                                     {item}
@@ -458,27 +453,27 @@ const AddJobOffer = ({updateMode}) => {
                         <input className="input input--city"
                                value={postalCode}
                                onChange={(e) => { setPostalCode(e.target.value); }}
-                               placeholder="Kod pocztowy" />
+                               placeholder={c.postalCode} />
                     </label>
                     <label>
                         <input className="input input--address"
                                value={city}
                                onChange={(e) => { setCity(e.target.value); }}
-                               placeholder="Miejscowość" />
+                               placeholder={c.city} />
                     </label>
                 </div>
             </div>
 
             <label className="label label--rel">
-                Opis stanowiska
+                {c.postDescription}
                 <textarea className="input input--textarea input--situation"
                           value={description}
                           onChange={(e) => { setDescription(e.target.value); }}
-                          placeholder="Opisz swoją ofertę oraz podaj najważniejsze cechy stanowiska, które oferujesz." />
+                          placeholder={c.postDescriptionPlaceholder} />
             </label>
 
             <div className="label">
-                Zakres obowiązków
+                {c.responsibilities}
                 {responsibilities.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
                         <input className="input"
@@ -491,12 +486,12 @@ const AddJobOffer = ({updateMode}) => {
                 })}
 
                 <button className="addNewBtn addNewBtn--responsibility flex" onClick={(e) => { e.preventDefault(); addNewResponsibility(); }}>
-                    Dodaj obowiązek
+                    {c.addResponsibility}
                     <img className="img" src={plusIcon} alt="dodaj" />
                 </button>
             </div>
             <div className="label">
-                Wymagania
+                {c.requirements}
                 {requirements.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
                         <input className="input"
@@ -509,12 +504,12 @@ const AddJobOffer = ({updateMode}) => {
                 })}
 
                 <button className="addNewBtn addNewBtn--responsibility flex" onClick={(e) => { e.preventDefault(); addNewRequirement(); }}>
-                    Dodaj obowiązek
+                    {c.addRequirement}
                     <img className="img" src={plusIcon} alt="dodaj" />
                 </button>
             </div>
             <div className="label">
-                Co oferujesz
+                {c.whatYouOffer}
                 {benefits.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
                         <input className="input"
@@ -527,27 +522,27 @@ const AddJobOffer = ({updateMode}) => {
                 })}
 
                 <button className="addNewBtn addNewBtn--responsibility flex" onClick={(e) => { e.preventDefault(); addNewBenefit(); }}>
-                    Dodaj obowiązek
+                    {c.addWhatYouOffer}
                     <img className="img" src={plusIcon} alt="dodaj" />
                 </button>
             </div>
 
             <div className="label drivingLicenceWrapper drivingLicenceWrapper--salary">
-                Wynagrodzenie
+                {c.salary}
                 <div className="flex flex--start">
                     <label className={salaryType === 1 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                         <button className="checkbox center"
                                 onClick={(e) => { e.preventDefault(); setSalaryType(1); }}>
                             <span></span>
                         </button>
-                        tygodniowo
+                        {c.weekly}
                     </label>
                     <label className={salaryType === 0 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                         <button className="checkbox center"
                                 onClick={(e) => { e.preventDefault(); setSalaryType(0); }}>
                             <span></span>
                         </button>
-                        miesięcznie
+                        {c.monthly}
                     </label>
                 </div>
                 <div className="flex flex--start salaryInputsWrapper">
@@ -586,17 +581,17 @@ const AddJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label drivingLicenceWrapper">
-                Typ umowy
+                {c.contractType}
                 <div className="flex flex--start">
                     <div className="label--date__input label--date__input--drivingLicence">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setContractTypeVisible(!contractTypeVisible); }}
                         >
-                            {contractType !== -1 ? contracts[contractType] : 'Wybierz'}
+                            {contractType !== -1 ? JSON.parse(c.contracts)[contractType] : c.choose}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {contractTypeVisible ? <div className="datepickerDropdown noscroll">
-                            {contracts?.map((item, index) => {
+                            {JSON.parse(c.contracts)?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
                                                onClick={(e) => { setContractType(index); }}>
                                     {item}
@@ -608,20 +603,20 @@ const AddJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label drivingLicenceWrapper">
-                Ważność oferty
+                {c.offerTime}
                 <div className="flex flex--start flex--start--contractType">
                     <div className="flex flex--start">
                         <div className="label--date__input label--date__input--drivingLicence">
                             <button className="datepicker datepicker--country"
                                     onClick={(e) => { e.preventDefault(); e.stopPropagation(); setTimeBoundedVisible(!timeBoundedVisible); }}
                             >
-                                {timeBounded ? 'Terminowa' : 'Bezterminowa'}
+                                {timeBounded ? c.timeBounded : c.noTimeBounded}
                                 <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                             </button>
                             {timeBoundedVisible? <div className="datepickerDropdown noscroll">
                                 <button className="datepickerBtn center"
                                         onClick={(e) => { e.preventDefault(); setTimeBoundedVisible(false); setTimeBounded(!timeBounded); }}>
-                                    {!timeBounded ? 'Terminowa' : 'Bezterminowa'}
+                                    {!timeBounded ? c.timeBounded : c.noTimeBounded}
                                 </button>
                             </div> : ''}
                         </div>
@@ -633,7 +628,7 @@ const AddJobOffer = ({updateMode}) => {
                         <button className="datepicker datepicker--day"
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setDayVisible(!dayVisible); }}
                         >
-                            {day !== -1 ? day+1 : 'Dzień'}
+                            {day !== -1 ? day+1 : c.day}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {dayVisible ? <div className="datepickerDropdown noscroll">
@@ -650,11 +645,11 @@ const AddJobOffer = ({updateMode}) => {
                         <button className="datepicker datepicker--month"
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setMonthVisible(!monthVisible); }}
                         >
-                            {month !== -1 ? months[month] : 'Miesiąc'}
+                            {month !== -1 ? JSON.parse(c.months)[month] : c.month}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {monthVisible ? <div className="datepickerDropdown noscroll">
-                            {months?.map((item, index) => {
+                            {JSON.parse(c.months)?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
                                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setMonthVisible(false); setMonth(index); }}>
                                     {item}
@@ -667,7 +662,7 @@ const AddJobOffer = ({updateMode}) => {
                         <button className="datepicker datepicker--year"
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setYearVisible(!yearVisible); }}
                         >
-                            {year !== -1 ? year : 'Rok'}
+                            {year !== -1 ? year : c.year}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {yearVisible ? <div className="datepickerDropdown noscroll">
@@ -683,9 +678,9 @@ const AddJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label">
-                Zdjęcie w tle oferty
+                {c.backgroundImage}
                 <p className="label--extraInfo label--extraInfo--marginBottom">
-                    Załącz zdjęcie w tle oferty. Zalecane wymiary to 1600 x 350px.
+                    {c.backgroundImageDescription}
                 </p>
                 <div className={!image ? "filesUploadLabel filesUploadLabel--image center" : "filesUploadLabel filesUploadLabel--image filesUploadLabel--noBorder center"}>
                     {!imageUrl ? <img className="img" src={plusGrey} alt="dodaj-pliki" /> : <div className="filesUploadLabel__profileImage">
@@ -702,9 +697,9 @@ const AddJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label">
-                Załączniki
+                {c.attachments}
                 <p className="label--extraInfo label--extraInfo--marginBottom">
-                    Tutaj możesz dodać dodatkowe załączniki, dostępne do pobrania na stronie oferty pracy.
+                    {c.offerAttachmentsDescription}
                 </p>
                 <label className="filesUploadLabel center">
                     {attachments?.length === 0 ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : ''}
@@ -750,7 +745,7 @@ const AddJobOffer = ({updateMode}) => {
 
             <button className="btn btn--login center"
                     onClick={(e) => { handleSubmit(e); }}>
-                {updateMode ? 'Edytuj ofertę' : 'Dodaj nową ofertę'}
+                {updateMode ? c.editOffer : c.addNewOffer}
                 <img className="img" src={arrowIcon} alt="dodaj-oferte-pracy" />
             </button>
         </form>

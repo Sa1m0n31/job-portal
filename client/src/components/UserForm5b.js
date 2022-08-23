@@ -1,18 +1,20 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {UserDataContext} from "../pages/UserEditData";
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
-import {categories, countries, currencies} from "../static/content";
+import {categories, currencies} from "../static/content";
 import trashIcon from "../static/img/trash.svg";
 import plusIcon from "../static/img/plus-in-circle.svg";
+import {LanguageContext} from "../App";
 
 const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCurrenciesVisible}) => {
-    const { setStep, setSubstep, userData, handleChange, categoriesVisible, currenciesVisible } = useContext(UserDataContext);
+    const { setSubstep, userData, handleChange, categoriesVisible, currenciesVisible } = useContext(UserDataContext);
+    const { c } = useContext(LanguageContext);
 
     return <>
         <div className="userForm userForm--5b">
         <div className="label drivingLicenceWrapper drivingLicenceWrapper--noMarginTop">
             <p className="label--extraInfo">
-                Czy posiadasz własne zakwaterowanie w Holandii?
+                {c.ownAccommodationQuestion}
             </p>
             <div className="flex flex--start">
                 <label className={userData.ownAccommodation ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
@@ -20,18 +22,18 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
                             onClick={() => { handleChange('ownAccommodation', userData.ownAccommodation === true ? null : true); }}>
                         <span></span>
                     </button>
-                    Tak
+                    {c.yes}
                 </label>
                 <label className={userData.ownAccommodation === false ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                     <button className="checkbox center"
                             onClick={() => { handleChange('ownAccommodation', userData.ownAccommodation === false ? null : false); }}>
                         <span></span>
                     </button>
-                    Nie
+                    {c.no}
                 </label>
             </div>
             {userData.ownAccommodation ? <label className="label label--accommodationPlace">
-                Gdzie ono się znajduje?
+                {c.accommodationPlaceQuestion}
                 <input className="input"
                        value={userData.accommodationPlace}
                        onChange={(e) => { handleChange('accommodationPlace', e.target.value); }} />
@@ -40,7 +42,7 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
 
         <div className="label drivingLicenceWrapper drivingLicenceWrapper--tools drivingLicenceWrapper--noMarginTop">
             <p className="label--extraInfo">
-                Czy posiadasz własne narzędzia, niezbędne do wykonywania pracy na danym stanowisku technicznym?
+                {c.toolsQuestion}
             </p>
             <div className="flex flex--start">
                 <label className={userData.ownTools ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
@@ -48,22 +50,22 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
                             onClick={() => { handleChange('ownTools', userData.ownTools === true ? null : true); }}>
                         <span></span>
                     </button>
-                    Tak
+                    {c.yes}
                 </label>
                 <label className={userData.ownTools === false ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                     <button className="checkbox center"
                             onClick={() => { handleChange('ownTools', userData.ownTools === false ? null : false); }}>
                         <span></span>
                     </button>
-                    Nie
+                    {c.no}
                 </label>
             </div>
         </div>
 
         <div className="label drivingLicenceWrapper drivingLicenceWrapper--salary">
-            Finanse
+            {c.finance}
             <p className="label--extraInfo">
-                Wskaż Twoje oczekiwania finansowe <span className="bold">netto</span>
+                {c.showYourExpectations} <span className="bold">{c.netto}</span>
             </p>
             <div className="flex flex--start">
                 <label className={userData.salaryType === 1 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
@@ -71,14 +73,14 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
                             onClick={() => { handleChange('salaryType', 1); }}>
                         <span></span>
                     </button>
-                    tygodniowo
+                    {c.weekly}
                 </label>
                 <label className={userData.salaryType === 0 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                     <button className="checkbox center"
                             onClick={() => { handleChange('salaryType', 0); }}>
                         <span></span>
                     </button>
-                    miesięcznie
+                    {c.monthly}
                 </label>
             </div>
             <div className="flex flex--start salaryInputsWrapper">
@@ -118,18 +120,18 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
 
         <div className="categories">
             <div className="label">
-                Główne branże
+                {c.mainCategories}
                 {userData.categories.map((item, index) => {
                     return <div className="label label--flex label--responsibility label--category" key={index}>
                         <div className="label--date__input label--date__input--country label--date__input--category">
                             <button className="datepicker datepicker--country datepicker--category"
                                     onClick={(e) => { e.stopPropagation(); categoriesVisible === index ? setCategoriesVisible(-1) : setCategoriesVisible(index); }}
                             >
-                                {item >= 0 ? categories[item] : 'Wybierz branżę'}
+                                {item >= 0 ? JSON.parse(c.categories)[item] : c.chooseCategory}
                                 <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                             </button>
                             {categoriesVisible === index ? <div className="datepickerDropdown noscroll">
-                                {categories?.map((item, childIndex) => {
+                                {JSON.parse(c.categories)?.map((item, childIndex) => {
                                     return <button className="datepickerBtn center" key={childIndex}
                                                    onClick={(e) => { e.stopPropagation(); setCategoriesVisible(-1); handleChange('categories', childIndex, null, index); }}>
                                         {item}
@@ -144,7 +146,7 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
                 })}
 
                 {userData.categories.length <= 2 ? <button className="addNewBtn addNewBtn--responsibility flex" onClick={() => { addNewCategory(); }}>
-                    Dodaj nową branżę
+                    {c.addNewCategory}
                     <img className="img" src={plusIcon} alt="dodaj" />
                 </button> : ''}
             </div>
@@ -152,10 +154,10 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
     </div>
     <div className="formBottom flex">
         <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(0); }}>
-            Wstecz
+            {c.back}
         </button>
         <button className="btn btn--userForm" onClick={() => { setSubstep(2); }}>
-            Dalej
+            {c.next}
         </button>
     </div>
     </>

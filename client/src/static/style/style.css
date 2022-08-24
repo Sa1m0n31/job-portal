@@ -133,10 +133,12 @@ input {
 }
 
 .btn--quickLogin {
-    width: 160px;
+    width: 180px;
     height: 38px;
     font-size: 13px;
     border-radius: 3px;
+    text-align: center;
+    padding: 0 10px;
 }
 
 .btn--quickLogin .img {
@@ -175,10 +177,15 @@ input {
     padding: 20px;
     background: #fff;
     border-radius: 5px;
+    height: 330px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
 .home__zone__header {
-    font-size: 52px;
+    font-size: 46px;
     font-weight: 400;
 }
 
@@ -1775,7 +1782,8 @@ input {
 }
 
 .btn--downloadCV {
-    width: 120px;
+    width: auto;
+    padding: 0 15px;
     height: 38px;
     margin-top: 8px;
     display: flex;

@@ -147,7 +147,7 @@ const ContactPage = () => {
                             {c.availableHours} 8:00 - 16:00
                         </span>
                         <span className="marginTop">
-                            {c.mailShortcut}: kontakt@jooob.eu
+                            {c.emailShortcut}: kontakt@jooob.eu
                         </span>
                     </p>
                 </div>

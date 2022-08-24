@@ -29,12 +29,22 @@ function App() {
   const [c, setC] = useState({});
 
   useEffect(() => {
-    getSiteContent(language)
-        .then((res) => {
-          if(res?.data?.length) {
-            setC(res.data.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), {}));
-          }
-        });
+    const storedLanguage = localStorage.getItem('storedLanguage');
+
+    if(storedLanguage !== language) {
+      getSiteContent(language)
+          .then((res) => {
+            if(res?.data?.length) {
+              const val = res.data.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), {});
+              setC(val);
+              localStorage.setItem('siteContent', JSON.stringify(val));
+              localStorage.setItem('storedLanguage', language);
+            }
+          });
+    }
+    else {
+      setC(JSON.parse(localStorage.getItem('siteContent')));
+    }
   }, [language]);
 
   return c?.partnersContent ? <LanguageContext.Provider value={{language, setLanguage, c}}>

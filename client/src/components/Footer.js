@@ -63,7 +63,7 @@ const Footer = () => {
             </div>
             <div className="footer__col">
                 <h5 className="footer__header">
-                    {c.navigation}
+                    {c.navigation.charAt(0).toUpperCase() + c.navigation.slice(1)}
                 </h5>
                 <a className="footer__data" href="/strefa-pracownika">
                     {c.userZone}
@@ -83,7 +83,7 @@ const Footer = () => {
             </div>
             <div className="footer__col">
                 <h5 className="footer__header">
-                    {c.data}
+                    {c.data.charAt(0).toUpperCase() + c.data.slice(1)}
                 </h5>
                 <p className="footer__data">
                     <span>

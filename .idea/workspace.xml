@@ -23,37 +23,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06c2c867-885a-4984-820a-27e97dc3ed90" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/server/double-insight-360100-04d96e01fa48.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/CV.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/CV.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Partners.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Partners.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm4a.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm4a.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UsersFilters.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UsersFilters.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyEditData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyEditData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyHomepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyHomepage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Footer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/ApplicationForJobPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/ApplicationForJobPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/CandidateProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/CandidateProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/CandidatesList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/CandidatesList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/ChangePassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/ChangePassword.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/ContactPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/ContactPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/FastJobOffersList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/FastJobOffersList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/Homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Homepage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/JobOffersList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/JobOffersList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/LoginPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/MessageList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/MessageList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/MyFastJobOffers.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/MyFastJobOffers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/MyJobOffers.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/MyJobOffers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/Notifications.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Notifications.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Register.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/RemindPassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/RemindPassword.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/SendMessage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SendMessage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/SetNewPassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SetNewPassword.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/SingleFastOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SingleFastOffer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/UserEditData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/UserEditData.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/UserHomepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/UserHomepage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/translation/translation.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/translation/translation.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/translation/translation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/translation/translation.service.ts" afterDir="false" />
     </list>
@@ -84,7 +63,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/server/src/entities" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/server" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -93,11 +72,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\src\entities" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\static\img" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\pages" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\components" />
-      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\src\common" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -138,7 +117,8 @@
       <workItem from="1660917354572" duration="661000" />
       <workItem from="1660935107570" duration="15571000" />
       <workItem from="1660955822318" duration="35660000" />
-      <workItem from="1661180003931" duration="53998000" />
+      <workItem from="1661180003931" duration="54229000" />
+      <workItem from="1661352379383" duration="12491000" />
     </task>
     <servers />
   </component>
@@ -158,18 +138,18 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1226" y="322" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1660568788001">
+    <state x="-1226" y="322" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1661354192453">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1226" y="322" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1660568788001" />
+    <state x="-1226" y="322" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661354192453" />
     <state x="-1230" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1661259208732">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1230" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661259208732" />
-    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1661182081925">
+    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1661336054972">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661182081925" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661336054972" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1660251453652" />
     <state width="1899" height="282" key="GridCell.Tab.0.bottom" timestamp="1660853274637">
       <screen x="-1920" y="0" width="1920" height="1040" />
@@ -203,18 +183,18 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1143" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659037306310" />
-    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1661270970187">
+    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1661358375841">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661270970187" />
+    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661358375841" />
     <state x="-1304" y="240" key="run.anything.popup" timestamp="1661183038793">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661183038793" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1661305381009">
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1661369842972">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661305381009" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661369842972" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -222,7 +202,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/client/src/pages/LoginPage.js</url>
           <line>101</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>

@@ -376,7 +376,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                             {c.availability}
                         </span>
                         <p className="userAccount__box__value">
-                            ${c.from} {getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear)}
+                            {c.from} {getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear)}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
@@ -384,7 +384,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                             {c.ownTransport}
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.ownTransport ? 'Tak' : 'Nie'}
+                            {data?.ownTransport ? c.yes : c.no}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">

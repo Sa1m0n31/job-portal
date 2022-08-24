@@ -21,6 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@google-cloud/translate": "^7.0.1",
     "@hapi/joi": "^17.1.1",
     "@nestjs-modules/mailer": "^1.8.1",
     "@nestjs/axios": "^0.1.0",
@@ -36,6 +37,7 @@
     "@types/hapi__joi": "^17.1.8",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
+    "google-translate-api": "^2.3.0",
     "got": "^12.3.1",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.7.7",

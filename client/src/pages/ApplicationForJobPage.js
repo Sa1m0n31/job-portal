@@ -307,7 +307,7 @@ const ApplicationForJobPage = ({data}) => {
                                 onClick={(e) => { e.preventDefault(); handleContactForms(1); }}>
                             <span></span>
                         </button>
-                        {c.mailPhone}
+                        {c.mailForm}
                     </label>
                     <label className={isElementInArray(2, contactForms) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                         <button className="checkbox center"

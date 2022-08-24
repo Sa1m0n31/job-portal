@@ -114,7 +114,7 @@ const UsersFilters = ({closeModal, country, city, distance,
             </div>
 
             <div className="label drivingLicenceWrapper drivingLicenceWrapper--salary">
-                {c.finance}
+                {c.finances}
                 <div className="flex flex--start jobOfferFilters__salaryType">
                     <label className={salaryType === 1 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                         <button className="checkbox center"
@@ -225,7 +225,7 @@ const UsersFilters = ({closeModal, country, city, distance,
             </div>
 
             <div className="label label--smallMarginBottom">
-                {c.foreignLanguages.chatAt(0).toUpperCase() + c.foreignLanguages.slice(1)}
+                {c.foreignLanguages.charAt(0).toUpperCase() + c.foreignLanguages.slice(1)}
                 <div className="languagesWrapper flex">
                     {JSON.parse(c.languages).map((item, index) => {
                         return <label className={isElementInArray(index, languages) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"} key={index}>

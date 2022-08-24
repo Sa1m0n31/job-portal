@@ -1,16 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {authUser, getUserData, getUserNotifications} from "../helpers/user";
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import LoggedUserFooter from "../components/LoggedUserFooter";
 import {authAgency, getAgencyData, getAgencyNotifications} from "../helpers/agency";
 import userPlaceholder from "../static/img/user-placeholder.svg";
-import {notificationTitles} from "../static/content";
 import settings from "../static/settings";
+import {LanguageContext} from "../App";
 
-const Notifications = ({content, header}) => {
+const Notifications = () => {
     const [data, setData] = useState(null);
     const [agency, setAgency] = useState(false);
     const [notifications, setNotifications] = useState([]);
+
+    const { c } = useContext(LanguageContext);
 
     useEffect(() => {
         authUser()
@@ -83,7 +85,7 @@ const Notifications = ({content, header}) => {
 
         <main className="page">
             <h1 className="page__header">
-                Powiadomienia
+                {c.notifications}
             </h1>
             <div className="notificationWrapper flex">
                 {notifications?.map((item, index) => {
@@ -95,10 +97,10 @@ const Notifications = ({content, header}) => {
                         </figure>
                         <div className="notification__content">
                             <h3 className="notification__header">
-                                {item.type !== 3 ? notificationTitles[item.type-1] : `${item.user} ${notificationTitles[2]}`}
+                                {item.type !== 3 ? JSON.parse(c.notificationTitles)[item.type-1] : `${item.user} ${JSON.parse(c.notificationTitles)[2]}`}
                             </h3>
                             <p className="notification__text">
-                                {((item.type === 1 || item.type === 2) && item.agency) ? `Od ${item.agency}` : 'Sprawdź profil kandydata'}
+                                {((item.type === 1 || item.type === 2) && item.agency) ? `${c.from} ${item.agency}` : c.checkCandidateProfile}
                             </p>
                         </div>
                     </a>

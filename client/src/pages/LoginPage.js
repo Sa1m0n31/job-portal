@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import backgroundImg from '../static/img/logowanie.png'
 import backgroundImgAgency from '../static/img/login-agencja.png'
 import loginIcon from '../static/img/login-icon.svg'
@@ -11,6 +11,7 @@ import Cookies from 'universal-cookie';
 import Loader from "../components/Loader";
 import MobileHeader from "../components/MobileHeader";
 import LoggedUserFooter from "../components/LoggedUserFooter";
+import {LanguageContext} from "../App";
 
 const LoginPage = ({type}) => {
     const [email, setEmail] = useState("");
@@ -18,6 +19,8 @@ const LoginPage = ({type}) => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [render, setRender] = useState(false);
+
+    const { c } = useContext(LanguageContext);
 
     useEffect(() => {
         authUser()
@@ -90,20 +93,20 @@ const LoginPage = ({type}) => {
                             window.location = type === 0 ? '/konto-pracownika' : '/konto-agencji';
                         }
                         else {
-                            setError('Coś poszło nie tak... Prosimy spróbować później');
+                            setError(JSON.parse(c.formErrors)[1]);
                         }
                     }
                     else {
-                        setError('Niepoprawna nazwa użytkownika lub hasło');
+                        setError(c.loginError1);
                     }
                 })
                 .catch((err) => {
                     setLoading(false);
                     if(err?.response?.status === 403) {
-                        setError('Aby się zalogować, musisz najpierw aktywować swoje konto');
+                        setError(c.loginError2);
                     }
                     else {
-                        setError('Niepoprawna nazwa użytkownika lub hasło');
+                        setError(c.loginError1);
                     }
                 });
         }
@@ -119,21 +122,21 @@ const LoginPage = ({type}) => {
                 </a>
                 <a href="/" className="login__left__header__backBtn">
                     <img className="img" src={backArrowGrey} alt="powrót" />
-                    Powrót na stronę główną
+                    {c.homepageComeback}
                 </a>
             </header>
             <form className="login__left__content">
                 <h1 className="login__header">
-                    Zaloguj się do swojego profilu
+                    {c.loginHeader}
                 </h1>
                 <label className="label">
-                    Adres e-mail
+                    {c.email}
                     <input className="input"
                            value={email}
                            onChange={(e) => { setEmail(e.target.value); }} />
                 </label>
                 <label className="label">
-                    Hasło
+                    {c.password}
                     <input className="input"
                            type="password"
                            value={password}
@@ -146,27 +149,27 @@ const LoginPage = ({type}) => {
 
                 {!loading ? <button className="btn btn--login center"
                                     onClick={(e) => { login(e); }}>
-                    Zaloguj się
+                    {c.login}
                     <img className="img" src={loginIcon} alt="logowanie" />
                 </button> : <div className="center">
                     <Loader />
                 </div>}
                 <div className="login__bottom flex">
                     <a href={type === 0 ? "/rejestracja" : "/rejestracja?typ=pracodawca"}>
-                        <span className="d-desktop">Nie masz konta?</span> Zarejestruj się
+                        <span className="d-desktop">{c.notHaveAccount}</span> {c.register}
                     </a>
                     <a href="/przypomnienie-hasla">
-                        Zapomniałem hasła
+                        {c.forgotPassword}
                     </a>
                 </div>
             </form>
             <aside className="login__left__bottom flex">
                 <div className="login__left__bottom__links flex">
                     <a href="/polityka-prywatnosci">
-                        Polityka prywatności
+                        {c.privacyPolicyHeader}
                     </a>
-                    <a href="/polityka-prywatnosci">
-                        Regulamin portalu
+                    <a href="/regulamin">
+                        {c.termsOfServiceHeader}
                     </a>
                 </div>
 

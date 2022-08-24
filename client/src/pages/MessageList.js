@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import {
     archiveMessagesByIds,
@@ -12,6 +12,7 @@ import trashIcon from '../static/img/trash.svg'
 import dropdownArrow from '../static/img/dropdown-arrow.svg'
 import {isElementInArray} from "../helpers/others";
 import replayIcon from '../static/img/reply-icon.svg'
+import {LanguageContext} from "../App";
 
 const MessageList = ({agency, data, id}) => {
     const [selectedMessages, setSelectedMessages] = useState([]);
@@ -26,6 +27,8 @@ const MessageList = ({agency, data, id}) => {
     const [receivedMessages, setReceivedMessages] = useState([]);
     const [placeholderChatSettled, setPlaceholderChatSettled] = useState(false);
     const [currentSendMessage, setCurrentSendMessage] = useState(null);
+
+    const { c } = useContext(LanguageContext);
 
     useEffect(() => {
         async function setupMessages() {
@@ -245,11 +248,11 @@ const MessageList = ({agency, data, id}) => {
 
         <aside className="userAccount__top flex">
             <span className="userAccount__top__loginInfo">
-                Zalogowany w: <span className="bold">{agency ? 'Strefa Pracodawcy' : 'Strefa pracownika'}</span>
+                {c.loggedIn}: <span className="bold">{agency ? c.agencyZone : c.userZone}</span>
             </span>
             <a href="javascript: history.back()" className="userAccount__top__btn">
                 <img className="img" src={backArrow} alt="powrót" />
-                Powrót
+                {c.comeback}
             </a>
         </aside>
 
@@ -257,48 +260,48 @@ const MessageList = ({agency, data, id}) => {
             <div className="messages__section">
                 <div className="messages__section__top flex">
                     <h1 className="messages__header">
-                        Lista wiadomości
+                        {c.messagesList}
                     </h1>
                     <a className="btn btn--newMessage center" href={agency ? "/nowa-wiadomosc" : "/napisz-wiadomosc"}>
-                        <span className="d-mobile">Napisz</span>
-                        <span className="d-desktop">Nowa wiadomość</span>
+                        <span className="d-mobile">{c.write}</span>
+                        <span className="d-desktop">{c.newMessage}</span>
                     </a>
                 </div>
 
                 <div className="messages__buttons flex flex--start">
                     <button className={section === 0 ? "btn btn--selected" : "btn"}
                             onClick={() => { setSection(0); }}>
-                        Odebrane
+                        {c.received}
                     </button>
                     <button className={section === 1 ? "btn btn--selected" : "btn"}
                             onClick={() => { setSection(1); }}>
-                        Wysłane
+                        {c.send}
                     </button>
                     <button className={section === 2 ? "btn btn--selected" : "btn"}
                             onClick={() => { setSection(2); }}>
-                        Archiwum
+                        {c.archive}
                         <img className="img" src={trashIcon} alt="kosz" />
                     </button>
                 </div>
 
                 <div className="messages__dropdownSection flex flex--start">
                     <button className="btn center" onClick={(e) => { e.stopPropagation(); setDropdownVisible(!dropdownVisible); }}>
-                        Oznacz jako
+                        {c.signAs}
                         <img className="img" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {section !== 2 ? <button className="btn center" onClick={() => { archiveMessages(); }}>
-                        Do archiwum
+                        {c.toArchive}
                         <img className="img" src={trashIcon} alt="kosz" />
                     </button> : <button className="btn center" onClick={() => { restoreMessages(); }}>
-                        Przywróć
+                        {c.restore}
                     </button>}
 
                     {dropdownVisible ? <div className="messages__dropdown">
                         <button className="btn" onClick={() => { markAsRead(); }}>
-                            Przeczytane
+                            {c.read}
                         </button>
                         <button className="btn" onClick={() => { markAsUnread(); }}>
-                            Nieprzeczytane
+                            {c.notRead}
                         </button>
                     </div> : ''}
                 </div>
@@ -385,29 +388,29 @@ const MessageList = ({agency, data, id}) => {
                                     {messageDatetime.getDate()}/{messageDatetime.getMonth()+1}/{messageDatetime.getFullYear()}, {messageDatetime.getHours()}:{messageDatetime.getMinutes()}
                                 </span>
                                 <h4 className="messages__chatHeader__header">
-                                    <span className="bold">od</span> {item.fromAgency ? (agency ? `Ja (${data.name})` : JSON.parse(currentChat.a_data).name) : (agency ? `${JSON.parse(currentChat.u_data).firstName} ${JSON.parse(currentChat.u_data).lastName}` : `Ja (${data.firstName} ${data.lastName})`)}
+                                    <span className="bold">{c.from}</span> {item.fromAgency ? (agency ? `${c.me} (${data.name})` : JSON.parse(currentChat.a_data).name) : (agency ? `${JSON.parse(currentChat.u_data).firstName} ${JSON.parse(currentChat.u_data).lastName}` : `${c.me} (${data.firstName} ${data.lastName})`)}
                                 </h4>
                                 <h4 className="messages__chatHeader__header">
-                                    <span className="bold">do</span> {!item.fromAgency ? (agency ? `Ja (${data.name})` : JSON.parse(currentChat.a_data).name) : (agency ? `${JSON.parse(currentChat.u_data).firstName} ${JSON.parse(currentChat.u_data).lastName}` : `Ja (${data.firstName} ${data.lastName})`)}
+                                    <span className="bold">{c.to}</span> {!item.fromAgency ? (agency ? `${c.me} (${data.name})` : JSON.parse(currentChat.a_data).name) : (agency ? `${JSON.parse(currentChat.u_data).firstName} ${JSON.parse(currentChat.u_data).lastName}` : `${c.me} (${data.firstName} ${data.lastName})`)}
                                 </h4>
                                 <h4 className="messages__chatHeader__header">
-                                    <span className="bold">Temat:</span> {currentChat?.m_title}
+                                    <span className="bold">{c.topic}:</span> {currentChat?.m_title}
                                 </h4>
                                 <h4 className="messages__chatHeader__header d-mobile">
-                                    <span className="bold">Data wiadomości:</span> {messageDatetime.getDate()}/{messageDatetime.getMonth()+1}/{messageDatetime.getFullYear()}, {messageDatetime.getHours()}:{messageDatetime.getMinutes()}
+                                    <span className="bold">{c.messageDate}:</span> {messageDatetime.getDate()}/{messageDatetime.getMonth()+1}/{messageDatetime.getFullYear()}, {messageDatetime.getHours()}:{messageDatetime.getMinutes()}
                                 </h4>
                             </div>
                             <div className="messages__currentChatButtons flex flex--start">
                                 <a className="btn" href={agency ? `/nowa-wiadomosc?id=${currentChat.m_id}` : `/napisz-wiadomosc?id=${currentChat.m_id}`}>
                                     <img className="img" src={replayIcon} alt="odpowiedz" />
-                                    Odpowiedz
+                                    {c.respond}
                                 </a>
                                 <button className="btn" onClick={() => { markAsUnread(currentChat.m_id); }}>
-                                    Oznacz jako nieprzeczytane
+                                    {c.markAsNotRead}
                                 </button>
                                 <button className="btn" onClick={() => { archiveMessages(currentChat.m_id); }}>
                                     <img className="img" src={trashIcon} alt="odpowiedz" />
-                                    Usuń
+                                    {c.delete}
                                 </button>
                             </div>
                             <div className="messages__currentChatContent">
@@ -419,13 +422,13 @@ const MessageList = ({agency, data, id}) => {
                                     {messageDatetime.getDate()}/{messageDatetime.getMonth()+1}/{messageDatetime.getFullYear()}, {messageDatetime.getHours()}:{messageDatetime.getMinutes()}
                                 </span>
                                 <h4 className="messages__chatHeader__header">
-                                    <span className="bold">od</span> {item.fromAgency ? (agency ? `Ja (${data.name})` : JSON.parse(currentChat.a_data).name) : (agency ? `${JSON.parse(currentChat.u_data).firstName} ${JSON.parse(currentChat.u_data).lastName}` : `Ja (${data.firstName} ${data.lastName})`)}
+                                    <span className="bold">{c.from}</span> {item.fromAgency ? (agency ? `${c.me} (${data.name})` : JSON.parse(currentChat.a_data).name) : (agency ? `${JSON.parse(currentChat.u_data).firstName} ${JSON.parse(currentChat.u_data).lastName}` : `${c.me} (${data.firstName} ${data.lastName})`)}
                                 </h4>
                                 <h4 className="messages__chatHeader__header">
-                                    <span className="bold">do</span> {!item.fromAgency ? (agency ? `Ja (${data.name})` : JSON.parse(currentChat.a_data).name) : (agency ? `${JSON.parse(currentChat.u_data).firstName} ${JSON.parse(currentChat.u_data).lastName}` : `Ja (${data.firstName} ${data.lastName})`)}
+                                    <span className="bold">{c.to}</span> {!item.fromAgency ? (agency ? `${c.me} (${data.name})` : JSON.parse(currentChat.a_data).name) : (agency ? `${JSON.parse(currentChat.u_data).firstName} ${JSON.parse(currentChat.u_data).lastName}` : `${c.me} (${data.firstName} ${data.lastName})`)}
                                 </h4>
                                 <h4 className="messages__chatHeader__header">
-                                    <span className="bold">Data wiadomości:</span> {messageDatetime.getDate()}/{messageDatetime.getMonth()+1}/{messageDatetime.getFullYear()}, {messageDatetime.getHours()}:{messageDatetime.getMinutes()}
+                                    <span className="bold">{c.messageDate}:</span> {messageDatetime.getDate()}/{messageDatetime.getMonth()+1}/{messageDatetime.getFullYear()}, {messageDatetime.getHours()}:{messageDatetime.getMinutes()}
                                 </h4>
                             </div>
                             <div className="messages__currentChatContent">
@@ -439,10 +442,10 @@ const MessageList = ({agency, data, id}) => {
                             {new Date(currentSendMessage.created_at).getDate()}/{new Date(currentSendMessage.created_at).getMonth()+1}/{new Date(currentSendMessage.created_at).getFullYear()}, {new Date(currentSendMessage.created_at).getHours()}:{new Date(currentSendMessage.created_at).getMinutes()}
                         </span>
                         <h4 className="messages__chatHeader__header">
-                            <span className="bold">od</span> {agency ? `Ja (${data.name})` : (data.firstName ? `Ja (${data.firstName} ${data.lastName})` : 'Anonimowy')}
+                            <span className="bold">{c.from}</span> {agency ? `${c.me} (${data.name})` : (data.firstName ? `${c.me} (${data.firstName} ${data.lastName})` : c.anonim)}
                         </h4>
                         <h4 className="messages__chatHeader__header">
-                            <span className="bold">do</span> {currentSendMessage.receiver}
+                            <span className="bold">{c.to}</span> {currentSendMessage.receiver}
                         </h4>
                     </div>
                     <div className="messages__currentChatContent">

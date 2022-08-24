@@ -65,7 +65,7 @@ const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCate
         </div> : ''}
 
         <div className="label drivingLicenceWrapper">
-            {c.drivingLicence.chatAt(0).toUpperCase() + c.drivingLicence.slice(1)}
+            {c.drivingLicence.charAt(0).toUpperCase() + c.drivingLicence.slice(1)}
             <p className="label--extraInfo">
                 {c.drivingLicenceDescription}
             </p>

@@ -20,6 +20,7 @@ import SingleFastOffer from "./pages/SingleFastOffer";
 import "/node_modules/flag-icons/css/flag-icons.min.css";
 import CandidateProfile from "./pages/CandidateProfile";
 import {getSiteContent} from "./helpers/translation";
+import Loader from "./components/Loader";
 
 const LanguageContext = React.createContext(null);
 
@@ -28,20 +29,15 @@ function App() {
   const [c, setC] = useState({});
 
   useEffect(() => {
-    getSiteContent()
+    getSiteContent(language)
         .then((res) => {
-          console.log(res?.data);
           if(res?.data?.length) {
             setC(res.data.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), {}));
           }
         });
-  }, []);
+  }, [language]);
 
-  useEffect(() => {
-    console.log(c);
-  }, [c]);
-
-  return <LanguageContext.Provider value={{language, setLanguage, c}}>
+  return c?.partnersContent ? <LanguageContext.Provider value={{language, setLanguage, c}}>
     <Router>
       {/* PUBLIC ROUTES */}
       <Route exact path="/">
@@ -161,7 +157,9 @@ function App() {
         <AgencyWrapper page={13} />
       </Route>
     </Router>
-  </LanguageContext.Provider>
+  </LanguageContext.Provider> : <div className="container container--height100 center">
+    <Loader />
+  </div>
 }
 
 export default App;

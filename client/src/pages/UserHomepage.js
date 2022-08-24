@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import ReactDOM from 'react-dom';
+import React, {useContext, useEffect, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import penIcon from '../static/img/pen-edit-account.svg'
 import settings from "../static/settings";
@@ -16,26 +15,22 @@ import Switch from "react-switch";
 import { Tooltip } from 'react-tippy';
 import 'react-whatsapp-widget/dist/index.css';
 import {toggleUserVisibility, toggleUserWorking} from "../helpers/user";
-import {
-    categories,
-    countries,
-    drivingLicences,
-    flags,
-    languages,
-    noInfo
-} from "../static/content";
+import {flags} from "../static/content";
 import {getDate, getLoggedUserEmail} from "../helpers/others";
 import checkIcon from '../static/img/check-small.svg'
 import starIcon from '../static/img/star.svg'
 import settingsCircle from '../static/img/settings-circle.svg'
-import ReactPDF, {PDFDownloadLink} from '@react-pdf/renderer';
+import {PDFDownloadLink} from '@react-pdf/renderer';
 import CV from '../components/CV'
 import copyIcon from '../static/img/copy-icon.svg'
+import {LanguageContext} from "../App";
 
 const UserHomepage = ({data, userId, visible, working}) => {
     const [profileVisible, setProfileVisible] = useState(visible);
     const [userWorking, setUserWorking] = useState(working);
     const [copied, setCopied] = useState(false);
+
+    const { c } = useContext(LanguageContext);
 
     useEffect(() => {
         if(window.innerWidth >= 996) {
@@ -90,11 +85,11 @@ const UserHomepage = ({data, userId, visible, working}) => {
         <div className="userAccount">
             <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
-                    Zalogowany w: <span className="bold">Strefa Pracownika</span>
+                    {c.loggedIn}: <span className="bold">{c.userZone}</span>
                 </span>
                 <a href="/edycja-danych"
                    className="userAccount__top__btn">
-                    Edytuj profil
+                    {c.editProfile}
                     <img className="img" src={penIcon} alt="edytuj" />
                 </a>
             </aside>
@@ -118,7 +113,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                         </p>
                         <p className="userAccount__box__mainData__text">
                             <img className="img" src={suitcaseIcon} alt="branża" />
-                            {categories[data?.categories[0]]}
+                            {JSON.parse(c.categories)[data?.categories[0]]}
                         </p>
                         <p className="userAccount__box__mainData__text">
                             <img className="img" src={phoneIcon} alt="numer-telefonu" />
@@ -130,9 +125,9 @@ const UserHomepage = ({data, userId, visible, working}) => {
                         </p>
                         {copied ? <span className="copyInfo">
                             <img className="img" src={checkIcon} alt="check" />
-                            Skopiowano
+                            {c.copied}
                         </span> : <button className="btn btn--copyLink flex" onClick={() => { copyLinkToClipboard(); }}>
-                            Kopiuj link do profilu
+                            {c.copyLink}
                             <img className="img" src={copyIcon} alt="kopiuj" />
                         </button>}
                     </div>
@@ -140,7 +135,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
 
                 <div className="userAccount__box__right">
                     <label className="userAccount__box__downloadCV">
-                        Wygeneruj i pobierz CV:
+                        {c.generateAndDownloadCV}:
                         {data ? <PDFDownloadLink document={<CV profileImage={`${settings.API_URL}/${data?.profileImage}`}
                                                                fullName={`${data.firstName} ${data.lastName}`}
                                                                categories={data.categories}
@@ -153,18 +148,18 @@ const UserHomepage = ({data, userId, visible, working}) => {
                                                                drivingLicence={data.drivingLicenceCategories}
                                                                certs={data.certificates.concat(data.courses)}
                                                                desc={data.situationDescription}
-                                                               phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : noInfo}
-                                                               location={data.country >= 0 ? `${data.city}, ${countries[data.country]}` : noInfo}
-                                                               currentPlace={data.currentCountry >= 0 ? `${countries[data.currentCountry]}, ${data.currentCity}`: noInfo}
-                                                               availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : noInfo}
+                                                               phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : c.noInfo}
+                                                               location={data.country >= 0 ? `${data.city}, ${JSON.parse(c.countries)[data.country]}` : c.noInfo}
+                                                               currentPlace={data.currentCountry >= 0 ? `${JSON.parse(c.countries)[data.currentCountry]}, ${data.currentCity}`: c.noInfo}
+                                                               availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : c.noInfo}
                                                                ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}
-                                                               ownTools={data.ownTools ? 'Tak' : ''}
-                                                               salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency} netto/${data.salaryType === 0 ? 'mies.' : 'tyg.'}` : noInfo}
+                                                               ownTools={data.ownTools ? c.yes : ''}
+                                                               salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency} ${c.netto}/${data.salaryType === 0 ? c.monthlyShortcut : c.weeklyShortcut}` : c.noInfo}
                         />}
                                                  fileName={`CV-${data.firstName}_${data.lastName}.pdf`}
                                                  className="btn btn--downloadCV">
                             <img className="img" src={downloadWhite} alt="pobierz" />
-                            Pobierz CV
+                            {c.downloadCV}
                         </PDFDownloadLink> : ''}
                     </label>
 
@@ -172,7 +167,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                         <div className="userAccount__box__right__item">
                             <Tooltip
                                 html={<span className="tooltipVisible">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam molestie ipsum metus. Nullam vitae turpis tellus. Nullam vel gravida nunc, et hendrerit dolor. Integer posuere nisl eu porta cursus.
+                                    {c.userTooltip1}
                                 </span>}
                                 position="left"
                             >
@@ -181,7 +176,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                                 </span>
                             </Tooltip>
 
-                            Widoczność profilu:
+                            {c.profileVisibility}:
                             <Switch onChange={() => { changeProfileVisibility(); }}
                                     offColor="#CB4949"
                                     width={window.innerWidth > 996 ? 44 : 22}
@@ -191,7 +186,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                         <div className="userAccount__box__right__item">
                             <Tooltip
                                 html={<span className="tooltipVisible">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam molestie ipsum metus. Nullam vitae turpis tellus. Nullam vel gravida nunc, et hendrerit dolor. Integer posuere nisl eu porta cursus.
+                                    {c.userTooltip2}
                                 </span>}
                                 position="left">
                                 <span className="tooltip">
@@ -199,7 +194,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                                 </span>
                             </Tooltip>
 
-                            Pracuję, ale chcę otrzymywać oferty
+                            {c.workingButOpen}
                             <Switch onChange={() => { changeProfileWorking(); }}
                                     offColor="#CB4949"
                                     width={window.innerWidth > 996 ? 44 : 22}
@@ -212,12 +207,12 @@ const UserHomepage = ({data, userId, visible, working}) => {
 
             <div className="userAccount__box userAccount__box--30 noscroll">
                 <h3 className="userAccount__box__header">
-                    Dane osobowe i kontakt
+                    {c.personalDataAndContact}
                 </h3>
                 <div className="userAccount__box__pairsWrapper">
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Imię i nazwisko
+                            {c.firstAndLastName}
                         </span>
                         <p className="userAccount__box__value">
                             {data?.firstName} {data?.lastName}
@@ -225,7 +220,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Nr tel.
+                            {c.phoneNumberShortcut}
                         </span>
                         <p className="userAccount__box__value">
                             {data?.phoneNumberCountry} {data?.phoneNumber}
@@ -233,7 +228,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Data urodzenia
+                            {c.birthday}
                         </span>
                         <p className="userAccount__box__value">
                             {getDate(data?.birthdayDay, data?.birthdayMonth, data?.birthdayYear)}
@@ -241,7 +236,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Adres e-mail
+                            {c.email}
                         </span>
                         <p className="userAccount__box__value">
                             {data?.email}
@@ -249,11 +244,11 @@ const UserHomepage = ({data, userId, visible, working}) => {
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Adres zamieszkania
+                            {c.livingAddress}
                         </span>
                         <p className="userAccount__box__value">
                             {data?.city}, {data?.address}<br/>
-                            kraj: {countries[data?.country]}
+                            {c.country}: {JSON.parse(c.countries)[data?.country]}
                         </p>
                     </span>
                 </div>
@@ -261,7 +256,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
 
             <div className="userAccount__box userAccount__box--30 noscroll">
                 <h3 className="userAccount__box__header">
-                    Ukończone szkoły
+                    {c.finishedSchools}
                 </h3>
                 {data?.schools?.map((item, index) => {
                     return <div className="userAccount__school flex flex--start" key={index}>
@@ -276,7 +271,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                                 {item.title}
                             </h5>
                             <h6 className="userAccount__school__date">
-                                {item.from} - {item.to ? item.to : 'w trakcie'}
+                                {item.from} - {item.to ? item.to : c.during}
                             </h6>
                         </div>
                     </div>
@@ -285,7 +280,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
 
             <div className="userAccount__box userAccount__box--30 noscroll">
                 <h3 className="userAccount__box__header">
-                    Doświadczenie zawodowe
+                    {c.jobExperience}
                 </h3>
                 {data?.jobs?.map((item, index) => {
                     return <div className="userAccount__school flex flex--start" key={index}>
@@ -300,7 +295,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                                 {item.title}
                             </h5>
                             <h6 className="userAccount__school__date">
-                                {item.from} - {item.to ? item.to : 'w trakcie'}
+                                {item.from} - {item.to ? item.to : c.during}
                             </h6>
                         </div>
                     </div>
@@ -310,17 +305,17 @@ const UserHomepage = ({data, userId, visible, working}) => {
             {/* THIRD LINE */}
             <div className="userAccount__box userAccount__box--20">
                 <h3 className="userAccount__box__header">
-                    Umiejętności
+                    {c.skills}
                 </h3>
                 {data?.languages?.length ? <>
                     <h4 className="userAccount__box__subheader">
-                        Języki obce
+                        {c.foreignLanguages.charAt(0).toUpperCase() + c.foreignLanguages.slice(1)}
                     </h4>
                     <div className="flex flex--start">
                         {data.languages?.map((item, index) => {
                             return <div className="userAccount__box__language" key={index}>
                                 <img className="img" src={checkIcon} alt="język" />
-                                {languages[item.language]}
+                                {JSON.parse(c.languages)[item.language]}
                                 <span className="lvl">
                                     {item.lvl}
                                 </span>
@@ -331,13 +326,13 @@ const UserHomepage = ({data, userId, visible, working}) => {
 
                 {data?.drivingLicenceCategories?.length ? <>
                     <h4 className="userAccount__box__subheader">
-                        Prawo jazdy
+                        {c.drivingLicence.charAt(0).toUpperCase() + c.drivingLicence.slice(1)}
                     </h4>
                     <div className="flex flex--start">
                         {data?.drivingLicenceCategories?.map((item, index) => {
                             return <div className="userAccount__box__language" key={index}>
                                 <img className="img" src={checkIcon} alt="język" />
-                                {drivingLicences[item]}
+                                {JSON.parse(c.drivingLicences)[item]}
                             </div>
                         })}
                     </div>
@@ -346,7 +341,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
 
             <div className="userAccount__box userAccount__box--20">
                 <h3 className="userAccount__box__header">
-                    Ukończone kursy i szkolenia
+                    {c.finishedCoursesAndSchools}
                 </h3>
                 {data?.courses?.map((item, index) => {
                     return <div className="userAccount__course" key={index}>
@@ -365,28 +360,28 @@ const UserHomepage = ({data, userId, visible, working}) => {
 
             <div className="userAccount__box userAccount__box--40">
                 <h3 className="userAccount__box__header">
-                    Dodatkowe informacje
+                    {c.additionalInfo}
                 </h3>
                 <div className="userAccount__box__pairsWrapper">
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Aktualne miejsce pobytu
+                            {c.currentLivingPlace}
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.currentCity}, {countries[data?.currentCountry]}
+                            {data?.currentCity}, {JSON.parse(c.countries)[data?.currentCountry]}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Dyspozycyjność
+                            {c.availability}
                         </span>
                         <p className="userAccount__box__value">
-                            od {getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear)}
+                            ${c.from} {getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear)}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Własny śr. transportu
+                            {c.ownTransport}
                         </span>
                         <p className="userAccount__box__value">
                             {data?.ownTransport ? 'Tak' : 'Nie'}
@@ -394,7 +389,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Nr BSN/SOFI
+                            {c.bsnNumber}
                         </span>
                         <p className="userAccount__box__value">
                             {data?.hasBsnNumber ? data?.bsnNumber : '-'}
@@ -402,7 +397,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Praca na długi okres
+                            {c.longTermJob}
                         </span>
                         <p className="userAccount__box__value">
                             {data?.longTermJobSeeker ? 'Tak' : 'Nie'}
@@ -410,10 +405,10 @@ const UserHomepage = ({data, userId, visible, working}) => {
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Własne zakw. w Holandii
+                            {c.ownAccommodation}
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.ownAccommodation ? data?.accommodationPlace : 'Nie'}
+                            {data?.ownAccommodation ? data?.accommodationPlace : c.no}
                         </p>
                     </span>
                 </div>
@@ -421,7 +416,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
 
             <div className="userAccount__box userAccount__box--10">
                 <h3 className="userAccount__box__header">
-                    Załączniki
+                    {c.attachments}
                 </h3>
                 {data?.attachments?.map((item, index) => {
                     return <a key={index}

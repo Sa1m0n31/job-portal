@@ -1,21 +1,13 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import penIcon from "../static/img/pen-edit-account.svg";
 import settingsCircle from "../static/img/settings-circle.svg";
-import {
-    currencies,
-    houses, months, paycheckDay, paycheckFrequency,
-    paymentTypes,
-    pensionFrequency,
-    pensionType,
-    rooms
-} from "../static/content";
+import {currencies} from "../static/content";
 import settings from "../static/settings";
 import locationIcon from "../static/img/location.svg";
 import suitcaseIcon from "../static/img/suitcase-grey.svg";
 import phoneIcon from "../static/img/phone-grey.svg";
 import messageIcon from "../static/img/message-grey.svg";
-import whatsAppIcon from "../static/img/whatsapp.svg";
 import websiteIcon from '../static/img/www-icon.svg'
 import fbIcon from '../static/img/facebook-icon.svg'
 import instagramIcon from '../static/img/instagram-icon.svg'
@@ -26,10 +18,13 @@ import { noInfo } from "../static/content";
 import magnifierIcon from '../static/img/magnifier.svg'
 import Gallery from "../components/Gallery";
 import userPlaceholder from '../static/img/user-placeholder.svg'
+import {LanguageContext} from "../App";
 
 const AgencyHomepage = ({data, email}) => {
     const [currentGalleryScroll, setCurrentGalleryScroll] = useState(0);
     const [galleryIndex, setGalleryIndex] = useState(-1);
+
+    const { c } = useContext(LanguageContext);
 
     useEffect(() => {
         if(gallery) {
@@ -90,11 +85,11 @@ const AgencyHomepage = ({data, email}) => {
         <div className="userAccount">
             <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
-                    Zalogowany w: <span className="bold">Strefa Pracodawcy</span>
+                    {c.loggedIn}: <span className="bold">{c.agencyZone}</span>
                 </span>
                 <a href="/edycja-danych-agencji"
                    className="userAccount__top__btn">
-                    Edytuj profil
+                    {c.editProfile}
                     <img className="img" src={penIcon} alt="edytuj" />
                 </a>
             </aside>
@@ -132,7 +127,7 @@ const AgencyHomepage = ({data, email}) => {
                 </main>
                 <div className="userAccount__box userAccount__box--40">
                     <h3 className="userAccount__box__header">
-                        Dlaczego warto nas wybrać
+                        {c.whyYouShouldChooseUs}
                     </h3>
                     <div className="userAccount__box__text"
                         dangerouslySetInnerHTML={{__html: data.benefits}}
@@ -142,7 +137,7 @@ const AgencyHomepage = ({data, email}) => {
                 </div>
                 <div className="userAccount__box userAccount__box--20">
                     <h3 className="userAccount__box__header">
-                        Social media
+                        {c.socialMediaEnglish}
                     </h3>
                     {data.facebook ?
                         <a className="agencyAccount__socialMediaItem"
@@ -195,7 +190,7 @@ const AgencyHomepage = ({data, email}) => {
                 <div className="flex">
                     <div className="userAccount__box">
                         <h3 className="userAccount__box__header">
-                            O firmie
+                            {c.aboutCompany}
                         </h3>
                         <div className="userAccount__box__text"
                              dangerouslySetInnerHTML={{__html: data.description}}>
@@ -204,7 +199,7 @@ const AgencyHomepage = ({data, email}) => {
                     </div>
                     <div className="userAccount__box">
                         <h3 className="userAccount__box__header">
-                            O procesie rekrutacji
+                            {c.aboutRecruitment}
                         </h3>
                         <div className="userAccount__box__text"
                              dangerouslySetInnerHTML={{__html: data.recruitmentProcess}}>
@@ -216,111 +211,111 @@ const AgencyHomepage = ({data, email}) => {
                 <div className="flex">
                     <div className="userAccount__box userAccount__box--100">
                         <h3 className="userAccount__box__header">
-                            Warunki i informacje dla pracowników
+                            {c.employeesInfo}
                         </h3>
                         <div className="userAccount__box__pairsWrapper userAccount__box--employeesInfo">
                         <span className="w-100">
-                            Zakwaterowanie
+                            {c.accommodation}
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Typ pokoju
+                                {c.roomType}
                             </span>
                             <p className="userAccount__box__value">
-                                {data.roomType !== null && data.roomType !== undefined ? rooms[data.roomType] : noInfo}
+                                {data.roomType !== null && data.roomType !== undefined ? JSON.parse(c.roomsTypes)[data.roomType] : noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Rodzaj zabudowy
+                                {c.houseType}
                             </span>
                             <p className="userAccount__box__value">
-                                {data.houseType !== null && data.houseType !== undefined ? houses[data.houseType] : noInfo}
+                                {data.houseType !== null && data.houseType !== undefined ? JSON.parse(c.houses)[data.houseType] : noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Wyposażenie
+                                {c.equipment}
                             </span>
                             <p className="userAccount__box__value">
-                                {data.roomDescription ? data.roomDescription : noInfo}
+                                {data.roomDescription ? data.roomDescription : c.noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Parking
+                                {c.parking}
                             </span>
                             <p className="userAccount__box__value">
-                                {data.parking !== null && data.parking !== undefined ? (data.parking ? 'Tak' : 'Nie') : noInfo}
+                                {data.parking !== null && data.parking !== undefined ? (data.parking ? c.yes : c.no) : c.noInfo}
                             </p>
                         </span>
                             <span className="w-100">
-                            Pojazd służbowy i dojazdy do pracy
+                                {c.jobTransport}
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Samochód służbowy
+                                {c.companyCar}
                             </span>
                             <p className="userAccount__box__value">
                                 {data.car === 0 || data.car ?
-                                    (data.car === 1 ? 'Bezpłatny' : (`Płatny dodatkowo,\n${data.carPrice} ${currencies[data.carPriceCurrency]}/mies`)) : noInfo}
+                                    (data.car === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]},\n${data.carPrice} ${currencies[data.carPriceCurrency]}/${c.monthlyShortcut}`)) : c.noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Rower
+                                {c.bike}
                             </span>
                             <p className="userAccount__box__value">
                                 {data.bike === 0 || data.bike ?
-                                    (data.bike === 1 ? 'Bezpłatny' : (`Płatny dodatkowo,\n${data.bikePrice} ${currencies[data.bikePriceCurrency]}/mies`)) : noInfo}
+                                    (data.bike === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]},\n${data.bikePrice} ${currencies[data.bikePriceCurrency]}/${c.monthlyShortcut}`)) : c.noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Zwrot kosztów za dojazd
+                                {c.costReturn}
                             </span>
                             <p className="userAccount__box__value">
                                 {data.costReturnWithOwnTransport !== null && data.costReturnWithOwnTransport !== undefined ?
-                                    (data.costReturnWithOwnTransport ? 'Tak' : 'Nie') : noInfo}
+                                    (data.costReturnWithOwnTransport ? c.yes : c.no) : c.noInfo}
                             </p>
                         </span>
 
                         <span className="w-100">
-                            Składki, ulgi i opłaty
+                            {c.additionalPayments}
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Składki emerytalne
+                                {c.pension}
                             </span>
                             <p className="userAccount__box__value">
-                                {data.pensionContributions !== null && data.pensionContributions !== undefined ? pensionType[data.pensionContributions] : noInfo}
+                                {data.pensionContributions !== null && data.pensionContributions !== undefined ? JSON.parse(c.pensionType)[data.pensionContributions] : c.noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Świadczenia urlopowe
+                                {c.holidayAllowance}
                             </span>
                             <p className="userAccount__box__value userAccount__box__value--holidayAllowance">
-                                {data.holidayAllowanceType !== null && data.holidayAllowanceType !== undefined ? `${pensionType[data.holidayAllowanceType]}
+                                {data.holidayAllowanceType !== null && data.holidayAllowanceType !== undefined ? `${JSON.parse(c.pensionType)[data.holidayAllowanceType]}
                                 `: noInfo}<br/>
-                                {data.holidayAllowanceType !== null && data.holidayAllowanceType !== undefined ? `${data.holidayAllowanceFrequency === 0 ? (pensionFrequency[data.holidayAllowanceFrequency] + ', ' + (parseInt(data.holidayAllowanceDay)+1) + ' ' + months[data.holidayAllowanceMonth]) : pensionFrequency[data.holidayAllowanceFrequency]}` : ''}
+                                {data.holidayAllowanceType !== null && data.holidayAllowanceType !== undefined ? `${data.holidayAllowanceFrequency === 0 ? (JSON.parse(c.pensionFrequency)[data.holidayAllowanceFrequency] + ', ' + (parseInt(data.holidayAllowanceDay)+1) + ' ' + JSON.parse(c.months)[data.holidayAllowanceMonth]) : JSON.parse(c.pensionFrequency)[data.holidayAllowanceFrequency]}` : ''}
                             </p>
                         </span>
                         <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Wynagrodzenie
+                                {c.salary}
                             </span>
                             <p className="userAccount__box__value">
-                                {data.paycheckFrequency !== null && data.paycheckFrequency !== undefined ? paycheckFrequency[data.paycheckFrequency] : noInfo}<br/>
-                                {data.paycheckFrequency !== null && data.paycheckFrequency !== undefined ? paycheckDay[data.paycheckDay] : ''}
+                                {data.paycheckFrequency !== null && data.paycheckFrequency !== undefined ? JSON.parse(c.paycheckFrequency)[data.paycheckFrequency] : noInfo}<br/>
+                                {data.paycheckFrequency !== null && data.paycheckFrequency !== undefined ? JSON.parse(c.paycheckDay)[data.paycheckDay] : ''}
                             </p>
                         </span>
                         <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Ubezp. zdrowotne
+                                {c.healthInsurance}
                             </span>
                             <p className="userAccount__box__value">
-                                {data.healthInsurance !== null && data.healthInsurance !== undefined ? paymentTypes[data.healthInsurance] : noInfo}<br/>
+                                {data.healthInsurance !== null && data.healthInsurance !== undefined ? JSON.parse(c.paymentTypes)[data.healthInsurance] : noInfo}<br/>
                                 {data.healthInsuranceCost !== null && data.healthInsurance === 0 ? data.healthInsuranceCost + ' ' + currencies[data.healthInsuranceCurrency] : ''}
                             </p>
                         </span>
@@ -329,7 +324,7 @@ const AgencyHomepage = ({data, email}) => {
 
                     <div className="userAccount__box userAccount__box--100">
                         <h3 className="userAccount__box__header">
-                            Benefity - co zyskasz?
+                            {c.benefits}
                         </h3>
                         <div className="userAccount__box__text"
                              dangerouslySetInnerHTML={{__html: data.benefits}}
@@ -340,7 +335,7 @@ const AgencyHomepage = ({data, email}) => {
 
                     {data?.gallery?.length ? <div className="userAccount__box userAccount__box--100">
                         <h3 className="userAccount__box__header">
-                            Galeria zdjęć
+                            {c.gallery}
                         </h3>
                         <div className="flex flex--gallery">
                             {currentGalleryScroll ? <button className="userAccount__box__gallery__arrow userAccount__box__gallery__arrow--prev"

@@ -1,15 +1,15 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import MobileHeader from "../components/MobileHeader";
 import logo from "../static/img/logo-czarne.png";
 import backArrowGrey from "../static/img/back-arrow-grey.svg";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import backgroundImg from "../static/img/logowanie.png";
 import checkIcon from "../static/img/green-check.svg";
-import {changeUserPassword, resetUserPassword} from "../helpers/user";
-import {changeAgencyPassword, resetAgencyPassword, verifyPasswordToken} from "../helpers/agency";
-import {formErrors} from "../static/content";
+import {resetUserPassword} from "../helpers/user";
+import {resetAgencyPassword, verifyPasswordToken} from "../helpers/agency";
 import Loader from "../components/Loader";
 import {isPasswordStrength} from "../helpers/others";
+import {LanguageContext} from "../App";
 
 const SetNewPassword = () => {
     const [password, setPassword] = useState('');
@@ -20,6 +20,8 @@ const SetNewPassword = () => {
     const [render, setRender] = useState(false);
     const [email, setEmail] = useState('');
     const [role, setRole] = useState(null);
+
+    const { c } = useContext(LanguageContext);
 
     const formRef = useRef(null);
     const successRef = useRef(null);
@@ -104,19 +106,19 @@ const SetNewPassword = () => {
                             setSuccess(true);
                         }
                         else {
-                            setError(formErrors[1]);
+                            setError(JSON.parse(c.formErrors)[1]);
                         }
                     })
                     .catch((err) => {
-                        setError(formErrors[1]);
+                        setError(JSON.parse(c.formErrors)[1]);
                     });
             }
             else {
-                setError('Hasło powinno mieć co najmniej 8 znaków i zawierać co najmniej jedną cyfrę i jedną wielką literę');
+                setError(c.passwordError3);
             }
         }
         else {
-            setError('Podane hasła nie są identyczne');
+            setError(c.passwordError2);
         }
     }
 
@@ -130,35 +132,35 @@ const SetNewPassword = () => {
                 </a>
                 <a href="/" className="login__left__header__backBtn">
                     <img className="img" src={backArrowGrey} alt="powrót" />
-                    Powrót na stronę główną
+                    {c.homepageComeback}
                 </a>
             </header>
 
             <div className="application__success" ref={successRef}>
                 <img className="img" src={checkIcon} alt="dodano" />
                 <h3 className="application__header">
-                    Udało się! Twoje hasło zostało zmienione!
+                    {c.changePasswordSuccess}
                 </h3>
                 <div className="buttons center">
                     <a href={role === 0 ? "/strefa-pracownika" : "/strefa-pracodawcy"} className="btn">
-                        Zaloguj się
+                        {c.login}
                     </a>
                 </div>
             </div>
 
             <form className="login__left__content" ref={formRef}>
                 <h1 className="login__header">
-                    Ustaw swoje hasło
+                    {c.changePasswordHeader}
                 </h1>
                 <label className="label">
-                    Nowe hasło
+                    {c.newPassword}
                     <input className="input"
                            type="password"
                            value={password}
                            onChange={(e) => { setPassword(e.target.value); }} />
                 </label>
                 <label className="label">
-                    Powtórz hasło
+                    {c.repeatPassword}
                     <input className="input"
                            type="password"
                            value={repeatPassword}
@@ -171,7 +173,7 @@ const SetNewPassword = () => {
 
                 {!loading ? <button className="btn btn--login center"
                                     onClick={(e) => { handleSubmit(e); }}>
-                    Ustaw nowe hasło
+                    {c.changePasswordBtn}
                 </button> : <div className="loading">
                     <Loader />
                 </div>}
@@ -179,10 +181,10 @@ const SetNewPassword = () => {
             <aside className="login__left__bottom flex">
                 <div className="login__left__bottom__links flex">
                     <a href="/polityka-prywatnosci">
-                        Polityka prywatności
+                        {c.privacyPolicyHeader}
                     </a>
-                    <a href="/polityka-prywatnosci">
-                        Regulamin portalu
+                    <a href="/regulamin">
+                        {c.termsOfServiceHeader}
                     </a>
                 </div>
 

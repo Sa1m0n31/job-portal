@@ -19,4 +19,14 @@ export class TranslationService {
             lang
         });
     }
+
+    async translate(from, to) {
+        const translationBase = await this.staticRepository.findBy({
+            lang: from
+        });
+
+        // Google API request
+
+        // Save to DB
+    }
 }

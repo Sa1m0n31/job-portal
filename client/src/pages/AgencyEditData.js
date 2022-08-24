@@ -1,11 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
 import logo from "../static/img/logo-biale.png";
-import {
-    formErrors,
-    stepsAgency,
-    stepsAgencyContent,
-    stepsAgencyMainContent,
-} from "../static/content";
 import MobileHeader from "../components/MobileHeader";
 import homeIcon from "../static/img/home-icon.svg";
 import backArrow from "../static/img/back-arrow-grey.svg";
@@ -18,7 +12,6 @@ import AgencyForm4a from "../components/AgencyForm4a";
 import AgencyForm4b from "../components/AgencyForm4b";
 import AgencyForm4c from "../components/AgencyForm4c";
 import AgencyFormSummary from "../components/AgencyFormSummary";
-import {getUserData, updateUser} from "../helpers/user";
 import {getAgencyData, updateAgency} from "../helpers/agency";
 import {getLoggedUserEmail} from "../helpers/others";
 import settings from "../static/settings";
@@ -213,12 +206,12 @@ const AgencyEditData = () => {
                 setStep(4);
             }
             else {
-                setError(formErrors[1]);
+                setError(JSON.parse(c.formErrors)[1]);
                 setLoading(false);
             }
         }
         catch(err) {
-            setError(formErrors[1]);
+            setError(JSON.parse(c.formErrors)[1]);
             setLoading(false);
         }
     }
@@ -339,14 +332,14 @@ const AgencyEditData = () => {
                 </a>
 
                 <h2 className="editData__left__header">
-                    {stepsAgencyContent[step][substep].header}
+                    {JSON.parse(c.stepsAgencyContent)[step][substep].header}
                 </h2>
                 <p className="editData__left__text">
-                    {stepsAgencyContent[step][substep].text}
+                    {JSON.parse(c.stepsAgencyContent)[step][substep].text}
                 </p>
 
                 <div className="editData__left__steps">
-                    {stepsAgency.map((item, index) => {
+                    {JSON.parse(c.stepsAgency).map((item, index) => {
                         return <div className={step === index ? "flex editData__step editData__step--current" : "flex editData__step"} key={index}>
                         <span className="editData__left__step__number center">
                             {index+1}
@@ -366,12 +359,12 @@ const AgencyEditData = () => {
                     <div className="editData__main__header__left">
                         <a href="/" className="editData__main__header__left__link flex">
                             <img className="img" src={homeIcon} alt="home" />
-                            Strona główna
+                            {c.homepage}
                         </a>
                         <button onClick={() => { prevStep(); }}
                                 className="editData__main__header__left__link flex">
                             <img className="img" src={backArrow} alt="logowanie" />
-                            Wróć
+                            {c.back}
                         </button>
                     </div>
 
@@ -380,7 +373,7 @@ const AgencyEditData = () => {
 
                 <div className="editData__formWrapper">
                     <div className="editData__steps flex">
-                        {stepsAgencyContent?.map((item, index) => {
+                        {JSON.parse(c.stepsAgencyContent)?.map((item, index) => {
                             return <span key={index} className={step === index ? "step step--current flex" : "step flex"}>
                             {item.map((item, index) => {
                                 return <span key={index} className={substep === index ? "substep substep--current" : "substep"}>
@@ -391,10 +384,10 @@ const AgencyEditData = () => {
                     </div>
 
                     <h1 className="editData__formWrapper__header">
-                        {stepsAgencyMainContent[step][substep].header}
+                        {JSON.parse(c.stepsAgencyMainContent)[step][substep].header}
                     </h1>
                     <h2 className="editData__formWrapper__subheader">
-                        {stepsAgencyMainContent[step][substep].text}
+                        {JSON.parse(c.stepsAgencyMainContent)[step][substep].text}
                     </h2>
 
                     {currentForm}

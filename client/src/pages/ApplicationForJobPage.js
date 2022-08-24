@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import backArrow from "../static/img/back-arrow-grey.svg";
 import {getFastOfferById, getOfferById, submitFastApplication} from "../helpers/offer";
@@ -8,7 +8,7 @@ import pen from '../static/img/pen-blue.svg'
 import plusIcon from "../static/img/plus-icon-opacity.svg";
 import trashIcon from "../static/img/trash.svg";
 import fileIcon from "../static/img/doc.svg";
-import {attachmentsErrors, countries, currencies, formErrors, noInfo} from "../static/content";
+import {currencies} from "../static/content";
 import arrow from '../static/img/small-white-arrow.svg'
 import {submitApplication} from "../helpers/offer";
 import {getDate, isElementInArray} from "../helpers/others";
@@ -16,7 +16,7 @@ import checkIcon from '../static/img/green-check.svg'
 import userPlaceholder from '../static/img/user-placeholder.svg'
 import {PDFDownloadLink} from "@react-pdf/renderer";
 import CV from "../components/CV";
-import downloadWhite from "../static/img/download-white.svg";
+import {LanguageContext} from "../App";
 
 const ApplicationForJobPage = ({data}) => {
     const [offer, setOffer] = useState('');
@@ -29,6 +29,8 @@ const ApplicationForJobPage = ({data}) => {
     const [fast, setFast] = useState(false);
     const [c1, setC1] = useState(false);
     const [success, setSuccess] = useState(false);
+
+    const { c } = useContext(LanguageContext);
 
     const applicationRef = useRef(null);
     const successRef = useRef(null);
@@ -126,7 +128,7 @@ const ApplicationForJobPage = ({data}) => {
 
         if(e.target.files.length > 5) {
             e.preventDefault();
-            setError(attachmentsErrors[0]);
+            setError(JSON.parse(c.attachmentsErrors)[0]);
         }
         else {
             setError('');
@@ -168,7 +170,7 @@ const ApplicationForJobPage = ({data}) => {
 
     const handleSubmit = () => {
         if(!c1) {
-            setError('Wyraź zgodę na przetwarzanie danych osobowych');
+            setError(c.privacyPolicyError);
         }
         else {
             let func = fast ? submitFastApplication : submitApplication;
@@ -178,18 +180,18 @@ const ApplicationForJobPage = ({data}) => {
                         setSuccess(true);
                     }
                     else {
-                        setError(formErrors[1]);
+                        setError(JSON.parse(c.formErrors)[1]);
                     }
                 })
                 .catch((err) => {
                    if(err.status === 415) {
-                       setError('Tylko załączniki w formatach: .png. .jpg, .pdf, .txt, .page, .txt są akceptowane');
+                       setError(c.unsupportedMediaTypeInfo);
                    }
                    else if(err.response.status === 502) {
-                       setError('Aplikowałeś już na tę ofertę pracy');
+                       setError(c.userAlreadyApplied);
                    }
                    else {
-                       setError(formErrors[1]);
+                       setError(JSON.parse(c.formErrors)[1]);
                    }
                 });
         }
@@ -200,25 +202,25 @@ const ApplicationForJobPage = ({data}) => {
 
         {offer ? <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
-                    Zalogowany w: <span className="bold">Strefa Pracownika</span>
+                    {c.loggedIn}: <span className="bold">{c.userZone}</span>
                 </span>
             <a href={`/oferta-pracy?id=${offer.o_id}`} className="userAccount__top__btn">
                 <img className="img" src={backArrow} alt="powrót" />
-                Powrót do oferty
+                {c.backToOffer}
             </a>
         </aside> : ''}
 
         <div className="application__success" ref={successRef}>
             <img className="img" src={checkIcon} alt="dodano" />
             <h3 className="application__header">
-                Twoje zgłoszenie zostało wysłane do pracodawcy!
+                {c.applicationSend}
             </h3>
             <div className="buttons center">
                 <a href="/oferty-pracy" className="btn">
-                    Przeglądaj oferty pracy
+                    {c.seeJobOffers}
                 </a>
                 <a href="/konto-pracownika" className="btn btn--white">
-                    Moje konto
+                    {c.myAccount}
                 </a>
             </div>
         </div>
@@ -230,10 +232,10 @@ const ApplicationForJobPage = ({data}) => {
                 </figure>
 
                 <h2 className="application__header application__header--first">
-                    Aplikujesz na stanowisko <span className="bold">{offer.o_title}</span> w firmie {agency.name}.
+                    {c.youApply} <span className="bold">{offer.o_title}</span> {c.inCompany} {agency.name}.
                 </h2>
                 <h3 className="application__header">
-                    Załączyliśmy Twoje automatycznie wygenerowane CV
+                    {c.CVattached}
                 </h3>
                 <div className="application__buttons flex flex--start">
                     {data ? <PDFDownloadLink document={<CV profileImage={`${settings.API_URL}/${data?.profileImage}`}
@@ -248,26 +250,26 @@ const ApplicationForJobPage = ({data}) => {
                                                            drivingLicence={data.drivingLicenceCategories}
                                                            certs={data.certificates.concat(data.courses)}
                                                            desc={data.situationDescription}
-                                                           phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : noInfo}
-                                                           location={data.country >= 0 ? `${data.city}, ${countries[data.country]}` : noInfo}
-                                                           currentPlace={data.currentCountry >= 0 ? `${countries[data.currentCountry]}, ${data.currentCity}`: noInfo}
-                                                           availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : noInfo}
+                                                           phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : c.noInfo}
+                                                           location={data.country >= 0 ? `${data.city}, ${JSON.parse(c.countries)[data.country]}` : c.noInfo}
+                                                           currentPlace={data.currentCountry >= 0 ? `${JSON.parse(c.countries)[data.currentCountry]}, ${data.currentCity}`: c.noInfo}
+                                                           availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : c.noInfo}
                                                            ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}
-                                                           ownTools={data.ownTools ? 'Tak' : ''}
-                                                           salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency} netto/${data.salaryType === 0 ? 'mies.' : 'tyg.'}` : noInfo}
+                                                           ownTools={data.ownTools ? c.yes : ''}
+                                                           salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency} ${c.netto}/${data.salaryType === 0 ? c.monthlyShortcut : c.weeklyShortcut}` : c.noInfo}
                     />}
                                              fileName={`CV-${data.firstName}_${data.lastName}.pdf`}
                                              className="btn btn--application">
-                        Podgląd
+                        {c.preview}
                         <img className="img" src={magnifier} alt="pobierz" />
                     </PDFDownloadLink> : ''}
                     <a className="btn btn--application btn--white" href="/edycja-danych">
-                        Edycja
+                        {c.edition}
                         <img className="img" src={pen} alt="edytuj-dane-kandydata" />
                     </a>
                 </div>
                 <h4 className="application__header">
-                    Dodatkowa wiadomośc dla pracodawcy (opcjonalnie)
+                    {c.additionalInfoForAgency}
                 </h4>
                 <label className="application__label">
                     <textarea className="input--textarea input--application"
@@ -281,7 +283,7 @@ const ApplicationForJobPage = ({data}) => {
                 </label>
 
                 <h4 className="application__header application__header--friendLink">
-                    Link do profilu partnera
+                    {c.friendLink}
                 </h4>
                 <label className="application__label">
                     <input className="input input--friendLink"
@@ -290,7 +292,7 @@ const ApplicationForJobPage = ({data}) => {
                 </label>
 
                 <h5 className="application__header application__header--marginTop">
-                    Preferowane formy kontaktu
+                    {c.preferableContact}
                 </h5>
                 <div className="flex flex--start">
                     <label className={isElementInArray(0, contactForms) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
@@ -298,32 +300,32 @@ const ApplicationForJobPage = ({data}) => {
                                 onClick={(e) => { e.preventDefault(); handleContactForms(0); }}>
                             <span></span>
                         </button>
-                        telefonicznie
+                        {c.phoneForm}
                     </label>
                     <label className={isElementInArray(1, contactForms) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                         <button className="checkbox center"
                                 onClick={(e) => { e.preventDefault(); handleContactForms(1); }}>
                             <span></span>
                         </button>
-                        mailowo
+                        {c.mailPhone}
                     </label>
                     <label className={isElementInArray(2, contactForms) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                         <button className="checkbox center"
                                 onClick={(e) => { e.preventDefault(); handleContactForms(2); }}>
                             <span></span>
                         </button>
-                        prywatna wiadomość przez Jooob.eu
+                        {c.messageForm}
                     </label>
                     <label className={isElementInArray(3, contactForms) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                         <button className="checkbox center"
                                 onClick={(e) => { e.preventDefault(); handleContactForms(3); }}>
                             <span></span>
                         </button>
-                        brak
+                        {c.lack}
                     </label>
                 </div>
                 <h6 className="application__header">
-                    Miejsce na dodatkowe załączniki
+                    {c.additionalAttachments}
                 </h6>
                 <label className="filesUploadLabel center">
                     {attachments?.length === 0 ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : ''}
@@ -351,30 +353,30 @@ const ApplicationForJobPage = ({data}) => {
 
             <div className="application__section">
                 <h2 className="application__header application__header--big">
-                    Podsumowanie oferty
+                    {c.offerSummary}
                 </h2>
                 <p className="application__text">
-                    <span className="bold">Firma:</span>
+                    <span className="bold">{c.company}:</span>
                     {agency.name}
                 </p>
                 <p className="application__text">
-                    <span className="bold">Stanowisko:</span>
+                    <span className="bold">{c.post}:</span>
                     {offer.o_title}
                 </p>
                 <p className="application__text">
-                    <span className="bold">Miejsce pracy:</span>
-                    {offer.o_city}, {countries[offer.o_country]}
+                    <span className="bold">{c.jobPlace}:</span>
+                    {offer.o_city}, {JSON.parse(c.countries)[offer.o_country]}
                 </p>
                 <p className="application__text">
-                    <span className="bold">Pensja:</span>
-                    {offer.o_salaryFrom} - {offer.o_salaryTo} {currencies[offer.o_currency]} netto/ {offer.o_salaryType === 0 ? 'tyg.' : 'mies.'}
+                    <span className="bold">{c.salary}:</span>
+                    {offer.o_salaryFrom} - {offer.o_salaryTo} {currencies[offer.o_currency]} {c.netto}/ {offer.o_salaryType === 0 ? c.monthlyShortcut : c.weeklyShortcut}
                 </p>
                 <p className="application__text">
-                    <span className="bold block">Opis firmy:</span>
+                    <span className="bold block">{c.companyDescription}:</span>
                     {agency.description}
                 </p>
                 <p className="application__text">
-                    <span className="bold block">Opis stanowiska:</span>
+                    <span className="bold block">{c.postDescription}:</span>
                     {offer.o_description}
                 </p>
 
@@ -382,14 +384,14 @@ const ApplicationForJobPage = ({data}) => {
                     <button className={c1 ? "checkbox checkbox--selected center" : "checkbox center"} onClick={() => { setC1(!c1); }}>
                         <span></span>
                     </button>
-                    Wyrażam zgodę na przetwarzanie moich danych osobowych dla potrzeb niezbędnych do realizacji procesu rekrutacji (zgodnie z ustawą z dnia 10 maja 2018 roku o ochronie danych osobowych (Dz. Ustaw z 2018, poz. 1000) oraz zgodnie z Rozporządzeniem Parlamentu Europejskiego i Rady (UE) 2016/679 z dnia 27 kwietnia 2016 r. w sprawie ochrony osób fizycznych w związku z przetwarzaniem danych osobowych i w sprawie swobodnego przepływu takich danych oraz uchylenia dyrektywy 95/46/WE (RODO).
+                    {c.applicationCheckbox}
                 </label>
                 <div className="application__extraInfo">
                     <p>
-                        Niezależnie i odrębnie od wskazanego powyżej pracodawcy portal Jooob.eu odpowiada za przetwarzanie Twoich danych podanych w formularzu aplikacyjnym.
+                        {c.applicationExtraInfo1}
                     </p>
                     <p>
-                        My, portalu Jooob.eu, także odpowiadamy za przetwarzanie Twoich danych, kiedy wypełniasz formularz aplikacyjny. Jesteśmy współadministratorami Twoich danych. Możesz od nas żądać dostępu do Twoich danych, ich sprostowania, usunięcia, ograniczenia przetwarzania, przeniesienia do innego administratora, jak również masz prawo wnieść sprzeciw lub złożyć skargę do Prezesa Urzędu Ochrony Danych Osobowych.
+                        {c.applicationExtraInfo2}
                     </p>
                 </div>
 
@@ -398,7 +400,7 @@ const ApplicationForJobPage = ({data}) => {
                 </span> : ''}
 
                 <button className="btn btn--applicationSubmit" onClick={() => { handleSubmit(); }}>
-                    Wyślij CV do pracodawcy
+                    {c.sendCV}
                     <img className="img" src={arrow} alt="wyślij" />
                 </button>
             </div>

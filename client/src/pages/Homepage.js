@@ -61,14 +61,12 @@ const Homepage = () => {
     }, []);
 
     return render ? <div className="container container--home">
-
         <HomepageTop />
         <AdsSection />
         <HomeBenefits />
         <Partners />
         <Tools />
         <Footer />
-
     </div> : <div className="container container--height100 center">
         <Loader />
     </div>

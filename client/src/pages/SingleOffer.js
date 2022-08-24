@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {getOfferById} from "../helpers/offer";
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import settings from "../static/settings";
@@ -9,7 +9,7 @@ import locationIcon from '../static/img/location.svg'
 import salaryIcon from '../static/img/dolar-icon.svg'
 import agreementIcon from '../static/img/agreement-icon.svg'
 import calendarIcon from '../static/img/calendar-icon.svg'
-import {categories, contracts, countries, currencies} from "../static/content";
+import { currencies} from "../static/content";
 import resIcon from '../static/img/responsibilities-icon.svg'
 import benIcon from '../static/img/benefit-icon.svg'
 import downloadIcon from '../static/img/download-white.svg'
@@ -19,6 +19,7 @@ import magnifier from '../static/img/magnifier.svg'
 import userPlaceholder from '../static/img/user-placeholder.svg'
 import {authUser, getUserApplications, getUserData} from "../helpers/user";
 import {authAgency, getAgencyData} from "../helpers/agency";
+import {LanguageContext} from "../App";
 
 const SingleOffer = () => {
     const [data, setData] = useState({});
@@ -26,6 +27,8 @@ const SingleOffer = () => {
     const [offer, setOffer] = useState({});
     const [galleryIndex, setGalleryIndex] = useState(-1);
     const [userAlreadyApplied, setUserAlreadyApplied] = useState(null);
+
+    const { c } = useContext(LanguageContext);
 
     useEffect(() => {
         authUser()
@@ -95,17 +98,17 @@ const SingleOffer = () => {
 
             <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
-                    Zalogowany w: <span className="bold">{agency ? 'Strefa pracodawcy' : 'Strefa Pracownika'}</span>
+                    {c.loggedIn}: <span className="bold">{agency ? c.agencyZone : c.userZone}</span>
                 </span>
                 <a href={!agency ? "/oferty-pracy" : "/moje-oferty-pracy"} className="userAccount__top__btn">
                     <img className="img" src={backArrow} alt="powrót" />
-                    {!agency ? 'Wróć do ofert' : 'Wróć'}
+                    {!agency ? c.backToOffers : c.back}
                 </a>
             </aside>
 
         {userAlreadyApplied === false && agency === false ? <a href={`/aplikuj?id=${offer.o_id}`}
                                            className="btn btn--jobOfferApply btn--stickyMobile">
-            Aplikuj
+            {c.apply}
             <img className="img" src={arrow} alt="przejdź-dalej" />
         </a> : ''}
 
@@ -129,11 +132,11 @@ const SingleOffer = () => {
                         </div>
                         <div className="jobOffer__topRow__right">
                     <span className="jobOffer__sideInfo">
-                        Dodano: {offer.o_created_at?.substring(0, 10)}, id ogłoszenia: {offer.o_id}
+                        {c.added}: {offer.o_created_at?.substring(0, 10)}, {c.offerId}: {offer.o_id}
                     </span>
                             {userAlreadyApplied === false && agency === false ? <a href={`/aplikuj?id=${offer.o_id}`}
                                                                className="btn btn--jobOfferApply">
-                                Aplikuj
+                                {c.apply}
                                 <img className="img" src={arrow} alt="przejdź-dalej" />
                             </a> : ''}
                         </div>
@@ -141,35 +144,35 @@ const SingleOffer = () => {
 
                     <div className="jobOffer__mobileCategoryWrapper">
                         <span className="jobOffer__mobileCategory">
-                            {offer.o_category !== null ? categories[offer.o_category] : ''}
+                            {offer.o_category !== null ? JSON.parse(c.categories)[offer.o_category] : ''}
                         </span>
                     </div>
 
                     <div className="jobOffer__pointsRow flex">
                         <span className="jobOffer__point flex">
                             <img className="img" src={infoIcon} alt="branża" />
-                            {offer.o_category !== null ? categories[offer.o_category] : ''}
+                            {offer.o_category !== null ? JSON.parse(c.categories)[offer.o_category] : ''}
                         </span>
                             <span className="jobOffer__point jobOffer__point--location flex">
                             <img className="img" src={locationIcon} alt="branża" />
-                                {offer.o_category !== null ? offer.o_city + ', ' + countries[offer.o_country] : ''}
+                                {offer.o_category !== null ? offer.o_city + ', ' + JSON.parse(c.countries)[offer.o_country] : ''}
                         </span>
                             <span className="jobOffer__point flex">
                             <img className="img" src={salaryIcon} alt="branża" />
                                 {offer.o_category !== null ? `${offer.o_salaryFrom} - ${offer.o_salaryTo} ${currencies[offer.o_salaryCurrency]}` : ''}
                                 <span className="distance">
-                                {offer.o_category !== null ? `netto/${offer.o_salary_type === 1 ? 'mies.' : 'tyg.'}` : ''}
+                                {offer.o_category !== null ? `${c.netto}/${offer.o_salary_type === 1 ? c.weeklyShortcut : c.monthlyShortcut}` : ''}
                             </span>
                         </span>
                             <span className="jobOffer__point flex">
                             <img className="img" src={agreementIcon} alt="branża" />
-                                {offer.o_category !== null ? contracts[offer.o_contractType] : ''}
+                                {offer.o_category !== null ? JSON.parse(c.contracts)[offer.o_contractType] : ''}
                         </span>
                             <span className="jobOffer__point jobOffer__point--time flex">
                             <img className="img" src={calendarIcon} alt="branża" />
-                            Oferta aktualna
+                                {c.actualOffer}
                             <span className="distance">
-                                {offer.o_category !== null ? (offer.o_timeBounded ? '' : 'Bezterminowa') : ''}
+                                {offer.o_category !== null ? (offer.o_timeBounded ? '' : c.noTimeBounded) : ''}
                             </span>
                         </span>
                     </div>
@@ -177,7 +180,7 @@ const SingleOffer = () => {
 
                 <div className="jobOffer__section">
                     <h3 className="jobOffer__section__header">
-                        Opis oferty i stanowiska
+                        {c.offerAndPostDescription}
                     </h3>
                     <div className="jobOffer__section__text">
                         {offer.o_description}
@@ -185,7 +188,7 @@ const SingleOffer = () => {
                 </div>
                 <div className="jobOffer__section">
                     <h3 className="jobOffer__section__header">
-                        Zakres obowiązków
+                        {c.responsibilities}
                     </h3>
                     <div className="jobOffer__section__text flex">
                         {offer.o_responsibilities ? JSON.parse(offer.o_responsibilities)?.map((item, index) => {
@@ -199,7 +202,7 @@ const SingleOffer = () => {
 
                 <div className="jobOffer__section">
                     <h3 className="jobOffer__section__header">
-                        Wymagania
+                        {c.requirements}
                     </h3>
                     <div className="jobOffer__section__text flex">
                         {offer.o_requirements ? JSON.parse(offer.o_requirements)?.map((item, index) => {
@@ -212,7 +215,7 @@ const SingleOffer = () => {
 
                 <div className="jobOffer__section">
                     <h3 className="jobOffer__section__header">
-                        Oferujemy
+                        {c.weOffer}
                     </h3>
                     <div className="jobOffer__section__text flex">
                         {offer.o_benefits ? JSON.parse(offer.o_benefits)?.map((item, index) => {
@@ -226,7 +229,7 @@ const SingleOffer = () => {
 
                 <div className="jobOffer__section">
                     <h3 className="jobOffer__section__header">
-                        O firmie
+                        {c.aboutCompany}
                     </h3>
                     <div className="jobOffer__section__text">
                         {offer.a_data ? JSON.parse(offer.a_data).description : ''}
@@ -235,7 +238,7 @@ const SingleOffer = () => {
 
                 <div className="jobOffer__section">
                     <h3 className="jobOffer__section__header">
-                        Galeria zdjęć
+                        {c.gallery}
                     </h3>
                     <div className="jobOffer__section__gallery flex">
                         {offer.a_data ? JSON.parse(offer.a_data).gallery?.map((item, index) => {
@@ -252,7 +255,7 @@ const SingleOffer = () => {
 
                 {offer?.o_attachments?.length ? <div className="jobOffer__section">
                     <h3 className="jobOffer__section__header">
-                        Dodatkowe informacje
+                        {c.additionalInfo}
                     </h3>
                     <div className="jobOffer__section__text jobOffer__section__text--attachments">
                         {offer.a_data ? JSON.parse(offer.o_attachments)?.map((item, index) => {

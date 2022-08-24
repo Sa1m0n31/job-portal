@@ -2,7 +2,6 @@ import React, {useContext, useEffect, useState} from 'react';
 import logo from '../static/img/logo-biale.png'
 import backArrow from '../static/img/back-arrow-grey.svg'
 import homeIcon from '../static/img/home-icon.svg'
-import {formErrors, steps, stepsContent, stepsMainContent, unsupportedMediaTypeInfo} from "../static/content";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import UserForm1 from "../components/UserForm1";
 import UserForm2 from "../components/UserForm2";
@@ -23,8 +22,6 @@ import {LanguageContext} from "../App";
 const UserDataContext = React.createContext(null);
 
 const UserEditData = () => {
-    const { c } = useContext(LanguageContext);
-
     const [userData, setUserData] = useState({
         // 1. Personal data
         profileImage: null,
@@ -99,6 +96,8 @@ const UserEditData = () => {
     const [bsnVisible, setBsnVisible] = useState(false);
     const [currenciesVisible, setCurrenciesVisible] = useState(false);
     const [categoriesVisible, setCategoriesVisible] = useState(-1);
+
+    const { c } = useContext(LanguageContext);
 
     useEffect(() => {
         document.addEventListener('keydown', (e) => {
@@ -215,11 +214,6 @@ const UserEditData = () => {
             });
     }, []);
 
-    useEffect(() => {
-        console.log(userData.attachments);
-        console.log(userData.oldAttachments);
-    }, [userData]);
-
     const changeAttachmentName = (i, val, old = false) => {
         if(old) {
             setUserData(prevState => ({
@@ -276,16 +270,16 @@ const UserEditData = () => {
                 setStep(5);
             }
             else {
-                setError(formErrors[1]);
+                setError(JSON.parse(c.formErrors)[1]);
                 setLoading(false);
             }
         }
         catch(err) {
             if(err?.response?.status === 415) {
-                setError(unsupportedMediaTypeInfo);
+                setError(c.unsupportedMediaTypeInfo);
             }
             else {
-                setError(formErrors[1]);
+                setError(JSON.parse(c.formErrors)[1]);
             }
             setLoading(false);
         }
@@ -663,10 +657,10 @@ const UserEditData = () => {
                 </a>
 
                 <h2 className="editData__left__header">
-                    {stepsContent[step][substep].header}
+                    {JSON.parse(c.stepsContent)[step][substep].header}
                 </h2>
                 <p className="editData__left__text">
-                    {stepsContent[step][substep].text}
+                    {JSON.parse(c.stepsContent)[step][substep].text}
                 </p>
 
                 <div className="editData__left__steps">
@@ -690,12 +684,12 @@ const UserEditData = () => {
                     <div className="editData__main__header__left">
                         <a href="/" className="editData__main__header__left__link flex">
                             <img className="img" src={homeIcon} alt="home" />
-                            Strona główna
+                            {c.homepage}
                         </a>
                         <button onClick={() => { prevStep(); }}
                             className="editData__main__header__left__link flex">
                             <img className="img" src={backArrow} alt="logowanie" />
-                            Wróć
+                            {c.back}
                         </button>
                     </div>
 
@@ -704,7 +698,7 @@ const UserEditData = () => {
 
                 <div className="editData__formWrapper">
                     <div className="editData__steps flex">
-                        {stepsContent?.map((item, index) => {
+                        {JSON.parse(c.stepsContent)?.map((item, index) => {
                             return <span key={index} className={step === index ? "step step--current flex" : "step flex"}>
                             {item.map((item, index) => {
                                 return <span key={index} className={substep === index ? "substep substep--current" : "substep"}>
@@ -715,10 +709,10 @@ const UserEditData = () => {
                     </div>
 
                     <h1 className="editData__formWrapper__header">
-                        {stepsMainContent[step][substep].header}
+                        {JSON.parse(c.stepsMainContent)[step][substep].header}
                     </h1>
                     <h2 className="editData__formWrapper__subheader">
-                        {stepsMainContent[step][substep].text}
+                        {JSON.parse(c.stepsMainContent)[step][substep].text}
                     </h2>
 
                     {currentForm}

@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import {deleteOffer, getJobOffersByAgency} from "../helpers/offer";
 import localization from '../static/img/location.svg'
 import settings from "../static/settings";
-import {categories, countries, currencies, formErrors, myJobOffersFilter} from "../static/content";
+import {currencies} from "../static/content";
 import salaryIcon from '../static/img/dolar-icon.svg'
 import magnifier from '../static/img/magnifier.svg'
 import pen from '../static/img/pen.svg'
@@ -12,6 +12,7 @@ import Loader from "../components/Loader";
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
 import Modal from "../components/Modal";
 import userPlaceholder from '../static/img/user-placeholder.svg'
+import {LanguageContext} from "../App";
 
 const MyJobOffers = ({data}) => {
     const [offers, setOffers] = useState([]);
@@ -23,6 +24,8 @@ const MyJobOffers = ({data}) => {
     const [deleteModal, setDeleteModal] = useState(false);
     const [deleteMessage, setDeleteMessage] = useState('');
     const [deleteSuccessful, setDeleteSuccessful] = useState(false);
+
+    const { c } = useContext(LanguageContext);
 
     useEffect(() => {
         getJobOffersByAgency()
@@ -72,15 +75,15 @@ const MyJobOffers = ({data}) => {
         deleteOffer(deleteCandidate)
             .then((res) => {
                 if(res?.status === 200) {
-                    setDeleteMessage('Oferta została usunięta');
+                    setDeleteMessage(c.offerDeleted);
                     setDeleteSuccessful(!deleteSuccessful);
                 }
                 else {
-                    setDeleteMessage(formErrors[1]);
+                    setDeleteMessage(JSON.parse(c.formErrors)[1]);
                 }
             })
             .catch((err) => {
-                setDeleteMessage(formErrors[1]);
+                setDeleteMessage(JSON.parse(c.formErrors)[1]);
             });
     }
 
@@ -90,10 +93,10 @@ const MyJobOffers = ({data}) => {
         setDeleteCandidate(0);
     }
 
-    return <div className="container container--agencyJobOffers" onClick={() => { setDropdownVisible(false); }}>
+    return <div className="container container--agencyJobOffers">
         <LoggedUserHeader data={data} agency={true} />
 
-        {deleteModal ? <Modal header="Czy na pewno chcesz usunąć tę ofertę pracy?"
+        {deleteModal ? <Modal header={c.deleteOfferModal}
                         message={deleteMessage}
                         closeModal={closeModal}
                         modalAction={deleteJobOffer}
@@ -101,28 +104,28 @@ const MyJobOffers = ({data}) => {
 
         <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
-                    Zalogowany w: <span className="bold">Strefa Pracodawcy</span>
+                    {c.loggedIn}: <span className="bold">{c.agencyZone}</span>
                 </span>
         </aside>
         {render ? <div className="userAccount__top userAccount__top--offersInfo flex">
             <h1 className="userAccount__top__jobOffersHeader">
-                Masz
+                {c.youHave}
                 <span className="number">
                     {filteredOffers?.length}
                 </span>
-                {currentFilter === 0 ? 'aktualnych ' : (currentFilter === 1 ? 'nieaktualnych ' : '')}
-                ofert pracy
+                {currentFilter === 0 ? `${c.actual} ` : (currentFilter === 1 ? `${c.nonActual} ` : '')}
+                {c.jobOffersEndline}
             </h1>
 
             <div className="label--date__input label--date__input--country">
                 <button className="datepicker datepicker--country"
                         onClick={(e) => { e.stopPropagation(); setDropdownVisible(!dropdownVisible); }}
                 >
-                    {myJobOffersFilter[currentFilter]}
+                    {JSON.parse(c.myJobOffersFilters)[currentFilter]}
                     <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                 </button>
                 {dropdownVisible ? <div className="datepickerDropdown noscroll">
-                    {myJobOffersFilter?.map((item, index) => {
+                    {JSON.parse(c.myJobOffersFilters)?.map((item, index) => {
                         return <button className="datepickerBtn center" key={index}
                                        onClick={(e) => { changeFilter(index); }}>
                             {item}
@@ -146,7 +149,7 @@ const MyJobOffers = ({data}) => {
                         </h2>
                         <h3 className="offerItem__localization">
                             <img className="icon" src={localization} alt="lokalizacja" />
-                            {item.city}, {countries[item.country]}
+                            {item.city}, {JSON.parse(c.countries)[item.country]}
                         </h3>
                         <h5 className="offerItem__company">
                             {data.name}
@@ -154,7 +157,7 @@ const MyJobOffers = ({data}) => {
                     </div>
                 </div>
                 <div className="offerItem__category">
-                    {categories[item.category]}
+                    {JSON.parse(c.categories)[item.category]}
                 </div>
                 <div className="offerItem__salary">
                     <span className="nowrap">
@@ -162,7 +165,7 @@ const MyJobOffers = ({data}) => {
                         {item.salaryFrom} {currencies[item.salaryCurrency]}
                     </span> - {item.salaryTo} {currencies[item.salaryCurrency]}
                     <span className="netto">
-                        netto/{item.salaryType === 1 ? 'tyg.' : 'mies.'}
+                        {c.netto}/{item.salaryType === 1 ? c.weeklyShortcut : c.monthlyShortcut}
                     </span>
                 </div>
                 <div className="offerItem__requirements">
@@ -175,17 +178,17 @@ const MyJobOffers = ({data}) => {
                 <div className="offerItem__buttons flex">
                     <a href={`/oferta-pracy?id=${item.id}`}
                        className="btn btn--white">
-                        Podgląd
+                        {c.preview}
                         <img className="img" src={magnifier} alt="podglad" />
                     </a>
                     <a href={`/edycja-oferty-pracy?id=${item.id}`}
                        className="btn">
-                        Edycja
+                        {c.edition}
                         <img className="img" src={pen} alt="podglad" />
                     </a>
                     <button onClick={() => { openDeleteModal(item.id); }}
                        className="btn btn--grey">
-                        Usuń
+                        {c.delete}
                         <img className="img" src={trash} alt="podglad" />
                     </button>
                 </div>

@@ -1,14 +1,12 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {authUser, changeUserPassword, getUserData, getUserNotifications} from "../helpers/user";
+import React, {useContext, useEffect, useRef, useState} from 'react';
+import {authUser, changeUserPassword, getUserData} from "../helpers/user";
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import LoggedUserFooter from "../components/LoggedUserFooter";
-import {authAgency, changeAgencyPassword, getAgencyData, getAgencyNotifications} from "../helpers/agency";
-import userPlaceholder from "../static/img/user-placeholder.svg";
-import {formErrors, notificationTitles} from "../static/content";
-import settings from "../static/settings";
+import {authAgency, changeAgencyPassword, getAgencyData} from "../helpers/agency";
 import checkIcon from "../static/img/green-check.svg";
 import Loader from "../components/Loader";
 import {getLoggedUserEmail, isPasswordStrength} from "../helpers/others";
+import {LanguageContext} from "../App";
 
 const ChangePassword = () => {
     const [data, setData] = useState(null);
@@ -19,6 +17,8 @@ const ChangePassword = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
+
+    const { c } = useContext(LanguageContext);
 
     const formRef = useRef(null);
     const successRef = useRef(null);
@@ -84,15 +84,15 @@ const ChangePassword = () => {
         e.preventDefault();
 
         if(!oldPassword || !password || !repeatPassword) {
-            setError('Uzupełnij wymagane pola');
+            setError(c.passwordError1);
             return 0;
         }
         if(password !== repeatPassword) {
-            setError('Hasła powinny być takie same');
+            setError(c.passwordError2);
             return 0;
         }
         if(!isPasswordStrength(password)) {
-            setError('Hasło powinno mieć co najmniej 8 znaków i zawierać co najmniej jedną cyfrę i jedną wielką literę');
+            setError(c.passwordError3);
             return 0;
         }
 
@@ -104,16 +104,16 @@ const ChangePassword = () => {
                    setSuccess(true);
                }
                else {
-                   setError(formErrors[1]);
+                   setError(JSON.parse(c.formErrors)[1]);
                }
             })
             .catch((err) => {
                 setLoading(false);
                 if(err.code === "ERR_BAD_REQUEST") {
-                    setError('Niepoprawne stare hasło');
+                    setError(c.passwordError4);
                 }
                 else {
-                    setError(formErrors[1]);
+                    setError(JSON.parse(c.formErrors)[1]);
                 }
             });
     }
@@ -123,38 +123,38 @@ const ChangePassword = () => {
 
         <main className="page">
             <h1 className="page__header">
-                Zmiana hasła
+                {c.passwordChange}
             </h1>
 
             <div className="application__success" ref={successRef}>
                 <img className="img" src={checkIcon} alt="dodano" />
                 <h3 className="application__header">
-                    Udało się! Twoje hasło zostało zmienione!
+                    {c.passwordChangeSuccess}
                 </h3>
                 <div className="buttons center">
                     <a href="/" className="btn">
-                        Strona główna
+                        {c.homepage}
                     </a>
                 </div>
             </div>
 
             <form className="login__left__content" ref={formRef}>
                 <label className="label">
-                    Stare hasło
+                    {c.oldPassword}
                     <input className="input"
                            type="password"
                            value={oldPassword}
                            onChange={(e) => { setOldPassword(e.target.value); }} />
                 </label>
                 <label className="label">
-                    Nowe hasło
+                    {c.newPassword}
                     <input className="input"
                            type="password"
                            value={password}
                            onChange={(e) => { setPassword(e.target.value); }} />
                 </label>
                 <label className="label">
-                    Powtórz hasło
+                    {c.repeatPassword}
                     <input className="input"
                            type="password"
                            value={repeatPassword}
@@ -167,7 +167,7 @@ const ChangePassword = () => {
 
                 {!loading ? <button className="btn btn--login center"
                                     onClick={(e) => { handleSubmit(e); }}>
-                    Ustaw nowe hasło
+                    {c.setNewPassword}
                 </button> : <div className="loading">
                     <Loader />
                 </div>}

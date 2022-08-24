@@ -1,19 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
-import Modal from "../components/Modal";
 import magnifier from "../static/img/magnifier.svg";
-import {filterAgencies, getAllApprovedAgencies} from "../helpers/agency";
 import {filterUsers, getAllVisibleUsers} from "../helpers/user";
 import filterIcon from "../static/img/filter-results-button.svg";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Loader from "../components/Loader";
-import AgencyPreview from "../components/AgencyPreview";
 import UserPreview from "../components/UserPreview";
-import AgenciesFilters from "../components/AgenciesFilters";
 import UsersFilters from "../components/UsersFilters";
 import {currencies} from "../static/content";
 import settings from "../static/settings";
-import CV from "../components/CV";
+import {LanguageContext} from "../App";
 
 const CandidatesList = ({data}) => {
     const [users, setUsers] = useState([]);
@@ -43,6 +39,8 @@ const CandidatesList = ({data}) => {
     const [ownTransportVisible, setOwnTransportVisible] = useState(false);
     const [bsnNumberVisible, setBsnNumberVisible] = useState(false);
     const [currenciesVisible, setCurrenciesVisible] = useState(false);
+
+    const { c } = useContext(LanguageContext);
 
     useEffect(() => {
         getAllVisibleUsers(1)
@@ -107,9 +105,6 @@ const CandidatesList = ({data}) => {
                         setFilteredUsers([]);
                     }
                 }
-            })
-            .catch((err) => {
-                console.log(err);
             });
     }
 
@@ -166,21 +161,21 @@ const CandidatesList = ({data}) => {
 
         <aside className="userAccount__top flex">
             <span className="userAccount__top__loginInfo">
-                Zalogowany w: <span className="bold">Strefa Pracodawcy</span>
+                {c.loggedIn}: <span className="bold">{c.agencyZone}</span>
             </span>
             <button className="btn btn--filter" onClick={() => { setFiltersVisible(true); }}>
-                Filtry wyszukiwania
+                {c.filters}
                 <img className="img" src={magnifier} alt="powiększ" />
             </button>
         </aside>
 
         <button className="userAccount__top--mobile" onClick={() => { setFiltersVisible(true); }}>
-            Filtry wyszukiwania
+            {c.filters}
             <img className="img" src={filterIcon} alt="filtry" />
         </button>
 
         {filtersActive && filteredUsers?.length === 0 && !hasMore ? <h3 className="noOffersFound">
-            Nie znaleziono kandydatów o podanych kryteriach
+            {c.noCandidatesFound}
         </h3> : ''}
 
         <main className="agenciesList flex">

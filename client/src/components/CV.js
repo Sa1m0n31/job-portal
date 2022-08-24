@@ -172,7 +172,8 @@ const styles = StyleSheet.create({
 const CV = ({profileImage, fullName, phoneNumber, email, location, categories, birthday, schools, jobs, languages, additionalLanguages,
                 drivingLicence, certs, desc, companyLogo, companyName, currentPlace, availability, ownAccommodation, ownTools, salary}) => {
 
-    const { c } = useContext(LanguageContext);
+    // const { c } = useContext(LanguageContext);
+    let c = '';
 
     return <Document>
         <Page size="A4" style={styles.page}>

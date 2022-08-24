@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import Gallery from "../components/Gallery";
 import penIcon from "../static/img/pen-edit-account.svg";
@@ -15,21 +15,13 @@ import instagramIcon from "../static/img/instagram-icon.svg";
 import ytIcon from "../static/img/youtube-icon.svg";
 import linkedinIcon from "../static/img/linedin-icon.svg";
 import websiteIcon from "../static/img/www-icon.svg";
-import {
-    currencies,
-    houses,
-    months,
-    noInfo, paycheckDay,
-    paycheckFrequency, paymentTypes,
-    pensionFrequency,
-    pensionType,
-    rooms
-} from "../static/content";
+import {currencies} from "../static/content";
 import galleryArrow from "../static/img/gallery-arrow.svg";
 import magnifierIcon from "../static/img/magnifier.svg";
 import {getAgencyById} from "../helpers/agency";
 import Loader from "../components/Loader";
 import backIcon from "../static/img/back-arrow-grey.svg";
+import {LanguageContext} from "../App";
 
 const AgencyProfile = ({data}) => {
     const [currentGalleryScroll, setCurrentGalleryScroll] = useState(0);
@@ -38,6 +30,8 @@ const AgencyProfile = ({data}) => {
     const [email, setEmail] = useState('');
     const [agency, setAgency] = useState(null);
 
+    const { c } = useContext(LanguageContext);
+
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
@@ -45,14 +39,13 @@ const AgencyProfile = ({data}) => {
             setId(parseInt(id));
             getAgencyById(id)
                 .then((res) => {
-                    console.log(res);
                     if(res?.status === 200) {
                         setEmail(res?.data?.email);
                         setAgency(JSON.parse(res?.data?.data));
                     }
                 })
                 .catch((err) => {
-                    console.log(err);
+                    window.location = '/';
                 });
         }
         else {
@@ -119,12 +112,12 @@ const AgencyProfile = ({data}) => {
         <div className="userAccount">
             <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
-                    Zalogowany w: <span className="bold">Strefa Pracownika</span>
+                    {c.loggedIn}: <span className="bold">{c.userZone}</span>
                 </span>
                 <a href="javascript: history.go(-1)"
                    className="userAccount__top__btn">
                     <img className="img" src={backIcon} alt="edytuj" />
-                    Powrót
+                    {c.comeback}
                 </a>
             </aside>
             <div className="flex flex--firstLine">
@@ -169,7 +162,7 @@ const AgencyProfile = ({data}) => {
                                 <a href={`/napisz-wiadomosc?agencja=${id}`}
                                    className="btn btn--writeMessage">
                                     <img className="img" src={messageIcon} alt="napisz-wiadomosc" />
-                                    Wiadomość
+                                    {c.message}
                                 </a>
                             </div>
                         </div>
@@ -177,7 +170,7 @@ const AgencyProfile = ({data}) => {
                 </main>
                 <div className="userAccount__box userAccount__box--40">
                     <h3 className="userAccount__box__header">
-                        Dlaczego warto nas wybrać
+                        {c.whyYouShouldChooseUs}
                     </h3>
                     <div className="userAccount__box__text"
                          dangerouslySetInnerHTML={{__html: agency.benefits}}
@@ -187,7 +180,7 @@ const AgencyProfile = ({data}) => {
                 </div>
                 <div className="userAccount__box userAccount__box--20">
                     <h3 className="userAccount__box__header">
-                        Social media
+                        {c.socialMediaEnglish}
                     </h3>
                     {agency.facebook ?
                         <a className="agencyAccount__socialMediaItem"
@@ -240,7 +233,7 @@ const AgencyProfile = ({data}) => {
                 <div className="flex">
                     <div className="userAccount__box">
                         <h3 className="userAccount__box__header">
-                            O firmie
+                            {c.aboutCompany}
                         </h3>
                         <div className="userAccount__box__text"
                              dangerouslySetInnerHTML={{__html: agency.description}}>
@@ -249,7 +242,7 @@ const AgencyProfile = ({data}) => {
                     </div>
                     <div className="userAccount__box">
                         <h3 className="userAccount__box__header">
-                            O procesie rekrutacji
+                            {c.aboutRecruitment}
                         </h3>
                         <div className="userAccount__box__text"
                              dangerouslySetInnerHTML={{__html: agency.recruitmentProcess}}>
@@ -261,111 +254,111 @@ const AgencyProfile = ({data}) => {
                 <div className="flex">
                     <div className="userAccount__box userAccount__box--100">
                         <h3 className="userAccount__box__header">
-                            Warunki i informacje dla pracowników
+                            {c.employeesInfo}
                         </h3>
                         <div className="userAccount__box__pairsWrapper userAccount__box--employeesInfo">
                         <span className="w-100">
-                            Zakwaterowanie
+                            {c.accommodation}
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Typ pokoju
+                                {c.roomType}
                             </span>
                             <p className="userAccount__box__value">
-                                {agency.roomType !== null && agency.roomType !== undefined ? rooms[agency.roomType] : noInfo}
+                                {agency.roomType !== null && agency.roomType !== undefined ? JSON.parse(c.roomsTypes)[agency.roomType] : c.noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Rodzaj zabudowy
+                                {c.houseType}
                             </span>
                             <p className="userAccount__box__value">
-                                {agency.houseType !== null && agency.houseType !== undefined ? houses[agency.houseType] : noInfo}
+                                {agency.houseType !== null && agency.houseType !== undefined ? JSON.parse(c.houses)[agency.houseType] : c.noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Wyposażenie
+                                {c.equipment}
                             </span>
                             <p className="userAccount__box__value">
-                                {agency.roomDescription ? agency.roomDescription : noInfo}
+                                {agency.roomDescription ? agency.roomDescription : c.noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Parking
+                                {c.parking}
                             </span>
                             <p className="userAccount__box__value">
-                                {agency.parking !== null && agency.parking !== undefined ? (agency.parking ? 'Tak' : 'Nie') : noInfo}
+                                {agency.parking !== null && agency.parking !== undefined ? (agency.parking ? c.yes : c.no) : c.noInfo}
                             </p>
                         </span>
                             <span className="w-100">
-                            Pojazd służbowy i dojazdy do pracy
+                                {c.jobTransport}
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Samochód służbowy
+                                {c.companyCar}
                             </span>
                             <p className="userAccount__box__value">
                                 {agency.car === 0 || agency.car ?
-                                    (agency.car === 1 ? 'Bezpłatny' : (`Płatny dodatkowo,\n${agency.carPrice} ${currencies[agency.carPriceCurrency]}/mies`)) : noInfo}
+                                    (agency.car === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]}\n${agency.carPrice} ${currencies[agency.carPriceCurrency]}/${c.monthlyShortcut}`)) : c.noInfo}
                             </p>
                         </span>
-                            <span className="userAccount__box__pair">
+                         <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Rower
+                                {c.bike}
                             </span>
                             <p className="userAccount__box__value">
                                 {agency.bike === 0 || agency.bike ?
-                                    (agency.bike === 1 ? 'Bezpłatny' : (`Płatny dodatkowo,\n${agency.bikePrice} ${currencies[agency.bikePriceCurrency]}/mies`)) : noInfo}
+                                    (agency.bike === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]}\n${agency.bikePrice} ${currencies[agency.bikePriceCurrency]}/${c.monthlyShortcut}`)) : c.noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Zwrot kosztów za dojazd
+                                {c.costReturn}
                             </span>
                             <p className="userAccount__box__value">
                                 {agency.costReturnWithOwnTransport !== null && agency.costReturnWithOwnTransport !== undefined ?
-                                    (agency.costReturnWithOwnTransport ? 'Tak' : 'Nie') : noInfo}
+                                    (agency.costReturnWithOwnTransport ? c.yes : c.no) : c.noInfo}
                             </p>
                         </span>
 
                             <span className="w-100">
-                            Składki, ulgi i opłaty
+                                {c.additionalPayments}
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Składki emerytalne
+                                {c.pension}
                             </span>
                             <p className="userAccount__box__value">
-                                {agency.pensionContributions !== null && agency.pensionContributions !== undefined ? pensionType[agency.pensionContributions] : noInfo}
+                                {agency.pensionContributions !== null && agency.pensionContributions !== undefined ? JSON.parse(c.pensionType)[agency.pensionContributions] : c.noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Świadczenia urlopowe
+                                {c.holidayAllowance}
                             </span>
                             <p className="userAccount__box__value userAccount__box__value--holidayAllowance">
-                                {agency.holidayAllowanceType !== null && agency.holidayAllowanceType !== undefined ? `${pensionType[agency.holidayAllowanceType]}
-                                `: noInfo}<br/>
-                                {agency.holidayAllowanceType !== null && agency.holidayAllowanceType !== undefined ? `${agency.holidayAllowanceFrequency === 0 ? (pensionFrequency[agency.holidayAllowanceFrequency] + ', ' + (parseInt(agency.holidayAllowanceDay)+1) + ' ' + months[agency.holidayAllowanceMonth]) : pensionFrequency[agency.holidayAllowanceFrequency]}` : ''}
+                                {agency.holidayAllowanceType !== null && agency.holidayAllowanceType !== undefined ? `${JSON.parse(c.pensionType)[agency.holidayAllowanceType]}
+                                `: c.noInfo}<br/>
+                                {agency.holidayAllowanceType !== null && agency.holidayAllowanceType !== undefined ? `${agency.holidayAllowanceFrequency === 0 ? (JSON.parse(c.pensionFrequency)[agency.holidayAllowanceFrequency] + ', ' + (parseInt(agency.holidayAllowanceDay)+1) + ' ' + JSON.parse(c.months)[agency.holidayAllowanceMonth]) : JSON.parse(c.pensionFrequency)[agency.holidayAllowanceFrequency]}` : ''}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Wynagrodzenie
+                                {c.salary}
                             </span>
                             <p className="userAccount__box__value">
-                                {agency.paycheckFrequency !== null && agency.paycheckFrequency !== undefined ? paycheckFrequency[agency.paycheckFrequency] : noInfo}<br/>
-                                {agency.paycheckFrequency !== null && agency.paycheckFrequency !== undefined ? paycheckDay[agency.paycheckDay] : ''}
+                                {agency.paycheckFrequency !== null && agency.paycheckFrequency !== undefined ? JSON.parse(c.paycheckFrequency)[agency.paycheckFrequency] : c.noInfo}<br/>
+                                {agency.paycheckFrequency !== null && agency.paycheckFrequency !== undefined ? JSON.parse(c.paycheckDay)[agency.paycheckDay] : ''}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
-                                Ubezp. zdrowotne
+                                {c.healthInsurance}
                             </span>
                             <p className="userAccount__box__value">
-                                {agency.healthInsurance !== null && agency.healthInsurance !== undefined ? paymentTypes[agency.healthInsurance] : noInfo}<br/>
+                                {agency.healthInsurance !== null && agency.healthInsurance !== undefined ? JSON.parse(c.paymentTypes)[agency.healthInsurance] : c.noInfo}<br/>
                                 {agency.healthInsuranceCost !== null && agency.healthInsurance === 0 ? agency.healthInsuranceCost + ' ' + currencies[agency.healthInsuranceCurrency] : ''}
                             </p>
                         </span>
@@ -374,7 +367,7 @@ const AgencyProfile = ({data}) => {
 
                     <div className="userAccount__box userAccount__box--100">
                         <h3 className="userAccount__box__header">
-                            Benefity - co zyskasz?
+                            {c.benefits}
                         </h3>
                         <div className="userAccount__box__text"
                              dangerouslySetInnerHTML={{__html: agency.benefits}}
@@ -385,7 +378,7 @@ const AgencyProfile = ({data}) => {
 
                     {agency?.gallery?.length ? <div className="userAccount__box userAccount__box--100">
                         <h3 className="userAccount__box__header">
-                            Galeria zdjęć
+                            {c.gallery}
                         </h3>
                         <div className="flex flex--gallery">
                             {currentGalleryScroll ? <button className="userAccount__box__gallery__arrow userAccount__box__gallery__arrow--prev"

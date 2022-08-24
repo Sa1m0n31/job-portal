@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import background from '../static/img/register-background.png'
 import logo from '../static/img/logo-czarne.png'
 import arrowWhite from '../static/img/small-white-arrow.svg'
@@ -10,8 +10,8 @@ import {registerUser} from "../helpers/user";
 import {registerAgency} from "../helpers/agency";
 import Loader from "../components/Loader";
 import MobileHeader from "../components/MobileHeader";
-import Footer from "../components/Footer";
 import LoggedUserFooter from "../components/LoggedUserFooter";
+import {LanguageContext} from "../App";
 
 const Register = () => {
     const [loading, setLoading] = useState(false);
@@ -25,6 +25,8 @@ const Register = () => {
     const [checkbox, setCheckbox] = useState(false);
     const [registered, setRegistered] = useState(false);
     const [error, setError] = useState('');
+
+    const { c } = useContext(LanguageContext);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -49,19 +51,19 @@ const Register = () => {
 
     const validateData = () => {
         if(!isEmail(email)) {
-            setError('Wpisz poprawny adres e-mail');
+            setError(c.registerError1);
             return false;
         }
         if(!isPasswordStrong(password)) {
-            setError('Hasło powinno mieć co najmniej 8 znaków');
+            setError(c.passwordError3);
             return false;
         }
         if(password !== repeatPassword) {
-            setError('Podane hasła nie są identyczne');
+            setError(c.passwordError2);
             return false;
         }
         if(!checkbox) {
-            setError('Akceptuj regulamin i politykę prywatności');
+            setError(c.registerError2);
             return false;
         }
 
@@ -81,16 +83,16 @@ const Register = () => {
                         setRegistered(true);
                     }
                     else {
-                        setError('Coś poszło nie tak... Prosimy spróbować później');
+                        setError(JSON.parse(c.formErrors)[1]);
                     }
                 })
                 .catch((err) => {
                     setLoading(false);
                     if(err?.response?.status === 400) {
-                        setError('Użytkownik o podanym adresie e-mail już istnieje');
+                        setError(c.emailAlreadyExists);
                     }
                     else {
-                        setError('Coś poszło nie tak... Prosimy spróbować później');
+                        setError(JSON.parse(c.formErrors)[1]);
                     }
                 });
         }
@@ -104,39 +106,39 @@ const Register = () => {
         {registered ? <AfterRegister type={role} /> : (loading ? <Loader /> : <main className="register">
             <img className="register__logo" src={logo} alt="portal-pracy" />
             <h1 className="register__header">
-                Szybka rejestracja
+                {c.quickRegister}
             </h1>
             <h2 className="register__subheader">
-                Załóż bezpłatnie konto, a następnie uzupełnij profil, aby w pełni korzystać z funkcji portalu.
+                {c.quickRegisterDescription}
             </h2>
 
             <label className="label">
-                Adres e-mail
+                {c.email}
                 <input className="input"
                        value={email}
                        onChange={(e) => { setEmail(e.target.value); }} />
             </label>
             <label className="label">
-                Typ konta
+                {c.accountType}
                 <button className="register__accountType flex" onClick={(e) => { e.stopPropagation(); dropdownRole(); }}>
-                    {role === 0 ? 'pracownik (kandydat)' : 'pracodawca'}
+                    {role === 0 ? c.accountTypeUser : c.accountTypeAgency}
                     <img className="img" src={dropdownArrow} alt="rozwiń" />
                 </button>
                 {dropdownRoleVisible ? <button className="register__accountType register__accountType--dropdown flex"
                                                onClick={(e) => { e.stopPropagation(); setRole(role === 0 ? 1 : 0); }}
                 >
-                    {role === 1 ? 'pracownik (kandydat)' : 'pracodawca'}
+                    {role === 1 ? c.accountTypeUser : c.accountTypeAgency}
                 </button> : ''}
             </label>
             <label className="label">
-                Hasło
+                {c.password}
                 <input className="input"
                        type={!passwordVisible ? "password" : "text"}
                        value={password}
                        onChange={(e) => { setPassword(e.target.value); }} />
             </label>
             <label className="label">
-                Powtórz hasło
+                {c.repeatPassword}
                 <input className="input"
                        type={!repeatPasswordVisible ? "password" : "text"}
                        value={repeatPassword}
@@ -147,7 +149,7 @@ const Register = () => {
                     <span></span>
                 </button>
                 <span>
-                    Akceptuję <a href="/regulamin">Regulamin</a> i postanowienia <a href="/polityka prywatności">Polityki prywatności</a>.
+                    {c.accept} <a href="/regulamin">{c.termsOfServiceHeader}</a> {c.and} <a href="/polityka prywatności">{c.privacyPolicyHeader2}</a>.
                 </span>
             </label>
 
@@ -156,11 +158,11 @@ const Register = () => {
             </span> : ''}
 
             <button className="btn btn--login" onClick={() => { register(); }}>
-                Załóż konto
+                {c.createAccount}
                 <img className="img" src={arrowWhite} alt="przejdź-dalej" />
             </button>
             <a className="register__link" href={role === 0 ? "/strefa-pracownika" : "/strefa-pracodawcy"}>
-                Masz już konto? Zaloguj się
+                {c.haveAccountQuestion}
             </a>
             <LoginAndRegisterAside />
         </main>)}

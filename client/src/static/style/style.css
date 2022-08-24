@@ -5182,7 +5182,7 @@ a.preview__bottom__content {
     margin: 0 0 0 20px;
 }
 
-.userForm .filesUploadLabel__item .removeAttachmentBtn {
+.userForm .filesUploadLabel__item .removeAttachmentBtn:not(.userForm--2--agency .filesUploadLabel__item .removeAttachmentBtn) {
     top: 50%;
     left: 270px;
     transform: translateY(-50%);

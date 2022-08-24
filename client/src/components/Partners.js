@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import HomeSectionHeader from "./HomeSectionHeader";
 import logo from "../static/img/google.png"
 import arrow from "../static/img/right-blue-arrow.svg"

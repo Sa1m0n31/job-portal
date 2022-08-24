@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
-import {categories, countries, drivingLicences, flags, languages, noInfo} from "../static/content";
+import {flags} from "../static/content";
 import settings from "../static/settings";
 import locationIcon from "../static/img/location.svg";
 import suitcaseIcon from "../static/img/suitcase-grey.svg";
@@ -9,7 +9,7 @@ import messageIcon from "../static/img/message-grey.svg";
 import whatsAppIcon from "../static/img/whatsapp.svg";
 import downloadWhite from "../static/img/download-white.svg";
 import backIcon from '../static/img/back-arrow-grey.svg'
-import {getDate, getLoggedUserEmail} from "../helpers/others";
+import {getDate} from "../helpers/others";
 import graduateIcon from "../static/img/students-cap.svg";
 import suitcaseBlue from "../static/img/suitcase-blue.svg";
 import checkIcon from "../static/img/check-small.svg";
@@ -22,6 +22,7 @@ import userPlaceholder from '../static/img/user-placeholder.svg'
 import {PDFDownloadLink} from "@react-pdf/renderer";
 import CV from "../components/CV";
 import {authAgency, getAgencyData} from "../helpers/agency";
+import {LanguageContext} from "../App";
 
 const CandidateProfile = () => {
     const [data, setData] = useState({});
@@ -29,6 +30,8 @@ const CandidateProfile = () => {
     const [user, setUser] = useState(null);
     const [id, setId] = useState(null);
     const [email, setEmail] = useState('');
+
+    const { c } = useContext(LanguageContext);
 
     useEffect(() => {
         authUser()
@@ -116,12 +119,12 @@ const CandidateProfile = () => {
         <div className="userAccount">
             <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
-                    Zalogowany w: <span className="bold">{agency ? 'Strefa Pracodawcy' : 'Strefa Pracownika'}</span>
+                    {c.loggedIn}: <span className="bold">{agency ? c.agencyZone : c.userZone}</span>
                 </span>
                 <a href="javascript: history.go(-1)"
                    className="userAccount__top__btn">
                     <img className="img" src={backIcon} alt="edytuj" />
-                    Powrót
+                    {c.comeback}
                 </a>
             </aside>
             <main className="userAccount__box userAccount__box__top userAccount__box--100 flex">
@@ -132,20 +135,20 @@ const CandidateProfile = () => {
                     </figure>
                     <div className="userAccount__box__mainData">
                         <h1 className="userAccount__box__fullName">
-                            {user?.firstName ? `${user.firstName} ${user?.lastName}` : 'Anonimowy'}
+                            {user?.firstName ? `${user.firstName} ${user?.lastName}` : c.anonim}
                             {user?.country ? <img className="flag" src={flags[user?.country]} alt="flaga" /> : ''}
                         </h1>
                         <p className="userAccount__box__mainData__text">
                             <img className="img" src={locationIcon} alt="lokalizacja" />
-                            {user?.city ? user?.city : noInfo}
+                            {user?.city ? user?.city : c.noInfo}
                         </p>
                         <p className="userAccount__box__mainData__text">
                             <img className="img" src={suitcaseIcon} alt="branża" />
-                            {user?.categories ? categories[user?.categories[0]] : noInfo}
+                            {user?.categories ? JSON.parse(c.categories)[user?.categories[0]] : c.noInfo}
                         </p>
                         <p className="userAccount__box__mainData__text">
                             <img className="img" src={phoneIcon} alt="numer-telefonu" />
-                            {user?.phoneNumber ? `${user?.phoneNumberCountry} ${user?.phoneNumber}` : noInfo}
+                            {user?.phoneNumber ? `${user?.phoneNumberCountry} ${user?.phoneNumber}` : c.noInfo}
                         </p>
                         <p className="userAccount__box__mainData__text">
                             <img className="img" src={messageIcon} alt="adres-e-mail" />
@@ -164,7 +167,7 @@ const CandidateProfile = () => {
                             <a href={`/nowa-wiadomosc?kandydat=${id}`}
                                className="btn btn--writeMessage">
                                 <img className="img" src={messageIcon} alt="napisz-wiadomosc" />
-                                Wiadomość
+                                {c.message}
                             </a>
                         </div> : ''}
                     </div>
@@ -172,7 +175,7 @@ const CandidateProfile = () => {
 
                 <div className="userAccount__box__right">
                     <label className="userAccount__box__downloadCV">
-                        Wygeneruj i pobierz CV:
+                        {c.generateAndDownloadCV}:
                         {user ? <PDFDownloadLink document={<CV profileImage={user.profileImage ? `${settings.API_URL}/${user?.profileImage}` : userPlaceholder}
                                                                companyLogo={`${settings.API_URL}/${data.logo}`}
                                                                companyName={data.name}
@@ -187,13 +190,13 @@ const CandidateProfile = () => {
                                                                drivingLicence={user.drivingLicenceCategories}
                                                                certs={user.certificates.concat(user.courses)}
                                                                desc={user.situationDescription}
-                                                               phoneNumber={user.phoneNumber ? `${user.phoneNumberCountry} ${user.phoneNumber}` : noInfo}
-                                                               location={user.country >= 0 ? `${user.city}, ${countries[user.country]}` : noInfo}
-                                                               currentPlace={user.currentCountry >= 0 ? `${countries[user.currentCountry]}, ${user.currentCity}`: noInfo}
-                                                               availability={user.availabilityDay >= 0 ? getDate(user?.availabilityDay, user?.availabilityMonth, user?.availabilityYear) : noInfo}
+                                                               phoneNumber={user.phoneNumber ? `${user.phoneNumberCountry} ${user.phoneNumber}` : c.noInfo}
+                                                               location={user.country >= 0 ? `${user.city}, ${JSON.parse(c.countries)[user.country]}` : c.noInfo}
+                                                               currentPlace={user.currentCountry >= 0 ? `${JSON.parse(c.countries)[user.currentCountry]}, ${user.currentCity}`: c.noInfo}
+                                                               availability={user.availabilityDay >= 0 ? getDate(user?.availabilityDay, user?.availabilityMonth, user?.availabilityYear) : c.noInfo}
                                                                ownAccommodation={user.ownAccommodation ? user.accommodationPlace : ''}
-                                                               ownTools={user.ownTools ? 'Tak' : ''}
-                                                               salary={user.salaryFrom && user.salaryTo ? `${user.salaryFrom} - ${user.salaryTo} ${user.salaryCurrency} netto/${user.salaryType === 0 ? 'mies.' : 'tyg.'}` : noInfo}
+                                                               ownTools={user.ownTools ? c.yes : ''}
+                                                               salary={user.salaryFrom && user.salaryTo ? `${user.salaryFrom} - ${user.salaryTo} ${user.salaryCurrency} ${c.netto}/${user.salaryType === 0 ? c.monthlyShortcut : c.weeklyShortcut}` : c.noInfo}
                         />}
                                                  fileName={`CV-${user.firstName}_${user.lastName}.pdf`}
                                                  className="btn btn--downloadCV">
@@ -206,36 +209,36 @@ const CandidateProfile = () => {
 
             <div className="userAccount__box userAccount__box--30 noscroll">
                 <h3 className="userAccount__box__header">
-                    Dane osobowe i kontakt
+                    {c.personalDataAndContact}
                 </h3>
                 <div className="userAccount__box__pairsWrapper">
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Imię i nazwisko
+                            {c.firstAndLastName}
                         </span>
                         <p className="userAccount__box__value">
-                            {user?.firstName ? `${user.firstName} ${user?.lastName}` : 'Anonimowy'}
+                            {user?.firstName ? `${user.firstName} ${user?.lastName}` : c.anonim}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Nr tel.
+                            {c.phoneNumberShortcut}
                         </span>
                         <p className="userAccount__box__value">
-                            {user?.phoneNumber ? `${user?.phoneNumberCountry} ${user?.phoneNumber}` : noInfo}
+                            {user?.phoneNumber ? `${user?.phoneNumberCountry} ${user?.phoneNumber}` : c.noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Data urodzenia
+                            {c.birthday}
                         </span>
                         <p className="userAccount__box__value">
-                            {user?.birthdayDay >= 0 ? getDate(user?.birthdayDay, user?.birthdayMonth, user?.birthdayYear) : noInfo}
+                            {user?.birthdayDay >= 0 ? getDate(user?.birthdayDay, user?.birthdayMonth, user?.birthdayYear) : c.noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Adres e-mail
+                            {c.email}
                         </span>
                         <p className="userAccount__box__value">
                             {email}
@@ -243,13 +246,13 @@ const CandidateProfile = () => {
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Adres zamieszkania
+                            {c.livingAddress}
                         </span>
                         <p className="userAccount__box__value">
                             {user?.city ? <span>
                                 {user?.city}, {user?.address}<br/>
-                                kraj: {countries[user?.country]}
-                            </span> : noInfo}
+                                {c.country}: {JSON.parse(c.countries)[user?.country]}
+                            </span> : c.noInfo}
                         </p>
                     </span>
                 </div>
@@ -257,7 +260,7 @@ const CandidateProfile = () => {
 
             <div className="userAccount__box userAccount__box--30 noscroll">
                 <h3 className="userAccount__box__header">
-                    Ukończone szkoły
+                    {c.finishedSchools}
                 </h3>
                 {user?.schools?.map((item, index) => {
                     return <div className="userAccount__school flex flex--start" key={index}>
@@ -272,7 +275,7 @@ const CandidateProfile = () => {
                                 {item.title}
                             </h5>
                             <h6 className="userAccount__school__date">
-                                {item.from} - {item.to ? item.to : 'w trakcie'}
+                                {item.from} - {item.to ? item.to : c.during}
                             </h6>
                         </div>
                     </div>
@@ -281,7 +284,7 @@ const CandidateProfile = () => {
 
             <div className="userAccount__box userAccount__box--30 noscroll">
                 <h3 className="userAccount__box__header">
-                    Doświadczenie zawodowe
+                    {c.jobExperience}
                 </h3>
                 {user?.jobs?.map((item, index) => {
                     return <div className="userAccount__school flex flex--start" key={index}>
@@ -296,7 +299,7 @@ const CandidateProfile = () => {
                                 {item.title}
                             </h5>
                             <h6 className="userAccount__school__date">
-                                {item.from} - {item.to ? item.to : 'w trakcie'}
+                                {item.from} - {item.to ? item.to : c.during}
                             </h6>
                         </div>
                     </div>
@@ -306,17 +309,17 @@ const CandidateProfile = () => {
             {/* THIRD LINE */}
             <div className="userAccount__box userAccount__box--20">
                 <h3 className="userAccount__box__header">
-                    Umiejętności
+                    {c.skills}
                 </h3>
                 {user?.languages?.length ? <>
                     <h4 className="userAccount__box__subheader">
-                        Języki obce
+                        {c.foreignLanguages.charAt(0).toUpperCase() + c.foreignLanguages.slice(1)}
                     </h4>
                     <div className="flex flex--start">
                         {user.languages?.map((item, index) => {
                             return <div className="userAccount__box__language" key={index}>
                                 <img className="img" src={checkIcon} alt="język" />
-                                {languages[item.language]}
+                                {JSON.parse(c.languages)[item.language]}
                                 <span className="lvl">
                                     {item.lvl}
                                 </span>
@@ -327,13 +330,13 @@ const CandidateProfile = () => {
 
                 {user?.drivingLicenceCategories?.length ? <>
                     <h4 className="userAccount__box__subheader">
-                        Prawo jazdy
+                        {c.drivingLicence.charAt(0).toUpperCase() + c.drivingLicence.slice(1)}
                     </h4>
                     <div className="flex flex--start">
                         {user?.drivingLicenceCategories?.map((item, index) => {
                             return <div className="userAccount__box__language" key={index}>
                                 <img className="img" src={checkIcon} alt="język" />
-                                {drivingLicences[item]}
+                                {JSON.parse(c.drivingLicences)[item]}
                             </div>
                         })}
                     </div>
@@ -342,7 +345,7 @@ const CandidateProfile = () => {
 
             <div className="userAccount__box userAccount__box--20">
                 <h3 className="userAccount__box__header">
-                    Ukończone kursy i szkolenia
+                    {c.finishedCoursesAndSchools}
                 </h3>
                 {user?.courses?.map((item, index) => {
                     return <div className="userAccount__course" key={index}>
@@ -361,55 +364,55 @@ const CandidateProfile = () => {
 
             <div className="userAccount__box userAccount__box--40">
                 <h3 className="userAccount__box__header">
-                    Dodatkowe informacje
+                    {c.additionalInfo}
                 </h3>
                 <div className="userAccount__box__pairsWrapper">
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Aktualne miejsce pobytu
+                            {c.currentLivingPlace}
                         </span>
                         <p className="userAccount__box__value">
-                            {user?.currentCity ? `${user?.currentCity}, ${countries[user?.currentCountry]}` : noInfo}
+                            {user?.currentCity ? `${user?.currentCity}, ${JSON.parse(c.countries)[user?.currentCountry]}` : c.noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Dyspozycyjność
+                            {c.availability}
                         </span>
                         <p className="userAccount__box__value">
-                            {user?.availabilityYear ? `od ${getDate(user?.availabilityDay, user?.availabilityMonth, user?.availabilityYear)}` : noInfo}
+                            {user?.availabilityYear ? `${c.from} ${getDate(user?.availabilityDay, user?.availabilityMonth, user?.availabilityYear)}` : c.noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Własny śr. transportu
+                            {c.ownTransport}
                         </span>
                         <p className="userAccount__box__value">
-                            {user?.ownTransport !== undefined ? (user?.ownTransport ? 'Tak' : 'Nie') : noInfo}
+                            {user?.ownTransport !== undefined ? (user?.ownTransport ? c.yes : c.no) : c.noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Nr BSN/SOFI
+                            {c.bsnNumber}
                         </span>
                         <p className="userAccount__box__value">
-                            {user?.hasBsnNumber !== null && user?.hasBsnNumber !== undefined ? (user?.hasBsnNumber ? user?.bsnNumber : '-') : noInfo}
+                            {user?.hasBsnNumber !== null && user?.hasBsnNumber !== undefined ? (user?.hasBsnNumber ? user?.bsnNumber : '-') : c.noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Praca na długi okres
+                            {c.longTermJob}
                         </span>
                         <p className="userAccount__box__value">
-                            {user?.longTermJobSeeker !== undefined ? (user?.longTermJobSeeker ? 'Tak' : 'Nie') : noInfo}
+                            {user?.longTermJobSeeker !== undefined ? (user?.longTermJobSeeker ? c.yes : c.no) : c.noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            Własne zakw. w Holandii
+                            {c.ownAccommodation}
                         </span>
                         <p className="userAccount__box__value">
-                            {user?.ownAccommodation !== undefined ? (user?.ownAccommodation ? user?.accommodationPlace : 'Nie') : noInfo}
+                            {user?.ownAccommodation !== undefined ? (user?.ownAccommodation ? user?.accommodationPlace : c.no) : c.noInfo}
                         </p>
                     </span>
                 </div>
@@ -417,7 +420,7 @@ const CandidateProfile = () => {
 
             <div className="userAccount__box userAccount__box--10">
                 <h3 className="userAccount__box__header">
-                    Załączniki
+                    {c.attachments}
                 </h3>
                 {user?.attachments?.map((item, index) => {
                     return <a key={index}

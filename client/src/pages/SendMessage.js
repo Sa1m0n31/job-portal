@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {getAllUsers, getUserById, getUserData} from "../helpers/user";
 import {getChat, sendMessage} from "../helpers/messages";
 import {getAgencyById, getAgencyData, getAllApprovedAgencies} from "../helpers/agency";
@@ -6,8 +6,8 @@ import Select from 'react-select'
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import backArrow from "../static/img/back-arrow-grey.svg";
 import whiteArrow from '../static/img/small-white-arrow.svg'
-import {formErrors} from "../static/content";
 import checkIcon from "../static/img/green-check.svg";
+import {LanguageContext} from "../App";
 
 const SendMessage = ({isAgency, data}) => {
     const [recipient, setRecipient] = useState('');
@@ -20,6 +20,8 @@ const SendMessage = ({isAgency, data}) => {
     const [success, setSuccess] = useState(false);
     const [user, setUser] = useState(null);
     const [agency, setAgency] = useState(null);
+
+    const { c } = useContext(LanguageContext);
 
     const messageForm = useRef(null);
     const messageSuccess = useRef(null);
@@ -120,11 +122,11 @@ const SendMessage = ({isAgency, data}) => {
 
     const handleSubmit = async () => {
         if(!title) {
-            setError('Uzupełnij tytuł wiadomości');
+            setError(c.messageError1);
             return 0;
         }
         if((!user && !recipient) || (!agency && !recipient)) {
-            setError('Wpisz nadawcę wiadomości');
+            setError(c.messageError2);
             return 0;
         }
 
@@ -151,7 +153,7 @@ const SendMessage = ({isAgency, data}) => {
                 }];
             }
             else {
-                setError('Wiadomość nie może być pusta');
+                setError(c.messageError3);
                 return 0;
             }
         }
@@ -162,7 +164,7 @@ const SendMessage = ({isAgency, data}) => {
             setSuccess(true);
         }
         else {
-            setError(formErrors[1]);
+            setError(JSON.parse(c.formErrors)[1]);
         }
     }
 
@@ -186,42 +188,42 @@ const SendMessage = ({isAgency, data}) => {
 
         <aside className="userAccount__top flex">
             <span className="userAccount__top__loginInfo">
-                Zalogowany w: <span className="bold">{agency ? 'Strefa pracodawcy' : 'Strefa pracownika'}</span>
+                {c.loggedIn}: <span className="bold">{agency ? c.agencyZone : c.userZone}</span>
             </span>
             <a href={!agency ? '/moje-wiadomosci' : "/wiadomosci"} className="userAccount__top__btn">
                 <img className="img" src={backArrow} alt="powrót" />
-                Wróć do wiadomości
+                {c.backToMessages}
             </a>
         </aside>
 
         <div className="addOfferSuccess" ref={messageSuccess}>
             <img className="img" src={checkIcon} alt="check" />
             <h3 className="addOfferSuccess__header">
-                Twoja wiadomość została wysłana
+                {c.messageSend}
             </h3>
             <div className="flex">
                 <a className="btn" href="/">
-                    Strona główna
+                    {c.homepage}
                 </a>
                 <a className="btn btn--white" href={isAgency ? "/wiadomosci" : "/moje-wiadomosci"}>
-                    Moje wiadomości
+                    {c.myMessages}
                 </a>
             </div>
         </div>
 
         <main className="writeMessage" ref={messageForm}>
             <label className="label">
-                Adresat
+                {c.recipient}
                 <Select
                     options={recipientChoices}
-                    placeholder="Adresat wiadomości"
+                    placeholder={c.messageRecipient}
                     value={recipient}
                     onChange={handleSelect}
                     isSearchable={true}
                 />
             </label>
             <label className="label">
-                Temat wiadomości
+                {c.messageTopic}
                 <input className="input input--messageTitle"
                        value={title}
                        disabled={chatId}
@@ -231,7 +233,7 @@ const SendMessage = ({isAgency, data}) => {
                 <textarea className="textarea--content"
                           value={content}
                           onChange={(e) => { setContent(e.target.value); }}
-                          placeholder="Twoja wiadomość..." />
+                          placeholder={`${c.yourMessage}...`} />
             </label>
 
             {error ? <span className="info info--error">
@@ -240,7 +242,7 @@ const SendMessage = ({isAgency, data}) => {
 
             <button className="btn btn--sendMessage center"
                     onClick={() => { handleSubmit(); }}>
-                Wyślij
+                {c.sendNow}
                 <img className="img" src={whiteArrow} alt="dalej" />
             </button>
         </main>

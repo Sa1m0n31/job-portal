@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {authUser, getUserData, sendContactForm} from "../helpers/user";
 import {authAgency, getAgencyData} from "../helpers/agency";
 import LoggedUserHeader from "../components/LoggedUserHeader";
@@ -6,10 +6,10 @@ import LoggedUserFooter from "../components/LoggedUserFooter";
 import Footer from "../components/Footer";
 import {getLoggedUserEmail, isEmail} from "../helpers/others";
 import arrow from "../static/img/small-white-arrow.svg";
-import {formErrors} from "../static/content";
 import checkIcon from '../static/img/green-check.svg'
 import PageHeader from "../components/PageHeader";
 import Loader from "../components/Loader";
+import {LanguageContext} from "../App";
 
 const ContactPage = () => {
     const [data, setData] = useState(null);
@@ -21,6 +21,8 @@ const ContactPage = () => {
     const [error, setError] = useState(0);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+
+    const { c } = useContext(LanguageContext);
 
     const successRef = useRef(null);
     const formRef = useRef(null);
@@ -115,10 +117,10 @@ const ContactPage = () => {
 
         <main className={!data ? "page page--narrow" : "page"}>
             <h1 className="page__header bold">
-                Dane kontaktowe
+                {c.contactData}
             </h1>
             <p className="contact__text">
-                Skontaktuj się z nami używając poniższych danych lub bezpośrednio przez formularz kontaktowy.
+                {c.contactDataDescription}
             </p>
             <div className="contact__flex flex">
                 <div className="contact__left">
@@ -135,66 +137,66 @@ const ContactPage = () => {
                         <span>42 1525 2222 0000 1111 2854 23</span>
                     </p>
                     <h3 className="contact__smallHeader">
-                        Kontakt:
+                        {c.contact}:
                     </h3>
                     <p className="contact__data">
                         <span>
-                            tel: +48 545 356 235
+                            {c.phoneNumberShortcut}: +48 545 356 235
                         </span>
                         <span>
-                            Dostępny w godzinach 8:00 - 16:00
+                            {c.availableHours} 8:00 - 16:00
                         </span>
                         <span className="marginTop">
-                            mail: kontakt@jooob.eu
+                            {c.mailShortcut}: kontakt@jooob.eu
                         </span>
                     </p>
                 </div>
                 <div className="contact__form">
                     <h4 className="contact__form__header">
-                        Formularz kontaktowy
+                        {c.contactForm}
                     </h4>
 
                     <div className="application__success" ref={successRef}>
                         <img className="img" src={checkIcon} alt="dodano" />
                         <h3 className="application__header">
-                            Twój formularz został wysłany! Odpowiemy najszybciej jak to możliwe.
+                            {c.contactFormSend}
                         </h3>
                         <div className="buttons center">
                             <a href="/" className="btn">
-                                Strona główna
+                                {c.homepage}
                             </a>
                         </div>
                     </div>
 
                     <div className="contact__form__inner" ref={formRef}>
                         <label className="label">
-                            Imię i nazwisko
+                            {c.firstAndLastName}
                             <input className="input"
                                    value={name}
                                    onChange={(e) => { setName(e.target.value); }}
-                                   placeholder="Imię i nazwisko" />
+                                   placeholder={c.firstAndLastName} />
                         </label>
                         <label className="label">
-                            Adres e-mail
+                            {c.email}
                             <input className="input"
                                    value={email}
                                    onChange={(e) => { setEmail(e.target.value); }}
-                                   placeholder="Adres e-mail" />
+                                   placeholder={c.email} />
                         </label>
                         <label className="label">
-                            Twoja wiadomość
+                            {c.yourMessage}
                             <textarea className="input input--textarea"
                                       value={msg}
                                       onChange={(e) => { setMsg(e.target.value); }}
-                                      placeholder="Twoja wiadomość" />
+                                      placeholder={c.yourMessage} />
                         </label>
 
                         {error ? <span className="info info--error">
-                        {error === 1 ? 'Uzupelnij poprawnie wymagane dane' : formErrors[1]}
+                        {error === 1 ? c.passwordError1 : JSON.parse(c.formErrors)[1]}
                     </span> : ''}
 
                         {!loading ? <button className="btn btn--applicationSubmit" onClick={() => { handleSubmit(); }}>
-                            Wyślij wiadomość
+                            {c.sendMessage}
                             <img className="img" src={arrow} alt="wyślij" />
                         </button> : <div className="center marginTop">
                             <Loader />

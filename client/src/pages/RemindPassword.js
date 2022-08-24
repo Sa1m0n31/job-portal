@@ -1,8 +1,7 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import MobileHeader from "../components/MobileHeader";
 import logo from "../static/img/logo-czarne.png";
 import backArrowGrey from "../static/img/back-arrow-grey.svg";
-import loginIcon from "../static/img/login-icon.svg";
 import LanguageSwitcher from "../components/LanguageSwitcher";
 import backgroundImg from "../static/img/logowanie.png";
 import {isEmail} from "../helpers/others";
@@ -10,9 +9,9 @@ import dropdownArrow from "../static/img/dropdown-arrow.svg";
 import checkIcon from "../static/img/green-check.svg";
 import {remindUserPassword} from "../helpers/user";
 import {remindAgencyPassword} from "../helpers/agency";
-import {formErrors} from "../static/content";
 import Loader from "../components/Loader";
 import LoggedUserFooter from "../components/LoggedUserFooter";
+import {LanguageContext} from "../App";
 
 const RemindPassword = () => {
     const [email, setEmail] = useState('');
@@ -21,6 +20,8 @@ const RemindPassword = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const { c } = useContext(LanguageContext);
 
     const formRef = useRef(null);
     const successRef = useRef(null);
@@ -66,15 +67,15 @@ const RemindPassword = () => {
                 .catch((err) => {
                     setLoading(false);
                     if(err.code === "ERR_BAD_REQUEST") {
-                        setError('Konto o podanym adresie e-mail nie istnieje');
+                        setError(c.emailAlreadyExists);
                     }
                     else {
-                        setError(formErrors[1]);
+                        setError(JSON.parse(c.formErrors)[1]);
                     }
                 })
         }
         else {
-            setError('Wpisz poprawny adres e-mail');
+            setError(c.emailError);
         }
     }
 
@@ -88,42 +89,42 @@ const RemindPassword = () => {
                 </a>
                 <a href="/" className="login__left__header__backBtn">
                     <img className="img" src={backArrowGrey} alt="powrót" />
-                    Powrót na stronę główną
+                    {c.homepageComeback}
                 </a>
             </header>
 
             <div className="application__success" ref={successRef}>
                 <img className="img" src={checkIcon} alt="dodano" />
                 <h3 className="application__header">
-                    Udało się! Na Twój adres e-mail wysłaliśmy link do odzyskiwania hasła.
+                    {c.remindPasswordSuccess}
                 </h3>
                 <div className="buttons center">
                     <a href="/" className="btn">
-                        Strona główna
+                        {c.homepage}
                     </a>
                 </div>
             </div>
 
             <form className="login__left__content" ref={formRef}>
                 <h1 className="login__header">
-                    Odzyskaj swoje hasło
+                    {c.remindPasswordHeader}
                 </h1>
                 <label className="label">
-                    Adres e-mail
+                    {c.email}
                     <input className="input"
                            value={email}
                            onChange={(e) => { setEmail(e.target.value); }} />
                 </label>
                 <label className="label rel">
-                    Typ konta
+                    {c.accountType}
                     <button className="register__accountType flex" onClick={(e) => { e.preventDefault(); e.stopPropagation(); setDropdownRoleVisible(!dropdownRoleVisible); }}>
-                        {role === 0 ? 'pracownik (kandydat)' : 'pracodawca'}
+                        {role === 0 ? c.accountTypeUser : c.accountTypeAgency}
                         <img className="img" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {dropdownRoleVisible ? <button className="register__accountType register__accountType--dropdown flex"
                                                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); setRole(role === 0 ? 1 : 0); setDropdownRoleVisible(false); }}
                     >
-                        {role === 1 ? 'pracownik (kandydat)' : 'pracodawca'}
+                        {role === 1 ? c.accountTypeUser : c.accountTypeAgency}
                     </button> : ''}
                 </label>
 
@@ -133,7 +134,7 @@ const RemindPassword = () => {
 
                 {!loading ? <button className="btn btn--login center"
                                     onClick={(e) => { handleSubmit(e); }}>
-                    Odsykaj hasło
+                    {c.remindPasswordBtn}
                 </button> : <div className="loading">
                     <Loader />
                 </div>}
@@ -141,10 +142,10 @@ const RemindPassword = () => {
             <aside className="login__left__bottom flex">
                 <div className="login__left__bottom__links flex">
                     <a href="/polityka-prywatnosci">
-                        Polityka prywatności
+                        {c.privacyPolicyHeader}
                     </a>
-                    <a href="/polityka-prywatnosci">
-                        Regulamin portalu
+                    <a href="/regulamin">
+                        {c.termsOfServiceHeader}
                     </a>
                 </div>
 

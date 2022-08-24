@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import {filterOffers, getActiveJobOffers} from "../helpers/offer";
 import localization from '../static/img/location.svg'
 import settings from "../static/settings";
-import {categories, countries, currencies, distances} from "../static/content";
+import {currencies, distances} from "../static/content";
 import salaryIcon from '../static/img/dolar-icon.svg'
 import magnifier from '../static/img/magnifier.svg'
 import dolarIcon from '../static/img/dolar-icon.svg'
@@ -14,6 +14,7 @@ import JobOffersFilters from "../components/JobOffersFilters";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import userPlaceholder from '../static/img/user-placeholder.svg'
 import filterIcon from "../static/img/filter-results-button.svg";
+import {LanguageContext} from "../App";
 
 const JobOfferList = ({data}) => {
     const [offers, setOffers] = useState([]);
@@ -43,6 +44,8 @@ const JobOfferList = ({data}) => {
     const [currenciesVisible, setCurrenciesVisible] = useState(false);
     const [countriesVisible, setCountriesVisible] = useState(false);
     const [distanceVisible, setDistanceVisible] = useState(false);
+
+    const { c } = useContext(LanguageContext);
 
     useEffect(() => {
         getActiveJobOffers(page)
@@ -173,12 +176,12 @@ const JobOfferList = ({data}) => {
 
         <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
-                    Zalogowany w: <span className="bold">Strefa Pracownika</span>
+                    {c.loggedIn}: <span className="bold">{c.userZone}</span>
                 </span>
         </aside>
 
         <button className="userAccount__top--mobile" onClick={() => { setFiltersVisible(true); }}>
-            Filtry wyszukiwania
+            {c.filters}
             <img className="img" src={filterIcon} alt="filtry" />
         </button>
 
@@ -186,28 +189,28 @@ const JobOfferList = ({data}) => {
             <button className="btn btn--offerFiltersOpen"
                     onClick={() => { setFiltersVisible(true); }}
             >
-                Filtry wyszukiwania
+                {c.filters}
                 <img className="img" src={magnifier} alt="powiększ" />
             </button>
 
             <div className="offerFilters__section">
                 <p className="offerFilters__section__item">
-                    Stanowisko
+                    {c.post}
                     <span className="offerFilters__section__frame">
-                        {title ? title : 'Wszystkie'}
+                        {title ? title : c.all}
                     </span>
                 </p>
                 <p className="offerFilters__section__item">
-                    Kategoria
+                    {c.category}
                     <span className="offerFilters__section__frame">
-                        {category !== -1 ? categories[category] : 'Wszystkie'}
+                        {category !== -1 ? JSON.parse(c.categories)[category] : c.all}
                     </span>
                 </p>
             </div>
 
             <div className="offerFilters__section">
                 <p className="offerFilters__section__item">
-                    Miejsce pracy
+                    {c.jobPlace}
                     <span className="offerFilters__section__value offerFilters__section__value--location">
                         <img className="img" src={localization} alt="lokalizacja" />
                         {city ? <>
@@ -215,25 +218,25 @@ const JobOfferList = ({data}) => {
                             <span className="distance">
                             {distances[distance]}
                         </span>
-                        </> : 'Wszystkie'}
+                        </> : c.all}
                     </span>
                 </p>
                 <p className="offerFilters__section__item">
-                    Pensja
+                    {c.salaryShort}
                     <span className="offerFilters__section__value">
                         <img className="img" src={dolarIcon} alt="zarobki" />
                         {salaryFrom || salaryTo ? <>
                             {salaryFrom} - {salaryTo}
                             <span className="distance">
-                            {currencies[salaryCurrency]} netto/{salaryType === 0 ? 'tyg.' : 'mies.'}
+                            {currencies[salaryCurrency]} netto/{salaryType === 0 ? c.weeklyShortcut : c.monthlyShortcut}
                         </span>
-                        </> : 'Wszystkie'}
+                        </> : c.all}
                     </span>
                 </p>
             </div>
 
             <button className="btn btn--filter" onClick={() => { submitFilter(); }}>
-                <span>Wyszukaj</span>
+                <span>{c.search}</span>
                 <img className="img" src={magnifier} alt="wyszukiwarka" />
             </button>
         </div>
@@ -262,7 +265,7 @@ const JobOfferList = ({data}) => {
                             </h2>
                             <h3 className="offerItem__localization">
                                 <img className="icon" src={localization} alt="lokalizacja" />
-                                {item.offer_city}, {countries[item.offer_country]}
+                                {item.offer_city}, {JSON.parse(c.countries)[item.offer_country]}
                             </h3>
                             <h5 className="offerItem__company">
                                 {item.a_data ? JSON.parse(item.a_data).name : ''}
@@ -270,7 +273,7 @@ const JobOfferList = ({data}) => {
                         </div>
                     </div>
                     <div className="offerItem__category">
-                        {categories[item.offer_category]}
+                        {JSON.parse(c.categories)[item.offer_category]}
                     </div>
                     <div className="offerItem__salary">
                     <span className="nowrap">
@@ -278,7 +281,7 @@ const JobOfferList = ({data}) => {
                         {item.offer_salaryFrom} {currencies[item.offer_salaryCurrency]}
                     </span> - {item.offer_salaryTo} {currencies[item.offer_salaryCurrency]}
                         <span className="netto">
-                        netto/{item.offer_salaryType === 1 ? 'tyg.' : 'mies.'}
+                        netto/{item.offer_salaryType === 1 ? c.weeklyShortcut : c.monthlyShortcut}
                     </span>
                     </div>
                     <div className="offerItem__requirements">
@@ -291,11 +294,11 @@ const JobOfferList = ({data}) => {
                     <div className="offerItem__buttons offerItem__buttons--user flex">
                         <a href={`/oferta-pracy?id=${item.offer_id}`}
                            className="btn btn--white">
-                            Przeglądaj ogłoszenie
+                            {c.checkOffer}
                         </a>
                         <a href={`/aplikuj?id=${item.offer_id}`}
                            className={isElementInArray(item.offer_id, applications) ? "btn btn--disabled" : "btn"}>
-                            Aplikuj
+                            {c.apply}
                         </a>
                     </div>
                 </div>
@@ -324,7 +327,7 @@ const JobOfferList = ({data}) => {
                             </h2>
                             <h3 className="offerItem__localization">
                                 <img className="icon" src={localization} alt="lokalizacja" />
-                                {item.offer_city}, {countries[item.offer_country]}
+                                {item.offer_city}, {JSON.parse(c.countries)[item.offer_country]}
                             </h3>
                             <h5 className="offerItem__company">
                                 {item.a_data ? JSON.parse(item.a_data).name : ''}
@@ -332,7 +335,7 @@ const JobOfferList = ({data}) => {
                         </div>
                     </div>
                     <div className="offerItem__category">
-                        {categories[item.offer_category]}
+                        {JSON.parse(c.categories)[item.offer_category]}
                     </div>
                     <div className="offerItem__salary">
                     <span className="nowrap">
@@ -340,7 +343,7 @@ const JobOfferList = ({data}) => {
                         {item.offer_salaryFrom} {currencies[item.offer_salaryCurrency]}
                     </span> - {item.offer_salaryTo} {currencies[item.offer_salaryCurrency]}
                         <span className="netto">
-                        netto/{item.offer_salaryType === 1 ? 'tyg.' : 'mies.'}
+                        netto/{item.offer_salaryType === 1 ? c.weeklyShortcut : c.monthlyShortcut}
                     </span>
                     </div>
                     <div className="offerItem__requirements">
@@ -353,16 +356,16 @@ const JobOfferList = ({data}) => {
                     <div className="offerItem__buttons offerItem__buttons--user flex">
                         <a href={`/oferta-pracy?id=${item.offer_id}`}
                            className="btn btn--white">
-                            Przeglądaj ogłoszenie
+                            {c.checkOffer}
                         </a>
                         <a href={`/aplikuj?id=${item.offer_id}`}
                            className={isElementInArray(item.offer_id, applications) ? "btn btn--disabled" : "btn"}>
-                            Aplikuj
+                            {c.apply}
                         </a>
                     </div>
                 </div>
             }) : <h4 className="noOffersFound">
-                Nie znaleziono ofert pracy o podanych kryteriach
+                {c.noOffersFound}
             </h4>) : ''}
         </InfiniteScroll>) : <div className="offersLoader">
             <Loader />

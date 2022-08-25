@@ -72,16 +72,18 @@ const JobOfferList = ({data}) => {
     }, [deleteSuccessful]);
 
     const fetchJobOffers = async () => {
-        const newOffersResponse = await getActiveJobOffers(page);
-        const newOffers = newOffersResponse.data;
+        if(offers.length) {
+            const newOffersResponse = await getActiveJobOffers(page);
+            const newOffers = newOffersResponse.data;
 
-        if(newOffers.length) {
-            await setOffers(prevState => ([...prevState, ...newOffers]));
+            if(newOffers.length) {
+                await setOffers(prevState => ([...prevState, ...newOffers]));
+            }
+            else {
+                await setHasMore(false);
+            }
+            await setPage(prevState => (prevState+1));
         }
-        else {
-            await setHasMore(false);
-        }
-        await setPage(prevState => (prevState+1));
     }
 
     useEffect(() => {

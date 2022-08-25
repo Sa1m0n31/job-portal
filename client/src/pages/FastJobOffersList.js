@@ -9,6 +9,7 @@ import {getUserFastApplications} from "../helpers/user";
 import {isElementInArray} from "../helpers/others";
 import userPlaceholder from '../static/img/user-placeholder.svg'
 import {LanguageContext} from "../App";
+import Loader from "../components/Loader";
 
 const FastJobOfferList = ({data}) => {
     const [offers, setOffers] = useState([]);
@@ -43,11 +44,11 @@ const FastJobOfferList = ({data}) => {
                 </span>
         </aside>
 
-        <div className="userAccount__top userAccount__top--offersInfo flex">
+        {render ? <div className="userAccount__top userAccount__top--offersInfo flex">
             <h1 className="userAccount__top__jobOffersHeader">
                 {c.found} <span className="bold">{offers?.length}/15</span> {c.foundContinue}
             </h1>
-        </div>
+        </div> : ''}
 
         {render ? offers?.map((item, index) => {
             return <div className="offerItem flex" key={index}>
@@ -101,7 +102,9 @@ const FastJobOfferList = ({data}) => {
                     </a>
                 </div>
             </div>
-        }) : ''}
+        }) : <div className="center">
+            <Loader />
+        </div>}
     </div>
 };
 

@@ -36,6 +36,7 @@ function App() {
           .then((res) => {
             if(res?.data?.length) {
               const val = res.data.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), {});
+              console.log(val);
               setC(val);
               localStorage.setItem('siteContent', JSON.stringify(val));
               localStorage.setItem('storedLanguage', language);

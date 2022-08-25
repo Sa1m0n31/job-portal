@@ -27,7 +27,7 @@ const LanguagePopup = ({closeModal}) => {
             <div className="languages flex">
                 {languageVersions.map((item, index) => {
                     return <button className="languages__btn" key={index}
-                                   onClick={() => { setLanguage(item); }}>
+                                   onClick={() => { setLanguage(item); window.location.reload(); }}>
                         <span className={`fi fi-${item.toLowerCase()}`}></span>
                     </button>
                 })}

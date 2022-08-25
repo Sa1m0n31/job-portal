@@ -297,7 +297,7 @@ const AgencyHomepage = ({data, email}) => {
                             </span>
                             <p className="userAccount__box__value userAccount__box__value--holidayAllowance">
                                 {data.holidayAllowanceType !== null && data.holidayAllowanceType !== undefined ? `${JSON.parse(c.pensionType)[data.holidayAllowanceType]}
-                                `: noInfo}<br/>
+                                `: c.noInfo}<br/>
                                 {data.holidayAllowanceType !== null && data.holidayAllowanceType !== undefined ? `${data.holidayAllowanceFrequency === 0 ? (JSON.parse(c.pensionFrequency)[data.holidayAllowanceFrequency] + ', ' + (parseInt(data.holidayAllowanceDay)+1) + ' ' + JSON.parse(c.months)[data.holidayAllowanceMonth]) : JSON.parse(c.pensionFrequency)[data.holidayAllowanceFrequency]}` : ''}
                             </p>
                         </span>

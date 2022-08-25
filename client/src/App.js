@@ -22,7 +22,7 @@ import CandidateProfile from "./pages/CandidateProfile";
 import {getSiteContent} from "./helpers/translation";
 import Loader from "./components/Loader";
 
-const LanguageContext = React.createContext(null);
+const LanguageContext = React.createContext({});
 
 function App() {
   const [language, setLanguage] = useState(localStorage.getItem('lang') ? localStorage.getItem('lang') : 'PL');

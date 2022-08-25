@@ -17,4 +17,9 @@ export class TranslationController {
     translateSiteContent(@Body() body) {
         return this.translationService.translate(body.from, body.to, body.saveAs);
     }
+
+    @Post('/detect')
+    detectLanguage(@Body() body) {
+        return this.translationService.detect(body.text);
+    }
 }

@@ -1,8 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import {Page, Text, Font, View, Document, StyleSheet, Image} from '@react-pdf/renderer';
-import {categories as allCategories, drivingLicences, languages as allLanguages} from "../static/content";
 import {addLeadingZero} from "../helpers/others";
-import {LanguageContext} from "../App";
 
 Font.register({
     family: "Roboto",
@@ -170,11 +168,7 @@ const styles = StyleSheet.create({
 });
 
 const CV = ({profileImage, fullName, phoneNumber, email, location, categories, birthday, schools, jobs, languages, additionalLanguages,
-                drivingLicence, certs, desc, companyLogo, companyName, currentPlace, availability, ownAccommodation, ownTools, salary}) => {
-
-    // const { c } = useContext(LanguageContext);
-    let c = '';
-
+                drivingLicence, certs, desc, companyLogo, companyName, currentPlace, availability, ownAccommodation, ownTools, salary, c}) => {
     return <Document>
         <Page size="A4" style={styles.page}>
             <View style={styles.column}>
@@ -189,10 +183,10 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                         <Text style={styles.categoriesCompany}>
                             {categories?.map((item, index, array) => {
                                 if(index === array.length - 1) {
-                                    return allCategories[item];
+                                    return JSON.parse(c.categories)[item];
                                 }
                                 else {
-                                    return `${allCategories[item]}, `;
+                                    return `${JSON.parse(c.categories)[item]}, `;
                                 }
                             })}
                         </Text>
@@ -218,10 +212,10 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                     <Text style={styles.categories}>
                         {categories?.map((item, index, array) => {
                             if(index === array.length - 1) {
-                                return allCategories[item];
+                                return JSON.parse(c.categories)[item];
                             }
                             else {
-                                return `${allCategories[item]}, `;
+                                return `${JSON.parse(c.categories)[item]}, `;
                             }
                         })}
                     </Text>
@@ -305,10 +299,10 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                         <Text style={styles.text}>
                             {languages.map((item, index, array) => {
                                 if(index === array.length-1 && !additionalLanguages) {
-                                    return `${allLanguages[item.language]} - ${item.lvl}`;
+                                    return `${JSON.parse(c.languages)[item.language]} - ${item.lvl}`;
                                 }
                                 else {
-                                    return `${allLanguages[item.language]} - ${item.lvl}, `;
+                                    return `${JSON.parse(c.languages)[item.language]} - ${item.lvl}, `;
                                 }
                             })}
                             <Text style={styles.block}>
@@ -321,10 +315,10 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                         <Text style={styles.text}>
                             {drivingLicence.map((item, index, array) => {
                                 if(index === array.length-1) {
-                                    return `${drivingLicences[item]}`;
+                                    return `${JSON.parse(c.drivingLicences)[item]}`;
                                 }
                                 else {
-                                    return `${drivingLicences[item]}, `;
+                                    return `${JSON.parse(c.drivingLicences)[item]}, `;
                                 }
                             })}
                         </Text>
@@ -382,7 +376,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                     {ownTools ? <>
                         <Text style={styles.textSmall}>{c.ownTools}: </Text>
                         <Text style={styles.text}>
-                            Tak
+                            {c.yes}
                         </Text>
                     </>: ''}
                 </View>

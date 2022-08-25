@@ -137,6 +137,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                     <label className="userAccount__box__downloadCV">
                         {c.generateAndDownloadCV}:
                         {data ? <PDFDownloadLink document={<CV profileImage={`${settings.API_URL}/${data?.profileImage}`}
+                                                               c={c}
                                                                fullName={`${data.firstName} ${data.lastName}`}
                                                                categories={data.categories}
                                                                email={data.email}
@@ -400,12 +401,12 @@ const UserHomepage = ({data, userId, visible, working}) => {
                             {c.longTermJob}
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.longTermJobSeeker ? 'Tak' : 'Nie'}
+                            {data?.longTermJobSeeker ? c.yes : c.no}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
                         <span className="userAccount__box__key">
-                            {c.ownAccommodation}
+                            {c.ownAccommodationInNetherlands}
                         </span>
                         <p className="userAccount__box__value">
                             {data?.ownAccommodation ? data?.accommodationPlace : c.no}

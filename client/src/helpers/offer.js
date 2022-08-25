@@ -1,5 +1,5 @@
 import axios from "axios";
-import {getAuthHeader, getLoggedUserEmail} from "./others";
+import {getAuthHeader, getLang, getLoggedUserEmail} from "./others";
 
 const addOffer = (data) => {
     const formData = new FormData();
@@ -40,7 +40,7 @@ const updateOffer = (data) => {
 }
 
 const getJobOffersByAgency = () => {
-    return axios.get(`/offer/getOffersByAgency/${getLoggedUserEmail()}`, {
+    return axios.get(`/offer/getOffersByAgency/${getLoggedUserEmail()}/${getLang()}`, {
         headers: {
             Authorization: getAuthHeader()
         }
@@ -48,7 +48,7 @@ const getJobOffersByAgency = () => {
 }
 
 const getActiveJobOffers = (page) => {
-    return axios.get(`/offer/getActive/${page}`);
+    return axios.get(`/offer/getActive/${page}/${getLang()}`);
 }
 
 const deleteOffer = (id) => {
@@ -60,7 +60,7 @@ const deleteOffer = (id) => {
 }
 
 const getOfferById = (id) => {
-    return axios.get(`/offer/get/${id}`, {
+    return axios.get(`/offer/get/${id}/${getLang()}`, {
         headers: {
             Authorization: getAuthHeader()
         }
@@ -98,7 +98,7 @@ const filterOffers = (page, title, category, country, city, distance, salaryType
 }
 
 const getActiveFastOffers = () => {
-    return axios.get(`/offer/getActiveFastOffers`);
+    return axios.get(`/offer/getActiveFastOffers/${getLang()}`);
 }
 
 const addFastOffer = (data) => {
@@ -140,7 +140,7 @@ const updateFastOffer = (data) => {
 }
 
 const getFastJobOffersByAgency = () => {
-    return axios.get(`/offer/getFastOffersByAgency/${getLoggedUserEmail()}`, {
+    return axios.get(`/offer/getFastOffersByAgency/${getLoggedUserEmail()}/${getLang()}`, {
         headers: {
             Authorization: getAuthHeader()
         }
@@ -156,7 +156,7 @@ const deleteFastOffer = (id) => {
 }
 
 const getFastOfferById = (id) => {
-    return axios.get(`/offer/getFastOffer/${id}`, {
+    return axios.get(`/offer/getFastOffer/${id}/${getLang()}`, {
         headers: {
             Authorization: getAuthHeader()
         }

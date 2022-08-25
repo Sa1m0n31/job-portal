@@ -34,6 +34,42 @@ export class TranslationService {
         });
     }
 
+    async detect(text) {
+        const translate = new Translate();
+
+        async function detectLanguage() {
+            let [detections] = await translate.detect(text);
+            detections = Array.isArray(detections) ? detections : [detections];
+            return detections[0].language;
+        }
+
+        return detectLanguage();
+    }
+
+    async translateContent(content, to) {
+        const translate = new Translate();
+        let translationResult = [];
+
+        async function translateText(chunk) {
+            let [translations] = await translate.translate(chunk, to);
+            translations = Array.isArray(translations) ? translations : [translations];
+            translations.forEach((translation) => {
+                translationResult.push(translation);
+            });
+        }
+
+        if(Array.isArray(content)) {
+            for(const chunk of content) {
+                await translateText(chunk);
+            }
+        }
+        else {
+            await translateText(content);
+        }
+
+        return translationResult.length === 1 ? translationResult[0].toString() : translationResult;
+    }
+
     async translate(from, to, saveAs) {
         const siteContent = await this.staticRepository.findBy({
             lang: from
@@ -61,19 +97,15 @@ export class TranslationService {
             });
         }
 
-        // const saveAsArray = ["DK", "DE", "EE", "FI", "FR", "NL",
-        //     "GR", "HU", "IT", "LV", "LT", "MT", "PT", "RO", "SK",
-        //     "SI", "ES", "SE", "NO", "UA", "TR", "BY"].map((item) => (item.toLowerCase()));
-        // const languagesCodes = ['da', 'de', 'et', 'fi', 'fr', 'nl', 'el', 'hu', 'it', 'lv', 'lt', 'mt', 'pt',
-        //     'ro', 'sk', 'si', 'es', 'sv', 'no', 'uk', 'tr', 'be'];
-
-        const saveAsArray = ["SE", "NO", "UA", "TR", "BY"].map((item) => (item.toLowerCase()));
-        const languagesCodes = ['sv', 'no', 'uk', 'tr', 'be'];
+        const saveAsArray = ["BG", "HR", "CZ", "DK", "DE", "GB", "EE", "FI", "FR", "NL",
+            "GR", "HU", "IT", "LV", "LT", "MT", "PT", "RO", "SK",
+            "SI", "ES", "SE", "NO", "UA", "TR", "BY"].map((item) => (item.toLowerCase()));
+        const languagesCodes = ['bg', 'hr', 'cs', 'da', 'de', 'en', 'et', 'fi', 'fr', 'nl', 'el', 'hu', 'it', 'lv', 'lt', 'mt', 'pt',
+            'ro', 'sk', 'si', 'es', 'sv', 'no', 'uk', 'tr', 'be'];
 
         if(to === 'all') {
             let i = 0;
             for(const lang of languagesCodes) {
-                console.log(`lang = ${lang}...`);
                 for(const chunk of translationBase) {
                     await translateText(chunk, lang);
                 }

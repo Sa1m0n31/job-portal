@@ -242,7 +242,7 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                                           key={index}
                                          onClick={() => { readNotificationAndRedirect(item.read, item.link, item.id); }}>
                                     <span className={!item.read ? "notifications__dropdown__item__recipient bold" : "notifications__dropdown__item__recipient"}>
-                                        {item.type !== 3 ? notificationTitles[item.type-1] : `${item.user} ${JSON.parse(c.notificationTitles)[2]}`}
+                                        {item.type !== 3 ? JSON.parse(c.notificationTitles)[item.type-1] : `${item.user} ${JSON.parse(c.notificationTitles)[2]}`}
                                     </span>
                                     <span className="notifications__dropdown__item__title">
                                         {((item.type === 1 || item.type === 2) && item.agency) ? `${c.from} ${item.agency}` : c.checkCandidateProfile}

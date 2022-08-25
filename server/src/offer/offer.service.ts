@@ -12,6 +12,15 @@ import {calculateDistance} from "../common/calculateDistance";
 import {Fast_offer} from "../entities/fast_offer.entity";
 import {Fast_applications} from "../entities/fast_applications.entity";
 import {Notifications} from "../entities/notifications.entity";
+import {TranslationService} from "../translation/translation.service";
+import {Dynamic_translations} from "../entities/dynamic_translations";
+import {
+    agencyTranslateFields,
+    agencyTranslateObject,
+    offerTranslateFields,
+    offerTranslateObject
+} from "../common/translateObjects";
+import {getGoogleTranslateLanguageCode} from "../common/getGoogleTranslateLanguageCode";
 
 // 0 - miesiecznie
 // 1 - tygodniowo
@@ -37,7 +46,10 @@ export class OfferService {
         private readonly userRepository: Repository<User>,
         @InjectRepository(Notifications)
         private readonly notificationsRepository: Repository<Notifications>,
-        private readonly httpService: HttpService
+        @InjectRepository(Dynamic_translations)
+        private readonly dynamicTranslationsRepository: Repository<Dynamic_translations>,
+        private readonly httpService: HttpService,
+        private readonly translationService: TranslationService
     ) {
     }
 
@@ -48,17 +60,28 @@ export class OfferService {
         }) !== -1;
     }
 
-    async getActiveOffers(page: number) {
-        return this.offerRepository
-            .createQueryBuilder('offer')
-            .where(`timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP`)
-            .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
-            .limit(parseInt(process.env.OFFERS_PER_PAGE))
-            .offset((page-1) * parseInt(process.env.OFFERS_PER_PAGE))
-            .getRawMany();
+    async getActiveOffers(page: number, lang: string) {
+        if(lang === 'pl' || !lang) {
+            return this.offerRepository
+                .createQueryBuilder('offer')
+                .where(`timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP`)
+                .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+                .limit(parseInt(process.env.OFFERS_PER_PAGE))
+                .offset((page-1) * parseInt(process.env.OFFERS_PER_PAGE))
+                .getRawMany();
+        }
+        else {
+            const originalData = await this.offerRepository
+                .createQueryBuilder('offer')
+                .where(`timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP`)
+                .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+                .limit(parseInt(process.env.OFFERS_PER_PAGE))
+                .offset((page-1) * parseInt(process.env.OFFERS_PER_PAGE))
+                .getRawMany();
+        }
     }
 
-    async getActiveFastOffers() {
+    async getActiveFastOffers(lang) {
         return this.fastOfferRepository
             .createQueryBuilder('offer')
             .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
@@ -418,21 +441,90 @@ export class OfferService {
         }
     }
 
+    async translateOfferData(offerData, data, files, updateMode = false) {
+        // Detect language
+        const lang = await this.translationService.detect(offerData.responsibilities[0]);
+
+        if(lang === 'pl') {
+            // Add filenames
+            if(updateMode) {
+                return {
+                    ...offerData,
+                    image: files.image ? files.image[0].path : offerData.imageUrl,
+                    attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
+                        return {
+                            name: offerData.attachments[index].name,
+                            path: item.path
+                        }
+                    }).concat(offerData.oldAttachments) : offerData.oldAttachments
+                }
+            }
+            else {
+                return {
+                    ...offerData,
+                    image: files.image ? files.image[0].path : offerData.imageUrl,
+                    attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
+                        return {
+                            name: offerData.attachments[index].name,
+                            path: item.path
+                        }
+                    }) : data.attachments
+                }
+            }
+        }
+        else {
+            // Translate to Polish
+            const contentToTranslate = [offerData.title, offerData.keywords, offerData.description,
+                offerData.responsibilities, offerData.requirements, offerData.benefits
+            ];
+            const polishVersionResponse = await this.translationService.translateContent(JSON.stringify(contentToTranslate), 'pl');
+            const polishVersion = JSON.parse(polishVersionResponse);
+
+            // Add filenames
+            if(updateMode) {
+                return {
+                    ...offerData,
+                    title: polishVersion[0],
+                    keywords: polishVersion[1],
+                    description: polishVersion[2],
+                    responsibilities: polishVersion[3],
+                    requirements: polishVersion[4],
+                    benefits: polishVersion[5],
+                    image: files.image ? files.image[0].path : offerData.imageUrl,
+                    attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
+                        return {
+                            name: offerData.attachments[index].name,
+                            path: item.path
+                        }
+                    }).concat(offerData.oldAttachments) : offerData.oldAttachments
+                }
+            }
+            else {
+                return {
+                    ...offerData,
+                    title: polishVersion[0],
+                    keywords: polishVersion[1],
+                    description: polishVersion[2],
+                    responsibilities: polishVersion[3],
+                    requirements: polishVersion[4],
+                    benefits: polishVersion[5],
+                    image: files.image ? files.image[0].path : offerData.imageUrl,
+                    attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
+                        return {
+                            name: offerData.attachments[index].name,
+                            path: item.path
+                        }
+                    }) : data.attachments
+                }
+            }
+        }
+    }
+
     async addOffer(data, files) {
         let offerData = JSON.parse(data.offerData);
         let lat, lng;
 
-        // Add filenames
-        offerData = {
-            ...offerData,
-            image: files.image ? files.image[0].path : offerData.imageUrl,
-            attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
-                return {
-                    name: offerData.attachments[index].name,
-                    path: item.path
-                }
-            }) : data.attachments
-        }
+        offerData = await this.translateOfferData(offerData, data, files);
 
         // Get offer data
         const { title, category, keywords, country, postalCode, city, description,
@@ -518,17 +610,7 @@ export class OfferService {
     async addFastOffer(data, files) {
         let offerData = JSON.parse(data.offerData);
 
-        // Add filenames
-        offerData = {
-            ...offerData,
-            image: files.image ? files.image[0].path : offerData.imageUrl,
-            attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
-                return {
-                    name: offerData.attachments[index].name,
-                    path: item.path
-                }
-            }) : data.attachments
-        }
+        offerData = await this.translateOfferData(offerData, data, files);
 
         // Get offer data
         const { title, category, keywords, country, postalCode, city, street, description,
@@ -612,17 +694,7 @@ export class OfferService {
         let offerData = JSON.parse(data.offerData);
         let lat, lng;
 
-        // Add filenames
-        offerData = {
-            ...offerData,
-            image: files.image ? files.image[0].path : offerData.imageUrl,
-            attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
-                return {
-                    name: offerData.attachments[index].name,
-                    path: item.path
-                }
-            }).concat(offerData.oldAttachments) : offerData.oldAttachments
-        }
+        offerData = await this.translateOfferData(offerData, data, files, true);
 
         // Get offer data
         const { id, title, category, keywords, country, postalCode, city, description,
@@ -631,12 +703,19 @@ export class OfferService {
             image, attachments
         } = offerData;
 
+        // Remove translations
+        await this.dynamicTranslationsRepository.delete({
+            type: 3,
+            id: id
+        });
+
         // Get agency id
         const agency = await this.agencyRepository.findOneBy({email: data.email});
         const agencyId = agency.id;
 
         // Get lat and lng
-        const apiResponse = await lastValueFrom(this.httpService.get(encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${city}`)));
+        const apiResponse = await lastValueFrom(this.httpService.get(
+            encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${city}`)));
         const apiData = apiResponse.data.data;
 
         if(apiData) {
@@ -666,17 +745,7 @@ export class OfferService {
     async updateFastOffer(data, files) {
         let offerData = JSON.parse(data.offerData);
 
-        // Add filenames
-        offerData = {
-            ...offerData,
-            image: files.image ? files.image[0].path : offerData.imageUrl,
-            attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
-                return {
-                    name: offerData.attachments[index].name,
-                    path: item.path
-                }
-            }).concat(offerData.oldAttachments) : offerData.oldAttachments
-        }
+        offerData = this.translateOfferData(offerData, data, files, true);
 
         // Get offer data
         const { id, title, category, keywords, country, postalCode, city, street, description,
@@ -711,16 +780,79 @@ export class OfferService {
             .execute();
     }
 
-    async getOffersByAgency(email) {
+    async getOffersByAgency(email, lang) {
         // Get agency id
         const agency = await this.agencyRepository.findOneBy({email});
         const agencyId = agency.id;
 
-        // Get job offers
-        return this.offerRepository.findBy({agency: agencyId});
+        if(lang === 'pl') {
+            // Get job offers
+            return this.offerRepository.findBy({agency: agencyId});
+        }
+        else {
+            lang = getGoogleTranslateLanguageCode(lang);
+            const jobOffers = await this.offerRepository.findBy({agency: agencyId});
+            let i = 0;
+
+            for(const item of jobOffers) {
+                // Find offer translation
+                const offerTranslation = await this.dynamicTranslationsRepository.findBy({
+                    type: 3,
+                    lang: lang,
+                    id: item.id
+                });
+
+                if(offerTranslation?.length) {
+                    // Get translation from DB
+                    const translatedOffer = offerTranslation.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), offerTranslateObject);
+                    jobOffers[i] = {
+                        ...item,
+                        title: translatedOffer.title,
+                        keywords: translatedOffer.keywords,
+                        description: translatedOffer.description,
+                        responsibilities: translatedOffer.responsibilities,
+                        requirements: translatedOffer.requirements,
+                        benefits: translatedOffer.benefits
+                    }
+                }
+                else {
+                    // Translate by Google API
+                    const translatedOffer = await this.translationService.translateContent([item.title, item.keywords, item.description,
+                        item.responsibilities, item.requirements, item.benefits], lang);
+
+                    // Store in DB
+                    const offerId = item.id;
+                    await this.dynamicTranslationsRepository
+                        .createQueryBuilder()
+                        .insert()
+                        .values(translatedOffer.map((item, index) => ({
+                            type: 3,
+                            id: offerId,
+                            field: offerTranslateFields[index],
+                            lang: lang,
+                            value: item
+                        })))
+                        .execute();
+
+                    jobOffers[i] = {
+                        ...item,
+                        title: translatedOffer[0],
+                        keywords: translatedOffer[1],
+                        description: translatedOffer[2],
+                        responsibilities: translatedOffer[3],
+                        requirements: translatedOffer[4],
+                        benefits: translatedOffer[5]
+                    }
+                }
+
+                i++;
+            }
+
+            return jobOffers;
+        }
     }
 
-    async getFastOffersByAgency(email) {
+    async getFastOffersByAgency(email, lang) {
         // Get agency id
         const agency = await this.agencyRepository.findOneBy({email});
         const agencyId = agency.id;
@@ -737,20 +869,232 @@ export class OfferService {
         return this.fastOfferRepository.delete({id});
     }
 
-    async getOfferById(id) {
-        return this.offerRepository
-            .createQueryBuilder('o')
-            .where(`o.id = :id`, {id})
-            .innerJoinAndSelect('agency', 'a', 'o.agency = a.id')
-            .getRawMany();
+    async getOfferById(id, lang) {
+        lang = getGoogleTranslateLanguageCode(lang);
+
+        if(lang === 'pl') {
+            return this.offerRepository
+                .createQueryBuilder('o')
+                .where(`o.id = :id`, {id})
+                .innerJoinAndSelect('agency', 'a', 'o.agency = a.id')
+                .getRawMany();
+        }
+        else {
+            // Get original data
+            const originalData = await this.offerRepository
+                .createQueryBuilder('o')
+                .where(`o.id = :id`, {id})
+                .innerJoinAndSelect('agency', 'a', 'o.agency = a.id')
+                .getRawMany();
+            const org = originalData[0];
+            const orgAgency = JSON.parse(org.a_data);
+
+            // Checking for translation in DB
+            const storedTranslationOffer = await this.dynamicTranslationsRepository.findBy({
+                type: 3,
+                lang: lang,
+                id: id
+            });
+            const storedTranslationAgency = await this.dynamicTranslationsRepository.findBy({
+                type: 2,
+                lang: lang,
+                id: org.a_id
+            });
+
+            let translatedOffer, translatedAgency;
+            let translatedOfferArray, translatedAgencyArray;
+
+            // Get stored offer or translate by Google API
+            if(storedTranslationOffer?.length) {
+                translatedOffer = storedTranslationOffer.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), offerTranslateObject);
+            }
+            else {
+                // Translate
+                translatedOfferArray = await this.translationService.translateContent([org.o_title, org.o_keywords, org.o_description,
+                    org.o_responsibilities, org.o_requirements, org.o_benefits], lang);
+                translatedOffer = {
+                    title: translatedOfferArray[0],
+                    keywords: translatedOfferArray[1],
+                    description: translatedOfferArray[2],
+                    responsibilities: translatedOfferArray[3],
+                    requirements: translatedOfferArray[4],
+                    benefits: translatedOfferArray[5]
+                }
+
+                // Store in DB
+                await this.dynamicTranslationsRepository
+                    .createQueryBuilder()
+                    .insert()
+                    .values(translatedOfferArray.map((item, index) => ({
+                        type: 3,
+                        id: id,
+                        field: offerTranslateFields[index],
+                        lang: lang,
+                        value: item
+                    })))
+                    .execute();
+            }
+
+            // Get stored agency or translate by Google API
+            if(storedTranslationAgency?.length) {
+                translatedAgency = storedTranslationAgency.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), agencyTranslateObject);
+            }
+            else {
+                // Translate
+                translatedAgencyArray = await this.translationService.translateContent([orgAgency.description,
+                    orgAgency.recruitmentProcess, orgAgency.benefits, orgAgency.roomDescription], lang);
+                translatedAgency = {
+                    description: translatedAgencyArray[0],
+                    recruitmentProcess: translatedAgencyArray[1],
+                    benefits: translatedAgencyArray[2],
+                    roomDescription: translatedAgencyArray[3]
+                }
+
+                // Store in DB
+                await this.dynamicTranslationsRepository
+                    .createQueryBuilder()
+                    .insert()
+                    .values(translatedAgencyArray.map((item, index) => ({
+                        type: 2,
+                        id: org.a_id,
+                        field: agencyTranslateFields[index],
+                        lang: lang,
+                        value: item
+                    })))
+                    .execute();
+            }
+
+            return {
+                ...org,
+                o_title: translatedOffer.title,
+                o_keywords: translatedOffer.keywords,
+                o_description: translatedOffer.description,
+                o_responsibilities: translatedOffer.responsibilities,
+                o_requirements: translatedOffer.requirements,
+                o_benefits: translatedOffer.benefits,
+                a_data: JSON.stringify({
+                    ...orgAgency,
+                    description: translatedAgency.description,
+                    recruitmentProcess: translatedAgency.recruitmentProcess,
+                    benefits: translatedAgency.benefits,
+                    roomDescription: translatedAgency.roomDescription
+                })
+            }
+        }
     }
 
-    async getFastOfferById(id) {
-        return this.fastOfferRepository
-            .createQueryBuilder('o')
-            .where(`o.id = :id`, {id})
-            .innerJoinAndSelect('agency', 'a', 'o.agency = a.id')
-            .getRawMany();
+    async getFastOfferById(id, lang) {
+        lang = getGoogleTranslateLanguageCode(lang);
+
+        if(lang === 'pl') {
+            return this.fastOfferRepository
+                .createQueryBuilder('o')
+                .where(`o.id = :id`, {id})
+                .innerJoinAndSelect('agency', 'a', 'o.agency = a.id')
+                .getRawMany();
+        }
+        else {
+            // Get original data
+            const originalData = await this.fastOfferRepository
+                .createQueryBuilder('o')
+                .where(`o.id = :id`, {id})
+                .innerJoinAndSelect('agency', 'a', 'o.agency = a.id')
+                .getRawMany();
+            const org = originalData[0];
+            const orgAgency = JSON.parse(org.a_data);
+
+            // Checking for translation in DB
+            const storedTranslationOffer = await this.dynamicTranslationsRepository.findBy({
+                type: 4,
+                lang: lang,
+                id: id
+            });
+            const storedTranslationAgency = await this.dynamicTranslationsRepository.findBy({
+                type: 2,
+                lang: lang,
+                id: org.a_id
+            });
+
+            let translatedOffer, translatedAgency;
+            let translatedOfferArray, translatedAgencyArray;
+
+            // Get stored offer or translate by Google API
+            if(storedTranslationOffer?.length) {
+                translatedOffer = storedTranslationOffer.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), offerTranslateObject);
+            }
+            else {
+                // Translate
+                translatedOfferArray = await this.translationService.translateContent([org.o_title, org.o_keywords, org.o_description,
+                    org.o_responsibilities, org.o_requirements, org.o_benefits], lang);
+                translatedOffer = {
+                    title: translatedOfferArray[0],
+                    keywords: translatedOfferArray[1],
+                    description: translatedOfferArray[2],
+                    responsibilities: translatedOfferArray[3],
+                    requirements: translatedOfferArray[4],
+                    benefits: translatedOfferArray[5]
+                }
+
+                // Store in DB
+                await this.dynamicTranslationsRepository
+                    .createQueryBuilder()
+                    .insert()
+                    .values(translatedOfferArray.map((item, index) => ({
+                        type: 4,
+                        id: id,
+                        field: offerTranslateFields[index],
+                        lang: lang,
+                        value: item
+                    })))
+                    .execute();
+            }
+
+            // Get stored agency or translate by Google API
+            if(storedTranslationAgency?.length) {
+                translatedAgency = storedTranslationAgency.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), agencyTranslateObject);
+            }
+            else {
+                // Translate
+                translatedAgencyArray = await this.translationService.translateContent([orgAgency.description,
+                    orgAgency.recruitmentProcess, orgAgency.benefits, orgAgency.roomDescription], lang);
+                translatedAgency = {
+                    description: translatedAgencyArray[0],
+                    recruitmentProcess: translatedAgencyArray[1],
+                    benefits: translatedAgencyArray[2],
+                    roomDescription: translatedAgencyArray[3]
+                }
+
+                // Store in DB
+                await this.dynamicTranslationsRepository
+                    .createQueryBuilder()
+                    .insert()
+                    .values(translatedAgencyArray.map((item, index) => ({
+                        type: 2,
+                        id: org.a_id,
+                        field: agencyTranslateFields[index],
+                        lang: lang,
+                        value: item
+                    })))
+                    .execute();
+            }
+
+            return {
+                ...org,
+                o_title: translatedOffer.title,
+                o_keywords: translatedOffer.keywords,
+                o_description: translatedOffer.description,
+                o_responsibilities: translatedOffer.responsibilities,
+                o_requirements: translatedOffer.requirements,
+                o_benefits: translatedOffer.benefits,
+                a_data: JSON.stringify({
+                    ...orgAgency,
+                    description: translatedAgency.description,
+                    recruitmentProcess: translatedAgency.recruitmentProcess,
+                    benefits: translatedAgency.benefits,
+                    roomDescription: translatedAgency.roomDescription
+                })
+            }
+        }
     }
 
     async addApplication(body, files) {

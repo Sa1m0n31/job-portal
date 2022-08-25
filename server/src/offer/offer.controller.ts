@@ -16,7 +16,6 @@ import {Express} from "express";
 import {OfferService} from "./offer.service";
 import {diskStorage} from "multer";
 import {FileUploadHelper} from "../common/FileUploadHelper";
-import {WrongExtensionException} from "../filters/WrongExtensionException";
 import {fileExtensionFilter} from "../common/FileExtensionFilter";
 
 @Controller('offer')
@@ -26,14 +25,14 @@ export class OfferController {
     ) {
     }
 
-    @Get('/getActive/:page')
-    getActiveOffers(@Param('page') page) {
-        return this.offerService.getActiveOffers(page);
+    @Get('/getActive/:page/:lang')
+    getActiveOffers(@Param('page') page, @Param('lang') lang) {
+        return this.offerService.getActiveOffers(page, lang);
     }
 
-    @Get('/get/:id')
-    getOfferById(@Param('id') id) {
-        return this.offerService.getOfferById(id);
+    @Get('/get/:id/:lang')
+    getOfferById(@Param('id') id, @Param('lang') lang) {
+        return this.offerService.getOfferById(id, lang);
     }
 
     @UseGuards(JwtAuthGuard)
@@ -74,9 +73,9 @@ export class OfferController {
         return this.offerService.updateOffer(body, files);
     }
 
-    @Get('/getOffersByAgency/:email')
-    getOffersByAgency(@Param('email') email) {
-        return this.offerService.getOffersByAgency(email);
+    @Get('/getOffersByAgency/:email/:lang')
+    getOffersByAgency(@Param('email') email, @Param('lang') lang) {
+        return this.offerService.getOffersByAgency(email, lang);
     }
 
     @UseGuards(JwtAuthGuard)
@@ -108,14 +107,14 @@ export class OfferController {
         return this.offerService.filterOffers(page, title, category, country, city, distance, salaryFrom, salaryTo, salaryType, salaryCurrency);
     }
 
-    @Get('/getActiveFastOffers')
-    getActiveFastOffers() {
-        return this.offerService.getActiveFastOffers();
+    @Get('/getActiveFastOffers/:lang')
+    getActiveFastOffers(@Param('lang') lang) {
+        return this.offerService.getActiveFastOffers(lang);
     }
 
-    @Get('/getFastOffer/:id')
-    getFastOfferById(@Param('id') id) {
-        return this.offerService.getFastOfferById(id);
+    @Get('/getFastOffer/:id/:lang')
+    getFastOfferById(@Param('id') id, @Param('lang') lang) {
+        return this.offerService.getFastOfferById(id, lang);
     }
 
     @UseGuards(JwtAuthGuard)
@@ -156,9 +155,9 @@ export class OfferController {
         return this.offerService.updateFastOffer(body, files);
     }
 
-    @Get('/getFastOffersByAgency/:email')
-    getFastOffersByAgency(@Param('email') email) {
-        return this.offerService.getFastOffersByAgency(email);
+    @Get('/getFastOffersByAgency/:email/:lang')
+    getFastOffersByAgency(@Param('email') email, @Param('lang') lang) {
+        return this.offerService.getFastOffersByAgency(email, lang);
     }
 
     @UseGuards(JwtAuthGuard)

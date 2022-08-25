@@ -16,11 +16,12 @@ import Gallery from "../components/Gallery";
 import backArrow from '../static/img/back-arrow-grey.svg'
 import magnifier from '../static/img/magnifier.svg'
 import userPlaceholder from '../static/img/user-placeholder.svg'
-import {addLeadingZero} from "../helpers/others";
+import {addLeadingZero, getLang} from "../helpers/others";
 import homeIcon from '../static/img/home-icon-blue.svg'
 import {authUser, getUserData, getUserFastApplications} from "../helpers/user";
 import {authAgency, getAgencyData} from "../helpers/agency";
 import {LanguageContext} from "../App";
+import LoggedUserFooter from "../components/LoggedUserFooter";
 
 const SingleFastOffer = () => {
     const [data, setData] = useState({});
@@ -90,7 +91,7 @@ const SingleFastOffer = () => {
             getFastOfferById(id)
                 .then(async (res) => {
                    if(res?.status === 200) {
-                       setOffer(res?.data[0]);
+                       setOffer(Array.isArray(res.data) ? res.data[0] : res.data);
                        const offerId = res?.data[0]?.o_id;
 
                        const userApplicationResponse = await getUserFastApplications();
@@ -315,6 +316,7 @@ const SingleFastOffer = () => {
                     </div>
                 </div> : ''}
             </main>
+            <LoggedUserFooter />
         </div> : <div className="container container--loader center">
             <Loader />
         </div>

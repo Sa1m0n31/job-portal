@@ -23,16 +23,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06c2c867-885a-4984-820a-27e97dc3ed90" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/server/double-insight-360100-04d96e01fa48.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/common/getGoogleTranslateLanguageCode.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/common/translateObjects.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Footer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/ApplicationForJobPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/ApplicationForJobPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/ContactPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/ContactPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/CV.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/CV.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/LanguagePopup.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/LanguagePopup.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/LoggedUserHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/LoggedUserHeader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/offer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/offer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/others.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/others.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AddJobOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AddJobOffer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyHomepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyHomepage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/SingleFastOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SingleFastOffer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/UserHomepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/UserHomepage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/offer/offer.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/offer/offer.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/offer/offer.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/offer/offer.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/offer/offer.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/offer/offer.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/translation/translation.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/translation/translation.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/translation/translation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/translation/translation.service.ts" afterDir="false" />
     </list>
@@ -45,8 +52,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
-        <option value="TypeScript File" />
         <option value="JavaScript File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -118,7 +125,7 @@
       <workItem from="1660935107570" duration="15571000" />
       <workItem from="1660955822318" duration="35660000" />
       <workItem from="1661180003931" duration="54229000" />
-      <workItem from="1661352379383" duration="12491000" />
+      <workItem from="1661352379383" duration="27319000" />
     </task>
     <servers />
   </component>
@@ -183,18 +190,18 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1143" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1659037306310" />
-    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1661358375841">
+    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1661377257388">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661358375841" />
-    <state x="-1304" y="240" key="run.anything.popup" timestamp="1661183038793">
+    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661377257388" />
+    <state x="-1304" y="240" key="run.anything.popup" timestamp="1661379472167">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661183038793" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1661369842972">
+    <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661379472167" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1661389341188">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661369842972" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661389341188" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

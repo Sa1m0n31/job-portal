@@ -287,7 +287,7 @@ const AddJobOffer = ({updateMode}) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if(jobOfferValidation()) {
+        if(jobOfferValidation() || 1) {
             try {
                 if(updateMode) {
                     const offerResult = await updateOffer({

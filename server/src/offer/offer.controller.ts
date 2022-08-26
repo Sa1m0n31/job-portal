@@ -103,8 +103,10 @@ export class OfferController {
 
     @Post('/filter')
     filterOffers(@Body() body) {
-        const { page, title, category, country, city, distance, salaryFrom, salaryTo, salaryType, salaryCurrency } = body;
-        return this.offerService.filterOffers(page, title, category, country, city, distance, salaryFrom, salaryTo, salaryType, salaryCurrency);
+        const { page, title, category, country, city, distance, salaryFrom, salaryTo, salaryType,
+            salaryCurrency, lang } = body;
+        return this.offerService.filterOffers(page, title, category, country, city, distance,
+            salaryFrom, salaryTo, salaryType, salaryCurrency, lang);
     }
 
     @Get('/getActiveFastOffers/:lang')

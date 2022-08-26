@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Page, Text, Font, View, Document, StyleSheet, Image} from '@react-pdf/renderer';
 import {addLeadingZero} from "../helpers/others";
+import {getUserData} from "../helpers/user";
 
 Font.register({
     family: "Roboto",
@@ -168,8 +169,32 @@ const styles = StyleSheet.create({
 });
 
 const CV = ({profileImage, fullName, phoneNumber, email, location, categories, birthday, schools, jobs, languages, additionalLanguages,
-                drivingLicence, certs, desc, companyLogo, companyName, currentPlace, availability, ownAccommodation, ownTools, salary, c}) => {
-    return <Document>
+                translate, drivingLicence, certs, desc, companyLogo, companyName, currentPlace, availability, ownAccommodation, ownTools, salary, c}) => {
+    const [user, setUser] = useState({});
+    const [render, setRender] = useState(false);
+
+    useEffect(() => {
+        if(translate) {
+            getUserData(email)
+                .then((res) => {
+                    setUser(JSON.parse(res.data.data));
+                })
+                .catch(() => {
+                    setRender(true);
+                });
+        }
+        else {
+            setRender(true);
+        }
+    }, [translate]);
+
+    useEffect(() => {
+        if(user) {
+            setRender(true);
+        }
+    }, [user]);
+
+    return render ? <Document>
         <Page size="A4" style={styles.page}>
             <View style={styles.column}>
                 {companyLogo ? <View style={styles.topRow}>
@@ -275,7 +300,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                     <Text style={styles.sectionHeader}>
                         {c.jobExperience}
                     </Text>
-                    {jobs?.map((item) => {
+                    {user?.jobs ? user.jobs?.map((item) => {
                         return <View style={styles.textContainer}>
                             <Text style={styles.schoolName}>
                                 {item.name}
@@ -286,6 +311,30 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                             <Text style={styles.schoolDate}>
                                 {item.from} - {item.to ? item.to : c.during}
                             </Text>
+                            {Array.isArray(item?.responsibilities) ? item.responsibilities.map((item, index) => {
+                                return <Text style={styles.textWithMarginBottom}
+                                             key={index}>
+                                    &bull; {item}
+                                </Text>
+                            }) : ''}
+                        </View>
+                    }) : jobs?.map((item) => {
+                        return <View style={styles.textContainer}>
+                            <Text style={styles.schoolName}>
+                                {item.name}
+                            </Text>
+                            <Text style={styles.schoolTitle}>
+                                {item.title}
+                            </Text>
+                            <Text style={styles.schoolDate}>
+                                {item.from} - {item.to ? item.to : c.during}
+                            </Text>
+                            {Array.isArray(item?.responsibilities) ? item.responsibilities.map((item, index) => {
+                                return <Text style={styles.textWithMarginBottom}
+                                             key={index}>
+                                    &bull; {item}
+                                </Text>
+                            }) : ''}
                         </View>
                     })}
                 </View> : ''}
@@ -329,7 +378,13 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                     <Text style={styles.sectionHeader}>
                         {c.coursesAndCertificates}
                     </Text>
-                    {certs?.map((item) => {
+                    {user?.certificates ? user.certificates?.map((item) => {
+                        return <View style={styles.textContainer}>
+                            <Text style={styles.textWithMarginBottom}>
+                                &bull; {item}
+                            </Text>
+                        </View>
+                    }) : certs?.map((item) => {
                         return <View style={styles.textContainer}>
                             <Text style={styles.textWithMarginBottom}>
                                 &bull; {item}
@@ -343,7 +398,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                         {c.currentSituationDescription}
                     </Text>
                     <Text style={styles.descText}>
-                        {desc}
+                        {user?.situationDescription ? user.situationDescription : desc}
                     </Text>
                 </View> : ''}
 
@@ -381,6 +436,10 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                     </>: ''}
                 </View>
             </View>
+        </Page>
+    </Document> : <Document>
+        <Page size="A4" style={styles.page}>
+            Something went wrong...
         </Page>
     </Document>
 };

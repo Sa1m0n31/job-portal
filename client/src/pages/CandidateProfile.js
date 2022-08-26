@@ -23,6 +23,7 @@ import {PDFDownloadLink} from "@react-pdf/renderer";
 import CV from "../components/CV";
 import {authAgency, getAgencyData} from "../helpers/agency";
 import {LanguageContext} from "../App";
+import LoggedUserFooter from "../components/LoggedUserFooter";
 
 const CandidateProfile = () => {
     const [data, setData] = useState({});
@@ -63,9 +64,7 @@ const CandidateProfile = () => {
                         window.location = '/';
                     });
             });
-    }, []);
 
-    useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
         if(id) {
@@ -74,7 +73,10 @@ const CandidateProfile = () => {
                 .then((res) => {
                     if(res?.status === 200) {
                         setEmail(res?.data?.email);
-                        setUser(JSON.parse(res?.data?.data));
+                        const d = JSON.parse(res?.data?.data);
+                        setUser(d);
+                        console.log(d);
+                        console.log(d.jobs);
                     }
                 })
                 .catch((err) => {
@@ -174,9 +176,10 @@ const CandidateProfile = () => {
                 </div>
 
                 <div className="userAccount__box__right">
-                    <label className="userAccount__box__downloadCV">
+                    {user?.firstName && user?.lastName ? <label className="userAccount__box__downloadCV">
                         {c.generateAndDownloadCV}:
                         {user ? <PDFDownloadLink document={<CV profileImage={user.profileImage ? `${settings.API_URL}/${user?.profileImage}` : userPlaceholder}
+                                                               c={c}
                                                                companyLogo={`${settings.API_URL}/${data.logo}`}
                                                                companyName={data.name}
                                                                fullName={`${user.firstName} ${user.lastName}`}
@@ -188,7 +191,7 @@ const CandidateProfile = () => {
                                                                additionalLanguages={user.extraLanguages}
                                                                languages={user.languages}
                                                                drivingLicence={user.drivingLicenceCategories}
-                                                               certs={user.certificates.concat(user.courses)}
+                                                               certs={user.certificates && user.courses ? user.certificates.concat(user.courses) : []}
                                                                desc={user.situationDescription}
                                                                phoneNumber={user.phoneNumber ? `${user.phoneNumberCountry} ${user.phoneNumber}` : c.noInfo}
                                                                location={user.country >= 0 ? `${user.city}, ${JSON.parse(c.countries)[user.country]}` : c.noInfo}
@@ -201,9 +204,9 @@ const CandidateProfile = () => {
                                                  fileName={`CV-${user.firstName}_${user.lastName}.pdf`}
                                                  className="btn btn--downloadCV">
                             <img className="img" src={downloadWhite} alt="pobierz" />
-                            Pobierz CV
+                            {c.downloadCV}
                         </PDFDownloadLink> : ''}
-                    </label>
+                    </label> : ''}
                 </div>
             </main>
 
@@ -286,7 +289,7 @@ const CandidateProfile = () => {
                 <h3 className="userAccount__box__header">
                     {c.jobExperience}
                 </h3>
-                {user?.jobs?.map((item, index) => {
+                {user.jobs ? user?.jobs?.map((item, index) => {
                     return <div className="userAccount__school flex flex--start" key={index}>
                         <figure className="center">
                             <img className="img img--suitcase" src={suitcaseBlue} alt="praca" />
@@ -303,7 +306,7 @@ const CandidateProfile = () => {
                             </h6>
                         </div>
                     </div>
-                })}
+                }) : ''}
             </div>
 
             {/* THIRD LINE */}
@@ -347,19 +350,19 @@ const CandidateProfile = () => {
                 <h3 className="userAccount__box__header">
                     {c.finishedCoursesAndSchools}
                 </h3>
-                {user?.courses?.map((item, index) => {
+                {user?.courses ? user?.courses?.map((item, index) => {
                     return <div className="userAccount__course" key={index}>
                         <img className="img" src={starIcon} alt="gwiazdka" />
                         {item}
                     </div>
-                })}
+                }) : ''}
 
-                {user?.certificates?.map((item, index) => {
+                {user?.certificates ? user?.certificates?.map((item, index) => {
                     return <div className="userAccount__course" key={index}>
                         <img className="img" src={starIcon} alt="gwiazdka" />
                         {item}
                     </div>
-                })}
+                }) : ''}
             </div>
 
             <div className="userAccount__box userAccount__box--40">
@@ -437,7 +440,8 @@ const CandidateProfile = () => {
                 })}
             </div>
         </div>
-    </div> : <div className="center">
+        <LoggedUserFooter />
+    </div> : <div className="container container--height100 center">
         <Loader />
     </div>
 };

@@ -89,9 +89,9 @@ export class UserController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Get('/getUserData/:email')
-    getUserData(@Param('email') email) {
-        return this.userService.getUserData(email);
+    @Get('/getUserData/:email/:lang')
+    getUserData(@Param('email') email, @Param('lang') lang) {
+        return this.userService.getUserData(email, lang);
     }
 
     @Patch('/toggleUserVisibility/:email')
@@ -129,9 +129,9 @@ export class UserController {
         return this.userService.filter(body);
     }
 
-    @Get('/getUserById/:id')
-    getUserById(@Param('id') id) {
-        return this.userService.getUserById(id);
+    @Get('/getUserById/:id/:lang')
+    getUserById(@Param('id') id, @Param('lang') lang) {
+        return this.userService.getUserById(id, lang);
     }
 
     @Get('/getNotifications/:email')

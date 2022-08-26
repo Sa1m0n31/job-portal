@@ -239,6 +239,7 @@ const ApplicationForJobPage = ({data}) => {
                 </h3>
                 <div className="application__buttons flex flex--start">
                     {data ? <PDFDownloadLink document={<CV profileImage={`${settings.API_URL}/${data?.profileImage}`}
+                                                           c={c}
                                                            fullName={`${data.firstName} ${data.lastName}`}
                                                            categories={data.categories}
                                                            email={data.email}

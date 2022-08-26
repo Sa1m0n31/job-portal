@@ -76,7 +76,6 @@ const AgencyEditData = () => {
     const [currentForm, setCurrentForm] = useState(null);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-
     const [countriesVisible, setCountriesVisible] = useState(false);
     const [phoneNumbersCountriesVisible, setPhoneNumbersCountriesVisible] = useState(false);
     const [nipCountriesVisible, setNipCountriesVisible] = useState(false);
@@ -174,6 +173,7 @@ const AgencyEditData = () => {
                 }
                 else {
                     setCurrentForm(<AgencyForm4c setDayVisible={setDayVisible}
+                                                 loading={loading}
                                                  setHealthInsuranceCurrencyVisible={setHealthInsuranceCurrencyVisible}
                                                  setHealthInsuranceVisible={setHealthInsuranceVisible}
                                                  setHolidayAllowanceFrequencyVisible={setHolidayAllowanceFrequencyVisible}

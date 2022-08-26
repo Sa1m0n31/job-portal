@@ -1,5 +1,5 @@
 import axios from "axios";
-import {getAuthHeader, getLoggedUserEmail} from "./others";
+import {getAuthHeader, getLang, getLoggedUserEmail} from "./others";
 import settings from "../static/settings";
 import Cookies from "universal-cookie";
 
@@ -35,7 +35,7 @@ const verifyAgency = (token) => {
 }
 
 const getAgencyData = () => {
-    return axios.get(`/agency/getAgencyData/${getLoggedUserEmail()}`, {
+    return axios.get(`/agency/getAgencyData/${getLoggedUserEmail()}/${getLang()}`, {
         headers: {
             Authorization: getAuthHeader()
         }
@@ -43,7 +43,7 @@ const getAgencyData = () => {
 }
 
 const getAgencyById = (id) => {
-    return axios.get(`/agency/getAgencyById/${id}`, {
+    return axios.get(`/agency/getAgencyById/${id}/${getLang()}`, {
         headers: {
             Authorization: getAuthHeader()
         }
@@ -79,7 +79,6 @@ const getAllApprovedAgencies = (page) => {
 }
 
 const filterAgencies = (country, city, distance, sorting, page) => {
-    console.log('filter');
     return axios.post(`/agency/filter`, {
         country, city, distance, page, sorting
     });

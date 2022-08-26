@@ -24,6 +24,7 @@ const UserFormSummary = () => {
         </h3>
         <div className="userForm--summary__buttons flex">
             {data?.certificates ? <PDFDownloadLink document={<CV profileImage={data?.profileImageUrl}
+                                                                 c={c}
                                                                  fullName={`${data.firstName} ${data.lastName}`}
                                                                  categories={data.categories}
                                                                  email={data.email}

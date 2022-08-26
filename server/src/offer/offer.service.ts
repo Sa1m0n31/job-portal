@@ -310,7 +310,8 @@ export class OfferService {
         }
     }
 
-    async filterOffers(page, title, category, country, city, distance, salaryFrom, salaryTo, salaryType, salaryCurrency) {
+    async filterOffers(page, title, category, country, city, distance, salaryFrom, salaryTo,
+                       salaryType, salaryCurrency, lang) {
         let where = '';
         let parameters: any = {};
         const offersPerPage = parseInt(process.env.OFFERS_PER_PAGE);
@@ -592,14 +593,130 @@ export class OfferService {
                 });
 
                 const startIndex = offersPerPage * (page-1);
-                return offersToReturn.slice(startIndex, startIndex + offersPerPage);
+                offersToReturn = offersToReturn.slice(startIndex, startIndex + offersPerPage);
+
+                // Translation
+                if(lang === 'pl' || !lang) {
+                    return offersToReturn;
+                }
+                else {
+                    const jobOffers = offersToReturn;
+                    lang = getGoogleTranslateLanguageCode(lang);
+                    let i = 0;
+
+                    for(const item of jobOffers) {
+                        // Checking for translation in DB
+                        const offerId = item.offer_id;
+                        const agencyId = item.a_id;
+
+                        const storedTranslationOffer = await this.dynamicTranslationsRepository.findBy({
+                            type: 3,
+                            lang: lang,
+                            id: offerId
+                        });
+                        const storedTranslationAgency = await this.dynamicTranslationsRepository.findBy({
+                            type: 2,
+                            lang: lang,
+                            id: agencyId
+                        });
+
+                        let translatedOffer, translatedAgency;
+                        let translatedOfferArray, translatedAgencyArray;
+                        let orgAgency = JSON.parse(item.a_data);
+
+                        // Get stored offer or translate by Google API
+                        if(storedTranslationOffer?.length) {
+                            console.log('stored');
+                            translatedOffer = storedTranslationOffer.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), offerTranslateObject);
+                        }
+                        else {
+                            // Translate
+                            console.log('new');
+                            translatedOfferArray = await this.translationService.translateContent([item.offer_title, item.offer_keywords, item.offer_description,
+                                item.offer_responsibilities, item.offer_requirements, item.offer_benefits], lang);
+                            translatedOffer = {
+                                title: translatedOfferArray[0],
+                                keywords: translatedOfferArray[1],
+                                description: translatedOfferArray[2],
+                                responsibilities: translatedOfferArray[3],
+                                requirements: translatedOfferArray[4],
+                                benefits: translatedOfferArray[5]
+                            }
+
+                            // Store in DB
+                            await this.dynamicTranslationsRepository
+                                .createQueryBuilder()
+                                .insert()
+                                .values(translatedOfferArray.map((item, index) => ({
+                                    type: 3,
+                                    id: offerId,
+                                    field: offerTranslateFields[index],
+                                    lang: lang,
+                                    value: item
+                                })))
+                                .orIgnore()
+                                .execute();
+                        }
+
+                        // Get stored agency or translate by Google API
+                        if(storedTranslationAgency?.length) {
+                            translatedAgency = storedTranslationAgency.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), agencyTranslateObject);
+                        }
+                        else {
+                            // Translate
+                            translatedAgencyArray = await this.translationService.translateContent([orgAgency.description,
+                                orgAgency.recruitmentProcess, orgAgency.benefits, orgAgency.roomDescription], lang);
+                            translatedAgency = {
+                                description: translatedAgencyArray[0],
+                                recruitmentProcess: translatedAgencyArray[1],
+                                benefits: translatedAgencyArray[2],
+                                roomDescription: translatedAgencyArray[3]
+                            }
+
+                            // Store in DB
+                            await this.dynamicTranslationsRepository
+                                .createQueryBuilder()
+                                .insert()
+                                .values(translatedAgencyArray.map((item, index) => ({
+                                    type: 2,
+                                    id: agencyId,
+                                    field: agencyTranslateFields[index],
+                                    lang: lang,
+                                    value: item
+                                })))
+                                .orIgnore()
+                                .execute();
+                        }
+
+                        jobOffers[i] = {
+                            ...item,
+                            offer_title: translatedOffer.title,
+                            offer_keywords: translatedOffer.keywords,
+                            offer_description: translatedOffer.description,
+                            offer_responsibilities: translatedOffer.responsibilities,
+                            offer_requirements: translatedOffer.requirements,
+                            offer_benefits: translatedOffer.benefits,
+                            a_data: JSON.stringify({
+                                ...orgAgency,
+                                description: translatedAgency.description,
+                                recruitmentProcess: translatedAgency.recruitmentProcess,
+                                benefits: translatedAgency.benefits,
+                                roomDescription: translatedAgency.roomDescription
+                            })
+                        }
+
+                        i++;
+                    }
+
+                    return jobOffers;
+                }
             }
             else {
                 return [];
             }
         }
         else {
-            return await this.offerRepository
+            const offersToReturn = await this.offerRepository
                 .createQueryBuilder('offer')
                 .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
                 .where(where, parameters)
@@ -608,6 +725,122 @@ export class OfferService {
                 .limit(offersPerPage)
                 .offset((page-1) * offersPerPage)
                 .getRawMany();
+
+            if(lang === 'pl' || !lang) {
+                return offersToReturn;
+            }
+            else {
+                // Translation
+                const jobOffers = offersToReturn;
+                lang = getGoogleTranslateLanguageCode(lang);
+                let i = 0;
+
+                for(const item of jobOffers) {
+                    // Checking for translation in DB
+                    const offerId = item.offer_id;
+                    const agencyId = item.a_id;
+
+                    const storedTranslationOffer = await this.dynamicTranslationsRepository.findBy({
+                        type: 3,
+                        lang: lang,
+                        id: offerId
+                    });
+                    const storedTranslationAgency = await this.dynamicTranslationsRepository.findBy({
+                        type: 2,
+                        lang: lang,
+                        id: agencyId
+                    });
+
+                    let translatedOffer, translatedAgency;
+                    let translatedOfferArray, translatedAgencyArray;
+                    let orgAgency = JSON.parse(item.a_data);
+
+                    // Get stored offer or translate by Google API
+                    if(storedTranslationOffer?.length) {
+                        console.log('stored');
+                        translatedOffer = storedTranslationOffer.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), offerTranslateObject);
+                    }
+                    else {
+                        // Translate
+                        console.log('new');
+                        translatedOfferArray = await this.translationService.translateContent([item.offer_title, item.offer_keywords, item.offer_description,
+                            item.offer_responsibilities, item.offer_requirements, item.offer_benefits], lang);
+                        translatedOffer = {
+                            title: translatedOfferArray[0],
+                            keywords: translatedOfferArray[1],
+                            description: translatedOfferArray[2],
+                            responsibilities: translatedOfferArray[3],
+                            requirements: translatedOfferArray[4],
+                            benefits: translatedOfferArray[5]
+                        }
+
+                        // Store in DB
+                        await this.dynamicTranslationsRepository
+                            .createQueryBuilder()
+                            .insert()
+                            .values(translatedOfferArray.map((item, index) => ({
+                                type: 3,
+                                id: offerId,
+                                field: offerTranslateFields[index],
+                                lang: lang,
+                                value: item
+                            })))
+                            .orIgnore()
+                            .execute();
+                    }
+
+                    // Get stored agency or translate by Google API
+                    if(storedTranslationAgency?.length) {
+                        translatedAgency = storedTranslationAgency.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), agencyTranslateObject);
+                    }
+                    else {
+                        // Translate
+                        translatedAgencyArray = await this.translationService.translateContent([orgAgency.description,
+                            orgAgency.recruitmentProcess, orgAgency.benefits, orgAgency.roomDescription], lang);
+                        translatedAgency = {
+                            description: translatedAgencyArray[0],
+                            recruitmentProcess: translatedAgencyArray[1],
+                            benefits: translatedAgencyArray[2],
+                            roomDescription: translatedAgencyArray[3]
+                        }
+
+                        // Store in DB
+                        await this.dynamicTranslationsRepository
+                            .createQueryBuilder()
+                            .insert()
+                            .values(translatedAgencyArray.map((item, index) => ({
+                                type: 2,
+                                id: agencyId,
+                                field: agencyTranslateFields[index],
+                                lang: lang,
+                                value: item
+                            })))
+                            .orIgnore()
+                            .execute();
+                    }
+
+                    jobOffers[i] = {
+                        ...item,
+                        offer_title: translatedOffer.title,
+                        offer_keywords: translatedOffer.keywords,
+                        offer_description: translatedOffer.description,
+                        offer_responsibilities: translatedOffer.responsibilities,
+                        offer_requirements: translatedOffer.requirements,
+                        offer_benefits: translatedOffer.benefits,
+                        a_data: JSON.stringify({
+                            ...orgAgency,
+                            description: translatedAgency.description,
+                            recruitmentProcess: translatedAgency.recruitmentProcess,
+                            benefits: translatedAgency.benefits,
+                            roomDescription: translatedAgency.roomDescription
+                        })
+                    }
+
+                    i++;
+                }
+
+                return jobOffers;
+            }
         }
     }
 

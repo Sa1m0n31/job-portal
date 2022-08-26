@@ -1,7 +1,7 @@
 import {BadRequestException, HttpException, Injectable} from '@nestjs/common';
 import * as crypto from 'crypto'
 import {InjectRepository} from "@nestjs/typeorm";
-import {createQueryBuilder, Like, Repository} from "typeorm";
+import {Repository} from "typeorm";
 import {CreateUserDto} from "../dto/create-user.dto";
 import { v4 as uuid } from 'uuid';
 import {MailerService} from "@nestjs-modules/mailer";
@@ -14,6 +14,15 @@ import {Offer} from "../entities/offer.entity";
 import {calculateDistance} from "../common/calculateDistance";
 import {Notifications} from "../entities/notifications.entity";
 import {Password_tokens} from "../entities/password_tokens.entity";
+import {TranslationService} from "../translation/translation.service";
+import {Dynamic_translations} from "../entities/dynamic_translations";
+import {getGoogleTranslateLanguageCode} from "../common/getGoogleTranslateLanguageCode";
+import {
+    agencyTranslateFields,
+    agencyTranslateObject,
+    offerTranslateFields,
+    offerTranslateObject
+} from "../common/translateObjects";
 
 @Injectable()
 export class AgencyService {
@@ -28,9 +37,12 @@ export class AgencyService {
         private readonly notificationsRepository: Repository<Notifications>,
         @InjectRepository(Password_tokens)
         private readonly passwordRepository: Repository<Password_tokens>,
+        @InjectRepository(Dynamic_translations)
+        private readonly dynamicTranslationsRepository: Repository<Dynamic_translations>,
         private readonly mailerService: MailerService,
         private readonly jwtTokenService: JwtService,
-        private readonly httpService: HttpService
+        private readonly httpService: HttpService,
+        private readonly translationService: TranslationService
     ) {
     }
 
@@ -134,6 +146,61 @@ export class AgencyService {
         }
     }
 
+    getLanguageSample(data) {
+        if(data.roomDescription) {
+            return data.roomDescription;
+        }
+        else if(data.benefits) {
+            return data.benefits.slice(0, 100);
+        }
+        else if(data.recruitmentProcess) {
+            return data.recruitmentProcess.slice(0, 100);
+        }
+        else if(data.description) {
+            return data.description.slice(0, 100);
+        }
+        else {
+            return '';
+        }
+    }
+
+    async translateAgencyData(agencyData, currentGallery, files) {
+        // Detect language
+        const languageSample = this.getLanguageSample(agencyData);
+        const lang = languageSample ? await this.translationService.detect(languageSample) : 'pl';
+
+        if(lang === 'pl') {
+            // Add filenames
+            return {
+                ...agencyData,
+                logo: files.logo ? files.logo[0].path : agencyData.logoUrl,
+                gallery: files.gallery ? Array.from(files.gallery).map((item: any) => {
+                    return item.path ? item.path : (item?.url ? item.url : item);
+                }).concat(currentGallery) : agencyData.gallery?.map((item) => (item.url))
+            }
+        }
+        else {
+            // Translate to Polish
+            const contentToTranslate = [agencyData.description, agencyData.recruitmentProcess,
+                agencyData.benefits, agencyData.roomDescription];
+            const polishVersionResponse = await this.translationService.translateContent(JSON.stringify(contentToTranslate), 'pl');
+            const polishVersion = JSON.parse(polishVersionResponse);
+
+            // Add filenames
+            return {
+                ...agencyData,
+                description: polishVersion[0],
+                recruitmentProcess: polishVersion[1],
+                benefits: polishVersion[2],
+                roomDescription: polishVersion[3],
+                logo: files.logo ? files.logo[0].path : agencyData.logoUrl,
+                gallery: files.gallery ? Array.from(files.gallery).map((item: any) => {
+                    return item.path ? item.path : (item?.url ? item.url : item);
+                }).concat(currentGallery) : agencyData.gallery?.map((item) => (item.url))
+            }
+        }
+    }
+
     async updateAgency(data, files) {
         // Get current gallery
         let currentGallery = [];
@@ -145,23 +212,26 @@ export class AgencyService {
         const email = data.email;
         let agencyData = JSON.parse(data.agencyData);
 
-        agencyData = {
-            ...agencyData,
-            logo: files.logo ? files.logo[0].path : agencyData.logoUrl,
-            gallery: files.gallery ? Array.from(files.gallery).map((item: any) => {
-                return item.path ? item.path : (item?.url ? item.url : item);
-            }).concat(currentGallery) : agencyData.gallery?.map((item) => (item.url))
-        }
+        // Detect language and translate if not Polish
+        agencyData = await this.translateAgencyData(agencyData, currentGallery, files);
 
         // TODO: email update
 
-        const apiResponse = await lastValueFrom(this.httpService.get(encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${agencyData.city}`)));
+        // Get latitude and longitude
+        const apiResponse = await lastValueFrom(this.httpService.get(
+            encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${agencyData.city}`)));
         const apiData = apiResponse.data.data;
 
         if(apiData?.length) {
             lat = apiData[0].latitude;
             lng = apiData[0].longitude;
         }
+
+        // Remove translations
+        const deleteRes = await this.dynamicTranslationsRepository.delete({
+            type: 2,
+            id: oldAgencyData.id
+        });
 
         // Modify record in database
         return this.agencyRepository.createQueryBuilder()
@@ -176,18 +246,128 @@ export class AgencyService {
             .execute();
     }
 
-    async getAgencyData(email: string) {
-        return this.agencyRepository.findOneBy({email});
+    async getAgencyData(email: string, lang: string) {
+        if(lang === 'pl' || !lang) {
+            return this.agencyRepository.findOneBy({email});
+        }
+        else {
+            lang = getGoogleTranslateLanguageCode(lang);
+            const agency = await this.agencyRepository.findOneBy({email});
+            const agencyData = JSON.parse(agency.data);
+            let agencyTranslationData;
+
+            // Find agency translation
+            const agencyTranslation = await this.dynamicTranslationsRepository.findBy({
+                type: 2,
+                lang: lang,
+                id: agency.id
+            });
+
+            if(agencyTranslation?.length) {
+                agencyTranslationData = agencyTranslation.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), agencyTranslateObject);
+            }
+            else {
+                // Translate by Google API
+                const translatedAgencyArray = await this.translationService.translateContent([agencyData.description,
+                    agencyData.recruitmentProcess, agencyData.benefits, agencyData.roomDescription], lang);
+                agencyTranslationData = {
+                    description: translatedAgencyArray[0],
+                    recruitmentProcess: translatedAgencyArray[1],
+                    benefits: translatedAgencyArray[2],
+                    roomDescription: translatedAgencyArray[3]
+                }
+
+                // Store in DB
+                await this.dynamicTranslationsRepository
+                    .createQueryBuilder()
+                    .insert()
+                    .values(translatedAgencyArray.map((item, index) => ({
+                        type: 2,
+                        id: agency.id,
+                        field: agencyTranslateFields[index],
+                        lang: lang,
+                        value: item
+                    })))
+                    .orIgnore()
+                    .execute();
+            }
+
+            return {
+                ...agency,
+                data: JSON.stringify({
+                    ...agencyData,
+                    description: agencyTranslationData.description,
+                    recruitmentProcess: agencyTranslationData.recruitmentProcess,
+                    benefits: agencyTranslationData.benefits,
+                    roomDescription: agencyTranslationData.roomDescription
+                })
+            }
+        }
     }
 
-    async getAgencyById(id) {
-        return this.agencyRepository.findOneBy({id});
+    async getAgencyById(id, lang) {
+        if(lang === 'pl' || !lang) {
+            return this.agencyRepository.findOneBy({id});
+        }
+        else {
+            lang = getGoogleTranslateLanguageCode(lang);
+            const agency = await this.agencyRepository.findOneBy({id});
+            const agencyData = JSON.parse(agency.data);
+            let agencyTranslationData;
+
+            // Find agency translation
+            const agencyTranslation = await this.dynamicTranslationsRepository.findBy({
+                type: 2,
+                lang: lang,
+                id: agency.id
+            });
+
+            if(agencyTranslation?.length) {
+                agencyTranslationData = agencyTranslation.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), agencyTranslateObject);
+            }
+            else {
+                // Translate by Google API
+                const translatedAgencyArray = await this.translationService.translateContent([agencyData.description,
+                    agencyData.recruitmentProcess, agencyData.benefits, agencyData.roomDescription], lang);
+                agencyTranslationData = {
+                    description: translatedAgencyArray[0],
+                    recruitmentProcess: translatedAgencyArray[1],
+                    benefits: translatedAgencyArray[2],
+                    roomDescription: translatedAgencyArray[3]
+                }
+
+                // Store in DB
+                await this.dynamicTranslationsRepository
+                    .createQueryBuilder()
+                    .insert()
+                    .values(translatedAgencyArray.map((item, index) => ({
+                        type: 2,
+                        id: agency.id,
+                        field: agencyTranslateFields[index],
+                        lang: lang,
+                        value: item
+                    })))
+                    .orIgnore()
+                    .execute();
+            }
+
+            return {
+                ...agency,
+                data: JSON.stringify({
+                    ...agencyData,
+                    description: agencyTranslationData.description,
+                    recruitmentProcess: agencyTranslationData.recruitmentProcess,
+                    benefits: agencyTranslationData.benefits,
+                    roomDescription: agencyTranslationData.roomDescription
+                })
+            }
+        }
     }
 
     async getAllApprovedAgencies(page) {
         if(!isNaN(page)) {
             const perPage = parseInt(process.env.OFFERS_PER_PAGE);
-            return this.agencyRepository.createQueryBuilder()
+            return await this.agencyRepository.createQueryBuilder()
                 .where({
                     active: true,
                     accepted: true
@@ -259,8 +439,6 @@ export class AgencyService {
 
     async filterAgencies(body) {
         let { country, distance, city, sorting, page } = body;
-
-        console.log(page);
 
         const distances = [
             100, 50, 40, 30, 20, 10, 5

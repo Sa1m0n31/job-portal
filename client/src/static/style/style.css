@@ -3810,6 +3810,7 @@ div[data-testid=circles-loading] {
 .preview__buttons__section {
     color: var(--grey);
     font-size: 14px;
+    text-align: right;
 }
 
 .preview__buttons__section--flex {

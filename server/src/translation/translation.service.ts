@@ -3,6 +3,7 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {Static_translations} from "../entities/static_translations";
 import {Repository} from "typeorm";
 import {Dynamic_translations} from "../entities/dynamic_translations";
+import {removeLanguageSpecificCharacters} from "../common/removeLanguageSpecificCharacters";
 const {Translate} = require('@google-cloud/translate').v2;
 const translate = require('google-translate-api');
 
@@ -51,14 +52,41 @@ export class TranslationService {
         let translationResult = [];
 
         async function translateText(chunk) {
-            let [translations] = await translate.translate(chunk, to);
-            translations = Array.isArray(translations) ? translations : [translations];
-            translations.forEach((translation) => {
-                translationResult.push(translation);
-            });
+            let translations = [];
+
+            if(chunk?.length) {
+                if(Array.isArray(chunk[0])) {
+                    for(const el of chunk) {
+                        let res = await translate.translate(el, to);
+                        translations.push(res[1].data.translations.map((item) => {
+                            return item.translatedText;
+                        }));
+                    }
+                }
+                else {
+                    console.log('else');
+                    console.log(chunk);
+                    console.log(typeof chunk);
+                    const res  = await translate.translate(chunk, to);
+                    if(res[1].data.translations.length === 1) {
+                        translations = res[1].data.translations[0].translatedText;
+                    }
+                    else {
+                        translations = res[1].data.translations.map((item) => (item.translatedText));
+                    }
+                }
+
+                translations = Array.isArray(translations) ? removeLanguageSpecificCharacters(JSON.stringify(translations.map((item) => (item)))) : translations;
+                translationResult.push(translations);
+            }
+            else {
+                console.log('empty');
+                translationResult.push('');
+            }
         }
 
         if(Array.isArray(content)) {
+            console.log('content is array');
             for(const chunk of content) {
                 await translateText(chunk);
             }

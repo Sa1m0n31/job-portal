@@ -6,7 +6,6 @@ import phoneIcon from '../static/img/phone-grey.svg'
 import mailIcon from '../static/img/message-grey.svg'
 import websiteIcon from '../static/img/www-icon.svg'
 import settings from "../static/settings";
-import {categories, countries, noInfo, preferableContactForms} from "../static/content";
 import eyeIcon from '../static/img/eye-icon.svg'
 import messageIcon from '../static/img/message-empty.svg'
 import downloadIcon from '../static/img/download-white.svg'
@@ -15,6 +14,7 @@ import CV from "./CV";
 import {getDate} from "../helpers/others";
 import downloadWhite from "../static/img/download-white.svg";
 import {LanguageContext} from "../App";
+import CVwithTranslation from "./CVwithTranslation";
 
 const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
     const { c } = useContext(LanguageContext);
@@ -44,17 +44,17 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
 
                 {data.address || data.postalCode || data.city || data.country ? <p className="preview__data">
                     <img className="img" src={location} alt="lokalizacja" />
-                    {data.address ? data.address + ',' : ''} {data.postalCode ? data.postalCode : ''} {data.city}{data.country !== null && data.country !== undefined ? ', ' + countries[data.country] : ''}
+                    {data.address ? data.address + ',' : ''} {data.postalCode ? data.postalCode : ''} {data.city}{data.country !== null && data.country !== undefined ? ', ' + JSON.parse(c.countries)[data.country] : ''}
                 </p> : ''}
 
                 {data.categories?.length ? <p className="preview__data preview__data--nip">
                     <img className="img" src={nipIcon} alt="lokalizacja" />
                     {data.categories.map((item, index, array) => {
                         if(index !== array.length-1) {
-                            return `${categories[item]}, `;
+                            return `${JSON.parse(c.categories)[item]}, `;
                         }
                         else {
-                            return categories[item];
+                            return JSON.parse(c.categories)[item];
                         }
                     })}
                 </p> : ''}
@@ -77,36 +77,40 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
         </div>
 
         <div className="preview__buttons">
-            {data?.firstName && data?.lastName ? <div className="preview__buttons__section preview__buttons__section--cv">
-                {c.generateAndDownloadCV}:
-                <PDFDownloadLink document={<CV profileImage={`${settings.API_URL}/${data?.profileImage}`}
-                                                       fullName={`${data.firstName} ${data.lastName}`}
-                                                       companyName={companyName}
-                                                       companyLogo={companyLogo}
-                                                       categories={data.categories}
-                                                       email={data.email}
-                                                       birthday={getDate(data?.birthdayDay, data?.birthdayMonth, data?.birthdayYear)}
-                                                       schools={data.schools}
-                                                       jobs={data.jobs}
-                                                       additionalLanguages={data.extraLanguages}
-                                                       languages={data.languages}
-                                                       drivingLicence={data.drivingLicenceCategories}
-                                                       certs={data.certificates?.concat(data.courses)}
-                                                       desc={data.situationDescription}
-                                                       phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : noInfo}
-                                                       location={data.country >= 0 ? `${data.city}, ${countries[data.country]}` : noInfo}
-                                                       currentPlace={data.currentCountry >= 0 ? `${countries[data.currentCountry]}, ${data.currentCity}`: noInfo}
-                                                       availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : noInfo}
-                                                       ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}
-                                                       ownTools={data.ownTools ? 'Tak' : ''}
-                                                       salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency} netto/${data.salaryType === 0 ? 'mies.' : 'tyg.'}` : noInfo}
-                />}
-                                         fileName={`CV-${data.firstName}_${data.lastName}.pdf`}
-                                         className="btn btn--downloadCV">
-                    <img className="img" src={downloadWhite} alt="pobierz" />
-                    {c.downloadCV}
-                </PDFDownloadLink>
-            </div> : ''}
+
+            {// TODO: PDFDownloadLink generowany dopiero po kliknieciu}
+            {/*{data?.firstName && data?.lastName ? <div className="preview__buttons__section preview__buttons__section--cv">*/}
+            {/*    {c.generateAndDownloadCV}:*/}
+            {/*    <PDFDownloadLink document={<CV profileImage={`${settings.API_URL}/${data?.profileImage}`}*/}
+            {/*                                           c={c}*/}
+            {/*                                            translate={true}*/}
+            {/*                                            fullName={`${data.firstName} ${data.lastName}`}*/}
+            {/*                                           companyName={companyName}*/}
+            {/*                                           companyLogo={companyLogo}*/}
+            {/*                                           categories={data.categories}*/}
+            {/*                                           email={data.email}*/}
+            {/*                                           birthday={getDate(data?.birthdayDay, data?.birthdayMonth, data?.birthdayYear)}*/}
+            {/*                                           schools={data.schools}*/}
+            {/*                                           jobs={data.jobs}*/}
+            {/*                                           additionalLanguages={data.extraLanguages}*/}
+            {/*                                           languages={data.languages}*/}
+            {/*                                           drivingLicence={data.drivingLicenceCategories}*/}
+            {/*                                           certs={data.certificates?.concat(data.courses)}*/}
+            {/*                                           desc={data.situationDescription}*/}
+            {/*                                           phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : c.noInfo}*/}
+            {/*                                           location={data.country >= 0 ? `${data.city}, ${JSON.parse(c.countries)[data.country]}` : c.noInfo}*/}
+            {/*                                           currentPlace={data.currentCountry >= 0 ? `${JSON.parse(c.countries)[data.currentCountry]}, ${data.currentCity}`: c.noInfo}*/}
+            {/*                                           availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : c.noInfo}*/}
+            {/*                                           ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}*/}
+            {/*                                           ownTools={data.ownTools ? c.yes : ''}*/}
+            {/*                                           salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency} ${c.netto}/${data.salaryType === 0 ? c.monthlyShortcut : c.weeklyShortcut}` : c.noInfo}*/}
+            {/*    />}*/}
+            {/*                             fileName={`CV-${data.firstName}_${data.lastName}.pdf`}*/}
+            {/*                             className="btn btn--downloadCV">*/}
+            {/*        <img className="img" src={downloadWhite} alt="pobierz" />*/}
+            {/*        {c.downloadCV}*/}
+            {/*    </PDFDownloadLink>*/}
+            {/*</div> : ''}*/}
 
             <div className="preview__buttons__section preview__buttons__section--flex">
                 <span className="w-100">
@@ -149,10 +153,10 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
                 <div className="preview__bottom__content">
                     {application.preferableContact?.map((item, index, array) => {
                         if(index === array.length-1) {
-                            return preferableContactForms[item];
+                            return JSON.parse(c.preferableContactForms)[item];
                         }
                         else {
-                            return preferableContactForms[item] + ', ';
+                            return JSON.parse(c.preferableContactForms)[item] + ', ';
                         }
                     })}
                 </div>

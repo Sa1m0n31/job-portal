@@ -15,6 +15,16 @@ import {calculateDistance} from "../common/calculateDistance";
 import {Fast_applications} from "../entities/fast_applications.entity";
 import {Notifications} from "../entities/notifications.entity";
 import {Password_tokens} from "../entities/password_tokens.entity";
+import {Dynamic_translations} from "../entities/dynamic_translations";
+import {TranslationService} from "../translation/translation.service";
+import {
+    agencyTranslateFields,
+    agencyTranslateObject,
+    userTranslateFields,
+    userTranslateObject
+} from "../common/translateObjects";
+import {removeLanguageSpecificCharacters} from "../common/removeLanguageSpecificCharacters";
+import {getGoogleTranslateLanguageCode} from "../common/getGoogleTranslateLanguageCode";
 
 @Injectable()
 export class UserService {
@@ -31,9 +41,12 @@ export class UserService {
         private readonly notificationsRepository: Repository<Notifications>,
         @InjectRepository(Password_tokens)
         private readonly passwordRepository: Repository<Password_tokens>,
+        @InjectRepository(Dynamic_translations)
+        private readonly dynamicTranslationsRepository: Repository<Dynamic_translations>,
         private readonly mailerService: MailerService,
         private readonly jwtTokenService: JwtService,
-        private readonly httpService: HttpService
+        private readonly httpService: HttpService,
+        private readonly translationService: TranslationService
     ) {
     }
 
@@ -131,22 +144,91 @@ export class UserService {
         }
     }
 
+    getLanguageSample(data) {
+        if(data?.courses?.length) return data.courses[0];
+        if(data?.certificates?.length) return data.certificates[0];
+        if(data.situationDescription) return data.situationDescription.slice(0, 100);
+        if(data.extraLanguages) return data.extraLanguages;
+        return '';
+    }
+
+    async translateUserData(userData, files) {
+        const languageSample = this.getLanguageSample(userData);
+        const lang = languageSample ? await this.translationService.detect(languageSample) : 'pl';
+
+        console.log(`detected lang: ${lang}`);
+
+        if(lang === 'pl') {
+            return {
+                ...userData,
+                profileImage: files.profileImage ? files.profileImage[0].path : userData.profileImageUrl,
+                bsnNumberDocument: files.bsnNumber ? files.bsnNumber[0].path : userData.bsnNumberDocument,
+                attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
+                    return {
+                        name: userData.attachments[index].name,
+                        path: item.path
+                    }
+                }).concat(userData.oldAttachments) : userData.oldAttachments
+            }
+        }
+        else {
+            const originalData = {
+                ...userData,
+                profileImage: files.profileImage ? files.profileImage[0].path : userData.profileImageUrl,
+                bsnNumberDocument: files.bsnNumber ? files.bsnNumber[0].path : userData.bsnNumberDocument,
+                attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
+                    return {
+                        name: userData.attachments[index].name,
+                        path: item.path
+                    }
+                }).concat(userData.oldAttachments) : userData.oldAttachments
+            }
+
+            console.log('translating to polish...');
+
+            // Translate to Polish
+            const jobTitles = originalData.jobs ? originalData.jobs.map((item) => (item.title)) : '';
+            const jobResponsibilities = originalData.jobs ? originalData.jobs.map((item) => (item.responsibilities)) : '';
+
+            const contentToTranslate = [originalData.extraLanguages, originalData.courses,
+                originalData.certificates, originalData.situationDescription, jobTitles, jobResponsibilities];
+            const polishVersionResponse = await this.translationService.translateContent(JSON.stringify(contentToTranslate), 'pl');
+            const polishVersion = JSON.parse(polishVersionResponse);
+
+            console.log(polishVersion);
+
+            // Add filenames
+            return {
+                ...originalData,
+                extraLanguages: polishVersion[0],
+                courses: polishVersion[1],
+                certificates: polishVersion[2],
+                situationDescription: polishVersion[3],
+                jobs: originalData.jobs.map((item, index) => {
+                   return {
+                       ...item,
+                       title: polishVersion[4][index],
+                       responsibilities: polishVersion[5][index]
+                   }
+                }),
+                profileImage: files.profileImage ? files.profileImage[0].path : userData.profileImageUrl,
+                bsnNumberDocument: files.bsnNumber ? files.bsnNumber[0].path : userData.bsnNumberDocument,
+                attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
+                    return {
+                        name: userData.attachments[index].name,
+                        path: item.path
+                    }
+                }).concat(userData.oldAttachments) : userData.oldAttachments
+            }
+        }
+    }
+
     async updateUser(data, files) {
         // Modify user data JSON - add file paths
         const email = data.email;
         let userData = JSON.parse(data.userData);
 
-        userData = {
-            ...userData,
-            profileImage: files.profileImage ? files.profileImage[0].path : userData.profileImageUrl,
-            bsnNumberDocument: files.bsnNumber ? files.bsnNumber[0].path : userData.bsnNumberDocument,
-            attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
-                return {
-                    name: userData.attachments[index].name,
-                    path: item.path
-                }
-            }).concat(userData.oldAttachments) : userData.oldAttachments
-        }
+        userData = await this.translateUserData(userData, files);
 
         // Get new latitude and longitude
         if(userData.city) {
@@ -197,12 +279,130 @@ export class UserService {
         }
     }
 
-    async getUserData(email : string) {
-        return this.userRepository.findOneBy({email});
+    async getUser(user, id, lang) {
+        const userData = JSON.parse(user.data);
+        let userTranslationData;
+
+        lang = getGoogleTranslateLanguageCode(lang);
+
+        // Checking for translation in DB
+        const userTranslation = await this.dynamicTranslationsRepository.findBy({
+            lang: lang,
+            type: 1,
+            id: id
+        });
+
+        if(userTranslation?.length) {
+            userTranslationData = userTranslation.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), userTranslateObject);
+            userTranslationData = {
+                ...userTranslationData,
+                courses: userTranslationData.courses ? JSON.parse(userTranslationData.courses) : '',
+                certificates: userTranslationData.certificates ? JSON.parse(userTranslationData.certificates) : '',
+                jobTitles: userTranslationData.jobTitles ? JSON.parse(userTranslationData.jobTitles) : '',
+                jobResponsibilities: userTranslationData.jobResponsibilities ? JSON.parse(userTranslationData.jobResponsibilities) : ''
+            }
+        }
+        else {
+            // Translate by Google API
+            const jobsTitles = userData.jobs ? userData.jobs.map((item) => (item.title)) : [];
+            const jobsResponsibilities = userData.jobs ? userData.jobs.map((item) => (item.responsibilities)) : [];
+
+            let translatedUserArray = await this.translationService.translateContent([userData.extraLanguages,
+                userData.courses, userData.certificates, userData.situationDescription,
+                jobsTitles, jobsResponsibilities], lang);
+
+            // Strings
+            translatedUserArray = translatedUserArray.map((item, index) => {
+                if (index === 1 || index === 2 || index === 4) {
+                    if (typeof item === 'string') {
+                        if(item.slice(0, 2) !== '["' || item.split("").reverse().join("").slice(0, 2) !== ']"') {
+                            // Not array-like
+                            return removeLanguageSpecificCharacters(`["${item}"]`);
+                        }
+                        else {
+                            // Array-like
+                            return removeLanguageSpecificCharacters(item);
+                        }
+                    }
+                    else {
+                        if(item) {
+                            return removeLanguageSpecificCharacters(JSON.stringify(item));
+                        }
+                        else {
+                            return "";
+                        }
+                    }
+                } else if (index === 5) {
+                    return item ? removeLanguageSpecificCharacters(item) : '';
+                } else {
+                    return item;
+                }
+            });
+
+            console.log(translatedUserArray);
+
+            // Objects
+            userTranslationData = {
+                extraLanguages: translatedUserArray[0],
+                courses: translatedUserArray[1] ? JSON.parse(translatedUserArray[1]) : '',
+                certificates: translatedUserArray[2] ? JSON.parse(translatedUserArray[2]) : '',
+                situationDescription: translatedUserArray[3],
+                jobTitles: translatedUserArray[4],
+                jobResponsibilities: translatedUserArray[5]
+            }
+
+            // Store in DB
+            await this.dynamicTranslationsRepository
+                .createQueryBuilder()
+                .insert()
+                .values(translatedUserArray.map((item, index) => ({
+                    type: 1,
+                    id: id,
+                    field: userTranslateFields[index],
+                    lang: lang,
+                    value: typeof item === 'string' ? item : JSON.stringify(item)
+                })))
+                .orIgnore()
+                .execute();
+        }
+
+        return {
+            ...user,
+            data: JSON.stringify({
+                ...userData,
+                extraLanguages: userTranslationData.extraLanguages,
+                courses: userTranslationData.courses,
+                certificates: userTranslationData.certificates,
+                situationDescription: userTranslationData.situationDescription,
+                jobs: userData?.jobs ? userData.jobs.map((item, index) => {
+                    return {
+                        ...item,
+                        title: userTranslationData.jobTitles[index],
+                        responsibilities: userTranslationData.jobResponsibilities[index]
+                    }
+                }) : ''
+            })
+        }
     }
 
-    async getUserById(id) {
-        return this.userRepository.findOneBy({id});
+    async getUserData(email : string, lang) {
+        if(lang === 'pl' || !lang) {
+            return this.userRepository.findOneBy({email});
+        }
+        else {
+            const user = await this.userRepository.findOneBy({email});
+            return this.getUser(user, user.id, lang);
+        }
+    }
+
+    async getUserById(id, lang) {
+        if(lang === 'pl' || !lang) {
+            return this.userRepository.findOneBy({id});
+        }
+        else {
+            const user = await this.userRepository.findOneBy({id});
+            return this.getUser(user, id, lang);
+        }
     }
 
     async toggleUserVisibility(email: string) {

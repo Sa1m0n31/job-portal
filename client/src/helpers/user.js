@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {getAuthHeader, getLoggedUserEmail} from "./others";
+import {getAuthHeader, getLang, getLoggedUserEmail} from "./others";
 import settings from "../static/settings";
 import Cookies from "universal-cookie";
 
@@ -59,8 +59,8 @@ const updateUser = (data) => {
     return axios.post('/user/update', formData, config);
 }
 
-const getUserData = () => {
-    return axios.get(`/user/getUserData/${getLoggedUserEmail()}`, {
+const getUserData = (email = false) => {
+    return axios.get(`/user/getUserData/${email ? email : getLoggedUserEmail()}/${getLang()}`, {
         headers: {
             Authorization: getAuthHeader()
         }
@@ -68,7 +68,7 @@ const getUserData = () => {
 }
 
 const getUserById = (id) => {
-    return axios.get(`/user/getUserById/${id}`, {
+    return axios.get(`/user/getUserById/${id}/${getLang()}`, {
         headers: {
             Authorization: getAuthHeader()
         }

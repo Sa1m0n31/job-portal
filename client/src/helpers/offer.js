@@ -93,7 +93,8 @@ const submitApplication = (id, message, friendLink, contactForms, attachments, a
 
 const filterOffers = (page, title, category, country, city, distance, salaryType, salaryFrom, salaryTo, salaryCurrency) => {
     return axios.post(`/offer/filter`, {
-        page, title, category, country, city, distance, salaryType, salaryFrom, salaryTo, salaryCurrency
+        page, title, category, country, city, distance, salaryType, salaryFrom, salaryTo, salaryCurrency,
+        lang: getLang()
     });
 }
 

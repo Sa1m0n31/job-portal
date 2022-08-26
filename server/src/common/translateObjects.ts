@@ -4,7 +4,8 @@ const userTranslateObject = {
     courses: '',
     certificates: '',
     situationDescription: '',
-    jobs: '' // array, only title and responsibilities
+    jobTitles: '', // []
+    jobResponsibilities: '' // [ [], [] ]
 }
 
 // Type = 2
@@ -25,6 +26,9 @@ const offerTranslateObject = {
     benefits: ''
 }
 
+const userTranslateFields = ['extraLanguages', 'courses', 'certificates',
+'situationDescription', 'jobTitles', 'jobResponsibilities'];
+
 const agencyTranslateFields = ['description', 'recruitmentProcess',
     'benefits', 'roomDescription'
 ];
@@ -34,5 +38,5 @@ const offerTranslateFields = ['title', 'keywords', 'description',
 ]
 
 export { userTranslateObject, offerTranslateObject, agencyTranslateObject,
-    offerTranslateFields, agencyTranslateFields
+    offerTranslateFields, agencyTranslateFields, userTranslateFields
 }

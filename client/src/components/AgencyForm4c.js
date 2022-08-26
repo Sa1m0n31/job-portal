@@ -8,10 +8,11 @@ import {AgencyDataContext} from "../pages/AgencyEditData";
 import upArrow from "../static/img/input-up-arrow.svg";
 import downArrow from "../static/img/input-down-arrow.svg";
 import {LanguageContext} from "../App";
+import Loader from "./Loader";
 
 const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHolidayAllowanceFrequencyVisible,
         setDayVisible, setMonthVisible, setPaycheckFrequencyVisible, setPaycheckDayVisible,
-        setHealthInsuranceVisible, setHealthInsuranceCurrencyVisible, submitAgencyData
+        setHealthInsuranceVisible, setHealthInsuranceCurrencyVisible, submitAgencyData, loading
                       }) => {
     const { setSubstep, agencyData, handleChange, pensionVisible, holidayAllowanceTypeVisible,
         holidayAllowanceFrequencyVisible, dayVisible, monthVisible, paycheckFrequencyVisible, paycheckDayVisible,
@@ -238,12 +239,16 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
             </div>
         </div>
         <div className="formBottom flex">
-            <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(1); }}>
-                {c.back}
-            </button>
-            <button className="btn btn--userForm" onClick={() => { submitAgencyData(agencyData); }}>
-                {c.save}
-            </button>
+            {!loading ? <>
+                <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(1); }}>
+                    {c.back}
+                </button>
+                <button className="btn btn--userForm" onClick={() => { submitAgencyData(agencyData); }}>
+                    {c.save}
+                </button>
+            </> : <div className="center marginTop">
+                <Loader />
+            </div>}
         </div>
     </>
 };

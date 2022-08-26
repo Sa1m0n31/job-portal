@@ -26,9 +26,9 @@ export class AgencyController {
         return this.agencyService.verifyAgency(body.token);
     }
 
-    @Get('/getAgencyData/:email')
-    getAgencyData(@Param('email') email) {
-        return this.agencyService.getAgencyData(email);
+    @Get('/getAgencyData/:email/:lang')
+    getAgencyData(@Param('email') email, @Param('lang') lang) {
+        return this.agencyService.getAgencyData(email, lang);
     }
 
     @UseGuards(JwtAuthGuard)
@@ -59,9 +59,9 @@ export class AgencyController {
         return this.agencyService.sortAgencies(type, page);
     }
 
-    @Get('/getAgencyById/:id')
-    getAgencyById(@Param('id') id) {
-        return this.agencyService.getAgencyById(id);
+    @Get('/getAgencyById/:id/:lang')
+    getAgencyById(@Param('id') id, @Param('lang') lang) {
+        return this.agencyService.getAgencyById(id, lang);
     }
 
     @Get('/getNotifications/:email')

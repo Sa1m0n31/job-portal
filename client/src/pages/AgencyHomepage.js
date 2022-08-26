@@ -182,7 +182,7 @@ const AgencyHomepage = ({data, email}) => {
                            href={data.website}
                         >
                             <img className="img" src={websiteIcon} alt="strona-internetowa" />
-                            Strona www
+                            {c.website}
                         </a> : ''}
                 </div>
             </div>
@@ -199,7 +199,7 @@ const AgencyHomepage = ({data, email}) => {
                     </div>
                     <div className="userAccount__box">
                         <h3 className="userAccount__box__header">
-                            {c.aboutRecruitment}
+                            {c.aboutRecruitmentProcess}
                         </h3>
                         <div className="userAccount__box__text"
                              dangerouslySetInnerHTML={{__html: data.recruitmentProcess}}>

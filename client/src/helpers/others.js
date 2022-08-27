@@ -19,12 +19,25 @@ const isEmail = (email) => {
 }
 
 const getLang = () => {
-    return localStorage.getItem('lang') ? localStorage.getItem('lang').toLowerCase() : 'pl';
+    const cookies = new Cookies();
+
+    if(cookies.get('role') === 'admin') {
+        return 'pl';
+    }
+    else {
+        return localStorage.getItem('lang') ? localStorage.getItem('lang').toLowerCase() : 'pl';
+    }
 }
 
 const getAuthHeader = () => {
     const cookies = new Cookies();
     const jwt = cookies.get('access_token');
+    return `Bearer ${jwt}`;
+}
+
+const getAdminAuthHeader = () => {
+    const cookies = new Cookies();
+    const jwt = cookies.get('access_token_admin');
     return `Bearer ${jwt}`;
 }
 
@@ -71,4 +84,4 @@ const isPasswordStrength = (password) => {
 }
 
 export { isEmail, isElementInArray, isPasswordStrong, getAuthHeader, numberRange,
-    getLoggedUserEmail, getDate, addLeadingZero, groupBy, isPasswordStrength, getLang }
+    getLoggedUserEmail, getDate, addLeadingZero, groupBy, isPasswordStrength, getLang, getAdminAuthHeader }

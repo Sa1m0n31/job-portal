@@ -60,10 +60,6 @@ export class AgencyService {
                 .update(password)
                 .digest('hex');
 
-            const newUser = new CreateUserDto({
-
-            });
-
             const token = await uuid();
 
             await this.mailerService.sendMail({
@@ -87,7 +83,7 @@ export class AgencyService {
                 email: email,
                 password: passwordHash,
                 data: '{}',
-                accepted: true, // TODO: admin panel
+                accepted: false, // TODO: admin panel
                 active: false,
                 lat: null,
                 lng: null
@@ -131,11 +127,16 @@ export class AgencyService {
 
         if(user) {
             if(user.active) {
-                return {
-                    access_token: this.jwtTokenService.sign(payload, {
-                        secret: process.env.JWT_KEY
-                    })
-                };
+                if(!user.blocked) {
+                    return {
+                        access_token: this.jwtTokenService.sign(payload, {
+                            secret: process.env.JWT_KEY
+                        })
+                    };
+                }
+                else {
+                    throw new HttpException('Twoje konto zostało zablokowane', 423);
+                }
             }
             else {
                 throw new HttpException('Aktywuj swoje konto', 403);
@@ -361,6 +362,27 @@ export class AgencyService {
                     roomDescription: agencyTranslationData.roomDescription
                 })
             }
+        }
+    }
+
+    async getAllAgencies(page) {
+        if(!isNaN(page)) {
+            const perPage = parseInt(process.env.OFFERS_PER_PAGE);
+            return await this.agencyRepository.createQueryBuilder()
+                .where({
+                    active: true
+                })
+                .orderBy('id', 'DESC')
+                .limit(perPage)
+                .offset((page-1) * perPage)
+                .getMany();
+        }
+        else {
+            return this.agencyRepository.createQueryBuilder()
+                .where({
+                    active: true
+                })
+                .getMany();
         }
     }
 

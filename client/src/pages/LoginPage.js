@@ -105,6 +105,9 @@ const LoginPage = ({type}) => {
                     if(err?.response?.status === 403) {
                         setError(c.loginError2);
                     }
+                    else if(err?.response?.status === 423) {
+                        setError(c.blockedAccount);
+                    }
                     else {
                         setError(c.loginError1);
                     }

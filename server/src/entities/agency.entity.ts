@@ -34,4 +34,9 @@ export class Agency {
 
     @Column()
     lng: number;
+
+    @Column({
+        default: false
+    })
+    blocked: boolean;
 }

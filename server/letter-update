@@ -1,5 +1,3 @@
-UPDATE static_translations
-SET value = REPLACE(value, '«', '"');
-
-UPDATE static_translations
-SET value = REPLACE(value, '»', '"');
+field to translate
+c.generate
+c.blockedAccount

@@ -2313,6 +2313,7 @@ input {
     height: 175px;
     overflow-y: hidden;
     overflow-x: scroll;
+    flex-direction: row !important;
 }
 
 .userAccount__box__gallery .gallery__item {
@@ -2339,6 +2340,10 @@ input {
 .container--agency .flex--gallery {
     width: 100%;
     flex-direction: row;
+}
+
+.adminMain .flex--gallery {
+    flex-direction: row !important;
 }
 
 .userAccount__box__gallery__arrow--prev .img {
@@ -2925,6 +2930,15 @@ input {
 
 .btn--modal--delete:hover {
     background: #BA3838;
+}
+
+.btn--modal--unblock {
+    background: #5ad167;
+    color: #fff;
+}
+
+.btn--modal--unblock:hover {
+    background: #35c92b;
 }
 
 .btn--modal--cancel {
@@ -5331,4 +5345,258 @@ a.preview__bottom__content {
 
 .btn--disabled {
     pointer-events: none !important;
+}
+
+.container--loginAdmin {
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+.loginForm {
+    background: #fff;
+    -webkit-box-shadow: 0px 0px 15px -9px rgba(66, 68, 90, 1);
+    -moz-box-shadow: 0px 0px 15px -9px rgba(66, 68, 90, 1);
+    box-shadow: 0px 0px 15px -9px rgba(66, 68, 90, 1);
+    padding: 40px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.loginForm__label {
+    margin: 10px auto;
+    font-weight: 600;
+    font-size: 14px;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: relative;
+    color: #888888;
+}
+
+.labelIconWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    height: 30px;
+    width: auto;
+    border-right: 1px solid #C1C1C1;
+    padding: 0 12px;
+}
+
+.labelIcon {
+    height: 50%;
+    width: auto;
+}
+
+.container--loginAdmin .input {
+    padding: 5px 10px;
+    border: none;
+}
+
+.loginForm .input {
+    padding-left: 50px;
+    border: 1px solid #C1C1C1;
+    width: 320px;
+    height: 50px;
+    display: block;
+    margin-top: 5px;
+}
+
+.btn--submitAdminLogin {
+    width: 100%;
+    height: 45px;
+    margin-top: 15px;
+    max-width: 320px;
+}
+
+.container--login__headerLogo {
+    margin-bottom: 60px;
+    max-width: 300px;
+}
+
+.panelMenu {
+    width: 18%;
+    background: #fff;
+    height: calc(100vh - 150px);
+    position: fixed;
+    top: 150px;
+    left: 0;
+    z-index: 2;
+    box-shadow: 0px 5px 15px #0000000D;
+}
+
+.panelMenu__list {
+    list-style-type: none;
+    margin-top: 0;
+}
+
+.panelMenu__list__item__link {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 70px;
+    color: #000;
+    background: transparent;
+    padding: 10px 40px;
+    font-size: 18px;
+    transition: .2s all;
+    border-bottom: 1px solid #C1C1C1;
+}
+
+.panelMenu__list__item__link:hover {
+    padding-left: 50px;
+}
+
+.panelMenu__list__item__link:hover .panelMenu__list__item__icon {
+    filter: brightness(0) invert(1);
+}
+
+.panelMenu__list__item__icon {
+    width: 20px;
+    height: auto;
+    margin-right: 20px;
+}
+
+.loggedUserHeader--admin .logo {
+    font-weight: 700;
+    font-size: 24px;
+    max-width: 400px;
+    width: 400px;
+}
+
+.adminMain__header {
+    font-size: 32px;
+    font-weight: 400;
+}
+
+.adminMain__main {
+    margin-left: 18%;
+    padding: 40px 60px;
+}
+
+.preview--admin {
+    width: 100%;
+    box-shadow: none;
+    border: 1px solid #c1c1c1;
+}
+
+.agenciesList--admin {
+    margin: 30px 0;
+    width: 100%;
+    max-width: 1450px;
+}
+
+.preview__col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.preview__col__key {
+    font-size: 13px;
+    text-align: center;
+    color: var(--grey);
+    padding-bottom: 10px;
+}
+
+.preview__col .btn {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+.btn--block {
+    background: #cb4949 !important;
+    color: #fff;
+}
+
+.btn--block:hover {
+    background: #aa3838 !important;
+}
+
+.btn--unblock {
+    background: #5ad167 !important;
+    color: #fff;
+}
+
+.btn--unblock:hover {
+    background: #49c055 !important;
+}
+
+.btn--info {
+    background: transparent !important;
+    color: #000;
+    width: auto;
+    padding: 0;
+}
+
+.btn--info:hover {
+    background: transparent;
+}
+
+.btn--info .img {
+    filter: none !important;
+    margin-right: 0 !important;
+    width: 25px !important;
+}
+
+.preview__buttons--admin {
+    flex-direction: row;
+}
+
+.preview__buttons--admin .preview__col:not(:last-child) {
+    margin-right: 30px;
+    padding-right: 30px;
+    border-right: 1px solid #c1c1c1;
+}
+
+.agenciesList--admin .infinite-scroll-component {
+    flex-direction: column;
+}
+
+.panelMenu__list__item__link--selected {
+    background: var(--primary);
+    color: #fff;
+}
+
+.agency--admin > .flex {
+    flex-direction: column;
+}
+
+.container--agency__grid .flex,
+.adminMain .userAccount__box {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.adminMain .container--agency__grid {
+    display: flex;
+    flex-direction: column;
+}
+
+.userDetails__actions .preview__buttons {
+    justify-content: flex-start;
+    margin: 20px 0 30px;
+}
+
+.adminMain__main > .flex > .adminMain__header {
+    margin-top: -10px;
+}
+
+.adminMain .userAccount__box__gallery {
+    width: 90% !important;
+}
+
+.adminMain .userAccount__box--100 {
+    flex-direction: row;
 }

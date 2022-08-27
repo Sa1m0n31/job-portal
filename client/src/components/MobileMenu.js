@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import closeIcon from '../static/img/left-blue-arrow.svg'
-import {agencyMenu, homeMenu, userMenu} from "../static/content";
+import {adminMenu, adminMenuLabels, agencyMenu, homeMenu, userMenu} from "../static/content";
 import LanguageSwitcher from "./LanguageSwitcher";
 import {LanguageContext} from "../App";
 
@@ -11,6 +11,7 @@ const MobileMenu = ({closeMenu, type}) => {
 
     useEffect(() => {
         if(type && c.userMenuLabels) {
+            console.log(type);
             switch(type) {
                 case 2:
                     setMenu(userMenu);
@@ -19,6 +20,10 @@ const MobileMenu = ({closeMenu, type}) => {
                 case 3:
                     setMenu(agencyMenu);
                     setMenuLabels(JSON.parse(c.agencyMenuLabels));
+                    break;
+                case 4:
+                    setMenu(adminMenu);
+                    setMenuLabels(adminMenuLabels);
                     break;
                 default:
                     setMenu(homeMenu);
@@ -58,7 +63,7 @@ const MobileMenu = ({closeMenu, type}) => {
                     {c.createAccount}
                 </a>
             </div> : ''}
-            <div className="mobileMenu__bottom__bottom flex">
+            {type !== 4 ? <div className="mobileMenu__bottom__bottom flex">
                 <div className="mobileMenu__bottom__bottom__links flex flex--start">
                     <a href="/regulamin">
                         {c.termsOfServiceHeader}
@@ -69,7 +74,7 @@ const MobileMenu = ({closeMenu, type}) => {
                 </div>
 
                 <LanguageSwitcher />
-            </div>
+            </div> : ''}
         </div>
     </div>
 };

@@ -86,6 +86,10 @@
         padding: 30px;
     }
 
+    .panelMenu__list__item__link {
+        font-size: 15px;
+    }
+
     .offerItem__company,
     .offerItem__title {
         font-size: 14px;
@@ -144,7 +148,7 @@
         width: 30px;
     }
 
-    .loggedUserHeader .logo {
+    .loggedUserHeader:not(.loggedUserHeader--admin) .logo {
         width: 90px;
     }
 
@@ -227,6 +231,15 @@
 @media(max-width: 1400px) {
     .label--date--address > .flex:not(.flex--fastOffer) {
         flex-direction: column;
+    }
+
+    .panelMenu__list__item__link {
+        font-size: 14px;
+        padding-left: 25px;
+    }
+
+    .panelMenu__list__item__link:hover {
+        padding-left: 35px;
     }
 
     .applicationsSection__header {
@@ -751,6 +764,15 @@
         width: 400px;
     }
 
+    .adminMain__header {
+        font-size: 24px;
+    }
+
+    .preview__buttons--admin .preview__col:not(:last-child) {
+        margin-right: 15px;
+        padding-right: 15px;
+    }
+
     .offerFilters {
         height: auto;
     }
@@ -970,6 +992,7 @@
     .jobOffer__topRow__right,
     .userAccount__top,
     .offerFilters,
+    .panelMenu,
     .login__left__bottom,
     .loggedUserHeader__desktop,
     .editData__main__header,
@@ -978,6 +1001,74 @@
     .register .login__left__bottom,
     .editData__left {
         display: none;
+    }
+
+    .adminMain .userAccount__box--100 {
+        flex-direction: column;
+    }
+
+    .modal__inner {
+        width: 90%;
+        padding: 20px;
+        border-radius: 5px;
+    }
+
+    .modal__header {
+        font-size: 17px;
+    }
+
+    .modal__buttons > * {
+        font-size: 14px;
+        height: 40px;
+    }
+
+    .modal__inner .img {
+        max-width: 50px;
+    }
+
+    .modal__buttons > *:first-child {
+        margin-bottom: 15px;
+    }
+
+    .modal__buttons {
+        flex-direction: column;
+    }
+
+    .preview--admin .preview__buttons--mobile {
+        display: none !important;
+    }
+
+    .agenciesList--admin {
+        margin-top: 10px;
+    }
+
+    .preview--admin .preview__buttons:not(.preview__buttons--mobile) {
+        display: flex !important;
+        width: 100%;
+        flex-direction: column;
+        margin-left: 0;
+        align-items: center;
+        justify-content: center;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #c1c1c1;
+    }
+
+    .preview__buttons--admin .preview__col:not(:last-child) {
+        border: none;
+        padding-right: 0;
+        margin-right: 0;
+    }
+
+    .adminMain__header {
+        text-align: center;
+        font-size: 19px;
+    }
+
+    .adminMain__main {
+        width: 100%;
+        padding: 40px 5%;
+        margin: 70px 0 0;
     }
 
     .flag--mobile {
@@ -1598,6 +1689,16 @@
 
     .preview__buttons:not(.preview__buttons--mobile) {
         display: none;
+    }
+
+    .adminMain--agencyDetails .preview__buttons {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0;
+    }
+
+    .adminMain--agencyDetails .adminMain__main > .flex {
+        flex-direction: column;
     }
 
     .preview__buttons--mobile {
@@ -3015,6 +3116,30 @@
 @media(max-width: 576px) {
     .editData__main {
         padding: 30px 20px;
+    }
+
+    .container--login__headerLogo {
+        max-width: 80%;
+        margin-bottom: 0;
+    }
+
+    .labelIconWrapper {
+        height: 20px;
+    }
+
+    .loginForm .input,
+    .loginForm__label {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .loginForm .input {
+        height: 40px;
+    }
+
+    .loginForm {
+        width: 100%;
+        box-shadow: none;
     }
 
     .container--jobOffers .userAccount__top--offersInfo .userAccount__top__jobOffersHeader {

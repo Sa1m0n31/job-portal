@@ -114,7 +114,11 @@ const verifyPasswordToken = (token) => {
     return axios.get(`/agency/verifyPasswordToken/${token}`);
 }
 
+const getAllAgencies = (page) => {
+    return axios.get(`/agency/getAllAgencies/${page}`);
+}
+
 export { registerAgency, verifyAgency, loginAgency, getAgencyData, updateAgency, getAllApprovedAgencies,
     filterAgencies, sortAgencies, getAgencyById, authAgency, getAgencyNotifications, remindAgencyPassword,
-    changeAgencyPassword, verifyPasswordToken, resetAgencyPassword
+    changeAgencyPassword, verifyPasswordToken, resetAgencyPassword, getAllAgencies
 }

@@ -437,6 +437,31 @@ const homeMenu = [
     }
 ];
 
+const adminMenu = [
+    {
+        label: 'Home',
+        link: '/panel'
+    },
+    {
+        label: 'Agencje',
+        link: '/panel/agencje'
+    },
+    {
+        label: 'Pracownicy',
+        link: '/panel/pracownicy'
+    },
+    {
+        label: 'Oferty',
+        link: '/panel/oferty'
+    },
+    {
+        label: 'Oferty błyskawiczne',
+        link: '/panel/oferty-blyskawiczne'
+    }
+]
+
+const adminMenuLabels = ['Home', 'Agencje', 'Pracownicy', 'Oferty', 'Oferty błyskawiczne'];
+
 const userMenu = [
     {
         label: "Moje konto",
@@ -509,5 +534,5 @@ export { steps, stepsContent, stepsMainContent, months, countries, phoneNumbers,
     languageLevels, currencies, categories, attachmentsErrors, flags, stepsAgency, stepsAgencyContent, stepsAgencyMainContent, nipCountries,
     rooms, houses, paymentTypes, pensionType, paycheckFrequency, pensionFrequency, paycheckDay, healthInsuranceOptions, noInfo, contracts,
     jobOfferErrors, myJobOffersFilter, distances, preferableContactForms, privacyPolicy, termsOfService, notificationTitles,
-    homeMenu, userMenu, agencyMenu, unsupportedMediaTypeInfo, languageVersions
+    homeMenu, userMenu, agencyMenu, unsupportedMediaTypeInfo, languageVersions, adminMenu, adminMenuLabels
 }

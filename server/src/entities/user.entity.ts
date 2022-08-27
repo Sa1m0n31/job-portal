@@ -39,4 +39,9 @@ export class User {
 
     @Column()
     lng: number;
+
+    @Column({
+        default: false
+    })
+    blocked: boolean;
 }

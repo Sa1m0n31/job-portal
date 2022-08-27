@@ -21,6 +21,8 @@ import "/node_modules/flag-icons/css/flag-icons.min.css";
 import CandidateProfile from "./pages/CandidateProfile";
 import {getSiteContent} from "./helpers/translation";
 import Loader from "./components/Loader";
+import AdminLogin from "./pages/AdminLogin";
+import AdminWrapper from "./components/AdminWrapper";
 
 const LanguageContext = React.createContext({});
 
@@ -77,6 +79,9 @@ function App() {
       </Route>
       <Route path="/ustaw-nowe-haslo">
         <SetNewPassword />
+      </Route>
+      <Route path="/admin">
+        <AdminLogin />
       </Route>
 
       {/* COMMON ROUTES */}
@@ -166,6 +171,23 @@ function App() {
       </Route>
       <Route path="/zgloszenia">
         <AgencyWrapper page={13} />
+      </Route>
+
+      {/* ADMIN ROUTES */}
+      <Route exact path="/panel">
+        <AdminWrapper page={1} />
+      </Route>
+      <Route path="/panel/agencje">
+        <AdminWrapper page={2} />
+      </Route>
+      <Route path="/panel/profil-agencji">
+        <AdminWrapper page={3} />
+      </Route>
+      <Route path="/panel/pracownicy">
+        <AdminWrapper page={4} />
+      </Route>
+      <Route path="/panel/profil-pracownika">
+        <AdminWrapper page={5} />
       </Route>
     </Router>
   </LanguageContext.Provider> : <div className="container container--height100 center">

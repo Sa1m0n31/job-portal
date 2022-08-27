@@ -49,6 +49,11 @@ export class AgencyController {
         return this.agencyService.getAllApprovedAgencies(page);
     }
 
+    @Get('/getAllAgencies/:page')
+    getAllAgencies(@Param('page') page) {
+        return this.agencyService.getAllAgencies(page);
+    }
+
     @Post('/filter')
     filterAgencies(@Body() body) {
         return this.agencyService.filterAgencies(body);

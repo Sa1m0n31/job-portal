@@ -18,8 +18,6 @@ import {Password_tokens} from "../entities/password_tokens.entity";
 import {Dynamic_translations} from "../entities/dynamic_translations";
 import {TranslationService} from "../translation/translation.service";
 import {
-    agencyTranslateFields,
-    agencyTranslateObject,
     userTranslateFields,
     userTranslateObject
 } from "../common/translateObjects";
@@ -129,11 +127,16 @@ export class UserService {
 
         if(user) {
             if(user.active) {
-                return {
-                    access_token: this.jwtTokenService.sign(payload, {
-                        secret: process.env.JWT_KEY
-                    })
-                };
+                if(!user.blocked) {
+                    return {
+                        access_token: this.jwtTokenService.sign(payload, {
+                            secret: process.env.JWT_KEY
+                        })
+                    };
+                }
+                else {
+                    throw new HttpException('Twoje konto zostało zablokowane', 423);
+                }
             }
             else {
                 throw new HttpException('Aktywuj swoje konto', 403);
@@ -184,8 +187,6 @@ export class UserService {
                 }).concat(userData.oldAttachments) : userData.oldAttachments
             }
 
-            console.log('translating to polish...');
-
             // Translate to Polish
             const jobTitles = originalData.jobs ? originalData.jobs.map((item) => (item.title)) : '';
             const jobResponsibilities = originalData.jobs ? originalData.jobs.map((item) => (item.responsibilities)) : '';
@@ -194,8 +195,6 @@ export class UserService {
                 originalData.certificates, originalData.situationDescription, jobTitles, jobResponsibilities];
             const polishVersionResponse = await this.translationService.translateContent(JSON.stringify(contentToTranslate), 'pl');
             const polishVersion = JSON.parse(polishVersionResponse);
-
-            console.log(polishVersion);
 
             // Add filenames
             return {
@@ -338,8 +337,6 @@ export class UserService {
                     return item;
                 }
             });
-
-            console.log(translatedUserArray);
 
             // Objects
             userTranslationData = {

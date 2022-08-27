@@ -347,8 +347,8 @@ export class UserService {
                 courses: translatedUserArray[1] ? JSON.parse(translatedUserArray[1]) : '',
                 certificates: translatedUserArray[2] ? JSON.parse(translatedUserArray[2]) : '',
                 situationDescription: translatedUserArray[3],
-                jobTitles: translatedUserArray[4],
-                jobResponsibilities: translatedUserArray[5]
+                jobTitles: translatedUserArray[4] ? JSON.parse(translatedUserArray[4]) : '',
+                jobResponsibilities: translatedUserArray[5] ? JSON.parse(translatedUserArray[5]) : ''
             }
 
             // Store in DB

@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
-import {flags} from "../static/content";
+import {flags, languageVersions} from "../static/content";
 import settings from "../static/settings";
 import locationIcon from "../static/img/location.svg";
 import suitcaseIcon from "../static/img/suitcase-grey.svg";
@@ -75,8 +75,6 @@ const CandidateProfile = () => {
                         setEmail(res?.data?.email);
                         const d = JSON.parse(res?.data?.data);
                         setUser(d);
-                        console.log(d);
-                        console.log(d.jobs);
                     }
                 })
                 .catch((err) => {
@@ -132,13 +130,13 @@ const CandidateProfile = () => {
             <main className="userAccount__box userAccount__box__top userAccount__box--100 flex">
                 <div className="userAccount__box__left">
                     <figure>
-                        {user?.country ? <img className="flag flag--mobile" src={flags[user?.country]} alt="flaga" /> : ''}
+                        {user?.country >= 0 ? <span className={`flag flag--mobile fi fi-${flags[user.country].toLowerCase()}`}></span> : ''}
                         <img className="img" src={user?.profileImage ? `${settings.API_URL}/${user?.profileImage}` : userPlaceholder} alt="zdjecie-profilowe" />
                     </figure>
                     <div className="userAccount__box__mainData">
                         <h1 className="userAccount__box__fullName">
                             {user?.firstName ? `${user.firstName} ${user?.lastName}` : c.anonim}
-                            {user?.country ? <img className="flag" src={flags[user?.country]} alt="flaga" /> : ''}
+                            {user?.country >= 0 ? <span className={`flag fi fi-${flags[user.country].toLowerCase()}`}></span> : ''}
                         </h1>
                         <p className="userAccount__box__mainData__text">
                             <img className="img" src={locationIcon} alt="lokalizacja" />

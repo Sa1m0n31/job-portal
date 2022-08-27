@@ -980,6 +980,10 @@
         display: none;
     }
 
+    .flag--mobile {
+        display: block !important;
+    }
+
     .container--agencyJobOffers .userAccount__top {
         flex-direction: column;
     }
@@ -1975,8 +1979,7 @@
     }
 
     .flag--mobile {
-        display: block;
-        position: absolute;
+        position: absolute !important;
         top: 3px;
         right: 5px;
         width: 15px;

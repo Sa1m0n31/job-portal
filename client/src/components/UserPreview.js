@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import userPlaceholder from '../static/img/user-placeholder.svg'
 import location from '../static/img/location.svg'
 import nipIcon from '../static/img/info-icon.svg'
@@ -14,10 +14,22 @@ import CV from "./CV";
 import {getDate} from "../helpers/others";
 import downloadWhite from "../static/img/download-white.svg";
 import {LanguageContext} from "../App";
-import CVwithTranslation from "./CVwithTranslation";
+import Loader from "./Loader";
 
 const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
     const { c } = useContext(LanguageContext);
+
+    const [loading, setLoading] = useState(false);
+    const [downloadCV, setDownloadCV] = useState(false);
+    const [disabled, setDisabled] = useState(true);
+
+    const generateCV = () => {
+        setDownloadCV(true);
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+        }, 2000);
+    }
 
     return data ? <div className={application ? "preview preview--agency preview--user flex flex-wrap" : "preview preview--agency preview--user flex"} key={i}>
         <div className="preview__left">
@@ -77,40 +89,46 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
         </div>
 
         <div className="preview__buttons">
+            {data?.firstName && data?.lastName ? <div className="preview__buttons__section preview__buttons__section--cv">
+                {c.generateAndDownloadCV}:
 
-            {// TODO: PDFDownloadLink generowany dopiero po kliknieciu}
-            {/*{data?.firstName && data?.lastName ? <div className="preview__buttons__section preview__buttons__section--cv">*/}
-            {/*    {c.generateAndDownloadCV}:*/}
-            {/*    <PDFDownloadLink document={<CV profileImage={`${settings.API_URL}/${data?.profileImage}`}*/}
-            {/*                                           c={c}*/}
-            {/*                                            translate={true}*/}
-            {/*                                            fullName={`${data.firstName} ${data.lastName}`}*/}
-            {/*                                           companyName={companyName}*/}
-            {/*                                           companyLogo={companyLogo}*/}
-            {/*                                           categories={data.categories}*/}
-            {/*                                           email={data.email}*/}
-            {/*                                           birthday={getDate(data?.birthdayDay, data?.birthdayMonth, data?.birthdayYear)}*/}
-            {/*                                           schools={data.schools}*/}
-            {/*                                           jobs={data.jobs}*/}
-            {/*                                           additionalLanguages={data.extraLanguages}*/}
-            {/*                                           languages={data.languages}*/}
-            {/*                                           drivingLicence={data.drivingLicenceCategories}*/}
-            {/*                                           certs={data.certificates?.concat(data.courses)}*/}
-            {/*                                           desc={data.situationDescription}*/}
-            {/*                                           phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : c.noInfo}*/}
-            {/*                                           location={data.country >= 0 ? `${data.city}, ${JSON.parse(c.countries)[data.country]}` : c.noInfo}*/}
-            {/*                                           currentPlace={data.currentCountry >= 0 ? `${JSON.parse(c.countries)[data.currentCountry]}, ${data.currentCity}`: c.noInfo}*/}
-            {/*                                           availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : c.noInfo}*/}
-            {/*                                           ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}*/}
-            {/*                                           ownTools={data.ownTools ? c.yes : ''}*/}
-            {/*                                           salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency} ${c.netto}/${data.salaryType === 0 ? c.monthlyShortcut : c.weeklyShortcut}` : c.noInfo}*/}
-            {/*    />}*/}
-            {/*                             fileName={`CV-${data.firstName}_${data.lastName}.pdf`}*/}
-            {/*                             className="btn btn--downloadCV">*/}
-            {/*        <img className="img" src={downloadWhite} alt="pobierz" />*/}
-            {/*        {c.downloadCV}*/}
-            {/*    </PDFDownloadLink>*/}
-            {/*</div> : ''}*/}
+                {loading ? <div className="preview__loader">
+                    <Loader />
+                </div> : ''}
+
+                {downloadCV ? <PDFDownloadLink document={<CV profileImage={`${settings.API_URL}/${data?.profileImage}`}
+                                                             c={c}
+                                                             enableDownload={() => { setDisabled(false); }}
+                                                             translate={true}
+                                                             fullName={`${data.firstName} ${data.lastName}`}
+                                                             companyName={companyName}
+                                                             companyLogo={companyLogo}
+                                                             categories={data.categories}
+                                                             email={data.email}
+                                                             birthday={getDate(data?.birthdayDay, data?.birthdayMonth, data?.birthdayYear)}
+                                                             schools={data.schools}
+                                                             jobs={data.jobs}
+                                                             additionalLanguages={data.extraLanguages}
+                                                             languages={data.languages}
+                                                             drivingLicence={data.drivingLicenceCategories}
+                                                             certs={data.certificates?.concat(data.courses)}
+                                                             desc={data.situationDescription}
+                                                             phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : c.noInfo}
+                                                             location={data.country >= 0 ? `${data.city}, ${JSON.parse(c.countries)[data.country]}` : c.noInfo}
+                                                             currentPlace={data.currentCountry >= 0 ? `${JSON.parse(c.countries)[data.currentCountry]}, ${data.currentCity}`: c.noInfo}
+                                                             availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : c.noInfo}
+                                                             ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}
+                                                             ownTools={data.ownTools ? c.yes : ''}
+                                                             salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency} ${c.netto}/${data.salaryType === 0 ? c.monthlyShortcut : c.weeklyShortcut}` : c.noInfo}
+                                                             />}
+                                               fileName={`CV-${data.firstName}_${data.lastName}.pdf`}
+                                               className={disabled || loading ? "btn btn--downloadCV btn--disabled" : "btn btn--downloadCV"}>
+                    <img className="img" src={downloadWhite} alt="pobierz" />
+                    {c.downloadCV}
+                </PDFDownloadLink> : <button className="btn btn--downloadCV" onClick={() => { generateCV(); }}>
+                    {c.generateCV}
+                </button>}
+            </div> : ''}
 
             <div className="preview__buttons__section preview__buttons__section--flex">
                 <span className="w-100">

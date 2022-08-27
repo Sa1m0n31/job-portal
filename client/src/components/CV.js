@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     }
 });
 
-const CV = ({profileImage, fullName, phoneNumber, email, location, categories, birthday, schools, jobs, languages, additionalLanguages,
+const CV = ({profileImage, fullName, phoneNumber, email, location, categories, birthday, schools, jobs, languages, additionalLanguages, enableDownload,
                 translate, drivingLicence, certs, desc, companyLogo, companyName, currentPlace, availability, ownAccommodation, ownTools, salary, c}) => {
     const [user, setUser] = useState({});
     const [render, setRender] = useState(false);
@@ -193,6 +193,15 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
             setRender(true);
         }
     }, [user]);
+
+    useEffect(() => {
+        if(render && user) {
+            if(enableDownload) {
+                console.log(user);
+                enableDownload();
+            }
+        }
+    }, [render, user]);
 
     return render ? <Document>
         <Page size="A4" style={styles.page}>
@@ -355,7 +364,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                                 }
                             })}
                             <Text style={styles.block}>
-                                {additionalLanguages}
+                                {user ? user.extraLanguages : additionalLanguages}
                             </Text>
                         </Text>
                     </View> : ""}

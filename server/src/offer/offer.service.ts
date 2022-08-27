@@ -626,12 +626,10 @@ export class OfferService {
 
                         // Get stored offer or translate by Google API
                         if(storedTranslationOffer?.length) {
-                            console.log('stored');
                             translatedOffer = storedTranslationOffer.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), offerTranslateObject);
                         }
                         else {
                             // Translate
-                            console.log('new');
                             translatedOfferArray = await this.translationService.translateContent([item.offer_title, item.offer_keywords, item.offer_description,
                                 item.offer_responsibilities, item.offer_requirements, item.offer_benefits], lang);
                             translatedOffer = {
@@ -757,12 +755,10 @@ export class OfferService {
 
                     // Get stored offer or translate by Google API
                     if(storedTranslationOffer?.length) {
-                        console.log('stored');
                         translatedOffer = storedTranslationOffer.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), offerTranslateObject);
                     }
                     else {
                         // Translate
-                        console.log('new');
                         translatedOfferArray = await this.translationService.translateContent([item.offer_title, item.offer_keywords, item.offer_description,
                             item.offer_responsibilities, item.offer_requirements, item.offer_benefits], lang);
                         translatedOffer = {
@@ -1274,7 +1270,6 @@ export class OfferService {
                     // Translate by Google API
                     const translatedOffer = await this.translationService.translateContent([item.title, item.keywords, item.description,
                         item.responsibilities, item.requirements, item.benefits], lang);
-                    console.log(`translation ${i}`);
 
                     // Store in DB
                     const offerId = item.id;
@@ -1347,7 +1342,6 @@ export class OfferService {
                     // Translate by Google API
                     const translatedOffer = await this.translationService.translateContent([item.title, item.keywords, item.description,
                         item.responsibilities, item.requirements, item.benefits], lang);
-                    console.log(`translation ${i}`);
 
                     // Store in DB
                     const offerId = item.id;
@@ -1723,31 +1717,164 @@ export class OfferService {
         }
     }
 
-    async getApplicationsByAgency(email) {
+    async getApplicationsByAgency(email, lang) {
         // Get agency id
         const agency = await this.agencyRepository.findOneBy({email});
         const agencyId = agency.id;
 
         // Get applications
-        return this.offerRepository
+        const jobOffers = await this.offerRepository
             .createQueryBuilder('o')
             .leftJoinAndSelect('application', 'application', 'o.id = application.offer')
             .leftJoinAndSelect('user', 'u', 'u.id = application.user')
             .where('o.agency = :agencyId', {agencyId})
             .getRawMany();
+
+        if(lang === 'pl') {
+            return jobOffers;
+        }
+        else {
+            lang = getGoogleTranslateLanguageCode(lang);
+            let i = 0;
+
+            for(const item of jobOffers) {
+                // Find offer translation
+                const offerTranslation = await this.dynamicTranslationsRepository.findBy({
+                    type: 3,
+                    lang: lang,
+                    id: item.o_id
+                });
+
+                if(offerTranslation?.length) {
+                    // Get translation from DB
+                    const translatedOffer = offerTranslation.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), offerTranslateObject);
+                    jobOffers[i] = {
+                        ...item,
+                        o_title: translatedOffer.title,
+                        o_keywords: translatedOffer.keywords,
+                        o_description: translatedOffer.description,
+                        o_responsibilities: translatedOffer.responsibilities,
+                        o_requirements: translatedOffer.requirements,
+                        o_benefits: translatedOffer.benefits
+                    }
+                }
+                else {
+                    // Translate by Google API
+                    const translatedOffer = await this.translationService.translateContent([item.o_title, item.o_keywords, item.o_description,
+                        item.o_responsibilities, item.o_requirements, item.o_benefits], lang);
+
+                    // Store in DB
+                    const offerId = item.o_id;
+                    await this.dynamicTranslationsRepository
+                        .createQueryBuilder()
+                        .insert()
+                        .values(translatedOffer.map((item, index) => ({
+                            type: 3,
+                            id: offerId,
+                            field: offerTranslateFields[index],
+                            lang: lang,
+                            value: item
+                        })))
+                        .execute();
+
+                    jobOffers[i] = {
+                        ...item,
+                        o_title: translatedOffer[0],
+                        o_keywords: translatedOffer[1],
+                        o_description: translatedOffer[2],
+                        o_responsibilities: translatedOffer[3],
+                        o_requirements: translatedOffer[4],
+                        o_benefits: translatedOffer[5]
+                    }
+                }
+
+                i++;
+            }
+
+            return jobOffers;
+        }
     }
 
-    async getFastApplicationsByAgency(email) {
+    async getFastApplicationsByAgency(email, lang) {
         // Get agency id
         const agency = await this.agencyRepository.findOneBy({email});
         const agencyId = agency.id;
 
         // Get applications
-        return this.fastOfferRepository
+        const jobOffers = await this.fastOfferRepository
             .createQueryBuilder('o')
             .leftJoinAndSelect('fast_applications', 'app', 'o.id = app.offer')
             .leftJoinAndSelect('user', 'u', 'u.id = app.user')
             .where('o.agency = :agencyId', {agencyId})
             .getRawMany();
+
+        console.log(lang);
+
+        if(lang === 'pl' || !lang) {
+            // Get job offers
+            return jobOffers;
+        }
+        else {
+            lang = getGoogleTranslateLanguageCode(lang);
+            let i = 0;
+
+            for(const item of jobOffers) {
+                // Find offer translation
+                const offerTranslation = await this.dynamicTranslationsRepository.findBy({
+                    type: 4,
+                    lang: lang,
+                    id: item.o_id
+                });
+
+                if(offerTranslation?.length) {
+                    // Get translation from DB
+                    const translatedOffer = offerTranslation.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), offerTranslateObject);
+                    jobOffers[i] = {
+                        ...item,
+                        o_title: translatedOffer.title,
+                        o_keywords: translatedOffer.keywords,
+                        o_description: translatedOffer.description,
+                        o_responsibilities: translatedOffer.responsibilities,
+                        o_requirements: translatedOffer.requirements,
+                        o_benefits: translatedOffer.benefits
+                    }
+                }
+                else {
+                    // Translate by Google API
+                    const translatedOffer = await this.translationService.translateContent([item.o_title, item.o_keywords, item.o_description,
+                        item.o_responsibilities, item.o_requirements, item.o_benefits], lang);
+
+                    // Store in DB
+                    const offerId = item.o_id;
+                    await this.dynamicTranslationsRepository
+                        .createQueryBuilder()
+                        .insert()
+                        .values(translatedOffer.map((item, index) => ({
+                            type: 4,
+                            id: offerId,
+                            field: offerTranslateFields[index],
+                            lang: lang,
+                            value: item
+                        })))
+                        .execute();
+
+                    jobOffers[i] = {
+                        ...item,
+                        o_title: translatedOffer[0],
+                        o_keywords: translatedOffer[1],
+                        o_description: translatedOffer[2],
+                        o_responsibilities: translatedOffer[3],
+                        o_requirements: translatedOffer[4],
+                        o_benefits: translatedOffer[5]
+                    }
+                }
+
+                console.log(jobOffers[i]);
+
+                i++;
+            }
+
+            return jobOffers;
+        }
     }
 }

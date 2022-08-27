@@ -1414,6 +1414,10 @@ input {
     display: none;
 }
 
+.flag--mobile {
+    display: none !important;
+}
+
 .oneline {
     white-space: nowrap;
 }
@@ -3835,6 +3839,7 @@ div[data-testid=circles-loading] {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-end;
+    position: relative;
 }
 
 .modal--filters--users .drivingLicenceWrapper--salary,
@@ -5305,4 +5310,25 @@ a.preview__bottom__content {
 
 .loggedUserFooter .languageSwitcher__currentLang {
     transform: translate(8%, 0);
+}
+
+.preview__loader {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    z-index: 10;
+}
+
+.preview__loader * {
+    max-width: 25px;
+}
+
+.btn--disabled {
+    pointer-events: none !important;
 }

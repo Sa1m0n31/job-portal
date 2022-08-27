@@ -185,13 +185,13 @@ export class OfferController {
         return this.offerService.addFastApplication(body, files);
     }
 
-    @Get('/getApplicationsByAgency/:email')
-    getApplicationsByAgency(@Param('email') email) {
-        return this.offerService.getApplicationsByAgency(email);
+    @Get('/getApplicationsByAgency/:email/:lang')
+    getApplicationsByAgency(@Param('email') email, @Param('lang') lang) {
+        return this.offerService.getApplicationsByAgency(email, lang);
     }
 
-    @Get('/getFastApplicationsByAgency/:email')
-    getFastApplicationsByAgency(@Param('email') email) {
-        return this.offerService.getFastApplicationsByAgency(email);
+    @Get('/getFastApplicationsByAgency/:email/:lang')
+    getFastApplicationsByAgency(@Param('email') email, @Param('lang') lang) {
+        return this.offerService.getFastApplicationsByAgency(email, lang);
     }
 }

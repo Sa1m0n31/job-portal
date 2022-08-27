@@ -241,7 +241,6 @@ const countries = [
     "Islandia",
     "Irlandia",
     "Włochy",
-    "Kosowo",
     "Łotwa",
     "Liechtenstein",
     "Litwa",
@@ -264,10 +263,9 @@ const countries = [
     "Hiszpania",
     "Szwecja",
     "Szwajcaria",
-    "Indyk",
+    "Turcja",
     "Ukraina",
-    "Wielka Brytania",
-    "Watykan"
+    "Wielka Brytania"
 ];
 
 const phoneNumbers = [
@@ -315,7 +313,16 @@ const nipCountries = [
 ]
 
 const flags = [
-    poland
+    'al', 'ad', 'am', 'at', 'az',
+    'by', 'be', 'ba', 'bg', 'cr',
+    'cy', 'cz', 'dk', 'ee', 'fi',
+    'fr', 'ge', 'hu', 'is', 'ie',
+    'it', 'lv', 'li', 'lt', 'lu',
+    'mk', 'mt', 'md', 'mc', 'me',
+    'nl', 'no', 'pl', 'pt', 'ro',
+    'ru', 'sm', 'rs', 'sk', 'si',
+    'es', 'se', 'ch', 'tr', 'ua',
+    'gb'
 ];
 
 const rooms = [

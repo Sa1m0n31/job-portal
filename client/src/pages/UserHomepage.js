@@ -99,13 +99,13 @@ const UserHomepage = ({data, userId, visible, working}) => {
                         <img className="img" src={settingsCircle} alt="ustawienia" />
                     </a>
                     <figure>
-                        <img className="flag flag--mobile" src={flags[data?.country]} alt="flaga" />
+                        <span className={`flag flag--mobile fi fi-${flags[data.country].toLowerCase()}`}></span>
                         <img className="img" src={`${settings.API_URL}/${data?.profileImage}`} alt="zdjecie-profilowe" />
                     </figure>
                     <div className="userAccount__box__mainData">
                         <h1 className="userAccount__box__fullName">
                             {data?.firstName} {data?.lastName}
-                            <img className="flag" src={flags[data?.country]} alt="flaga" />
+                            <span className={`flag fi fi-${flags[data.country].toLowerCase()}`}></span>
                         </h1>
                         <p className="userAccount__box__mainData__text">
                             <img className="img" src={locationIcon} alt="lokalizacja" />

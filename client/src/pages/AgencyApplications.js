@@ -10,10 +10,12 @@ import salaryIcon from "../static/img/dolar-icon.svg";
 import arrowDown from '../static/img/arrow-down.svg'
 import UserPreview from "../components/UserPreview";
 import {LanguageContext} from "../App";
+import Loader from "../components/Loader";
 
 const AgencyApplications = ({data}) => {
     const { c } = useContext(LanguageContext);
 
+    const [render, setRender] = useState(false);
     const [offers, setOffers] = useState([]);
     const [fastOffers, setFastOffers] = useState([]);
     const [offersCandidates, setOffersCandidates] = useState([]);
@@ -27,12 +29,14 @@ const AgencyApplications = ({data}) => {
             setOffers(Object.entries(groupBy(offersResponse?.data, 'o_id')));
 
             const fastOffersResponse = await getFastApplicationsByAgency();
-            setFastOffers(Object.entries(groupBy(fastOffersResponse?.data, 'o_id')))
+            setFastOffers(Object.entries(groupBy(fastOffersResponse?.data, 'o_id')));
+
+            console.log('witam');
+            setRender(true);
         }
 
         setup();
     }, []);
-
 
     useEffect(() => {
         if(offers?.length) {
@@ -77,7 +81,9 @@ const AgencyApplications = ({data}) => {
             </span>
         </aside>
 
-        {fastOffers?.length ? <section className="applicationsSection">
+        {!render ? <div className="center container--height100">
+            <Loader />
+        </div> : fastOffers?.length ? <section className="applicationsSection">
             <h2 className="applicationsSection__header">
                 {c.fastJobOffers}
             </h2>
@@ -126,7 +132,7 @@ const AgencyApplications = ({data}) => {
                         </div>
                         <div className="offerItem__buttons flex">
                             {fastOffersCandidates[index]?.length ? <button onClick={() => { handleVisibleFastOffers(index); }}
-                                                                       className={isElementInArray(index, visibleFastOffers) ? "btn btn--showCandidates btn--showCandidates--visible" : "btn btn--showCandidates"}>
+                                                                           className={isElementInArray(index, visibleFastOffers) ? "btn btn--showCandidates btn--showCandidates--visible" : "btn btn--showCandidates"}>
                                 <span>
                                     {isElementInArray(index, visibleFastOffers) ? c.hideCandidates : c.showCandidates}
                                 </span>
@@ -156,7 +162,7 @@ const AgencyApplications = ({data}) => {
             })}
         </section> : ''}
 
-        {offers?.length ? <section className="applicationsSection">
+        {!render ? '' : offers?.length ? <section className="applicationsSection">
             <h2 className="applicationsSection__header">
                 {c.jobOffers}
             </h2>

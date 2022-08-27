@@ -189,11 +189,11 @@ const submitFastApplication = (id, message, friendLink, contactForms, attachment
 }
 
 const getApplicationsByAgency = () => {
-    return axios.get(`/offer/getApplicationsByAgency/${getLoggedUserEmail()}`);
+    return axios.get(`/offer/getApplicationsByAgency/${getLoggedUserEmail()}/${getLang()}`);
 }
 
 const getFastApplicationsByAgency = () => {
-    return axios.get(`/offer/getFastApplicationsByAgency/${getLoggedUserEmail()}`);
+    return axios.get(`/offer/getFastApplicationsByAgency/${getLoggedUserEmail()}/${getLang()}`);
 }
 
 export { addOffer, getJobOffersByAgency, getActiveJobOffers, deleteOffer,

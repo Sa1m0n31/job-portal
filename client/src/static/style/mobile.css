@@ -86,6 +86,11 @@
         padding: 30px;
     }
 
+    .adminMain__grid__item {
+        margin-right: 20px;
+        width: 45%;
+    }
+
     .panelMenu__list__item__link {
         font-size: 15px;
     }
@@ -764,6 +769,15 @@
         width: 400px;
     }
 
+    .adminMain__grid__item .img {
+        width: 40px;
+    }
+
+    .adminMain__grid__item {
+        height: 150px;
+        font-size: 16px;
+    }
+
     .adminMain__header {
         font-size: 24px;
     }
@@ -1003,6 +1017,31 @@
         display: none;
     }
 
+    .home__zone {
+        height: 250px;
+    }
+
+    .adminMain__grid {
+        margin-top: 30px;
+    }
+
+    .adminMain__grid__item {
+        width: 100%;
+        margin: 0 auto 20px auto;
+    }
+
+    .adminMain--offer .adminMain__main > .flex {
+        flex-direction: column;
+    }
+
+    .adminMain--offer .jobOffer {
+        padding: 0;
+    }
+
+    .adminMain .offerItem {
+        margin-bottom: 80px;
+    }
+
     .adminMain .userAccount__box--100 {
         flex-direction: column;
     }
@@ -1042,6 +1081,7 @@
         margin-top: 10px;
     }
 
+    .adminMain--offer .preview__buttons:not(.preview__buttons--mobile),
     .preview--admin .preview__buttons:not(.preview__buttons--mobile) {
         display: flex !important;
         width: 100%;
@@ -2517,6 +2557,10 @@
         font-size: 18px;
     }
 
+    .home__zone {
+        height: auto;
+    }
+
     .modal--languages .fi {
         height: 25px;
     }
@@ -2754,13 +2798,14 @@
 
     .home__zone__header {
         font-size: 18px;
+        margin: auto;
         text-align: center;
     }
 
     .home__zone__subheader {
         font-size: 12px;
         text-align: center;
-        margin: 5px 0 12px;
+        margin: 5px auto 12px;
     }
 
     .btn--zone {

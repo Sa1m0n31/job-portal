@@ -2,8 +2,8 @@ import React, {useContext} from "react";
 import HomeSectionHeader from "./HomeSectionHeader";
 import icon1 from "../static/img/dostepnosc.svg"
 import icon2 from "../static/img/friends.svg"
-import icon3 from "../static/img/dostepnosc.svg"
-import icon4 from "../static/img/friends.svg"
+import icon3 from "../static/img/hand-shake.svg"
+import icon4 from "../static/img/like-icon.svg"
 import {LanguageContext} from "../App";
 
 const icons = [icon1, icon2, icon3, icon4]

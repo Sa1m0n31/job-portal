@@ -194,4 +194,9 @@ export class OfferController {
     getFastApplicationsByAgency(@Param('email') email, @Param('lang') lang) {
         return this.offerService.getFastApplicationsByAgency(email, lang);
     }
+
+    @Get('/getAll/:page')
+    getAllOffers(@Param('page') page) {
+        return this.offerService.getAllOffers(page);
+    }
 }

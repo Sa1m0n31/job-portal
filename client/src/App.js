@@ -189,6 +189,18 @@ function App() {
       <Route path="/panel/profil-pracownika">
         <AdminWrapper page={5} />
       </Route>
+      <Route path="/panel/oferty">
+        <AdminWrapper page={6} />
+      </Route>
+      <Route path="/panel/szczegoly-oferty-pracy">
+        <AdminWrapper page={7} />
+      </Route>
+      <Route path="/panel/oferty-blyskawiczne">
+        <AdminWrapper page={8} />
+      </Route>
+      <Route path="/panel/szczegoly-oferty-blyskawicznej">
+        <AdminWrapper page={9} />
+      </Route>
     </Router>
   </LanguageContext.Provider> : <div className="container container--height100 center">
     <Loader />

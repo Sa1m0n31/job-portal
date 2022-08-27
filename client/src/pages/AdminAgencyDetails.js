@@ -131,7 +131,7 @@ const AdminAgencyDetails = () => {
         setGalleryIndex(n);
     }
 
-    return <div className="container">
+    return id ? <div className="container">
         <LoggedAdminHeader />
 
         {galleryIndex !== -1 ? <Gallery images={agency.gallery}
@@ -139,7 +139,7 @@ const AdminAgencyDetails = () => {
                                         index={galleryIndex} /> : ''}
 
         {blockCandidate ? <Modal header="Czy na pewno chcesz zablokować tę agencję?"
-                                modalAction={blockAgencyById}
+                                 modalAction={blockAgencyById}
                                  block="Zablokuj"
                                  success={blockSuccess === 1}
                                  closeModal={() => { setBlockCandidate(0); }}
@@ -147,19 +147,19 @@ const AdminAgencyDetails = () => {
         /> : ''}
 
         {unblockCandidate ? <Modal header="Czy na pewno chcesz odblokować tę agencję?"
-                                 modalAction={unblockAgencyById}
-                                 block="Odblokuj"
-                                 closeModal={() => { setUnblockCandidate(0); }}
-                                 success={unblockSuccess === 1}
-                                 message={unblockSuccess ? "Agencja została odblokowana" : ''}
+                                   modalAction={unblockAgencyById}
+                                   block="Odblokuj"
+                                   closeModal={() => { setUnblockCandidate(0); }}
+                                   success={unblockSuccess === 1}
+                                   message={unblockSuccess ? "Agencja została odblokowana" : ''}
         /> : ''}
 
         {acceptCandidate ? <Modal header="Czy na pewno chcesz akceptować tę agencję?"
-                                   modalAction={acceptAgencyById}
-                                   block="Akceptuj"
-                                   closeModal={() => { setAcceptCandidate(0); }}
-                                   success={acceptSuccess === 1}
-                                   message={acceptSuccess ? "Agencja została zaakceptowana" : ''}
+                                  modalAction={acceptAgencyById}
+                                  block="Akceptuj"
+                                  closeModal={() => { setAcceptCandidate(0); }}
+                                  success={acceptSuccess === 1}
+                                  message={acceptSuccess ? "Agencja została zaakceptowana" : ''}
         /> : ''}
 
         <main className="adminMain adminMain--agencyDetails">
@@ -468,6 +468,8 @@ const AdminAgencyDetails = () => {
                 </div>
             </div>
         </main>
+    </div> : <div className="container container--height100 center">
+        <Loader />
     </div>
 };
 

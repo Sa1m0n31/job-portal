@@ -11,7 +11,6 @@ import userPlaceholder from '../static/img/user-placeholder.svg'
 import {getAgencyMessages, getUserMessages} from "../helpers/messages";
 import {getAgencyData, getAgencyNotifications} from "../helpers/agency";
 import messagesIcon from '../static/img/messages-arrow.svg'
-import {notificationTitles} from "../static/content";
 import {LanguageContext} from "../App";
 
 const LoggedUserHeader = ({data, agency, messageUpdate}) => {

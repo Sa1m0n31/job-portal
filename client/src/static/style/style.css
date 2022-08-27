@@ -5600,3 +5600,75 @@ a.preview__bottom__content {
 .adminMain .userAccount__box--100 {
     flex-direction: row;
 }
+
+.adminMain .offerItem {
+    margin: 20px 0;
+    width: 100%;
+    max-width: 1400px;
+}
+
+.adminMain .agenciesList .infinite-scroll-component {
+    overflow: visible !important;
+}
+
+.adminMain .jobOffer {
+    width: 100%;
+    max-width: 1500px;
+}
+
+.agenciesList > * > .offerItem__date,
+.agenciesList > * > .offerItem__category {
+    width: auto;
+}
+
+.agenciesList--fastOffers .offerItem__buttons {
+    justify-content: flex-end;
+}
+
+.adminMain__grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 80px;
+}
+
+.adminMain__grid__item {
+    width: 48%;
+    max-width: 500px;
+    margin: 0 50px 50px 0;
+    height: 250px;
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid #C1C1C1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-weight: 700;
+    transition: none;
+    font-size: 19px;
+}
+
+.adminMain__grid__item:hover {
+    border-width: 2px;
+}
+
+.adminMain__grid__item .img {
+    width: 80px;
+    margin-bottom: 25px;
+}
+
+.loggedUserHeader--admin .loggedUserHeader__desktop {
+    padding-left: 40px;
+}
+
+.btn--logout {
+    margin-bottom: 20px;
+}
+
+.btn--logout .img {
+    width: 15px !important;
+    height: auto !important;
+    margin-right: 10px;
+}

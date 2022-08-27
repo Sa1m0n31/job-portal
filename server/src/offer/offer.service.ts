@@ -1869,12 +1869,20 @@ export class OfferService {
                     }
                 }
 
-                console.log(jobOffers[i]);
-
                 i++;
             }
 
             return jobOffers;
         }
+    }
+
+    async getAllOffers(page) {
+        return this.offerRepository
+            .createQueryBuilder('offer')
+            .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+            .orderBy('offer.created_at', 'DESC')
+            .limit(parseInt(process.env.OFFERS_PER_PAGE))
+            .offset((page-1) * parseInt(process.env.OFFERS_PER_PAGE))
+            .getRawMany();
     }
 }

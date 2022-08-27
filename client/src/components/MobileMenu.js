@@ -3,6 +3,9 @@ import closeIcon from '../static/img/left-blue-arrow.svg'
 import {adminMenu, adminMenuLabels, agencyMenu, homeMenu, userMenu} from "../static/content";
 import LanguageSwitcher from "./LanguageSwitcher";
 import {LanguageContext} from "../App";
+import {logoutAdmin} from "../helpers/admin";
+import {logout} from "../helpers/user";
+import logoutIcon from '../static/img/logout.svg'
 
 const MobileMenu = ({closeMenu, type}) => {
     const [menuLabels, setMenuLabels] = useState([]);
@@ -62,7 +65,12 @@ const MobileMenu = ({closeMenu, type}) => {
                 <a href="/rejestracja" className="btn btn--white">
                     {c.createAccount}
                 </a>
-            </div> : ''}
+            </div> : <button onClick={() => { type === 4 ? logoutAdmin() : logout(); }}
+                             className="btn btn--white btn--logout center">
+                <img className="img" src={logoutIcon} alt="logout" />
+                {c.logout}
+            </button>}
+
             {type !== 4 ? <div className="mobileMenu__bottom__bottom flex">
                 <div className="mobileMenu__bottom__bottom__links flex flex--start">
                     <a href="/regulamin">

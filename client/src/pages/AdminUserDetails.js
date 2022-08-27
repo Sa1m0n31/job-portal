@@ -48,8 +48,6 @@ const AdminUserDetails = () => {
     const [acceptSuccess, setAcceptSuccess] = useState(0);
 
     const [blocked, setBlocked] = useState(false);
-    const [currentGalleryScroll, setCurrentGalleryScroll] = useState(0);
-    const [galleryIndex, setGalleryIndex] = useState(-1);
     const [id, setId] = useState(null);
     const [email, setEmail] = useState('');
     const [user, setUser] = useState({});
@@ -107,11 +105,11 @@ const AdminUserDetails = () => {
         setUnblockSuccess(0);
     }, [unblockCandidate]);
 
-    return <div className="container">
+    return id ? <div className="container">
         <LoggedAdminHeader />
 
         {blockCandidate ? <Modal header="Czy na pewno chcesz zablokować tego użytkownika?"
-                                modalAction={blockUserById}
+                                 modalAction={blockUserById}
                                  block="Zablokuj"
                                  success={blockSuccess === 1}
                                  closeModal={() => { setBlockCandidate(0); }}
@@ -119,11 +117,11 @@ const AdminUserDetails = () => {
         /> : ''}
 
         {unblockCandidate ? <Modal header="Czy na pewno chcesz odblokować tego użytkownika?"
-                                 modalAction={unblockUserById}
-                                 block="Odblokuj"
-                                 closeModal={() => { setUnblockCandidate(0); }}
-                                 success={unblockSuccess === 1}
-                                 message={unblockSuccess ? "Użytkownik został odblokowany" : ''}
+                                   modalAction={unblockUserById}
+                                   block="Odblokuj"
+                                   closeModal={() => { setUnblockCandidate(0); }}
+                                   success={unblockSuccess === 1}
+                                   message={unblockSuccess ? "Użytkownik został odblokowany" : ''}
         /> : ''}
 
         <main className="adminMain adminMain--agencyDetails">
@@ -446,6 +444,8 @@ const AdminUserDetails = () => {
                 </div>
             </div>
         </main>
+    </div> : <div className="container container--height100 center">
+        <Loader />
     </div>
 };
 

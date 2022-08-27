@@ -6,6 +6,10 @@ import AdminAgencies from "../pages/AdminAgencies";
 import AdminAgencyDetails from "../pages/AdminAgencyDetails";
 import AdminUserDetails from "../pages/AdminUserDetails";
 import AdminUsers from "../pages/AdminUsers";
+import AdminOffers from "../pages/AdminOffers";
+import AdminJobOffer from "../pages/AdminJobOffer";
+import AdminFastOffer from "../pages/AdminFastOffer";
+import AdminFastOffers from "../pages/AdminFastOffers";
 
 const AdminWrapper = ({page}) => {
     const [render, setRender] = useState(null);
@@ -30,6 +34,18 @@ const AdminWrapper = ({page}) => {
                                 break;
                             case 5:
                                 setRender(<AdminUserDetails />);
+                                break;
+                            case 6:
+                                setRender(<AdminOffers />);
+                                break;
+                            case 7:
+                                setRender(<AdminJobOffer />);
+                                break;
+                            case 8:
+                                setRender(<AdminFastOffers />);
+                                break;
+                            case 9:
+                                setRender(<AdminFastOffer />);
                                 break;
                             default:
                                 window.location = '/';

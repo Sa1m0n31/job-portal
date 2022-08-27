@@ -1,5 +1,5 @@
 import axios from "axios";
-import {getAuthHeader, getLang, getLoggedUserEmail} from "./others";
+import {getAdminAuthHeader, getAuthHeader, getLang, getLoggedUserEmail} from "./others";
 
 const addOffer = (data) => {
     const formData = new FormData();
@@ -51,10 +51,10 @@ const getActiveJobOffers = (page) => {
     return axios.get(`/offer/getActive/${page}/${getLang()}`);
 }
 
-const deleteOffer = (id) => {
+const deleteOffer = (id, admin = false) => {
     return axios.delete(`/offer/delete/${id}`, {
         headers: {
-            Authorization: getAuthHeader()
+            Authorization: admin ? getAdminAuthHeader() : getAuthHeader()
         }
     });
 }
@@ -148,10 +148,10 @@ const getFastJobOffersByAgency = () => {
     });
 }
 
-const deleteFastOffer = (id) => {
+const deleteFastOffer = (id, admin = false) => {
     return axios.delete(`/offer/deleteFastOffer/${id}`, {
         headers: {
-            Authorization: getAuthHeader()
+            Authorization: admin ? getAdminAuthHeader() : getAuthHeader()
         }
     });
 }
@@ -196,7 +196,11 @@ const getFastApplicationsByAgency = () => {
     return axios.get(`/offer/getFastApplicationsByAgency/${getLoggedUserEmail()}/${getLang()}`);
 }
 
+const getAllOffers = (page) => {
+    return axios.get(`/offer/getAll/${page}`);
+}
+
 export { addOffer, getJobOffersByAgency, getActiveJobOffers, deleteOffer,
     getOfferById, updateOffer, submitApplication, filterOffers, getActiveFastOffers,
-    addFastOffer, updateFastOffer, getFastJobOffersByAgency, deleteFastOffer,
+    addFastOffer, updateFastOffer, getFastJobOffersByAgency, deleteFastOffer, getAllOffers,
     getFastOfferById, submitFastApplication, getApplicationsByAgency, getFastApplicationsByAgency }

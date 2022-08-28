@@ -1,8 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import UserHomepage from "../pages/UserHomepage";
-import {authUser, getUserData} from "../helpers/user";
 import Loader from "./Loader";
-import UserEditData from "../pages/UserEditData";
 import AgencyEditData from "../pages/AgencyEditData";
 import {authAgency, getAgencyData} from "../helpers/agency";
 import AgencyHomepage from "../pages/AgencyHomepage";
@@ -19,6 +16,7 @@ import LoggedUserFooter from "./LoggedUserFooter";
 
 const AgencyWrapper = ({page}) => {
     const [render, setRender] = useState(null);
+    const [accepted, setAccepted] = useState(true);
 
     useEffect(() => {
         if(page) {
@@ -29,6 +27,8 @@ const AgencyWrapper = ({page}) => {
                             .then((res) => {
                                 if(res?.status === 200) {
                                     const data = JSON.parse(res.data.data);
+                                    setAccepted(res?.data?.accepted);
+
                                     switch(page) {
                                         case 1:
                                             setRender(<AgencyEditData />);
@@ -55,16 +55,22 @@ const AgencyWrapper = ({page}) => {
                                             setRender(<AddFastJobOffer updateMode={true} />);
                                             break;
                                         case 9:
-                                            setRender(<CandidatesList data={data} />);
+                                            setRender(<CandidatesList data={data}
+                                                                      accepted={res?.data?.accepted} />);
                                             break;
                                         case 10:
                                             setRender(<CandidateProfile data={data} />);
                                             break;
                                         case 11:
-                                            setRender(<MessageList data={data} agency={true} id={res?.data?.id} />);
+                                            setRender(<MessageList data={data}
+                                                                   accepted={res?.data?.accepted}
+                                                                   agency={true}
+                                                                   id={res?.data?.id} />);
                                             break;
                                         case 12:
-                                            setRender(<SendMessage data={data} isAgency={true} />);
+                                            setRender(<SendMessage data={data}
+                                                                   accepted={res?.data?.accepted}
+                                                                   isAgency={true} />);
                                             break;
                                         case 13:
                                             setRender(<AgencyApplications data={data} />);
@@ -91,10 +97,10 @@ const AgencyWrapper = ({page}) => {
         }
     }, [page]);
 
-    return render ? <>
+    return render ? <div className={!accepted ? "externalContainer--agency" : ''}>
         {render}
         {page !== 1 ? <LoggedUserFooter /> : ''}
-    </> : <div className="container container--loader center">
+    </div> : <div className="container container--loader center">
         <Loader />
     </div>
 };

@@ -84,7 +84,6 @@ const submitApplication = (id, message, friendLink, contactForms, attachments, a
     formData.append('agencyId', agencyId);
     formData.append('friendLink', friendLink);
     for(const att of attachments) {
-        console.log(att);
         formData.append('attachments', att.file);
     }
 
@@ -181,7 +180,6 @@ const submitFastApplication = (id, message, friendLink, contactForms, attachment
     formData.append('agencyId', agencyId);
     formData.append('friendLink', friendLink);
     for(const att of attachments) {
-        console.log(att);
         formData.append('attachments', att.file);
     }
 

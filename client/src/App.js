@@ -38,8 +38,8 @@ function App() {
           .then((res) => {
             if(res?.data?.length) {
               const val = res.data.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), {});
-              console.log(val);
               setC(val);
+
               localStorage.setItem('siteContent', JSON.stringify(val));
               localStorage.setItem('storedLanguage', language);
             }
@@ -69,10 +69,12 @@ function App() {
         <AccountVerification />
       </Route>
       <Route path="/regulamin">
-        <TextPage header="Regulamin" content={termsOfService} />
+        <TextPage header={c.termsOfServiceHeader}
+                  content={termsOfService} />
       </Route>
       <Route path="/polityka-prywatnosci">
-        <TextPage header="Polityka prywatności" content={privacyPolicy} />
+        <TextPage header={c.privacyPolicyHeader}
+                  content={privacyPolicy} />
       </Route>
       <Route path="/przypomnienie-hasla">
         <RemindPassword />

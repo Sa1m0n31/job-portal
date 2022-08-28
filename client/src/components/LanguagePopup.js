@@ -22,7 +22,7 @@ const LanguagePopup = ({closeModal}) => {
                 <img className="img" src={closeIcon} alt="zamknij" />
             </button>
             <h3 className="modal__header">
-                {c.chooseLanguage}
+                {c.chooseLanguage.charAt(0).toUpperCase() + c.chooseLanguage.slice(1)}
             </h3>
             <div className="languages flex">
                 {languageVersions.map((item, index) => {

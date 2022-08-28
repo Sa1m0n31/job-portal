@@ -9,6 +9,7 @@ import {MailerModule} from "@nestjs-modules/mailer";
 import {AgencyModule} from "./agency/agency.module";
 import {join} from "path";
 import { ServeStaticModule } from '@nestjs/serve-static';
+import { ScheduleModule } from '@nestjs/schedule';
 import { OfferModule } from './offer/offer.module';
 import { MessagesModule } from './messages/messages.module';
 import { TranslationModule } from './translation/translation.module';
@@ -23,6 +24,7 @@ import { AdminModule } from './admin/admin.module';
         DATABASE_PORT: Joi.number().default(3306)
       })
     }),
+    ScheduleModule.forRoot(),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..'),
     }),

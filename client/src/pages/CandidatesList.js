@@ -11,7 +11,7 @@ import {currencies} from "../static/content";
 import settings from "../static/settings";
 import {LanguageContext} from "../App";
 
-const CandidatesList = ({data}) => {
+const CandidatesList = ({data, accepted}) => {
     const [users, setUsers] = useState([]);
     const [filteredUsers, setFilteredUsers] = useState([]);
     const [filtersVisible, setFiltersVisible] = useState(false);
@@ -43,17 +43,22 @@ const CandidatesList = ({data}) => {
     const { c } = useContext(LanguageContext);
 
     useEffect(() => {
-        getAllVisibleUsers(1)
-            .then((res) => {
-                if(res?.status === 200) {
-                    setUsers(res?.data);
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        setPage(2);
-    }, []);
+        if(accepted) {
+            getAllVisibleUsers(1)
+                .then((res) => {
+                    if(res?.status === 200) {
+                        setUsers(res?.data);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+            setPage(2);
+        }
+        else {
+            window.location = '/konto-agencji';
+        }
+    }, [accepted]);
 
     const getUsers = async () => {
         const newUsersResponse = await getAllVisibleUsers(page);

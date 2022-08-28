@@ -827,6 +827,14 @@ input {
     z-index: 5;
 }
 
+.datepickerDropdown--currencies {
+    max-height: 115px;
+}
+
+.datepickerDropdown--countries {
+    max-height: 200px;
+}
+
 .datepickerBtn {
     width: 100%;
     height: 45px;
@@ -2766,6 +2774,7 @@ input {
     font-size: 14px;
     border-radius: 5px;
     margin-left: 5vw;
+    text-align: center;
 }
 
 .offerItem__salary {
@@ -5573,7 +5582,7 @@ a.preview__bottom__content {
     flex-direction: column;
 }
 
-.container--agency__grid .flex,
+.adminMain .container--agency__grid .flex,
 .adminMain .userAccount__box {
     width: 100% !important;
     max-width: 100% !important;
@@ -5671,4 +5680,22 @@ a.preview__bottom__content {
     width: 15px !important;
     height: auto !important;
     margin-right: 10px;
+}
+
+.notAcceptedInfo {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    background: #cb4949;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 15px 40px;
+    transition: .3s all;
 }

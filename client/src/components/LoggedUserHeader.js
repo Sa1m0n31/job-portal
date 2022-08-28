@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import MobileHeader from "./MobileHeader";
 import logo from '../static/img/logo-czarne.png'
 import messageIcon from '../static/img/message-blue.svg'
@@ -23,6 +23,16 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
     const [notificationsDropdown, setNotificationsDropdown] = useState(false);
     const [newMessages, setNewMessages] = useState(0);
     const [newNotifications, setNewNotifications] = useState(false);
+    const [notAccepted, setNotAccepted] = useState(false);
+
+    const notAcceptedInfo = useRef(null);
+
+    const hideInfo = () => {
+        notAcceptedInfo.current.style.opacity = '0';
+        setTimeout(() => {
+            notAcceptedInfo.current.style.visibility = 'hidden';
+        }, 600);
+    }
 
     useEffect(() => {
         document.addEventListener('keyup', (e) => {
@@ -39,29 +49,34 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                 if(agency) {
                     const agencyData = await getAgencyData();
 
-                    const agencyMessages = await getAgencyMessages(agencyData?.data?.id);
-                    const agencyNotifications = await getAgencyNotifications();
+                    if(agencyData?.data?.accepted) {
+                        const agencyMessages = await getAgencyMessages(agencyData?.data?.id);
+                        const agencyNotifications = await getAgencyNotifications();
 
-                    setMessages(agencyMessages?.data?.filter((item) => {
-                        const chat = JSON.parse(item.m_chat);
-                        return chat.findIndex((item) => {
-                            return item.fromAgency !== agency;
-                        }) !== -1 && !item.m_archivedByAgency;
-                    }));
-                    if(agencyNotifications?.data) {
-                        setNotifications(agencyNotifications.data?.map((item) => {
-                            return {
-                                id: item.n_id,
-                                image: item.u_data ? JSON.parse(item.u_data)?.profileImage : userPlaceholder,
-                                type: item.n_type,
-                                read: item.n_checked,
-                                link: item.n_link,
-                                user: item.u_data ? (JSON.parse(item.u_data)?.firstName ? JSON.parse(item.u_data)?.firstName + ' ' + JSON.parse(item.u_data)?.lastName : 'Ktoś') : 'Ktoś'
-                            }
-                        }).sort((a, b) => {
-                            if(a.read && !b.read) return 1;
-                            else return -1;
+                        setMessages(agencyMessages?.data?.filter((item) => {
+                            const chat = JSON.parse(item.m_chat);
+                            return chat.findIndex((item) => {
+                                return item.fromAgency !== agency;
+                            }) !== -1 && !item.m_archivedByAgency;
                         }));
+                        if(agencyNotifications?.data) {
+                            setNotifications(agencyNotifications.data?.map((item) => {
+                                return {
+                                    id: item.n_id,
+                                    image: item.u_data ? JSON.parse(item.u_data)?.profileImage : userPlaceholder,
+                                    type: item.n_type,
+                                    read: item.n_checked,
+                                    link: item.n_link,
+                                    user: item.u_data ? (JSON.parse(item.u_data)?.firstName ? JSON.parse(item.u_data)?.firstName + ' ' + JSON.parse(item.u_data)?.lastName : 'Ktoś') : 'Ktoś'
+                                }
+                            }).sort((a, b) => {
+                                if(a.read && !b.read) return 1;
+                                else return -1;
+                            }));
+                        }
+                    }
+                    else {
+                        setNotAccepted(true);
                     }
                 }
                 else {
@@ -233,7 +248,7 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                     {notificationsDropdown ? <div className="notifications__dropdown">
                         <a className="notifications__dropdown__item notifications__dropdown__item--bottom"
                            href="/powiadomienia">
-                            {newNotifications ? `Nowe powiadomienia: ${newNotifications}` : c.noNotifications}
+                            {newNotifications ? `${c.newNotifications}: ${newNotifications}` : c.noNotifications}
                         </a>
                         {notifications?.map((item, index) => {
                             if(index < 2) {
@@ -298,6 +313,12 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                 </div> : ''}
             </div>
         </div>
+
+        {notAccepted ? <h5 className="notAcceptedInfo"
+                           ref={notAcceptedInfo}
+                           onClick={() => { hideInfo(); }}>
+            {c.notAcceptedAccount}
+        </h5> : ''}
     </header>
 };
 

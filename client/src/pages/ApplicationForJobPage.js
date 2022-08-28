@@ -17,6 +17,7 @@ import userPlaceholder from '../static/img/user-placeholder.svg'
 import {PDFDownloadLink} from "@react-pdf/renderer";
 import CV from "../components/CV";
 import {LanguageContext} from "../App";
+import Loader from "../components/Loader";
 
 const ApplicationForJobPage = ({data}) => {
     const [offer, setOffer] = useState('');
@@ -51,7 +52,8 @@ const ApplicationForJobPage = ({data}) => {
                 getFastOfferById(id)
                     .then((res) => {
                         if(res?.status === 200) {
-                            setOffer(res?.data[0]);
+                            const r = res?.data;
+                            setOffer(Array.isArray(r) ? r[0] : r);
                             setFast(true);
                         }
                     })
@@ -63,7 +65,8 @@ const ApplicationForJobPage = ({data}) => {
                 getOfferById(id)
                     .then((res) => {
                         if(res?.status === 200) {
-                            setOffer(res?.data[0]);
+                            const r = res?.data;
+                            setOffer(Array.isArray(r) ? r[0] : r);
                         }
                     })
                     .catch(() => {
@@ -197,7 +200,7 @@ const ApplicationForJobPage = ({data}) => {
         }
     }
 
-    return <div className="container container--offer container--application">
+    return offer ? <div className="container container--offer container--application">
         <LoggedUserHeader data={data} />
 
         {offer ? <aside className="userAccount__top flex">
@@ -288,8 +291,8 @@ const ApplicationForJobPage = ({data}) => {
                 </h4>
                 <label className="application__label">
                     <input className="input input--friendLink"
-                              value={friendLink}
-                              onChange={(e) => { setFriendLink(e.target.value); }} />
+                           value={friendLink}
+                           onChange={(e) => { setFriendLink(e.target.value); }} />
                 </label>
 
                 <h5 className="application__header application__header--marginTop">
@@ -406,6 +409,8 @@ const ApplicationForJobPage = ({data}) => {
                 </button>
             </div>
         </main>
+    </div> : <div className="container container--height100 center">
+        <Loader />
     </div>
 };
 

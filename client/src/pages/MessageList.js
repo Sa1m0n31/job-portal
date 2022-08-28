@@ -14,7 +14,7 @@ import {isElementInArray} from "../helpers/others";
 import replayIcon from '../static/img/reply-icon.svg'
 import {LanguageContext} from "../App";
 
-const MessageList = ({agency, data, id}) => {
+const MessageList = ({agency, data, accepted, id}) => {
     const [selectedMessages, setSelectedMessages] = useState([]);
     const [selectedMessagesFromArchive, setSelectedMessagesFromArchive] = useState([]);
     const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -262,10 +262,10 @@ const MessageList = ({agency, data, id}) => {
                     <h1 className="messages__header">
                         {c.messagesList}
                     </h1>
-                    <a className="btn btn--newMessage center" href={agency ? "/nowa-wiadomosc" : "/napisz-wiadomosc"}>
+                    {accepted !== false ? <a className="btn btn--newMessage center" href={agency ? "/nowa-wiadomosc" : "/napisz-wiadomosc"}>
                         <span className="d-mobile">{c.write}</span>
                         <span className="d-desktop">{c.newMessage}</span>
-                    </a>
+                    </a> : ''}
                 </div>
 
                 <div className="messages__buttons flex flex--start">

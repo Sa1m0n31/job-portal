@@ -17,7 +17,7 @@ const AgencyForm4a = ({setRoomVisible, setHouseVisible, setParkingVisible}) => {
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation(); setRoomVisible(!roomVisible); }}
                         >
-                            {agencyData.roomType ? rooms[agencyData.roomType] : c.chooseRoom}
+                            {agencyData.roomType >= 0 ? rooms[agencyData.roomType] : c.chooseRoom}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {roomVisible ? <div className="datepickerDropdown noscroll">
@@ -33,7 +33,7 @@ const AgencyForm4a = ({setRoomVisible, setHouseVisible, setParkingVisible}) => {
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation(); setHouseVisible(!houseVisible); }}
                         >
-                            {agencyData.houseType ? houses[agencyData.houseType] : c.chooseBuilding}
+                            {agencyData.houseType >= 0 ? houses[agencyData.houseType] : c.chooseBuilding}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {houseVisible ? <div className="datepickerDropdown noscroll">

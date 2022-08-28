@@ -9,7 +9,7 @@ import whiteArrow from '../static/img/small-white-arrow.svg'
 import checkIcon from "../static/img/green-check.svg";
 import {LanguageContext} from "../App";
 
-const SendMessage = ({isAgency, data}) => {
+const SendMessage = ({isAgency, accepted, data}) => {
     const [recipient, setRecipient] = useState('');
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -34,43 +34,48 @@ const SendMessage = ({isAgency, data}) => {
 
         async function setupMessage() {
             if(isAgency) {
-                // Agency account
-                const agencyResponse = await getAgencyData();
-                const agencyId = agencyResponse?.data?.id;
-                setAgency(agencyId);
+                if(accepted !== false) {
+                    // Agency account
+                    const agencyResponse = await getAgencyData();
+                    const agencyId = agencyResponse?.data?.id;
+                    setAgency(agencyId);
 
-                if(userParam) {
-                    // Set default recipient
-                    const userResponse = await getUserById(userParam);
-                    const userData = JSON.parse(userResponse.data.data);
-                    setRecipient({
-                        label: userData?.firstName ? `${userData?.firstName} ${userData?.lastName}` : userResponse?.data?.email,
-                        value: userResponse?.data?.id
-                    });
-                    setUser(userResponse?.data?.id);
+                    if(userParam) {
+                        // Set default recipient
+                        const userResponse = await getUserById(userParam);
+                        const userData = JSON.parse(userResponse.data.data);
+                        setRecipient({
+                            label: userData?.firstName ? `${userData?.firstName} ${userData?.lastName}` : userResponse?.data?.email,
+                            value: userResponse?.data?.id
+                        });
+                        setUser(userResponse?.data?.id);
+                    }
+                    else if(idParam) {
+                        // Get current chat
+                        setChatId(parseInt(idParam));
+                        const chatResponse = await getChat(parseInt(idParam));
+                        const chatData = chatResponse?.data;
+                        setChat(JSON.parse(chatData?.chat));
+                        setTitle(chatData.title);
+
+                        const userResponse = await getUserById(chatData.user);
+                        const userData = JSON.parse(userResponse.data.data);
+                        setRecipient({
+                            label: userData?.firstName ? `${userData?.firstName} ${userData?.lastName}` : userResponse?.data?.email,
+                            value: userResponse?.data?.id
+                        });
+                    }
+
+                    // Get list of users
+                    const allUsersResponse = await getAllUsers(null)
+                    setRecipientChoices(allUsersResponse?.data?.map((item) => ({
+                        label: JSON.parse(item.data)?.firstName ? JSON.parse(item.data)?.firstName + ' ' + JSON.parse(item.data)?.lastName : item.email,
+                        value: item.id
+                    })));
                 }
-                else if(idParam) {
-                    // Get current chat
-                    setChatId(parseInt(idParam));
-                    const chatResponse = await getChat(parseInt(idParam));
-                    const chatData = chatResponse?.data;
-                    setChat(JSON.parse(chatData?.chat));
-                    setTitle(chatData.title);
-
-                    const userResponse = await getUserById(chatData.user);
-                    const userData = JSON.parse(userResponse.data.data);
-                    setRecipient({
-                        label: userData?.firstName ? `${userData?.firstName} ${userData?.lastName}` : userResponse?.data?.email,
-                        value: userResponse?.data?.id
-                    });
+                else {
+                    window.location = '/konto-agencji';
                 }
-
-                // Get list of users
-                const allUsersResponse = await getAllUsers(null)
-                setRecipientChoices(allUsersResponse?.data?.map((item) => ({
-                    label: JSON.parse(item.data)?.firstName ? JSON.parse(item.data)?.firstName + ' ' + JSON.parse(item.data)?.lastName : item.email,
-                    value: item.id
-                })));
             }
             else {
                 // User account
@@ -114,7 +119,7 @@ const SendMessage = ({isAgency, data}) => {
         }
 
         setupMessage();
-    }, [agency]);
+    }, [agency, accepted]);
 
     const handleSelect = (data) => {
         setRecipient(data);

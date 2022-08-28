@@ -33,7 +33,7 @@ const AgenciesFilters = ({closeModal, country, city, distance,
                             {country !== -1 && c.countries ? JSON.parse(c.countries)[country] : c.chooseCountry}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
-                        {countriesVisible ? <div className="datepickerDropdown noscroll">
+                        {countriesVisible ? <div className="datepickerDropdown datepickerDropdown--countries noscroll">
                             {JSON.parse(c.countries)?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
                                                onClick={(e) => { setCountry(index); }}>

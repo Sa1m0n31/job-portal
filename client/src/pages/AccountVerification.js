@@ -61,11 +61,11 @@ const AccountVerification = () => {
         }
     }, []);
 
-    return <div className="container container--register center">
+    return <div className="container container--register container--register--accountVerification center">
         <img className="registerImg" src={background} alt="rejestracja" />
         {loading ? <Loader /> : <main className="register register--verification">
             <img className="register__logo" src={logo} alt="portal-pracy" />
-            <h1 className="register__header">
+            <h1 className="register__header register__header--accountVerification">
                 {c.yourAccountIsActive}
                 <img className="check" src={check} alt="potwierdzenie" />
             </h1>

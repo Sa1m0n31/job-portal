@@ -14,7 +14,6 @@ import instagramIcon from '../static/img/instagram-icon.svg'
 import ytIcon from '../static/img/youtube-icon.svg'
 import linkedinIcon from '../static/img/linedin-icon.svg'
 import galleryArrow from '../static/img/gallery-arrow.svg'
-import { noInfo } from "../static/content";
 import magnifierIcon from '../static/img/magnifier.svg'
 import Gallery from "../components/Gallery";
 import userPlaceholder from '../static/img/user-placeholder.svg'
@@ -222,7 +221,7 @@ const AgencyHomepage = ({data, email}) => {
                                 {c.roomType}
                             </span>
                             <p className="userAccount__box__value">
-                                {data.roomType !== null && data.roomType !== undefined ? JSON.parse(c.roomsTypes)[data.roomType] : noInfo}
+                                {data.roomType !== null && data.roomType !== undefined ? JSON.parse(c.roomsTypes)[data.roomType] : c.noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
@@ -230,7 +229,7 @@ const AgencyHomepage = ({data, email}) => {
                                 {c.houseType}
                             </span>
                             <p className="userAccount__box__value">
-                                {data.houseType !== null && data.houseType !== undefined ? JSON.parse(c.houses)[data.houseType] : noInfo}
+                                {data.houseType !== null && data.houseType !== undefined ? JSON.parse(c.houses)[data.houseType] : c.noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
@@ -306,7 +305,7 @@ const AgencyHomepage = ({data, email}) => {
                                 {c.salary}
                             </span>
                             <p className="userAccount__box__value">
-                                {data.paycheckFrequency !== null && data.paycheckFrequency !== undefined ? JSON.parse(c.paycheckFrequency)[data.paycheckFrequency] : noInfo}<br/>
+                                {data.paycheckFrequency !== null && data.paycheckFrequency !== undefined ? JSON.parse(c.paycheckFrequency)[data.paycheckFrequency] : c.noInfo}<br/>
                                 {data.paycheckFrequency !== null && data.paycheckFrequency !== undefined ? JSON.parse(c.paycheckDay)[data.paycheckDay] : ''}
                             </p>
                         </span>
@@ -315,7 +314,7 @@ const AgencyHomepage = ({data, email}) => {
                                 {c.healthInsurance}
                             </span>
                             <p className="userAccount__box__value">
-                                {data.healthInsurance !== null && data.healthInsurance !== undefined ? JSON.parse(c.paymentTypes)[data.healthInsurance] : noInfo}<br/>
+                                {data.healthInsurance !== null && data.healthInsurance !== undefined ? JSON.parse(c.paymentTypes)[data.healthInsurance] : c.noInfo}<br/>
                                 {data.healthInsuranceCost !== null && data.healthInsurance === 0 ? data.healthInsuranceCost + ' ' + currencies[data.healthInsuranceCurrency] : ''}
                             </p>
                         </span>

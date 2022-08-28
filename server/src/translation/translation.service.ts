@@ -5,7 +5,6 @@ import {Repository} from "typeorm";
 import {Dynamic_translations} from "../entities/dynamic_translations";
 import {removeLanguageSpecificCharacters} from "../common/removeLanguageSpecificCharacters";
 const {Translate} = require('@google-cloud/translate').v2;
-const translate = require('google-translate-api');
 
 @Injectable()
 export class TranslationService {
@@ -98,16 +97,31 @@ export class TranslationService {
         return translationResult.length === 1 ? translationResult[0].toString() : translationResult;
     }
 
-    async translate(from, to, saveAs) {
-        const siteContent = await this.staticRepository.findBy({
-            lang: from
-        });
+    async translate(from, to, saveAs, field = '') {
+        let siteContent;
+
+        if(field) {
+            siteContent = await this.staticRepository.findBy({
+                lang: from,
+                field: field
+            });
+        }
+        else {
+            siteContent = await this.staticRepository.findBy({
+                lang: from
+            });
+        }
+
+        console.log(siteContent);
+
         const translationBase = siteContent.map((item) => {
             return {
                 field: item.field,
                 value: item.value
             }
         });
+
+        console.log(translationBase);
 
         const translate = new Translate();
         let translationResult = [];
@@ -135,6 +149,7 @@ export class TranslationService {
             let i = 0;
             for(const lang of languagesCodes) {
                 for(const chunk of translationBase) {
+                    console.log('translating... ' + chunk);
                     await translateText(chunk, lang);
                 }
 

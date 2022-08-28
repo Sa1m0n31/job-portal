@@ -1,13 +1,12 @@
 import {HttpException, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Offer} from "../entities/offer.entity";
-import {Like, MoreThan, Repository} from "typeorm";
+import {Like, Repository} from "typeorm";
 import {Agency} from "../entities/agency.entity";
 import {Application} from "../entities/applications.entity";
 import {User} from "../entities/user.entity";
-import * as axios from 'axios'
 import { HttpService } from '@nestjs/axios'
-import {lastValueFrom, map} from "rxjs";
+import {lastValueFrom} from "rxjs";
 import {calculateDistance} from "../common/calculateDistance";
 import {Fast_offer} from "../entities/fast_offer.entity";
 import {Fast_applications} from "../entities/fast_applications.entity";
@@ -21,6 +20,7 @@ import {
     offerTranslateObject
 } from "../common/translateObjects";
 import {getGoogleTranslateLanguageCode} from "../common/getGoogleTranslateLanguageCode";
+import {Cron} from "@nestjs/schedule";
 
 // 0 - miesiecznie
 // 1 - tygodniowo
@@ -53,6 +53,12 @@ export class OfferService {
     ) {
     }
 
+    @Cron('59 59 23 * * *')
+    async removeFastOffers() {
+        await this.fastApplicationsRepository.delete({});
+        return this.fastOfferRepository.delete({});
+    }
+
     async isElementInArray(el, arr) {
         if(!arr?.length) return false;
         return arr.findIndex((item) => {
@@ -66,6 +72,7 @@ export class OfferService {
                 .createQueryBuilder('offer')
                 .where(`timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP`)
                 .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+                .where('a.accepted = true')
                 .limit(parseInt(process.env.OFFERS_PER_PAGE))
                 .offset((page-1) * parseInt(process.env.OFFERS_PER_PAGE))
                 .getRawMany();
@@ -75,6 +82,7 @@ export class OfferService {
                 .createQueryBuilder('offer')
                 .where(`timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP`)
                 .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+                .where('a.accepted = true')
                 .limit(parseInt(process.env.OFFERS_PER_PAGE))
                 .offset((page - 1) * parseInt(process.env.OFFERS_PER_PAGE))
                 .getRawMany();
@@ -193,12 +201,14 @@ export class OfferService {
             return this.fastOfferRepository
                 .createQueryBuilder('offer')
                 .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+                .where('a.accepted = true')
                 .getRawMany();
         }
         else {
             const jobOffers = await this.fastOfferRepository
                 .createQueryBuilder('offer')
                 .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+                .where('a.accepted = true')
                 .getRawMany();
 
             lang = getGoogleTranslateLanguageCode(lang);

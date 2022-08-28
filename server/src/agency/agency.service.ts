@@ -2,7 +2,6 @@ import {BadRequestException, HttpException, Injectable} from '@nestjs/common';
 import * as crypto from 'crypto'
 import {InjectRepository} from "@nestjs/typeorm";
 import {Repository} from "typeorm";
-import {CreateUserDto} from "../dto/create-user.dto";
 import { v4 as uuid } from 'uuid';
 import {MailerService} from "@nestjs-modules/mailer";
 import {Agency} from "../entities/agency.entity";
@@ -19,9 +18,7 @@ import {Dynamic_translations} from "../entities/dynamic_translations";
 import {getGoogleTranslateLanguageCode} from "../common/getGoogleTranslateLanguageCode";
 import {
     agencyTranslateFields,
-    agencyTranslateObject,
-    offerTranslateFields,
-    offerTranslateObject
+    agencyTranslateObject
 } from "../common/translateObjects";
 
 @Injectable()
@@ -83,7 +80,7 @@ export class AgencyService {
                 email: email,
                 password: passwordHash,
                 data: '{}',
-                accepted: false, // TODO: admin panel
+                accepted: false,
                 active: false,
                 lat: null,
                 lng: null

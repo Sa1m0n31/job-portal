@@ -2557,6 +2557,26 @@
         font-size: 18px;
     }
 
+    .notAcceptedInfo {
+        font-size: 11px;
+        padding: 10px 20px;
+    }
+
+    .register__header--accountVerification {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .register__header--accountVerification .check {
+        margin: 20px auto;
+    }
+
+    .container--register--accountVerification {
+        margin-top: 0;
+    }
+
     .home__zone {
         height: auto;
     }

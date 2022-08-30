@@ -101,7 +101,7 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
                     <button className="datepicker datepicker--currency"
                             onClick={(e) => { e.stopPropagation(); setCurrenciesVisible(!currenciesVisible); }}
                     >
-                        {userData.salaryCurrency}
+                        {currencies[userData.salaryCurrency]}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {currenciesVisible ? <div className="datepickerDropdown noscroll">
@@ -109,7 +109,7 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
                             return <button className="datepickerBtn center" key={index}
                                            onClick={(e) => { e.stopPropagation();
                                            setCurrenciesVisible(false);
-                                           handleChange('salaryCurrency', item); }}>
+                                           handleChange('salaryCurrency', index); }}>
                                 {item}
                             </button>
                         })}

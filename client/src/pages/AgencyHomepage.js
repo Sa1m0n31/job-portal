@@ -103,7 +103,7 @@ const AgencyHomepage = ({data, email}) => {
                         </figure>
                         <div className="userAccount__box__mainData">
                             <h1 className="userAccount__box__fullName">
-                                {data.name}
+                                {data.name ? data.name : c.anonim}
                             </h1>
                             {data.city ? <p className="userAccount__box__mainData__text">
                                 <img className="img" src={locationIcon} alt="lokalizacja" />

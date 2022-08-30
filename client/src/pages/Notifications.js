@@ -6,10 +6,12 @@ import {authAgency, getAgencyData, getAgencyNotifications} from "../helpers/agen
 import userPlaceholder from "../static/img/user-placeholder.svg";
 import settings from "../static/settings";
 import {LanguageContext} from "../App";
+import Loader from "../components/Loader";
 
 const Notifications = () => {
     const [data, setData] = useState(null);
     const [agency, setAgency] = useState(false);
+    const [render, setRender] = useState(false);
     const [notifications, setNotifications] = useState([]);
 
     const { c } = useContext(LanguageContext);
@@ -24,8 +26,9 @@ const Notifications = () => {
                                 setData(JSON.parse(res?.data?.data));
 
                                 const userNotifications = await getUserNotifications();
+                                console.log(userNotifications);
 
-                                if(userNotifications?.data) {
+                                if(userNotifications?.data?.length) {
                                     setNotifications(userNotifications.data?.map((item) => {
                                         return {
                                             id: item.n_id,
@@ -40,8 +43,17 @@ const Notifications = () => {
                                         else return -1;
                                     }));
                                 }
+                                else {
+                                    setRender(true);
+                                }
                             }
-                        });
+                            else {
+                                setRender(true);
+                            }
+                        })
+                        .catch(() => {
+                            setRender(true);
+                        })
                 }
             })
             .catch(() => {
@@ -55,7 +67,7 @@ const Notifications = () => {
                                         setData(JSON.parse(res?.data?.data));
 
                                         const agencyNotifications = await getAgencyNotifications();
-                                        if(agencyNotifications?.data) {
+                                        if(agencyNotifications?.data?.length) {
                                             setNotifications(agencyNotifications.data?.map((item) => {
                                                 return {
                                                     id: item.n_id,
@@ -71,6 +83,12 @@ const Notifications = () => {
                                             }));
                                         }
                                     }
+                                    else {
+                                        setRender(true);
+                                    }
+                                })
+                                .catch(() => {
+                                    setRender(true);
                                 });
                         }
                     })
@@ -80,10 +98,16 @@ const Notifications = () => {
             });
     }, []);
 
-    return <div className="container">
+    useEffect(() => {
+        if(notifications?.length) {
+            setRender(true);
+        }
+    }, [notifications]);
+
+    return render ? <div className="container">
         {data ? <LoggedUserHeader data={data} agency={agency} /> : ''}
 
-        <main className="page">
+        <main className="page page--100">
             <h1 className="page__header">
                 {c.notifications}
             </h1>
@@ -109,6 +133,8 @@ const Notifications = () => {
         </main>
 
         <LoggedUserFooter />
+    </div> : <div className="container container--height100 center">
+        <Loader />
     </div>
 };
 

@@ -30,7 +30,7 @@ const UserEditData = () => {
         lastName: '',
         birthdayDay: 0,
         birthdayMonth: 0,
-        birthdayYear: new Date().getFullYear()-14,
+        birthdayYear: 2000,
         country: 0,
         city: '',
         address: '',
@@ -69,8 +69,8 @@ const UserEditData = () => {
         salaryType: 0,
         salaryFrom: null,
         salaryTo: null,
-        salaryCurrency: 'EUR',
-        categories: ['Wybierz branżę'],
+        salaryCurrency: 0,
+        categories: ['-'],
         // 5.3 Additional info
         situationDescription: '',
         attachments: [],
@@ -202,14 +202,16 @@ const UserEditData = () => {
             .then((res) => {
                 if(res?.status === 200) {
                     const data = JSON.parse(res.data.data);
-                    setUserData({
-                        ...data,
-                        profileImage: null,
-                        profileImageUrl: data.profileImage ? `${settings.API_URL}/${data.profileImage}` : null,
-                        bsnNumberDocument: data.bsnNumberDocument ? data.bsnNumberDocument : null,
-                        oldAttachments: data.attachments ? data.attachments : [],
-                        attachments: []
-                    });
+                    if(Object.keys(data).length > 0) {
+                        setUserData({
+                            ...data,
+                            profileImage: null,
+                            profileImageUrl: data.profileImage ? `${settings.API_URL}/${data.profileImage}` : null,
+                            bsnNumberDocument: data.bsnNumberDocument ? data.bsnNumberDocument : null,
+                            oldAttachments: data.attachments ? data.attachments : [],
+                            attachments: []
+                        });
+                    }
                 }
             });
     }, []);

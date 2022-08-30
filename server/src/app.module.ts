@@ -31,11 +31,11 @@ import { AdminModule } from './admin/admin.module';
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DATABASE_HOST,
-      port: +process.env.DATABASE_PORT,
+      port: 3306,
       username: process.env.DATABASE_USER,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
-      autoLoadEntities: true, // models will be loaded automatically
+      autoLoadEntities: true,
       synchronize: false // your entities will be synced with the database(recommended: disable in prod)
     }),
     MailerModule.forRoot({

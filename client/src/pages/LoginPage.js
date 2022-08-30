@@ -76,8 +76,8 @@ const LoginPage = ({type}) => {
 
     const login = (e) => {
         e.preventDefault();
-        setLoading(true);
         if(email && password) {
+            setLoading(true);
             const func = type === 0 ? loginUser : loginAgency;
             func(email, password)
                 .then((res) => {
@@ -128,7 +128,7 @@ const LoginPage = ({type}) => {
                     {c.homepageComeback}
                 </a>
             </header>
-            <form className="login__left__content">
+            <form className="login__left__content page--50">
                 <h1 className="login__header">
                     {c.loginHeader}
                 </h1>

@@ -1,5 +1,3 @@
-import poland from "../static/img/poland.svg"
-
 const steps = [
     "Dane osobowe", "Wykształcenie", "Doświadczenie zawodowe", "Umiejętności",
     "Dodatkowe informacje", "Podsumowanie"
@@ -218,58 +216,23 @@ const months = [
 ];
 
 const countries = [
-    "Albania",
-    "Andora",
-    "Armenia",
-    "Austria",
-    "Azerbejdżan",
-    "Białoruś",
-    "Belgia",
-    "Bośnia i Hercegowina",
-    "Bułgaria",
-    "Chorwacja",
-    "Cypr",
-    "Republika Czeska",
-    "Dania",
-    "Estonia",
-    "Finlandia",
-    "Francja",
-    "Gruzja",
-    "Niemcy",
-    "Grecja",
-    "Węgry",
-    "Islandia",
-    "Irlandia",
-    "Włochy",
-    "Łotwa",
-    "Liechtenstein",
-    "Litwa",
-    "Luksemburg",
-    "Macedonia",
-    "Malta",
-    "Moldova",
-    "Monako",
-    "Czarnogóra",
-    "Holandia",
-    "Norwegia",
-    "Polska",
-    "Portugalia",
-    "Rumunia",
-    "Rosja",
-    "San Marino",
-    "Serbia",
-    "Słowacja",
-    "Słowenia",
-    "Hiszpania",
-    "Szwecja",
-    "Szwajcaria",
-    "Turcja",
-    "Ukraina",
-    "Wielka Brytania"
+    "Albania", "Andora", "Armenia", "Austria", "Azerbejdżan", "Białoruś", "Belgia",
+    "Bośnia i Hercegowina", "Bułgaria", "Chorwacja", "Cypr", "Republika Czeska", "Dania", "Estonia",
+    "Finlandia", "Francja", "Gruzja", "Niemcy", "Grecja", "Węgry", "Islandia", "Irlandia",
+    "Włochy", "Łotwa", "Liechtenstein", "Litwa", "Luksemburg", "Macedonia", "Malta",
+    "Moldova", "Monako", "Czarnogóra", "Holandia", "Norwegia", "Polska", "Portugalia",
+    "Rumunia", "Rosja", "San Marino", "Serbia", "Słowacja", "Słowenia", "Hiszpania", "Szwecja",
+    "Szwajcaria", "Turcja", "Ukraina", "Wielka Brytania"
 ];
 
 const phoneNumbers = [
-    "PL +48", "DE +49", "BE +32", "GB +44", "SE +46", "NO +47", "UA +42"
+    'AL +355', 'AD +376', 'AM +374', 'AT +43', 'AZ +994', 'BY +375', 'BE +32',
+    'BA +387', 'BG +359', 'HR +385', 'CY +387', 'CZ +420', 'DK +45', 'EE +376',
+    'FI +358', 'FR +33', 'GE +995', 'DE +49', 'GR +30', 'HU +36', 'IS +354', 'IE +353',
+    'IT +39', 'LV +371', 'LI +423', 'LT +370', 'LU +352', 'MK +389', 'MT +356',
+    'MD +373', 'MC +377', 'ME +352', 'NL +31', 'NO +47', 'PL +48', 'PT +351',
+    'RO +40', 'RU +7', 'SM +378', 'RS +381', 'SK +421', 'SI +386', 'ES +34', 'SE +46',
+    'CH +41', 'TR +90', 'UA +380', 'GB +44'
 ];
 
 const educationLevels = [
@@ -485,7 +448,7 @@ const userMenu = [
     },
     {
         label: "Zmień hasło",
-        link: "/zmien-haslo"
+        link: "/zmiana-hasla"
     }
 ]
 
@@ -520,7 +483,7 @@ const agencyMenu = [
     },
     {
         label: "Zmień hasło",
-        link: "/zmien-haslo"
+        link: "/zmiana-hasla"
     }
 ]
 

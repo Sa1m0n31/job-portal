@@ -44,7 +44,7 @@ export class OfferController {
         fileFilter: fileExtensionFilter,
         storage: diskStorage({
             filename: FileUploadHelper.customFileName,
-            destination: './uploads/offer'
+            destination: '../uploads/offer'
         })
     }))
     addOffer(@UploadedFiles() files: {
@@ -63,7 +63,7 @@ export class OfferController {
         fileFilter: fileExtensionFilter,
         storage: diskStorage({
             filename: FileUploadHelper.customFileName,
-            destination: './uploads/offer'
+            destination: '../uploads/offer'
         })
     }))
     updateOffer(@UploadedFiles() files: {
@@ -73,6 +73,7 @@ export class OfferController {
         return this.offerService.updateOffer(body, files);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getOffersByAgency/:email/:lang')
     getOffersByAgency(@Param('email') email, @Param('lang') lang) {
         return this.offerService.getOffersByAgency(email, lang);
@@ -91,7 +92,7 @@ export class OfferController {
         fileFilter: fileExtensionFilter,
         storage: diskStorage({
             filename: FileUploadHelper.customFileName,
-            destination: './uploads/offer'
+            destination: '../uploads/offer'
         })
     }))
     @Post('/addApplication')
@@ -101,6 +102,7 @@ export class OfferController {
         return this.offerService.addApplication(body, files);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('/filter')
     filterOffers(@Body() body) {
         const { page, title, category, country, city, distance, salaryFrom, salaryTo, salaryType,
@@ -109,11 +111,13 @@ export class OfferController {
             salaryFrom, salaryTo, salaryType, salaryCurrency, lang);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getActiveFastOffers/:lang')
     getActiveFastOffers(@Param('lang') lang) {
         return this.offerService.getActiveFastOffers(lang);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getFastOffer/:id/:lang')
     getFastOfferById(@Param('id') id, @Param('lang') lang) {
         return this.offerService.getFastOfferById(id, lang);
@@ -128,7 +132,7 @@ export class OfferController {
         fileFilter: fileExtensionFilter,
         storage: diskStorage({
             filename: FileUploadHelper.customFileName,
-            destination: './uploads/offer'
+            destination: '../uploads/offer'
         })
     }))
     addFastOffer(@UploadedFiles() files: {
@@ -147,7 +151,7 @@ export class OfferController {
         fileFilter: fileExtensionFilter,
         storage: diskStorage({
             filename: FileUploadHelper.customFileName,
-            destination: './uploads/offer'
+            destination: '../uploads/offer'
         })
     }))
     updateFastOffer(@UploadedFiles() files: {
@@ -157,6 +161,7 @@ export class OfferController {
         return this.offerService.updateFastOffer(body, files);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getFastOffersByAgency/:email/:lang')
     getFastOffersByAgency(@Param('email') email, @Param('lang') lang) {
         return this.offerService.getFastOffersByAgency(email, lang);
@@ -175,7 +180,7 @@ export class OfferController {
         fileFilter: fileExtensionFilter,
         storage: diskStorage({
             filename: FileUploadHelper.customFileName,
-            destination: './uploads/offer'
+            destination: '../uploads/offer'
         })
     }))
     @Post('/addFastApplication')
@@ -185,16 +190,19 @@ export class OfferController {
         return this.offerService.addFastApplication(body, files);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getApplicationsByAgency/:email/:lang')
     getApplicationsByAgency(@Param('email') email, @Param('lang') lang) {
         return this.offerService.getApplicationsByAgency(email, lang);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getFastApplicationsByAgency/:email/:lang')
     getFastApplicationsByAgency(@Param('email') email, @Param('lang') lang) {
         return this.offerService.getFastApplicationsByAgency(email, lang);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getAll/:page')
     getAllOffers(@Param('page') page) {
         return this.offerService.getAllOffers(page);

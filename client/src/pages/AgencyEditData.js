@@ -117,7 +117,7 @@ const AgencyEditData = () => {
             .then((res) => {
                 if(res?.status === 200) {
                     const data = JSON.parse(res.data.data);
-                    if(data.name) {
+                    if(Object.keys(data).length > 0) {
                         setAgencyData({
                             ...data,
                             logo: null,
@@ -173,7 +173,6 @@ const AgencyEditData = () => {
                 }
                 else {
                     setCurrentForm(<AgencyForm4c setDayVisible={setDayVisible}
-                                                 loading={loading}
                                                  setHealthInsuranceCurrencyVisible={setHealthInsuranceCurrencyVisible}
                                                  setHealthInsuranceVisible={setHealthInsuranceVisible}
                                                  setHolidayAllowanceFrequencyVisible={setHolidayAllowanceFrequencyVisible}
@@ -320,7 +319,7 @@ const AgencyEditData = () => {
     return <AgencyDataContext.Provider value={{
         setStep, setSubstep, agencyData, handleChange,
         countriesVisible, phoneNumbersCountriesVisible, nipCountriesVisible,
-        roomVisible, houseVisible, parkingVisible,
+        roomVisible, houseVisible, parkingVisible, loading,
         carVisible, carCurrencyVisible, bikeVisible, bikeCurrencyVisible, transportCostReturnVisible,
         pensionVisible, holidayAllowanceTypeVisible, holidayAllowanceFrequencyVisible, dayVisible, monthVisible,
         paycheckFrequencyVisible, paycheckDayVisible, healthInsuranceVisible, healthInsuranceCurrencyVisible

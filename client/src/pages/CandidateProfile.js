@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
-import {flags, languageVersions} from "../static/content";
+import {currencies, flags, languageVersions} from "../static/content";
 import settings from "../static/settings";
 import locationIcon from "../static/img/location.svg";
 import suitcaseIcon from "../static/img/suitcase-grey.svg";
@@ -197,7 +197,7 @@ const CandidateProfile = () => {
                                                                availability={user.availabilityDay >= 0 ? getDate(user?.availabilityDay, user?.availabilityMonth, user?.availabilityYear) : c.noInfo}
                                                                ownAccommodation={user.ownAccommodation ? user.accommodationPlace : ''}
                                                                ownTools={user.ownTools ? c.yes : ''}
-                                                               salary={user.salaryFrom && user.salaryTo ? `${user.salaryFrom} - ${user.salaryTo} ${user.salaryCurrency} ${c.netto}/${user.salaryType === 0 ? c.monthlyShortcut : c.weeklyShortcut}` : c.noInfo}
+                                                               salary={user.salaryFrom && user.salaryTo ? `${user.salaryFrom} - ${user.salaryTo} ${user.salaryCurrency >= 0 ? currencies[user.salaryCurrency] : 'EUR'} ${c.netto}/${user.salaryType === 0 ? c.monthlyShortcut : c.weeklyShortcut}` : c.noInfo}
                         />}
                                                  fileName={`CV-${user.firstName}_${user.lastName}.pdf`}
                                                  className="btn btn--downloadCV">

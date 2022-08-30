@@ -6,15 +6,15 @@ import {LanguageContext} from "../App";
 import {logoutAdmin} from "../helpers/admin";
 import {logout} from "../helpers/user";
 import logoutIcon from '../static/img/logout.svg'
+import {isHomepage} from "../helpers/others";
 
-const MobileMenu = ({closeMenu, type}) => {
+const MobileMenu = ({closeMenu, type, setLanguagePopupVisible}) => {
     const [menuLabels, setMenuLabels] = useState([]);
     const [menu, setMenu] = useState([]);
     const { c } = useContext(LanguageContext);
 
     useEffect(() => {
         if(type && c.userMenuLabels) {
-            console.log(type);
             switch(type) {
                 case 2:
                     setMenu(userMenu);
@@ -34,7 +34,13 @@ const MobileMenu = ({closeMenu, type}) => {
                     break;
             }
         }
-    }, [type, c])
+    }, [type, c]);
+
+    const hideMenu = (i) => {
+        if(type === 1 && i !== 3 && i !== 0 && isHomepage()) {
+            closeMenu();
+        }
+    }
 
     return <div className="mobileMenu">
         <div className="mobileMenu__top flex">
@@ -49,7 +55,7 @@ const MobileMenu = ({closeMenu, type}) => {
         <div className="mobileMenu__menu">
             {menu.map((item, index) => {
                 return <a className="mobileMenu__link"
-                          onClick={() => { closeMenu(); }}
+                          onClick={() => { hideMenu(index); }}
                           key={index}
                           href={item.link}>
                     {menuLabels[index]}
@@ -81,7 +87,8 @@ const MobileMenu = ({closeMenu, type}) => {
                     </a>
                 </div>
 
-                <LanguageSwitcher />
+                <LanguageSwitcher setLanguagePopupVisible={setLanguagePopupVisible}
+                                  mobile={true} />
             </div> : ''}
         </div>
     </div>

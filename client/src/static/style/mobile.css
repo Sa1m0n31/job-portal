@@ -1,12 +1,6 @@
-@media(max-height: 900px) {
-    .userForm {
-        max-height: 40vh;
-    }
-}
-
-@media(max-height: 700px) {
-    .userForm {
-        max-height: 30vh;
+@media(min-width: 996px) {
+    .formBottom svg {
+        margin-top: -20px;
     }
 }
 
@@ -154,7 +148,11 @@
     }
 
     .loggedUserHeader:not(.loggedUserHeader--admin) .logo {
-        width: 90px;
+        width: 130px;
+    }
+
+    .loggedUserHeader .home__header__menu__item {
+        font-size: 13px;
     }
 
     .loggedUserHeader__menu {
@@ -2557,6 +2555,11 @@
         font-size: 18px;
     }
 
+    .mobileHeader .modal__inner__closeBtn .img {
+        width: 100% !important;
+        height: auto !important;
+    }
+
     .notAcceptedInfo {
         font-size: 11px;
         padding: 10px 20px;
@@ -3176,11 +3179,51 @@
         margin-bottom: 10px;
         font-size: 12px;
     }
+
+    .datepickerDropdown {
+        max-height: 170px;
+    }
+
+    .editData__formWrapper {
+        min-height: 80vh;
+    }
+
+    .page--100 {
+        min-height: 80vh !important;
+    }
+
+    .page--50 {
+        min-height: 60vh !important;
+    }
+
+    .container--register {
+        min-height: 100vh;
+    }
+
+    .noOffersFound {
+        margin-top: 20px;
+    }
+
+    .modal-video iframe {
+        height: 260px;
+    }
+
+    .modal--filters--agencies .modal__inner {
+        min-height: 365px;
+    }
 }
 
 @media(max-width: 576px) {
     .editData__main {
         padding: 30px 20px;
+    }
+
+    .page p {
+        font-size: 12px;
+    }
+
+    .bsnInputLabel--documentAdded {
+        font-size: 10px;
     }
 
     .container--login__headerLogo {
@@ -3457,6 +3500,12 @@
     }
 }
 
+@media(max-width: 450px) {
+    .userAccount__top--sendMessage {
+        align-items: flex-start;
+    }
+}
+
 @media(max-width: 350px) {
     .form__school .label {
         width: 100px;
@@ -3482,5 +3531,11 @@
 
     .offerItem__buttons--user .btn--white {
         width: 170px !important;
+    }
+}
+
+@media(max-width: 320px) {
+    .homeImg {
+        height: 650px;
     }
 }

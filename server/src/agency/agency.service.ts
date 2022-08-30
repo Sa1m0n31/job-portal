@@ -162,7 +162,7 @@ export class AgencyService {
         }
     }
 
-    async translateAgencyData(agencyData, currentGallery, files) {
+    async translateAgencyData(agencyData, currentGallery, files, oldGallery) {
         // Detect language
         const languageSample = this.getLanguageSample(agencyData);
         const lang = languageSample ? await this.translationService.detect(languageSample) : 'pl';
@@ -174,7 +174,7 @@ export class AgencyService {
                 logo: files.logo ? files.logo[0].path : agencyData.logoUrl,
                 gallery: files.gallery ? Array.from(files.gallery).map((item: any) => {
                     return item.path ? item.path : (item?.url ? item.url : item);
-                }).concat(currentGallery) : agencyData.gallery?.map((item) => (item.url))
+                }).concat(oldGallery)?.filter((item) => (item)) : agencyData.gallery?.map((item) => (item.url))?.filter((item) => (item))
             }
         }
         else {
@@ -194,7 +194,7 @@ export class AgencyService {
                 logo: files.logo ? files.logo[0].path : agencyData.logoUrl,
                 gallery: files.gallery ? Array.from(files.gallery).map((item: any) => {
                     return item.path ? item.path : (item?.url ? item.url : item);
-                }).concat(currentGallery) : agencyData.gallery?.map((item) => (item.url))
+                }).concat(oldGallery)?.filter((item) => (item)) : agencyData.gallery?.map((item) => (item.url))?.filter((item) => (item))
             }
         }
     }
@@ -211,9 +211,7 @@ export class AgencyService {
         let agencyData = JSON.parse(data.agencyData);
 
         // Detect language and translate if not Polish
-        agencyData = await this.translateAgencyData(agencyData, currentGallery, files);
-
-        // TODO: email update
+        agencyData = await this.translateAgencyData(agencyData, currentGallery, files, data.oldGallery);
 
         // Get latitude and longitude
         const apiResponse = await lastValueFrom(this.httpService.get(
@@ -226,7 +224,7 @@ export class AgencyService {
         }
 
         // Remove translations
-        const deleteRes = await this.dynamicTranslationsRepository.delete({
+        await this.dynamicTranslationsRepository.delete({
             type: 2,
             id: oldAgencyData.id
         });

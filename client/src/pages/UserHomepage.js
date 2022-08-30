@@ -15,7 +15,7 @@ import Switch from "react-switch";
 import { Tooltip } from 'react-tippy';
 import 'react-whatsapp-widget/dist/index.css';
 import {toggleUserVisibility, toggleUserWorking} from "../helpers/user";
-import {flags} from "../static/content";
+import {currencies, flags} from "../static/content";
 import {getDate, getLoggedUserEmail} from "../helpers/others";
 import checkIcon from '../static/img/check-small.svg'
 import starIcon from '../static/img/star.svg'
@@ -24,6 +24,7 @@ import {PDFDownloadLink} from '@react-pdf/renderer';
 import CV from '../components/CV'
 import copyIcon from '../static/img/copy-icon.svg'
 import {LanguageContext} from "../App";
+import userPlaceholder from '../static/img/user-placeholder.svg'
 
 const UserHomepage = ({data, userId, visible, working}) => {
     const [profileVisible, setProfileVisible] = useState(visible);
@@ -99,25 +100,25 @@ const UserHomepage = ({data, userId, visible, working}) => {
                         <img className="img" src={settingsCircle} alt="ustawienia" />
                     </a>
                     <figure>
-                        <span className={`flag flag--mobile fi fi-${flags[data.country].toLowerCase()}`}></span>
-                        <img className="img" src={`${settings.API_URL}/${data?.profileImage}`} alt="zdjecie-profilowe" />
+                        {data?.country >= 0 ? <span className={`flag flag--mobile fi fi-${flags[data.country].toLowerCase()}`}></span> : ''}
+                        <img className="img" src={data?.profileImage ? `${settings.API_URL}/${data?.profileImage}` : userPlaceholder} alt="zdjecie-profilowe" />
                     </figure>
                     <div className="userAccount__box__mainData">
                         <h1 className="userAccount__box__fullName">
-                            {data?.firstName} {data?.lastName}
-                            <span className={`flag fi fi-${flags[data.country].toLowerCase()}`}></span>
+                            {data?.firstName ? `${data?.firstName} ${data?.lastName}` : c.anonim}
+                            {data?.country >= 0 ? <span className={`flag fi fi-${flags[data.country].toLowerCase()}`}></span> : ''}
                         </h1>
                         <p className="userAccount__box__mainData__text">
                             <img className="img" src={locationIcon} alt="lokalizacja" />
-                            {data?.city}
+                            {data?.city ? data.city : c.noInfo}
                         </p>
                         <p className="userAccount__box__mainData__text">
                             <img className="img" src={suitcaseIcon} alt="branża" />
-                            {JSON.parse(c.categories)[data?.categories[0]]}
+                            {data?.categories ? JSON.parse(c.categories)[data?.categories[0]] : c.noInfo}
                         </p>
                         <p className="userAccount__box__mainData__text">
                             <img className="img" src={phoneIcon} alt="numer-telefonu" />
-                            {data?.phoneNumberCountry} {data?.phoneNumber}
+                            {data?.phoneNumber ? `${data?.phoneNumberCountry} ${data?.phoneNumber}` : c.noInfo}
                         </p>
                         <p className="userAccount__box__mainData__text">
                             <img className="img" src={messageIcon} alt="adres-e-mail" />
@@ -134,20 +135,20 @@ const UserHomepage = ({data, userId, visible, working}) => {
                 </div>
 
                 <div className="userAccount__box__right">
-                    <label className="userAccount__box__downloadCV">
+                    {data?.firstName && data?.lastName ? <label className="userAccount__box__downloadCV">
                         {c.generateAndDownloadCV}:
                         {data ? <PDFDownloadLink document={<CV profileImage={`${settings.API_URL}/${data?.profileImage}`}
                                                                c={c}
-                                                               fullName={`${data.firstName} ${data.lastName}`}
+                                                               fullName={data.firstName ? `${data.firstName} ${data.lastName}` : c.anonim}
                                                                categories={data.categories}
                                                                email={data.email}
-                                                               birthday={getDate(data?.birthdayDay, data?.birthdayMonth, data?.birthdayYear)}
+                                                               birthday={data.birthdayYear ? getDate(data?.birthdayDay, data?.birthdayMonth, data?.birthdayYear) : c.noInfo}
                                                                schools={data.schools}
                                                                jobs={data.jobs}
                                                                additionalLanguages={data.extraLanguages}
                                                                languages={data.languages}
                                                                drivingLicence={data.drivingLicenceCategories}
-                                                               certs={data.certificates.concat(data.courses)}
+                                                               certs={data.certificates?.concat(data.courses)}
                                                                desc={data.situationDescription}
                                                                phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : c.noInfo}
                                                                location={data.country >= 0 ? `${data.city}, ${JSON.parse(c.countries)[data.country]}` : c.noInfo}
@@ -155,14 +156,14 @@ const UserHomepage = ({data, userId, visible, working}) => {
                                                                availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : c.noInfo}
                                                                ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}
                                                                ownTools={data.ownTools ? c.yes : ''}
-                                                               salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency} ${c.netto}/${data.salaryType === 0 ? c.monthlyShortcut : c.weeklyShortcut}` : c.noInfo}
+                                                               salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency >= 0 ? currencies[data.salaryCurrency] : 'EUR'} ${c.netto}/${data.salaryType === 0 ? c.monthlyShortcut : c.weeklyShortcut}` : c.noInfo}
                         />}
-                                                 fileName={`CV-${data.firstName}_${data.lastName}.pdf`}
+                                                 fileName={data.firstName && data.lastName ? `CV-${data.firstName}_${data.lastName}.pdf` : `CV-${c.anonim}.pdf`}
                                                  className="btn btn--downloadCV">
                             <img className="img" src={downloadWhite} alt="pobierz" />
                             {c.downloadCV}
                         </PDFDownloadLink> : ''}
-                    </label>
+                    </label> : ''}
 
                     <div className="userAccount__box__right__bottom">
                         <div className="userAccount__box__right__item">
@@ -216,7 +217,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                             {c.firstAndLastName}
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.firstName} {data?.lastName}
+                            {data?.firstName || data?.lastName ? `${data?.firstName} ${data?.lastName}` : c.noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
@@ -224,7 +225,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                             {c.phoneNumberShortcut}
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.phoneNumberCountry} {data?.phoneNumber}
+                            {data?.phoneNumber ? `${data?.phoneNumberCountry} ${data?.phoneNumber}` : c.noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
@@ -232,7 +233,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                             {c.birthday}
                         </span>
                         <p className="userAccount__box__value">
-                            {getDate(data?.birthdayDay, data?.birthdayMonth, data?.birthdayYear)}
+                            {data?.birthdayDay >= 0 ? getDate(data?.birthdayDay, data?.birthdayMonth, data?.birthdayYear) : c.noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
@@ -240,7 +241,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                             {c.email}
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.email}
+                            {getLoggedUserEmail()}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
@@ -248,8 +249,10 @@ const UserHomepage = ({data, userId, visible, working}) => {
                             {c.livingAddress}
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.city}, {data?.address}<br/>
-                            {c.country}: {JSON.parse(c.countries)[data?.country]}
+                            {!data?.city || !(data?.country >= 0) ? c.noInfo : ''}
+
+                            {data?.city ? `${data?.city}, ${data?.address}` : ''}<br/>
+                            {data?.country >= 0 ? `${c.country}: ${JSON.parse(c.countries)[data?.country]}` : ''}
                         </p>
                     </span>
                 </div>
@@ -369,7 +372,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                             {c.currentLivingPlace}
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.currentCity}, {JSON.parse(c.countries)[data?.currentCountry]}
+                            {data?.currentCountry >= 0 ? `${data?.currentCity}, ${JSON.parse(c.countries)[data?.currentCountry]}` : c.noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
@@ -377,7 +380,9 @@ const UserHomepage = ({data, userId, visible, working}) => {
                             {c.availability}
                         </span>
                         <p className="userAccount__box__value">
-                            {c.from} {getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear)}
+                            {data.availabilityDay >= 0 && data.availabilityMonth >= 0 && data.availabilityYear ?
+                                `${c.from} ${getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear)}`
+                                : c.noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">
@@ -393,7 +398,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                             {c.bsnNumber}
                         </span>
                         <p className="userAccount__box__value">
-                            {data?.hasBsnNumber ? data?.bsnNumber : '-'}
+                            {data?.hasBsnNumber ? data?.bsnNumber : c.noInfo}
                         </p>
                     </span>
                     <span className="userAccount__box__pair">

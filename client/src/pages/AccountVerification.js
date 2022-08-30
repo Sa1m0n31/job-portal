@@ -40,7 +40,7 @@ const AccountVerification = () => {
                             });
                     }
                 })
-                .catch(() => {
+                .catch((err) => {
                     verifyAgency(token)
                         .then((res) => {
                             if(res?.status === 201) {
@@ -72,7 +72,7 @@ const AccountVerification = () => {
             <h2 className="register__subheader">
                 {c.nowYouCan} <span className="bold">{role === 0 ? c.registerSubheader5 : c.registerSubheader6}</span>.
             </h2>
-            <a className="btn btn--login center" href={role === 0 ? "/edycja-danych-pracownika" : "/edycja-danych-agencji"}>
+            <a className="btn btn--login center" href={role === 0 ? "/strefa-pracownika" : "/strefa-pracodawcy"}>
                 {c.fillProfile} {role === 0 ? c.andGenerateCV : ''}
                 <img className="img" src={arrowIcon} alt="uzupelnienie-danych" />
             </a>

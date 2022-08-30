@@ -60,6 +60,28 @@ const Homepage = () => {
             })
     }, []);
 
+    useEffect(() => {
+        if(render) {
+            setTimeout(() => {
+                const href = window.location.href.split('/');
+                if(href?.length === 4) {
+                    if(href[3] === '#funkcje') {
+                        document.getElementById('funkcje').scrollIntoView({
+                            behavior: 'smooth',
+                            top: 0
+                        });
+                    }
+                    if(href[3] === '#partnerzy') {
+                        document.getElementById('partnerzy').scrollIntoView({
+                            behavior: 'smooth',
+                            top: 0
+                        });
+                    }
+                }
+            }, 500);
+        }
+    }, [render]);
+
     return render ? <div className="container container--home">
         <HomepageTop />
         <AdsSection />

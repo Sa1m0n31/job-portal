@@ -23,6 +23,7 @@ import {getSiteContent} from "./helpers/translation";
 import Loader from "./components/Loader";
 import AdminLogin from "./pages/AdminLogin";
 import AdminWrapper from "./components/AdminWrapper";
+import {Helmet} from "react-helmet";
 
 const LanguageContext = React.createContext({});
 
@@ -51,6 +52,10 @@ function App() {
   }, [language]);
 
   return c?.partnersContent ? <LanguageContext.Provider value={{language, setLanguage, c}}>
+    <Helmet>
+      <meta charSet="utf-8" />
+      <title>Jooob.eu - Twój portal z ofertami pracy</title>
+    </Helmet>
     <Router>
       {/* PUBLIC ROUTES */}
       <Route exact path="/">

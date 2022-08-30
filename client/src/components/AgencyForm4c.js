@@ -12,11 +12,11 @@ import Loader from "./Loader";
 
 const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHolidayAllowanceFrequencyVisible,
         setDayVisible, setMonthVisible, setPaycheckFrequencyVisible, setPaycheckDayVisible,
-        setHealthInsuranceVisible, setHealthInsuranceCurrencyVisible, submitAgencyData, loading
+        setHealthInsuranceVisible, setHealthInsuranceCurrencyVisible, submitAgencyData
                       }) => {
     const { setSubstep, agencyData, handleChange, pensionVisible, holidayAllowanceTypeVisible,
         holidayAllowanceFrequencyVisible, dayVisible, monthVisible, paycheckFrequencyVisible, paycheckDayVisible,
-        healthInsuranceVisible, healthInsuranceCurrencyVisible
+        healthInsuranceVisible, healthInsuranceCurrencyVisible, loading
     } = useContext(AgencyDataContext);
     const { c } = useContext(LanguageContext);
 

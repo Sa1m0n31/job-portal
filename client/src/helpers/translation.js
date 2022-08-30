@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const getSiteContent = () => {
-    return axios.get(`/translation/getSiteContent/${localStorage.getItem('lang').toLowerCase()}`);
+const getSiteContent = (lang) => {
+    return axios.get(`/translation/getSiteContent/${lang?.toLowerCase()}`);
 }
 
 export { getSiteContent }

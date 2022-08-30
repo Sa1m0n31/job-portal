@@ -24,7 +24,7 @@ import {Dynamic_translations} from "../entities/dynamic_translations";
           signOptions: {expiresIn: 60 * 300}
       }),
       MulterModule.register({
-          dest: './uploads/agency',
+          dest: '../uploads/agency',
       }),
       HttpModule,
       TranslationModule

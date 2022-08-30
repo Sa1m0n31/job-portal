@@ -159,8 +159,6 @@ export class UserService {
         const languageSample = this.getLanguageSample(userData);
         const lang = languageSample ? await this.translationService.detect(languageSample) : 'pl';
 
-        console.log(`detected lang: ${lang}`);
-
         if(lang === 'pl') {
             return {
                 ...userData,

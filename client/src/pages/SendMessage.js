@@ -191,11 +191,12 @@ const SendMessage = ({isAgency, accepted, data}) => {
     return <div className="container container--agencyJobOffers container--agenciesList container--offer container--sendMessage">
         <LoggedUserHeader data={data} agency={isAgency} />
 
-        <aside className="userAccount__top flex">
+        <aside className="userAccount__top userAccount__top--sendMessage flex">
             <span className="userAccount__top__loginInfo">
                 {c.loggedIn}: <span className="bold">{agency ? c.agencyZone : c.userZone}</span>
             </span>
-            <a href={!agency ? '/moje-wiadomosci' : "/wiadomosci"} className="userAccount__top__btn">
+            <a href={!isAgency ? '/moje-wiadomosci' : "/wiadomosci"}
+               className="userAccount__top__btn">
                 <img className="img" src={backArrow} alt="powrót" />
                 {c.backToMessages}
             </a>

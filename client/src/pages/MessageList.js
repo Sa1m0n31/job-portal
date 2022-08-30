@@ -7,12 +7,12 @@ import {
     restoreMessagesByIds,
     sendMessage
 } from "../helpers/messages";
-import backArrow from "../static/img/back-arrow-grey.svg";
 import trashIcon from '../static/img/trash.svg'
 import dropdownArrow from '../static/img/dropdown-arrow.svg'
-import {isElementInArray} from "../helpers/others";
+import {addLeadingZero, isElementInArray} from "../helpers/others";
 import replayIcon from '../static/img/reply-icon.svg'
 import {LanguageContext} from "../App";
+import backArrow from '../static/img/back-arrow-grey.svg'
 
 const MessageList = ({agency, data, accepted, id}) => {
     const [selectedMessages, setSelectedMessages] = useState([]);
@@ -244,7 +244,9 @@ const MessageList = ({agency, data, accepted, id}) => {
     }
 
     return <div className="container container--agencyJobOffers container--jobOffers container--offer container--messages" onClick={() => { setDropdownVisible(false); }}>
-        <LoggedUserHeader data={data} agency={agency} messageUpdate={update} />
+        <LoggedUserHeader data={data}
+                          agency={agency}
+                          messageUpdate={update} />
 
         <aside className="userAccount__top flex">
             <span className="userAccount__top__loginInfo">
@@ -385,7 +387,7 @@ const MessageList = ({agency, data, accepted, id}) => {
                         {index === 0 ? <>
                             <div className="messages__chatHeader">
                                 <span className="messages__chatHeader__date d-desktop">
-                                    {messageDatetime.getDate()}/{messageDatetime.getMonth()+1}/{messageDatetime.getFullYear()}, {messageDatetime.getHours()}:{messageDatetime.getMinutes()}
+                                    {addLeadingZero(messageDatetime.getDate())}/{addLeadingZero(messageDatetime.getMonth()+1)}/{messageDatetime.getFullYear()}, {addLeadingZero(messageDatetime.getHours())}:{addLeadingZero(messageDatetime.getMinutes())}
                                 </span>
                                 <h4 className="messages__chatHeader__header">
                                     <span className="bold">{c.from}</span> {item.fromAgency ? (agency ? `${c.me} (${data.name})` : JSON.parse(currentChat.a_data).name) : (agency ? `${JSON.parse(currentChat.u_data).firstName} ${JSON.parse(currentChat.u_data).lastName}` : `${c.me} (${data.firstName} ${data.lastName})`)}
@@ -397,7 +399,7 @@ const MessageList = ({agency, data, accepted, id}) => {
                                     <span className="bold">{c.topic}:</span> {currentChat?.m_title}
                                 </h4>
                                 <h4 className="messages__chatHeader__header d-mobile">
-                                    <span className="bold">{c.messageDate}:</span> {messageDatetime.getDate()}/{messageDatetime.getMonth()+1}/{messageDatetime.getFullYear()}, {messageDatetime.getHours()}:{messageDatetime.getMinutes()}
+                                    <span className="bold">{c.messageDate}:</span> {addLeadingZero(messageDatetime.getDate())}/{addLeadingZero(messageDatetime.getMonth()+1)}/{messageDatetime.getFullYear()}, {addLeadingZero(messageDatetime.getHours())}:{addLeadingZero(messageDatetime.getMinutes())}
                                 </h4>
                             </div>
                             <div className="messages__currentChatButtons flex flex--start">
@@ -419,7 +421,7 @@ const MessageList = ({agency, data, accepted, id}) => {
                         </> : <>
                             <div className="messages__chatHeader">
                                 <span className="messages__chatHeader__date d-desktop">
-                                    {messageDatetime.getDate()}/{messageDatetime.getMonth()+1}/{messageDatetime.getFullYear()}, {messageDatetime.getHours()}:{messageDatetime.getMinutes()}
+                                    {addLeadingZero(messageDatetime.getDate())}/{addLeadingZero(messageDatetime.getMonth()+1)}/{messageDatetime.getFullYear()}, {addLeadingZero(messageDatetime.getHours())}:{addLeadingZero(messageDatetime.getMinutes())}
                                 </span>
                                 <h4 className="messages__chatHeader__header">
                                     <span className="bold">{c.from}</span> {item.fromAgency ? (agency ? `${c.me} (${data.name})` : JSON.parse(currentChat.a_data).name) : (agency ? `${JSON.parse(currentChat.u_data).firstName} ${JSON.parse(currentChat.u_data).lastName}` : `${c.me} (${data.firstName} ${data.lastName})`)}
@@ -428,7 +430,7 @@ const MessageList = ({agency, data, accepted, id}) => {
                                     <span className="bold">{c.to}</span> {!item.fromAgency ? (agency ? `${c.me} (${data.name})` : JSON.parse(currentChat.a_data).name) : (agency ? `${JSON.parse(currentChat.u_data).firstName} ${JSON.parse(currentChat.u_data).lastName}` : `${c.me} (${data.firstName} ${data.lastName})`)}
                                 </h4>
                                 <h4 className="messages__chatHeader__header">
-                                    <span className="bold">{c.messageDate}:</span> {messageDatetime.getDate()}/{messageDatetime.getMonth()+1}/{messageDatetime.getFullYear()}, {messageDatetime.getHours()}:{messageDatetime.getMinutes()}
+                                    <span className="bold">{c.messageDate}:</span> {addLeadingZero(messageDatetime.getDate())}/{addLeadingZero(messageDatetime.getMonth()+1)}/{messageDatetime.getFullYear()}, {addLeadingZero(messageDatetime.getHours())}:{addLeadingZero(messageDatetime.getMinutes())}
                                 </h4>
                             </div>
                             <div className="messages__currentChatContent">

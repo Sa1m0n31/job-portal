@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import PanelMenu from "../components/PanelMenu";
 import LoggedAdminHeader from "../components/LoggedAdminHeader";
-import {getAllAgencies} from "../helpers/agency";
 import Loader from "../components/Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Modal from "../components/Modal";
@@ -20,20 +19,17 @@ const AdminUsers = () => {
 
     useEffect(() => {
         setHasMore(true);
-        getAllUsers(1)
+        getAllUsers(1, true)
             .then((res) => {
                 if(res?.status === 200) {
                     setUsers(res?.data);
                 }
-            })
-            .catch((err) => {
-                console.log(err);
             });
         setPage(2);
     }, [blockSuccess, unblockSuccess]);
 
     const getAgencies = async () => {
-        const newAgenciesResponse = await getAllAgencies(page);
+        const newAgenciesResponse = await getAllUsers(page, true);
         const newAgencies = newAgenciesResponse.data;
 
         if(newAgencies.length) {

@@ -4,7 +4,7 @@ import pen from '../static/img/pen-blue.svg'
 import {UserDataContext} from "../pages/UserEditData";
 import CV from "./CV";
 import {getDate} from "../helpers/others";
-import {countries, noInfo} from "../static/content";
+import {countries, currencies, noInfo} from "../static/content";
 import {PDFDownloadLink} from "@react-pdf/renderer";
 import {LanguageContext} from "../App";
 
@@ -34,15 +34,15 @@ const UserFormSummary = () => {
                                                                  additionalLanguages={data.extraLanguages}
                                                                  languages={data.languages}
                                                                  drivingLicence={data.drivingLicenceCategories}
-                                                                 certs={data.certificates.concat(data.courses)}
+                                                                 certs={data.certificates?.concat(data.courses)}
                                                                  desc={data.situationDescription}
-                                                                 phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : noInfo}
-                                                                 location={data.country >= 0 ? `${data.city}, ${countries[data.country]}` : noInfo}
-                                                                 currentPlace={data.currentCountry >= 0 ? `${countries[data.currentCountry]}, ${data.currentCity}`: noInfo}
-                                                                 availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : noInfo}
+                                                                 phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : c.noInfo}
+                                                                 location={data.country >= 0 ? `${data.city}, ${countries[data.country]}` : c.noInfo}
+                                                                 currentPlace={data.currentCountry >= 0 ? `${countries[data.currentCountry]}, ${data.currentCity}`: c.noInfo}
+                                                                 availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : c.noInfo}
                                                                  ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}
-                                                                 ownTools={data.ownTools ? 'Tak' : ''}
-                                                                 salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency} netto/${data.salaryType === 0 ? 'mies.' : 'tyg.'}` : noInfo}
+                                                                 ownTools={data.ownTools ? c.yes : ''}
+                                                                 salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency >= 0 ? currencies[data.salaryCurrency] : 'EUR'} ${c.netto}/${data.salaryType === 0 ? c.monthlyShortcut : c.weeklyShortcut}` : c.noInfo}
             />}
                                                    fileName={`CV-${data.firstName}_${data.lastName}.pdf`}
                                                    className="btn btn--downloadCV">

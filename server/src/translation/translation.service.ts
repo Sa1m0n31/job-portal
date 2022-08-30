@@ -4,6 +4,7 @@ import {Static_translations} from "../entities/static_translations";
 import {Repository} from "typeorm";
 import {Dynamic_translations} from "../entities/dynamic_translations";
 import {removeLanguageSpecificCharacters} from "../common/removeLanguageSpecificCharacters";
+import {getGoogleTranslateLanguageCode} from "../common/getGoogleTranslateLanguageCode";
 const {Translate} = require('@google-cloud/translate').v2;
 
 @Injectable()

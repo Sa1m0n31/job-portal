@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import logo from '../static/img/logo-czarne.png'
 import arrow from '../static/img/left-blue-arrow.svg'
 import userIcon from "../static/img/user-in-circle.svg";
@@ -6,9 +6,12 @@ import menuIcon from "../static/img/burger-menu.svg";
 import messagesIcon from '../static/img/message-blue.svg'
 import notificationsIcon from '../static/img/bell-ring.svg'
 import MobileMenu from "./MobileMenu";
+import LanguagePopup from "./LanguagePopup";
 
 const MobileHeader = ({back, backFunction, loggedUser, loggedAgency,
                           newMessages, newNotifications, loggedAdmin}) => {
+    const [languagePopupVisible, setLanguagePopupVisible] = useState(false);
+
     const mobileMenu = useRef(null);
 
     const handleBack = () => {
@@ -35,8 +38,12 @@ const MobileHeader = ({back, backFunction, loggedUser, loggedAgency,
 
         <div className="mobileMenuWrapper" ref={mobileMenu}>
             <MobileMenu closeMenu={closeMenu}
+                        languagePopupVisible={languagePopupVisible}
+                        setLanguagePopupVisible={setLanguagePopupVisible}
                         type={!loggedUser && !loggedAgency && !loggedAdmin ? 1 : (loggedUser ? 2 : (!loggedAdmin ? 3 : 4))} />
         </div>
+
+        {languagePopupVisible ? <LanguagePopup closeModal={() => { setLanguagePopupVisible(false); }} /> : ''}
 
         {back ? <button className="mobileHeader__backBtn"
                         onClick={() => { handleBack(); }}>

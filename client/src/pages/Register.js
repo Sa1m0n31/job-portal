@@ -5,7 +5,7 @@ import arrowWhite from '../static/img/small-white-arrow.svg'
 import dropdownArrow from '../static/img/dropdown-arrow.svg'
 import AfterRegister from "../components/AfterRegister";
 import LoginAndRegisterAside from "../components/LoginAndRegisterAside";
-import {isEmail, isPasswordStrong} from "../helpers/others";
+import {isEmail, isPasswordStrength} from "../helpers/others";
 import {registerUser} from "../helpers/user";
 import {registerAgency} from "../helpers/agency";
 import Loader from "../components/Loader";
@@ -54,7 +54,7 @@ const Register = () => {
             setError(c.registerError1);
             return false;
         }
-        if(!isPasswordStrong(password)) {
+        if(!isPasswordStrength(password)) {
             setError(c.passwordError3);
             return false;
         }
@@ -103,7 +103,7 @@ const Register = () => {
 
         <MobileHeader back="/" />
 
-        {registered ? <AfterRegister type={role} /> : (loading ? <Loader /> : <main className="register">
+        {registered ? <AfterRegister type={role} /> : (loading ? <Loader /> : <main className="register page--50">
             <img className="register__logo" src={logo} alt="portal-pracy" />
             <h1 className="register__header">
                 {c.quickRegister}

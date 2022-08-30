@@ -17,6 +17,7 @@ import {addOffer, getOfferById, updateOffer} from "../helpers/offer";
 import settings from "../static/settings";
 import MobileHeader from "../components/MobileHeader";
 import {LanguageContext} from "../App";
+import Loader from "../components/Loader";
 
 const AddJobOffer = ({updateMode}) => {
     const { c } = useContext(LanguageContext);
@@ -54,7 +55,7 @@ const AddJobOffer = ({updateMode}) => {
     const [attachments, setAttachments] = useState([]);
     const [oldAttachments, setOldAttachments] = useState([]);
     const [imageUrl, setImageUrl] = useState('')
-
+    const [loading, setLoading] = useState(false);
     const [days, setDays] = useState([]);
     const [years, setYears] = useState([]);
     const [error, setError] = useState('');
@@ -276,7 +277,7 @@ const AddJobOffer = ({updateMode}) => {
             !description || !responsibilities.length || !requirements.length || !benefits.length ||
             salaryType === -1 || salaryFrom === null || salaryTo === null || (
                 timeBounded && (day === -1 || month === -1 || year === -1)
-            )
+            ) || (!image && !imageUrl)
         ) {
             setError(JSON.parse(c.jobOfferErrors)[0]);
             return 0;
@@ -287,7 +288,8 @@ const AddJobOffer = ({updateMode}) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if(jobOfferValidation() || 1) {
+        if(jobOfferValidation()) {
+            setLoading(true);
             try {
                 if(updateMode) {
                     const offerResult = await updateOffer({
@@ -299,9 +301,11 @@ const AddJobOffer = ({updateMode}) => {
                     });
                     if(offerResult.status === 200) {
                         setSuccess(true);
+                        setLoading(false);
                     }
                     else {
                         setError(JSON.parse(c.formErrors)[1]);
+                        setLoading(false);
                     }
                 }
                 else {
@@ -314,9 +318,11 @@ const AddJobOffer = ({updateMode}) => {
                     });
                     if(offerResult.status === 201) {
                         setSuccess(true);
+                        setLoading(false);
                     }
                     else {
                         setError(JSON.parse(c.formErrors)[1]);
+                        setLoading(false);
                     }
                 }
             }
@@ -327,6 +333,7 @@ const AddJobOffer = ({updateMode}) => {
                 else {
                     setError(JSON.parse(c.formErrors)[1]);
                 }
+                setLoading(false);
             }
         }
     }
@@ -743,11 +750,13 @@ const AddJobOffer = ({updateMode}) => {
                 {error}
             </span> : ''}
 
-            <button className="btn btn--login center"
-                    onClick={(e) => { handleSubmit(e); }}>
+            {!loading ? <button className="btn btn--login center"
+                                onClick={(e) => { handleSubmit(e); }}>
                 {updateMode ? c.editOffer : c.addNewOffer}
                 <img className="img" src={arrowIcon} alt="dodaj-oferte-pracy" />
-            </button>
+            </button> : <div className="center">
+                <Loader />
+            </div>}
         </form>
     </div>
 };

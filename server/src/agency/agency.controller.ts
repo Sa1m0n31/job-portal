@@ -26,6 +26,7 @@ export class AgencyController {
         return this.agencyService.verifyAgency(body.token);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getAgencyData/:email/:lang')
     getAgencyData(@Param('email') email, @Param('lang') lang) {
         return this.agencyService.getAgencyData(email, lang);
@@ -44,31 +45,31 @@ export class AgencyController {
         return this.agencyService.updateAgency(body, files);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getAllApproved/:page')
     getAllApprovedAgencies(@Param('page') page) {
         return this.agencyService.getAllApprovedAgencies(page);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getAllAgencies/:page')
     getAllAgencies(@Param('page') page) {
         return this.agencyService.getAllAgencies(page);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('/filter')
     filterAgencies(@Body() body) {
         return this.agencyService.filterAgencies(body);
     }
 
-    @Get('/sort/:type/:page')
-    sortAgencies(@Param('type') type, @Param('page') page) {
-        return this.agencyService.sortAgencies(type, page);
-    }
-
+    @UseGuards(JwtAuthGuard)
     @Get('/getAgencyById/:id/:lang')
     getAgencyById(@Param('id') id, @Param('lang') lang) {
         return this.agencyService.getAgencyById(id, lang);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getNotifications/:email')
     getAgencyNotifications(@Param('email') email) {
         return this.agencyService.getAgencyNotifications(email);
@@ -84,11 +85,13 @@ export class AgencyController {
         return this.agencyService.verifyPasswordToken(token);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Patch('/changePassword')
     changePassword(@Body() body) {
         return this.agencyService.changePassword(body.oldPassword, body.newPassword, body.email);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Patch('/resetPassword')
     resetPassword(@Body() body) {
         return this.agencyService.resetPassword(body.password, body.email);

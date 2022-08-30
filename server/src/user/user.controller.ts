@@ -56,7 +56,6 @@ export class UserController {
         return this.userService.registerUser(body.email, body.password);
     }
 
-    @UseGuards(JwtAuthGuard)
     @Post('/verify')
     verifyUser(@Body() body) {
         return this.userService.verifyUser(body.token);
@@ -72,12 +71,13 @@ export class UserController {
     @UseInterceptors(FileFieldsInterceptor([
         {name: 'bsnNumber', maxCount: 1},
         {name: 'profileImage', maxCount: 1},
-        {name: 'attachments', maxCount: 5}
+        {name: 'attachments', maxCount: 5},
+        {name: 'test', maxCount: 1}
     ], {
         fileFilter: fileExtensionFilter,
         storage: diskStorage({
             filename: FileUploadHelper.customFileName,
-            destination: './uploads/user'
+            destination: '../uploads/user'
         })
     }))
     updateUser(@UploadedFiles() files: {
@@ -94,51 +94,61 @@ export class UserController {
         return this.userService.getUserData(email, lang);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Patch('/toggleUserVisibility/:email')
     toggleUserVisibility(@Param('email') email) {
         return this.userService.toggleUserVisibility(email);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Patch('/toggleUserWorking/:email')
     toggleUserWorking(@Param('email') email) {
         return this.userService.toggleUserWorking(email);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getUserApplications/:email')
     getUserApplications(@Param('email') email) {
         return this.userService.getUserApplications(email);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getUserFastApplications/:email')
     getUserFastApplications(@Param('email') email) {
         return this.userService.getUserFastApplications(email);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getAll/:page')
     getAll(@Param('page') page) {
         return this.userService.getAllUsers(page);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getAllVisible/:page')
     getAllVisible(@Param('page') page) {
         return this.userService.getAllVisibleUsers(page);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('/filter')
     filterUsers(@Body() body) {
         return this.userService.filter(body);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getUserById/:id/:lang')
     getUserById(@Param('id') id, @Param('lang') lang) {
         return this.userService.getUserById(id, lang);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/getNotifications/:email')
     getUserNotifications(@Param('email') email) {
         return this.userService.getUserNotifications(email);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Patch('/readNotification')
     readNotification(@Body() body) {
         return this.userService.readNotification(body.id);
@@ -154,11 +164,13 @@ export class UserController {
         return this.userService.remindPassword(body.email);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Patch('/changePassword')
     changePassword(@Body() body) {
         return this.userService.changePassword(body.oldPassword, body.newPassword, body.email);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Patch('/resetPassword')
     resetPassword(@Body() body) {
         return this.userService.resetPassword(body.password, body.email);

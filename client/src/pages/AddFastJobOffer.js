@@ -42,7 +42,7 @@ const AddFastJobOffer = ({updateMode}) => {
     const [startYearVisible, setStartYearVisible] = useState(false);
     const [numberVisible, setNumberVisible] = useState(false);
     const [success, setSuccess] = useState(false);
-
+    const [loading, setLoading] = useState(false);
     const [id, setId] = useState(0);
     const [title, setTitle] = useState('');
     const [category, setCategory] = useState(-1);
@@ -366,7 +366,7 @@ const AddFastJobOffer = ({updateMode}) => {
             day === -1 || month === -1 || year === -1 || !hour ||
             startDay === -1 || startMonth === -1 || startYear === -1 || !startHour ||
             accommodationCountry === -1 || !accommodationPostalCode || !accommodationCity || !accommodationStreet ||
-            !contactPerson || !contactNumber
+            !contactPerson || !contactNumber || (!image && !imageUrl)
         ) {
             setError(JSON.parse(c.jobOfferErrors)[0]);
             return 0;
@@ -378,6 +378,7 @@ const AddFastJobOffer = ({updateMode}) => {
         e.preventDefault();
 
         if(jobOfferValidation()) {
+            setLoading(true);
             try {
                 if(updateMode) {
                     const offerResult = await updateFastOffer({
@@ -394,9 +395,11 @@ const AddFastJobOffer = ({updateMode}) => {
                     });
                     if(offerResult.status === 200) {
                         setSuccess(true);
+                        setLoading(false);
                     }
                     else {
                         setError(JSON.parse(c.formErrors)[1]);
+                        setLoading(false);
                     }
                 }
                 else {
@@ -414,9 +417,11 @@ const AddFastJobOffer = ({updateMode}) => {
                     });
                     if(offerResult.status === 201) {
                         setSuccess(true);
+                        setLoading(false);
                     }
                     else {
                         setError(JSON.parse(c.formErrors)[1]);
+                        setLoading(false);
                     }
                 }
             }
@@ -427,6 +432,7 @@ const AddFastJobOffer = ({updateMode}) => {
                 else {
                     setError(JSON.parse(c.formErrors)[1]);
                 }
+                setLoading(false);
             }
         }
     }
@@ -738,7 +744,7 @@ const AddFastJobOffer = ({updateMode}) => {
                     <label className="label--street">
                         <input className="input input--address"
                                value={startHour}
-                               onChange={() => { setStartHour(e.target.value); }}
+                               onChange={(e) => { setStartHour(e.target.value); }}
                                placeholder={c.hour} />
                     </label>
                 </div>
@@ -972,11 +978,13 @@ const AddFastJobOffer = ({updateMode}) => {
                 {error}
             </span> : ''}
 
-            <button className="btn btn--login center"
-                    onClick={(e) => { handleSubmit(e); }}>
+            {!loading ? <button className="btn btn--login center"
+                                onClick={(e) => { handleSubmit(e); }}>
                 {updateMode ? c.editOffer : c.addNewOffer}
                 <img className="img" src={arrowIcon} alt="dodaj-oferte-pracy" />
-            </button>
+            </button> : <div className="center">
+                <Loader />
+            </div> }
         </form> : (limitExceeded === 1 ? <div className="limitWarning">
             <img className="img" src={xIcon} alt="przekroczony-limit" />
             <h3 className="limitWarning__header">

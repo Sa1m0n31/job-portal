@@ -10,10 +10,12 @@ import ModalVideo from 'react-modal-video'
 import menuIcon from '../static/img/burger-menu.svg'
 import MobileMenu from "./MobileMenu";
 import {LanguageContext} from "../App";
+import LanguagePopup from "./LanguagePopup";
 
 const HomepageTop = () => {
     const [video1, setVideo1] = useState(false);
     const [video2, setVideo2] = useState(false);
+    const [languagePopupVisible, setLanguagePopupVisible] = useState(false);
 
     const { c } = useContext(LanguageContext);
 
@@ -28,22 +30,26 @@ const HomepageTop = () => {
     }
 
     return <>
-
         <ModalVideo channel='youtube'
                     autoplay={true}
                     isOpen={video1}
-                    videoId="yLGsZfFtUA4"
+                    videoId="u31qwQUeGuM"
                     onClose={() => setVideo1(false)} />
 
         <ModalVideo channel='youtube'
                     autoplay={true}
                     isOpen={video2}
-                    videoId="Rb0UmrCXxVA"
+                    videoId="u31qwQUeGuM"
                     onClose={() => setVideo2(false)} />
 
         <div className="mobileMenuWrapper" ref={mobileMenu}>
-            <MobileMenu closeMenu={closeMenu} type={1} />
+            <MobileMenu closeMenu={closeMenu}
+                        languagePopupVisible={languagePopupVisible}
+                        setLanguagePopupVisible={setLanguagePopupVisible}
+                        type={1} />
         </div>
+
+        {languagePopupVisible ? <LanguagePopup closeModal={() => { setLanguagePopupVisible(false); }} /> : ''}
 
         <img className="homeImg" src={backgroundImg} alt="portal-z-ofertami-pracy" />
         <header className="home__header flex w-1400">

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {getAuthHeader, getLang, getLoggedUserEmail} from "./others";
+import {getAdminAuthHeader, getAuthHeader, getLang, getLoggedUserEmail} from "./others";
 import settings from "../static/settings";
 import Cookies from "universal-cookie";
 
@@ -68,28 +68,50 @@ const updateAgency = (data) => {
     formData.append('email', getLoggedUserEmail());
     formData.append('logo', data.logo);
     for(const img of data.gallery) {
-        formData.append('gallery', img.file);
+        if(img.file) {
+            // Add only new images
+            formData.append('gallery', img.file);
+        }
+        else {
+            formData.append('oldGallery', img.url);
+        }
     }
 
     return axios.post('/agency/update', formData, config);
 }
 
 const getAllApprovedAgencies = (page) => {
-    return axios.get(`/agency/getAllApproved/${page}`);
+    return axios.get(`/agency/getAllApproved/${page}`, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
 }
 
 const filterAgencies = (country, city, distance, sorting, page) => {
     return axios.post(`/agency/filter`, {
         country, city, distance, page, sorting
+    }, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
     });
 }
 
 const sortAgencies = (type, page) => {
-    return axios.get(`/agency/sort/${type}/${page}`);
+    return axios.get(`/agency/sort/${type}/${page}`, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
 }
 
 const getAgencyNotifications = () => {
-    return axios.get(`/agency/getNotifications/${getLoggedUserEmail()}`);
+    return axios.get(`/agency/getNotifications/${getLoggedUserEmail()}`, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
 }
 
 const remindAgencyPassword = (email) => {
@@ -101,12 +123,20 @@ const remindAgencyPassword = (email) => {
 const resetAgencyPassword = (password, email) => {
     return axios.patch('/agency/resetPassword', {
         password, email
+    }, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
     });
 }
 
 const changeAgencyPassword = (oldPassword, newPassword, email) => {
-    return axios.post('/agency/changePassword', {
+    return axios.patch('/agency/changePassword', {
         oldPassword, newPassword, email
+    }, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
     });
 }
 
@@ -115,7 +145,11 @@ const verifyPasswordToken = (token) => {
 }
 
 const getAllAgencies = (page) => {
-    return axios.get(`/agency/getAllAgencies/${page}`);
+    return axios.get(`/agency/getAllAgencies/${page}`, {
+        headers: {
+            Authorization: getAdminAuthHeader()
+        }
+    });
 }
 
 export { registerAgency, verifyAgency, loginAgency, getAgencyData, updateAgency, getAllApprovedAgencies,

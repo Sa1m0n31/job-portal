@@ -99,7 +99,7 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
                     <button className="datepicker datepicker--day"
                             onClick={(e) => { e.stopPropagation(); setDaysVisible(!daysVisible); }}
                     >
-                        {userData.birthdayDay+1}
+                        {userData.birthdayDay >= 0 ? userData.birthdayDay+1 : 1}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {daysVisible ? <div className="datepickerDropdown noscroll">
@@ -116,7 +116,7 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
                     <button className="datepicker datepicker--month"
                             onClick={(e) => { e.stopPropagation(); setMonthsVisible(!monthsVisible); }}
                     >
-                        {JSON.parse(c.months)[userData.birthdayMonth]}
+                        {userData?.birthdayMonth >= 0 ? JSON.parse(c.months)[userData.birthdayMonth] : c.month}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {monthsVisible ? <div className="datepickerDropdown noscroll">
@@ -133,7 +133,7 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
                     <button className="datepicker datepicker--year"
                             onClick={(e) => { e.stopPropagation(); setYearsVisible(!yearsVisible); }}
                     >
-                        {userData.birthdayYear}
+                        {userData.birthdayYear ? userData.birthdayYear : c.year}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {yearsVisible ? <div className="datepickerDropdown noscroll">
@@ -155,7 +155,7 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
                     <button className="datepicker datepicker--country"
                             onClick={(e) => { e.stopPropagation(); setCountriesVisible(!countriesVisible); }}
                     >
-                        {JSON.parse(c.countries)[userData.country]}
+                        {userData?.country >= 0 ? JSON.parse(c.countries)[userData.country] : c.chooseCountry}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {countriesVisible ? <div className="datepickerDropdown noscroll">

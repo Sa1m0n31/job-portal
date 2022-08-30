@@ -983,7 +983,7 @@ export class OfferService {
 
     async addOffer(data, files) {
         let offerData = JSON.parse(data.offerData);
-        let lat, lng;
+        let lat = 1, lng = 1;
 
         offerData = await this.translateOfferData(offerData, data, files);
 
@@ -1003,8 +1003,8 @@ export class OfferService {
         const apiData = apiResponse.data.data;
 
         if(apiData) {
-            lat = apiData[0].latitude;
-            lng = apiData[0].longitude;
+            lat = apiData[0]?.latitude;
+            lng = apiData[0]?.longitude;
         }
 
         // Add record to database
@@ -1018,7 +1018,7 @@ export class OfferService {
             salaryType, salaryFrom, salaryTo,
             salaryCurrency, contractType, timeBounded,
             expireDay, expireMonth, expireYear, image,
-            attachments: JSON.stringify(attachments),
+            attachments: attachments ? JSON.stringify(attachments) : null,
             lat,
             lng
         });
@@ -1030,12 +1030,19 @@ export class OfferService {
         if(addOfferResult) {
             const offerId = addOfferResult.identifiers[0].id;
 
+            const isElementInArray = (el, arr) => {
+                if(!arr?.length) return false;
+                return arr.findIndex((item) => {
+                    return item === el;
+                }) !== -1;
+            }
+
             // Get users with given category
             const allUsers = await this.userRepository.find();
             const notificationRecipients = allUsers.filter((item) => {
                 const data = JSON.parse(item.data);
                 if(data) {
-                    return this.isElementInArray(category, data.categories);
+                    return isElementInArray(category, data.categories);
                 }
                 else {
                     return false;
@@ -1100,7 +1107,7 @@ export class OfferService {
             salaryType, salaryFrom, salaryTo,
             salaryCurrency, contractType,
             contactPerson, contactNumberCountry, contactNumber, image,
-            attachments: JSON.stringify(attachments)
+            attachments: attachments ? JSON.stringify(attachments) : null
         });
 
         if(addOfferResult) {
@@ -1817,8 +1824,6 @@ export class OfferService {
             .leftJoinAndSelect('user', 'u', 'u.id = app.user')
             .where('o.agency = :agencyId', {agencyId})
             .getRawMany();
-
-        console.log(lang);
 
         if(lang === 'pl' || !lang) {
             // Get job offers

@@ -115,10 +115,4 @@ export class Fast_offer {
 
     @Column()
     created_at: Date;
-
-    @Column()
-    lat: number;
-
-    @Column()
-    lng: number;
 }

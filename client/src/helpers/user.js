@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {getAuthHeader, getLang, getLoggedUserEmail} from "./others";
+import {getAdminAuthHeader, getAuthHeader, getLang, getLoggedUserEmail} from "./others";
 import settings from "../static/settings";
 import Cookies from "universal-cookie";
 
@@ -76,7 +76,7 @@ const getUserById = (id) => {
 }
 
 const toggleUserVisibility = () => {
-    return axios.patch(`/user/toggleUserVisibility/${getLoggedUserEmail()}`, {
+    return axios.patch(`/user/toggleUserVisibility/${getLoggedUserEmail()}`, {}, {
         headers: {
             Authorization: getAuthHeader()
         }
@@ -84,7 +84,7 @@ const toggleUserVisibility = () => {
 }
 
 const toggleUserWorking = () => {
-    return axios.patch(`/user/toggleUserWorking/${getLoggedUserEmail()}`, {
+    return axios.patch(`/user/toggleUserWorking/${getLoggedUserEmail()}`, {}, {
         headers: {
             Authorization: getAuthHeader()
         }
@@ -116,12 +116,20 @@ const logout = () => {
     window.location = '/';
 }
 
-const getAllUsers = (page) => {
-    return axios.get(`/user/getAll/${page}`);
+const getAllUsers = (page, admin = false) => {
+    return axios.get(`/user/getAll/${page}`, {
+        headers: {
+            Authorization: admin ? getAdminAuthHeader() : getAuthHeader()
+        }
+    });
 }
 
 const getAllVisibleUsers = (page) => {
-    return axios.get(`/user/getAllVisible/${page}`);
+    return axios.get(`/user/getAllVisible/${page}`, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
 }
 
 const filterUsers = (category, country, city, distance, salaryType, salaryFrom, salaryTo,
@@ -129,16 +137,28 @@ const filterUsers = (category, country, city, distance, salaryType, salaryFrom, 
     return axios.post(`/user/filter`, {
         category, country, city, distance, salaryType, salaryFrom, salaryTo,
         salaryCurrency, ownTransport, bsnNumber, languages, drivingLicences, page
+    }, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
     });
 }
 
 const getUserNotifications = () => {
-    return axios.get(`/user/getNotifications/${getLoggedUserEmail()}`);
+    return axios.get(`/user/getNotifications/${getLoggedUserEmail()}`, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
 }
 
 const readNotification = (id) => {
     return axios.patch(`/user/readNotification`, {
         id
+    }, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
     });
 }
 
@@ -157,12 +177,20 @@ const remindUserPassword = (email) => {
 const resetUserPassword = (password, email) => {
     return axios.patch('/user/resetPassword', {
         password, email
+    }, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
     });
 }
 
 const changeUserPassword = (oldPassword, newPassword, email) => {
     return axios.patch('/user/changePassword', {
         oldPassword, newPassword, email
+    }, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
     });
 }
 

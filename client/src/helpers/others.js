@@ -6,10 +6,6 @@ const isElementInArray = (el, arr) => {
     }) !== -1;
 }
 
-const isPasswordStrong = (pass) => {
-    return pass?.length >= 8;
-}
-
 const isEmail = (email) => {
     return String(email)
         .toLowerCase()
@@ -27,6 +23,10 @@ const getLang = () => {
     else {
         return localStorage.getItem('lang') ? localStorage.getItem('lang').toLowerCase() : 'pl';
     }
+}
+
+const isHomepage = () => {
+    return window.location.pathname === '/';
 }
 
 const getAuthHeader = () => {
@@ -83,5 +83,5 @@ const isPasswordStrength = (password) => {
     return true;
 }
 
-export { isEmail, isElementInArray, isPasswordStrong, getAuthHeader, numberRange,
+export { isEmail, isElementInArray, getAuthHeader, numberRange, isHomepage,
     getLoggedUserEmail, getDate, addLeadingZero, groupBy, isPasswordStrength, getLang, getAdminAuthHeader }

@@ -33,30 +33,50 @@ const logoutAdmin = () => {
 const blockAgency = (id) => {
     return axios.post('/admin/blockAgency', {
         id
+    }, {
+        headers: {
+            Authorization: getAdminAuthHeader()
+        }
     });
 }
 
 const blockUser = (id) => {
     return axios.post('/admin/blockUser', {
         id
+    }, {
+        headers: {
+            Authorization: getAdminAuthHeader()
+        }
     });
 }
 
 const unblockAgency = (id) => {
     return axios.post('/admin/unblockAgency', {
         id
+    }, {
+        headers: {
+            Authorization: getAdminAuthHeader()
+        }
     });
 }
 
 const unblockUser = (id) => {
     return axios.post('/admin/unblockUser', {
         id
+    }, {
+        headers: {
+            Authorization: getAdminAuthHeader()
+        }
     });
 }
 
 const acceptAgency = (id) => {
     return axios.post('/admin/acceptAgency', {
         id
+    }, {
+        headers: {
+            Authorization: getAdminAuthHeader()
+        }
     });
 }
 

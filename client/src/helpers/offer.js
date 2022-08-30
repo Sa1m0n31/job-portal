@@ -48,7 +48,11 @@ const getJobOffersByAgency = () => {
 }
 
 const getActiveJobOffers = (page) => {
-    return axios.get(`/offer/getActive/${page}/${getLang()}`);
+    return axios.get(`/offer/getActive/${page}/${getLang()}`, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
 }
 
 const deleteOffer = (id, admin = false) => {
@@ -94,11 +98,19 @@ const filterOffers = (page, title, category, country, city, distance, salaryType
     return axios.post(`/offer/filter`, {
         page, title, category, country, city, distance, salaryType, salaryFrom, salaryTo, salaryCurrency,
         lang: getLang()
+    }, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
     });
 }
 
 const getActiveFastOffers = () => {
-    return axios.get(`/offer/getActiveFastOffers/${getLang()}`);
+    return axios.get(`/offer/getActiveFastOffers/${getLang()}`, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
 }
 
 const addFastOffer = (data) => {
@@ -187,15 +199,27 @@ const submitFastApplication = (id, message, friendLink, contactForms, attachment
 }
 
 const getApplicationsByAgency = () => {
-    return axios.get(`/offer/getApplicationsByAgency/${getLoggedUserEmail()}/${getLang()}`);
+    return axios.get(`/offer/getApplicationsByAgency/${getLoggedUserEmail()}/${getLang()}`, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
 }
 
 const getFastApplicationsByAgency = () => {
-    return axios.get(`/offer/getFastApplicationsByAgency/${getLoggedUserEmail()}/${getLang()}`);
+    return axios.get(`/offer/getFastApplicationsByAgency/${getLoggedUserEmail()}/${getLang()}`, {
+        headers: {
+            Authorization: getAuthHeader()
+        }
+    });
 }
 
 const getAllOffers = (page) => {
-    return axios.get(`/offer/getAll/${page}`);
+    return axios.get(`/offer/getAll/${page}`, {
+        headers: {
+            Authorization: getAdminAuthHeader()
+        }
+    });
 }
 
 export { addOffer, getJobOffersByAgency, getActiveJobOffers, deleteOffer,

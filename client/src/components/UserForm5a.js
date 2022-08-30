@@ -108,7 +108,7 @@ const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMont
                 </div>
 
                 {userData.hasBsnNumber ? <div className="bsnInputWrapper flex">
-                    <label className="bsnInputLabel flex">
+                    <label className="bsnInputLabel bsnInputLabel--documentAdded flex">
                         {userData.bsnNumberDocument ? <>
                             <img className="img" src={checkIcon} alt="dodaj-plik" />
                             {c.documentAdded}

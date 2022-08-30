@@ -32,7 +32,7 @@ const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEduca
         {userData.schools?.map((item, index) => {
             return <div className="form__school flex" key={index}>
                 <label className="label">
-                    {c.schoolOrUniveristyName}
+                    {c.schoolOrUniversityName}
                     <input className="input"
                            value={item.name}
                            onChange={(e) => { handleChange('schools', e.target.value, 'name', index); }} />

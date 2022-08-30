@@ -121,7 +121,7 @@ const ChangePassword = () => {
     return <div className="container container--changePassword">
         {data ? <LoggedUserHeader data={data} agency={agency} /> : ''}
 
-        <main className="page">
+        <main className="page page--100">
             <h1 className="page__header">
                 {c.passwordChange}
             </h1>

@@ -15,6 +15,7 @@ import {getDate} from "../helpers/others";
 import downloadWhite from "../static/img/download-white.svg";
 import {LanguageContext} from "../App";
 import Loader from "./Loader";
+import {currencies} from "../static/content";
 
 const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
     const { c } = useContext(LanguageContext);
@@ -119,7 +120,7 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
                                                              availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : c.noInfo}
                                                              ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}
                                                              ownTools={data.ownTools ? c.yes : ''}
-                                                             salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency} ${c.netto}/${data.salaryType === 0 ? c.monthlyShortcut : c.weeklyShortcut}` : c.noInfo}
+                                                             salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency >= 0 ? currencies[data.salaryCurrency] : 'EUR'} ${c.netto}/${data.salaryType === 0 ? c.monthlyShortcut : c.weeklyShortcut}` : c.noInfo}
                                                              />}
                                                fileName={`CV-${data.firstName}_${data.lastName}.pdf`}
                                                className={disabled || loading ? "btn btn--downloadCV btn--disabled" : "btn btn--downloadCV"}>

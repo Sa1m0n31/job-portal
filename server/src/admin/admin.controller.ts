@@ -30,26 +30,31 @@ export class AdminController {
         return this.adminService.loginAdmin(body.username, body.password);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('/blockAgency')
     blockAgency(@Body() body) {
         return this.adminService.blockAgency(body.id);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('/blockUser')
     blockUser(@Body() body) {
         return this.adminService.blockUser(body.id);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('/unblockAgency')
     unblockAgency(@Body() body) {
         return this.adminService.unblockAgency(body.id);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('/unblockUser')
     unblockUser(@Body() body) {
         return this.adminService.unblockUser(body.id);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('/acceptAgency')
     acceptAgency(@Body() body) {
         return this.adminService.acceptAgency(body.id);

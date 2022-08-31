@@ -383,6 +383,11 @@ const MessageList = ({agency, data, accepted, id}) => {
             <div className="messages__section messages__previews messages__section--content">
                 {!currentSendMessage ? currentChatMessages?.map((item, index) => {
                     const messageDatetime = new Date(item.created_at);
+                    const agencyRecipientName = JSON.parse(currentChat.a_data)?.name ? JSON.parse(currentChat.a_data).name : c.anonim;
+                    const agencyName = data.name ? data.name : c.anonim;
+                    const userRecipientName = JSON.parse(currentChat.u_data)?.firstName ? `${JSON.parse(currentChat.u_data).firstName} ${JSON.parse(currentChat.u_data).lastName}` : c.anonim;
+                    const userName = data.firstName ? `${data.firstName} ${data.lastName}` : c.anonim;
+
                     return <div className="currentMessage__item" key={index}>
                         {index === 0 ? <>
                             <div className="messages__chatHeader">
@@ -390,10 +395,10 @@ const MessageList = ({agency, data, accepted, id}) => {
                                     {addLeadingZero(messageDatetime.getDate())}/{addLeadingZero(messageDatetime.getMonth()+1)}/{messageDatetime.getFullYear()}, {addLeadingZero(messageDatetime.getHours())}:{addLeadingZero(messageDatetime.getMinutes())}
                                 </span>
                                 <h4 className="messages__chatHeader__header">
-                                    <span className="bold">{c.from}</span> {item.fromAgency ? (agency ? `${c.me} (${data.name})` : JSON.parse(currentChat.a_data).name) : (agency ? `${JSON.parse(currentChat.u_data).firstName} ${JSON.parse(currentChat.u_data).lastName}` : `${c.me} (${data.firstName} ${data.lastName})`)}
+                                    <span className="bold">{c.from}</span> {item.fromAgency ? (agency ? `${c.me} (${agencyName})` : agencyRecipientName) : (agency ? userRecipientName : `${c.me} (${userName})`)}
                                 </h4>
                                 <h4 className="messages__chatHeader__header">
-                                    <span className="bold">{c.to}</span> {!item.fromAgency ? (agency ? `${c.me} (${data.name})` : JSON.parse(currentChat.a_data).name) : (agency ? `${JSON.parse(currentChat.u_data).firstName} ${JSON.parse(currentChat.u_data).lastName}` : `${c.me} (${data.firstName} ${data.lastName})`)}
+                                    <span className="bold">{c.to}</span> {!item.fromAgency ? (agency ? `${c.me} (${agencyName})` : agencyRecipientName) : (agency ? `${userRecipientName}` : `${c.me} (${userName})`)}
                                 </h4>
                                 <h4 className="messages__chatHeader__header">
                                     <span className="bold">{c.topic}:</span> {currentChat?.m_title}
@@ -424,10 +429,10 @@ const MessageList = ({agency, data, accepted, id}) => {
                                     {addLeadingZero(messageDatetime.getDate())}/{addLeadingZero(messageDatetime.getMonth()+1)}/{messageDatetime.getFullYear()}, {addLeadingZero(messageDatetime.getHours())}:{addLeadingZero(messageDatetime.getMinutes())}
                                 </span>
                                 <h4 className="messages__chatHeader__header">
-                                    <span className="bold">{c.from}</span> {item.fromAgency ? (agency ? `${c.me} (${data.name})` : JSON.parse(currentChat.a_data).name) : (agency ? `${JSON.parse(currentChat.u_data).firstName} ${JSON.parse(currentChat.u_data).lastName}` : `${c.me} (${data.firstName} ${data.lastName})`)}
+                                    <span className="bold">{c.from}</span> {item.fromAgency ? (agency ? `${c.me} (${agencyName})` : agencyRecipientName) : (agency ? `${userRecipientName}` : `${c.me} (${userName})`)}
                                 </h4>
                                 <h4 className="messages__chatHeader__header">
-                                    <span className="bold">{c.to}</span> {!item.fromAgency ? (agency ? `${c.me} (${data.name})` : JSON.parse(currentChat.a_data).name) : (agency ? `${JSON.parse(currentChat.u_data).firstName} ${JSON.parse(currentChat.u_data).lastName}` : `${c.me} (${data.firstName} ${data.lastName})`)}
+                                    <span className="bold">{c.to}</span> {!item.fromAgency ? (agency ? `${c.me} (${agencyName})` : agencyRecipientName) : (agency ? `${userRecipientName}` : `${c.me} (${userName})`)}
                                 </h4>
                                 <h4 className="messages__chatHeader__header">
                                     <span className="bold">{c.messageDate}:</span> {addLeadingZero(messageDatetime.getDate())}/{addLeadingZero(messageDatetime.getMonth()+1)}/{messageDatetime.getFullYear()}, {addLeadingZero(messageDatetime.getHours())}:{addLeadingZero(messageDatetime.getMinutes())}
@@ -444,7 +449,7 @@ const MessageList = ({agency, data, accepted, id}) => {
                             {new Date(currentSendMessage.created_at).getDate()}/{new Date(currentSendMessage.created_at).getMonth()+1}/{new Date(currentSendMessage.created_at).getFullYear()}, {new Date(currentSendMessage.created_at).getHours()}:{new Date(currentSendMessage.created_at).getMinutes()}
                         </span>
                         <h4 className="messages__chatHeader__header">
-                            <span className="bold">{c.from}</span> {agency ? `${c.me} (${data.name})` : (data.firstName ? `${c.me} (${data.firstName} ${data.lastName})` : c.anonim)}
+                            <span className="bold">{c.from}</span> {agency ? `${c.me} (${data.name ? data.name : c.anonim})` : (data.firstName ? `${c.me} (${data.firstName} ${data.lastName})` : c.anonim)}
                         </h4>
                         <h4 className="messages__chatHeader__header">
                             <span className="bold">{c.to}</span> {currentSendMessage.receiver}

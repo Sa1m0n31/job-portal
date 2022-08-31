@@ -26,7 +26,6 @@ const Notifications = () => {
                                 setData(JSON.parse(res?.data?.data));
 
                                 const userNotifications = await getUserNotifications();
-                                console.log(userNotifications);
 
                                 if(userNotifications?.data?.length) {
                                     setNotifications(userNotifications.data?.map((item) => {
@@ -81,6 +80,9 @@ const Notifications = () => {
                                                 if(a.read && !b.read) return 1;
                                                 else return -1;
                                             }));
+                                        }
+                                        else {
+                                            setRender(true);
                                         }
                                     }
                                     else {

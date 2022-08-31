@@ -425,7 +425,7 @@ const CandidateProfile = () => {
                 </h3>
                 {user?.attachments?.map((item, index) => {
                     return <a key={index}
-                              // download={`${item.path.replace(`-${item.path.split('-')?.slice(-1)[0]}`, '')}.${item.path.split('.').slice(-1)[0]}`.split('\\').slice(-1)[0]}
+                              download={`${item.path.replace(`-${item.path.split('-')?.slice(-1)[0]}`, '')}.${item.path.split('.').slice(-1)[0]}`.split('\\').slice(-1)[0]}
                               target="_blank"
                               href={`${settings.API_URL}/${item.path}`}
                               className="userAccount__box__attachment">

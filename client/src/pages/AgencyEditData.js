@@ -47,8 +47,8 @@ const AgencyEditData = () => {
         youtube: '',
         linkedin: '',
         // 4.1 Employees info
-        roomType: null,
-        houseType: null,
+        roomType: 0,
+        houseType: 0,
         roomDescription: '',
         parking: null,
         // 4.2 Employees info

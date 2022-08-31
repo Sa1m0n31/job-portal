@@ -96,6 +96,7 @@ const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setN
         <label className="label">
             {c.email}
             <input className="input"
+                   disabled={true}
                    value={agencyData.email}
                    onChange={(e) => { handleChange('email', e.target.value); }} />
         </label>

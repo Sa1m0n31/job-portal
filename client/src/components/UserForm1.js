@@ -203,6 +203,7 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
         <label className="label">
             {c.email}
             <input className="input"
+                   disabled={true}
                    value={userData.email}
                    onChange={(e) => { handleChange('email', e.target.value); }} />
         </label>

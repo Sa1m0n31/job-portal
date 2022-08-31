@@ -197,7 +197,6 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
     useEffect(() => {
         if(render && user) {
             if(enableDownload) {
-                console.log(user);
                 enableDownload();
             }
         }
@@ -303,13 +302,14 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                             </Text>
                         </View>
                     })}
-                </View> : ''}
+                </View> : <View></View>}
 
                 {jobs?.length ? <View style={styles.mainSection}>
                     <Text style={styles.sectionHeader}>
                         {c.jobExperience}
                     </Text>
                     {user?.jobs ? user.jobs?.map((item) => {
+                        console.log(item);
                         return <View style={styles.textContainer}>
                             <Text style={styles.schoolName}>
                                 {item.name}
@@ -325,7 +325,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                                              key={index}>
                                     &bull; {item}
                                 </Text>
-                            }) : ''}
+                            }) : <View></View>}
                         </View>
                     }) : jobs?.map((item) => {
                         return <View style={styles.textContainer}>
@@ -343,10 +343,10 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                                              key={index}>
                                     &bull; {item}
                                 </Text>
-                            }) : ''}
+                            }) : <View></View>}
                         </View>
                     })}
-                </View> : ''}
+                </View> : <View></View>}
 
                 {languages?.length || drivingLicence?.length ? <View style={styles.mainSection}>
                     <Text style={styles.sectionHeader}>
@@ -367,7 +367,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                                 {user ? user.extraLanguages : additionalLanguages}
                             </Text>
                         </Text>
-                    </View> : ""}
+                    </View> : <View></View>}
                     {drivingLicence?.length ? <View style={styles.textContainer}>
                         <Text style={styles.textSmall}>{c.drivingLicence}: </Text>
                         <Text style={styles.text}>
@@ -380,8 +380,8 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                                 }
                             })}
                         </Text>
-                    </View> : ""}
-                </View> : ''}
+                    </View> : <View></View>}
+                </View> : <View></View>}
 
                 {certs?.length ? <View style={styles.mainSection}>
                     <Text style={styles.sectionHeader}>
@@ -400,7 +400,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                             </Text>
                         </View>
                     })}
-                </View> : ''}
+                </View> : <View></View>}
 
                 {desc ? <View style={styles.mainSection}>
                     <Text style={styles.sectionHeader}>
@@ -409,7 +409,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                     <Text style={styles.descText}>
                         {user?.situationDescription ? user.situationDescription : desc}
                     </Text>
-                </View> : ''}
+                </View> : <View></View>}
 
                 <View style={styles.mainSection}>
                     <Text style={styles.sectionHeader}>
@@ -435,14 +435,14 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                         <Text style={styles.text}>
                             {ownAccommodation}
                         </Text>
-                    </> : ''}
+                    </> : <View></View>}
 
                     {ownTools ? <>
                         <Text style={styles.textSmall}>{c.ownTools}: </Text>
                         <Text style={styles.text}>
                             {c.yes}
                         </Text>
-                    </>: ''}
+                    </>: <View></View>}
                 </View>
             </View>
         </Page>

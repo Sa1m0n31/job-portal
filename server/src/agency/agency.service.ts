@@ -214,13 +214,20 @@ export class AgencyService {
         agencyData = await this.translateAgencyData(agencyData, currentGallery, files, data.oldGallery);
 
         // Get latitude and longitude
-        const apiResponse = await lastValueFrom(this.httpService.get(
-            encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${agencyData.city}`)));
-        const apiData = apiResponse.data.data;
+        if(agencyData.city) {
+            try {
+                const apiResponse = await lastValueFrom(this.httpService.get(
+                    encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${agencyData.city}`)));
+                const apiData = apiResponse.data.data;
 
-        if(apiData?.length) {
-            lat = apiData[0].latitude;
-            lng = apiData[0].longitude;
+                if(apiData?.length) {
+                    lat = apiData[0].latitude;
+                    lng = apiData[0].longitude;
+                }
+            }
+            catch(err) {
+
+            }
         }
 
         // Remove translations

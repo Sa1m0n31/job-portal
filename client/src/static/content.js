@@ -215,16 +215,6 @@ const months = [
     "Październik", "Listopad", "Grudzień"
 ];
 
-const countries = [
-    "Albania", "Andora", "Armenia", "Austria", "Azerbejdżan", "Białoruś", "Belgia",
-    "Bośnia i Hercegowina", "Bułgaria", "Chorwacja", "Cypr", "Republika Czeska", "Dania", "Estonia",
-    "Finlandia", "Francja", "Gruzja", "Niemcy", "Grecja", "Węgry", "Islandia", "Irlandia",
-    "Włochy", "Łotwa", "Liechtenstein", "Litwa", "Luksemburg", "Macedonia", "Malta",
-    "Moldova", "Monako", "Czarnogóra", "Holandia", "Norwegia", "Polska", "Portugalia",
-    "Rumunia", "Rosja", "San Marino", "Serbia", "Słowacja", "Słowenia", "Hiszpania", "Szwecja",
-    "Szwajcaria", "Turcja", "Ukraina", "Wielka Brytania"
-];
-
 const phoneNumbers = [
     'AL +355', 'AD +376', 'AM +374', 'AT +43', 'AZ +994', 'BY +375', 'BE +32',
     'BA +387', 'BG +359', 'HR +385', 'CY +387', 'CZ +420', 'DK +45', 'EE +376',
@@ -275,17 +265,30 @@ const nipCountries = [
     "SI", "ES", "SE", "NO", "UA", "TR", "BY"
 ]
 
+const countries = [
+    "Albania", "Andora", "Armenia", "Austria", "Azerbejdżan",
+    "Białoruś", "Belgia", "Bośnia i Hercegowina", "Bułgaria", "Chorwacja",
+    "Cypr", "Republika Czeska", "Dania", "Estonia", "Finlandia",
+    "Francja", "Gruzja", "Niemcy", "Grecja", "Węgry",
+    "Islandia", "Irlandia", "Włochy", "Łotwa", "Liechtenstein",
+    "Litwa", "Luksemburg", "Macedonia", "Malta", "Moldova",
+    "Monako", "Czarnogóra", "Holandia", "Norwegia", "Polska",
+    "Portugalia", "Rumunia", "Rosja", "San Marino", "Serbia",
+    "Słowacja", "Słowenia", "Hiszpania", "Szwecja", "Szwajcaria",
+    "Turcja", "Ukraina", "Wielka Brytania"
+];
+
 const flags = [
     'al', 'ad', 'am', 'at', 'az',
     'by', 'be', 'ba', 'bg', 'cr',
     'cy', 'cz', 'dk', 'ee', 'fi',
-    'fr', 'ge', 'hu', 'is', 'ie',
-    'it', 'lv', 'li', 'lt', 'lu',
-    'mk', 'mt', 'md', 'mc', 'me',
-    'nl', 'no', 'pl', 'pt', 'ro',
-    'ru', 'sm', 'rs', 'sk', 'si',
-    'es', 'se', 'ch', 'tr', 'ua',
-    'gb'
+    'fr', 'ge', 'de', 'gr', 'hu',
+    'is', 'ie', 'it', 'lv', 'li',
+    'lt', 'lu', 'mk', 'mt', 'md',
+    'mc', 'me', 'nl', 'no', 'pl',
+    'pt', 'ro', 'ru', 'sm', 'rs',
+    'sk', 'si', 'es', 'se', 'ch',
+    'tr', 'ua', 'gb'
 ];
 
 const rooms = [

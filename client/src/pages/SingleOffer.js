@@ -20,7 +20,6 @@ import userPlaceholder from '../static/img/user-placeholder.svg'
 import {authUser, getUserApplications, getUserData} from "../helpers/user";
 import {authAgency, getAgencyData} from "../helpers/agency";
 import {LanguageContext} from "../App";
-import {getLang} from "../helpers/others";
 import LoggedUserFooter from "../components/LoggedUserFooter";
 
 const SingleOffer = () => {
@@ -70,15 +69,19 @@ const SingleOffer = () => {
         if(id) {
             getOfferById(id)
                 .then(async (res) => {
-                    console.log(res);
                    if(res?.status === 200) {
-                       setOffer(Array.isArray(res.data) ? res.data[0] : res.data);
-                       const offerId = res?.data[0]?.o_id;
+                       if(res?.data?.length) {
+                           setOffer(Array.isArray(res.data) ? res.data[0] : res.data);
+                           const offerId = res?.data[0]?.o_id;
 
-                       const userApplicationResponse = await getUserApplications();
-                       if(userApplicationResponse) {
-                           const userApplications = userApplicationResponse?.data;
-                           setUserAlreadyApplied(userApplications?.findIndex((item) => (item.offer === offerId)) !== -1);
+                           const userApplicationResponse = await getUserApplications();
+                           if(userApplicationResponse) {
+                               const userApplications = userApplicationResponse?.data;
+                               setUserAlreadyApplied(userApplications?.findIndex((item) => (item.offer === offerId)) !== -1);
+                           }
+                       }
+                       else {
+                           window.location = '/';
                        }
                    }
                 })

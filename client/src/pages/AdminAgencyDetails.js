@@ -48,9 +48,9 @@ const AdminAgencyDetails = () => {
 
     useEffect(() => {
         const param = new URLSearchParams(window.location.search);
-        const id = param.get('id');
-        if(id) {
-            getAgencyById(id)
+        const idParam = param.get('id');
+        if(idParam) {
+            getAgencyById(idParam)
                 .then((res) => {
                     if(res?.status === 200) {
                         const r = res?.data;

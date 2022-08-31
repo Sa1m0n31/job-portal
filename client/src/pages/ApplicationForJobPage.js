@@ -30,6 +30,7 @@ const ApplicationForJobPage = ({data}) => {
     const [fast, setFast] = useState(false);
     const [c1, setC1] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const { c } = useContext(LanguageContext);
 
@@ -176,6 +177,7 @@ const ApplicationForJobPage = ({data}) => {
             setError(c.privacyPolicyError);
         }
         else {
+            setLoading(true);
             let func = fast ? submitFastApplication : submitApplication;
             func(offer.o_id, message, friendLink, contactForms, attachments, offer.a_id)
                 .then((res) => {
@@ -185,6 +187,8 @@ const ApplicationForJobPage = ({data}) => {
                     else {
                         setError(JSON.parse(c.formErrors)[1]);
                     }
+
+                    setLoading(false);
                 })
                 .catch((err) => {
                    if(err.status === 415) {
@@ -196,6 +200,8 @@ const ApplicationForJobPage = ({data}) => {
                    else {
                        setError(JSON.parse(c.formErrors)[1]);
                    }
+
+                   setLoading(false);
                 });
         }
     }
@@ -403,10 +409,12 @@ const ApplicationForJobPage = ({data}) => {
                     {error}
                 </span> : ''}
 
-                <button className="btn btn--applicationSubmit" onClick={() => { handleSubmit(); }}>
+                {!loading ? <button className="btn btn--applicationSubmit" onClick={() => { handleSubmit(); }}>
                     {c.sendCV}
                     <img className="img" src={arrow} alt="wyślij" />
-                </button>
+                </button> : <div className="center">
+                    <Loader />
+                </div>}
             </div>
         </main>
     </div> : <div className="container container--height100 center">

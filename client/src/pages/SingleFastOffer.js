@@ -91,13 +91,18 @@ const SingleFastOffer = () => {
             getFastOfferById(id)
                 .then(async (res) => {
                    if(res?.status === 200) {
-                       setOffer(Array.isArray(res.data) ? res.data[0] : res.data);
-                       const offerId = res?.data[0]?.o_id;
+                       if(res?.data?.length) {
+                           setOffer(Array.isArray(res.data) ? res.data[0] : res.data);
+                           const offerId = res?.data[0]?.o_id;
 
-                       const userApplicationResponse = await getUserFastApplications();
-                       if(userApplicationResponse) {
-                           const userApplications = userApplicationResponse?.data;
-                           setUserAlreadyApplied(userApplications?.findIndex((item) => (item.offer === offerId)) !== -1);
+                           const userApplicationResponse = await getUserFastApplications();
+                           if(userApplicationResponse) {
+                               const userApplications = userApplicationResponse?.data;
+                               setUserAlreadyApplied(userApplications?.findIndex((item) => (item.offer === offerId)) !== -1);
+                           }
+                       }
+                       else {
+                           window.location = '/';
                        }
                    }
                 })

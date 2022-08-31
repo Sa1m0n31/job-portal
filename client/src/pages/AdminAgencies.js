@@ -7,7 +7,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import AgencyPreviewAdmin from "../components/AgencyPreviewAdmin";
 import Modal from "../components/Modal";
 import {acceptAgency, blockAgency, unblockAgency} from "../helpers/admin";
-import {formErrors} from "../static/content";
 
 const AdminAgencies = () => {
     const [agencies, setAgencies] = useState([]);

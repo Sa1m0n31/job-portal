@@ -136,7 +136,7 @@ export class UserController {
         return this.userService.filter(body);
     }
 
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get('/getUserById/:id/:lang')
     getUserById(@Param('id') id, @Param('lang') lang) {
         return this.userService.getUserById(id, lang);

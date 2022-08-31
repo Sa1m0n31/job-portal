@@ -63,7 +63,7 @@ export class AgencyController {
         return this.agencyService.filterAgencies(body);
     }
 
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get('/getAgencyById/:id/:lang')
     getAgencyById(@Param('id') id, @Param('lang') lang) {
         return this.agencyService.getAgencyById(id, lang);

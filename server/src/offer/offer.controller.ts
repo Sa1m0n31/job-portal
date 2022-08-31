@@ -111,7 +111,7 @@ export class OfferController {
             salaryFrom, salaryTo, salaryType, salaryCurrency, lang);
     }
 
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get('/getActiveFastOffers/:lang')
     getActiveFastOffers(@Param('lang') lang) {
         return this.offerService.getActiveFastOffers(lang);

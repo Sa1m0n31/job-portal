@@ -62,7 +62,8 @@ const AdminAgencyDetails = () => {
                     }
                 })
                 .catch((err) => {
-                    window.location = '/';
+                    console.log(err);
+                    // window.location = '/';
                 });
         }
         else {

@@ -89,6 +89,7 @@ const HomepageTop = () => {
                 <button className="home__header__mobile__btn" onClick={() => { openMenu(); }}>
                     <img className="img" src={menuIcon} alt="menu" />
                 </button>
+                <LanguageSwitcher mobileHomepage={true} />
             </div>
         </header>
         <h1 className="home__h1">

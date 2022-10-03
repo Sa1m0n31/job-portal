@@ -33,6 +33,7 @@ const UserEditData = () => {
         birthdayYear: 2000,
         country: 0,
         city: '',
+        postalCode: '',
         address: '',
         phoneNumberCountry: 'PL +48',
         phoneNumber: '',
@@ -62,10 +63,12 @@ const UserEditData = () => {
         availabilityYear: new Date().getFullYear(),
         longTermJobSeeker: null,
         ownTransport: null,
+        ownTransportType: 0,
         // 5.2 Additional info
         ownAccommodation: null,
         accommodationPlace: '',
         ownTools: null,
+        ownToolsDescription: '',
         salaryType: 0,
         salaryFrom: null,
         salaryTo: null,
@@ -77,7 +80,8 @@ const UserEditData = () => {
         oldAttachments: [],
         checkbox: false,
         // 5.4 Additional info
-        friendLink: ''
+        friendLink: '',
+        whereYouFindOurApp: ''
     });
     const [step, setStep] = useState(0);
     const [substep, setSubstep] = useState(0);
@@ -96,6 +100,7 @@ const UserEditData = () => {
     const [bsnVisible, setBsnVisible] = useState(false);
     const [currenciesVisible, setCurrenciesVisible] = useState(false);
     const [categoriesVisible, setCategoriesVisible] = useState(-1);
+    const [transportTypesVisible, setTransportTypesVisible] = useState(false);
 
     const { c } = useContext(LanguageContext);
 
@@ -162,6 +167,7 @@ const UserEditData = () => {
                                                setYearsVisible={setYearsVisible}
                                                setCountriesVisible={setCountriesVisible}
                                                setBsnVisible={setBsnVisible}
+                                               setTransportTypesVisible={setTransportTypesVisible}
                     />);
                 }
                 if(substep === 1) {
@@ -418,16 +424,25 @@ const UserEditData = () => {
     }
 
     const addNewSchool = () => {
-        setUserData(prevState => ({
-            ...prevState,
-            schools: [...prevState.schools, {
-                name: '',
-                title: '',
-                from: null,
-                to: null,
-                inProgress: false
-            }]
-        }));
+        if(userData?.schools?.length < 3) {
+            setUserData(prevState => {
+                if(prevState?.schools?.length < 3) {
+                    return {
+                        ...prevState,
+                        schools: [...prevState.schools, {
+                            name: '',
+                            title: '',
+                            from: null,
+                            to: null,
+                            inProgress: false
+                        }]
+                    }
+                }
+                else {
+                    return prevState;
+                }
+            });
+        }
     }
 
     const addNewResponsibility = (jobIndex) => {
@@ -646,7 +661,7 @@ const UserEditData = () => {
 
     return <UserDataContext.Provider value={{
         setStep, setSubstep, daysVisible, monthsVisible, yearsVisible, countriesVisible, phoneNumbersCountriesVisible,
-        educationVisible,
+        educationVisible, transportTypesVisible,
         levelsVisible, drivingLicenceVisible,
         bsnVisible, error, loading,
         categoriesVisible, currenciesVisible,
@@ -667,14 +682,16 @@ const UserEditData = () => {
 
                 <div className="editData__left__steps">
                     {JSON.parse(c.steps).map((item, index) => {
-                        return <div className={step === index ? "flex editData__step editData__step--current" : "flex editData__step"} key={index}>
+                        return <button className={step === index ? "flex editData__step editData__step--current" : "flex editData__step"}
+                                       onClick={() => { if(index !== 5) setStep(index); setSubstep(0) }}
+                                       key={index}>
                         <span className="editData__left__step__number center">
                             {index+1}
                         </span>
                             <span className="editData__left__step__text">
                             {item}
                         </span>
-                        </div>
+                        </button>
                     })}
                 </div>
             </div>

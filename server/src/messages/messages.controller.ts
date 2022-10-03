@@ -18,7 +18,7 @@ export class MessagesController {
     @UseGuards(JwtAuthGuard)
     @Post('/sendMessage')
     sendMessage(@Body() body) {
-        return this.messagesService.sendMessage(body.id, body.user, body.agency, body.title, body.chat);
+        return this.messagesService.sendMessage(body.id, body.user, body.agency, body.title, body.chat, body.email);
     }
 
     @UseGuards(JwtAuthGuard)

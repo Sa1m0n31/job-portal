@@ -7,11 +7,11 @@ import {numberRange} from "../helpers/others";
 import trashIcon from "../static/img/trash.svg";
 import {LanguageContext} from "../App";
 
-const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMonthsVisible, setYearsVisible}) => {
-    const { setStep, setSubstep, userData, handleChange, countriesVisible, bsnVisible, daysVisible,
+const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMonthsVisible, setTransportTypesVisible, setYearsVisible}) => {
+    const { setStep, setSubstep, userData, handleChange, countriesVisible, bsnVisible, daysVisible, transportTypesVisible,
             monthsVisible, yearsVisible
     } = useContext(UserDataContext);
-    const { c } = useContext(LanguageContext)
+    const { c } = useContext(LanguageContext);
 
     const [days, setDays] = useState([]);
     const [years, setYears] = useState([]);
@@ -235,6 +235,23 @@ const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMont
                     {c.no}
                 </label>
             </div>
+
+            {userData.ownTransport ? <div className="label--date__input label--date__input--country">
+                <button className="datepicker datepicker--country"
+                        onClick={(e) => { e.stopPropagation(); setTransportTypesVisible(!transportTypesVisible); }}
+                >
+                    {JSON.parse(c.transportTypes)[userData.ownTransportType || 0]}
+                    <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
+                </button>
+                {transportTypesVisible ? <div className="datepickerDropdown noscroll">
+                    {JSON.parse(c.transportTypes)?.map((item, index) => {
+                        return <button className="datepickerBtn center" key={index}
+                                       onClick={(e) => { setTransportTypesVisible(false); handleChange('ownTransportType', index); }}>
+                            {item}
+                        </button>
+                    })}
+                </div> : ''}
+            </div> : ''}
         </div>
     </div>
     <div className="formBottom flex">

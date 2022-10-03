@@ -75,7 +75,7 @@ const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEduca
             </div>
         })}
 
-        <button className="addNewBtn flex" onClick={() => { addNewSchool(); }}>
+        <button className={userData?.schools?.length < 3 ? "addNewBtn flex" : "addNewBtn flex btn--disabled"} onClick={() => { addNewSchool(); }}>
             {c.addNextSchool}
             <img className="img" src={plusIcon} alt="dodaj" />
         </button>

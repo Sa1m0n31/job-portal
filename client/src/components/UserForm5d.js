@@ -50,7 +50,7 @@ const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, rem
                     {c.userAttachmentsDescription}
                 </p>
                 <label className="filesUploadLabel center">
-                    {userData?.attachments?.length === 0 ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : ''}
+                    <img className="img" src={plusIcon} alt="dodaj-pliki" />
                     <input className="input input--file"
                            type="file"
                            multiple={true}

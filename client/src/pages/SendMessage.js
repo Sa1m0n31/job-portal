@@ -11,6 +11,7 @@ import {LanguageContext} from "../App";
 
 const SendMessage = ({isAgency, accepted, data}) => {
     const [recipient, setRecipient] = useState('');
+    const [recipientEmail, setRecipientEmail] = useState('');
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [chat, setChat] = useState([]);
@@ -48,6 +49,7 @@ const SendMessage = ({isAgency, accepted, data}) => {
                             label: userData?.firstName ? `${userData?.firstName} ${userData?.lastName}` : userResponse?.data?.email,
                             value: userResponse?.data?.id
                         });
+                        setRecipientEmail(userData.email);
                         setUser(userResponse?.data?.id);
                     }
                     else if(idParam) {
@@ -64,6 +66,7 @@ const SendMessage = ({isAgency, accepted, data}) => {
                             label: userData?.firstName ? `${userData?.firstName} ${userData?.lastName}` : userResponse?.data?.email,
                             value: userResponse?.data?.id
                         });
+                        setRecipientEmail(userData.email);
                     }
 
                     // Get list of users
@@ -91,6 +94,7 @@ const SendMessage = ({isAgency, accepted, data}) => {
                         label: agencyData?.name ? agencyData?.name : agencyResponse?.data?.email,
                         value: agencyResponse?.data?.id
                     });
+                    setRecipientEmail(agencyData.email);
                     setAgency(agencyResponse?.data?.id);
                 }
                 else if(idParam) {
@@ -107,6 +111,7 @@ const SendMessage = ({isAgency, accepted, data}) => {
                         label: agencyData?.name ? agencyData?.name : agencyResponse?.data?.email,
                         value: agencyResponse?.data?.id
                     });
+                    setRecipientEmail(agencyData.email);
                 }
 
                 // Get list of agencies
@@ -164,7 +169,10 @@ const SendMessage = ({isAgency, accepted, data}) => {
         }
 
         // Send request
-        const sendResult = await sendMessage(chatId, user ? user : recipient?.value, agency ? agency : recipient?.value, title, newChat);
+        const sendResult = await sendMessage(chatId,
+            user ? user : recipient?.value,
+            agency ? agency : recipient?.value,
+            title, newChat, recipientEmail);
         if(sendResult.status === 201) {
             setSuccess(true);
         }
@@ -189,7 +197,8 @@ const SendMessage = ({isAgency, accepted, data}) => {
     }, [success]);
 
     return <div className="container container--agencyJobOffers container--agenciesList container--offer container--sendMessage">
-        <LoggedUserHeader data={data} agency={isAgency} />
+        <LoggedUserHeader data={data}
+                          agency={isAgency} />
 
         <aside className="userAccount__top userAccount__top--sendMessage flex">
             <span className="userAccount__top__loginInfo">

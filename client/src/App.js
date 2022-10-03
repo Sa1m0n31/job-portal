@@ -28,8 +28,12 @@ import {Helmet} from "react-helmet";
 const LanguageContext = React.createContext({});
 
 function App() {
-  const [language, setLanguage] = useState(localStorage.getItem('lang') ? localStorage.getItem('lang') : 'PL');
+  const [language, setLanguage] = useState(localStorage.getItem('lang') ? localStorage.getItem('lang') : 'GB');
   const [c, setC] = useState({});
+
+  useEffect(() => {
+    console.log(c);
+  }, [c]);
 
   useEffect(() => {
     const storedLanguage = localStorage.getItem('storedLanguage');

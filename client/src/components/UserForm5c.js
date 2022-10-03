@@ -7,15 +7,23 @@ const UserForm5C = () => {
     const { c } = useContext(LanguageContext);
 
     return <>
-        <div className="userForm">
+    <div className="userForm">
+        {/*<label className="label label--friendLink">*/}
+        {/*    {c.partner}*/}
+        {/*    <p className="label--extraInfo">*/}
+        {/*        {c.partnerDescription}*/}
+        {/*    </p>*/}
+        {/*    <input className="input"*/}
+        {/*           value={userData.friendLink}*/}
+        {/*           onChange={(e) => { handleChange('friendLink', e.target.value); }} />*/}
+        {/*</label>*/}
         <label className="label label--friendLink">
-            {c.partner}
             <p className="label--extraInfo">
-                {c.partnerDescription}
+                {c.whereYouFindOurApp}
             </p>
             <input className="input"
-                   value={userData.friendLink}
-                   onChange={(e) => { handleChange('friendLink', e.target.value); }} />
+                   value={userData.whereYouFindOurApp}
+                   onChange={(e) => { handleChange('whereYouFindOurApp', e.target.value); }} />
         </label>
     </div>
     <div className="formBottom flex">

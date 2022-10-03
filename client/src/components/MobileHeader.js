@@ -54,12 +54,18 @@ const MobileHeader = ({back, backFunction, loggedUser, loggedAgency,
                     <img className="img" src={userIcon} alt="user" />
                 </a> : (!loggedAdmin ? <>
                     <a href={loggedAgency ? '/wiadomosci' : '/moje-wiadomosci'}
-                       className={!newMessages ? "home__header__mobile__btn home__header__mobile__btn--messages" : "home__header__mobile__btn home__header__mobile__btn--messages loggedUserHeader__notificationBtn--new"}>
+                       className="home__header__mobile__btn home__header__mobile__btn--messages">
                         <img className="img" src={messagesIcon} alt="user" />
+                        {newMessages ? <span className="loggedUserHeader__notificationBtn__number">
+                            {newMessages}
+                        </span> : ''}
                     </a>
                     <a href="/powiadomienia"
                        className={!newNotifications ? "home__header__mobile__btn" : "home__header__mobile__btn loggedUserHeader__notificationBtn--new"}>
                         <img className="img" src={notificationsIcon} alt="user" />
+                        {newNotifications ? <span className="loggedUserHeader__notificationBtn__number">
+                            {newNotifications}
+                        </span> : ''}
                     </a>
                 </> : '')}
                 <button className="home__header__mobile__btn" onClick={() => { openMenu(); }}>

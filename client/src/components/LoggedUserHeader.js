@@ -206,8 +206,11 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
 
             <div className="loggedUserHeader__notificationsContainer">
                 <div className="rel">
-                    <button className={!newMessages ? "loggedUserHeader__notificationBtn" : "loggedUserHeader__notificationBtn loggedUserHeader__notificationBtn--new"}
+                    <button className="loggedUserHeader__notificationBtn"
                             onClick={(e) => { e.stopPropagation(); setMessagesDropdown(!messagesDropdown); setNotificationsDropdown(false); }}>
+                        {newMessages ? <span className="loggedUserHeader__notificationBtn__number">
+                            {newMessages}
+                        </span> : ''}
                         <img className="img" src={messageIcon} alt="wiadomosci" />
                     </button>
 
@@ -240,9 +243,12 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                     </div> : ''}
                 </div>
                 <div className="rel">
-                    <button className={!newNotifications ? "loggedUserHeader__notificationBtn" : "loggedUserHeader__notificationBtn loggedUserHeader__notificationBtn--new"}
+                    <button className="loggedUserHeader__notificationBtn"
                             onClick={(e) => { e.stopPropagation(); setNotificationsDropdown(!notificationsDropdown); setMessagesDropdown(false); }}>
                         <img className="img" src={bellIcon} alt="wiadomosci" />
+                        {newNotifications ? <span className="loggedUserHeader__notificationBtn__number">
+                            {newNotifications}
+                        </span> : ''}
                     </button>
 
                     {notificationsDropdown ? <div className="notifications__dropdown">

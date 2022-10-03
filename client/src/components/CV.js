@@ -402,48 +402,48 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                     })}
                 </View> : <View></View>}
 
-                {desc ? <View style={styles.mainSection}>
-                    <Text style={styles.sectionHeader}>
-                        {c.currentSituationDescription}
-                    </Text>
-                    <Text style={styles.descText}>
-                        {user?.situationDescription ? user.situationDescription : desc}
-                    </Text>
-                </View> : <View></View>}
+                {/*{desc ? <View style={styles.mainSection}>*/}
+                {/*    <Text style={styles.sectionHeader}>*/}
+                {/*        {c.currentSituationDescription}*/}
+                {/*    </Text>*/}
+                {/*    <Text style={styles.descText}>*/}
+                {/*        {user?.situationDescription ? user.situationDescription : desc}*/}
+                {/*    </Text>*/}
+                {/*</View> : <View></View>}*/}
 
-                <View style={styles.mainSection}>
-                    <Text style={styles.sectionHeader}>
-                        {c.additionalInfo}
-                    </Text>
-                    <Text style={styles.textSmall}>{c.currentLivingPlace}: </Text>
-                    <Text style={styles.text}>
-                        {currentPlace}
-                    </Text>
+                {/*<View style={styles.mainSection}>*/}
+                {/*    <Text style={styles.sectionHeader}>*/}
+                {/*        {c.additionalInfo}*/}
+                {/*    </Text>*/}
+                {/*    <Text style={styles.textSmall}>{c.currentLivingPlace}: </Text>*/}
+                {/*    <Text style={styles.text}>*/}
+                {/*        {currentPlace}*/}
+                {/*    </Text>*/}
 
-                    <Text style={styles.textSmall}>{c.availabilityFrom}: </Text>
-                    <Text style={styles.text}>
-                        {availability}
-                    </Text>
+                {/*    <Text style={styles.textSmall}>{c.availabilityFrom}: </Text>*/}
+                {/*    <Text style={styles.text}>*/}
+                {/*        {availability}*/}
+                {/*    </Text>*/}
 
-                    <Text style={styles.textSmall}>{c.salaryExpectations}: </Text>
-                    <Text style={styles.text}>
-                        {salary}
-                    </Text>
+                {/*    <Text style={styles.textSmall}>{c.salaryExpectations}: </Text>*/}
+                {/*    <Text style={styles.text}>*/}
+                {/*        {salary}*/}
+                {/*    </Text>*/}
 
-                    {ownAccommodation ? <>
-                        <Text style={styles.textSmall}>{c.ownAccommodationInNetherlands}: </Text>
-                        <Text style={styles.text}>
-                            {ownAccommodation}
-                        </Text>
-                    </> : <View></View>}
+                {/*    {ownAccommodation ? <>*/}
+                {/*        <Text style={styles.textSmall}>{c.ownAccommodationInNetherlands}: </Text>*/}
+                {/*        <Text style={styles.text}>*/}
+                {/*            {ownAccommodation}*/}
+                {/*        </Text>*/}
+                {/*    </> : <View></View>}*/}
 
-                    {ownTools ? <>
-                        <Text style={styles.textSmall}>{c.ownTools}: </Text>
-                        <Text style={styles.text}>
-                            {c.yes}
-                        </Text>
-                    </>: <View></View>}
-                </View>
+                {/*    {ownTools ? <>*/}
+                {/*        <Text style={styles.textSmall}>{c.ownTools}: </Text>*/}
+                {/*        <Text style={styles.text}>*/}
+                {/*            {c.yes}*/}
+                {/*        </Text>*/}
+                {/*    </>: <View></View>}*/}
+                {/*</View>*/}
             </View>
         </Page>
     </Document> : <Document>

@@ -60,6 +60,13 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
                     {c.no}
                 </label>
             </div>
+
+            {userData.ownTools ? <label className="label label--accommodationPlace">
+                <input className="input"
+                       value={userData.ownToolsDescription}
+                       placeholder={c.ownToolsDescription}
+                       onChange={(e) => { handleChange('ownToolsDescription', e.target.value); }} />
+            </label> : ''}
         </div>
 
         <div className="label drivingLicenceWrapper drivingLicenceWrapper--salary">

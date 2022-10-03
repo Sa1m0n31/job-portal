@@ -150,8 +150,8 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
 
         <div className="label label--date label--date--address">
             {c.livingAddress}
-            <div className="flex">
-                <div className="label--date__input label--date__input--country">
+            <div className="flex flex--start label--date--address--firstLine">
+                <div className="label--date__input label--date__input--country marginRight">
                     <button className="datepicker datepicker--country"
                             onClick={(e) => { e.stopPropagation(); setCountriesVisible(!countriesVisible); }}
                     >
@@ -172,6 +172,14 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
                            value={userData.city}
                            onChange={(e) => { handleChange('city', e.target.value); }}
                            placeholder={c.city} />
+                </label>
+            </div>
+            <div className="flex flex--start">
+                <label className="marginRight">
+                    <input className="input input--address"
+                           value={userData.postalCode}
+                           onChange={(e) => { handleChange('postalCode', e.target.value); }}
+                           placeholder={c.postalCode} />
                 </label>
                 <label>
                     <input className="input input--address"

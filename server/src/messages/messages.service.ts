@@ -2,12 +2,14 @@ import { Injectable } from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Messages} from "../entities/messages.entity";
 import {In, Repository} from "typeorm";
+import {MailerService} from "@nestjs-modules/mailer";
 
 @Injectable()
 export class MessagesService {
     constructor(
         @InjectRepository(Messages)
-        private readonly messagesRepository: Repository<Messages>
+        private readonly messagesRepository: Repository<Messages>,
+        private readonly mailerService: MailerService
     ) {
     }
 
@@ -17,8 +19,26 @@ export class MessagesService {
         });
     }
 
-    async sendMessage(id: number, user: number, agency: number, title: string, chat) {
+    async sendMessage(id: number, user: number, agency: number, title: string, chat, email) {
         if(user && agency && title) {
+            // Send mail notification
+            await this.mailerService.sendMail({
+                to: email,
+                from: process.env.EMAIL_ADDRESS,
+                subject: 'Masz nową wiadomość na jooob.eu!',
+                html: `<div>
+                    <h2>
+                        Ktoś napisał do Ciebie wiadomość na jooob.eu.
+                    </h2>
+                    <p>
+                        Zaloguj się, aby sprawdzić wiadomość i odpowiedzieć.
+                    </p>
+                    <a href="${process.env.WEBSITE_URL}">
+                        Przejdź na jooob.eu
+                    </a>
+                </div>`
+            });
+
             return this.messagesRepository.save({
                 id, user, agency, title,
                 chat: JSON.stringify(chat),
@@ -39,6 +59,7 @@ export class MessagesService {
             .createQueryBuilder('m')
             .where({user})
             .innerJoinAndSelect('agency', 'a', 'a.id = m.agency')
+            .innerJoinAndSelect('user', 'u', 'u.id = m.user')
             .getRawMany();
     }
 
@@ -47,6 +68,7 @@ export class MessagesService {
             .createQueryBuilder('m')
             .where({agency})
             .innerJoinAndSelect('user', 'u', 'u.id = m.user')
+            .innerJoinAndSelect('agency', 'a', 'a.id = m.agency')
             .getRawMany();
     }
 

@@ -1015,6 +1015,15 @@
         display: none;
     }
 
+    .label--date--address--firstLine {
+        margin-bottom: 0;
+    }
+
+
+    .marginRight {
+        margin-right: 0;
+    }
+
     .home__zone {
         height: 250px;
     }
@@ -2553,6 +2562,29 @@
 @media(max-width: 768px) {
     .editData__formWrapper__header {
         font-size: 18px;
+    }
+
+    .loggedUserHeader__notificationBtn__number {
+        transform: scale(.7);
+        right: -10px;
+        transform-origin: center;
+    }
+
+    .label--month,
+    input[type=month] {
+        width: 125px !important;
+    }
+
+    .form__school--job {
+        margin-bottom: 20px;
+    }
+
+    .adsBottom {
+        margin-top: 10px;
+    }
+
+    .languageSwitcher--mobileHomepage {
+        display: block;
     }
 
     .mobileHeader .modal__inner__closeBtn .img {

@@ -9,9 +9,9 @@ const getChat = (id) => {
     });
 }
 
-const sendMessage = (id, user, agency, title, chat) => {
+const sendMessage = (id, user, agency, title, chat, email) => {
     return axios.post(`/messages/sendMessage`, {
-        id, user, agency, title, chat
+        id, user, agency, title, chat, email
     }, {
         headers: {
             Authorization: getAuthHeader()

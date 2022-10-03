@@ -4,11 +4,17 @@ import arrowDown from '../static/img/arrow-down.svg'
 import LanguagePopup from "./LanguagePopup";
 import {languageVersions} from "../static/content";
 
-const LanguageSwitcher = ({horizontal, mobile, setLanguagePopupVisible}) => {
+const LanguageSwitcher = ({horizontal, mobile, mobileHomepage, setLanguagePopupVisible}) => {
     const { language } = useContext(LanguageContext);
 
     const [currentLanguage, setCurrentLanguage] = useState(0);
     const [languagesVisible, setLanguagesVisible] = useState(false);
+
+    useEffect(() => {
+        if(!currentLanguage || currentLanguage < 0) {
+            setCurrentLanguage(5);
+        }
+    }, [currentLanguage]);
 
     useEffect(() => {
         localStorage.setItem('lang', language);
@@ -37,12 +43,14 @@ const LanguageSwitcher = ({horizontal, mobile, setLanguagePopupVisible}) => {
         }
     }
 
-    return <div className={horizontal ? "languageSwitcher languageSwitcher--horizontal" : "languageSwitcher"}>
+    return <div className={horizontal ? "languageSwitcher languageSwitcher--horizontal" : (mobileHomepage ? "languageSwitcher languageSwitcher--mobileHomepage" : "languageSwitcher")}>
         {currentLanguage >= 0 ?  <button className="languageSwitcher__currentLang flex"
                                          onClick={() => { toggleLanguagePopup(); }}>
             <span className={`fi fi-${languageVersions[currentLanguage].toLowerCase()}`}></span>
-            {languageVersions[currentLanguage]}
-            <img className="arrowDown" src={arrowDown} alt="rozwiń" />
+
+            {!mobileHomepage ? languageVersions[currentLanguage] : ''}
+
+            {!mobileHomepage ? <img className="arrowDown" src={arrowDown} alt="rozwiń" /> : ''}
         </button> : ''}
 
         {languagesVisible && !mobile ? <LanguagePopup closeModal={() => { setLanguagesVisible(false); }} /> : ''}

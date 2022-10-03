@@ -19,19 +19,19 @@ const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsi
                                value={item.name}
                                onChange={(e) => { handleChange('jobs', e.target.value, 'name', index); }} />
                     </label>
-                    <label className="label">
+                    <label className="label label--month">
                         <span className="oneline">
                             {c.workingYears}
                         </span>
                         <input className="input"
-                               type="number"
+                               type="month"
                                value={item.from}
                                onChange={(e) => { handleChange('jobs', e.target.value, 'from', index); }} />
                     </label>
                     -
-                    <label className="label">
+                    <label className="label label--month">
                         <input className="input"
-                               type="number"
+                               type="month"
                                disabled={item.inProgress}
                                value={item.to}
                                onChange={(e) => { handleChange('jobs', e.target.value, 'to', index); }} />

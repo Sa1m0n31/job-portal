@@ -196,6 +196,11 @@ const UserEditData = () => {
             default:
                 break;
         }
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     }, [step, substep]);
 
     useEffect(() => {

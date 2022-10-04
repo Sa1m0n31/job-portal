@@ -63,7 +63,7 @@ const AgencyForm3b = () => {
             <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(0); }}>
                 {c.back}
             </button>
-            <button className="btn btn--userForm" onClick={() => { setSubstep(0); setStep(3); }}>
+            <button className="btn btn--userForm" onClick={() => { setSubstep(2); }}>
                 {c.next}
             </button>
         </div>

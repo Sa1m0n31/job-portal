@@ -10,7 +10,7 @@ import trashIcon from "../static/img/trash.svg";
 import {Tooltip} from "react-tippy";
 import plusIcon from "../static/img/plus-in-circle.svg";
 import plusGrey from '../static/img/plus-icon-opacity.svg'
-import {getLoggedUserEmail, numberRange} from "../helpers/others";
+import {getLoggedUserEmail, isElementInArray, numberRange} from "../helpers/others";
 import fileIcon from "../static/img/doc.svg";
 import checkIcon from '../static/img/green-check.svg'
 import arrowIcon from '../static/img/small-white-arrow.svg'
@@ -32,7 +32,6 @@ const AddFastJobOffer = ({updateMode}) => {
     const [countriesVisible, setCountriesVisible] = useState(false);
     const [accommodationCountriesVisible, setAccommodationCountriesVisible] = useState(false);
     const [currenciesVisible, setCurrenciesVisible] = useState(false);
-    const [contractTypeVisible, setContractTypeVisible] = useState(false);
     const [timeBoundedVisible, setTimeBoundedVisible] = useState(false);
     const [dayVisible, setDayVisible] = useState(false);
     const [monthVisible, setMonthVisible] = useState(false);
@@ -63,7 +62,7 @@ const AddFastJobOffer = ({updateMode}) => {
     const [salaryFrom, setSalaryFrom] = useState(null);
     const [salaryTo, setSalaryTo] = useState(null);
     const [salaryCurrency, setSalaryCurrency] = useState(0);
-    const [contractType, setContractType] = useState(0);
+    const [contractType, setContractType] = useState([]);
     const [timeBounded, setTimeBounded] = useState(true);
     const [day, setDay] = useState(-1);
     const [month, setMonth] = useState(-1);
@@ -80,6 +79,7 @@ const AddFastJobOffer = ({updateMode}) => {
     const [contactPerson, setContactPerson] = useState('');
     const [contactNumberCountry, setContactNumberCountry] = useState(0);
     const [contactNumber, setContactNumber] = useState('');
+    const [companyName, setCompanyName] = useState('');
 
     const [days, setDays] = useState([]);
     const [years, setYears] = useState([]);
@@ -225,7 +225,6 @@ const AddFastJobOffer = ({updateMode}) => {
         setDayVisible(false);
         setMonthVisible(false);
         setYearVisible(false);
-        setContractTypeVisible(false);
         setAccommodationCountriesVisible(false);
         setStartDayVisible(false);
         setStartMonthVisible(false);
@@ -360,12 +359,12 @@ const AddFastJobOffer = ({updateMode}) => {
     }
 
     const jobOfferValidation = () => {
-        if(!title || category === -1 || country === -1 || !postalCode || !city || !street ||
+        if(!title || category === -1 || country === -1 || !postalCode || !city ||
             !description || !responsibilities.length || !requirements.length || !benefits.length ||
             salaryType === -1 || salaryFrom === null || salaryTo === null ||
-            day === -1 || month === -1 || year === -1 || !hour ||
-            startDay === -1 || startMonth === -1 || startYear === -1 || !startHour ||
-            accommodationCountry === -1 || !accommodationPostalCode || !accommodationCity || !accommodationStreet ||
+            day === -1 || month === -1 || !hour ||
+            startDay === -1 || startMonth === -1 || !startHour ||
+            accommodationCountry === -1 || !accommodationPostalCode || !accommodationCity ||
             !contactPerson || !contactNumber || (!image && !imageUrl)
         ) {
             setError(JSON.parse(c.jobOfferErrors)[0]);
@@ -449,6 +448,15 @@ const AddFastJobOffer = ({updateMode}) => {
             addOfferSuccess.current.style.visibility = 'visible';
         }
     }, [success]);
+
+    const toggleContract = (i) => {
+        if(isElementInArray(i, contractType)) {
+            setContractType(prevState => (prevState.filter((item) => (item !== i))));
+        }
+        else {
+            setContractType(prevState => ([...prevState, i]));
+        }
+    }
 
     return <div className="container container--addOffer container--addFastOffer" onClick={() => { hideAllDropdowns(); }}>
         <aside className="userAccount__top flex">
@@ -575,12 +583,19 @@ const AddFastJobOffer = ({updateMode}) => {
                                onChange={(e) => { setPostalCode(e.target.value); }}
                                placeholder={c.postalCode} />
                     </label>
-                    <label className="label--street">
-                        <input className="input input--address"
-                               value={street}
-                               onChange={(e) => { setStreet(e.target.value); }}
-                               placeholder={c.streetAndBuilding} />
+
+                    <label className="label--postalCode">
+                        <input className="input input--city"
+                               value={companyName}
+                               onChange={(e) => { setCompanyName(e.target.value); }}
+                               placeholder={c.companyNameShort} />
                     </label>
+                    {/*<label className="label--street">*/}
+                    {/*    <input className="input input--address"*/}
+                    {/*           value={street}*/}
+                    {/*           onChange={(e) => { setStreet(e.target.value); }}*/}
+                    {/*           placeholder={c.streetAndBuilding} />*/}
+                    {/*</label>*/}
                 </div>
             </div>
 
@@ -615,12 +630,12 @@ const AddFastJobOffer = ({updateMode}) => {
                                onChange={(e) => { setAccommodationPostalCode(e.target.value); }}
                                placeholder={c.postalCode} />
                     </label>
-                    <label className="label--street">
-                        <input className="input input--address"
-                               value={accommodationStreet}
-                               onChange={(e) => { setAccommodationStreet(e.target.value); }}
-                               placeholder={c.streetAndBuilding} />
-                    </label>
+                    {/*<label className="label--street">*/}
+                    {/*    <input className="input input--address"*/}
+                    {/*           value={accommodationStreet}*/}
+                    {/*           onChange={(e) => { setAccommodationStreet(e.target.value); }}*/}
+                    {/*           placeholder={c.streetAndBuilding} />*/}
+                    {/*</label>*/}
                 </div>
             </div>
 
@@ -662,22 +677,22 @@ const AddFastJobOffer = ({updateMode}) => {
                         </div> : ''}
                     </div>
                     {/* YEARS */}
-                    <div className="label--date__input label--postalCode">
-                        <button className="datepicker datepicker--year"
-                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setYearVisible(!yearVisible); }}
-                        >
-                            {year !== -1 ? year : c.year}
-                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
-                        </button>
-                        {yearVisible ? <div className="datepickerDropdown noscroll">
-                            {years?.map((item, index) => {
-                                return <button className="datepickerBtn center" key={index}
-                                               onClick={(e) => { e.preventDefault(); e.stopPropagation(); setYearVisible(false); setYear(item); }}>
-                                    {item}
-                                </button>
-                            })}
-                        </div> : ''}
-                    </div>
+                    {/*<div className="label--date__input label--postalCode">*/}
+                    {/*    <button className="datepicker datepicker--year"*/}
+                    {/*            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setYearVisible(!yearVisible); }}*/}
+                    {/*    >*/}
+                    {/*        {year !== -1 ? year : c.year}*/}
+                    {/*        <img className="dropdown" src={dropdownArrow} alt="rozwiń" />*/}
+                    {/*    </button>*/}
+                    {/*    {yearVisible ? <div className="datepickerDropdown noscroll">*/}
+                    {/*        {years?.map((item, index) => {*/}
+                    {/*            return <button className="datepickerBtn center" key={index}*/}
+                    {/*                           onClick={(e) => { e.preventDefault(); e.stopPropagation(); setYearVisible(false); setYear(item); }}>*/}
+                    {/*                {item}*/}
+                    {/*            </button>*/}
+                    {/*        })}*/}
+                    {/*    </div> : ''}*/}
+                    {/*</div>*/}
                     <label className="label--street">
                         <input className="input input--address"
                                value={hour}
@@ -725,22 +740,22 @@ const AddFastJobOffer = ({updateMode}) => {
                         </div> : ''}
                     </div>
                     {/* YEARS */}
-                    <div className="label--date__input label--postalCode">
-                        <button className="datepicker datepicker--year"
-                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStartYearVisible(!startYearVisible); }}
-                        >
-                            {startYear !== -1 ? startYear : c.year}
-                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
-                        </button>
-                        {startYearVisible ? <div className="datepickerDropdown noscroll">
-                            {years?.map((item, index) => {
-                                return <button className="datepickerBtn center" key={index}
-                                               onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStartYearVisible(false); setStartYear(item); }}>
-                                    {item}
-                                </button>
-                            })}
-                        </div> : ''}
-                    </div>
+                    {/*<div className="label--date__input label--postalCode">*/}
+                    {/*    <button className="datepicker datepicker--year"*/}
+                    {/*            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStartYearVisible(!startYearVisible); }}*/}
+                    {/*    >*/}
+                    {/*        {startYear !== -1 ? startYear : c.year}*/}
+                    {/*        <img className="dropdown" src={dropdownArrow} alt="rozwiń" />*/}
+                    {/*    </button>*/}
+                    {/*    {startYearVisible ? <div className="datepickerDropdown noscroll">*/}
+                    {/*        {years?.map((item, index) => {*/}
+                    {/*            return <button className="datepickerBtn center" key={index}*/}
+                    {/*                           onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStartYearVisible(false); setStartYear(item); }}>*/}
+                    {/*                {item}*/}
+                    {/*            </button>*/}
+                    {/*        })}*/}
+                    {/*    </div> : ''}*/}
+                    {/*</div>*/}
                     <label className="label--street">
                         <input className="input input--address"
                                value={startHour}
@@ -868,23 +883,16 @@ const AddFastJobOffer = ({updateMode}) => {
 
             <div className="label drivingLicenceWrapper">
                 {c.contractType}
-                <div className="flex flex--start">
-                    <div className="label--date__input label--date__input--drivingLicence">
-                        <button className="datepicker datepicker--country"
-                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setContractTypeVisible(!contractTypeVisible); }}
-                        >
-                            {contractType !== -1 ? JSON.parse(c.contracts)[contractType] : c.choose}
-                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
-                        </button>
-                        {contractTypeVisible ? <div className="datepickerDropdown noscroll">
-                            {JSON.parse(c.contracts)?.map((item, index) => {
-                                return <button className="datepickerBtn center" key={index}
-                                               onClick={(e) => { e.preventDefault(); setContractType(index); }}>
-                                    {item}
-                                </button>
-                            })}
-                        </div> : ''}
-                    </div>
+                <div className="languagesWrapper languagesWrapper--contracts flex">
+                    {JSON.parse(c.contracts).map((item, index) => {
+                        return <label className={isElementInArray(index, contractType) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"} key={index}>
+                            <button className={isElementInArray(index, contractType) ? "checkbox checkbox--selected center" : "checkbox center"}
+                                    onClick={(e) => { e.preventDefault(); toggleContract(index); }}>
+                                <span></span>
+                            </button>
+                            {item}
+                        </label>
+                    })}
                 </div>
             </div>
 
@@ -917,8 +925,8 @@ const AddFastJobOffer = ({updateMode}) => {
                 <p className="label--extraInfo label--extraInfo--marginBottom">
                     {c.backgroundImageDescription}
                 </p>
-                <div className={!image ? "filesUploadLabel filesUploadLabel--image center" : "filesUploadLabel filesUploadLabel--image filesUploadLabel--noBorder center"}>
-                    {!imageUrl ? <img className="img" src={plusGrey} alt="dodaj-pliki" /> : <div className="filesUploadLabel__profileImage">
+                <div className={!image ? "filesUploadLabel center" : "filesUploadLabel filesUploadLabel--noBorder center"}>
+                    {!imageUrl ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : <div className="filesUploadLabel__profileImage">
                         <button className="removeProfileImageBtn" onClick={(e) => { e.preventDefault(); removeImage(); }}>
                             <img className="img" src={trashIcon} alt="usun" />
                         </button>

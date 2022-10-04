@@ -23,30 +23,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06c2c867-885a-4984-820a-27e97dc3ed90" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/components/AgencyForm3c.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/RecommendationModal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/AdsSection.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AdsSection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/CV.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/CV.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/HomepageTop.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/HomepageTop.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/LanguageSwitcher.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/LanguageSwitcher.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/LoggedUserHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/LoggedUserHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/MobileHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/MobileHeader.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Partners.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Partners.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm1.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm1.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm2.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm2.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm3.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm3.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm5a.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm5a.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm5b.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm5b.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm5c.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm5c.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm5d.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm5d.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/messages.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/messages.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/SendMessage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SendMessage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyForm3b.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyForm3b.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyForm4a.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyForm4a.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyForm4b.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyForm4b.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyForm4c.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyForm4c.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AddFastJobOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AddFastJobOffer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AddJobOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AddJobOffer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyEditData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyEditData.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/UserEditData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/UserEditData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/UserHomepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/UserHomepage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/messages/messages.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/messages/messages.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/messages/messages.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/messages/messages.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/agency/agency.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/agency/agency.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/entities/fast_offer.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/entities/fast_offer.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/entities/offer.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/entities/offer.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/offer/offer.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/offer/offer.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/user/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/user/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -150,7 +147,8 @@
       <workItem from="1664623703912" duration="8000" />
       <workItem from="1664789349539" duration="13000" />
       <workItem from="1664803163383" duration="3430000" />
-      <workItem from="1664812855345" duration="7845000" />
+      <workItem from="1664812855345" duration="8616000" />
+      <workItem from="1664903286697" duration="14239000" />
     </task>
     <servers />
   </component>
@@ -216,10 +214,10 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1143" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661819881894" />
-    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1664828363058">
+    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1664920512937">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664828363058" />
+    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664920512937" />
     <state x="-705" y="-396" width="555" height="966" key="find.popup/0.0.1920.1040/-1080.-853.1080.1880@-1080.-853.1080.1880" timestamp="1661514756809" />
     <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664805165964" />
     <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1662370573918" />
@@ -227,10 +225,10 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1304" y="240" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661802881453" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1664828789591">
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1664922324397">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664828789591" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664922324397" />
     <state x="498" y="178" width="672" height="538" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1662468582488" />
     <state x="-730" y="-446" width="672" height="1226" key="search.everywhere.popup/0.0.1920.1040/-1080.-853.1080.1880@-1080.-853.1080.1880" timestamp="1661526319748" />
     <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1664823835944" />

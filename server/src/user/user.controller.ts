@@ -5,7 +5,7 @@ import {
     Param,
     Patch,
     Post,
-    Req, UnauthorizedException,
+    Req, Res, UnauthorizedException,
     UploadedFiles,
     UseGuards,
     UseInterceptors
@@ -18,6 +18,7 @@ import {JwtService} from "@nestjs/jwt";
 import {fileExtensionFilter} from "../common/FileExtensionFilter";
 import {diskStorage} from "multer";
 import {FileUploadHelper} from "../common/FileUploadHelper";
+import { Response } from 'express';
 
 @Controller('user')
 export class UserController {
@@ -64,6 +65,11 @@ export class UserController {
     @Post('/login')
     loginUser(@Body() body) {
         return this.userService.loginUser(body.email, body.password);
+    }
+
+    @Post('/sendInvitation')
+    sendInvitation(@Body() body, @Res() res: Response) {
+        return this.userService.sendInvitation(body.email, body.name, body.createAccount, body.content, res);
     }
 
     @UseGuards(JwtAuthGuard)

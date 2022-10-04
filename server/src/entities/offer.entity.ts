@@ -51,7 +51,7 @@ export class Offer {
     salaryCurrency: number;
 
     @Column()
-    contractType: number;
+    contractType: string;
 
     @Column()
     timeBounded: boolean;

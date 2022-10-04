@@ -90,7 +90,7 @@ export class Fast_offer {
     salaryCurrency: number;
 
     @Column()
-    contractType: number;
+    contractType: string;
 
     @Column()
     contactPerson: string;

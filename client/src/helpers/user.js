@@ -194,8 +194,14 @@ const changeUserPassword = (oldPassword, newPassword, email) => {
     });
 }
 
+const sendMailInvitation = (email, name, createAccount, content) => {
+    return axios.post('/user/sendInvitation', {
+        email, name, createAccount, content
+    });
+}
+
 export { registerUser, verifyUser, loginUser, authUser, updateUser, getUserData, logout,
     toggleUserVisibility, toggleUserWorking, getUserApplications, getAllUsers, getAllVisibleUsers,
     filterUsers, getUserById, getUserFastApplications, getUserNotifications, readNotification,
-    sendContactForm, remindUserPassword, changeUserPassword, resetUserPassword
+    sendContactForm, remindUserPassword, changeUserPassword, resetUserPassword, sendMailInvitation
 }

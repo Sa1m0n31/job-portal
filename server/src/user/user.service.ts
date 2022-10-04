@@ -1,4 +1,4 @@
-import {BadRequestException, HttpException, Injectable} from '@nestjs/common';
+import {BadRequestException, HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import * as crypto from 'crypto'
 import {InjectRepository} from "@nestjs/typeorm";
 import {User} from "../entities/user.entity";
@@ -23,6 +23,7 @@ import {
 } from "../common/translateObjects";
 import {removeLanguageSpecificCharacters} from "../common/removeLanguageSpecificCharacters";
 import {getGoogleTranslateLanguageCode} from "../common/getGoogleTranslateLanguageCode";
+import { Response } from 'express'
 
 @Injectable()
 export class UserService {
@@ -145,6 +146,27 @@ export class UserService {
         else {
             throw new HttpException('Niepoprawna nazwa użytkownika lub hasło', 401);
         }
+    }
+
+    async sendInvitation(email, name, createAccount, content, res: Response) {
+        await this.mailerService.sendMail({
+            to: email,
+            from: process.env.EMAIL_ADDRESS,
+            subject: `${content?.split('.')[1]} ${content?.split('.')[2]}`,
+            html: `<div>
+                    <h2>
+                        ${name} ${content}
+                    </h2>
+                    <a style="background: #0A73FE;
+    color: #fff; padding: 10px 20px; font-size: 14px; display: flex; width: 300px;
+    justify-content: center; align-items: center; margin-top: 30px; text-decoration: none;
+    border-radius: 5px;" href="${process.env.WEBSITE_URL}">
+                        ${createAccount}
+                    </a>
+                </div>`
+        });
+
+        res.status(201).send();
     }
 
     getLanguageSample(data) {

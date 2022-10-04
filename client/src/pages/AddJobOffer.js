@@ -9,7 +9,7 @@ import trashIcon from "../static/img/trash.svg";
 import {Tooltip} from "react-tippy";
 import plusIcon from "../static/img/plus-in-circle.svg";
 import plusGrey from '../static/img/plus-icon-opacity.svg'
-import {numberRange} from "../helpers/others";
+import {isElementInArray, numberRange} from "../helpers/others";
 import fileIcon from "../static/img/doc.svg";
 import checkIcon from '../static/img/green-check.svg'
 import arrowIcon from '../static/img/small-white-arrow.svg'
@@ -25,7 +25,6 @@ const AddJobOffer = ({updateMode}) => {
     const [categoriesVisible, setCategoriesVisible] = useState(false);
     const [countriesVisible, setCountriesVisible] = useState(false);
     const [currenciesVisible, setCurrenciesVisible] = useState(false);
-    const [contractTypeVisible, setContractTypeVisible] = useState(false);
     const [timeBoundedVisible, setTimeBoundedVisible] = useState(false);
     const [dayVisible, setDayVisible] = useState(false);
     const [monthVisible, setMonthVisible] = useState(false);
@@ -46,7 +45,7 @@ const AddJobOffer = ({updateMode}) => {
     const [salaryFrom, setSalaryFrom] = useState(null);
     const [salaryTo, setSalaryTo] = useState(null);
     const [salaryCurrency, setSalaryCurrency] = useState(0);
-    const [contractType, setContractType] = useState(0);
+    const [contractType, setContractType] = useState([]);
     const [timeBounded, setTimeBounded] = useState(true);
     const [day, setDay] = useState(-1);
     const [month, setMonth] = useState(-1);
@@ -143,7 +142,6 @@ const AddJobOffer = ({updateMode}) => {
         setDayVisible(false);
         setMonthVisible(false);
         setYearVisible(false);
-        setContractTypeVisible(false);
     }
 
     const updateResponsibilities = (value, i) => {
@@ -350,6 +348,15 @@ const AddJobOffer = ({updateMode}) => {
             addOfferSuccess.current.style.visibility = 'visible';
         }
     }, [success]);
+
+    const toggleContract = (i) => {
+        if(isElementInArray(i, contractType)) {
+            setContractType(prevState => (prevState.filter((item) => (item !== i))));
+        }
+        else {
+            setContractType(prevState => ([...prevState, i]));
+        }
+    }
 
     return <div className="container container--addOffer" onClick={() => { hideAllDropdowns(); }}>
         <aside className="userAccount__top flex">
@@ -589,23 +596,16 @@ const AddJobOffer = ({updateMode}) => {
 
             <div className="label drivingLicenceWrapper">
                 {c.contractType}
-                <div className="flex flex--start">
-                    <div className="label--date__input label--date__input--drivingLicence">
-                        <button className="datepicker datepicker--country"
-                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setContractTypeVisible(!contractTypeVisible); }}
-                        >
-                            {contractType !== -1 ? JSON.parse(c.contracts)[contractType] : c.choose}
-                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
-                        </button>
-                        {contractTypeVisible ? <div className="datepickerDropdown noscroll">
-                            {JSON.parse(c.contracts)?.map((item, index) => {
-                                return <button className="datepickerBtn center" key={index}
-                                               onClick={(e) => { setContractType(index); }}>
-                                    {item}
-                                </button>
-                            })}
-                        </div> : ''}
-                    </div>
+                <div className="languagesWrapper languagesWrapper--contracts flex">
+                    {JSON.parse(c.contracts).map((item, index) => {
+                        return <label className={isElementInArray(index, contractType) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"} key={index}>
+                            <button className={isElementInArray(index, contractType) ? "checkbox checkbox--selected center" : "checkbox center"}
+                                    onClick={(e) => { e.preventDefault(); toggleContract(index); }}>
+                                <span></span>
+                            </button>
+                            {item}
+                        </label>
+                    })}
                 </div>
             </div>
 
@@ -689,8 +689,8 @@ const AddJobOffer = ({updateMode}) => {
                 <p className="label--extraInfo label--extraInfo--marginBottom">
                     {c.backgroundImageDescription}
                 </p>
-                <div className={!image ? "filesUploadLabel filesUploadLabel--image center" : "filesUploadLabel filesUploadLabel--image filesUploadLabel--noBorder center"}>
-                    {!imageUrl ? <img className="img" src={plusGrey} alt="dodaj-pliki" /> : <div className="filesUploadLabel__profileImage">
+                <div className={!image ? "filesUploadLabel center" : "filesUploadLabel filesUploadLabel--noBorder center"}>
+                    {!imageUrl ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : <div className="filesUploadLabel__profileImage">
                         <button className="removeProfileImageBtn" onClick={(e) => { e.preventDefault(); removeImage(); }}>
                             <img className="img" src={trashIcon} alt="usun" />
                         </button>

@@ -16,6 +16,7 @@ import {getAgencyData, updateAgency} from "../helpers/agency";
 import {getLoggedUserEmail} from "../helpers/others";
 import settings from "../static/settings";
 import {LanguageContext} from "../App";
+import AgencyForm3C from "../components/AgencyForm3c";
 
 const AgencyDataContext = React.createContext(null);
 
@@ -46,20 +47,25 @@ const AgencyEditData = () => {
         instagram: '',
         youtube: '',
         linkedin: '',
+        // 3.2 Where you find us
+        whereYouFindOurApp: '',
         // 4.1 Employees info
         roomType: 0,
         houseType: 0,
         roomDescription: '',
         parking: null,
         // 4.2 Employees info
+        carAvailable: false,
         car: null,
         carPrice: null,
         carPriceCurrency: 0,
+        bikeAvailable: false,
         bike: null,
         bikePrice: null,
         bikePriceCurrency: 0,
         costReturnWithOwnTransport: 0,
         // 4.3 Employees info
+        pensionContributionsAvailable: false,
         pensionContributions: null,
         holidayAllowanceType: null,
         holidayAllowanceFrequency: 0,
@@ -96,6 +102,9 @@ const AgencyEditData = () => {
     const [paycheckDayVisible, setPaycheckDayVisible] = useState(false);
     const [healthInsuranceVisible, setHealthInsuranceVisible] = useState(false);
     const [healthInsuranceCurrencyVisible, setHealthInsuranceCurrencyVisible] = useState(false);
+    const [carAvailableVisible, setCarAvailableVisible] = useState(false);
+    const [bikeAvailableVisible, setBikeAvailableVisible] = useState(false);
+    const [pensionContributionsVisible, setPensionContributionsVisible] = useState(false);
 
     const { c } = useContext(LanguageContext);
 
@@ -152,8 +161,11 @@ const AgencyEditData = () => {
                 if(substep === 0) {
                     setCurrentForm(<AgencyForm3a />);
                 }
-                else {
+                else if(substep === 1) {
                     setCurrentForm(<AgencyForm3b />);
+                }
+                else {
+                    setCurrentForm(<AgencyForm3C />);
                 }
                 break;
             case 3:
@@ -168,11 +180,14 @@ const AgencyEditData = () => {
                                                  setCarCurrencyVisible={setCarCurrencyVisible}
                                                  setBikeVisible={setBikeVisible}
                                                  setCarVisible={setCarVisible}
+                                                 setCarAvailableVisible={setCarAvailableVisible}
+                                                 setBikeAvailableVisible={setBikeAvailableVisible}
                                                  setTransportCostReturnVisible={setTransportCostReturnVisible}
                     />);
                 }
                 else {
                     setCurrentForm(<AgencyForm4c setDayVisible={setDayVisible}
+                                                 setPensionContributionsVisible={setPensionContributionsVisible}
                                                  setHealthInsuranceCurrencyVisible={setHealthInsuranceCurrencyVisible}
                                                  setHealthInsuranceVisible={setHealthInsuranceVisible}
                                                  setHolidayAllowanceFrequencyVisible={setHolidayAllowanceFrequencyVisible}
@@ -191,6 +206,11 @@ const AgencyEditData = () => {
             default:
                 break;
         }
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     }, [step, substep]);
 
     const submitAgencyData = async (agencyData) => {
@@ -318,8 +338,8 @@ const AgencyEditData = () => {
 
     return <AgencyDataContext.Provider value={{
         setStep, setSubstep, agencyData, handleChange,
-        countriesVisible, phoneNumbersCountriesVisible, nipCountriesVisible,
-        roomVisible, houseVisible, parkingVisible, loading,
+        countriesVisible, phoneNumbersCountriesVisible, nipCountriesVisible, pensionContributionsVisible,
+        roomVisible, houseVisible, parkingVisible, loading, carAvailableVisible, bikeAvailableVisible,
         carVisible, carCurrencyVisible, bikeVisible, bikeCurrencyVisible, transportCostReturnVisible,
         pensionVisible, holidayAllowanceTypeVisible, holidayAllowanceFrequencyVisible, dayVisible, monthVisible,
         paycheckFrequencyVisible, paycheckDayVisible, healthInsuranceVisible, healthInsuranceCurrencyVisible
@@ -339,14 +359,16 @@ const AgencyEditData = () => {
 
                 <div className="editData__left__steps">
                     {JSON.parse(c.stepsAgency).map((item, index) => {
-                        return <div className={step === index ? "flex editData__step editData__step--current" : "flex editData__step"} key={index}>
+                        return <button className={step === index ? "flex editData__step editData__step--current" : "flex editData__step"}
+                                       onClick={() => { if(index !== 4) setStep(index); setSubstep(0) }}
+                                       key={index}>
                         <span className="editData__left__step__number center">
                             {index+1}
                         </span>
                             <span className="editData__left__step__text">
                             {item}
                         </span>
-                        </div>
+                        </button>
                     })}
                 </div>
             </div>

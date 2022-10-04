@@ -25,11 +25,13 @@ import CV from '../components/CV'
 import copyIcon from '../static/img/copy-icon.svg'
 import {LanguageContext} from "../App";
 import userPlaceholder from '../static/img/user-placeholder.svg'
+import RecommendationModal from "../components/RecommendationModal";
 
 const UserHomepage = ({data, userId, visible, working}) => {
     const [profileVisible, setProfileVisible] = useState(visible);
     const [userWorking, setUserWorking] = useState(working);
     const [copied, setCopied] = useState(false);
+    const [recommendationModalVisible, setRecommendationModalVisible] = useState(false);
 
     const { c } = useContext(LanguageContext);
 
@@ -82,6 +84,9 @@ const UserHomepage = ({data, userId, visible, working}) => {
 
     return <div className="container container--user">
         <LoggedUserHeader data={data} />
+
+        {recommendationModalVisible ? <RecommendationModal closeModal={() => { setRecommendationModalVisible(false); }}
+                                                           firstAndLastName={data?.firstName ? `${data?.firstName} ${data?.lastName}` : c.somebody} /> : ''}
 
         <div className="userAccount">
             <aside className="userAccount__top flex">
@@ -202,6 +207,12 @@ const UserHomepage = ({data, userId, visible, working}) => {
                                     width={window.innerWidth > 996 ? 44 : 22}
                                     height={window.innerWidth > 996 ? 24 : 12}
                                     checked={userWorking} />
+                        </div>
+
+                        <div className="userAccount__box__right__item">
+                            <button className="btn btn--recommendation" onClick={() => { setRecommendationModalVisible(true); }}>
+                                {c.recommendation1}
+                            </button>
                         </div>
                     </div>
                 </div>

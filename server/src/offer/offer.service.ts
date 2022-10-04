@@ -1016,9 +1016,12 @@ export class OfferService {
             requirements: JSON.stringify(requirements),
             benefits: JSON.stringify(benefits),
             salaryType, salaryFrom, salaryTo,
-            salaryCurrency, contractType, timeBounded,
+            salaryCurrency,
+            contractType: JSON.stringify(contractType),
+            timeBounded,
             expireDay, expireMonth, expireYear, image,
             attachments: attachments ? JSON.stringify(attachments) : null,
+            created_at: new Date(),
             lat,
             lng
         });
@@ -1105,9 +1108,11 @@ export class OfferService {
             requirements: JSON.stringify(requirements),
             benefits: JSON.stringify(benefits),
             salaryType, salaryFrom, salaryTo,
-            salaryCurrency, contractType,
+            salaryCurrency,
+            contractType: JSON.stringify(contractType),
             contactPerson, contactNumberCountry, contactNumber, image,
-            attachments: attachments ? JSON.stringify(attachments) : null
+            attachments: attachments ? JSON.stringify(attachments) : null,
+            created_at: new Date()
         });
 
         if(addOfferResult) {

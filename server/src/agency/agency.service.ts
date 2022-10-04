@@ -96,6 +96,27 @@ export class AgencyService {
     async verifyAgency(token: string) {
         const user = await this.agencyVerificationRepository.findOneBy({ token });
         if(user) {
+            // Send email notification to admin
+            await this.mailerService.sendMail({
+                to: process.env.ADMIN_EMAIL,
+                from: process.env.EMAIL_ADDRESS,
+                subject: 'Nowa agencja zarejestrowała się na jooob.eu',
+                html: `<div>
+                    <h2>
+                        Nowa agencja zarejestrowała się na jooob.eu!
+                    </h2>
+                    <p style="margin-top: 20px;">
+                        Zaloguj się do panelu administratora, aby sprawdzić szczegóły.
+                    </p>
+                    <a style="background: #0A73FE;
+    color: #fff; padding: 10px 20px; font-size: 14px; display: flex; width: 300px;
+    justify-content: center; align-items: center; margin-top: 20px; text-decoration: none;
+    border-radius: 5px;" href="${process.env.WEBSITE_URL}/admin">
+                        Zaloguj się do panelu administratora
+                    </a>
+                </div>`
+            });
+
             return this.agencyRepository.createQueryBuilder()
                 .update({
                     active: true

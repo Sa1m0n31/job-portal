@@ -6,8 +6,9 @@ import upArrow from '../static/img/input-up-arrow.svg'
 import downArrow from '../static/img/input-down-arrow.svg'
 import {LanguageContext} from "../App";
 
-const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, setBikeCurrencyVisible, setTransportCostReturnVisible}) => {
-    const { setSubstep, agencyData, handleChange, carVisible,
+const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, setBikeCurrencyVisible, setTransportCostReturnVisible, setCarAvailableVisible,
+                      setBikeAvailableVisible}) => {
+    const { setSubstep, agencyData, handleChange, carVisible, carAvailableVisible, bikeAvailableVisible,
         carCurrencyVisible, bikeVisible, bikeCurrencyVisible, transportCostReturnVisible
     } = useContext(AgencyDataContext);
     const { c } = useContext(LanguageContext);
@@ -16,11 +17,29 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
         <div className="userForm userForm--4a userForm--4a--agency userForm--4b--agency">
             <div className="label label--date label--date--address">
                 {c.car}
-                <div className="flex">
+
+                <div className="flex flex--start">
+                    <div className="label--date__input label--date__input--bool label--date__input--drivingLicence">
+                        <button className="datepicker datepicker--country"
+                                onClick={(e) => { e.stopPropagation(); setCarAvailableVisible(!carAvailableVisible); }}
+                        >
+                            {agencyData.carAvailable ? c.yes : c.no}
+                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
+                        </button>
+                        {carAvailableVisible ? <div className="datepickerDropdown noscroll">
+                            <button className="datepickerBtn center"
+                                    onClick={() => { setCarAvailableVisible(false); handleChange('carAvailable', !agencyData.carAvailable); }}>
+                                {agencyData.carAvailable ? c.no : c.yes}
+                            </button>
+                        </div> : ''}
+                    </div>
+                </div>
+
+                {agencyData?.carAvailable ? <div className="flex marginTop10">
                     <div className="label--date__input label--date__input--country">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation();
-                                setCarVisible(!carVisible); }}
+                                    setCarVisible(!carVisible); }}
                         >
                             {agencyData.car !== null && c.paymentTypes ? JSON.parse(c.paymentTypes)[agencyData.car] : c.choose}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
@@ -41,16 +60,16 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
                                min={1}
                                value={agencyData.carPrice}
                                onChange={(e) => { handleChange('carPrice', parseInt(e.target.value)); }} />
-                               <div className="label--agencyPrice__arrows">
-                                   <button className="label--agencyPrice__button"
-                                           onClick={() => { handleChange('carPrice', agencyData.carPrice+1); }}>
-                                       <img className="img" src={upArrow} alt="więcej" />
-                                   </button>
-                                   <button className="label--agencyPrice__button"
-                                           onClick={() => { handleChange('carPrice', Math.max(0, agencyData.carPrice-1)); }}>
-                                       <img className="img" src={downArrow} alt="mniej" />
-                                   </button>
-                               </div>
+                        <div className="label--agencyPrice__arrows">
+                            <button className="label--agencyPrice__button"
+                                    onClick={() => { handleChange('carPrice', agencyData.carPrice+1); }}>
+                                <img className="img" src={upArrow} alt="więcej" />
+                            </button>
+                            <button className="label--agencyPrice__button"
+                                    onClick={() => { handleChange('carPrice', Math.max(0, agencyData.carPrice-1)); }}>
+                                <img className="img" src={downArrow} alt="mniej" />
+                            </button>
+                        </div>
                     </label>
                     <div className={agencyData.car === 1 ? "label--date__input label--date__input--currency label--disabled" : "label--date__input label--date__input--currency"}>
                         <button className="datepicker datepicker--currency"
@@ -73,12 +92,30 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
                     <span className="carAndBikePriceInfo">
                         {c.monthly}
                     </span>
-                </div>
+                </div> : ''}
             </div>
 
             <div className="label label--date label--date--address">
                 {c.bike}
-                <div className="flex">
+
+                <div className="flex flex--start">
+                    <div className="label--date__input label--date__input--bool label--date__input--drivingLicence">
+                        <button className="datepicker datepicker--country"
+                                onClick={(e) => { e.stopPropagation(); setBikeAvailableVisible(!bikeAvailableVisible); }}
+                        >
+                            {agencyData.bikeAvailable ? c.yes : c.no}
+                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
+                        </button>
+                        {bikeAvailableVisible ? <div className="datepickerDropdown noscroll">
+                            <button className="datepickerBtn center"
+                                    onClick={() => { setBikeAvailableVisible(false); handleChange('bikeAvailable', !agencyData.bikeAvailable); }}>
+                                {agencyData.bikeAvailable ? c.no : c.yes}
+                            </button>
+                        </div> : ''}
+                    </div>
+                </div>
+
+                {agencyData?.bikeAvailable ? <div className="flex marginTop10">
                     <div className="label--date__input label--date__input--country">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation();
@@ -135,7 +172,7 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
                     <span className="carAndBikePriceInfo">
                         {c.monthly}
                     </span>
-                </div>
+                </div> : ''}
 
                 <div className="label drivingLicenceWrapper">
                     {c.costReturnWithOwnTransport}

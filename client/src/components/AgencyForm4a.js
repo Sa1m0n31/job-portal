@@ -57,28 +57,28 @@ const AgencyForm4a = ({setRoomVisible, setHouseVisible, setParkingVisible}) => {
             </div>
 
 
-            <div className="label drivingLicenceWrapper">
-                {c.parking}
-                <div className="flex flex--start">
-                    <div className="label--date__input label--date__input--bool label--date__input--drivingLicence">
-                        <button className="datepicker datepicker--country"
-                                onClick={(e) => { e.stopPropagation(); setParkingVisible(!parkingVisible); }}
-                        >
-                            {agencyData.parking ? c.yes : c.no}
-                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
-                        </button>
-                        {parkingVisible? <div className="datepickerDropdown noscroll">
-                            <button className="datepickerBtn center"
-                                    onClick={() => { setParkingVisible(false); handleChange('parking', !agencyData.parking); }}>
-                                {agencyData.parking ? c.no : c.yes}
-                            </button>
-                        </div> : ''}
-                    </div>
-                </div>
-            </div>
+            {/*<div className="label drivingLicenceWrapper">*/}
+            {/*    {c.parking}*/}
+            {/*    <div className="flex flex--start">*/}
+            {/*        <div className="label--date__input label--date__input--bool label--date__input--drivingLicence">*/}
+            {/*            <button className="datepicker datepicker--country"*/}
+            {/*                    onClick={(e) => { e.stopPropagation(); setParkingVisible(!parkingVisible); }}*/}
+            {/*            >*/}
+            {/*                {agencyData.parking ? c.yes : c.no}*/}
+            {/*                <img className="dropdown" src={dropdownArrow} alt="rozwiń" />*/}
+            {/*            </button>*/}
+            {/*            {parkingVisible? <div className="datepickerDropdown noscroll">*/}
+            {/*                <button className="datepickerBtn center"*/}
+            {/*                        onClick={() => { setParkingVisible(false); handleChange('parking', !agencyData.parking); }}>*/}
+            {/*                    {agencyData.parking ? c.no : c.yes}*/}
+            {/*                </button>*/}
+            {/*            </div> : ''}*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
         </div>
         <div className="formBottom flex">
-            <button className="btn btn--userForm btn--userFormBack" onClick={() => { setStep(2); setSubstep(1); }}>
+            <button className="btn btn--userForm btn--userFormBack" onClick={() => { setStep(2); setSubstep(2); }}>
                 {c.back}
             </button>
             <button className="btn btn--userForm" onClick={() => { setSubstep(1); }}>

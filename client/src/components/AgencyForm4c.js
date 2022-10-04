@@ -12,11 +12,11 @@ import Loader from "./Loader";
 
 const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHolidayAllowanceFrequencyVisible,
         setDayVisible, setMonthVisible, setPaycheckFrequencyVisible, setPaycheckDayVisible,
-        setHealthInsuranceVisible, setHealthInsuranceCurrencyVisible, submitAgencyData
+        setHealthInsuranceVisible, setHealthInsuranceCurrencyVisible, submitAgencyData, setPensionContributionsVisible
                       }) => {
     const { setSubstep, agencyData, handleChange, pensionVisible, holidayAllowanceTypeVisible,
         holidayAllowanceFrequencyVisible, dayVisible, monthVisible, paycheckFrequencyVisible, paycheckDayVisible,
-        healthInsuranceVisible, healthInsuranceCurrencyVisible, loading
+        healthInsuranceVisible, healthInsuranceCurrencyVisible, loading, pensionContributionsVisible
     } = useContext(AgencyDataContext);
     const { c } = useContext(LanguageContext);
 
@@ -40,24 +40,42 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
         <div className="userForm userForm--4c userForm--4c--agency">
             <div className="label drivingLicenceWrapper">
                 {c.pension}
+
                 <div className="flex flex--start">
+                    <div className="label--date__input label--date__input--bool label--date__input--drivingLicence">
+                        <button className="datepicker datepicker--country"
+                                onClick={(e) => { e.stopPropagation(); setPensionContributionsVisible(!pensionContributionsVisible); }}
+                        >
+                            {agencyData.pensionContributionsAvailable ? c.yes : c.no}
+                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
+                        </button>
+                        {pensionContributionsVisible ? <div className="datepickerDropdown noscroll">
+                            <button className="datepickerBtn center"
+                                    onClick={() => { setPensionContributionsVisible(false); handleChange('pensionContributionsAvailable', !agencyData.pensionContributionsAvailable); }}>
+                                {agencyData.pensionContributionsAvailable ? c.no : c.yes}
+                            </button>
+                        </div> : ''}
+                    </div>
+                </div>
+
+                {agencyData?.pensionContributionsAvailable ? <div className="flex flex--start marginTop10">
                     <div className="label--date__input label--date__input--drivingLicence">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation(); setPensionVisible(!pensionVisible); }}
                         >
-                            {agencyData.pensionContributions !== null && c.pensionType ? JSON.parse(c.pensionType)[agencyData.pensionContributions] : c.choose}
+                            {agencyData.pensionContributions !== null && c.pensionContributionsType ? JSON.parse(c.pensionContributionsType)[agencyData.pensionContributions] : c.choose}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {pensionVisible ? <div className="datepickerDropdown noscroll">
-                                {JSON.parse(c.pensionType)?.map((item, index) => {
-                                    return <button className="datepickerBtn center" key={index}
-                                                   onClick={(e) => { handleChange('pensionContributions', index); }}>
-                                        {item}
-                                    </button>
-                                })}
-                            </div> : ''}
+                            {JSON.parse(c.pensionContributionsType)?.map((item, index) => {
+                                return <button className="datepickerBtn center" key={index}
+                                               onClick={(e) => { handleChange('pensionContributions', index); }}>
+                                    {item}
+                                </button>
+                            })}
+                        </div> : ''}
                     </div>
-                </div>
+                </div> : ''}
             </div>
 
             <div className="label drivingLicenceWrapper">
@@ -67,11 +85,11 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation(); setHolidayAllowanceTypeVisible(!holidayAllowanceTypeVisible); }}
                         >
-                            {agencyData.holidayAllowanceType !== null && c.pensionType ? JSON.parse(c.pensionType)[agencyData.holidayAllowanceType] : 'Wybierz'}
+                            {agencyData.holidayAllowanceType !== null && c.holidayAllowanceType ? JSON.parse(c.holidayAllowanceType)[agencyData.holidayAllowanceType] : 'Wybierz'}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {holidayAllowanceTypeVisible ? <div className="datepickerDropdown noscroll">
-                            {JSON.parse(c.pensionType)?.map((item, index) => {
+                            {JSON.parse(c.holidayAllowanceType)?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
                                                onClick={(e) => { handleChange('holidayAllowanceType', index); }}>
                                     {item}
@@ -80,42 +98,26 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
                         </div> : ''}
                     </div>
                 </div>
-                <div className="flex flex--start pensionFrequency">
-                    <div className="label--date__input label--date__input--drivingLicence label--date__input--pensionFrequency">
-                        <button className="datepicker datepicker--country"
-                                onClick={(e) => { e.stopPropagation(); setHolidayAllowanceFrequencyVisible(!holidayAllowanceFrequencyVisible); }}
-                        >
-                            {c.pensionFrequency ? JSON.parse(c.pensionFrequency)[agencyData.holidayAllowanceFrequency] : ''}
-                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
-                        </button>
-                        {holidayAllowanceFrequencyVisible ? <div className="datepickerDropdown noscroll">
-                            {JSON.parse(c.pensionFrequency)?.map((item, index) => {
-                                return <button className="datepickerBtn center" key={index}
-                                               onClick={() => { handleChange('holidayAllowanceFrequency', index); }}>
-                                    {item}
-                                </button>
-                            })}
-                        </div> : ''}
-                    </div>
-                </div>
-                <div className="label--flex">
-                    {/* DAY */}
-                    <div className="label--date__input">
-                        <button className="datepicker datepicker--day"
-                                onClick={(e) => { e.stopPropagation(); setDayVisible(!dayVisible); }}
-                        >
-                            {agencyData.holidayAllowanceDay+1}
-                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
-                        </button>
-                        {dayVisible ? <div className="datepickerDropdown noscroll">
-                            {days?.map((item, index) => {
-                                return <button className="datepickerBtn center" key={index}
-                                               onClick={(e) => { handleChange('holidayAllowanceDay', item); }}>
-                                    {item+1}
-                                </button>
-                            })}
-                        </div> : ''}
-                    </div>
+                {/*<div className="flex flex--start pensionFrequency">*/}
+                {/*    <div className="label--date__input label--date__input--drivingLicence label--date__input--pensionFrequency">*/}
+                {/*        <button className="datepicker datepicker--country"*/}
+                {/*                onClick={(e) => { e.stopPropagation(); setHolidayAllowanceFrequencyVisible(!holidayAllowanceFrequencyVisible); }}*/}
+                {/*        >*/}
+                {/*            {c.pensionFrequency ? JSON.parse(c.pensionFrequency)[agencyData.holidayAllowanceFrequency] : ''}*/}
+                {/*            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />*/}
+                {/*        </button>*/}
+                {/*        {holidayAllowanceFrequencyVisible ? <div className="datepickerDropdown noscroll">*/}
+                {/*            {JSON.parse(c.pensionFrequency)?.map((item, index) => {*/}
+                {/*                return <button className="datepickerBtn center" key={index}*/}
+                {/*                               onClick={() => { handleChange('holidayAllowanceFrequency', index); }}>*/}
+                {/*                    {item}*/}
+                {/*                </button>*/}
+                {/*            })}*/}
+                {/*        </div> : ''}*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+
+                {agencyData?.holidayAllowanceType === 1 ? <div className="label--flex">
                     {/* MONTH */}
                     <div className="label--date__input">
                         <button className="datepicker datepicker--month"
@@ -133,7 +135,7 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
                             })}
                         </div> : ''}
                     </div>
-                </div>
+                </div> : ''}
             </div>
 
             <div className="label drivingLicenceWrapper">
@@ -184,11 +186,11 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
                                 onClick={(e) => { e.stopPropagation();
                                     setHealthInsuranceVisible(!healthInsuranceVisible); }}
                         >
-                            {agencyData.healthInsurance !== null && c.paymentTypes ? JSON.parse(c.paymentTypes)[agencyData.healthInsurance] : c.choose}
+                            {agencyData.healthInsurance !== null && c.healthInsuranceOptions ? JSON.parse(c.healthInsuranceOptions)[agencyData.healthInsurance] : c.choose}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {healthInsuranceVisible ? <div className="datepickerDropdown noscroll">
-                            {JSON.parse(c.paymentTypes)?.map((item, index) => {
+                            {JSON.parse(c.healthInsuranceOptions)?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
                                                onClick={(e) => { handleChange('healthInsurance', index); }}>
                                     {item}

@@ -1212,7 +1212,7 @@
     }
 
     .userForm .tooltip {
-        display: none;
+        /*display: none;*/
     }
 
     .textarea--content {

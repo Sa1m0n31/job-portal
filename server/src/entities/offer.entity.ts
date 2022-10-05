@@ -27,6 +27,9 @@ export class Offer {
     city: string;
 
     @Column()
+    manyLocations: string;
+
+    @Column()
     description: string;
 
     @Column()

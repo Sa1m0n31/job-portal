@@ -3,6 +3,7 @@ import {UserDataContext} from "../pages/UserEditData";
 import plusIcon from '../static/img/plus-in-circle.svg'
 import trashIcon from '../static/img/trash.svg'
 import {LanguageContext} from "../App";
+import {Tooltip} from "react-tippy";
 
 const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsibilities, addNewResponsibility, deleteResponsibility}) => {
     const { setStep, userData, handleChange } = useContext(UserDataContext);
@@ -14,14 +15,14 @@ const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsi
             return <div className="form__job">
                 <div className="form__school form__school--job flex" key={index}>
                     <label className="label">
-                        {c.companyName}
+                        {c.companyName} *
                         <input className="input"
                                value={item.name}
                                onChange={(e) => { handleChange('jobs', e.target.value, 'name', index); }} />
                     </label>
                     <label className="label label--month">
                         <span className="oneline">
-                            {c.workingYears}
+                            {c.workingYears} *
                         </span>
                         <input className="input"
                                type="month"
@@ -50,18 +51,32 @@ const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsi
                     </button>
                 </div>
                 <label className="label label--jobTitle">
-                    {c.post}
+                    {c.post} *
                     <input className="input"
                            value={item.title}
                            onChange={(e) => { handleChange('jobs', e.target.value, 'title', index); }} />
                 </label>
-                <div className="label">
-                    {c.responsibilities}
+                <div className="label label--rel certificatesWrapper flex">
+                    <span>
+                        {c.responsibilities} *
+                        <Tooltip
+                            html={<span className="tooltipVisible">
+                            {c.responsibilitiesTooltip}
+                                    </span>}
+                            position={window.innerWidth > 768 ? "left" : "top"}
+                            followCursor={true}
+                        >
+                            <div className="tooltip">
+                                ?
+                            </div>
+                        </Tooltip>
+                    </span>
                     {item.responsibilities.map((item, resIndex) => {
                         return <label className="label label--responsibility" key={resIndex}>
                             <input className="input"
                                    placeholder={c.responsibilitiesPlaceholder}
                                    value={item}
+                                   maxLength={70}
                                    onChange={(e) => { updateJobResponsibilities(index, resIndex, e.target.value); }} />
                             <button className="deleteSchoolBtn" onClick={() => { deleteResponsibility(index, resIndex); }}>
                                 <img className="img" src={trashIcon} alt="usun" />

@@ -6,6 +6,7 @@ import checkIcon from '../static/img/green-check.svg'
 import {numberRange} from "../helpers/others";
 import trashIcon from "../static/img/trash.svg";
 import {LanguageContext} from "../App";
+import {Tooltip} from "react-tippy";
 
 const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMonthsVisible, setTransportTypesVisible, setYearsVisible}) => {
     const { setStep, setSubstep, userData, handleChange, countriesVisible, bsnVisible, daysVisible, transportTypesVisible,
@@ -53,7 +54,7 @@ const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMont
     return <>
         <div className="userForm userForm--5b userForm--5a">
         <div className="label label--date label--date--address">
-            {c.currentLivingPlace}
+            {c.currentLivingPlace} *
             <div className="flex">
                 <div className="label--date__input label--date__input--country">
                     <button className="datepicker datepicker--country"
@@ -86,8 +87,21 @@ const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMont
             </div>
         </div>
 
-        <div className="label drivingLicenceWrapper">
-            {c.bsnNumber}
+        <div className="label drivingLicenceWrapper label--rel certificatesWrapper flex">
+            <span>
+                {c.bsnNumber}
+                <Tooltip
+                    html={<span className="tooltipVisible">
+                        {c.bsnNumberTooltip}
+                                </span>}
+                    followCursor={true}
+                    position="left"
+                >
+                    <div className="tooltip">
+                        ?
+                    </div>
+                </Tooltip>
+            </span>
             <p className="label--extraInfo">
                 {c.bsnNumberDescription}
             </p>
@@ -136,7 +150,7 @@ const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMont
 
         <div className="label label--date">
             <p className="label--extraInfo label--extraInfo--marginBottom">
-                {c.whenAreYouReady}
+                {c.whenAreYouReady} *
             </p>
             <div className="label--flex">
                 {/* DAY */}
@@ -193,9 +207,9 @@ const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMont
             </div>
         </div>
 
-        <div className="label drivingLicenceWrapper drivingLicenceWrapper--noMarginTop">
+        <div className="label drivingLicenceWrapper drivingLicenceWrapper--noMarginBottom">
             <p className="label--extraInfo">
-                {c.longTermQuestion}
+                {c.longTermQuestion} *
             </p>
             <div className="flex flex--start">
                 <label className={userData.longTermJobSeeker ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
@@ -215,9 +229,9 @@ const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMont
             </div>
         </div>
 
-        <div className="label drivingLicenceWrapper drivingLicenceWrapper--tools drivingLicenceWrapper--noMarginTop">
+        <div className="label drivingLicenceWrapper drivingLicenceWrapper--tools">
             <p className="label--extraInfo">
-                {c.ownTransportQuestion}
+                {c.ownTransportQuestion} *
             </p>
             <div className="flex flex--start">
                 <label className={userData.ownTransport ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>

@@ -21,8 +21,21 @@ const AgencyForm3a = () => {
 
     return <>
         <div className="userForm userForm--3a userForm--3a--agency">
-            <label className="label label--rel">
-                {c.recruitmentProcess}
+            <label className="label label--rel certificatesWrapper flex">
+                <span>
+                    {c.recruitmentProcess}
+                    <Tooltip
+                        html={<span className="tooltipVisible">
+                        {c.recruitmentProcessTooltip}
+                                </span>}
+                        position={window.innerWidth > 768 ? "left" : "top"}
+                        followCursor={true}
+                    >
+                        <div className="tooltip">
+                            ?
+                        </div>
+                    </Tooltip>
+                </span>
                 <span className="letterCounter">
                     {agencyData?.recruitmentProcess.length} / 600
                 </span>
@@ -36,15 +49,15 @@ const AgencyForm3a = () => {
                     {c.benefits}
                     <Tooltip
                         html={<span className="tooltipVisible">
-                        {c.certificatesTooltip}
+                        {c.benefitsTooltip}
                                 </span>}
-                        position="left"
-                        distance={100}
+                        position={window.innerWidth > 768 ? "left" : "top"}
+                        followCursor={true}
                     >
-                    <div className="tooltip">
-                        ?
-                    </div>
-                </Tooltip>
+                        <div className="tooltip">
+                            ?
+                        </div>
+                    </Tooltip>
                 </span>
                 <span className="letterCounter">
                     {agencyData?.benefits?.length} / 1000

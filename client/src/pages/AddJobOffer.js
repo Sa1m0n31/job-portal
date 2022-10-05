@@ -37,6 +37,8 @@ const AddJobOffer = ({updateMode}) => {
     const [country, setCountry] = useState(-1);
     const [postalCode, setPostalCode] = useState('');
     const [city, setCity] = useState('');
+    const [isInManyLocations, setIsInManyLocations] = useState(false);
+    const [locations, setLocations] = useState('');
     const [description, setDescription] = useState('');
     const [responsibilities, setResponsibilities] = useState(['']);
     const [requirements, setRequirements] = useState(['']);
@@ -90,6 +92,8 @@ const AddJobOffer = ({updateMode}) => {
         setTitle(data.o_title);
         setExtraInfo(data.o_extraInfo);
         setShowAgencyInfo(data.o_show_agency_info);
+        setIsInManyLocations(!!data.o_manyLocations);
+        setLocations(data.o_manyLocations);
     }
 
     useEffect(() => {
@@ -275,11 +279,10 @@ const AddJobOffer = ({updateMode}) => {
     }
 
     const jobOfferValidation = () => {
-        if(!title || category === -1 || country === -1 || !postalCode || !city ||
+        if(!title || category === -1 || country === -1 || (!city && !locations) ||
             !description || !responsibilities.length || !requirements.length || !benefits.length ||
-            salaryType === -1 || salaryFrom === null || salaryTo === null || (
-                timeBounded && (day === -1 || month === -1 || year === -1)
-            ) || (!image && !imageUrl)
+            salaryType === -1 || salaryFrom === null || salaryTo === null
+             || (!image && !imageUrl)
         ) {
             setError(JSON.parse(c.jobOfferErrors)[0]);
             return 0;
@@ -300,7 +303,8 @@ const AddJobOffer = ({updateMode}) => {
                         salaryCurrency, contractType, timeBounded, expireDay: day, expireMonth: month,
                         expireYear: year,
                         image, attachments, oldAttachments, extraInfo,
-                        show_agency_info: showAgencyInfo
+                        show_agency_info: showAgencyInfo,
+                        manyLocations: locations
                     });
                     if(offerResult.status === 200) {
                         setSuccess(true);
@@ -318,7 +322,8 @@ const AddJobOffer = ({updateMode}) => {
                         salaryCurrency, contractType, timeBounded, expireDay: day, expireMonth: month,
                         expireYear: year,
                         image, attachments, extraInfo,
-                        show_agency_info: showAgencyInfo
+                        show_agency_info: showAgencyInfo,
+                        manyLocations: locations
                     });
                     if(offerResult.status === 201) {
                         setSuccess(true);
@@ -404,13 +409,13 @@ const AddJobOffer = ({updateMode}) => {
             </p>
 
             <label className="label">
-                {c.post}
+                {c.post} *
                 <input className="input"
                        value={title}
                        onChange={(e) => { setTitle(e.target.value); }} />
             </label>
             <div className="label label--responsibility label--category">
-                {c.category}
+                {c.category} *
                 <div className="label--date__input label--date__input--country label--date__input--category">
                     <button className="datepicker datepicker--country datepicker--category"
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCategoriesVisible(!categoriesVisible); }}
@@ -438,6 +443,8 @@ const AddJobOffer = ({updateMode}) => {
                         html={<span className="tooltipVisible">
                             {c.keywordsTooltip}
                         </span>}
+                        position="right"
+                        distance={1}
                         followCursor={true}>
                             <span className="tooltip">
                                 ?
@@ -451,7 +458,7 @@ const AddJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label label--date label--date--address">
-                {c.jobPlace}
+                {c.jobPlace} *
                 <div className="flex">
                     <div className="label--date__input label--date__input--country">
                         <button className="datepicker datepicker--country"
@@ -479,13 +486,32 @@ const AddJobOffer = ({updateMode}) => {
                         <input className="input input--address"
                                value={city}
                                onChange={(e) => { setCity(e.target.value); }}
-                               placeholder={c.city} />
+                               placeholder={`${c.city} ${isInManyLocations ? '*' : ''}`} />
                     </label>
                 </div>
+
+                <div className="label drivingLicenceWrapper manyLocationsCheckbox">
+                    <div className="languagesWrapper languagesWrapper--contracts flex">
+                        <label className={isInManyLocations ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
+                            <button className={isInManyLocations ? "checkbox checkbox--selected center" : "checkbox center"}
+                                    onClick={(e) => { e.preventDefault(); setIsInManyLocations(prevState => (!prevState)); }}>
+                                <span></span>
+                            </button>
+                            {c.manyLocations1}
+                        </label>
+                    </div>
+                </div>
+
+                {isInManyLocations ? <label>
+                    <input className="input input--100"
+                           value={locations}
+                           onChange={(e) => { setLocations(e.target.value); }}
+                           placeholder={`${c.manyLocations2} *`} />
+                </label> : ''}
             </div>
 
             <label className="label label--rel">
-                {c.postDescription}
+                {c.postDescription} *
                 <textarea className="input input--textarea input--situation"
                           value={description}
                           onChange={(e) => { setDescription(e.target.value); }}
@@ -493,11 +519,12 @@ const AddJobOffer = ({updateMode}) => {
             </label>
 
             <div className="label">
-                {c.responsibilities}
+                {c.responsibilities} *
                 {responsibilities.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
                         <input className="input"
                                value={item}
+                               maxLength={50}
                                onChange={(e) => { e.preventDefault(); updateResponsibilities(e.target.value, index); }} />
                         <button className="deleteSchoolBtn" onClick={(e) => { e.preventDefault(); deleteResponsibility(index); }}>
                             <img className="img" src={trashIcon} alt="usun" />
@@ -511,11 +538,12 @@ const AddJobOffer = ({updateMode}) => {
                 </button>
             </div>
             <div className="label">
-                {c.requirements}
+                {c.requirements} *
                 {requirements.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
                         <input className="input"
                                value={item}
+                               maxLength={50}
                                onChange={(e) => { e.preventDefault(); updateRequirements(e.target.value, index); }} />
                         <button className="deleteSchoolBtn" onClick={(e) => { e.preventDefault(); deleteRequirement(index); }}>
                             <img className="img" src={trashIcon} alt="usun" />
@@ -529,11 +557,12 @@ const AddJobOffer = ({updateMode}) => {
                 </button>
             </div>
             <div className="label">
-                {c.whatYouOffer}
+                {c.whatYouOffer} *
                 {benefits.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
                         <input className="input"
                                value={item}
+                               maxLength={50}
                                onChange={(e) => { e.preventDefault(); updateBenefits(e.target.value, index); }} />
                         <button className="deleteSchoolBtn" onClick={(e) => { e.preventDefault(); deleteBenefit(index); }}>
                             <img className="img" src={trashIcon} alt="usun" />
@@ -548,7 +577,7 @@ const AddJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label drivingLicenceWrapper drivingLicenceWrapper--salary">
-                {c.salary}
+                {c.salary} *
                 <div className="flex flex--start">
                     <label className={salaryType === 1 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                         <button className="checkbox center"
@@ -691,7 +720,7 @@ const AddJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label">
-                {c.backgroundImage}
+                {c.backgroundImage} *
                 <p className="label--extraInfo label--extraInfo--marginBottom">
                     {c.backgroundImageDescription}
                 </p>

@@ -6,6 +6,7 @@ import trashIcon from '../static/img/trash.svg'
 import {attachmentsErrors} from "../static/content";
 import Loader from "./Loader";
 import {LanguageContext} from "../App";
+import {Tooltip} from "react-tippy";
 
 const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, removeOldAttachment}) => {
     const { userData, setSubstep, handleChange, error, loading } = useContext(UserDataContext);
@@ -33,8 +34,21 @@ const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, rem
 
     return <>
         <div className="userForm userForm--5d">
-        <label className="label label--rel">
-            {c.currentSituationDescription}
+        <label className="label label--rel certificatesWrapper flex">
+            <span>
+                {c.currentSituationDescription}
+                <Tooltip
+                    html={<span className="tooltipVisible">
+                        {c.situationTooltip}
+                                </span>}
+                    followCursor={true}
+                    position="left"
+                >
+                    <div className="tooltip">
+                        ?
+                    </div>
+                </Tooltip>
+            </span>
             <span className="letterCounter">
                 {userData.situationDescription.length} / 150
             </span>

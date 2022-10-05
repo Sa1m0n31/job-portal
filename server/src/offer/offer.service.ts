@@ -983,7 +983,7 @@ export class OfferService {
 
     async addOffer(data, files) {
         let offerData = JSON.parse(data.offerData);
-        let lat = 1, lng = 1;
+        let lat = null, lng = null;
 
         offerData = await this.translateOfferData(offerData, data, files);
 
@@ -991,7 +991,7 @@ export class OfferService {
         const { title, category, keywords, country, postalCode, city, description,
             responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
             salaryCurrency, contractType, timeBounded, expireDay, expireMonth, expireYear,
-            image, attachments, extraInfo, show_agency_info
+            image, attachments, extraInfo, show_agency_info, manyLocations
         } = offerData;
 
         // Get agency id
@@ -999,12 +999,14 @@ export class OfferService {
         const agencyId = agency.id;
 
         // Get lat and lng
-        const apiResponse = await lastValueFrom(this.httpService.get(encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${city}`)));
-        const apiData = apiResponse.data.data;
+        if(city) {
+            const apiResponse = await lastValueFrom(this.httpService.get(encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${city}`)));
+            const apiData = apiResponse.data.data;
 
-        if(apiData) {
-            lat = apiData[0]?.latitude;
-            lng = apiData[0]?.longitude;
+            if(apiData) {
+                lat = apiData[0]?.latitude;
+                lng = apiData[0]?.longitude;
+            }
         }
 
         // Add record to database
@@ -1025,6 +1027,7 @@ export class OfferService {
             created_at: new Date(),
             lat,
             lng,
+            manyLocations,
             show_agency_info
         });
 
@@ -1169,7 +1172,7 @@ export class OfferService {
 
     async updateOffer(data, files) {
         let offerData = JSON.parse(data.offerData);
-        let lat, lng;
+        let lat = null, lng = null;
 
         offerData = await this.translateOfferData(offerData, data, files, true);
 
@@ -1177,7 +1180,7 @@ export class OfferService {
         const { id, title, category, keywords, country, postalCode, city, description,
             responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
             salaryCurrency, contractType, timeBounded, expireDay, expireMonth, expireYear,
-            image, attachments, extraInfo, show_agency_info
+            image, attachments, extraInfo, show_agency_info, manyLocations
         } = offerData;
 
         // Remove translations
@@ -1191,13 +1194,15 @@ export class OfferService {
         const agencyId = agency.id;
 
         // Get lat and lng
-        const apiResponse = await lastValueFrom(this.httpService.get(
-            encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${city}`)));
-        const apiData = apiResponse.data.data;
+        if(city) {
+            const apiResponse = await lastValueFrom(this.httpService.get(
+                encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${city}`)));
+            const apiData = apiResponse.data.data;
 
-        if(apiData) {
-            lat = apiData[0].latitude;
-            lng = apiData[0].longitude;
+            if(apiData) {
+                lat = apiData[0].latitude;
+                lng = apiData[0].longitude;
+            }
         }
 
         // Update record in database
@@ -1217,6 +1222,7 @@ export class OfferService {
                 extraInfo,
                 lat,
                 lng,
+                manyLocations,
                 show_agency_info
             })
             .where({id})

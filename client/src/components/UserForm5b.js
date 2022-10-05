@@ -5,6 +5,7 @@ import {categories, currencies} from "../static/content";
 import trashIcon from "../static/img/trash.svg";
 import plusIcon from "../static/img/plus-in-circle.svg";
 import {LanguageContext} from "../App";
+import {Tooltip} from "react-tippy";
 
 const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCurrenciesVisible}) => {
     const { setSubstep, userData, handleChange, categoriesVisible, currenciesVisible } = useContext(UserDataContext);
@@ -12,9 +13,9 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
 
     return <>
         <div className="userForm userForm--5b">
-        <div className="label drivingLicenceWrapper drivingLicenceWrapper--noMarginTop">
+        <div className="label drivingLicenceWrapper drivingLicenceWrapper--noMarginBottom">
             <p className="label--extraInfo">
-                {c.ownAccommodationQuestion}
+                {c.ownAccommodationQuestion} *
             </p>
             <div className="flex flex--start">
                 <label className={userData.ownAccommodation ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
@@ -40,9 +41,20 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
             </label> : ''}
         </div>
 
-        <div className="label drivingLicenceWrapper drivingLicenceWrapper--tools drivingLicenceWrapper--noMarginTop">
+        <div className="label drivingLicenceWrapper drivingLicenceWrapper--tools drivingLicenceWrapper--toolsQuestion">
             <p className="label--extraInfo">
                 {c.toolsQuestion}
+                <Tooltip
+                    html={<span className="tooltipVisible">
+                            {c.toolsTooltip}
+                                    </span>}
+                    position={window.innerWidth > 768 ? "left" : "top"}
+                    followCursor={true}
+                >
+                    <div className="tooltip">
+                        ?
+                    </div>
+                </Tooltip>
             </p>
             <div className="flex flex--start">
                 <label className={userData.ownTools ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
@@ -69,8 +81,21 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
             </label> : ''}
         </div>
 
-        <div className="label drivingLicenceWrapper drivingLicenceWrapper--salary">
-            {c.finance}
+        <div className="label drivingLicenceWrapper drivingLicenceWrapper--salary label--rel certificatesWrapper flex">
+            <span>
+                {c.finances} *
+                <Tooltip
+                    html={<span className="tooltipVisible">
+                            {c.salaryTooltip}
+                                    </span>}
+                    position={window.innerWidth > 768 ? "left" : "top"}
+                    followCursor={true}
+                >
+                            <div className="tooltip">
+                                ?
+                            </div>
+                        </Tooltip>
+            </span>
             <p className="label--extraInfo">
                 {c.showYourExpectations} <span className="bold">{c.netto}</span>
             </p>
@@ -126,8 +151,21 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
         </div>
 
         <div className="categories">
-            <div className="label">
-                {c.mainCategories}
+            <div className="label label--rel certificatesWrapper flex">
+                <span>
+                     {c.mainCategories} *
+                    <Tooltip
+                        html={<span className="tooltipVisible">
+                                {c.categoriesTooltip}
+                                        </span>}
+                        position={window.innerWidth > 768 ? "left" : "top"}
+                        followCursor={true}
+                    >
+                        <div className="tooltip">
+                            ?
+                        </div>
+                    </Tooltip>
+                </span>
                 {userData.categories.map((item, index) => {
                     return <div className="label label--flex label--responsibility label--category" key={index}>
                         <div className="label--date__input label--date__input--country label--date__input--category">

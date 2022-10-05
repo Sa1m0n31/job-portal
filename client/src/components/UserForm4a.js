@@ -12,7 +12,7 @@ const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCate
     return <>
         <div className="userForm">
         <div className="label">
-            {c.foreignLanguages.charAt(0).toUpperCase() + c.foreignLanguages.slice(1)}
+            {c.foreignLanguages.charAt(0).toUpperCase() + c.foreignLanguages.slice(1)} *
             <div className="languagesWrapper flex">
                 {JSON.parse(c.languages).map((item, index) => {
                     return <label className={isElementInArray(index, userData.languages.map((item) => (item.language))) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"} key={index}>
@@ -67,7 +67,7 @@ const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCate
         <div className="label drivingLicenceWrapper">
             {c.drivingLicence.charAt(0).toUpperCase() + c.drivingLicence.slice(1)}
             <p className="label--extraInfo">
-                {c.drivingLicenceDescription}
+                {c.drivingLicenceDescription} *
             </p>
             <div className="flex flex--start">
                 <div className="label--date__input label--date__input--bool label--date__input--drivingLicence">

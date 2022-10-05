@@ -361,7 +361,7 @@ const AddFastJobOffer = ({updateMode}) => {
     }
 
     const jobOfferValidation = () => {
-        if(!title || category === -1 || country === -1 || !postalCode || !city ||
+        if(!title || category === -1 || country === -1 || !city ||
             !description || !responsibilities.length || !requirements.length || !benefits.length ||
             salaryType === -1 || salaryFrom === null || salaryTo === null ||
             day === -1 || month === -1 || !hour ||
@@ -508,13 +508,13 @@ const AddFastJobOffer = ({updateMode}) => {
             </p>
 
             <label className="label">
-                {c.post}
+                {c.post} *
                 <input className="input"
                        value={title}
                        onChange={(e) => { setTitle(e.target.value); }} />
             </label>
             <div className="label label--responsibility label--category">
-                {c.category}
+                {c.category} *
                 <div className="label--date__input label--date__input--country label--date__input--category">
                     <button className="datepicker datepicker--country datepicker--category"
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCategoriesVisible(!categoriesVisible); }}
@@ -542,6 +542,7 @@ const AddFastJobOffer = ({updateMode}) => {
                         html={<span className="tooltipVisible">
                             {c.keywordsTooltip}
                                     </span>}
+                        position="right"
                         followCursor={true}>
                             <span className="tooltip">
                                 ?
@@ -555,7 +556,7 @@ const AddFastJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label label--date label--date--address">
-                {c.jobPlace}
+                {c.jobPlace} *
                 <div className="flex flex-wrap flex--fastOffer">
                     <div className="label--date__input label--date__input--country">
                         <button className="datepicker datepicker--country"
@@ -594,17 +595,11 @@ const AddFastJobOffer = ({updateMode}) => {
                                onChange={(e) => { setCompanyName(e.target.value); }}
                                placeholder={c.companyNameShort} />
                     </label>
-                    {/*<label className="label--street">*/}
-                    {/*    <input className="input input--address"*/}
-                    {/*           value={street}*/}
-                    {/*           onChange={(e) => { setStreet(e.target.value); }}*/}
-                    {/*           placeholder={c.streetAndBuilding} />*/}
-                    {/*</label>*/}
                 </div>
             </div>
 
             <div className="label label--date label--date--address">
-                {c.accommodationPlace}
+                {c.accommodationPlace} *
                 <div className="flex flex-wrap flex--fastOffer">
                     <div className="label--date__input label--date__input--country">
                         <button className="datepicker datepicker--country"
@@ -634,17 +629,11 @@ const AddFastJobOffer = ({updateMode}) => {
                                onChange={(e) => { setAccommodationPostalCode(e.target.value); }}
                                placeholder={c.postalCode} />
                     </label>
-                    {/*<label className="label--street">*/}
-                    {/*    <input className="input input--address"*/}
-                    {/*           value={accommodationStreet}*/}
-                    {/*           onChange={(e) => { setAccommodationStreet(e.target.value); }}*/}
-                    {/*           placeholder={c.streetAndBuilding} />*/}
-                    {/*</label>*/}
                 </div>
             </div>
 
             <div className="label drivingLicenceWrapper">
-                {c.accommodationDate}
+                {c.accommodationDate} *
                 <div className="flex flex-wrap flex--fastOffer">
                     {/* DAY */}
                     <div className="label--date__input">
@@ -680,23 +669,6 @@ const AddFastJobOffer = ({updateMode}) => {
                             })}
                         </div> : ''}
                     </div>
-                    {/* YEARS */}
-                    {/*<div className="label--date__input label--postalCode">*/}
-                    {/*    <button className="datepicker datepicker--year"*/}
-                    {/*            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setYearVisible(!yearVisible); }}*/}
-                    {/*    >*/}
-                    {/*        {year !== -1 ? year : c.year}*/}
-                    {/*        <img className="dropdown" src={dropdownArrow} alt="rozwiń" />*/}
-                    {/*    </button>*/}
-                    {/*    {yearVisible ? <div className="datepickerDropdown noscroll">*/}
-                    {/*        {years?.map((item, index) => {*/}
-                    {/*            return <button className="datepickerBtn center" key={index}*/}
-                    {/*                           onClick={(e) => { e.preventDefault(); e.stopPropagation(); setYearVisible(false); setYear(item); }}>*/}
-                    {/*                {item}*/}
-                    {/*            </button>*/}
-                    {/*        })}*/}
-                    {/*    </div> : ''}*/}
-                    {/*</div>*/}
                     <label className="label--street">
                         <input className="input input--address"
                                value={hour}
@@ -707,7 +679,7 @@ const AddFastJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label drivingLicenceWrapper">
-                {c.startWorkDate}
+                {c.startWorkDate} *
                 <div className="flex flex-wrap flex--fastOffer">
                     {/* DAY */}
                     <div className="label--date__input">
@@ -743,23 +715,6 @@ const AddFastJobOffer = ({updateMode}) => {
                             })}
                         </div> : ''}
                     </div>
-                    {/* YEARS */}
-                    {/*<div className="label--date__input label--postalCode">*/}
-                    {/*    <button className="datepicker datepicker--year"*/}
-                    {/*            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStartYearVisible(!startYearVisible); }}*/}
-                    {/*    >*/}
-                    {/*        {startYear !== -1 ? startYear : c.year}*/}
-                    {/*        <img className="dropdown" src={dropdownArrow} alt="rozwiń" />*/}
-                    {/*    </button>*/}
-                    {/*    {startYearVisible ? <div className="datepickerDropdown noscroll">*/}
-                    {/*        {years?.map((item, index) => {*/}
-                    {/*            return <button className="datepickerBtn center" key={index}*/}
-                    {/*                           onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStartYearVisible(false); setStartYear(item); }}>*/}
-                    {/*                {item}*/}
-                    {/*            </button>*/}
-                    {/*        })}*/}
-                    {/*    </div> : ''}*/}
-                    {/*</div>*/}
                     <label className="label--street">
                         <input className="input input--address"
                                value={startHour}
@@ -770,7 +725,7 @@ const AddFastJobOffer = ({updateMode}) => {
             </div>
 
             <label className="label label--rel">
-                {c.postDescriotion}
+                {c.postDescriotion} *
                 <textarea className="input input--textarea input--situation"
                           value={description}
                           onChange={(e) => { setDescription(e.target.value); }}
@@ -778,7 +733,7 @@ const AddFastJobOffer = ({updateMode}) => {
             </label>
 
             <div className="label">
-                {c.responsibilities}
+                {c.responsibilities} *
                 {responsibilities.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
                         <input className="input"
@@ -796,7 +751,7 @@ const AddFastJobOffer = ({updateMode}) => {
                 </button>
             </div>
             <div className="label">
-                {c.requirements}
+                {c.requirements} *
                 {requirements.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
                         <input className="input"
@@ -814,7 +769,7 @@ const AddFastJobOffer = ({updateMode}) => {
                 </button>
             </div>
             <div className="label">
-                {c.whatYouOffer}
+                {c.whatYouOffer} *
                 {benefits.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
                         <input className="input"
@@ -833,7 +788,7 @@ const AddFastJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label drivingLicenceWrapper drivingLicenceWrapper--salary">
-                {c.salary}
+                {c.salary} *
                 <div className="flex flex--start">
                     <label className={salaryType === 1 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                         <button className="checkbox center"
@@ -901,7 +856,7 @@ const AddFastJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label label--phoneNumber">
-                {c.recruitmentPersonData}
+                {c.recruitmentPersonData} *
                 <label className="label label--normal">
                     <input className="input"
                            value={contactPerson}
@@ -925,7 +880,7 @@ const AddFastJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label">
-                {c.backgroundImage}
+                {c.backgroundImage} *
                 <p className="label--extraInfo label--extraInfo--marginBottom">
                     {c.backgroundImageDescription}
                 </p>

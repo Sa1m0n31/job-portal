@@ -11,7 +11,7 @@ const AgencyForm4a = ({setRoomVisible, setHouseVisible, setParkingVisible}) => {
     return <>
         <div className="userForm userForm--4a userForm--4a--agency">
             <div className="label label--date label--date--address">
-                {c.accommodation}
+                {c.accommodation} *
                 <div className="flex">
                     <div className="label--date__input label--date__input--country">
                         <button className="datepicker datepicker--country"
@@ -33,11 +33,11 @@ const AgencyForm4a = ({setRoomVisible, setHouseVisible, setParkingVisible}) => {
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation(); setHouseVisible(!houseVisible); }}
                         >
-                            {agencyData.houseType >= 0 ? houses[agencyData.houseType] : c.chooseBuilding}
+                            {agencyData.houseType >= 0 ? JSON.parse(c.houses)[agencyData.houseType] : c.chooseBuilding}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {houseVisible ? <div className="datepickerDropdown noscroll">
-                            {houses?.map((item, index) => {
+                            {JSON.parse(c.houses)?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
                                                onClick={(e) => { handleChange('houseType', index); }}>
                                     {item}

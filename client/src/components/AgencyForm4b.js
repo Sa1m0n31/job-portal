@@ -16,7 +16,7 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
     return <>
         <div className="userForm userForm--4a userForm--4a--agency userForm--4b--agency">
             <div className="label label--date label--date--address">
-                {c.car}
+                {c.car} *
 
                 <div className="flex flex--start">
                     <div className="label--date__input label--date__input--bool label--date__input--drivingLicence">
@@ -96,7 +96,7 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
             </div>
 
             <div className="label label--date label--date--address">
-                {c.bike}
+                {c.bike} *
 
                 <div className="flex flex--start">
                     <div className="label--date__input label--date__input--bool label--date__input--drivingLicence">
@@ -175,7 +175,7 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
                 </div> : ''}
 
                 <div className="label drivingLicenceWrapper">
-                    {c.costReturnWithOwnTransport}
+                    {c.costReturnWithOwnTransport} *
                     <div className="flex flex--start">
                         <div className="label--date__input label--date__input--bool label--date__input--drivingLicence">
                             <button className="datepicker datepicker--country"

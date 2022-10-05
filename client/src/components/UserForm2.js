@@ -12,7 +12,7 @@ const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEduca
     return <>
         <div className="userForm userForm2">
         <div className="label--date__input label--date__input--country label--date__input--education">
-            {c.education}
+            {c.education} *
             <button className="datepicker datepicker--country"
                     onClick={(e) => { e.stopPropagation(); setEducationVisible(!educationVisible); }}
             >
@@ -32,7 +32,7 @@ const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEduca
         {userData.schools?.map((item, index) => {
             return <div className="form__school flex" key={index}>
                 <label className="label">
-                    {c.schoolOrUniversityName}
+                    {c.schoolOrUniversityName} *
                     <input className="input"
                            value={item.name}
                            onChange={(e) => { handleChange('schools', e.target.value, 'name', index); }} />
@@ -45,7 +45,7 @@ const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEduca
                 </label>
                 <label className="label">
                     <span className="oneline">
-                        {c.educationYears}
+                        {c.educationYears} *
                     </span>
                     <input className="input"
                            type="number"

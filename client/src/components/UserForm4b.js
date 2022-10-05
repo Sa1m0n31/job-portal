@@ -19,6 +19,7 @@ const UserForm4B = ({addNewCourse, deleteCourse, addNewCertificate, deleteCertif
                         {c.coursesTooltip}
                                 </span>}
                     position="left"
+                    followCursor={true}
                 >
                                 <div className="tooltip">
                                     ?
@@ -51,6 +52,7 @@ const UserForm4B = ({addNewCourse, deleteCourse, addNewCertificate, deleteCertif
                     html={<span className="tooltipVisible">
                         {c.certificatesTooltip}
                                 </span>}
+                    followCursor={true}
                     position="left"
                 >
                                 <div className="tooltip">

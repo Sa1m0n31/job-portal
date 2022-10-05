@@ -80,19 +80,19 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
             </div>
 
         <label className="label">
-            {c.firstName}
+            {c.firstName} *
             <input className="input"
                    value={userData.firstName}
                    onChange={(e) => { handleChange('firstName', e.target.value); }} />
         </label>
         <label className="label">
-            {c.lastName}
+            {c.lastName} *
             <input className="input"
                    value={userData.lastName}
                    onChange={(e) => { handleChange('lastName', e.target.value); }} />
         </label>
         <div className="label label--date">
-            {c.birthday}
+            {c.birthday} *
             <div className="label--flex">
                 {/* DAY */}
                 <div className="label--date__input">
@@ -149,7 +149,7 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
         </div>
 
         <div className="label label--date label--date--address">
-            {c.livingAddress}
+            {c.livingAddress} *
             <div className="flex flex--start label--date--address--firstLine">
                 <div className="label--date__input label--date__input--country marginRight">
                     <button className="datepicker datepicker--country"
@@ -191,7 +191,7 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
         </div>
 
         <div className="label label--phoneNumber">
-            {c.phoneNumber}
+            {c.phoneNumber} *
             <button className="phoneNumberBtn" onClick={(e) => { e.stopPropagation(); setPhoneNumbersCountriesVisible(!phoneNumbersCountriesVisible); }}>
                 {userData.phoneNumberCountry}
             </button>

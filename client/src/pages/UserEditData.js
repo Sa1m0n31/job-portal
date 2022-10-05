@@ -271,30 +271,48 @@ const UserEditData = () => {
         }
     }, [step, substep]);
 
+    const schoolsValidation = () => {
+        return userData.schools.length && userData.schools.findIndex((item) => {
+            return !item.name || (!item.from || !item.to || !item.inProgress);
+        }) === -1;
+    }
+
+    const validateUserData = () => {
+        return userData.firstName && userData.lastName && userData.city && userData.postalCode &&
+            userData.address && userData.phoneNumber && schoolsValidation() && userData.currentCity && userData.currentPostalCode
+            && userData.longTermJobSeeker !== null && userData.ownTransport !== null && userData.ownAccommodation !== null &&
+            userData.salaryFrom && userData.salaryTo && userData.categories[0] !== '-';
+    }
+
     const submitUserData = async (userData) => {
-        setLoading(true);
+        if(validateUserData()) {
+            setLoading(true);
 
-        try {
-            const res = await updateUser(userData);
+            try {
+                const res = await updateUser(userData);
 
-            if(res?.status === 201) {
-                setLoading(false);
-                setSubstep(0);
-                setStep(5);
+                if(res?.status === 201) {
+                    setLoading(false);
+                    setSubstep(0);
+                    setStep(5);
+                }
+                else {
+                    setError(JSON.parse(c.formErrors)[1]);
+                    setLoading(false);
+                }
             }
-            else {
-                setError(JSON.parse(c.formErrors)[1]);
+            catch(err) {
+                if(err?.response?.status === 415) {
+                    setError(c.unsupportedMediaTypeInfo);
+                }
+                else {
+                    setError(JSON.parse(c.formErrors)[1]);
+                }
                 setLoading(false);
             }
         }
-        catch(err) {
-            if(err?.response?.status === 415) {
-                setError(c.unsupportedMediaTypeInfo);
-            }
-            else {
-                setError(JSON.parse(c.formErrors)[1]);
-            }
-            setLoading(false);
+        else {
+            setError(JSON.parse(c.formErrors)[0]);
         }
     }
 

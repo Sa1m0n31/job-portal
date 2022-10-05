@@ -78,6 +78,9 @@ export class Offer {
     attachments: string;
 
     @Column()
+    extraInfo: string;
+
+    @Column()
     created_at: Date;
 
     @Column()
@@ -85,4 +88,7 @@ export class Offer {
 
     @Column()
     lng: number;
+
+    @Column()
+    show_agency_info: boolean;
 }

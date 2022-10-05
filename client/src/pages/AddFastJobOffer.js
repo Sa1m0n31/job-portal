@@ -75,6 +75,8 @@ const AddFastJobOffer = ({updateMode}) => {
     const [image, setImage] = useState(null);
     const [attachments, setAttachments] = useState([]);
     const [oldAttachments, setOldAttachments] = useState([]);
+    const [extraInfo, setExtraInfo] = useState('');
+    const [showAgencyInfo, setShowAgencyInfo] = useState('');
     const [imageUrl, setImageUrl] = useState('');
     const [contactPerson, setContactPerson] = useState('');
     const [contactNumberCountry, setContactNumberCountry] = useState(0);
@@ -390,7 +392,8 @@ const AddFastJobOffer = ({updateMode}) => {
                         startDay, startMonth, startYear, startHour,
                         responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
                         salaryCurrency, contractType, contactPerson, contactNumberCountry, contactNumber,
-                        image, attachments, oldAttachments
+                        image, attachments, oldAttachments, extraInfo,
+                        show_agency_info: showAgencyInfo
                     });
                     if(offerResult.status === 200) {
                         setSuccess(true);
@@ -412,7 +415,8 @@ const AddFastJobOffer = ({updateMode}) => {
                         startDay, startMonth, startYear, startHour,
                         responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
                         salaryCurrency, contractType, contactPerson, contactNumberCountry, contactNumber,
-                        image, attachments
+                        image, attachments, extraInfo,
+                        show_agency_info: showAgencyInfo
                     });
                     if(offerResult.status === 201) {
                         setSuccess(true);
@@ -980,6 +984,26 @@ const AddFastJobOffer = ({updateMode}) => {
                         </input>
                     </div>
                 })}
+            </div>
+
+            <label className="label label--rel">
+                {c.additionalInfo}
+                <textarea className="input input--textarea input--situation"
+                          value={extraInfo}
+                          onChange={(e) => { setExtraInfo(e.target.value); }}
+                          placeholder={c.additionalInfoPlaceholder} />
+            </label>
+
+            <div className="label drivingLicenceWrapper drivingLicenceWrapper--noMarginTop">
+                <div className="languagesWrapper languagesWrapper--contracts flex">
+                    <label className={showAgencyInfo ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
+                        <button className={showAgencyInfo ? "checkbox checkbox--selected center" : "checkbox center"}
+                                onClick={(e) => { e.preventDefault(); setShowAgencyInfo(prevState => (!prevState)); }}>
+                            <span></span>
+                        </button>
+                        {c.showAgencyInfo}
+                    </label>
+                </div>
             </div>
 
             {error ? <span className="info info--error">

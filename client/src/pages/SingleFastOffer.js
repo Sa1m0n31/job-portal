@@ -26,6 +26,7 @@ import LoggedUserFooter from "../components/LoggedUserFooter";
 const SingleFastOffer = () => {
     const [data, setData] = useState({});
     const [agency, setAgency] = useState(null);
+    const [agencyData, setAgencyData] = useState({});
     const [offer, setOffer] = useState({});
     const [galleryIndex, setGalleryIndex] = useState(-1);
     const [userAlreadyApplied, setUserAlreadyApplied] = useState(false);
@@ -93,6 +94,7 @@ const SingleFastOffer = () => {
                    if(res?.status === 200) {
                        if(res?.data?.length) {
                            setOffer(Array.isArray(res.data) ? res.data[0] : res.data);
+                           setAgencyData(Array.isArray(res.data) ? JSON.parse(res.data[0]?.a_data) : JSON.parse(res.data?.a_data));
                            const offerId = res?.data[0]?.o_id;
 
                            const userApplicationResponse = await getUserFastApplications();
@@ -318,6 +320,111 @@ const SingleFastOffer = () => {
                                 </a>
                             }
                         }) : ''}
+                    </div>
+                </div> : ''}
+
+                {offer.o_show_agency_info || 1 ? <div className="userAccount__box--jobOffer jobOffer__section">
+                    <h3 className="userAccount__box__header">
+                        {c.employeesInfo}
+                    </h3>
+                    <div className="userAccount__box__pairsWrapper userAccount__box--employeesInfo">
+                        <span className="w-100">
+                            {c.accommodation}
+                        </span>
+                        <span className="userAccount__box__pair">
+                            <span className="userAccount__box__key">
+                                {c.roomType}
+                            </span>
+                            <p className="userAccount__box__value">
+                                {agencyData.roomType !== null && agencyData.roomType !== undefined ? JSON.parse(c.roomsTypes)[agencyData.roomType] : c.noInfo}
+                            </p>
+                        </span>
+                        <span className="userAccount__box__pair">
+                            <span className="userAccount__box__key">
+                                {c.houseType}
+                            </span>
+                            <p className="userAccount__box__value">
+                                {agencyData.houseType !== null && agencyData.houseType !== undefined ? JSON.parse(c.houses)[agencyData.houseType] : c.noInfo}
+                            </p>
+                        </span>
+                        <span className="userAccount__box__pair">
+                            <span className="userAccount__box__key">
+                                {c.equipment}
+                            </span>
+                            <p className="userAccount__box__value">
+                                {agencyData.roomDescription ? agencyData.roomDescription : c.noInfo}
+                            </p>
+                        </span>
+                        <span className="w-100">
+                                {c.jobTransport}
+                        </span>
+                        <span className="userAccount__box__pair">
+                            <span className="userAccount__box__key">
+                                {c.companyCar}
+                            </span>
+                            <p className="userAccount__box__value">
+                                {agencyData.car === 0 || agencyData.car ?
+                                    (agencyData.car === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]}\n${agencyData.carPrice} ${currencies[agencyData.carPriceCurrency]}/${c.monthlyShortcut}`)) : c.noInfo}
+                            </p>
+                        </span>
+                        <span className="userAccount__box__pair">
+                            <span className="userAccount__box__key">
+                                {c.bike}
+                            </span>
+                            <p className="userAccount__box__value">
+                                {agencyData.bike === 0 || agencyData.bike ?
+                                    (agencyData.bike === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]}\n${agencyData.bikePrice} ${currencies[agencyData.bikePriceCurrency]}/${c.monthlyShortcut}`)) : c.noInfo}
+                            </p>
+                        </span>
+                        <span className="userAccount__box__pair">
+                            <span className="userAccount__box__key">
+                                {c.costReturn}
+                            </span>
+                            <p className="userAccount__box__value">
+                                {agencyData.costReturnWithOwnTransport !== null && agencyData.costReturnWithOwnTransport !== undefined ?
+                                    (agencyData.costReturnWithOwnTransport ? c.yes : c.no) : c.noInfo}
+                            </p>
+                        </span>
+
+                        <span className="w-100">
+                                {c.additionalPayments}
+                        </span>
+                        <span className="userAccount__box__pair">
+                            <span className="userAccount__box__key">
+                                {c.pension}
+                            </span>
+                            <p className="userAccount__box__value">
+                                {agencyData.pensionContributions !== null && agencyData.pensionContributions !== undefined ? JSON.parse(c.pensionType)[agencyData.pensionContributions] : c.noInfo}
+                            </p>
+                        </span>
+                        <span className="userAccount__box__pair">
+                            <span className="userAccount__box__key">
+                                {c.holidayAllowance}
+                            </span>
+                            <p className="userAccount__box__value userAccount__box__value--holidayAllowance">
+                                {agencyData.holidayAllowanceType !== null && agencyData.holidayAllowanceType !== undefined ? `${JSON.parse(c.pensionType)[agencyData.holidayAllowanceType]}
+                                `: c.noInfo}<br/>
+                                {agencyData.holidayAllowanceType !== null && agencyData.holidayAllowanceType !== undefined ? `${agencyData.holidayAllowanceFrequency === 0 ? (JSON.parse(c.pensionFrequency)[agencyData.holidayAllowanceFrequency] + ', ' + (parseInt(agencyData.holidayAllowanceDay)+1) + ' ' + JSON.parse(c.months)[agencyData.holidayAllowanceMonth]) : JSON.parse(c.pensionFrequency)[agencyData.holidayAllowanceFrequency]}` : ''}
+                            </p>
+                        </span>
+                        <span className="userAccount__box__pair">
+                            <span className="userAccount__box__key">
+                                {c.salary}
+                            </span>
+                            <p className="userAccount__box__value">
+                                {agencyData.paycheckFrequency !== null && agencyData.paycheckFrequency !== undefined ? JSON.parse(c.paycheckFrequency)[agencyData.paycheckFrequency] : c.noInfo}<br/>
+                                {agencyData.paycheckFrequency !== null && agencyData.paycheckFrequency !== undefined ? JSON.parse(c.paycheckDay)[agencyData.paycheckDay] : ''}
+                            </p>
+                        </span>
+                        <span className="userAccount__box__pair">
+                            <span className="userAccount__box__key">
+                                {c.healthInsurance}
+                            </span>
+                            <p className="userAccount__box__value">
+                                {agencyData.healthInsurance !== null && agencyData.healthInsurance !== undefined ? JSON.parse(c.paymentTypes)[agencyData.healthInsurance] : c.noInfo}<br/>
+                                {agencyData.healthInsuranceCost !== null && agencyData.healthInsurance === 0 ? agencyData.healthInsuranceCost + ' ' + currencies[agencyData.healthInsuranceCurrency] : ''}
+                            </p>
+                        </span>
                     </div>
                 </div> : ''}
             </main>

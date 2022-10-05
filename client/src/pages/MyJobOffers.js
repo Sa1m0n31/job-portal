@@ -134,6 +134,13 @@ const MyJobOffers = ({data}) => {
                 </div> : ''}
             </div>
         </div> : ''}
+
+        {render ? <div className="w-1400">
+            <a href="/dodaj-oferte-pracy" className="btn btn--addJobOffer">
+                {c.addJobOffer}
+            </a>
+        </div>: ''}
+
         {render ? filteredOffers?.map((item, index) => {
             return <div className="offerItem flex" key={index}>
                 <span className="offerItem__date">

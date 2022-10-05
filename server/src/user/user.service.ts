@@ -510,8 +510,10 @@ export class UserService {
     }
 
     async filter(body) {
-        let { category, country, city, distance, salaryType, salaryFrom, salaryTo,
+        let { fullName, category, country, city, distance, salaryType, salaryFrom, salaryTo,
             salaryCurrency, ownTransport, bsnNumber, languages, drivingLicences, page } = body;
+
+        console.log(country, page);
 
         const distances = [
             100, 50, 40, 30, 20, 10, 5
@@ -522,6 +524,13 @@ export class UserService {
             active: true,
             profileVisible: true
         });
+
+        if(fullName) {
+            users = users.filter((item) => {
+                const userFullName = `${JSON.parse(item.data).firstName} ${JSON.parse(item.data).lastName}`;
+                return userFullName.includes(fullName);
+            });
+        }
 
         if(category !== -1) {
             users = users.filter((item) => {

@@ -284,14 +284,6 @@ const AgencyProfile = ({data}) => {
                                 {agency.roomDescription ? agency.roomDescription : c.noInfo}
                             </p>
                         </span>
-                            <span className="userAccount__box__pair">
-                            <span className="userAccount__box__key">
-                                {c.parking}
-                            </span>
-                            <p className="userAccount__box__value">
-                                {agency.parking !== null && agency.parking !== undefined ? (agency.parking ? c.yes : c.no) : c.noInfo}
-                            </p>
-                        </span>
                             <span className="w-100">
                                 {c.jobTransport}
                         </span>

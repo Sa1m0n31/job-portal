@@ -1646,17 +1646,6 @@ input {
     font-size: 9px;
 }
 
-.loggedUserHeader__notificationBtn--new::after {
-    content: "";
-    position: absolute;
-    top: -2px;
-    right: -2px;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #CB4949;
-}
-
 .loggedUserHeader__notificationsContainer {
     display: flex;
     justify-content: flex-start;
@@ -3445,7 +3434,7 @@ input {
 }
 
 .jobOffer__section__text--attachments {
-    margin-top: 20px;
+    margin: 20px 0 10px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -5371,7 +5360,7 @@ a.preview__bottom__content {
     min-height: 100px;
 }
 
-.certificatesWrapper > span {
+.certificatesWrapper > span:first-of-type {
     color: #C1C1C1;
     text-transform: uppercase;
     font-size: 14px;
@@ -5383,11 +5372,7 @@ a.preview__bottom__content {
 }
 
 .userForm .tooltip {
-    margin: -3px 0 0 8px;
-}
-
-.userForm .tooltipVisible {
-    margin-left: 18px !important;
+    /*margin: -3px 0 0 8px;*/
 }
 
 .modal__inner {
@@ -5855,4 +5840,44 @@ input[type=month] {
 
 .marginTop10 {
     margin-top: 10px;
+}
+
+.userAccount__box--jobOffer {
+    width: 85%;
+    margin: 20px auto;
+}
+
+.userAccount__box--jobOffer .userAccount__box__pairsWrapper {
+    display: flex;
+    justify-self: flex-start;
+    align-items: flex-start;
+}
+
+.userAccount__box--jobOffer .userAccount__box__pairsWrapper .w-100:not(:first-child) {
+    margin-top: 25px;
+}
+
+.drivingLicenceWrapper--noMarginTop {
+    margin: -20px 0 20px;
+}
+
+.drivingLicenceWrapper--noMarginTop label {
+    width: 100% !important;
+    flex-wrap: nowrap;
+}
+
+.drivingLicenceWrapper--noMarginTop label button {
+    flex-basis: 100% !important;
+    max-width: 15px !important;
+}
+
+.btn--addJobOffer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 20px;
+    width: 400px;
+    height: 50px;
+    margin-top: -20px;
+    margin-bottom: 25px;
 }

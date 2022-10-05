@@ -90,16 +90,16 @@ const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, rem
             {attachmentsError}
         </span> : ''}
 
-            <label className="label label--flex label--checkbox">
-                <button className={userData.checkbox ? "checkbox checkbox--selected center" : "checkbox center"} onClick={() => { handleChange('checkbox', !userData.checkbox); }}>
-                    <span></span>
-                </button>
-                {c.updateUserAgreement}
-            </label>
+        <label className="label label--flex label--checkbox">
+            <button className={userData.checkbox ? "checkbox checkbox--selected center" : "checkbox center"} onClick={() => { handleChange('checkbox', !userData.checkbox); }}>
+                <span></span>
+            </button>
+            {c.updateUserAgreement}
+        </label>
 
-            {error ? <span className="info info--error">
-                {error}
-            </span> : ''}
+        {error ? <span className="info info--error">
+            {error}
+        </span> : ''}
     </div>
 
     <div className="formBottom flex">

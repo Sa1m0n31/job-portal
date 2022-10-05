@@ -991,7 +991,7 @@ export class OfferService {
         const { title, category, keywords, country, postalCode, city, description,
             responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
             salaryCurrency, contractType, timeBounded, expireDay, expireMonth, expireYear,
-            image, attachments
+            image, attachments, extraInfo, show_agency_info
         } = offerData;
 
         // Get agency id
@@ -1021,9 +1021,11 @@ export class OfferService {
             timeBounded,
             expireDay, expireMonth, expireYear, image,
             attachments: attachments ? JSON.stringify(attachments) : null,
+            extraInfo,
             created_at: new Date(),
             lat,
-            lng
+            lng,
+            show_agency_info
         });
 
         // Add notifications for agencies about matches
@@ -1089,7 +1091,7 @@ export class OfferService {
             accommodationDay, accommodationMonth, accommodationYear, accommodationHour,
             startDay, startMonth, startYear, startHour, contactPerson, contactNumberCountry, contactNumber,
             responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
-            salaryCurrency, contractType, image, attachments
+            salaryCurrency, contractType, image, attachments, extraInfo, show_agency_info
         } = offerData;
 
         // Get agency id
@@ -1112,7 +1114,9 @@ export class OfferService {
             contractType: JSON.stringify(contractType),
             contactPerson, contactNumberCountry, contactNumber, image,
             attachments: attachments ? JSON.stringify(attachments) : null,
-            created_at: new Date()
+            extraInfo,
+            created_at: new Date(),
+            show_agency_info
         });
 
         if(addOfferResult) {
@@ -1173,7 +1177,7 @@ export class OfferService {
         const { id, title, category, keywords, country, postalCode, city, description,
             responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
             salaryCurrency, contractType, timeBounded, expireDay, expireMonth, expireYear,
-            image, attachments
+            image, attachments, extraInfo, show_agency_info
         } = offerData;
 
         // Remove translations
@@ -1205,11 +1209,15 @@ export class OfferService {
                 requirements: JSON.stringify(requirements),
                 benefits: JSON.stringify(benefits),
                 salaryType, salaryFrom, salaryTo,
-                salaryCurrency, contractType, timeBounded,
+                salaryCurrency,
+                contractType: JSON.stringify(contractType),
+                timeBounded,
                 expireDay, expireMonth, expireYear, image,
                 attachments: JSON.stringify(attachments),
+                extraInfo,
                 lat,
-                lng
+                lng,
+                show_agency_info
             })
             .where({id})
             .execute();
@@ -1226,7 +1234,7 @@ export class OfferService {
             accommodationDay, accommodationMonth, accommodationYear, accommodationHour,
             startDay, startMonth, startYear, startHour, contactPerson, contactNumberCountry, contactNumber,
             responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
-            salaryCurrency, contractType, image, attachments
+            salaryCurrency, contractType, image, attachments, extraInfo, show_agency_info
         } = offerData;
 
         // Get agency id
@@ -1246,8 +1254,12 @@ export class OfferService {
                 benefits: JSON.stringify(benefits),
                 salaryType, salaryFrom, salaryTo,
                 contactPerson, contactNumberCountry, contactNumber,
-                salaryCurrency, contractType, image,
-                attachments: JSON.stringify(attachments)
+                salaryCurrency,
+                contractType: JSON.stringify(contractType),
+                image,
+                attachments: JSON.stringify(attachments),
+                extraInfo,
+                show_agency_info
             })
             .where({id})
             .execute();

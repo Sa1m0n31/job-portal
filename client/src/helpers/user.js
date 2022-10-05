@@ -132,10 +132,14 @@ const getAllVisibleUsers = (page) => {
     });
 }
 
-const filterUsers = (category, country, city, distance, salaryType, salaryFrom, salaryTo,
+const filterUsers = (fullName, category, country, city, distance, salaryType, salaryFrom, salaryTo,
                      salaryCurrency, ownTransport, bsnNumber, languages, drivingLicences, page) => {
+    console.log({
+        fullName, category, country, city, distance, salaryType, salaryFrom, salaryTo,
+        salaryCurrency, ownTransport, bsnNumber, languages, drivingLicences, page }
+    );
     return axios.post(`/user/filter`, {
-        category, country, city, distance, salaryType, salaryFrom, salaryTo,
+        fullName, category, country, city, distance, salaryType, salaryFrom, salaryTo,
         salaryCurrency, ownTransport, bsnNumber, languages, drivingLicences, page
     }, {
         headers: {

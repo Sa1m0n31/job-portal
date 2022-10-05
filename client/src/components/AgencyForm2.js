@@ -77,10 +77,10 @@ const AgencyForm2 = ({removeLogo, handleFileUpload, removeGalleryImage}) => {
             </div>
 
             <label className="label label--rel">
-                {c.companyDescription}
+                {c.companyDescription} *
                 <span className="letterCounter">
-                {agencyData?.description?.length} / 1000
-            </span>
+                    {agencyData?.description?.length} / 1000
+                </span>
                 <textarea className="input input--textarea input--situation"
                           value={agencyData.description}
                           onChange={(e) => { handleDescriptionChange(e); }}

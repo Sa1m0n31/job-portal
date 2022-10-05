@@ -20,6 +20,7 @@ const CandidatesList = ({data, accepted}) => {
     const [filtersActive, setFiltersActive] = useState(false);
 
     // Filters
+    const [fullName, setFullName] = useState('');
     const [category, setCategory] = useState(-1);
     const [country, setCountry] = useState(-1);
     const [city, setCity] = useState('');
@@ -75,7 +76,7 @@ const CandidatesList = ({data, accepted}) => {
 
     const filterUsersWrapper = async () => {
         if(page > 1) {
-            const newUsersResponse = await filterUsers(category, country, city, distance, salaryType, salaryFrom, salaryTo,
+            const newUsersResponse = await filterUsers(fullName, category, country, city, distance, salaryType, salaryFrom, salaryTo,
                 currencies[salaryCurrency], ownTransport, bsnNumber, languages, drivingLicences, page);
             const newUsers = newUsersResponse.data;
 
@@ -95,7 +96,7 @@ const CandidatesList = ({data, accepted}) => {
         setHasMore(true);
         setFiltersActive(true);
 
-        filterUsers(category, country, city, distance, salaryType, salaryFrom, salaryTo,
+        filterUsers(fullName, category, country, city, distance, salaryType, salaryFrom, salaryTo,
             currencies[salaryCurrency], ownTransport, bsnNumber, languages, drivingLicences, 1)
             .then(async (res) => {
                 if(res?.status === 201) {
@@ -126,16 +127,18 @@ const CandidatesList = ({data, accepted}) => {
         <LoggedUserHeader data={data} agency={true} />
 
         {filtersVisible ? <UsersFilters country={country}
-                                       closeModal={() => { setFiltersVisible(false); }}
-                                       countriesVisible={countriesVisible}
-                                       setCountriesVisible={setCountriesVisible}
-                                       distanceVisible={distanceVisible}
-                                       setDistanceVisible={setDistanceVisible}
-                                       distance={distance}
-                                       category={category}
-                                       setCategory={setCategory}
-                                       categoriesVisible={categoriesVisible}
-                                       setCategoriesVisible={setCategoriesVisible}
+                                        closeModal={() => { setFiltersVisible(false); }}
+                                        countriesVisible={countriesVisible}
+                                        setCountriesVisible={setCountriesVisible}
+                                        distanceVisible={distanceVisible}
+                                        setDistanceVisible={setDistanceVisible}
+                                        distance={distance}
+                                        fullName={fullName}
+                                        setFullName={setFullName}
+                                        category={category}
+                                        setCategory={setCategory}
+                                        categoriesVisible={categoriesVisible}
+                                        setCategoriesVisible={setCategoriesVisible}
                                         salaryType={salaryType}
                                         setSalaryType={setSalaryType}
                                         salaryFrom={salaryFrom}
@@ -158,11 +161,11 @@ const CandidatesList = ({data, accepted}) => {
                                         setLanguages={setLanguages}
                                         drivingLicences={drivingLicences}
                                         setDrivingLicences={setDrivingLicences}
-                                       city={city}
-                                       setCountry={setCountry}
-                                       setCity={setCity}
-                                       submitFilter={submitFilter}
-                                       setDistance={setDistance} /> : ''}
+                                        city={city}
+                                        setCountry={setCountry}
+                                        setCity={setCity}
+                                        submitFilter={submitFilter}
+                                        setDistance={setDistance} /> : ''}
 
         <aside className="userAccount__top flex">
             <span className="userAccount__top__loginInfo">

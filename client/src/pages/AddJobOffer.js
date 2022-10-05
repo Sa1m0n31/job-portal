@@ -53,6 +53,8 @@ const AddJobOffer = ({updateMode}) => {
     const [image, setImage] = useState(null);
     const [attachments, setAttachments] = useState([]);
     const [oldAttachments, setOldAttachments] = useState([]);
+    const [extraInfo, setExtraInfo] = useState('');
+    const [showAgencyInfo, setShowAgencyInfo] = useState(true);
     const [imageUrl, setImageUrl] = useState('')
     const [loading, setLoading] = useState(false);
     const [days, setDays] = useState([]);
@@ -67,7 +69,7 @@ const AddJobOffer = ({updateMode}) => {
         setBenefits(JSON.parse(data.o_benefits));
         setCategory(parseInt(data.o_category));
         setCity(data.o_city);
-        setContractType(data.o_contractType);
+        setContractType(data.o_contractType ? JSON.parse(data.o_contractType) : []);
         setCountry(data.o_country);
         setDescription(data.o_description);
         setDay(data.o_expireDay);
@@ -86,6 +88,8 @@ const AddJobOffer = ({updateMode}) => {
         setSalaryType(data.o_salaryType);
         setTimeBounded(data.o_timeBounded);
         setTitle(data.o_title);
+        setExtraInfo(data.o_extraInfo);
+        setShowAgencyInfo(data.o_show_agency_info);
     }
 
     useEffect(() => {
@@ -295,7 +299,8 @@ const AddJobOffer = ({updateMode}) => {
                         responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
                         salaryCurrency, contractType, timeBounded, expireDay: day, expireMonth: month,
                         expireYear: year,
-                        image, attachments, oldAttachments
+                        image, attachments, oldAttachments, extraInfo,
+                        show_agency_info: showAgencyInfo
                     });
                     if(offerResult.status === 200) {
                         setSuccess(true);
@@ -312,7 +317,8 @@ const AddJobOffer = ({updateMode}) => {
                         responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
                         salaryCurrency, contractType, timeBounded, expireDay: day, expireMonth: month,
                         expireYear: year,
-                        image, attachments
+                        image, attachments, extraInfo,
+                        show_agency_info: showAgencyInfo
                     });
                     if(offerResult.status === 201) {
                         setSuccess(true);
@@ -744,6 +750,26 @@ const AddJobOffer = ({updateMode}) => {
                         </input>
                     </div>
                 })}
+            </div>
+
+            <label className="label label--rel">
+                {c.additionalInfo}
+                <textarea className="input input--textarea input--situation"
+                          value={extraInfo}
+                          onChange={(e) => { setExtraInfo(e.target.value); }}
+                          placeholder={c.additionalInfoPlaceholder} />
+            </label>
+
+            <div className="label drivingLicenceWrapper drivingLicenceWrapper--noMarginTop">
+                <div className="languagesWrapper languagesWrapper--contracts flex">
+                    <label className={showAgencyInfo ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
+                        <button className={showAgencyInfo ? "checkbox checkbox--selected center" : "checkbox center"}
+                                onClick={(e) => { e.preventDefault(); setShowAgencyInfo(prevState => (!prevState)); }}>
+                            <span></span>
+                        </button>
+                        {c.showAgencyInfo}
+                    </label>
+                </div>
             </div>
 
             {error ? <span className="info info--error">

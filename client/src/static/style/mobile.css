@@ -124,7 +124,7 @@
         width: 18%;
     }
 
-    .userAccount__box__pair {
+    .userAccount__box__pair:not(.userAccount__box--jobOffer .userAccount__box__pair) {
         width: 100%;
     }
 
@@ -590,6 +590,11 @@
         width: 100%;
     }
 
+    .jobOffer__section {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
     .jobOffer__pointsRow {
         margin-bottom: 30px;
     }
@@ -1015,10 +1020,20 @@
         display: none;
     }
 
+    .btn--addJobOffer {
+        margin: 20px auto;
+        font-size: 15px;
+        height: 40px;
+        max-width: 100%;
+    }
+
     .label--date--address--firstLine {
         margin-bottom: 0;
     }
 
+    .userAccount__box--jobOffer .userAccount__box__pair {
+        width: 100%;
+    }
 
     .marginRight {
         margin-right: 0;
@@ -2835,16 +2850,6 @@
     .home__header {
         padding: 24px 0 15px;
         border-bottom: 1px solid #72849D;
-    }
-
-    .mobileHeader__right .loggedUserHeader__notificationBtn--new::after {
-        right: -6px;
-        width: 8px;
-        height: 8px;
-    }
-
-    .mobileHeader__right a:last-of-type.loggedUserHeader__notificationBtn--new::after {
-        top: -5px;
     }
 
     .home__header__mobile__btn .img {

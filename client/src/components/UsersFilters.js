@@ -9,8 +9,8 @@ import magnifier from '../static/img/magnifier.svg'
 import {isElementInArray} from "../helpers/others";
 import {LanguageContext} from "../App";
 
-const UsersFilters = ({closeModal, country, city, distance,
-    setCountry, setCity, setDistance,
+const UsersFilters = ({closeModal, country, city, distance, fullName,
+    setCountry, setCity, setDistance, setFullName,
     countriesVisible, distanceVisible, setCountriesVisible, setDistanceVisible,
     category, setCategory, salaryType, setSalaryType, salaryFrom, setSalaryFrom, salaryTo, setSalaryTo,
     salaryCurrency, setSalaryCurrency, ownTransport, setOwnTransport, bsnNumber, setBsnNumber,
@@ -49,6 +49,14 @@ const UsersFilters = ({closeModal, country, city, distance,
             <h3 className="modal__header">
                 {c.filters}
             </h3>
+
+            <div className="label label--category">
+                {c.firstAndLastName}
+                <input className="input input--city"
+                       value={fullName}
+                       onChange={(e) => { setFullName(e.target.value); }}
+                       placeholder={fullName} />
+            </div>
 
             <div className="label label--responsibility label--category">
                 {c.category}
@@ -92,7 +100,7 @@ const UsersFilters = ({closeModal, country, city, distance,
                         <input className="input input--city"
                                value={city}
                                onChange={(e) => { setCity(e.target.value); }}
-                               placeholder={city} />
+                               placeholder={c.city} />
                         <div className="label--date__input label--date__input--distance">
                             <button className="datepicker datepicker--distance"
                                     onClick={(e) => { e.stopPropagation(); setDistanceVisible(!distanceVisible); }}

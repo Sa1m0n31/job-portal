@@ -11,13 +11,13 @@ const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setN
     return <>
         <div className="userForm userForm--1 userForm--1--agency">
         <label className="label">
-            {c.companyName}
+            {c.companyName} *
             <input className="input"
                    value={agencyData.name}
                    onChange={(e) => { handleChange('name', e.target.value); }} />
         </label>
         <div className="label label--date label--date--address">
-            {c.companyAddress}
+            {c.companyAddress} *
             <div className="flex">
                 <div className="label--date__input label--date__input--country">
                     <button className="datepicker datepicker--country"
@@ -57,7 +57,7 @@ const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setN
         </div>
 
         <div className="label label--phoneNumber">
-            {c.nip}
+            {c.nip} *
             <button className="phoneNumberBtn" onClick={(e) => { e.stopPropagation();
             setNipCountriesVisible(!nipCountriesVisible); }}>
                 {agencyData.nipCountry ? agencyData.nipCountry : 'PL'}
@@ -76,7 +76,7 @@ const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setN
         </div>
 
         <div className="label label--phoneNumber">
-            {c.phoneNumber}
+            {c.phoneNumber} *
             <button className="phoneNumberBtn" onClick={(e) => { e.stopPropagation(); setPhoneNumbersCountriesVisible(!phoneNumbersCountriesVisible); }}>
                 {agencyData.phoneNumberCountry ? agencyData.phoneNumberCountry : 'PL +48'}
             </button>

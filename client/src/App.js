@@ -32,10 +32,6 @@ function App() {
   const [c, setC] = useState({});
 
   useEffect(() => {
-    console.log(c);
-  }, [c]);
-
-  useEffect(() => {
     const storedLanguage = localStorage.getItem('storedLanguage');
 
     if(storedLanguage !== language) {

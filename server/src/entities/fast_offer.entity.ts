@@ -114,5 +114,11 @@ export class Fast_offer {
     attachments: string;
 
     @Column()
+    extraInfo: string;
+
+    @Column()
     created_at: Date;
+
+    @Column()
+    show_agency_info: boolean;
 }

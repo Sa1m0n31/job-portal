@@ -240,14 +240,6 @@ const AgencyHomepage = ({data, email}) => {
                                 {data.roomDescription ? data.roomDescription : c.noInfo}
                             </p>
                         </span>
-                            <span className="userAccount__box__pair">
-                            <span className="userAccount__box__key">
-                                {c.parking}
-                            </span>
-                            <p className="userAccount__box__value">
-                                {data.parking !== null && data.parking !== undefined ? (data.parking ? c.yes : c.no) : c.noInfo}
-                            </p>
-                        </span>
                             <span className="w-100">
                                 {c.jobTransport}
                         </span>

@@ -213,25 +213,35 @@ const AgencyEditData = () => {
         });
     }, [step, substep]);
 
+    const validateAgencyData = () => {
+        return agencyData.name && agencyData.city && agencyData.country >= 0 && agencyData.postalCode
+            && agencyData.address && agencyData.nip && agencyData.phoneNumber && agencyData.description
+    }
+
     const submitAgencyData = async (agencyData) => {
-        setLoading(true);
+        if(validateAgencyData()) {
+            setLoading(true);
 
-        try {
-            const res = await updateAgency(agencyData);
+            try {
+                const res = await updateAgency(agencyData);
 
-            if(res?.status === 201) {
-                setLoading(false);
-                setSubstep(0);
-                setStep(4);
+                if(res?.status === 201) {
+                    setLoading(false);
+                    setSubstep(0);
+                    setStep(4);
+                }
+                else {
+                    setError(JSON.parse(c.formErrors)[1]);
+                    setLoading(false);
+                }
             }
-            else {
+            catch(err) {
                 setError(JSON.parse(c.formErrors)[1]);
                 setLoading(false);
             }
         }
-        catch(err) {
-            setError(JSON.parse(c.formErrors)[1]);
-            setLoading(false);
+        else {
+            setError(JSON.parse(c.formErrors)[0]);
         }
     }
 
@@ -337,7 +347,7 @@ const AgencyEditData = () => {
     }
 
     return <AgencyDataContext.Provider value={{
-        setStep, setSubstep, agencyData, handleChange,
+        setStep, setSubstep, agencyData, handleChange, error,
         countriesVisible, phoneNumbersCountriesVisible, nipCountriesVisible, pensionContributionsVisible,
         roomVisible, houseVisible, parkingVisible, loading, carAvailableVisible, bikeAvailableVisible,
         carVisible, carCurrencyVisible, bikeVisible, bikeCurrencyVisible, transportCostReturnVisible,

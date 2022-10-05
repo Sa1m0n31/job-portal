@@ -82,6 +82,13 @@ const MyFastJobOffers = ({data}) => {
                 {c.yourFastOffersHeader}
             </h1>
         </div> : ''}
+
+        {render ? <div className="w-1400">
+            <a href="/dodaj-blyskawiczna-oferte-pracy" className="btn btn--addJobOffer">
+                {c.addNewFastJobOffer}
+            </a>
+        </div>: ''}
+
         {render ? offers?.map((item, index) => {
             return <div className="offerItem flex" key={index}>
                 <span className="offerItem__date">

@@ -287,7 +287,7 @@ const JobOfferList = ({data}) => {
                     </span>
                     </div>
                     <div className="offerItem__requirements">
-                        {JSON.parse(item.offer_requirements)?.slice(0, 3)?.map((item, index) => {
+                        {JSON.parse(item.offer_benefits)?.slice(0, 3)?.map((item, index) => {
                             return <span className="offerItem__requirement" key={index}>
                             {item}
                         </span>

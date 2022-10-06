@@ -49,7 +49,7 @@ export class UserService {
     ) {
     }
 
-    async registerUser(email: string, password: string) {
+    async registerUser(email: string, password: string, newsletter: boolean) {
         const existingUser = await this.userRepository.findOneBy({
             email
         });
@@ -89,6 +89,13 @@ export class UserService {
             });
 
             await this.userRepository.save(newUser);
+
+            console.log(newsletter);
+            if(newsletter) {
+                const res = await lastValueFrom(this.httpService.post(encodeURI(`${process.env.API_URL}/newsletter/addNewContact`), {
+                    email
+                }));
+            }
 
             return this.userVerificationRepository.save({
                 email,
@@ -512,8 +519,6 @@ export class UserService {
     async filter(body) {
         let { fullName, category, country, city, distance, salaryType, salaryFrom, salaryTo,
             salaryCurrency, ownTransport, bsnNumber, languages, drivingLicences, page } = body;
-
-        console.log(country, page);
 
         const distances = [
             100, 50, 40, 30, 20, 10, 5

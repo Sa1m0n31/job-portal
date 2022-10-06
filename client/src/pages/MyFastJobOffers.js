@@ -83,7 +83,7 @@ const MyFastJobOffers = ({data}) => {
             </h1>
         </div> : ''}
 
-        {render ? <div className="w-1400">
+        {render ? <div className="w-1700">
             <a href="/dodaj-blyskawiczna-oferte-pracy" className="btn btn--addJobOffer">
                 {c.addNewFastJobOffer}
             </a>

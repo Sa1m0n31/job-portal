@@ -420,8 +420,10 @@ const MessageList = ({agency, data, accepted, id}) => {
                                     {c.delete}
                                 </button>
                             </div>
-                            <div className="messages__currentChatContent">
-                                {item.content}
+                            <div className="messages__currentChatContent" dangerouslySetInnerHTML={{
+                                __html: item.content
+                            }}>
+
                             </div>
                         </> : <>
                             <div className="messages__chatHeader">
@@ -438,8 +440,10 @@ const MessageList = ({agency, data, accepted, id}) => {
                                     <span className="bold">{c.messageDate}:</span> {addLeadingZero(messageDatetime.getDate())}/{addLeadingZero(messageDatetime.getMonth()+1)}/{messageDatetime.getFullYear()}, {addLeadingZero(messageDatetime.getHours())}:{addLeadingZero(messageDatetime.getMinutes())}
                                 </h4>
                             </div>
-                            <div className="messages__currentChatContent">
-                                {item.content}
+                            <div className="messages__currentChatContent" dangerouslySetInnerHTML={{
+                                __html: item.content
+                            }}>
+
                             </div>
                         </>}
                     </div>
@@ -455,8 +459,10 @@ const MessageList = ({agency, data, accepted, id}) => {
                             <span className="bold">{c.to}</span> {currentSendMessage.receiver}
                         </h4>
                     </div>
-                    <div className="messages__currentChatContent">
-                        {currentSendMessage.content}
+                    <div className="messages__currentChatContent" dangerouslySetInnerHTML={{
+                        __html: currentSendMessage.content
+                    }}>
+
                     </div>
                 </>}
             </div>

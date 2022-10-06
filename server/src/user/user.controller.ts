@@ -54,7 +54,7 @@ export class UserController {
 
     @Post('/register')
     registerUser(@Body() body) {
-        return this.userService.registerUser(body.email, body.password);
+        return this.userService.registerUser(body.email, body.password, body.newsletter);
     }
 
     @Post('/verify')

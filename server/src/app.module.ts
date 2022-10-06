@@ -14,6 +14,8 @@ import { OfferModule } from './offer/offer.module';
 import { MessagesModule } from './messages/messages.module';
 import { TranslationModule } from './translation/translation.module';
 import { AdminModule } from './admin/admin.module';
+import { NewsletterModule } from './newsletter/newsletter.module';
+import { NotesModule } from './notes/notes.module';
 
 @Module({
   imports: [UserModule, AgencyModule,
@@ -51,7 +53,9 @@ import { AdminModule } from './admin/admin.module';
     OfferModule,
     MessagesModule,
     TranslationModule,
-    AdminModule
+    AdminModule,
+    NewsletterModule,
+    NotesModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -24,6 +24,11 @@ import CV from "../components/CV";
 import {authAgency, getAgencyData} from "../helpers/agency";
 import {LanguageContext} from "../App";
 import LoggedUserFooter from "../components/LoggedUserFooter";
+import NotesModal from "../components/NotesModal";
+import {getNotes} from "../helpers/notes";
+import penIcon from '../static/img/pen.svg'
+import invitationIcon from '../static/img/invitation.svg'
+import OffersModal from "../components/OffersModal";
 
 const CandidateProfile = () => {
     const [data, setData] = useState({});
@@ -31,6 +36,10 @@ const CandidateProfile = () => {
     const [user, setUser] = useState(null);
     const [id, setId] = useState(null);
     const [email, setEmail] = useState('');
+    const [notes, setNotes] = useState('');
+    const [notesVisible, setNotesVisible] = useState(false);
+    const [offersModalVisible, setOffersModalVisible] = useState(false);
+    const [agencyId, setAgencyId] = useState(null);
 
     const { c } = useContext(LanguageContext);
 
@@ -55,6 +64,7 @@ const CandidateProfile = () => {
                                 .then(async (res) => {
                                     if(res?.status === 200) {
                                         setAgency(true);
+                                        setAgencyId(res?.data?.id);
                                         setData(JSON.parse(res?.data?.data));
                                     }
                                 });
@@ -87,6 +97,17 @@ const CandidateProfile = () => {
     }, []);
 
     useEffect(() => {
+        if(agencyId && id && !notesVisible) {
+            getNotes(id, agencyId)
+                .then((res) => {
+                     if(res?.status === 200) {
+                         setNotes(res?.data?.content);
+                     }
+                });
+        }
+    }, [id, agencyId, notesVisible]);
+
+    useEffect(() => {
         if(window.innerWidth >= 996) {
             let maxHeight = 0;
             const secondLine = Array.from(document.querySelectorAll('.userAccount__box--30'));
@@ -115,6 +136,17 @@ const CandidateProfile = () => {
     return user ? <div className="container container--user container--userProfile">
         <LoggedUserHeader data={data}
                           agency={agency} />
+
+        {notesVisible ? <NotesModal notes={notes}
+                                    userId={id}
+                                    agencyId={agencyId}
+                                    closeModal={() => { setNotesVisible(false); }} /> : ''}
+
+        {offersModalVisible ? <OffersModal closeModal={() => { setOffersModalVisible(false); }}
+                                           userId={id}
+                                           agencyId={agencyId}
+                                           agencyName={data.name}
+                                           userEmail={email} /> : ''}
 
         <div className="userAccount">
             <aside className="userAccount__top flex">
@@ -173,7 +205,7 @@ const CandidateProfile = () => {
                     </div>
                 </div>
 
-                <div className="userAccount__box__right">
+                <div className={agency ? "userAccount__box__right flex--column--end" : "userAccount__box__right"}>
                     {user?.firstName && user?.lastName ? <label className="userAccount__box__downloadCV">
                         {c.generateAndDownloadCV}:
                         {user ? <PDFDownloadLink document={<CV profileImage={user.profileImage ? `${settings.API_URL}/${user?.profileImage}` : userPlaceholder}
@@ -205,6 +237,17 @@ const CandidateProfile = () => {
                             {c.downloadCV}
                         </PDFDownloadLink> : ''}
                     </label> : ''}
+
+                    {agency ? <div className="candidateProfile__agencySection">
+                        <button className="btn btn--notes btn--sendOffer" onClick={() => { setOffersModalVisible(true); }}>
+                            <img className="img" src={invitationIcon} alt="pen" />
+                            {c.invitation1}
+                        </button>
+                        <button className="btn btn--notes" onClick={() => { setNotesVisible(true); }}>
+                            <img className="img" src={penIcon} alt="pen" />
+                            {c.notes1}
+                        </button>
+                    </div>: ''}
                 </div>
             </main>
 

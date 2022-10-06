@@ -1267,6 +1267,10 @@
 
     .container--register .label--checkbox {
         flex-wrap: wrap;
+        margin-bottom: 20px;
+    }
+
+    .container--register .label--checkbox:last-of-type {
         margin-bottom: 35px;
     }
 
@@ -2583,6 +2587,32 @@
 @media(max-width: 768px) {
     .editData__formWrapper__header {
         font-size: 18px;
+    }
+
+    .flex--column--end {
+        height: auto;
+    }
+
+    .btn--sendOffer {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .candidateProfile__agencySection {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .btn--notes {
+        margin-top: 5px;
+        height: 30px;
+        font-size: 12px;
+    }
+
+    .modal--notes .modal__inner {
+        padding: 20px;
     }
 
     .languagesWrapper--contracts {

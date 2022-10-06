@@ -22,9 +22,9 @@ const loginUser = (email, password) => {
     });
 }
 
-const registerUser = (email, password) => {
+const registerUser = (email, password, newsletter) => {
     return axios.post('/user/register', {
-        email, password
+        email, password, newsletter
     });
 }
 

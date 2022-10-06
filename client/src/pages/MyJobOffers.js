@@ -135,7 +135,7 @@ const MyJobOffers = ({data}) => {
             </div>
         </div> : ''}
 
-        {render ? <div className="w-1400">
+        {render ? <div className="w-1700">
             <a href="/dodaj-oferte-pracy" className="btn btn--addJobOffer">
                 {c.addJobOffer}
             </a>

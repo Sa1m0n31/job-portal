@@ -23,6 +23,7 @@ const Register = () => {
     const [repeatPasswordVisible, setRepeatPasswordVisible] = useState(false);
     const [dropdownRoleVisible, setDropdownRoleVisible] = useState(false);
     const [checkbox, setCheckbox] = useState(false);
+    const [newsletter, setNewsletter] = useState(false);
     const [registered, setRegistered] = useState(false);
     const [error, setError] = useState('');
 
@@ -75,7 +76,7 @@ const Register = () => {
             setLoading(true);
             const registerFunc = role === 0 ? registerUser : registerAgency;
 
-            registerFunc(email, password)
+            registerFunc(email, password, newsletter)
                 .then((res) => {
                     setLoading(false);
                     if(res?.status === 201) {
@@ -149,7 +150,15 @@ const Register = () => {
                     <span></span>
                 </button>
                 <span>
-                    {c.accept} <a href="/regulamin">{c.termsOfServiceHeader}</a> {c.and} <a href="/polityka prywatności">{c.privacyPolicyHeader2}</a>.
+                    {c.accept} <a href="/regulamin">{c.termsOfServiceHeader}</a> {c.and} <a href="/polityka prywatności">{c.privacyPolicyHeader2}</a> *.
+                </span>
+            </label>
+            <label className="label label--flex label--checkbox">
+                <button className={newsletter ? "checkbox checkbox--selected center" : "checkbox center"} onClick={() => { setNewsletter(!newsletter); }}>
+                    <span></span>
+                </button>
+                <span>
+                    {c.newsletterCheckbox}
                 </span>
             </label>
 

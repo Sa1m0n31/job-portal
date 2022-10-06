@@ -11,10 +11,6 @@ html {
     scroll-behavior: smooth;
 }
 
-body {
-    overflow: hidden;
-}
-
 :root {
     --primary: #0a73fe;
     --hover: #0862ED;
@@ -2591,6 +2587,7 @@ input {
     padding-bottom: 40px;
 }
 
+.w-1700,
 .page,
 .messages,
 .writeMessage,
@@ -2602,6 +2599,10 @@ input {
     margin: auto;
     width: 90%;
     padding: 50px 0;
+}
+
+.w-1700 {
+    padding: 15px 0;
 }
 
 .container--addOffer .userAccount__top__btn {
@@ -4388,6 +4389,12 @@ div[data-testid=circles-loading] {
     white-space: pre-wrap;
 }
 
+.messages__currentChatContent a {
+    text-decoration: underline;
+    font-weight: 700;
+    color: var(--primary);
+}
+
 .writeMessage .label * {
     text-transform: none;
 }
@@ -5906,4 +5913,125 @@ input[type=month] {
     display: inline-block;
     text-align: center;
     padding: 3px;
+}
+
+.btn--notes {
+    height: 40px;
+    padding: 5px 15px;
+}
+
+.flex--column--end {
+    height: 210px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-direction: column;
+}
+
+.btn--notes .img {
+    width: 12px;
+    margin-right: 10px;
+    filter: brightness(0) invert(1);
+}
+
+.modal--notes .modal__inner {
+    width: 600px;
+    max-width: 90%;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.modalNotes__label {
+    width: 100%;
+}
+
+.btn--modalNotes {
+    width: 150px;
+    height: 45px;
+    border-radius: 5px;
+}
+
+.modalNotes__label .input {
+    height: 150px;
+    margin-bottom: 30px;
+    padding: 15px;
+}
+
+.modal--notes .info--success {
+    position: absolute;
+    bottom: 10px;
+}
+
+.modal--notes .input {
+    overflow-y: auto;
+}
+
+.scroll,
+.scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #0a73fe #C1DCFF;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+.scroll::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+    background: #0a73fe;
+    border: 33px none #ffffff;
+    border-radius: 36px;
+}
+
+.scroll::-webkit-scrollbar-thumb:hover {
+    background: #0a73fe;
+}
+
+.scroll::-webkit-scrollbar-thumb:active {
+    background: #0a73fe;
+}
+
+.scroll::-webkit-scrollbar-track {
+    background: #C1DCFF;
+    border: 49px none #C1DCFF;
+    border-radius: 50px;
+}
+
+.scroll::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+.btn--sendOffer {
+    margin-right: 20px;
+}
+
+.modalOffers__menu {
+    min-width: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 30px;
+}
+
+.modalOffers__menu__item {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background: transparent;
+    border-bottom: 1px solid #c1c1c1;
+    transition: .2s all;
+}
+
+.modalOffers__menu__item:not(.modalOffers__menu__item--selected):hover {
+    background: #f9f9f9;
+}
+
+.modalOffers__menu__item--selected {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 700;
 }

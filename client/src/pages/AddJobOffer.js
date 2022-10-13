@@ -8,7 +8,6 @@ import {
 import trashIcon from "../static/img/trash.svg";
 import {Tooltip} from "react-tippy";
 import plusIcon from "../static/img/plus-in-circle.svg";
-import plusGrey from '../static/img/plus-icon-opacity.svg'
 import {isElementInArray, numberRange} from "../helpers/others";
 import fileIcon from "../static/img/doc.svg";
 import checkIcon from '../static/img/green-check.svg'
@@ -231,12 +230,14 @@ const AddJobOffer = ({updateMode}) => {
         }
         else {
             setError('');
-            setAttachments(Array.from(e.target.files).map((item) => {
-                return {
-                    name: item.name,
-                    file: item
-                }
-            }));
+            setAttachments(prevState => (
+                prevState.concat(Array.from(e.target.files).map((item) => {
+                    return {
+                        name: item.name,
+                        file: item
+                    }
+                }))
+            ));
         }
     }
 
@@ -279,7 +280,7 @@ const AddJobOffer = ({updateMode}) => {
     }
 
     const jobOfferValidation = () => {
-        if(!title || category === -1 || country === -1 || (!city && !locations) ||
+        if(!title || category === -1 || country === -1 || (!city && !isInManyLocations) ||
             !description || !responsibilities.length || !requirements.length || !benefits.length ||
             salaryType === -1 || salaryFrom === null || salaryTo === null
              || (!image && !imageUrl)
@@ -506,7 +507,7 @@ const AddJobOffer = ({updateMode}) => {
                     <input className="input input--100"
                            value={locations}
                            onChange={(e) => { setLocations(e.target.value); }}
-                           placeholder={`${c.manyLocations2} *`} />
+                           placeholder={`${c.manyLocations2}`} />
                 </label> : ''}
             </div>
 
@@ -744,7 +745,7 @@ const AddJobOffer = ({updateMode}) => {
                     {c.offerAttachmentsDescription}
                 </p>
                 <label className="filesUploadLabel center">
-                    {attachments?.length === 0 ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : ''}
+                    <img className="img" src={plusIcon} alt="dodaj-pliki" />
                     <input className="input input--file"
                            type="file"
                            multiple={true}

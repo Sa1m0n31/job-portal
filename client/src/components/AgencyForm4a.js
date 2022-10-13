@@ -1,5 +1,4 @@
 import React, {useContext} from 'react';
-import {houses, rooms} from "../static/content";
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
 import {AgencyDataContext} from "../pages/AgencyEditData";
 import {LanguageContext} from "../App";
@@ -13,15 +12,15 @@ const AgencyForm4a = ({setRoomVisible, setHouseVisible, setParkingVisible}) => {
             <div className="label label--date label--date--address">
                 {c.accommodation} *
                 <div className="flex">
-                    <div className="label--date__input label--date__input--country">
+                    <div className="label--date__input label--date__input--country label--date__input--roomType">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation(); setRoomVisible(!roomVisible); }}
                         >
-                            {agencyData.roomType >= 0 ? rooms[agencyData.roomType] : c.chooseRoom}
+                            {agencyData.roomType >= 0 ? JSON.parse(c.roomsTypes)[agencyData.roomType] : c.chooseRoom}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
-                        {roomVisible ? <div className="datepickerDropdown noscroll">
-                            {rooms?.map((item, index) => {
+                        {roomVisible ? <div className="datepickerDropdown datepickerDropdown--roomType noscroll">
+                            {JSON.parse(c.roomsTypes)?.map((item, index) => {
                                 return <button className="datepickerBtn center" key={index}
                                                onClick={(e) => { handleChange('roomType', index); }}>
                                     {item}

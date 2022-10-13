@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Page, Text, Font, View, Document, StyleSheet, Image} from '@react-pdf/renderer';
 import {addLeadingZero} from "../helpers/others";
 import {getUserData} from "../helpers/user";
+import jooobLogo from '../static/img/logo-czarne.png'
 
 Font.register({
     family: "Roboto",
@@ -155,6 +156,9 @@ const styles = StyleSheet.create({
     logo: {
         width: '50px'
     },
+    logoBig: {
+        width: '100px'
+    },
     companyName: {
         color: '#888888',
         fontSize: '9px',
@@ -235,24 +239,31 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                             {c.generated}: {addLeadingZero(new Date().getDate())}.{addLeadingZero(new Date().getMonth()+1)}.{new Date().getFullYear()}
                         </Text>
                     </View>
-                </View> : <>
-                    <Image src={profileImage} style={styles.profileImage}>
+                </View> : <View style={styles.topRow}>
+                    <View>
+                        <Image src={profileImage} style={styles.profileImage}>
 
-                    </Image>
-                    <Text style={styles.textBig}>
-                        {fullName}
-                    </Text>
-                    <Text style={styles.categories}>
-                        {categories?.map((item, index, array) => {
-                            if(index === array.length - 1) {
-                                return JSON.parse(c.categories)[item];
-                            }
-                            else {
-                                return `${JSON.parse(c.categories)[item]}, `;
-                            }
-                        })}
-                    </Text>
-                </>
+                        </Image>
+                        <Text style={styles.textBigCompany}>
+                            {fullName}
+                        </Text>
+                        <Text style={styles.categoriesCompany}>
+                            {categories?.map((item, index, array) => {
+                                if(index === array.length - 1) {
+                                    return JSON.parse(c.categories)[item];
+                                }
+                                else {
+                                    return `${JSON.parse(c.categories)[item]}, `;
+                                }
+                            })}
+                        </Text>
+                    </View>
+                    <View style={styles.topRowRight}>
+                        <Image src={jooobLogo} style={styles.logoBig}>
+
+                        </Image>
+                    </View>
+                </View>
                 }
 
                 <View style={styles.mainSection}>
@@ -260,19 +271,19 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                         {c.mainData}
                     </Text>
                     <View style={styles.textContainer}>
-                        <Text style={styles.textSmall}>{c.birthday?.toLowerCase()}: </Text>
+                        <Text style={styles.textSmall}>{c.birthday}: </Text>
                         <Text style={styles.text}>
                             {birthday}
                         </Text>
                     </View>
                     <View style={styles.textContainer}>
-                        <Text style={styles.textSmall}>{c.telShortcut}: </Text>
+                        <Text style={styles.textSmall}>{c.phoneNumber}: </Text>
                         <Text style={styles.text}>
                             {phoneNumber}
                         </Text>
                     </View>
                     <View style={styles.textContainer}>
-                        <Text style={styles.textSmall}>{c.emailShortcut}: </Text>
+                        <Text style={styles.textSmall}>{c.email}: </Text>
                         <Text style={styles.text}>
                             {email}
                         </Text>

@@ -11,6 +11,7 @@ import arrowDown from '../static/img/arrow-down.svg'
 import UserPreview from "../components/UserPreview";
 import {LanguageContext} from "../App";
 import Loader from "../components/Loader";
+import pen from "../static/img/pen.svg";
 
 const AgencyApplications = ({data}) => {
     const { c } = useContext(LanguageContext);
@@ -90,7 +91,7 @@ const AgencyApplications = ({data}) => {
             {fastOffers?.map((preItem, index) => {
                 const item = preItem[1][0];
                 return <>
-                    <div className="offerItem flex" key={index}>
+                    <div className="offerItem offerItem--applications flex" key={index}>
                 <span className="offerItem__date">
                     {item.o_created_at?.substring(0, 10)}
                 </span>
@@ -130,7 +131,13 @@ const AgencyApplications = ({data}) => {
                         </span>
                             })}
                         </div>
-                        <div className="offerItem__buttons flex">
+                        <div className="offerItem__buttons offerItem__buttons--applications flex">
+                            <a href={`/edycja-blyskawicznej-oferty-pracy?id=${item.o_id}`}
+                               className="btn">
+                                {c.edition}
+                                <img className="img" src={pen} alt="podglad" />
+                            </a>
+
                             {fastOffersCandidates[index]?.length ? <button onClick={() => { handleVisibleFastOffers(index); }}
                                                                            className={isElementInArray(index, visibleFastOffers) ? "btn btn--showCandidates btn--showCandidates--visible" : "btn btn--showCandidates"}>
                                 <span>
@@ -169,7 +176,7 @@ const AgencyApplications = ({data}) => {
             {offers?.map((preItem, index) => {
                 const item = preItem[1][0];
                 return <>
-                    <div className="offerItem flex" key={index}>
+                    <div className="offerItem offerItem--applications flex" key={index}>
                 <span className="offerItem__date">
                     {item.o_created_at?.substring(0, 10)}
                 </span>
@@ -209,7 +216,13 @@ const AgencyApplications = ({data}) => {
                         </span>
                             })}
                         </div>
-                        <div className="offerItem__buttons flex">
+                        <div className="offerItem__buttons offerItem__buttons--applications flex">
+                            <a href={`/edycja-oferty-pracy?id=${item.o_id}`}
+                               className="btn btn--white">
+                                {c.edition}
+                                <img className="img" src={pen} alt="podglad" />
+                            </a>
+
                             {offersCandidates[index]?.length ? <button onClick={() => { handleVisibleOffers(index); }}
                                                                        className={isElementInArray(index, visibleOffers) ? "btn btn--showCandidates btn--showCandidates--visible" : "btn btn--showCandidates"}>
                                 <span>

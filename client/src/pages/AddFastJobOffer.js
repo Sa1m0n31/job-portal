@@ -313,12 +313,14 @@ const AddFastJobOffer = ({updateMode}) => {
         }
         else {
             setError('');
-            setAttachments(Array.from(e.target.files).map((item) => {
-                return {
-                    name: item.name,
-                    file: item
-                }
-            }));
+            setAttachments(prevState => (
+                prevState.concat(Array.from(e.target.files).map((item) => {
+                    return {
+                        name: item.name,
+                        file: item
+                    }
+                }))
+            ));
         }
     }
 
@@ -365,7 +367,7 @@ const AddFastJobOffer = ({updateMode}) => {
             !description || !responsibilities.length || !requirements.length || !benefits.length ||
             salaryType === -1 || salaryFrom === null || salaryTo === null ||
             day === -1 || month === -1 || !hour ||
-            startDay === -1 || startMonth === -1 || !startHour ||
+            startDay === -1 || startMonth === -1 || !startHour || !postalCode ||
             accommodationCountry === -1 || !accommodationPostalCode || !accommodationCity ||
             !contactPerson || !contactNumber || (!image && !imageUrl)
         ) {
@@ -593,7 +595,7 @@ const AddFastJobOffer = ({updateMode}) => {
                         <input className="input input--city"
                                value={companyName}
                                onChange={(e) => { setCompanyName(e.target.value); }}
-                               placeholder={c.companyNameShort} />
+                               placeholder={`${c.companyNameShort} (${c.notRequired})`} />
                     </label>
                 </div>
             </div>
@@ -904,7 +906,7 @@ const AddFastJobOffer = ({updateMode}) => {
                     {c.offerAttachmentsDescription}
                 </p>
                 <label className="filesUploadLabel center">
-                    {attachments?.length === 0 ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : ''}
+                    <img className="img" src={plusIcon} alt="dodaj-pliki" />
                     <input className="input input--file"
                            type="file"
                            multiple={true}

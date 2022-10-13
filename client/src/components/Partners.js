@@ -1,11 +1,11 @@
 import React, {useContext, useEffect} from "react";
 import HomeSectionHeader from "./HomeSectionHeader";
-import logo from "../static/img/google.png"
+import logo1 from '../static/img/partner1.png'
 import appLogo from '../static/img/logo-czarne.png'
 import arrow from "../static/img/right-blue-arrow.svg"
 import {LanguageContext} from "../App";
 
-const logos = [logo, appLogo, logo, logo];
+const logos = [logo1, appLogo, logo1, logo1];
 const links = ["https://kampania.euro-tax.pl/zwrot-podatku/b2b/?source=AMB", "https://skylo-test4.pl/kontakt", "https://google.com", "https://google.com"];
 
 const Partners = () => {

@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import HomeSectionHeader from "./HomeSectionHeader";
 import icon1 from "../static/img/magnifier-icon.svg"
 import icon2 from '../static/img/bubble-chat.svg'
@@ -9,6 +9,10 @@ const icons = [icon1, icon2, icon3];
 
 const Tools = () => {
     const { c } = useContext(LanguageContext);
+
+    useEffect(() => {
+        console.log(JSON.parse(c.toolsContent));
+    }, [c]);
 
     return <div className="homeSection homeSection--tools" id="funkcje">
         <HomeSectionHeader content={c.toolsHeader} />

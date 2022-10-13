@@ -4,7 +4,7 @@ import pen from '../static/img/pen-blue.svg'
 import {UserDataContext} from "../pages/UserEditData";
 import CV from "./CV";
 import {getDate} from "../helpers/others";
-import {countries, currencies, noInfo} from "../static/content";
+import {currencies} from "../static/content";
 import {PDFDownloadLink} from "@react-pdf/renderer";
 import {LanguageContext} from "../App";
 
@@ -37,8 +37,8 @@ const UserFormSummary = () => {
                                                                  certs={data.certificates?.concat(data.courses)}
                                                                  desc={data.situationDescription}
                                                                  phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : c.noInfo}
-                                                                 location={data.country >= 0 ? `${data.city}, ${countries[data.country]}` : c.noInfo}
-                                                                 currentPlace={data.currentCountry >= 0 ? `${countries[data.currentCountry]}, ${data.currentCity}`: c.noInfo}
+                                                                 location={data.country >= 0 ? `${data.address}, ${data.city}, ${JSON.parse(c.countries)[data.country]}` : c.noInfo}
+                                                                 currentPlace={data.currentCountry >= 0 ? `${JSON.parse(c.countries)[data.currentCountry]}, ${data.currentCity}`: c.noInfo}
                                                                  availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : c.noInfo}
                                                                  ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}
                                                                  ownTools={data.ownTools ? c.yes : ''}

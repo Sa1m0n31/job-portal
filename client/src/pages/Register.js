@@ -24,6 +24,7 @@ const Register = () => {
     const [dropdownRoleVisible, setDropdownRoleVisible] = useState(false);
     const [checkbox, setCheckbox] = useState(false);
     const [newsletter, setNewsletter] = useState(false);
+    const [allCheckboxes, setAllCheckboxes] = useState(false);
     const [registered, setRegistered] = useState(false);
     const [error, setError] = useState('');
 
@@ -41,6 +42,17 @@ const Register = () => {
     useEffect(() => {
         setDropdownRoleVisible(false);
     }, [role]);
+
+    useEffect(() => {
+        if(allCheckboxes) {
+            setNewsletter(true);
+            setCheckbox(true);
+        }
+        else {
+            setNewsletter(false);
+            setCheckbox(false);
+        }
+    }, [allCheckboxes]);
 
     useEffect(() => {
         setError('');
@@ -159,6 +171,14 @@ const Register = () => {
                 </button>
                 <span>
                     {c.newsletterCheckbox}
+                </span>
+            </label>
+            <label className="label label--flex label--checkbox">
+                <button className={allCheckboxes ? "checkbox checkbox--selected center" : "checkbox center"} onClick={() => { setAllCheckboxes(!allCheckboxes); }}>
+                    <span></span>
+                </button>
+                <span>
+                    {c.allCheckboxes}
                 </span>
             </label>
 

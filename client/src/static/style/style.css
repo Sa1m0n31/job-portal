@@ -476,7 +476,7 @@ input {
 .register__subheader {
     font-size: 16px;
     font-weight: 400;
-    margin-bottom: 45px;
+    margin-bottom: 25px;
 }
 
 .register__link {
@@ -920,6 +920,11 @@ input {
 
 .label--date__input--country {
     margin-top: 5px;
+}
+
+.label--date__input--roomType > *,
+.label--date__input--roomType {
+    min-width: 250px;
 }
 
 .input--city {
@@ -4620,7 +4625,7 @@ div[data-testid=circles-loading] {
 }
 
 .btn--showCandidates {
-    height: 45px;
+    max-height: 40px;
     padding: 5px 20px !important;
 }
 
@@ -4829,6 +4834,12 @@ div[data-testid=circles-loading] {
 
 .adsBottom__item {
     width: 48%;
+    margin: 0;
+}
+
+.adsVideo {
+    margin-top: 40px;
+    max-width: 90%;
 }
 
 .adsBottom,
@@ -4839,7 +4850,9 @@ div[data-testid=circles-loading] {
 }
 
 .adsBottom {
-    margin-top: 40px;
+    margin: 40px auto 0;
+    max-width: 1000px;
+    width: 90%;
 }
 
 .homeHeader {
@@ -4881,13 +4894,14 @@ div[data-testid=circles-loading] {
     padding: 25px;
     margin: 15px 0;
     min-height: 175px;
+    justify-content: flex-start;
 }
 
 .home__benefit__figure {
     width: 105px;
     height: 105px;
     flex-basis: 100%;
-    max-width: 125px;
+    max-width: 105px;
     border: 15px solid #F9F9F9;
     border-radius: 5px;
 }
@@ -4941,7 +4955,7 @@ div[data-testid=circles-loading] {
 }
 
 .partners__figure .img {
-    width: 50%;
+    width: 80%;
 }
 
 .partners__content {
@@ -5769,6 +5783,24 @@ a.preview__bottom__content {
     justify-content: flex-end;
 }
 
+.offerItem__buttons--applications {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.offerItem__buttons--applications > a {
+    margin-top: -10px;
+    margin-bottom: 10px;
+    margin-right: 0 !important;
+    height: 35px !important;
+    font-size: 13px;
+}
+
+.offerItem__buttons--applications > a .img {
+    width: 14px !important;
+}
+
 .adminMain__grid {
     display: flex;
     flex-wrap: wrap;
@@ -6034,4 +6066,9 @@ input[type=month] {
     background: var(--primary);
     color: #fff;
     font-weight: 700;
+}
+
+.addNewBtn--responsibility:disabled {
+    opacity: .4;
+    cursor: default;
 }

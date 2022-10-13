@@ -51,7 +51,7 @@ const UsersFilters = ({closeModal, country, city, distance, fullName,
             </h3>
 
             <div className="label label--category">
-                {c.firstAndLastName}
+                {c.keyword}
                 <input className="input input--city"
                        value={fullName}
                        onChange={(e) => { setFullName(e.target.value); }}

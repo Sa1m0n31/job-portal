@@ -235,7 +235,7 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
                         </div> : ''}
                     </div>
                     <span className="carAndBikePriceInfo">
-                        {c.monthly}
+                        {c.weekly}
                     </span>
                 </div>
             </div>

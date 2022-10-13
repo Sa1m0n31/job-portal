@@ -292,48 +292,48 @@ const ApplicationForJobPage = ({data}) => {
                     </span>
                 </label>
 
-                <h4 className="application__header application__header--friendLink">
-                    {c.friendLink}
-                </h4>
-                <label className="application__label">
-                    <input className="input input--friendLink"
-                           value={friendLink}
-                           onChange={(e) => { setFriendLink(e.target.value); }} />
-                </label>
+                {/*<h4 className="application__header application__header--friendLink">*/}
+                {/*    {c.friendLink}*/}
+                {/*</h4>*/}
+                {/*<label className="application__label">*/}
+                {/*    <input className="input input--friendLink"*/}
+                {/*           value={friendLink}*/}
+                {/*           onChange={(e) => { setFriendLink(e.target.value); }} />*/}
+                {/*</label>*/}
 
-                <h5 className="application__header application__header--marginTop">
-                    {c.preferableContact}
-                </h5>
-                <div className="flex flex--start">
-                    <label className={isElementInArray(0, contactForms) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
-                        <button className="checkbox center"
-                                onClick={(e) => { e.preventDefault(); handleContactForms(0); }}>
-                            <span></span>
-                        </button>
-                        {c.phoneForm}
-                    </label>
-                    <label className={isElementInArray(1, contactForms) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
-                        <button className="checkbox center"
-                                onClick={(e) => { e.preventDefault(); handleContactForms(1); }}>
-                            <span></span>
-                        </button>
-                        {c.mailForm}
-                    </label>
-                    <label className={isElementInArray(2, contactForms) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
-                        <button className="checkbox center"
-                                onClick={(e) => { e.preventDefault(); handleContactForms(2); }}>
-                            <span></span>
-                        </button>
-                        {c.messageForm}
-                    </label>
-                    <label className={isElementInArray(3, contactForms) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
-                        <button className="checkbox center"
-                                onClick={(e) => { e.preventDefault(); handleContactForms(3); }}>
-                            <span></span>
-                        </button>
-                        {c.lack}
-                    </label>
-                </div>
+                {/*<h5 className="application__header application__header--marginTop">*/}
+                {/*    {c.preferableContact}*/}
+                {/*</h5>*/}
+                {/*<div className="flex flex--start">*/}
+                {/*    <label className={isElementInArray(0, contactForms) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>*/}
+                {/*        <button className="checkbox center"*/}
+                {/*                onClick={(e) => { e.preventDefault(); handleContactForms(0); }}>*/}
+                {/*            <span></span>*/}
+                {/*        </button>*/}
+                {/*        {c.phoneForm}*/}
+                {/*    </label>*/}
+                {/*    <label className={isElementInArray(1, contactForms) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>*/}
+                {/*        <button className="checkbox center"*/}
+                {/*                onClick={(e) => { e.preventDefault(); handleContactForms(1); }}>*/}
+                {/*            <span></span>*/}
+                {/*        </button>*/}
+                {/*        {c.mailForm}*/}
+                {/*    </label>*/}
+                {/*    <label className={isElementInArray(2, contactForms) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>*/}
+                {/*        <button className="checkbox center"*/}
+                {/*                onClick={(e) => { e.preventDefault(); handleContactForms(2); }}>*/}
+                {/*            <span></span>*/}
+                {/*        </button>*/}
+                {/*        {c.messageForm}*/}
+                {/*    </label>*/}
+                {/*    <label className={isElementInArray(3, contactForms) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>*/}
+                {/*        <button className="checkbox center"*/}
+                {/*                onClick={(e) => { e.preventDefault(); handleContactForms(3); }}>*/}
+                {/*            <span></span>*/}
+                {/*        </button>*/}
+                {/*        {c.lack}*/}
+                {/*    </label>*/}
+                {/*</div>*/}
                 <h6 className="application__header">
                     {c.additionalAttachments}
                 </h6>

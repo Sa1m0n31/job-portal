@@ -224,7 +224,7 @@ const CandidateProfile = () => {
                                                                certs={user.certificates && user.courses ? user.certificates.concat(user.courses) : []}
                                                                desc={user.situationDescription}
                                                                phoneNumber={user.phoneNumber ? `${user.phoneNumberCountry} ${user.phoneNumber}` : c.noInfo}
-                                                               location={user.country >= 0 ? `${user.city}, ${JSON.parse(c.countries)[user.country]}` : c.noInfo}
+                                                               location={user.country >= 0 ? `${user.address}, ${user.city}, ${JSON.parse(c.countries)[user.country]}` : c.noInfo}
                                                                currentPlace={user.currentCountry >= 0 ? `${JSON.parse(c.countries)[user.currentCountry]}, ${user.currentCity}`: c.noInfo}
                                                                availability={user.availabilityDay >= 0 ? getDate(user?.availabilityDay, user?.availabilityMonth, user?.availabilityYear) : c.noInfo}
                                                                ownAccommodation={user.ownAccommodation ? user.accommodationPlace : ''}

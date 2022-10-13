@@ -84,7 +84,9 @@ const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsi
                         </label>
                     })}
 
-                    <button className="addNewBtn addNewBtn--responsibility flex" onClick={() => { addNewResponsibility(index); }}>
+                    <button className="addNewBtn addNewBtn--responsibility flex"
+                            disabled={item.responsibilities?.length >= 5}
+                            onClick={() => { addNewResponsibility(index); }}>
                         {c.addResponsibility}
                         <img className="img" src={plusIcon} alt="dodaj" />
                     </button>

@@ -156,7 +156,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                                                                certs={data.certificates?.concat(data.courses)}
                                                                desc={data.situationDescription}
                                                                phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : c.noInfo}
-                                                               location={data.country >= 0 ? `${data.city}, ${JSON.parse(c.countries)[data.country]}` : c.noInfo}
+                                                               location={data.country >= 0 ? `${data.address}, ${data.city}, ${JSON.parse(c.countries)[data.country]}` : c.noInfo}
                                                                currentPlace={data.currentCountry >= 0 ? `${JSON.parse(c.countries)[data.currentCountry]}, ${data.currentCity}`: c.noInfo}
                                                                availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : c.noInfo}
                                                                ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}

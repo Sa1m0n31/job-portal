@@ -724,6 +724,10 @@
         width: unset;
     }
 
+    .datepickerDropdown--roomType {
+        width: 100% !important;
+    }
+
     .label--date--address > .flex:not(.flex--fastOffer) > * {
         margin-bottom: 10px;
     }
@@ -1020,6 +1024,24 @@
         display: none;
     }
 
+    .offerItem--applications {
+        margin-bottom: 140px !important;
+    }
+
+    .offerItem__buttons--applications {
+        bottom: -100px !important;
+        flex-direction: column !important;
+    }
+
+    .offerItem__buttons--applications > * {
+        width: 100% !important;
+        margin: 5px 0 !important;
+    }
+
+    .offerItem__buttons--applications > a:first-of-type {
+        width: 100% !important;
+    }
+
     .btn--addJobOffer {
         margin: 20px auto;
         font-size: 15px;
@@ -1150,12 +1172,20 @@
         max-width: 100% !important;
     }
 
+    .applicationsSection__header {
+        font-weight: 700;
+    }
+
     .offerItem__buttons > .noCandidates {
         width: 100% !important;
         text-align: center;
         margin-top: -30px;
         padding-right: 0;
         font-size: 14px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .container--agencyJobOffers .offerItem {
@@ -2858,10 +2888,16 @@
         margin-top: 0;
     }
 
+    .adsVideo {
+        margin-top: 0;
+        max-height: 180px;
+    }
+
     .home__benefit {
         width: 100%;
         padding: 15px;
         margin-bottom: 12px;
+        min-height: 140px;
     }
 
     .homeImg {
@@ -3307,6 +3343,32 @@
 @media(max-width: 576px) {
     .editData__main {
         padding: 30px 20px;
+    }
+
+    .register .label--checkbox {
+        margin: 20px 0;
+        display: flex;
+        justify-content: flex-start !important;
+        align-items: flex-start !important;
+        flex-direction: row !important;
+        flex-wrap: unset !important;
+    }
+
+    .register .label--checkbox span {
+        padding-left: 12px !important;
+        position: relative !important;
+    }
+
+    .register .label--checkbox button {
+        position: relative;
+    }
+
+    .register .label--checkbox button span {
+        position: absolute !important;
+        top: 50% !important;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 0 !important;
     }
 
     .page p {

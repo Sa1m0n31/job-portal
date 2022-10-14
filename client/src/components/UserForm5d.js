@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {UserDataContext} from "../pages/UserEditData";
 import plusIcon from '../static/img/plus-icon-opacity.svg'
 import fileIcon from '../static/img/doc.svg'
@@ -9,10 +9,14 @@ import {LanguageContext} from "../App";
 import {Tooltip} from "react-tippy";
 
 const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, removeOldAttachment}) => {
-    const { userData, setSubstep, handleChange, error, loading } = useContext(UserDataContext);
+    const { userData, setSubstep, handleChange, errorFields, error, loading } = useContext(UserDataContext);
     const { c } = useContext(LanguageContext);
 
     const [attachmentsError, setAttachmentsError] = useState('');
+
+    useEffect(() => {
+        console.log(errorFields);
+    }, [errorFields]);
 
     const handleAttachments = (e) => {
         if(e.target.files.length + userData.oldAttachments?.length + userData.attachments.length > 5) {
@@ -42,7 +46,7 @@ const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, rem
                         {c.situationTooltip}
                                 </span>}
                     followCursor={true}
-                    position="left"
+                    position="right"
                 >
                     <div className="tooltip">
                         ?
@@ -113,6 +117,11 @@ const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, rem
 
         {error ? <span className="info info--error">
             {error}
+            {errorFields?.map((item, index) => {
+                return <span key={index} className="info--error--point">
+                    - {item}
+                </span>
+            })}
         </span> : ''}
     </div>
 

@@ -8,7 +8,7 @@ import trashIcon from "../static/img/trash.svg";
 import {LanguageContext} from "../App";
 
 const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMonthsVisible, setYearsVisible, setCountriesVisible, setPhoneNumbersCountriesVisible}) => {
-    const { setStep, userData, handleChange, countriesVisible,
+    const { setStep, userData, handleChange, countriesVisible, error,
         daysVisible, monthsVisible, yearsVisible, phoneNumbersCountriesVisible
     } = useContext(UserDataContext);
     const { c } = useContext(LanguageContext);
@@ -81,13 +81,13 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
 
         <label className="label">
             {c.firstName} *
-            <input className="input"
+            <input className={error && !userData.firstName ? "input input--error" : "input"}
                    value={userData.firstName}
                    onChange={(e) => { handleChange('firstName', e.target.value); }} />
         </label>
         <label className="label">
             {c.lastName} *
-            <input className="input"
+            <input className={error && !userData.lastName ? "input input--error" : "input"}
                    value={userData.lastName}
                    onChange={(e) => { handleChange('lastName', e.target.value); }} />
         </label>
@@ -168,7 +168,7 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
                     </div> : ''}
                 </div>
                 <label>
-                    <input className="input input--city"
+                    <input className={error && !userData.city ? "input input--city input--error" : "input input--city"}
                            value={userData.city}
                            onChange={(e) => { handleChange('city', e.target.value); }}
                            placeholder={c.city} />
@@ -176,13 +176,13 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
             </div>
             <div className="flex flex--start">
                 <label className="marginRight">
-                    <input className="input input--address"
+                    <input className={error && !userData.postalCode ? "input input--address input--error" : "input input--address"}
                            value={userData.postalCode}
                            onChange={(e) => { handleChange('postalCode', e.target.value); }}
                            placeholder={c.postalCode} />
                 </label>
                 <label>
-                    <input className="input input--address"
+                    <input className={error && !userData.address ? "input input--address input--error" : "input input--address"}
                            value={userData.address}
                            onChange={(e) => { handleChange('address', e.target.value); }}
                            placeholder={c.streetAndBuilding} />
@@ -197,24 +197,25 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
             </button>
             {phoneNumbersCountriesVisible ? <div className="datepickerDropdown datepickerDropdown--phoneNumbers noscroll">
                 {phoneNumbers?.map((item, index) => {
-                    return <button className="datepickerBtn center" key={index}
+                    return <button className="datepickerBtn center"
+                                   key={index}
                                    onClick={(e) => { setPhoneNumbersCountriesVisible(false); handleChange('phoneNumberCountry', item); }}>
                         {item}
                     </button>
                 })}
             </div> : ''}
-            <input className="input"
+            <input className={error && !userData.phoneNumber ? "input input--error" : "input"}
                    value={userData.phoneNumber}
                    onChange={(e) => { handleChange('phoneNumber', e.target.value); }} />
         </div>
 
-        <label className="label">
-            {c.email}
-            <input className="input"
-                   disabled={true}
-                   value={userData.email}
-                   onChange={(e) => { handleChange('email', e.target.value); }} />
-        </label>
+        {/*<label className="label">*/}
+        {/*    {c.email}*/}
+        {/*    <input className="input"*/}
+        {/*           disabled={true}*/}
+        {/*           value={userData.email}*/}
+        {/*           onChange={(e) => { handleChange('email', e.target.value); }} />*/}
+        {/*</label>*/}
     </div>
     <div className="formBottom flex">
         <button className="btn btn--userForm" onClick={() => { validateData(); }}>

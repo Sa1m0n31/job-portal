@@ -14,7 +14,7 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
         setDayVisible, setMonthVisible, setPaycheckFrequencyVisible, setPaycheckDayVisible,
         setHealthInsuranceVisible, setHealthInsuranceCurrencyVisible, submitAgencyData, setPensionContributionsVisible
                       }) => {
-    const { setSubstep, agencyData, handleChange, pensionVisible, holidayAllowanceTypeVisible,
+    const { setSubstep, agencyData, errorFields, handleChange, pensionVisible, holidayAllowanceTypeVisible,
         error, monthVisible, paycheckFrequencyVisible, paycheckDayVisible,
         healthInsuranceVisible, healthInsuranceCurrencyVisible, loading, pensionContributionsVisible
     } = useContext(AgencyDataContext);
@@ -242,6 +242,11 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
 
             {error ? <span className="info info--error">
                 {error}
+                {errorFields?.map((item, index) => {
+                    return <span className="info--error--point" key={index}>
+                        {item}
+                    </span>
+                })}
             </span> : ''}
         </div>
         <div className="formBottom flex">

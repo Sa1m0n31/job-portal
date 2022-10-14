@@ -177,7 +177,7 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
                 <div className="label drivingLicenceWrapper">
                     {c.costReturnWithOwnTransport} *
                     <div className="flex flex--start">
-                        <div className="label--date__input label--date__input--bool label--date__input--drivingLicence">
+                        <div className="label--date__input label--date__input--bool label--date__input--drivingLicence label--costReturnWithOwnTransport">
                             <button className="datepicker datepicker--country"
                                     onClick={(e) => { e.stopPropagation(); setTransportCostReturnVisible(!transportCostReturnVisible); }}
                             >

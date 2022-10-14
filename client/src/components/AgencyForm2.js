@@ -7,7 +7,7 @@ import settings from "../static/settings";
 import {LanguageContext} from "../App";
 
 const AgencyForm2 = ({removeLogo, handleFileUpload, removeGalleryImage}) => {
-    const { setStep, agencyData, handleChange } = useContext(AgencyDataContext);
+    const { setStep, error, agencyData, handleChange } = useContext(AgencyDataContext);
     const { c } = useContext(LanguageContext);
 
     const [galleryError, setGalleryError] = useState('');
@@ -81,7 +81,7 @@ const AgencyForm2 = ({removeLogo, handleFileUpload, removeGalleryImage}) => {
                 <span className="letterCounter">
                     {agencyData?.description?.length} / 1000
                 </span>
-                <textarea className="input input--textarea input--situation"
+                <textarea className={error && !agencyData.description ? "input input--textarea input--situation input--error" : "input input--textarea input--situation"}
                           value={agencyData.description}
                           onChange={(e) => { handleDescriptionChange(e); }}
                           placeholder={c.companyDescriptionPlaceholder} />

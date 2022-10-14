@@ -86,9 +86,6 @@ const SingleOffer = () => {
                            window.location = '/';
                        }
                    }
-                })
-                .catch(() => {
-                    window.location = '/';
                 });
         }
         else {
@@ -163,7 +160,7 @@ const SingleOffer = () => {
                         </span>
                             <span className="jobOffer__point jobOffer__point--location flex">
                             <img className="img" src={locationIcon} alt="branża" />
-                                {offer.o_category !== null ? offer.o_city + ', ' + JSON.parse(c.countries)[offer.o_country] : ''}
+                                {(offer.o_city ? offer.o_city : c.manyLocations1) + ', ' + JSON.parse(c.countries)[offer.o_country]}
                         </span>
                             <span className="jobOffer__point flex">
                             <img className="img" src={salaryIcon} alt="branża" />
@@ -174,7 +171,20 @@ const SingleOffer = () => {
                         </span>
                             <span className="jobOffer__point flex">
                             <img className="img" src={agreementIcon} alt="branża" />
-                                {offer.o_category !== null ? JSON.parse(c.contracts)[offer.o_contractType] : ''}
+                                <span>
+                                    {offer.o_contractType !== '[]' ? JSON.parse(offer.o_contractType).map((item, index, array) => {
+                                        if(index !== array.length - 1) {
+                                            return <span className="d-block">
+                                                {JSON.parse(c.contracts)[item] + ', '}
+                                            </span>
+                                        }
+                                        else {
+                                            return <span className="d-block">
+                                                {JSON.parse(c.contracts)[item]}
+                                            </span>
+                                        }
+                                    }) : c.noInfo}
+                                </span>
                         </span>
                             <span className="jobOffer__point jobOffer__point--time flex">
                             <img className="img" src={calendarIcon} alt="branża" />

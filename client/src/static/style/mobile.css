@@ -236,6 +236,11 @@
         flex-direction: column;
     }
 
+    .userForm .marginRight,
+    label.marginRight {
+        margin-right: 0;
+    }
+
     .panelMenu__list__item__link {
         font-size: 14px;
         padding-left: 25px;
@@ -2617,6 +2622,15 @@
 @media(max-width: 768px) {
     .editData__formWrapper__header {
         font-size: 18px;
+    }
+
+    .userForm--4b--agency .drivingLicenceWrapper .flex > .label--costReturnWithOwnTransport,
+    .userForm--4b--agency .drivingLicenceWrapper .flex > .label--costReturnWithOwnTransport * {
+        max-width: 100px !important;
+    }
+
+    .userForm {
+        margin-bottom: 30px;
     }
 
     .flex--column--end {

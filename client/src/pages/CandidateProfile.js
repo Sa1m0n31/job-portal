@@ -110,8 +110,9 @@ const CandidateProfile = () => {
     useEffect(() => {
         if(window.innerWidth >= 996) {
             let maxHeight = 0;
-            const secondLine = Array.from(document.querySelectorAll('.userAccount__box--30'));
-            const thirdLine = Array.from(document.querySelectorAll('.userAccount__box')).slice(4);
+            const secondLine = Array.from(document.querySelectorAll('.userAccount__box--50--1'));
+            const thirdLine = Array.from(document.querySelectorAll('.userAccount__box--50--2'));
+            const fourthLine = Array.from(document.querySelectorAll('.userAccount__box')).slice(5);
             for(const box of thirdLine) {
                 const h = parseInt(getComputedStyle(box).getPropertyValue('height').split(' ')[0]);
                 if(h > maxHeight) maxHeight = h;
@@ -128,6 +129,16 @@ const CandidateProfile = () => {
             }
 
             secondLine.forEach((item) => {
+                item.style.height = `${maxHeight}px`;
+            });
+
+            maxHeight = 0;
+            for(const box of fourthLine) {
+                const h = parseInt(getComputedStyle(box).getPropertyValue('height').split(' ')[0]);
+                if(h > maxHeight) maxHeight = h;
+            }
+
+            fourthLine.forEach((item) => {
                 item.style.height = `${maxHeight}px`;
             });
         }
@@ -243,15 +254,11 @@ const CandidateProfile = () => {
                             <img className="img" src={invitationIcon} alt="pen" />
                             {c.invitation1}
                         </button>
-                        <button className="btn btn--notes" onClick={() => { setNotesVisible(true); }}>
-                            <img className="img" src={penIcon} alt="pen" />
-                            {c.notes1}
-                        </button>
                     </div>: ''}
                 </div>
             </main>
 
-            <div className="userAccount__box userAccount__box--30 noscroll">
+            <div className="userAccount__box userAccount__box--50 userAccount__box--50--1 noscroll">
                 <h3 className="userAccount__box__header">
                     {c.personalDataAndContact}
                 </h3>
@@ -302,7 +309,21 @@ const CandidateProfile = () => {
                 </div>
             </div>
 
-            <div className="userAccount__box userAccount__box--30 noscroll">
+            <div className="userAccount__box userAccount__box--50 userAccount__box--50--1 noscroll">
+                <h3 className="userAccount__box__header">
+                    {c.notes2}
+                </h3>
+                <p className="userAccount__box__text">
+                    {notes}
+                </p>
+                <button className="btn btn--notes" onClick={() => { setNotesVisible(true); }}>
+                    <img className="img" src={penIcon} alt="pen" />
+                    {c.notes1}
+                </button>
+            </div>
+
+
+            <div className="userAccount__box userAccount__box--50 userAccount__box--50--2 noscroll">
                 <h3 className="userAccount__box__header">
                     {c.finishedSchools}
                 </h3>
@@ -326,7 +347,7 @@ const CandidateProfile = () => {
                 })}
             </div>
 
-            <div className="userAccount__box userAccount__box--30 noscroll">
+            <div className="userAccount__box userAccount__box--50 userAccount__box--50--2 noscroll">
                 <h3 className="userAccount__box__header">
                     {c.jobExperience}
                 </h3>

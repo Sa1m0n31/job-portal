@@ -4,7 +4,6 @@ import {Static_translations} from "../entities/static_translations";
 import {Repository} from "typeorm";
 import {Dynamic_translations} from "../entities/dynamic_translations";
 import {removeLanguageSpecificCharacters} from "../common/removeLanguageSpecificCharacters";
-import {getGoogleTranslateLanguageCode} from "../common/getGoogleTranslateLanguageCode";
 const {Translate} = require('@google-cloud/translate').v2;
 
 @Injectable()
@@ -47,7 +46,7 @@ export class TranslationService {
         return detectLanguage();
     }
 
-    async translateContent(content, to) {
+    async translateContent(content, to, forceArray = false) {
         const translate = new Translate();
         let translationResult = [];
 
@@ -64,9 +63,6 @@ export class TranslationService {
                     }
                 }
                 else {
-                    console.log('else');
-                    console.log(chunk);
-                    console.log(typeof chunk);
                     const res  = await translate.translate(chunk, to);
                     if(res[1].data.translations.length === 1) {
                         translations = res[1].data.translations[0].translatedText;
@@ -80,13 +76,11 @@ export class TranslationService {
                 translationResult.push(translations);
             }
             else {
-                console.log('empty');
                 translationResult.push('');
             }
         }
 
         if(Array.isArray(content)) {
-            console.log('content is array');
             for(const chunk of content) {
                 await translateText(chunk);
             }
@@ -95,7 +89,7 @@ export class TranslationService {
             await translateText(content);
         }
 
-        return translationResult.length === 1 ? translationResult[0].toString() : translationResult;
+        return translationResult.length === 1 && !forceArray ? translationResult[0].toString() : translationResult;
     }
 
     async translate(from, to, saveAs, field = '') {

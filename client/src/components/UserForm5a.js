@@ -9,7 +9,7 @@ import {LanguageContext} from "../App";
 import {Tooltip} from "react-tippy";
 
 const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMonthsVisible, setTransportTypesVisible, setYearsVisible}) => {
-    const { setStep, setSubstep, userData, handleChange, countriesVisible, bsnVisible, daysVisible, transportTypesVisible,
+    const { setStep, setSubstep, error, userData, handleChange, countriesVisible, bsnVisible, daysVisible, transportTypesVisible,
             monthsVisible, yearsVisible
     } = useContext(UserDataContext);
     const { c } = useContext(LanguageContext);
@@ -73,13 +73,13 @@ const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMont
                     </div> : ''}
                 </div>
                 <label>
-                    <input className="input input--city"
+                    <input className={error && !userData.currentPostalCode ? "input input--city input--error" : "input input--city"}
                            value={userData.currentPostalCode}
                            onChange={(e) => { handleChange('currentPostalCode', e.target.value); }}
                            placeholder={c.postalCode} />
                 </label>
                 <label>
-                    <input className="input input--address"
+                    <input className={error && !userData.currentCity ? "input input-address input--error" : "input input-address"}
                            value={userData.currentCity}
                            onChange={(e) => { handleChange('currentCity', e.target.value); }}
                            placeholder={c.city} />
@@ -208,7 +208,7 @@ const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMont
         </div>
 
         <div className="label drivingLicenceWrapper drivingLicenceWrapper--noMarginBottom">
-            <p className="label--extraInfo">
+            <p className={error && userData.longTermJobSeeker === null ? "label--extraInfo error" : "label--extraInfo"}>
                 {c.longTermQuestion} *
             </p>
             <div className="flex flex--start">
@@ -230,7 +230,7 @@ const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMont
         </div>
 
         <div className="label drivingLicenceWrapper drivingLicenceWrapper--tools">
-            <p className="label--extraInfo">
+            <p className={error && userData.ownTransport === null ? "label--extraInfo error" : "label--extraInfo"}>
                 {c.ownTransportQuestion} *
             </p>
             <div className="flex flex--start">

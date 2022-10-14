@@ -87,6 +87,7 @@ const AddFastJobOffer = ({updateMode}) => {
     const [years, setYears] = useState([]);
     const [startDays, setStartDays] = useState([]);
     const [error, setError] = useState('');
+    const [errorFields, setErrorFields] = useState([]);
 
     const [numberOfFastOffers, setNumberOfFastOffers] = useState(0);
     const [limitExceeded, setLimitExceeded] = useState(-1); // 1 - global limit, 2 - user limit
@@ -363,18 +364,54 @@ const AddFastJobOffer = ({updateMode}) => {
     }
 
     const jobOfferValidation = () => {
-        if(!title || category === -1 || country === -1 || !city ||
-            !description || !responsibilities.length || !requirements.length || !benefits.length ||
-            salaryType === -1 || salaryFrom === null || salaryTo === null ||
-            day === -1 || month === -1 || !hour ||
-            startDay === -1 || startMonth === -1 || !startHour || !postalCode ||
-            accommodationCountry === -1 || !accommodationPostalCode || !accommodationCity ||
-            !contactPerson || !contactNumber || (!image && !imageUrl)
-        ) {
-            setError(JSON.parse(c.jobOfferErrors)[0]);
-            return 0;
+        let fields = [];
+
+        if(!title) {
+            fields.push(c.post);
         }
-        return 1;
+        if(category === -1) {
+            fields.push(c.category);
+        }
+        if(!city || country === -1) {
+            fields.push(c.jobPlace);
+        }
+        if(!description) {
+            fields.push(c.postDescription);
+        }
+        if(!responsibilities.length || responsibilities[0] === '') {
+            fields.push(c.responsibilities);
+        }
+        if(!requirements.length || requirements[0] === '') {
+            fields.push(c.requirements);
+        }
+        if(!benefits.length || benefits[0] === '') {
+            fields.push(c.benefits);
+        }
+        if(salaryType === -1 || salaryFrom === null || salaryTo === null) {
+            fields.push(c.salary);
+        }
+        if(!image && !imageUrl) {
+            fields.push(c.backgroundImage);
+        }
+        if(day === -1 || month === -1 || !hour) {
+            fields.push(c.accommodationDate);
+        }
+        if(startDay === -1 || startMonth === -1 || !startHour) {
+            fields.push(c.startWorkDate);
+        }
+        if(!postalCode) {
+            fields.push(c.postalCode);
+        }
+        if(accommodationCountry === -1 || !accommodationPostalCode || !accommodationCity) {
+            fields.push(c.accommodationPlace);
+        }
+        if(!contactPerson || !contactNumber) {
+            fields.push(c.recruitmentPersonData);
+        }
+
+        setErrorFields(fields);
+
+        return !fields.length;
     }
 
     const handleSubmit = async (e) => {
@@ -439,6 +476,9 @@ const AddFastJobOffer = ({updateMode}) => {
                 }
                 setLoading(false);
             }
+        }
+        else {
+            setError(JSON.parse(c.jobOfferErrors)[0]);
         }
     }
 
@@ -511,14 +551,14 @@ const AddFastJobOffer = ({updateMode}) => {
 
             <label className="label">
                 {c.post} *
-                <input className="input"
+                <input className={error && !title ? "input input--error" : "input"}
                        value={title}
                        onChange={(e) => { setTitle(e.target.value); }} />
             </label>
             <div className="label label--responsibility label--category">
                 {c.category} *
                 <div className="label--date__input label--date__input--country label--date__input--category">
-                    <button className="datepicker datepicker--country datepicker--category"
+                    <button className={error && category === -1 ? "datepicker datepicker--country datepicker--category input--error" : "datepicker datepicker--country datepicker--category"}
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCategoriesVisible(!categoriesVisible); }}
                     >
                         {category !== -1 ? JSON.parse(c.categories)[category] : c.chooseCategory}
@@ -561,7 +601,7 @@ const AddFastJobOffer = ({updateMode}) => {
                 {c.jobPlace} *
                 <div className="flex flex-wrap flex--fastOffer">
                     <div className="label--date__input label--date__input--country">
-                        <button className="datepicker datepicker--country"
+                        <button className={error && country === -1 ? "datepicker datepicker--country input--error" : "datepicker datepicker--country"}
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCountriesVisible(!countriesVisible); }}
                         >
                             {country !== -1 ? JSON.parse(c.countries)[country] : c.chooseCountry}
@@ -579,13 +619,13 @@ const AddFastJobOffer = ({updateMode}) => {
                         </div> : ''}
                     </div>
                     <label className="label--city">
-                        <input className="input input--address"
+                        <input className={error && !city ? "input input--address input--error" : "input input--address"}
                                value={city}
                                onChange={(e) => { setCity(e.target.value); }}
                                placeholder={c.city} />
                     </label>
                     <label className="label--postalCode">
-                        <input className="input input--city"
+                        <input className={error && !postalCode ? "input input--city input--error" : "input input--city"}
                                value={postalCode}
                                onChange={(e) => { setPostalCode(e.target.value); }}
                                placeholder={c.postalCode} />
@@ -604,7 +644,7 @@ const AddFastJobOffer = ({updateMode}) => {
                 {c.accommodationPlace} *
                 <div className="flex flex-wrap flex--fastOffer">
                     <div className="label--date__input label--date__input--country">
-                        <button className="datepicker datepicker--country"
+                        <button className={error && accommodationCountry === -1 ? "datepicker datepicker--country input--error" : "datepicker datepicker--country"}
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setAccommodationCountriesVisible(!accommodationCountriesVisible); }}
                         >
                             {accommodationCountry !== -1 ? JSON.parse(c.countries)[accommodationCountry] : 'Wybierz kraj'}
@@ -620,13 +660,13 @@ const AddFastJobOffer = ({updateMode}) => {
                         </div> : ''}
                     </div>
                     <label className="label--city">
-                        <input className="input input--address"
+                        <input className={error && !accommodationCity ? "input input--address input--error" : "input input--address"}
                                value={accommodationCity}
                                onChange={(e) => { setAccommodationCity(e.target.value); }}
                                placeholder={c.city} />
                     </label>
                     <label className="label--postalCode">
-                        <input className="input input--city"
+                        <input className={error && !accommodationPostalCode ? "input input--city input--error" : "input input--city"}
                                value={accommodationPostalCode}
                                onChange={(e) => { setAccommodationPostalCode(e.target.value); }}
                                placeholder={c.postalCode} />
@@ -639,7 +679,7 @@ const AddFastJobOffer = ({updateMode}) => {
                 <div className="flex flex-wrap flex--fastOffer">
                     {/* DAY */}
                     <div className="label--date__input">
-                        <button className="datepicker datepicker--day"
+                        <button className={error && day === -1 ? "datepicker datepicker--day input--error" : "datepicker datepicker--day"}
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setDayVisible(!dayVisible); }}
                         >
                             {day !== -1 ? day+1 : c.day}
@@ -656,7 +696,7 @@ const AddFastJobOffer = ({updateMode}) => {
                     </div>
                     {/* MONTH */}
                     <div className="label--date__input label--city">
-                        <button className="datepicker datepicker--month"
+                        <button className={error && month === -1 ? "datepicker datepicker--month input--error" : "datepicker datepicker--month"}
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setMonthVisible(!monthVisible); }}
                         >
                             {month !== -1 ? JSON.parse(c.months)[month] : c.month}
@@ -672,7 +712,7 @@ const AddFastJobOffer = ({updateMode}) => {
                         </div> : ''}
                     </div>
                     <label className="label--street">
-                        <input className="input input--address"
+                        <input className={error && !hour ? "input input--address input--error" : "input input--address"}
                                value={hour}
                                onChange={(e) => { setHour(e.target.value); }}
                                placeholder={c.hour} />
@@ -685,7 +725,7 @@ const AddFastJobOffer = ({updateMode}) => {
                 <div className="flex flex-wrap flex--fastOffer">
                     {/* DAY */}
                     <div className="label--date__input">
-                        <button className="datepicker datepicker--day"
+                        <button className={error && startDay === -1 ? "datepicker datepicker--day input--error" : "datepicker datepicker--day"}
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStartDayVisible(!startDayVisible); }}
                         >
                             {startDay !== -1 ? startDay+1 : c.day}
@@ -702,7 +742,7 @@ const AddFastJobOffer = ({updateMode}) => {
                     </div>
                     {/* MONTH */}
                     <div className="label--date__input label--city">
-                        <button className="datepicker datepicker--month"
+                        <button className={error && startMonth === -1 ? "datepicker datepicker--month input--error" : "datepicker datepicker--month"}
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setStartMonthVisible(!startMonthVisible); }}
                         >
                             {startMonth !== -1 ? JSON.parse(c.months)[startMonth] : c.month}
@@ -718,7 +758,7 @@ const AddFastJobOffer = ({updateMode}) => {
                         </div> : ''}
                     </div>
                     <label className="label--street">
-                        <input className="input input--address"
+                        <input className={error && !startHour ? "input input--address input--errror" : "input input--address"}
                                value={startHour}
                                onChange={(e) => { setStartHour(e.target.value); }}
                                placeholder={c.hour} />
@@ -727,8 +767,8 @@ const AddFastJobOffer = ({updateMode}) => {
             </div>
 
             <label className="label label--rel">
-                {c.postDescriotion} *
-                <textarea className="input input--textarea input--situation"
+                {c.postDescription} *
+                <textarea className={error && !description ? "input input--textarea input--situation input--error" : "input input--textarea input--situation"}
                           value={description}
                           onChange={(e) => { setDescription(e.target.value); }}
                           placeholder={c.postDescriptionPlaceholder} />
@@ -738,8 +778,9 @@ const AddFastJobOffer = ({updateMode}) => {
                 {c.responsibilities} *
                 {responsibilities.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
-                        <input className="input"
+                        <input className={error && !responsibilities[0] ? "input input--error" : "input"}
                                value={item}
+                               maxLength={50}
                                onChange={(e) => { e.preventDefault(); updateResponsibilities(e.target.value, index); }} />
                         <button className="deleteSchoolBtn" onClick={(e) => { e.preventDefault(); deleteResponsibility(index); }}>
                             <img className="img" src={trashIcon} alt="usun" />
@@ -756,8 +797,9 @@ const AddFastJobOffer = ({updateMode}) => {
                 {c.requirements} *
                 {requirements.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
-                        <input className="input"
+                        <input className={error && !requirements[0] ? "input input--error" : "input"}
                                value={item}
+                               maxLength={50}
                                onChange={(e) => { e.preventDefault(); updateRequirements(e.target.value, index); }} />
                         <button className="deleteSchoolBtn" onClick={(e) => { e.preventDefault(); deleteRequirement(index); }}>
                             <img className="img" src={trashIcon} alt="usun" />
@@ -774,8 +816,9 @@ const AddFastJobOffer = ({updateMode}) => {
                 {c.whatYouOffer} *
                 {benefits.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
-                        <input className="input"
+                        <input className={error && !benefits[0] ? "input input--error" : "input"}
                                value={item}
+                               maxLength={50}
                                onChange={(e) => { e.preventDefault(); updateBenefits(e.target.value, index); }} />
                         <button className="deleteSchoolBtn" onClick={(e) => { e.preventDefault(); deleteBenefit(index); }}>
                             <img className="img" src={trashIcon} alt="usun" />
@@ -809,14 +852,14 @@ const AddFastJobOffer = ({updateMode}) => {
                 </div>
                 <div className="flex flex--start salaryInputsWrapper">
                     <label className="label">
-                        <input className="input"
+                        <input className={error && !salaryFrom ? "input input--error" : "input"}
                                type="number"
                                value={salaryFrom}
                                onChange={(e) => { setSalaryFrom(e.target.value); }} />
                     </label>
                     -
                     <label className="label">
-                        <input className="input"
+                        <input className={error && !salaryTo ? "input input--error" : "input"}
                                type="number"
                                value={salaryTo}
                                onChange={(e) => { setSalaryTo(e.target.value); }} />
@@ -860,7 +903,7 @@ const AddFastJobOffer = ({updateMode}) => {
             <div className="label label--phoneNumber">
                 {c.recruitmentPersonData} *
                 <label className="label label--normal">
-                    <input className="input"
+                    <input className={error && !contactPerson ? "input input--error" : "input"}
                            value={contactPerson}
                            onChange={(e) => { setContactPerson(e.target.value); }} />
                 </label>
@@ -876,7 +919,7 @@ const AddFastJobOffer = ({updateMode}) => {
                         </button>
                     })}
                 </div> : ''}
-                <input className="input"
+                <input className={error && !contactNumber ? "input input--error" : "input"}
                        value={contactNumber}
                        onChange={(e) => { setContactNumber(e.target.value); }} />
             </div>
@@ -886,7 +929,7 @@ const AddFastJobOffer = ({updateMode}) => {
                 <p className="label--extraInfo label--extraInfo--marginBottom">
                     {c.backgroundImageDescription}
                 </p>
-                <div className={!image ? "filesUploadLabel center" : "filesUploadLabel filesUploadLabel--noBorder center"}>
+                <div className={!image ? (error ? "filesUploadLabel center input--error" : "filesUploadLabel center") : "filesUploadLabel filesUploadLabel--noBorder center"}>
                     {!imageUrl ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : <div className="filesUploadLabel__profileImage">
                         <button className="removeProfileImageBtn" onClick={(e) => { e.preventDefault(); removeImage(); }}>
                             <img className="img" src={trashIcon} alt="usun" />
@@ -965,6 +1008,11 @@ const AddFastJobOffer = ({updateMode}) => {
 
             {error ? <span className="info info--error">
                 {error}
+                {errorFields?.map((item, index) => {
+                    return <span key={index} className="info--error--point">
+                    - {item}
+                </span>
+                })}
             </span> : ''}
 
             {!loading ? <button className="btn btn--login center"

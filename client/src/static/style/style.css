@@ -294,6 +294,7 @@ input {
     width: auto;
     min-height: 100%;
     min-width: 100%;
+    max-width: 110%;
 }
 
 .login__left__header__logo {
@@ -649,9 +650,10 @@ input {
 
 .editData__main {
     margin-left: 500px;
-    height: 100vh;
-    padding: 60px 80px;
+    height: auto;
+    padding: 60px 80px 0;
     width: calc(100vw - 500px);
+    margin-bottom: 50px;
 }
 
 .editData__left__logo {
@@ -687,7 +689,7 @@ input {
 }
 
 .editData__step--current {
-    opacity: 1;
+    opacity: 1 !important;
 }
 
 .editData__step:not(:last-of-type)::after {
@@ -771,15 +773,17 @@ input {
 }
 
 .userForm {
-    height: 570px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--primary) #C1DCFF;
+    margin-bottom: 80px;
+    /*height: 570px;*/
+    /*overflow-y: auto;*/
+    /*scrollbar-width: thin;*/
+    /*scrollbar-color: var(--primary) #C1DCFF;*/
+    height: auto;
 }
 
 @media(-webkit-min-device-pixel-ratio: 1.05) {
     .userForm {
-        height: 340px;
+        /*height: 340px;*/
     }
 }
 
@@ -1054,6 +1058,16 @@ input {
 
 .form__school {
     width: 1120px;
+}
+
+.userForm3 .form__job,
+.userForm2 .form__school {
+    padding: 20px 0;
+    border-bottom: 1px dashed var(--primary);
+}
+
+.userForm3 .form__job {
+    padding-bottom: 0;
 }
 
 .form__school .label {
@@ -1789,6 +1803,12 @@ input {
     width: 32%;
     padding: 30px;
     min-height: 280px;
+}
+
+.userAccount__box--50 {
+    width: 48%;
+    padding: 30px;
+    min-height: 100px;
 }
 
 .userAccount__box__top {
@@ -3872,9 +3892,14 @@ input {
 }
 
 .preview__left {
+    max-width: 50%;
     display: flex;
     align-items: center;
     justify-content: flex-start;
+}
+
+.container--agenciesList .preview--agency .preview__left {
+    max-width: 90%;
 }
 
 .btn--filterSubmit .img {
@@ -4838,7 +4863,7 @@ div[data-testid=circles-loading] {
 }
 
 .adsVideo {
-    margin-top: 40px;
+    margin-top: 10px;
     max-width: 90%;
 }
 
@@ -5950,6 +5975,7 @@ input[type=month] {
 .btn--notes {
     height: 40px;
     padding: 5px 15px;
+    margin-top: 20px;
 }
 
 .flex--column--end {
@@ -6038,10 +6064,6 @@ input[type=month] {
     background: transparent;
 }
 
-.btn--sendOffer {
-    margin-right: 20px;
-}
-
 .modalOffers__menu {
     min-width: 200px;
     max-height: 300px;
@@ -6068,7 +6090,24 @@ input[type=month] {
     font-weight: 700;
 }
 
+.addNewBtn:disabled,
 .addNewBtn--responsibility:disabled {
     opacity: .4;
     cursor: default;
+}
+
+.input--error {
+    border-color: red !important;
+}
+
+.info--error--point {
+    display: block;
+}
+
+.error {
+    color: red !important;
+}
+
+.d-block {
+    display: block;
 }

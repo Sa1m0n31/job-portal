@@ -6,7 +6,7 @@ import trashIcon from '../static/img/trash.svg'
 import {LanguageContext} from "../App";
 
 const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEducationVisible}) => {
-    const { setStep, userData, handleChange, educationVisible } = useContext(UserDataContext);
+    const { setStep, error, userData, handleChange, educationVisible } = useContext(UserDataContext);
     const { c } = useContext(LanguageContext);
 
     return <>
@@ -33,7 +33,7 @@ const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEduca
             return <div className="form__school flex" key={index}>
                 <label className="label">
                     {c.schoolOrUniversityName} *
-                    <input className="input"
+                    <input className={error && !item.name ? "input input--error" : "input"}
                            value={item.name}
                            onChange={(e) => { handleChange('schools', e.target.value, 'name', index); }} />
                 </label>
@@ -47,14 +47,14 @@ const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEduca
                     <span className="oneline">
                         {c.educationYears} *
                     </span>
-                    <input className="input"
+                    <input className={error && !item.from ? "input input--error" : "input"}
                            type="number"
                            value={item.from}
                            onChange={(e) => { handleChange('schools', e.target.value, 'from', index); }} />
                 </label>
                 -
                 <label className="label">
-                    <input className="input"
+                    <input className={error && !item.to && !item.inProgress ? "input input--error" : "input"}
                            type="number"
                            disabled={item.inProgress}
                            value={item.to}

@@ -42,7 +42,7 @@ const AddJobOffer = ({updateMode}) => {
     const [responsibilities, setResponsibilities] = useState(['']);
     const [requirements, setRequirements] = useState(['']);
     const [benefits, setBenefits] = useState(['']);
-    const [salaryType, setSalaryType] = useState(-1);
+    const [salaryType, setSalaryType] = useState(1);
     const [salaryFrom, setSalaryFrom] = useState(null);
     const [salaryTo, setSalaryTo] = useState(null);
     const [salaryCurrency, setSalaryCurrency] = useState(0);
@@ -61,6 +61,7 @@ const AddJobOffer = ({updateMode}) => {
     const [days, setDays] = useState([]);
     const [years, setYears] = useState([]);
     const [error, setError] = useState('');
+    const [errorFields, setErrorFields] = useState([]);
 
     const addOfferForm = useRef(null);
     const addOfferSuccess = useRef(null);
@@ -91,7 +92,7 @@ const AddJobOffer = ({updateMode}) => {
         setTitle(data.o_title);
         setExtraInfo(data.o_extraInfo);
         setShowAgencyInfo(data.o_show_agency_info);
-        setIsInManyLocations(!!data.o_manyLocations);
+        setIsInManyLocations(data.o_manyLocations || data.o_manyLocations === '');
         setLocations(data.o_manyLocations);
     }
 
@@ -280,22 +281,51 @@ const AddJobOffer = ({updateMode}) => {
     }
 
     const jobOfferValidation = () => {
-        if(!title || category === -1 || country === -1 || (!city && !isInManyLocations) ||
-            !description || !responsibilities.length || !requirements.length || !benefits.length ||
-            salaryType === -1 || salaryFrom === null || salaryTo === null
-             || (!image && !imageUrl)
-        ) {
-            setError(JSON.parse(c.jobOfferErrors)[0]);
-            return 0;
+        let fields = [];
+
+        if(!title) {
+            fields.push(c.post);
         }
-        return 1;
+        if(category === -1) {
+            fields.push(c.category);
+        }
+        if(!city && !isInManyLocations) {
+            fields.push(c.city);
+        }
+        if(!description) {
+            fields.push(c.postDescription);
+        }
+        if(!responsibilities.length || responsibilities[0] === '') {
+            fields.push(c.responsibilities);
+        }
+        if(!requirements.length || requirements[0] === '') {
+            fields.push(c.requirements);
+        }
+        if(!benefits.length || benefits[0] === '') {
+            fields.push(c.benefits);
+        }
+        if(salaryType === -1 || salaryFrom === null || salaryTo === null) {
+            fields.push(c.salary);
+        }
+        if(!image && !imageUrl) {
+            fields.push(c.backgroundImage);
+        }
+
+        setErrorFields(fields);
+
+        return !fields.length;
     }
+
+    useEffect(() => {
+        console.log(errorFields);
+    }, [errorFields]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if(jobOfferValidation()) {
             setLoading(true);
+            setError('');
             try {
                 if(updateMode) {
                     const offerResult = await updateOffer({
@@ -305,7 +335,7 @@ const AddJobOffer = ({updateMode}) => {
                         expireYear: year,
                         image, attachments, oldAttachments, extraInfo,
                         show_agency_info: showAgencyInfo,
-                        manyLocations: locations
+                        manyLocations: isInManyLocations ? locations : '-'
                     });
                     if(offerResult.status === 200) {
                         setSuccess(true);
@@ -324,7 +354,7 @@ const AddJobOffer = ({updateMode}) => {
                         expireYear: year,
                         image, attachments, extraInfo,
                         show_agency_info: showAgencyInfo,
-                        manyLocations: locations
+                        manyLocations: isInManyLocations ? locations : '-'
                     });
                     if(offerResult.status === 201) {
                         setSuccess(true);
@@ -345,6 +375,9 @@ const AddJobOffer = ({updateMode}) => {
                 }
                 setLoading(false);
             }
+        }
+        else {
+            setError(JSON.parse(c.jobOfferErrors)[0]);
         }
     }
 
@@ -411,14 +444,14 @@ const AddJobOffer = ({updateMode}) => {
 
             <label className="label">
                 {c.post} *
-                <input className="input"
+                <input className={error && !title ? "input input--error" : "input"}
                        value={title}
                        onChange={(e) => { setTitle(e.target.value); }} />
             </label>
             <div className="label label--responsibility label--category">
                 {c.category} *
                 <div className="label--date__input label--date__input--country label--date__input--category">
-                    <button className="datepicker datepicker--country datepicker--category"
+                    <button className={error && category === -1 ? "datepicker datepicker--country datepicker--category input--error" : "datepicker datepicker--country datepicker--category"}
                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCategoriesVisible(!categoriesVisible); }}
                     >
                         {category !== -1 ? JSON.parse(c.categories)[category] : c.chooseCategory}
@@ -484,7 +517,7 @@ const AddJobOffer = ({updateMode}) => {
                                placeholder={c.postalCode} />
                     </label>
                     <label>
-                        <input className="input input--address"
+                        <input className={error && !city && !isInManyLocations ? "input input--address input--error" : "input input--address"}
                                value={city}
                                onChange={(e) => { setCity(e.target.value); }}
                                placeholder={`${c.city} ${isInManyLocations ? '*' : ''}`} />
@@ -513,7 +546,7 @@ const AddJobOffer = ({updateMode}) => {
 
             <label className="label label--rel">
                 {c.postDescription} *
-                <textarea className="input input--textarea input--situation"
+                <textarea className={error && !description ? "input input--textarea input--situation input--error" : "input input--textarea input--situation"}
                           value={description}
                           onChange={(e) => { setDescription(e.target.value); }}
                           placeholder={c.postDescriptionPlaceholder} />
@@ -523,7 +556,7 @@ const AddJobOffer = ({updateMode}) => {
                 {c.responsibilities} *
                 {responsibilities.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
-                        <input className="input"
+                        <input className={error && !responsibilities[0] ? "input input--error" : "input"}
                                value={item}
                                maxLength={50}
                                onChange={(e) => { e.preventDefault(); updateResponsibilities(e.target.value, index); }} />
@@ -542,7 +575,7 @@ const AddJobOffer = ({updateMode}) => {
                 {c.requirements} *
                 {requirements.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
-                        <input className="input"
+                        <input className={error && !requirements[0] ? "input input--error" : "input"}
                                value={item}
                                maxLength={50}
                                onChange={(e) => { e.preventDefault(); updateRequirements(e.target.value, index); }} />
@@ -561,7 +594,7 @@ const AddJobOffer = ({updateMode}) => {
                 {c.whatYouOffer} *
                 {benefits.map((item, index) => {
                     return <label className="label label--responsibility" key={index}>
-                        <input className="input"
+                        <input className={error && !benefits[0] ? "input input--error" : "input"}
                                value={item}
                                maxLength={50}
                                onChange={(e) => { e.preventDefault(); updateBenefits(e.target.value, index); }} />
@@ -597,14 +630,14 @@ const AddJobOffer = ({updateMode}) => {
                 </div>
                 <div className="flex flex--start salaryInputsWrapper">
                     <label className="label">
-                        <input className="input"
+                        <input className={error && !salaryFrom ? "input input--error" : "input"}
                                type="number"
                                value={salaryFrom}
                                onChange={(e) => { setSalaryFrom(e.target.value); }} />
                     </label>
                     -
                     <label className="label">
-                        <input className="input"
+                        <input className={error && !salaryTo ? "input input--error" : "input"}
                                type="number"
                                value={salaryTo}
                                onChange={(e) => { setSalaryTo(e.target.value); }} />
@@ -725,7 +758,7 @@ const AddJobOffer = ({updateMode}) => {
                 <p className="label--extraInfo label--extraInfo--marginBottom">
                     {c.backgroundImageDescription}
                 </p>
-                <div className={!image ? "filesUploadLabel center" : "filesUploadLabel filesUploadLabel--noBorder center"}>
+                <div className={!image ? (error ? "filesUploadLabel center input--error" : "filesUploadLabel center") : "filesUploadLabel filesUploadLabel--noBorder center"}>
                     {!imageUrl ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : <div className="filesUploadLabel__profileImage">
                         <button className="removeProfileImageBtn" onClick={(e) => { e.preventDefault(); removeImage(); }}>
                             <img className="img" src={trashIcon} alt="usun" />
@@ -804,6 +837,11 @@ const AddJobOffer = ({updateMode}) => {
 
             {error ? <span className="info info--error">
                 {error}
+                {errorFields?.map((item, index) => {
+                    return <span key={index} className="info--error--point">
+                    - {item}
+                </span>
+                })}
             </span> : ''}
 
             {!loading ? <button className="btn btn--login center"

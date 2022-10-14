@@ -51,6 +51,7 @@ const UserEditData = () => {
         // 4.2. Skills
         courses: [],
         certificates: [],
+        skills: [],
         // 5.1 Additional info
         currentCountry: 0,
         currentPostalCode: '',
@@ -101,6 +102,10 @@ const UserEditData = () => {
     const [currenciesVisible, setCurrenciesVisible] = useState(false);
     const [categoriesVisible, setCategoriesVisible] = useState(-1);
     const [transportTypesVisible, setTransportTypesVisible] = useState(false);
+    const [errorFields, setErrorFields] = useState([]);
+    const [step1Error, setStep1Error] = useState(false);
+    const [step2Error, setStep2Error] = useState(false);
+    const [step5Error, setStep5Error] = useState(false);
 
     const { c } = useContext(LanguageContext);
 
@@ -155,8 +160,11 @@ const UserEditData = () => {
                 if(substep === 1) {
                     setCurrentForm(<UserForm4B addNewCourse={addNewCourse}
                                                addNewCertificate={addNewCertificate}
+                                               addNewSkill={addNewSkill}
+                                               deleteSkill={deleteSkill}
                                                deleteCourse={deleteCourse}
                                                deleteCertificate={deleteCertificate}
+
                     />);
                 }
                 break;
@@ -216,6 +224,7 @@ const UserEditData = () => {
                     if(Object.keys(data).length > 0) {
                         setUserData({
                             ...data,
+                            skills: data.skills ? data.skills : [],
                             profileImage: null,
                             profileImageUrl: data.profileImage ? `${settings.API_URL}/${data.profileImage}` : null,
                             bsnNumberDocument: data.bsnNumberDocument ? data.bsnNumberDocument : null,
@@ -272,21 +281,81 @@ const UserEditData = () => {
     }, [step, substep]);
 
     const schoolsValidation = () => {
-        return userData.schools.length && userData.schools.findIndex((item) => {
-            return !item.name || (!item.from || !item.to || !item.inProgress);
-        }) === -1;
+        return userData.schools.length && (userData.schools.findIndex((item) => {
+            return !item.name || !item.from || (!item.to && !item.inProgress);
+        }) === -1);
     }
 
     const validateUserData = () => {
-        return userData.firstName && userData.lastName && userData.city && userData.postalCode &&
-            userData.address && userData.phoneNumber && schoolsValidation() && userData.currentCity && userData.currentPostalCode
-            && userData.longTermJobSeeker !== null && userData.ownTransport !== null && userData.ownAccommodation !== null &&
-            userData.salaryFrom && userData.salaryTo && userData.categories[0] !== '-';
+        const fields = [];
+
+        if(!userData.firstName) {
+            setStep1Error(true);
+            fields.push(c.firstName);
+        }
+        if(!userData.lastName) {
+            setStep1Error(true);
+            fields.push(c.lastName);
+        }
+        if(!userData.city) {
+            setStep1Error(true);
+            fields.push(c.city);
+        }
+        if(!userData.postalCode) {
+            setStep1Error(true);
+            fields.push(c.postalCode);
+        }
+        if(!userData.address) {
+            setStep1Error(true);
+            fields.push(c.streetAndBuilding);
+        }
+        if(!userData.phoneNumber) {
+            setStep1Error(true);
+            fields.push(c.phoneNumber);
+        }
+        if(!schoolsValidation()) {
+            setStep2Error(true);
+            fields.push(c.finishedSchools);
+        }
+        if(!userData.currentCity || !userData.currentPostalCode) {
+            setStep5Error(true);
+            fields.push(c.currentLivingPlace);
+        }
+        if(userData.longTermJobSeeker === null) {
+            setStep5Error(true);
+            fields.push(c.longTermQuestion);
+        }
+        if(userData.ownTransport === null) {
+            setStep5Error(true);
+            fields.push(c.ownTransportQuestion);
+        }
+        if(!userData.ownAccommodation) {
+            setStep5Error(true);
+            fields.push(c.ownAccommodationQuestion);
+        }
+        if(!userData.salaryFrom || !userData.salaryTo) {
+            setStep5Error(true);
+            fields.push(c.salary);
+        }
+        if(userData.categories[0] === '-' || userData?.categories?.length === 0) {
+            setStep5Error(true);
+            fields.push(c.mainCategories);
+        }
+
+        if(fields.length) {
+            setErrorFields(fields);
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     const submitUserData = async (userData) => {
         if(validateUserData()) {
             setLoading(true);
+            setError('');
+            setErrorFields([]);
 
             try {
                 const res = await updateUser(userData);
@@ -312,6 +381,7 @@ const UserEditData = () => {
             }
         }
         else {
+            window.scrollTo(0, document.body.scrollHeight);
             setError(JSON.parse(c.formErrors)[0]);
         }
     }
@@ -395,6 +465,13 @@ const UserEditData = () => {
         }));
     }
 
+    const addNewSkill = () => {
+        setUserData(prevState => ({
+            ...prevState,
+            skills: [...prevState.skills, '']
+        }));
+    }
+
     const deleteCourse = (i) => {
         setUserData(prevState => ({
             ...prevState,
@@ -406,6 +483,13 @@ const UserEditData = () => {
         setUserData(prevState => ({
             ...prevState,
             certificates: prevState.certificates.filter((item, index) => (index !== i))
+        }));
+    }
+
+    const deleteSkill = (i) => {
+        setUserData(prevState => ({
+            ...prevState,
+            skills: prevState.skills.filter((item, index) => (index !== i))
         }));
     }
 
@@ -623,7 +707,7 @@ const UserEditData = () => {
             });
             return 0;
         }
-        if(field === 'courses' || field === 'certificates' || field === 'categories') {
+        if(field === 'courses' || field === 'certificates' || field === 'skills' || field === 'categories') {
             setUserData(prevState => ({
                 ...prevState,
                 [field]: prevState[field].map((item, index) => {
@@ -682,11 +766,69 @@ const UserEditData = () => {
         }
     }
 
+    useEffect(() => {
+        const stepsParents = Array.from(document.querySelectorAll('.editData__step'));
+        const steps = Array.from(document.querySelectorAll('.editData__step>.editData__left__step__text'));
+
+        if(step1Error) {
+            steps[0].style.color = 'red';
+            stepsParents[0].style.opacity = '1';
+        }
+        else {
+            steps[0].style.color = '#fff';
+            stepsParents[0].style.opacity = '.5';
+        }
+    }, [step1Error]);
+
+    useEffect(() => {
+        const stepsParents = Array.from(document.querySelectorAll('.editData__step'));
+        const steps = Array.from(document.querySelectorAll('.editData__step>.editData__left__step__text'));
+
+        if(step2Error) {
+            steps[1].style.color = 'red';
+            stepsParents[1].style.opacity = '1';
+        }
+        else {
+            steps[1].style.color = '#fff';
+            stepsParents[1].style.opacity = '.5';
+        }
+    }, [step2Error]);
+
+    useEffect(() => {
+        const stepsParents = Array.from(document.querySelectorAll('.editData__step'));
+        const steps = Array.from(document.querySelectorAll('.editData__step>.editData__left__step__text'));
+
+        if(step5Error) {
+            steps[4].style.color = 'red';
+            stepsParents[4].style.opacity = '1';
+        }
+        else {
+            steps[4].style.color = '#fff';
+            stepsParents[4].style.opacity = '.5';
+        }
+    }, [step5Error]);
+
+    useEffect(() => {
+        if(userData.firstName && userData.lastName && userData.city && userData.postalCode && userData.address
+            && userData.phoneNumber) {
+            setStep1Error(false);
+        }
+
+        if(schoolsValidation()) {
+            setStep2Error(false);
+        }
+
+        if(userData.currentCity && userData.currentPostalCode && userData.longTermJobSeeker !== null && userData.ownTransport !== null
+            && userData.ownAccommodation !== null && userData.salaryFrom && userData.salaryTo && userData.categories?.length && userData.categories[0] !== '-') {
+            setStep5Error(false);
+        }
+    }, [userData]);
+
     return <UserDataContext.Provider value={{
         setStep, setSubstep, daysVisible, monthsVisible, yearsVisible, countriesVisible, phoneNumbersCountriesVisible,
         educationVisible, transportTypesVisible,
         levelsVisible, drivingLicenceVisible,
-        bsnVisible, error, loading,
+        bsnVisible, error, loading, errorFields,
         categoriesVisible, currenciesVisible,
         userData, handleChange
     }}>

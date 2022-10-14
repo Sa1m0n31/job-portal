@@ -63,7 +63,7 @@ const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsi
                             html={<span className="tooltipVisible">
                             {c.responsibilitiesTooltip}
                                     </span>}
-                            position={window.innerWidth > 768 ? "left" : "top"}
+                            position={window.innerWidth > 768 ? "right" : "top"}
                             followCursor={true}
                         >
                             <div className="tooltip">

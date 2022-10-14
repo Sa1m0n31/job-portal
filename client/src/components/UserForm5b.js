@@ -8,13 +8,13 @@ import {LanguageContext} from "../App";
 import {Tooltip} from "react-tippy";
 
 const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCurrenciesVisible}) => {
-    const { setSubstep, userData, handleChange, categoriesVisible, currenciesVisible } = useContext(UserDataContext);
+    const { setSubstep, error, userData, handleChange, categoriesVisible, currenciesVisible } = useContext(UserDataContext);
     const { c } = useContext(LanguageContext);
 
     return <>
         <div className="userForm userForm--5b">
         <div className="label drivingLicenceWrapper drivingLicenceWrapper--noMarginBottom">
-            <p className="label--extraInfo">
+            <p className={error && userData.ownAccommodation === null ? "label--extraInfo error" : "label--extraInfo"}>
                 {c.ownAccommodationQuestion} *
             </p>
             <div className="flex flex--start">
@@ -48,7 +48,7 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
                     html={<span className="tooltipVisible">
                             {c.toolsTooltip}
                                     </span>}
-                    position={window.innerWidth > 768 ? "left" : "top"}
+                    position={window.innerWidth > 768 ? "right" : "top"}
                     followCursor={true}
                 >
                     <div className="tooltip">
@@ -88,7 +88,7 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
                     html={<span className="tooltipVisible">
                             {c.salaryTooltip}
                                     </span>}
-                    position={window.innerWidth > 768 ? "left" : "top"}
+                    position={window.innerWidth > 768 ? "right" : "top"}
                     followCursor={true}
                 >
                             <div className="tooltip">
@@ -117,14 +117,14 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
             </div>
             <div className="flex flex--start salaryInputsWrapper">
                 <label className="label">
-                    <input className="input"
+                    <input className={error && !userData.salaryFrom ? "input input--error" : "input"}
                            type="number"
                            value={userData.salaryFrom}
                            onChange={(e) => { handleChange('salaryFrom', e.target.value); }} />
                 </label>
                 -
                 <label className="label">
-                    <input className="input"
+                    <input className={error && !userData.salaryTo ? "input input--error" : "input"}
                            type="number"
                            value={userData.salaryTo}
                            onChange={(e) => { handleChange('salaryTo', e.target.value); }} />
@@ -152,13 +152,13 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
 
         <div className="categories">
             <div className="label label--rel certificatesWrapper flex">
-                <span>
+                <span className={error && (userData.categories[0] === '-' || userData?.categories?.length === 0) ? 'error' : ''}>
                      {c.mainCategories} *
                     <Tooltip
                         html={<span className="tooltipVisible">
                                 {c.categoriesTooltip}
                                         </span>}
-                        position={window.innerWidth > 768 ? "left" : "top"}
+                        position={window.innerWidth > 768 ? "right" : "top"}
                         followCursor={true}
                     >
                         <div className="tooltip">

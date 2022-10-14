@@ -105,6 +105,9 @@ const AgencyEditData = () => {
     const [carAvailableVisible, setCarAvailableVisible] = useState(false);
     const [bikeAvailableVisible, setBikeAvailableVisible] = useState(false);
     const [pensionContributionsVisible, setPensionContributionsVisible] = useState(false);
+    const [errorFields, setErrorFields] = useState([]);
+    const [step1Error, setStep1Error] = useState(false);
+    const [step2Error, setStep2Error] = useState(false);
 
     const { c } = useContext(LanguageContext);
 
@@ -214,8 +217,48 @@ const AgencyEditData = () => {
     }, [step, substep]);
 
     const validateAgencyData = () => {
-        return agencyData.name && agencyData.city && agencyData.country >= 0 && agencyData.postalCode
-            && agencyData.address && agencyData.nip && agencyData.phoneNumber && agencyData.description
+        let fields = [];
+
+        if(!agencyData.name) {
+            fields.push(c.companyName);
+            setStep1Error(true);
+        }
+        if(!agencyData.city) {
+            setStep1Error(true);
+            fields.push(c.city);
+        }
+        if(agencyData.country < 0) {
+            fields.push(c.country);
+            setStep1Error(true);
+        }
+        if(!agencyData.postalCode) {
+            fields.push(c.postalCode);
+            setStep1Error(true);
+        }
+        if(!agencyData.address) {
+            fields.push(c.streetAndBuilding);
+            setStep1Error(true);
+        }
+        if(!agencyData.nip) {
+            fields.push(c.nip);
+            setStep1Error(true);
+        }
+        if(!agencyData.phoneNumber) {
+            fields.push(c.phoneNumber);
+            setStep1Error(true);
+        }
+        if(!agencyData.description) {
+            fields.push(c.companyDescription);
+            setStep2Error(true);
+        }
+
+        if(fields.length) {
+            setErrorFields(fields);
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
     const submitAgencyData = async (agencyData) => {
@@ -241,6 +284,7 @@ const AgencyEditData = () => {
             }
         }
         else {
+            window.scrollTo(0, document.body.scrollHeight);
             setError(JSON.parse(c.formErrors)[0]);
         }
     }
@@ -346,8 +390,47 @@ const AgencyEditData = () => {
         });
     }
 
+    useEffect(() => {
+        const stepsParents = Array.from(document.querySelectorAll('.editData__step'));
+        const steps = Array.from(document.querySelectorAll('.editData__step>.editData__left__step__text'));
+
+        if(step1Error) {
+            steps[0].style.color = 'red';
+            stepsParents[0].style.opacity = '1';
+        }
+        else {
+            steps[0].style.color = '#fff';
+            stepsParents[0].style.opacity = '.5';
+        }
+    }, [step1Error]);
+
+    useEffect(() => {
+        const stepsParents = Array.from(document.querySelectorAll('.editData__step'));
+        const steps = Array.from(document.querySelectorAll('.editData__step>.editData__left__step__text'));
+
+        if(step2Error) {
+            steps[1].style.color = 'red';
+            stepsParents[1].style.opacity = '1';
+        }
+        else {
+            steps[1].style.color = '#fff';
+            stepsParents[1].style.opacity = '.5';
+        }
+    }, [step2Error]);
+
+    useEffect(() => {
+        if(agencyData.description) {
+            setStep2Error(false);
+        }
+
+        if(agencyData.name && agencyData.city && agencyData.country >= 0 && agencyData.postalCode &&
+            agencyData.address && agencyData.nip && agencyData.phoneNumber) {
+            setStep1Error(false);
+        }
+    }, [agencyData]);
+
     return <AgencyDataContext.Provider value={{
-        setStep, setSubstep, agencyData, handleChange, error,
+        setStep, setSubstep, agencyData, handleChange, error, errorFields,
         countriesVisible, phoneNumbersCountriesVisible, nipCountriesVisible, pensionContributionsVisible,
         roomVisible, houseVisible, parkingVisible, loading, carAvailableVisible, bikeAvailableVisible,
         carVisible, carCurrencyVisible, bikeVisible, bikeCurrencyVisible, transportCostReturnVisible,

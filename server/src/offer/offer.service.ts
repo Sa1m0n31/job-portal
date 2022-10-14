@@ -935,22 +935,23 @@ export class OfferService {
         }
         else {
             // Translate to Polish
-            const contentToTranslate = [offerData.title, offerData.keywords, offerData.description,
-                offerData.responsibilities, offerData.requirements, offerData.benefits
-            ];
-            const polishVersionResponse = await this.translationService.translateContent(JSON.stringify(contentToTranslate), 'pl');
-            const polishVersion = JSON.parse(polishVersionResponse);
+            const polishVersionResponseTitle = await this.translationService.translateContent(offerData.title, 'pl', true);
+            const polishVersionResponseKeywords = await this.translationService.translateContent(offerData.keywords, 'pl', true);
+            const polishVersionResponseDescription = await this.translationService.translateContent(offerData.description, 'pl', true);
+            const polishVersionResponseResponsibilities = await this.translationService.translateContent(offerData.responsibilities, 'pl', true);
+            const polishVersionResponseRequirements = await this.translationService.translateContent(offerData.requirements, 'pl', true);
+            const polishVersionResponseBenefits = await this.translationService.translateContent(offerData.benefits, 'pl', true);
 
             // Add filenames
             if(updateMode) {
                 return {
                     ...offerData,
-                    title: polishVersion[0],
-                    keywords: polishVersion[1],
-                    description: polishVersion[2],
-                    responsibilities: polishVersion[3],
-                    requirements: polishVersion[4],
-                    benefits: polishVersion[5],
+                    title: polishVersionResponseTitle,
+                    keywords: polishVersionResponseKeywords,
+                    description: polishVersionResponseDescription,
+                    responsibilities: polishVersionResponseResponsibilities,
+                    requirements: polishVersionResponseRequirements,
+                    benefits: polishVersionResponseBenefits,
                     image: files.image ? files.image[0].path : offerData.imageUrl,
                     attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
                         return {
@@ -963,12 +964,12 @@ export class OfferService {
             else {
                 return {
                     ...offerData,
-                    title: polishVersion[0],
-                    keywords: polishVersion[1],
-                    description: polishVersion[2],
-                    responsibilities: polishVersion[3],
-                    requirements: polishVersion[4],
-                    benefits: polishVersion[5],
+                    title: polishVersionResponseTitle,
+                    keywords: polishVersionResponseKeywords,
+                    description: polishVersionResponseDescription,
+                    responsibilities: polishVersionResponseResponsibilities,
+                    requirements: polishVersionResponseRequirements,
+                    benefits: polishVersionResponseBenefits,
                     image: files.image ? files.image[0].path : offerData.imageUrl,
                     attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
                         return {
@@ -1027,7 +1028,7 @@ export class OfferService {
             created_at: new Date(),
             lat,
             lng,
-            manyLocations,
+            manyLocations: manyLocations !== '-' ? manyLocations : null,
             show_agency_info
         });
 
@@ -1222,7 +1223,7 @@ export class OfferService {
                 extraInfo,
                 lat,
                 lng,
-                manyLocations,
+                manyLocations: manyLocations !== '-' ? manyLocations : null,
                 show_agency_info
             })
             .where({id})

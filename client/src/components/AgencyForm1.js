@@ -5,14 +5,14 @@ import {AgencyDataContext} from "../pages/AgencyEditData";
 import {LanguageContext} from "../App";
 
 const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setNipCountriesVisible}) => {
-    const { setStep, agencyData, handleChange, countriesVisible, phoneNumbersCountriesVisible, nipCountriesVisible } = useContext(AgencyDataContext);
+    const { setStep, agencyData, error, handleChange, countriesVisible, phoneNumbersCountriesVisible, nipCountriesVisible } = useContext(AgencyDataContext);
     const { c } = useContext(LanguageContext);
 
     return <>
         <div className="userForm userForm--1 userForm--1--agency">
         <label className="label">
             {c.companyName} *
-            <input className="input"
+            <input className={error && !agencyData.name ? "input input--error" : "input"}
                    value={agencyData.name}
                    onChange={(e) => { handleChange('name', e.target.value); }} />
         </label>
@@ -20,7 +20,7 @@ const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setN
             {c.companyAddress} *
             <div className="flex">
                 <div className="label--date__input label--date__input--country">
-                    <button className="datepicker datepicker--country"
+                    <button className={error && agencyData.country < 0 ? "datepicker datepicker--country input--error" : "datepicker datepicker--country"}
                             onClick={(e) => { e.stopPropagation(); setCountriesVisible(!countriesVisible); }}
                     >
                         {agencyData?.country !== undefined && c.countries ? JSON.parse(c.countries)[agencyData.country] : c.chooseCountry}
@@ -36,19 +36,19 @@ const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setN
                     </div> : ''}
                 </div>
                 <label>
-                    <input className="input input--postalCode"
+                    <input className={error && !agencyData.postalCode ? "input input--postalCode input--error" : "input input--postalCode"}
                            value={agencyData.postalCode}
                            onChange={(e) => { handleChange('postalCode', e.target.value); }}
                            placeholder={c.postalCode} />
                 </label>
                 <label>
-                    <input className="input input--city"
+                    <input className={error && !agencyData.city ? "input input--city input--error" : "input input--city"}
                            value={agencyData.city}
                            onChange={(e) => { handleChange('city', e.target.value); }}
                            placeholder={c.city} />
                 </label>
                 <label>
-                    <input className="input input--address"
+                    <input className={error && !agencyData.address ? "input input--address input--error" : "input input--address"}
                            value={agencyData.address}
                            onChange={(e) => { handleChange('address', e.target.value); }}
                            placeholder={c.streetAndBuilding} />
@@ -70,7 +70,7 @@ const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setN
                     </button>
                 })}
             </div> : ''}
-            <input className="input"
+            <input className={error && !agencyData.nip ? "input input--error" : "input"}
                    value={agencyData.nip}
                    onChange={(e) => { handleChange('nip', e.target.value); }} />
         </div>
@@ -88,18 +88,18 @@ const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setN
                     </button>
                 })}
             </div> : ''}
-            <input className="input"
+            <input className={error && !agencyData.phoneNumber ? "input input--error" : "input"}
                    value={agencyData.phoneNumber}
                    onChange={(e) => { handleChange('phoneNumber', e.target.value); }} />
         </div>
 
-        <label className="label">
-            {c.email}
-            <input className="input"
-                   disabled={true}
-                   value={agencyData.email}
-                   onChange={(e) => { handleChange('email', e.target.value); }} />
-        </label>
+        {/*<label className="label">*/}
+        {/*    {c.email}*/}
+        {/*    <input className="input"*/}
+        {/*           disabled={true}*/}
+        {/*           value={agencyData.email}*/}
+        {/*           onChange={(e) => { handleChange('email', e.target.value); }} />*/}
+        {/*</label>*/}
     </div>
     <div className="formBottom flex">
         <button className="btn btn--userForm" onClick={() => { setStep(1); }}>

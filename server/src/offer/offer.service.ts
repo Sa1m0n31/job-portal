@@ -1006,6 +1006,7 @@ export class OfferService {
             const polishVersionResponseResponsibilities = await this.translationService.translateContent(offerData.responsibilities, 'pl', true);
             const polishVersionResponseRequirements = await this.translationService.translateContent(offerData.requirements, 'pl', true);
             const polishVersionResponseBenefits = await this.translationService.translateContent(offerData.benefits, 'pl', true);
+            const polishVersionResponseExtraInfo = await this.translationService.translateContent(offerData.extraInfo, 'pl', false);
 
             // Add filenames
             if(updateMode) {
@@ -1018,6 +1019,7 @@ export class OfferService {
                     requirements: polishVersionResponseRequirements,
                     benefits: polishVersionResponseBenefits,
                     image: files.image ? files.image[0].path : offerData.imageUrl,
+                    extraInfo: polishVersionResponseExtraInfo,
                     attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
                         return {
                             name: offerData.attachments[index].name,
@@ -1036,6 +1038,7 @@ export class OfferService {
                     requirements: polishVersionResponseRequirements,
                     benefits: polishVersionResponseBenefits,
                     image: files.image ? files.image[0].path : offerData.imageUrl,
+                    extraInfo: polishVersionResponseExtraInfo,
                     attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
                         return {
                             name: offerData.attachments[index].name,

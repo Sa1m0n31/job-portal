@@ -102,7 +102,7 @@ const AddFastJobOffer = ({updateMode}) => {
         setBenefits(JSON.parse(data.o_benefits));
         setCategory(parseInt(data.o_category));
         setCity(data.o_city);
-        setContractType(data.o_contractType);
+        setContractType(JSON.parse(data.o_contractType));
         setCountry(data.o_country);
         setDescription(data.o_description);
         setDay(data.o_accommodationDay);
@@ -920,6 +920,7 @@ const AddFastJobOffer = ({updateMode}) => {
                 {c.contractType}
                 <div className="languagesWrapper languagesWrapper--contracts flex">
                     {JSON.parse(c.contracts).map((item, index) => {
+                        console.log(contractType);
                         return <label className={isElementInArray(index, contractType) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"} key={index}>
                             <button className={isElementInArray(index, contractType) ? "checkbox checkbox--selected center" : "checkbox center"}
                                     onClick={(e) => { e.preventDefault(); toggleContract(index); }}>

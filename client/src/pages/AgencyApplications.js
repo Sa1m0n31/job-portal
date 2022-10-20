@@ -155,9 +155,11 @@ const AgencyApplications = ({data}) => {
                         {fastOffersCandidates[index]?.map((item, index) => {
                             return <UserPreview key={index}
                                                 id={item.u_id}
+                                                deleteFromFastOffer={true}
                                                 companyName={data?.name}
                                                 companyLogo={`${settings.API_URL}/${data?.logo}`}
                                                 application={{
+                                                    id: item.application_id,
                                                     message: item.app_message,
                                                     // preferableContact: JSON.parse(item.app_preferableContact),
                                                     // friendLink: item.app_friendLink,
@@ -240,12 +242,14 @@ const AgencyApplications = ({data}) => {
                         {offersCandidates[index]?.map((item, index) => {
                             return <UserPreview key={index}
                                                 id={item.u_id}
+                                                deleteFromOffer={true}
                                                 companyName={data?.name}
                                                 companyLogo={`${settings.API_URL}/${data?.logo}`}
                                                 application={{
+                                                    id: item.application_id,
                                                     message: item.application_message,
-                                                    preferableContact: JSON.parse(item.application_preferableContact),
-                                                    friendLink: item.application_friendLink,
+                                                    // preferableContact: JSON.parse(item.application_preferableContact),
+                                                    // friendLink: item.application_friendLink,
                                                     attachments: JSON.parse(item.application_attachments)
                                                 }}
                                                 data={JSON.parse(item.u_data)} />

@@ -1859,7 +1859,7 @@ export class OfferService {
             .createQueryBuilder('o')
             .leftJoinAndSelect('application', 'application', 'o.id = application.offer')
             .leftJoinAndSelect('user', 'u', 'u.id = application.user')
-            .where('o.agency = :agencyId', {agencyId})
+            .where('o.agency = :agencyId and application.hidden = 0', {agencyId})
             .getRawMany();
 
         if(lang === 'pl') {
@@ -1937,7 +1937,7 @@ export class OfferService {
             .createQueryBuilder('o')
             .leftJoinAndSelect('fast_applications', 'app', 'o.id = app.offer')
             .leftJoinAndSelect('user', 'u', 'u.id = app.user')
-            .where('o.agency = :agencyId', {agencyId})
+            .where('o.agency = :agencyId and app.hidden = 0', {agencyId})
             .getRawMany();
 
         if(lang === 'pl' || !lang) {

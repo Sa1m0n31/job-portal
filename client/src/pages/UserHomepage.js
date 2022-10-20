@@ -176,6 +176,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                                 html={<span className="tooltipVisible">
                                     {c.userTooltip1}
                                 </span>}
+                                followCursor={true}
                                 position="left"
                             >
                                 <span className="tooltip">
@@ -195,6 +196,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                                 html={<span className="tooltipVisible">
                                     {c.userTooltip2}
                                 </span>}
+                                followCursor={true}
                                 position="left">
                                 <span className="tooltip">
                                     ?

@@ -217,11 +217,14 @@ export class UserService {
             // Translate to Polish
             const jobTitles = originalData.jobs ? originalData.jobs.map((item) => (item.title)) : '';
             const jobResponsibilities = originalData.jobs ? originalData.jobs.map((item) => (item.responsibilities)) : '';
+            const jobLength = originalData.jobs ? originalData.jobs.map((item) => (item.jobLength)) : '';
 
             const contentToTranslate = [originalData.extraLanguages, originalData.courses,
-                originalData.certificates, originalData.situationDescription, jobTitles, jobResponsibilities];
+                originalData.certificates, originalData.situationDescription, jobTitles, jobResponsibilities, jobLength];
             const polishVersionResponse = await this.translationService.translateContent(JSON.stringify(contentToTranslate), 'pl');
             const polishVersion = JSON.parse(polishVersionResponse);
+
+            console.log(polishVersionResponse);
 
             // Add filenames
             return {
@@ -234,7 +237,8 @@ export class UserService {
                    return {
                        ...item,
                        title: polishVersion[4][index],
-                       responsibilities: polishVersion[5][index]
+                       responsibilities: polishVersion[5][index],
+                       jobLength: polishVersionResponse[6][index]
                    }
                 }),
                 profileImage: files.profileImage ? files.profileImage[0].path : userData.profileImageUrl,
@@ -269,14 +273,10 @@ export class UserService {
                 const toYear = parseInt(toArray[0]);
                 const toMonth = parseInt(toArray[1]);
 
-                console.log(fromYear, fromMonth, toYear, toMonth);
-
                 const yearSubtraction = toYear - fromYear;
                 const monthSubtraction = toMonth - fromMonth;
 
                 let years, months;
-
-                console.log(yearSubtraction, monthSubtraction);
 
                 if(monthSubtraction < 0) {
                     years = yearSubtraction - 1;
@@ -318,7 +318,12 @@ export class UserService {
 
         userData = {
             ...userData,
-            jobsLength
+            jobs: userData.jobs.map((item, index) => {
+                return {
+                    ...item,
+                    jobLength: jobsLength[index]
+                }
+            })
         };
 
         // Get new latitude and longitude
@@ -384,23 +389,26 @@ export class UserService {
         });
 
         if(userTranslation?.length) {
+            console.log('yes');
             userTranslationData = userTranslation.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), userTranslateObject);
             userTranslationData = {
                 ...userTranslationData,
                 courses: userTranslationData.courses ? JSON.parse(userTranslationData.courses) : '',
                 certificates: userTranslationData.certificates ? JSON.parse(userTranslationData.certificates) : '',
                 jobTitles: userTranslationData.jobTitles ? JSON.parse(userTranslationData.jobTitles) : '',
-                jobResponsibilities: userTranslationData.jobResponsibilities ? JSON.parse(userTranslationData.jobResponsibilities) : ''
+                jobResponsibilities: userTranslationData.jobResponsibilities ? JSON.parse(userTranslationData.jobResponsibilities) : '',
+                jobLength: userTranslationData.jobLength ? JSON.parse(userTranslationData.jobLength) : ''
             }
         }
         else {
             // Translate by Google API
             const jobsTitles = userData.jobs ? userData.jobs.map((item) => (item.title)) : [];
             const jobsResponsibilities = userData.jobs ? userData.jobs.map((item) => (item.responsibilities)) : [];
+            const jobsLength = userData.jobs ? userData.jobs.map((item) => (item.jobLength)) : [];
 
             let translatedUserArray = await this.translationService.translateContent([userData.extraLanguages,
                 userData.courses, userData.certificates, userData.situationDescription,
-                jobsTitles, jobsResponsibilities], lang);
+                jobsTitles, jobsResponsibilities, jobsLength], lang);
 
             // Strings
             translatedUserArray = translatedUserArray.map((item, index) => {
@@ -437,7 +445,8 @@ export class UserService {
                 certificates: translatedUserArray[2] ? JSON.parse(translatedUserArray[2]) : '',
                 situationDescription: translatedUserArray[3],
                 jobTitles: translatedUserArray[4] ? JSON.parse(translatedUserArray[4]) : '',
-                jobResponsibilities: translatedUserArray[5] ? JSON.parse(translatedUserArray[5]) : ''
+                jobResponsibilities: translatedUserArray[5] ? JSON.parse(translatedUserArray[5]) : '',
+                jobLength: translatedUserArray[6] ? JSON.parse(translatedUserArray[6]) : ''
             }
 
             // Store in DB
@@ -467,7 +476,8 @@ export class UserService {
                     return {
                         ...item,
                         title: userTranslationData.jobTitles[index],
-                        responsibilities: userTranslationData.jobResponsibilities[index]
+                        responsibilities: userTranslationData.jobResponsibilities[index],
+                        jobLength: userTranslationData.jobLength[index]
                     }
                 }) : ''
             })

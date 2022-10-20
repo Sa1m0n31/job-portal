@@ -189,15 +189,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                 });
         }
         else {
-            getUserData(email)
-                .then((res) => {
-                    setUser(JSON.parse(res.data.data));
-                })
-                .catch(() => {
-                    setRender(true);
-                });
-
-            // setRender(true);
+            setRender(true);
         }
     }, [translate]);
 
@@ -223,10 +215,6 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
             }
         }
     }, [render, user]);
-
-    useEffect(() => {
-        
-    }, [jobs, user]);
 
     return render ? <Document>
         <Page size="A4" style={styles.page}>
@@ -362,7 +350,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                                 {item.title}
                             </Text>
                             <Text style={styles.schoolDate}>
-                                {fromDateValue} - {item.to ? toDateValue : c.during} {user?.jobsLength ? `(${user.jobsLength[index]})` : ''}
+                                {fromDateValue} - {item.to ? toDateValue : c.during} {item?.jobLength ? `(${item.jobLength})` : ''}
                             </Text>
                             {Array.isArray(item?.responsibilities) ? item.responsibilities.map((item, index) => {
                                 return <Text style={styles.textWithMarginBottom}
@@ -406,7 +394,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                                 {item.title}
                             </Text>
                             <Text style={styles.schoolDate}>
-                                {fromDateValue} - {item.to ? toDateValue : c.during} {user?.jobsLength ? `(${user.jobsLength[index]})` : ''}
+                                {fromDateValue} - {item.to ? toDateValue : c.during} {item?.jobLength ? `(${item.jobLength})` : ''}
                             </Text>
                             {Array.isArray(item?.responsibilities) ? item.responsibilities.map((item, index) => {
                                 return <Text style={styles.textWithMarginBottom}

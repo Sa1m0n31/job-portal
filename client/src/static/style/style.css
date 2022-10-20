@@ -3943,6 +3943,10 @@ input {
     justify-content: flex-start;
 }
 
+.preview--agency {
+    position: relative;
+}
+
 .container--agenciesList .preview--agency .preview__left {
     max-width: 90%;
 }
@@ -4697,6 +4701,7 @@ div[data-testid=circles-loading] {
 .btn--showCandidates {
     max-height: 40px;
     padding: 5px 20px !important;
+    font-size: 12px !important;
 }
 
 .btn--showCandidates .img {
@@ -6160,4 +6165,22 @@ input[type=month] {
 .btn--changeToFast {
     padding: 10px 20px;
     margin: 0 auto 20px !important;
+}
+
+.btn--removeApplication {
+    background: #cb4949;
+    color: #fff;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -12px;
+    right: -12px;
+}
+
+.btn--removeApplication:hover {
+    background: red;
 }

@@ -226,7 +226,9 @@ const hideApplication = (application, user) => {
     return axios.post(`/offer/hideApplication`, {
         application, user
     }, {
-        headers: getAuthHeader()
+        headers: {
+            Authorization: getAuthHeader()
+        }
     });
 }
 
@@ -234,7 +236,9 @@ const hideFastApplication = (application, user) => {
     return axios.post(`/offer/hideFastApplication`, {
         application, user
     }, {
-        headers: getAuthHeader()
+        headers: {
+            Authorization: getAuthHeader()
+        }
     });
 }
 

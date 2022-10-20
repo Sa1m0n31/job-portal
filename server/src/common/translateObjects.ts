@@ -5,7 +5,8 @@ const userTranslateObject = {
     certificates: '',
     situationDescription: '',
     jobTitles: '', // []
-    jobResponsibilities: '' // [ [], [] ]
+    jobResponsibilities: '', // [ [], [] ]
+    jobLength: '' // []
 }
 
 // Type = 2
@@ -27,7 +28,7 @@ const offerTranslateObject = {
 }
 
 const userTranslateFields = ['extraLanguages', 'courses', 'certificates',
-'situationDescription', 'jobTitles', 'jobResponsibilities'];
+'situationDescription', 'jobTitles', 'jobResponsibilities', 'jobLength'];
 
 const agencyTranslateFields = ['description', 'recruitmentProcess',
     'benefits', 'roomDescription'

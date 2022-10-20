@@ -16,13 +16,17 @@ import downloadWhite from "../static/img/download-white.svg";
 import {LanguageContext} from "../App";
 import Loader from "./Loader";
 import {currencies} from "../static/content";
+import DeleteModal from "./DeleteModal";
+import {hideApplication, hideFastApplication} from "../helpers/offer";
 
-const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
+const UserPreview = ({i, id, data, application, companyLogo, companyName, deleteFromOffer, deleteFromFastOffer}) => {
     const { c } = useContext(LanguageContext);
 
     const [loading, setLoading] = useState(false);
     const [downloadCV, setDownloadCV] = useState(false);
     const [disabled, setDisabled] = useState(true);
+    const [removeSuccess, setRemoveSuccess] = useState(false);
+    const [removeApplicationModal, setRemoveApplicationModal] = useState(false);
 
     const generateCV = () => {
         setDownloadCV(true);
@@ -32,7 +36,41 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
         }, 2000);
     }
 
+    const removeApplication = () => {
+        setRemoveApplicationModal(true);
+    }
+
+    const removeUserApplication = () => {
+        console.log(deleteFromFastOffer);
+        if(deleteFromFastOffer) {
+            hideFastApplication(application.id, id)
+                .then((res) => {
+                   if(res?.status === 201) {
+                       setRemoveSuccess(true);
+                   }
+                });
+        }
+        else {
+            hideApplication(application.id, id)
+                .then((res) => {
+                    if(res?.status === 201) {
+                        setRemoveSuccess(true);
+                    }
+                });
+        }
+    }
+
     return data ? <div className={application ? "preview preview--agency preview--user flex flex-wrap" : "preview preview--agency preview--user flex"} key={i}>
+        {application ? <button className="btn btn--removeApplication" onClick={() => { removeApplication(); }}>
+            &times;
+        </button> : ''}
+
+        {removeApplicationModal ? <DeleteModal closeModal={() => { setRemoveApplicationModal(false); }}
+                                               modalAction={removeUserApplication}
+                                               header={c.deleteApplication1}
+                                               message={c.deleteApplication2}
+                                               success={removeSuccess} /> : ''}
+
         <div className="preview__left">
             <figure className="preview__profileImage">
                 <img className="img" src={data?.profileImage ? `${settings.API_URL}/${data.profileImage}` : userPlaceholder} alt="logo" />

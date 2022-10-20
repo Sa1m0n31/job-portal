@@ -205,10 +205,12 @@ const UserEditData = () => {
                 break;
         }
 
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        setTimeout(() => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }, 100);
     }, [step, substep]);
 
     useEffect(() => {
@@ -340,6 +342,10 @@ const UserEditData = () => {
         if(userData.categories[0] === '-' || userData?.categories?.length === 0) {
             setStep5Error(true);
             fields.push(c.mainCategories);
+        }
+        if(!userData.whereYouFindOurApp) {
+            setStep5Error(true);
+            fields.push(c.whereYouFindOurApp);
         }
 
         if(fields.length) {

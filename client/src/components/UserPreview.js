@@ -101,9 +101,9 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
                                                              c={c}
                                                              enableDownload={() => { setDisabled(false); }}
                                                              translate={true}
-                                                             fullName={`${data.firstName} ${data.lastName}`}
-                                                             companyName={companyName}
-                                                             companyLogo={companyLogo}
+                                                             fullName={data.firstName ? `${data.firstName} ${data.lastName}` : c.anonim}
+                                                             // companyName={companyName}
+                                                             // companyLogo={companyLogo}
                                                              categories={data.categories}
                                                              email={data.email}
                                                              birthday={getDate(data?.birthdayDay, data?.birthdayMonth, data?.birthdayYear)}
@@ -115,7 +115,7 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
                                                              certs={data.certificates?.concat(data.courses)}
                                                              desc={data.situationDescription}
                                                              phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : c.noInfo}
-                                                             location={data.country >= 0 ? `${data.city}, ${JSON.parse(c.countries)[data.country]}` : c.noInfo}
+                                                             location={data.country >= 0 ? `${data.address}, ${data.city}, ${JSON.parse(c.countries)[data.country]}` : c.noInfo}
                                                              currentPlace={data.currentCountry >= 0 ? `${JSON.parse(c.countries)[data.currentCountry]}, ${data.currentCity}`: c.noInfo}
                                                              availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : c.noInfo}
                                                              ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}
@@ -157,29 +157,29 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName}) => {
                     {application.message}
                 </div>
             </div> : ''}
-            {application.friendLink ? <div className="preview__bottom__section">
-                <h4 className="preview__bottom__header">
-                    {c.friendLink}
-                </h4>
-                <a className="preview__bottom__content" href={application.friendLink}>
-                    {application.friendLink}
-                </a>
-            </div> : ''}
-            <div className="preview__bottom__section">
-                <h4 className="preview__bottom__header">
-                    {c.preferableContact}
-                </h4>
-                <div className="preview__bottom__content">
-                    {application.preferableContact?.map((item, index, array) => {
-                        if(index === array.length-1) {
-                            return JSON.parse(c.preferableContactForms)[item];
-                        }
-                        else {
-                            return JSON.parse(c.preferableContactForms)[item] + ', ';
-                        }
-                    })}
-                </div>
-            </div>
+            {/*{application.friendLink ? <div className="preview__bottom__section">*/}
+            {/*    <h4 className="preview__bottom__header">*/}
+            {/*        {c.friendLink}*/}
+            {/*    </h4>*/}
+            {/*    <a className="preview__bottom__content" href={application.friendLink}>*/}
+            {/*        {application.friendLink}*/}
+            {/*    </a>*/}
+            {/*</div> : ''}*/}
+            {/*<div className="preview__bottom__section">*/}
+            {/*    <h4 className="preview__bottom__header">*/}
+            {/*        {c.preferableContact}*/}
+            {/*    </h4>*/}
+            {/*    <div className="preview__bottom__content">*/}
+            {/*        {application.preferableContact?.map((item, index, array) => {*/}
+            {/*            if(index === array.length-1) {*/}
+            {/*                return JSON.parse(c.preferableContactForms)[item];*/}
+            {/*            }*/}
+            {/*            else {*/}
+            {/*                return JSON.parse(c.preferableContactForms)[item] + ', ';*/}
+            {/*            }*/}
+            {/*        })}*/}
+            {/*    </div>*/}
+            {/*</div>*/}
             {application?.attachments?.length ? <div className="preview__bottom__section">
                 <h3 className="preview__bottom__header">
                     {c.attachments}

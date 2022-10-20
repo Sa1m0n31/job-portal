@@ -38,6 +38,7 @@ input[type=number] {
 
 .container {
     position: relative;
+    overflow-x: hidden;
 }
 
 .noscroll {
@@ -642,6 +643,7 @@ input {
     padding: 50px 80px;
     background: var(--primary);
     height: 100vh;
+    z-index: 100;
 }
 
 .editData__left * {
@@ -1012,6 +1014,18 @@ input {
     z-index: 3;
 }
 
+.formBottom::after {
+    content: "";
+    background: #fff;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 2000px;
+    transform: translateX(100%);
+    z-index: 2;
+}
+
 .formBottom .info {
     margin: 15px 40px;
 }
@@ -1063,11 +1077,42 @@ input {
 .userForm3 .form__job,
 .userForm2 .form__school {
     padding: 20px 0;
-    border-bottom: 1px dashed var(--primary);
 }
 
 .userForm3 .form__job {
-    padding-bottom: 0;
+    padding-bottom: 5px;
+}
+
+.userForm3 .form__job:nth-of-type(even),
+.userForm2 .form__school:nth-of-type(even) {
+    background: #f1f1f1;
+    position: relative;
+}
+
+.userForm3 .form__job:nth-of-type(even)::before,
+.userForm2 .form__school:nth-of-type(even)::before {
+    content: "";
+    background: #f1f1f1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 400px;
+    height: 100%;
+    transform: translateX(-100%);
+    z-index: 2;
+}
+
+.userForm3 .form__job:nth-of-type(even)::after,
+.userForm2 .form__school:nth-of-type(even)::after {
+    content: "";
+    background: #f1f1f1;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2000px;
+    height: 100%;
+    transform: translateX(100%);
+    z-index: 2;
 }
 
 .form__school .label {
@@ -4863,20 +4908,20 @@ div[data-testid=circles-loading] {
 }
 
 .adsVideo {
-    margin-top: 10px;
-    max-width: 90%;
+    margin-top: 0;
+    max-width: 750px;
 }
 
 .adsBottom,
 .adsLink {
-    max-width: 90%;
+    max-width: 50%;
     margin: auto;
     width: 1400px;
 }
 
 .adsBottom {
     margin: 40px auto 0;
-    max-width: 1000px;
+    max-width: 750px;
     width: 90%;
 }
 
@@ -4989,7 +5034,7 @@ div[data-testid=circles-loading] {
 }
 
 .partners__header {
-    font-size: 26px;
+    font-size: 21px;
     font-weight: 400;
 }
 
@@ -6110,4 +6155,9 @@ input[type=month] {
 
 .d-block {
     display: block;
+}
+
+.btn--changeToFast {
+    padding: 10px 20px;
+    margin: 0 auto 20px !important;
 }

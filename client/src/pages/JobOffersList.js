@@ -31,6 +31,7 @@ const JobOfferList = ({data}) => {
 
     {/* FILTERS */}
     const [title, setTitle] = useState('');
+    const [keywords, setKeywords] = useState('');
     const [category, setCategory] = useState(-1);
     const [country, setCountry] = useState(-1);
     const [city, setCity] = useState('');
@@ -123,7 +124,7 @@ const JobOfferList = ({data}) => {
         setPage(2);
         setHasMore(true);
         setFilterActive(true);
-        filterOffers(1, title, category, country, city, distance, salaryType, salaryFrom, salaryTo, salaryCurrency)
+        filterOffers(1, title, keywords, category, country, city, distance, salaryType, salaryFrom, salaryTo, salaryCurrency)
             .then(async (res) => {
                 setLoading(false);
                 if(res?.status === 201) {
@@ -149,6 +150,7 @@ const JobOfferList = ({data}) => {
 
         {filtersVisible ? <JobOffersFilters closeModal={() => { setFiltersVisible(false); }}
                                             title={title}
+                                            keywords={keywords}
                                             submitFilters={submitFilter}
                                             category={category}
                                             country={country}
@@ -159,6 +161,7 @@ const JobOfferList = ({data}) => {
                                             salaryTo={salaryTo}
                                             salaryCurrency={salaryCurrency}
                                             setTitle={setTitle}
+                                            setKeywords={setKeywords}
                                             setCategory={setCategory}
                                             setCountry={setCountry}
                                             setCity={setCity}

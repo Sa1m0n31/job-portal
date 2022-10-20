@@ -90,6 +90,7 @@ const AgencyApplications = ({data}) => {
             </h2>
             {fastOffers?.map((preItem, index) => {
                 const item = preItem[1][0];
+
                 return <>
                     <div className="offerItem offerItem--applications flex" key={index}>
                 <span className="offerItem__date">
@@ -158,8 +159,8 @@ const AgencyApplications = ({data}) => {
                                                 companyLogo={`${settings.API_URL}/${data?.logo}`}
                                                 application={{
                                                     message: item.app_message,
-                                                    preferableContact: JSON.parse(item.app_preferableContact),
-                                                    friendLink: item.app_friendLink,
+                                                    // preferableContact: JSON.parse(item.app_preferableContact),
+                                                    // friendLink: item.app_friendLink,
                                                     attachments: JSON.parse(item.app_attachments)
                                                 }}
                                                 data={JSON.parse(item.u_data)} />

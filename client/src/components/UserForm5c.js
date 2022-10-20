@@ -3,7 +3,7 @@ import {UserDataContext} from "../pages/UserEditData";
 import {LanguageContext} from "../App";
 
 const UserForm5C = () => {
-    const { userData, setSubstep, handleChange } = useContext(UserDataContext);
+    const { userData, setSubstep, handleChange, error } = useContext(UserDataContext);
     const { c } = useContext(LanguageContext);
 
     return <>
@@ -19,9 +19,9 @@ const UserForm5C = () => {
         {/*</label>*/}
         <label className="label label--friendLink">
             <p className="label--extraInfo">
-                {c.whereYouFindOurApp}
+                {c.whereYouFindOurApp} *
             </p>
-            <input className="input"
+            <input className={error && !userData.whereYouFindOurApp ? "input input--error" : "input"}
                    value={userData.whereYouFindOurApp}
                    onChange={(e) => { handleChange('whereYouFindOurApp', e.target.value); }} />
         </label>

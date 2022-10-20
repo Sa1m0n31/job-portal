@@ -94,9 +94,9 @@ const submitApplication = (id, message, friendLink, contactForms, attachments, a
     return axios.post('/offer/addApplication', formData, config);
 }
 
-const filterOffers = (page, title, category, country, city, distance, salaryType, salaryFrom, salaryTo, salaryCurrency) => {
+const filterOffers = (page, title, keywords, category, country, city, distance, salaryType, salaryFrom, salaryTo, salaryCurrency) => {
     return axios.post(`/offer/filter`, {
-        page, title, category, country, city, distance, salaryType, salaryFrom, salaryTo, salaryCurrency,
+        page, title, category, country, city, keywords, distance, salaryType, salaryFrom, salaryTo, salaryCurrency,
         lang: getLang()
     }, {
         headers: {
@@ -222,7 +222,24 @@ const getAllOffers = (page) => {
     });
 }
 
+const hideApplication = (application, user) => {
+    return axios.post(`/offer/hideApplication`, {
+        application, user
+    }, {
+        headers: getAuthHeader()
+    });
+}
+
+const hideFastApplication = (application, user) => {
+    return axios.post(`/offer/hideFastApplication`, {
+        application, user
+    }, {
+        headers: getAuthHeader()
+    });
+}
+
 export { addOffer, getJobOffersByAgency, getActiveJobOffers, deleteOffer,
     getOfferById, updateOffer, submitApplication, filterOffers, getActiveFastOffers,
     addFastOffer, updateFastOffer, getFastJobOffersByAgency, deleteFastOffer, getAllOffers,
-    getFastOfferById, submitFastApplication, getApplicationsByAgency, getFastApplicationsByAgency }
+    getFastOfferById, submitFastApplication, getApplicationsByAgency, getFastApplicationsByAgency,
+    hideApplication, hideFastApplication }

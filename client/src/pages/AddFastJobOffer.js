@@ -15,7 +15,7 @@ import fileIcon from "../static/img/doc.svg";
 import checkIcon from '../static/img/green-check.svg'
 import arrowIcon from '../static/img/small-white-arrow.svg'
 import {
-    addFastOffer,
+    addFastOffer, deleteOffer,
     getActiveFastOffers, getFastOfferById,
     updateFastOffer
 } from "../helpers/offer";
@@ -76,12 +76,14 @@ const AddFastJobOffer = ({updateMode}) => {
     const [attachments, setAttachments] = useState([]);
     const [oldAttachments, setOldAttachments] = useState([]);
     const [extraInfo, setExtraInfo] = useState('');
-    const [showAgencyInfo, setShowAgencyInfo] = useState('');
+    const [showAgencyInfo, setShowAgencyInfo] = useState(true);
     const [imageUrl, setImageUrl] = useState('');
     const [contactPerson, setContactPerson] = useState('');
     const [contactNumberCountry, setContactNumberCountry] = useState(0);
     const [contactNumber, setContactNumber] = useState('');
     const [companyName, setCompanyName] = useState('');
+    const [offerId, setOfferId] = useState(-1);
+    const [replaceNormalOffer, setReplaceNormalOffer] = useState(false);
 
     const [days, setDays] = useState([]);
     const [years, setYears] = useState([]);
@@ -158,6 +160,35 @@ const AddFastJobOffer = ({updateMode}) => {
                    }
                }
             });
+
+        let changeToFastObject = localStorage.getItem('changeToFastObject');
+
+        if(changeToFastObject) {
+            let data = JSON.parse(changeToFastObject);
+
+            setOldAttachments(data.oldAttachments);
+            setBenefits(data.benefits);
+            setCategory(data.category);
+            setCity(data.city);
+            setContractType(data.contractType);
+            setCountry(data.country);
+            setDescription(data.description);
+            setImageUrl(data.imageUrl);
+            setKeywords(data.keywords);
+            setPostalCode(data.postalCode);
+            setRequirements(data.requirements);
+            setResponsibilities(data.responsibilities);
+            setSalaryCurrency(data.salaryCurrency);
+            setSalaryFrom(data.salaryFrom);
+            setSalaryTo(data.salaryTo);
+            setSalaryType(data.salaryType);
+            setTitle(data.title);
+            setStreet(data.street);
+
+            setOfferId(data.id);
+            setReplaceNormalOffer(true);
+            localStorage.removeItem('changeToFastObject');
+        }
     }, []);
 
     useEffect(() => {

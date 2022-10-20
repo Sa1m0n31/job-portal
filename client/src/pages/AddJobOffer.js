@@ -403,6 +403,25 @@ const AddJobOffer = ({updateMode}) => {
         }
     }
 
+    const changeToFastOffer = (e) => {
+        e.preventDefault();
+
+        const changeToFastObject = {
+            id, title, category, keywords,
+            country, postalCode, city,
+            isInManyLocations, locations, description,
+            responsibilities, requirements, benefits,
+            salaryType, salaryFrom, salaryTo,
+            salaryCurrency, contractType,
+            day, month, year, image, attachments,
+            oldAttachments, extraInfo, showAgencyInfo, imageUrl
+        }
+
+        localStorage.setItem('changeToFastObject', JSON.stringify(changeToFastObject));
+
+        window.location = '/dodaj-blyskawiczna-oferte-pracy';
+    }
+
     return <div className="container container--addOffer" onClick={() => { hideAllDropdowns(); }}>
         <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
@@ -441,6 +460,12 @@ const AddJobOffer = ({updateMode}) => {
             <p className="addOffer__text">
                 {c.offerAddingDescription}
             </p>
+
+            {updateMode ? <div className="center">
+                <button className="btn btn--changeToFast" onClick={(e) => { changeToFastOffer(e); }}>
+                    {c.changeToFastOffer}
+                </button>
+            </div> : ''}
 
             <label className="label">
                 {c.post} *

@@ -22,4 +22,7 @@ export class Application {
 
     @Column()
     attachments: string;
+
+    @Column()
+    hidden: boolean;
 }

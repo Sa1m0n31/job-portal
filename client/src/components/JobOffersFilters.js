@@ -4,9 +4,9 @@ import {currencies, distances} from "../static/content";
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
 import {LanguageContext} from "../App";
 
-const JobOffersFilters = ({closeModal, title, category, country, city, distance,
+const JobOffersFilters = ({closeModal, title, keywords, category, country, city, distance,
                               salaryType, salaryFrom, salaryTo, salaryCurrency, submitFilters,
-    setTitle, setCategory, setCountry, setCity, setDistance, setSalaryType, setSalaryFrom, setSalaryTo, setSalaryCurrency,
+    setTitle, setKeywords, setCategory, setCountry, setCity, setDistance, setSalaryType, setSalaryFrom, setSalaryTo, setSalaryCurrency,
     countriesVisible, categoriesVisible, currenciesVisible, distanceVisible, setCountriesVisible, setCategoriesVisible, setCurrenciesVisible, setDistanceVisible
                           }) => {
     const { c } = useContext(LanguageContext);
@@ -28,6 +28,13 @@ const JobOffersFilters = ({closeModal, title, category, country, city, distance,
                        value={title}
                        onChange={(e) => { e.target.value.length < 50 ? setTitle(e.target.value) : setTitle(title)}}
                        placeholder={c.postPlaceholder} />
+            </div>
+            <div className="label label--special">
+                {c.keywords}
+                <input className="input--special"
+                       value={keywords}
+                       onChange={(e) => { e.target.value.length < 50 ? setKeywords(e.target.value) : setKeywords(keywords)}}
+                       placeholder={c.keywords} />
             </div>
 
             <div className="label label--responsibility label--category">

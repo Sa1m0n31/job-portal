@@ -322,7 +322,6 @@ const CandidateProfile = () => {
                 </button>
             </div>
 
-
             <div className="userAccount__box userAccount__box--50 userAccount__box--50--2 noscroll">
                 <h3 className="userAccount__box__header">
                     {c.finishedSchools}

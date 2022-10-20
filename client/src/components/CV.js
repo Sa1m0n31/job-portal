@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
 const CV = ({profileImage, fullName, phoneNumber, email, location, categories, birthday, schools, jobs, languages, additionalLanguages, enableDownload,
                 translate, drivingLicence, certs, desc, companyLogo, companyName, currentPlace, availability, ownAccommodation, ownTools, salary, c}) => {
     const [user, setUser] = useState({});
+    const [categoriesToDisplay, setCategoriesToDisplay] = useState('');
     const [render, setRender] = useState(false);
 
     useEffect(() => {
@@ -188,9 +189,26 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                 });
         }
         else {
-            setRender(true);
+            getUserData(email)
+                .then((res) => {
+                    setUser(JSON.parse(res.data.data));
+                })
+                .catch(() => {
+                    setRender(true);
+                });
+
+            // setRender(true);
         }
     }, [translate]);
+
+    useEffect(() => {
+        if(categories) {
+            const allCategories = categories?.map((item) => {
+                return JSON.parse(c.categories)[item];
+            });
+            setCategoriesToDisplay(allCategories.join(', '));
+        }
+    }, [categories]);
 
     useEffect(() => {
         if(user) {
@@ -206,6 +224,10 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
         }
     }, [render, user]);
 
+    useEffect(() => {
+        
+    }, [jobs, user]);
+
     return render ? <Document>
         <Page size="A4" style={styles.page}>
             <View style={styles.column}>
@@ -218,14 +240,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                             {fullName}
                         </Text>
                         <Text style={styles.categoriesCompany}>
-                            {categories?.map((item, index, array) => {
-                                if(index === array.length - 1) {
-                                    return JSON.parse(c.categories)[item];
-                                }
-                                else {
-                                    return `${JSON.parse(c.categories)[item]}, `;
-                                }
-                            })}
+                            {categoriesToDisplay}
                         </Text>
                     </View>
                     <View style={styles.topRowRight}>
@@ -248,14 +263,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                             {fullName}
                         </Text>
                         <Text style={styles.categoriesCompany}>
-                            {categories?.map((item, index, array) => {
-                                if(index === array.length - 1) {
-                                    return JSON.parse(c.categories)[item];
-                                }
-                                else {
-                                    return `${JSON.parse(c.categories)[item]}, `;
-                                }
-                            })}
+                            {categoriesToDisplay}
                         </Text>
                     </View>
                     <View style={styles.topRowRight}>
@@ -319,8 +327,33 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                     <Text style={styles.sectionHeader}>
                         {c.jobExperience}
                     </Text>
-                    {user?.jobs ? user.jobs?.map((item) => {
-                        console.log(item);
+                    {user?.jobs ? user.jobs?.sort((a, b) => {
+                        const aFrom = parseInt(a.from.replace('-'));
+                        const bFrom = parseInt(b.from.replace('-'));
+
+                        if(aFrom < bFrom) return 1;
+                        else return -1;
+                    })?.map((item, index) => {
+                        let fromDateValue = '';
+                        let toDateValue = '';
+
+                        const fromDateArray = item.from.split('-');
+                        const toDateArray = item.to?.split('-');
+
+                        if(fromDateArray?.length === 2) {
+                            fromDateValue = `${fromDateArray[1]}.${fromDateArray[0]}`
+                        }
+                        else {
+                            fromDateValue = item.from;
+                        }
+
+                        if(toDateArray?.length === 2) {
+                            toDateValue = `${toDateArray[1]}.${toDateArray[0]}`;
+                        }
+                        else {
+                            toDateValue = item.to;
+                        }
+
                         return <View style={styles.textContainer}>
                             <Text style={styles.schoolName}>
                                 {item.name}
@@ -329,7 +362,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                                 {item.title}
                             </Text>
                             <Text style={styles.schoolDate}>
-                                {item.from} - {item.to ? item.to : c.during}
+                                {fromDateValue} - {item.to ? toDateValue : c.during} {user?.jobsLength ? `(${user.jobsLength[index]})` : ''}
                             </Text>
                             {Array.isArray(item?.responsibilities) ? item.responsibilities.map((item, index) => {
                                 return <Text style={styles.textWithMarginBottom}
@@ -338,7 +371,33 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                                 </Text>
                             }) : <View></View>}
                         </View>
-                    }) : jobs?.map((item) => {
+                    }) : jobs?.sort((a, b) => {
+                        const aFrom = parseInt(a.from.replace('-'));
+                        const bFrom = parseInt(b.from.replace('-'));
+
+                        if(aFrom < bFrom) return 1;
+                        else return -1;
+                    })?.map((item, index) => {
+                        let fromDateValue = '';
+                        let toDateValue = '';
+
+                        const fromDateArray = item.from.split('-');
+                        const toDateArray = item.to?.split('-');
+
+                        if(fromDateArray?.length === 2) {
+                            fromDateValue = `${fromDateArray[1]}.${fromDateArray[0]}`
+                        }
+                        else {
+                            fromDateValue = item.from;
+                        }
+
+                        if(toDateArray?.length === 2) {
+                            toDateValue = `${toDateArray[1]}.${toDateArray[0]}`;
+                        }
+                        else {
+                            toDateValue = item.to;
+                        }
+
                         return <View style={styles.textContainer}>
                             <Text style={styles.schoolName}>
                                 {item.name}
@@ -347,7 +406,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                                 {item.title}
                             </Text>
                             <Text style={styles.schoolDate}>
-                                {item.from} - {item.to ? item.to : c.during}
+                                {fromDateValue} - {item.to ? toDateValue : c.during} {user?.jobsLength ? `(${user.jobsLength[index]})` : ''}
                             </Text>
                             {Array.isArray(item?.responsibilities) ? item.responsibilities.map((item, index) => {
                                 return <Text style={styles.textWithMarginBottom}

@@ -256,6 +256,71 @@ export class UserService {
 
         userData = await this.translateUserData(userData, files);
 
+        // Add info about jobs length
+        let jobsLength = [];
+        for(const job of userData.jobs) {
+            const fromArray = job.from.split('-');
+            const toArray = job.to.split('-');
+
+            if(fromArray.length === 2 && toArray.length === 2) {
+                const fromYear = parseInt(fromArray[0]);
+                const fromMonth = parseInt(fromArray[1]);
+
+                const toYear = parseInt(toArray[0]);
+                const toMonth = parseInt(toArray[1]);
+
+                console.log(fromYear, fromMonth, toYear, toMonth);
+
+                const yearSubtraction = toYear - fromYear;
+                const monthSubtraction = toMonth - fromMonth;
+
+                let years, months;
+
+                console.log(yearSubtraction, monthSubtraction);
+
+                if(monthSubtraction < 0) {
+                    years = yearSubtraction - 1;
+                    months = 12 + monthSubtraction;
+                }
+                else {
+                    years = yearSubtraction;
+                    months = monthSubtraction;
+                }
+
+                let durationText = '';
+
+                if(years === 1) {
+                    durationText += '1 rok';
+                }
+                else if(years > 1 && years < 5) {
+                    durationText += `${years} lata`;
+                }
+                else if(years >= 5) {
+                    durationText += `${years} lat`;
+                }
+
+                if(months === 1) {
+                    durationText += ' i 1 miesiąc';
+                }
+                else if(months > 1 && months < 5) {
+                    durationText += ` i ${months} miesiące`;
+                }
+                else if(months >= 5) {
+                    durationText += ` i ${months} miesięcy`;
+                }
+
+                jobsLength.push(durationText);
+            }
+            else {
+                jobsLength.push('');
+            }
+        }
+
+        userData = {
+            ...userData,
+            jobsLength
+        };
+
         // Get new latitude and longitude
         if(userData.city) {
             const apiResponse = await lastValueFrom(this.httpService.get(encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${userData.city}`)));
@@ -516,6 +581,23 @@ export class UserService {
         }
     }
 
+    removeDiacritics(input) {
+        let output = "";
+
+        let normalized = input.normalize("NFD");
+        let i=0, j=0;
+
+        while (i<input.length)
+        {
+            output += normalized[j];
+
+            j += (input[i] == normalized[j]) ? 1 : 2;
+            i++;
+        }
+
+        return output;
+    }
+
     async filter(body) {
         let { fullName, category, country, city, distance, salaryType, salaryFrom, salaryTo,
             salaryCurrency, ownTransport, bsnNumber, languages, drivingLicences, page } = body;
@@ -532,8 +614,8 @@ export class UserService {
 
         if(fullName) {
             users = users.filter((item) => {
-                const userFullName = `${JSON.parse(item.data).firstName} ${JSON.parse(item.data).lastName}`;
-                return userFullName.includes(fullName);
+                const userFullName = this.removeDiacritics(`${JSON.parse(item.data).firstName} ${JSON.parse(item.data).lastName}`).trim().toLowerCase();
+                return userFullName.includes(this.removeDiacritics(fullName).trim().toLowerCase());
             });
         }
 

@@ -28,7 +28,7 @@ const AgencyForm3a = () => {
                         html={<span className="tooltipVisible">
                         {c.recruitmentProcessTooltip}
                                 </span>}
-                        position={window.innerWidth > 768 ? "left" : "top"}
+                        position={window.innerWidth > 768 ? "right" : "top"}
                         followCursor={true}
                     >
                         <div className="tooltip">
@@ -51,7 +51,7 @@ const AgencyForm3a = () => {
                         html={<span className="tooltipVisible">
                         {c.benefitsTooltip}
                                 </span>}
-                        position={window.innerWidth > 768 ? "left" : "top"}
+                        position={window.innerWidth > 768 ? "right" : "top"}
                         followCursor={true}
                     >
                         <div className="tooltip">

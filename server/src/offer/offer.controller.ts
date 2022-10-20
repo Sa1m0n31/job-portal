@@ -105,9 +105,9 @@ export class OfferController {
     @UseGuards(JwtAuthGuard)
     @Post('/filter')
     filterOffers(@Body() body) {
-        const { page, title, category, country, city, distance, salaryFrom, salaryTo, salaryType,
+        const { page, title, keywords, category, country, city, distance, salaryFrom, salaryTo, salaryType,
             salaryCurrency, lang } = body;
-        return this.offerService.filterOffers(page, title, category, country, city, distance,
+        return this.offerService.filterOffers(page, title, keywords, category, country, city, distance,
             salaryFrom, salaryTo, salaryType, salaryCurrency, lang);
     }
 
@@ -206,5 +206,17 @@ export class OfferController {
     @Get('/getAll/:page')
     getAllOffers(@Param('page') page) {
         return this.offerService.getAllOffers(page);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('/hideApplication')
+    hideApplication(@Body() body) {
+        return this.offerService.hideApplication(body.application, body.user);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('/hideFastApplication')
+    hideFastApplication(@Body() body) {
+        return this.offerService.hideFastApplication(body.application, body.user);
     }
 }

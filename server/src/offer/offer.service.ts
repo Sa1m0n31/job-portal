@@ -320,7 +320,24 @@ export class OfferService {
         }
     }
 
-    async filterOffers(page, title, category, country, city, distance, salaryFrom, salaryTo,
+    removeDiacritics(input) {
+        let output = "";
+
+        let normalized = input.normalize("NFD");
+        let i=0, j=0;
+
+        while (i<input.length)
+        {
+            output += normalized[j];
+
+            j += (input[i] == normalized[j]) ? 1 : 2;
+            i++;
+        }
+
+        return output;
+    }
+
+    async filterOffers(page, title, keywords, category, country, city, distance, salaryFrom, salaryTo,
                        salaryType, salaryCurrency, lang) {
         let where = '';
         let parameters: any = {};
@@ -559,13 +576,37 @@ export class OfferService {
 
         if(city && distance !== null) {
             // Filter all offers by title, category, country and salary
-            const filteredOffers = await this.offerRepository
+            let filteredOffers = await this.offerRepository
                 .createQueryBuilder('offer')
                 .andWhere(where, parameters)
                 .andWhere({title: Like(`%${title}%`)})
                 .andWhere(`(timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP)`)
                 .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
                 .getRawMany();
+
+            // Filter by keywords
+            if(keywords) {
+                const filterKeywords = keywords.split(',');
+
+                filteredOffers = filteredOffers.filter((item) => {
+                    if(item.offer_keywords) {
+                        const offerKeywords = item.offer_keywords.split(',');
+
+                        for(const offerKeyword of offerKeywords) {
+                            for(const filterKeyword of filterKeywords) {
+                                if(this.removeDiacritics(offerKeyword.trim().toLowerCase()).includes(this.removeDiacritics(filterKeyword.trim().toLowerCase()))) {
+                                    return true;
+                                }
+                            }
+                        }
+
+                        return false;
+                    }
+                    else {
+                        return false;
+                    }
+                });
+            }
 
             // Get filter city latitude and longitude
             const apiResponse = await lastValueFrom(this.httpService.get(encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${city}`)));
@@ -724,7 +765,7 @@ export class OfferService {
             }
         }
         else {
-            const offersToReturn = await this.offerRepository
+            let offersToReturn = await this.offerRepository
                 .createQueryBuilder('offer')
                 .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
                 .where(where, parameters)
@@ -733,6 +774,30 @@ export class OfferService {
                 .limit(offersPerPage)
                 .offset((page-1) * offersPerPage)
                 .getRawMany();
+
+            // Filter by keywords
+            if(keywords) {
+                const filterKeywords = keywords.split(',');
+
+                offersToReturn = offersToReturn.filter((item) => {
+                    if(item.offer_keywords) {
+                        const offerKeywords = item.offer_keywords.split(',');
+
+                        for(const offerKeyword of offerKeywords) {
+                            for(const filterKeyword of filterKeywords) {
+                                if(this.removeDiacritics(offerKeyword.trim().toLowerCase()).includes(this.removeDiacritics(filterKeyword.trim().toLowerCase()))) {
+                                    return true;
+                                }
+                            }
+                        }
+
+                        return false;
+                    }
+                    else {
+                        return false;
+                    }
+                });
+            }
 
             if(lang === 'pl' || !lang) {
                 return offersToReturn;
@@ -1650,6 +1715,32 @@ export class OfferService {
                 })
             }
         }
+    }
+
+    async hideApplication(applicationId, userId) {
+        return this.applicationRepository
+            .createQueryBuilder()
+            .update({
+                hidden: true
+            })
+            .where({
+                user: userId,
+                id: applicationId
+            })
+            .execute();
+    }
+
+    async hideFastApplication(applicationId, userId) {
+        return this.fastApplicationsRepository
+            .createQueryBuilder()
+            .update({
+                hidden: true
+            })
+            .where({
+                user: userId,
+                id: applicationId
+            })
+            .execute();
     }
 
     async addApplication(body, files) {

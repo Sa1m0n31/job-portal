@@ -3,16 +3,16 @@ import {LanguageContext} from "../App";
 import {AgencyDataContext} from "../pages/AgencyEditData";
 
 const AgencyForm3C = () => {
-    const { agencyData, setStep, setSubstep, handleChange } = useContext(AgencyDataContext);
+    const { agencyData, setStep, setSubstep, error, handleChange } = useContext(AgencyDataContext);
     const { c } = useContext(LanguageContext);
 
     return <>
         <div className="userForm">
             <label className="label label--friendLink">
                 <p className="label--extraInfo">
-                    {c.whereYouFindOurApp}
+                    {c.whereYouFindOurApp} *
                 </p>
-                <input className="input"
+                <input className={error && !agencyData.whereYouFindOurApp ? "input input--error" : "input"}
                        value={agencyData.whereYouFindOurApp}
                        onChange={(e) => { handleChange('whereYouFindOurApp', e.target.value); }} />
             </label>

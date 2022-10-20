@@ -22,4 +22,7 @@ export class Fast_applications {
 
     @Column()
     attachments: string;
+
+    @Column()
+    hidden: boolean;
 }

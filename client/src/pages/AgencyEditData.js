@@ -108,6 +108,7 @@ const AgencyEditData = () => {
     const [errorFields, setErrorFields] = useState([]);
     const [step1Error, setStep1Error] = useState(false);
     const [step2Error, setStep2Error] = useState(false);
+    const [step3Error, setStep3Error] = useState(false);
 
     const { c } = useContext(LanguageContext);
 
@@ -210,10 +211,12 @@ const AgencyEditData = () => {
                 break;
         }
 
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        setTimeout(() => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }, 100);
     }, [step, substep]);
 
     const validateAgencyData = () => {
@@ -250,6 +253,10 @@ const AgencyEditData = () => {
         if(!agencyData.description) {
             fields.push(c.companyDescription);
             setStep2Error(true);
+        }
+        if(!agencyData.whereYouFindOurApp) {
+            fields.push(c.whereYouFindOurApp);
+            setStep3Error(true);
         }
 
         if(fields.length) {
@@ -419,6 +426,20 @@ const AgencyEditData = () => {
     }, [step2Error]);
 
     useEffect(() => {
+        const stepsParents = Array.from(document.querySelectorAll('.editData__step'));
+        const steps = Array.from(document.querySelectorAll('.editData__step>.editData__left__step__text'));
+
+        if(step3Error) {
+            steps[2].style.color = 'red';
+            stepsParents[2].style.opacity = '1';
+        }
+        else {
+            steps[2].style.color = '#fff';
+            stepsParents[2].style.opacity = '.5';
+        }
+    }, [step3Error]);
+
+    useEffect(() => {
         if(agencyData.description) {
             setStep2Error(false);
         }
@@ -426,6 +447,10 @@ const AgencyEditData = () => {
         if(agencyData.name && agencyData.city && agencyData.country >= 0 && agencyData.postalCode &&
             agencyData.address && agencyData.nip && agencyData.phoneNumber) {
             setStep1Error(false);
+        }
+
+        if(agencyData.whereYouFindOurApp) {
+            setStep3Error(false);
         }
     }, [agencyData]);
 

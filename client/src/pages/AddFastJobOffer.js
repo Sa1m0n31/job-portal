@@ -485,7 +485,8 @@ const AddFastJobOffer = ({updateMode}) => {
                         startDay, startMonth, startYear, startHour,
                         responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
                         salaryCurrency, contractType, contactPerson, contactNumberCountry, contactNumber,
-                        image, attachments, extraInfo,
+                        image, imageUrl,
+                        attachments, extraInfo,
                         show_agency_info: showAgencyInfo
                     });
                     if(offerResult.status === 201) {

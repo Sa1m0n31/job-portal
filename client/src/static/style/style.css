@@ -4708,10 +4708,6 @@ div[data-testid=circles-loading] {
     filter: brightness(0) invert(1) !important;
 }
 
-.noCandidates {
-    padding-right: 20px;
-}
-
 .offerCandidates {
     max-width: 1700px;
     width: 90%;

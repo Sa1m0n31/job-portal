@@ -662,7 +662,7 @@
 
     .userAccount__box__fullName {
         font-size: 24px;
-        text-align: center;
+        /*text-align: center;*/
         margin-left: auto;
         margin-right: auto;
     }
@@ -2654,7 +2654,7 @@
     }
 
     .btn--notes {
-        margin-top: 5px;
+        margin-top: 15px;
         height: 30px;
         font-size: 12px;
     }

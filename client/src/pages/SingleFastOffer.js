@@ -323,7 +323,7 @@ const SingleFastOffer = () => {
                     </div>
                 </div> : ''}
 
-                {offer.o_show_agency_info || 1 ? <div className="userAccount__box--jobOffer jobOffer__section">
+                {offer.o_show_agency_info ? <div className="userAccount__box--jobOffer jobOffer__section">
                     <h3 className="userAccount__box__header">
                         {c.employeesInfo}
                     </h3>

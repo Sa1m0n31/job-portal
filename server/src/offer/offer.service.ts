@@ -1158,12 +1158,12 @@ export class OfferService {
         offerData = await this.translateOfferData(offerData, data, files);
 
         // Get offer data
-        const { title, category, keywords, country, postalCode, city, street, description,
+        const { title, category, keywords, country, postalCode, city, description,
             accommodationCountry, accommodationCity, accommodationStreet, accommodationPostalCode,
             accommodationDay, accommodationMonth, accommodationYear, accommodationHour,
             startDay, startMonth, startYear, startHour, contactPerson, contactNumberCountry, contactNumber,
             responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
-            salaryCurrency, contractType, image, attachments, extraInfo, show_agency_info
+            salaryCurrency, contractType, image, imageUrl, attachments, extraInfo, show_agency_info
         } = offerData;
 
         // Get agency id
@@ -1174,7 +1174,9 @@ export class OfferService {
         const addOfferResult = await this.fastOfferRepository.insert({
             id: null,
             agency: agencyId,
-            title, category, keywords, country, postalCode, city, street, description,
+            title, category, keywords, country, postalCode, city,
+            street: '',
+            description,
             accommodationCountry, accommodationCity, accommodationPostalCode, accommodationStreet,
             accommodationDay, accommodationHour, accommodationMonth, accommodationYear,
             startDay, startMonth, startYear, startHour,
@@ -1184,7 +1186,8 @@ export class OfferService {
             salaryType, salaryFrom, salaryTo,
             salaryCurrency,
             contractType: JSON.stringify(contractType),
-            contactPerson, contactNumberCountry, contactNumber, image,
+            contactPerson, contactNumberCountry, contactNumber,
+            image: image ? image : imageUrl,
             attachments: attachments ? JSON.stringify(attachments) : null,
             extraInfo,
             created_at: new Date(),

@@ -221,8 +221,8 @@ const CandidateProfile = () => {
                         {c.generateAndDownloadCV}:
                         {user ? <PDFDownloadLink document={<CV profileImage={user.profileImage ? `${settings.API_URL}/${user?.profileImage}` : userPlaceholder}
                                                                c={c}
-                                                               companyLogo={`${settings.API_URL}/${data.logo}`}
-                                                               companyName={data.name}
+                                                               // companyLogo={`${settings.API_URL}/${data.logo}`}
+                                                               // companyName={data.name}
                                                                fullName={`${user.firstName} ${user.lastName}`}
                                                                categories={user.categories}
                                                                email={user.email}

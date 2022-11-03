@@ -152,7 +152,7 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
 
         <div className="categories">
             <div className="label label--rel certificatesWrapper flex">
-                <span className={error && (userData.categories[0] === '-' || userData?.categories?.length === 0) ? 'error' : ''}>
+                <span className={error && ((userData?.categories ? userData?.categories[0] : '1') === '-' || userData?.categories?.length === 0) ? 'error' : ''}>
                      {c.mainCategories} *
                     <Tooltip
                         html={<span className="tooltipVisible">
@@ -166,7 +166,7 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
                         </div>
                     </Tooltip>
                 </span>
-                {userData.categories.map((item, index) => {
+                {Array.isArray(userData?.categories) ? userData.categories.map((item, index) => {
                     return <div className="label label--flex label--responsibility label--category" key={index}>
                         <div className="label--date__input label--date__input--country label--date__input--category">
                             <button className="datepicker datepicker--country datepicker--category"
@@ -188,9 +188,9 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
                             <img className="img" src={trashIcon} alt="usun" />
                         </button>
                     </div>
-                })}
+                }) : ''}
 
-                {userData.categories.length <= 2 ? <button className="addNewBtn addNewBtn--responsibility flex" onClick={() => { addNewCategory(); }}>
+                {userData?.categories?.length <= 2 || !userData?.categories ? <button className="addNewBtn addNewBtn--responsibility flex" onClick={() => { addNewCategory(); }}>
                     {c.addNewCategory}
                     <img className="img" src={plusIcon} alt="dodaj" />
                 </button> : ''}

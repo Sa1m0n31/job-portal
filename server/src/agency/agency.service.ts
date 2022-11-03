@@ -7,7 +7,7 @@ import {MailerService} from "@nestjs-modules/mailer";
 import {Agency} from "../entities/agency.entity";
 import {Agency_verification} from "../entities/agency_verification";
 import {JwtService} from "@nestjs/jwt";
-import {lastValueFrom, map} from "rxjs";
+import {lastValueFrom} from "rxjs";
 import { HttpService } from '@nestjs/axios'
 import {Offer} from "../entities/offer.entity";
 import {calculateDistance} from "../common/calculateDistance";
@@ -43,13 +43,14 @@ export class AgencyService {
     ) {
     }
 
-    async registerAgency(email: string, password: string) {
+    async registerAgency(email: string, password: string, mailContent) {
         const existingAgency = await this.agencyRepository.findOneBy({
             email
         });
+        const content = JSON.parse(mailContent);
 
         if(existingAgency) {
-            throw new HttpException('Agencja z podanym adresem e-mail już istnieje', 400);
+            throw new HttpException(content[0], 400);
         }
         else {
             const passwordHash = crypto
@@ -62,13 +63,13 @@ export class AgencyService {
             await this.mailerService.sendMail({
                 to: email,
                 from: process.env.EMAIL_ADDRESS,
-                subject: 'Aktywuj swoje konto w serwisie Jooob.eu',
+                subject: content[1],
                 html: `<div>
                     <h2>
-                        Cieszymy się, że jesteś z nami!
+                        ${content[2]}
                     </h2>
                     <p>
-                        W celu aktywacji swojego konta, kliknij w poniższy link:
+                        ${content[3]}
                     </p>
                     <a href="${process.env.WEBSITE_URL}/weryfikacja?token=${token}">
                         ${process.env.WEBSITE_URL}/weryfikacja?token=${token}
@@ -131,12 +132,13 @@ export class AgencyService {
         }
     }
 
-    async loginAgency(email: string, password: string) {
+    async loginAgency(email: string, password: string, mailContent: string) {
         const payload = { username: email, sub: password, role: 'agency' };
         const passwordHash = crypto
             .createHash('sha256')
             .update(password)
             .digest('hex');
+        const content = JSON.parse(mailContent);
 
         const user = await this.agencyRepository.findOneBy({
             email,
@@ -153,15 +155,15 @@ export class AgencyService {
                     };
                 }
                 else {
-                    throw new HttpException('Twoje konto zostało zablokowane', 423);
+                    throw new HttpException(content[0], 423);
                 }
             }
             else {
-                throw new HttpException('Aktywuj swoje konto', 403);
+                throw new HttpException(content[1], 403);
             }
         }
         else {
-            throw new HttpException('Niepoprawna nazwa użytkownika lub hasło', 401);
+            throw new HttpException(content[2], 401);
         }
     }
 
@@ -202,8 +204,7 @@ export class AgencyService {
             // Translate to Polish
             const contentToTranslate = [agencyData.description, agencyData.recruitmentProcess,
                 agencyData.benefits, agencyData.roomDescription];
-            const polishVersionResponse = await this.translationService.translateContent(JSON.stringify(contentToTranslate), 'pl');
-            const polishVersion = JSON.parse(polishVersionResponse);
+            const polishVersion = await this.translationService.translateContent(contentToTranslate, 'pl', true);
 
             // Add filenames
             return {
@@ -601,11 +602,12 @@ export class AgencyService {
             .getRawMany();
     }
 
-    async remindPassword(email: string) {
+    async remindPassword(email: string, mailContent: string) {
         const user = await this.agencyRepository.findBy({
             active: true,
             email
         });
+        const content = JSON.parse(mailContent);
 
         if(user?.length) {
             const token = await uuid();
@@ -615,13 +617,13 @@ export class AgencyService {
             await this.mailerService.sendMail({
                 to: email,
                 from: process.env.EMAIL_ADDRESS,
-                subject: 'Odzyskaj swoje hasło na portalu Jooob.eu',
+                subject: content[0],
                 html: `<div>
                     <p>
-                        Zresetuj swoje hasło na portalu Jooob.eu klikając w poniższy link i ustawiając nowe hasło:  
+                        ${content[1]}
                     </p>
                     <a href="${process.env.WEBSITE_URL}/ustaw-nowe-haslo?token=${token}">
-                         Resetuj hasło
+                         ${content[2]}
                     </a>
                 </div>`
             });
@@ -635,7 +637,7 @@ export class AgencyService {
             });
         }
         else {
-            throw new BadRequestException('Podany użytkownik nie istnieje');
+            throw new BadRequestException(content[3]);
         }
     }
 

@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect} from "react";
 import HomeSectionHeader from "./HomeSectionHeader";
 import icon1 from "../static/img/dostepnosc.svg"
 import icon2 from "../static/img/friends.svg"
@@ -10,6 +10,10 @@ const icons = [icon1, icon2, icon3, icon4]
 
 const HomeBenefits = () => {
     const { c } = useContext(LanguageContext);
+
+    useEffect(() => {
+        console.log(JSON.parse(c.benefitsContent));
+    }, [c]);
 
     return <div className="homeSection homeSection--benefits">
         <HomeSectionHeader content={c.benefitsHeader} />

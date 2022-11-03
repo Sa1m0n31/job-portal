@@ -66,7 +66,7 @@ const ContactPage = () => {
     const handleSubmit = () => {
         if(isEmail(email) && name) {
             setLoading(true);
-            sendContactForm(name, email, msg)
+            sendContactForm(name, email, msg, agency || !data ? 'office@jooob.eu' : 'contact@jooob.eu')
                 .then((res) => {
                     if(res?.status === 201) {
                         setSuccess(true);
@@ -116,41 +116,40 @@ const ContactPage = () => {
         {data ? <LoggedUserHeader data={data} agency={agency} /> : <PageHeader />}
 
         <main className={!data ? "page page--narrow" : "page"}>
-            <h1 className="page__header bold">
+            {agency ?  <h1 className="page__header bold">
                 {c.contactData}
-            </h1>
-            <p className="contact__text">
+            </h1> : ''}
+            {agency ? <p className="contact__text">
                 {c.contactDataDescription}
-            </p>
-            <div className="contact__flex flex">
-                <div className="contact__left">
-                    <h2 className="contact__companyName">
-                        Jooob.eu Sp. z.o.o.
-                    </h2>
-                    <p className="contact__data">
-                        <span>ul. Warszawska 1/1</span>
-                        <span>23-240 Bydgoszcz</span>
-                    </p>
-                    <p className="contact__data">
-                        <span>NIP 123 12 12 434</span>
-                        <span>Bank ING</span>
-                        <span>42 1525 2222 0000 1111 2854 23</span>
-                    </p>
+            </p> : ''}
+            <div className={agency ? "contact__flex flex" : "contact__flex flex contact--fullWidth"}>
+                {agency ? <div className="contact__left">
+                    {/*<h2 className="contact__companyName">*/}
+                    {/*    AMB Spółka z Ograniczoną Odpowiedzialnością*/}
+                    {/*</h2>*/}
+                    {/*<p className="contact__data">*/}
+                    {/*    <span>ul. Marii Curie Skłodowskiej 62/46</span>*/}
+                    {/*    <span>85-733 Bydgoszcz, Polska</span>*/}
+                    {/*</p>*/}
+                    {/*<p className="contact__data">*/}
+                    {/*    <span>NIP 5542998776</span>*/}
+                    {/*    <span>REGON 520630508</span>*/}
+                    {/*</p>*/}
                     <h3 className="contact__smallHeader">
                         {c.contact}:
                     </h3>
                     <p className="contact__data">
                         <span>
-                            {c.phoneNumberShortcut}: +48 545 356 235
+                            {c.phoneNumberShortcut}: +48 600 134 877
                         </span>
                         <span>
-                            {c.availableHours} 8:00 - 16:00
+                            {c.availableHours} 9:00 - 16:00
                         </span>
                         <span className="marginTop">
-                            {c.emailShortcut}: kontakt@jooob.eu
+                            {c.emailShortcut}: contact@jooob.eu
                         </span>
                     </p>
-                </div>
+                </div> : ''}
                 <div className="contact__form">
                     <h4 className="contact__form__header">
                         {c.contactForm}

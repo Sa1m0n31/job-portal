@@ -45,11 +45,14 @@ const TextPage = ({content, header}) => {
             <h1 className="page__header">
                 {header}
             </h1>
-            {content?.map((item, index) => {
-                return <p key={index}>
-                    {item}
-                </p>
-            })}
+
+            <script src='https://www.rzetelnyregulamin.pl/pl/rr,kod-c4c2dda87d2ee10792e7bea5ea271587'></script><div id="rr_xss_cert"></div>
+
+            {/*{content?.map((item, index) => {*/}
+            {/*    return <p key={index}>*/}
+            {/*        {item}*/}
+            {/*    </p>*/}
+            {/*})}*/}
         </main>
 
         {data ? <LoggedUserFooter /> : <Footer />}

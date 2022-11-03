@@ -85,7 +85,7 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation(); setHolidayAllowanceTypeVisible(!holidayAllowanceTypeVisible); }}
                         >
-                            {agencyData.holidayAllowanceType !== null && c.holidayAllowanceType ? JSON.parse(c.holidayAllowanceType)[agencyData.holidayAllowanceType] : 'Wybierz'}
+                            {agencyData.holidayAllowanceType !== null && c.holidayAllowanceType ? (JSON.parse(c.holidayAllowanceType)[agencyData.holidayAllowanceType] ? JSON.parse(c.holidayAllowanceType)[agencyData.holidayAllowanceType] : c.choose) : c.choose}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {holidayAllowanceTypeVisible ? <div className="datepickerDropdown noscroll">
@@ -123,7 +123,7 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
                         <button className="datepicker datepicker--month"
                                 onClick={(e) => { e.stopPropagation(); setMonthVisible(!monthVisible); }}
                         >
-                            {JSON.parse(c.months)[agencyData.holidayAllowanceMonth]}
+                            {JSON.parse(c.months)[agencyData.holidayAllowanceMonth] ? JSON.parse(c.months)[agencyData.holidayAllowanceMonth] : c.month}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {monthVisible ? <div className="datepickerDropdown noscroll">
@@ -146,7 +146,7 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
                         <button className="datepicker datepicker--salary"
                                 onClick={(e) => { e.stopPropagation(); setPaycheckFrequencyVisible(!paycheckFrequencyVisible); }}
                         >
-                            {c.paycheckFrequency ? JSON.parse(c.paycheckFrequency)[agencyData.paycheckFrequency] : ''}
+                            {c.paycheckFrequency ? (JSON.parse(c.paycheckFrequency)[agencyData.paycheckFrequency] ? JSON.parse(c.paycheckFrequency)[agencyData.paycheckFrequency] : c.choose) : c.choose}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {paycheckFrequencyVisible ? <div className="datepickerDropdown noscroll">
@@ -163,7 +163,7 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
                         <button className="datepicker datepicker--month"
                                 onClick={(e) => { e.stopPropagation(); setPaycheckDayVisible(!paycheckDayVisible); }}
                         >
-                            {c.paycheckDay ? JSON.parse(c.paycheckDay)[agencyData.paycheckDay] : ''}
+                            {c.paycheckDay ? (JSON.parse(c.paycheckDay)[agencyData.paycheckDay] ? JSON.parse(c.paycheckDay)[agencyData.paycheckDay] : c.choose) : c.choose}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {paycheckDayVisible ? <div className="datepickerDropdown noscroll">
@@ -186,7 +186,7 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
                                 onClick={(e) => { e.stopPropagation();
                                     setHealthInsuranceVisible(!healthInsuranceVisible); }}
                         >
-                            {agencyData.healthInsurance !== null && c.healthInsuranceOptions ? JSON.parse(c.healthInsuranceOptions)[agencyData.healthInsurance] : c.choose}
+                            {agencyData.healthInsurance !== null && c.healthInsuranceOptions ? (JSON.parse(c.healthInsuranceOptions)[agencyData.healthInsurance] ? JSON.parse(c.healthInsuranceOptions)[agencyData.healthInsurance] : c.choose) : c.choose}
                             <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                         </button>
                         {healthInsuranceVisible ? <div className="datepickerDropdown noscroll">

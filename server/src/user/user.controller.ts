@@ -54,7 +54,7 @@ export class UserController {
 
     @Post('/register')
     registerUser(@Body() body) {
-        return this.userService.registerUser(body.email, body.password, body.newsletter);
+        return this.userService.registerUser(body.email, body.password, body.newsletter, body.mailContent);
     }
 
     @Post('/verify')
@@ -64,7 +64,7 @@ export class UserController {
 
     @Post('/login')
     loginUser(@Body() body) {
-        return this.userService.loginUser(body.email, body.password);
+        return this.userService.loginUser(body.email, body.password, body.mailContent);
     }
 
     @Post('/sendInvitation')
@@ -162,12 +162,12 @@ export class UserController {
 
     @Post('/sendContactForm')
     sendContactForm(@Body() body) {
-        return this.userService.sendContactForm(body.name, body.email, body.msg);
+        return this.userService.sendContactForm(body.name, body.email, body.msg, body.deliveryMail);
     }
 
     @Post('/remindPassword')
     remindPassword(@Body() body) {
-        return this.userService.remindPassword(body.email);
+        return this.userService.remindPassword(body.email, body.mailContent);
     }
 
     @UseGuards(JwtAuthGuard)

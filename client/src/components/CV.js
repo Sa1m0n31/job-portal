@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
 });
 
 const CV = ({profileImage, fullName, phoneNumber, email, location, categories, birthday, schools, jobs, languages, additionalLanguages, enableDownload,
-                translate, drivingLicence, certs, desc, companyLogo, companyName, currentPlace, availability, ownAccommodation, ownTools, salary, c}) => {
+                translate, drivingLicence, certs, courses, skills, desc, companyLogo, companyName, currentPlace, availability, ownAccommodation, ownTools, salary, c}) => {
     const [user, setUser] = useState({});
     const [categoriesToDisplay, setCategoriesToDisplay] = useState('');
     const [render, setRender] = useState(false);
@@ -443,7 +443,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
 
                 {certs?.length ? <View style={styles.mainSection}>
                     <Text style={styles.sectionHeader}>
-                        {c.coursesAndCertificates}
+                        {c.certificates}
                     </Text>
                     {user?.certificates ? user.certificates?.map((item) => {
                         return <View style={styles.textContainer}>
@@ -452,6 +452,44 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                             </Text>
                         </View>
                     }) : certs?.map((item) => {
+                        return <View style={styles.textContainer}>
+                            <Text style={styles.textWithMarginBottom}>
+                                &bull; {item}
+                            </Text>
+                        </View>
+                    })}
+                </View> : <View></View>}
+
+                {courses?.length ? <View style={styles.mainSection}>
+                    <Text style={styles.sectionHeader}>
+                        {c.finishedCourses}
+                    </Text>
+                    {user?.courses ? user.courses?.map((item) => {
+                        return <View style={styles.textContainer}>
+                            <Text style={styles.textWithMarginBottom}>
+                                &bull; {item}
+                            </Text>
+                        </View>
+                    }) : courses?.map((item) => {
+                        return <View style={styles.textContainer}>
+                            <Text style={styles.textWithMarginBottom}>
+                                &bull; {item}
+                            </Text>
+                        </View>
+                    })}
+                </View> : <View></View>}
+
+                {skills?.length ? <View style={styles.mainSection}>
+                    <Text style={styles.sectionHeader}>
+                        {c.softSkills}
+                    </Text>
+                    {user?.skills ? user.skills?.map((item) => {
+                        return <View style={styles.textContainer}>
+                            <Text style={styles.textWithMarginBottom}>
+                                &bull; {item}
+                            </Text>
+                        </View>
+                    }) : skills?.map((item) => {
                         return <View style={styles.textContainer}>
                             <Text style={styles.textWithMarginBottom}>
                                 &bull; {item}

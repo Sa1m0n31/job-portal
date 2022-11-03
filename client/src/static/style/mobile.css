@@ -2623,6 +2623,12 @@
     }
 }
 
+@media(max-width: 1250px) {
+    .label--profession {
+        margin-left: 0;
+    }
+}
+
 @media(max-width: 768px) {
     .editData__formWrapper__header {
         font-size: 18px;
@@ -3361,6 +3367,11 @@
 @media(max-width: 576px) {
     .editData__main {
         padding: 30px 20px;
+    }
+
+    .form__school__row > label:nth-of-type(2) {
+        margin-right: 0 !important;
+        margin-left: 10px !important;
     }
 
     .register .label--checkbox {

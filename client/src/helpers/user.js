@@ -16,15 +16,15 @@ const authUser = () => {
     });
 }
 
-const loginUser = (email, password) => {
+const loginUser = (email, password, mailContent) => {
     return axios.post('/user/login', {
-        email, password
+        email, password, mailContent
     });
 }
 
-const registerUser = (email, password, newsletter) => {
+const registerUser = (email, password, newsletter, mailContent) => {
     return axios.post('/user/register', {
-        email, password, newsletter
+        email, password, newsletter, mailContent
     });
 }
 
@@ -134,10 +134,6 @@ const getAllVisibleUsers = (page) => {
 
 const filterUsers = (fullName, category, country, city, distance, salaryType, salaryFrom, salaryTo,
                      salaryCurrency, ownTransport, bsnNumber, languages, drivingLicences, page) => {
-    console.log({
-        fullName, category, country, city, distance, salaryType, salaryFrom, salaryTo,
-        salaryCurrency, ownTransport, bsnNumber, languages, drivingLicences, page }
-    );
     return axios.post(`/user/filter`, {
         fullName, category, country, city, distance, salaryType, salaryFrom, salaryTo,
         salaryCurrency, ownTransport, bsnNumber, languages, drivingLicences, page
@@ -166,21 +162,21 @@ const readNotification = (id) => {
     });
 }
 
-const sendContactForm = (name, email, msg) => {
+const sendContactForm = (name, email, msg, deliveryMail) => {
     return axios.post('/user/sendContactForm', {
-        name, email, msg
+        name, email, msg, deliveryMail
     });
 }
 
-const remindUserPassword = (email) => {
+const remindUserPassword = (email, mailContent) => {
     return axios.post('/user/remindPassword', {
-        email
+        email, mailContent
     });
 }
 
-const resetUserPassword = (password, email) => {
+const resetUserPassword = (password, email, mailContent) => {
     return axios.patch('/user/resetPassword', {
-        password, email
+        password, email, mailContent
     }, {
         headers: {
             Authorization: getAuthHeader()
@@ -188,9 +184,9 @@ const resetUserPassword = (password, email) => {
     });
 }
 
-const changeUserPassword = (oldPassword, newPassword, email) => {
+const changeUserPassword = (oldPassword, newPassword, mailContent) => {
     return axios.patch('/user/changePassword', {
-        oldPassword, newPassword, email
+        oldPassword, newPassword, mailContent
     }, {
         headers: {
             Authorization: getAuthHeader()
@@ -198,9 +194,9 @@ const changeUserPassword = (oldPassword, newPassword, email) => {
     });
 }
 
-const sendMailInvitation = (email, name, createAccount, content) => {
+const sendMailInvitation = (email, name, createAccount, content, mailContent) => {
     return axios.post('/user/sendInvitation', {
-        email, name, createAccount, content
+        email, name, createAccount, content, mailContent
     });
 }
 

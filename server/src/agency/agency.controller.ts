@@ -13,12 +13,12 @@ export class AgencyController {
 
     @Post('/register')
     registerUser(@Body() body) {
-        return this.agencyService.registerAgency(body.email, body.password);
+        return this.agencyService.registerAgency(body.email, body.password, body.mailContent);
     }
 
     @Post('/login')
     loginAgency(@Body() body) {
-        return this.agencyService.loginAgency(body.email, body.password);
+        return this.agencyService.loginAgency(body.email, body.password, body.mailContent);
     }
 
     @Post('/verify')
@@ -77,7 +77,7 @@ export class AgencyController {
 
     @Post('/remindPassword')
     remindPassword(@Body() body) {
-        return this.agencyService.remindPassword(body.email);
+        return this.agencyService.remindPassword(body.email, body.mailContent);
     }
 
     @Get('/verifyPasswordToken/:token')

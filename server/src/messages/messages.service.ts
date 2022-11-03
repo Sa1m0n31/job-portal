@@ -25,16 +25,16 @@ export class MessagesService {
             await this.mailerService.sendMail({
                 to: email,
                 from: process.env.EMAIL_ADDRESS,
-                subject: 'Masz nową wiadomość na jooob.eu!',
+                subject: 'You have new message at jooob.eu!',
                 html: `<div>
                     <h2>
-                        Ktoś napisał do Ciebie wiadomość na jooob.eu.
+                        Someone wrote to you at jooob.eu!
                     </h2>
                     <p>
-                        Zaloguj się, aby sprawdzić wiadomość i odpowiedzieć.
+                        Log in to check your message and respond:
                     </p>
                     <a href="${process.env.WEBSITE_URL}">
-                        Przejdź na jooob.eu
+                        Go to jooob.eu
                     </a>
                 </div>`
             });

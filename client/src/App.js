@@ -24,6 +24,7 @@ import Loader from "./components/Loader";
 import AdminLogin from "./pages/AdminLogin";
 import AdminWrapper from "./components/AdminWrapper";
 import {Helmet} from "react-helmet";
+import 'configurable-date-input-polyfill';
 
 const LanguageContext = React.createContext({});
 
@@ -75,7 +76,7 @@ function App() {
       </Route>
       <Route path="/regulamin">
         <TextPage header={c.termsOfServiceHeader}
-                  content={termsOfService} />
+                  content="termsOfService" />
       </Route>
       <Route path="/polityka-prywatnosci">
         <TextPage header={c.privacyPolicyHeader}

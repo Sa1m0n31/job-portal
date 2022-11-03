@@ -1,4 +1,4 @@
-import {BadRequestException, HttpException, HttpStatus, Injectable} from '@nestjs/common';
+import {BadRequestException, HttpException, Injectable} from '@nestjs/common';
 import * as crypto from 'crypto'
 import {InjectRepository} from "@nestjs/typeorm";
 import {User} from "../entities/user.entity";
@@ -49,13 +49,15 @@ export class UserService {
     ) {
     }
 
-    async registerUser(email: string, password: string, newsletter: boolean) {
+    async registerUser(email: string, password: string, newsletter: boolean, mailContent: string) {
         const existingUser = await this.userRepository.findOneBy({
             email
         });
 
+        const content = JSON.parse(mailContent);
+
         if(existingUser) {
-            throw new HttpException('Użytkownik z podanym adresem e-mail już istnieje', 400);
+            throw new HttpException(content[0], 400);
         }
         else {
             const passwordHash = crypto
@@ -74,13 +76,13 @@ export class UserService {
             await this.mailerService.sendMail({
                 to: email,
                 from: process.env.EMAIL_ADDRESS,
-                subject: 'Aktywuj swoje konto w serwisie Jooob.eu',
+                subject: content[1],
                 html: `<div>
                     <h2>
-                        Cieszymy się, że jesteś z nami!
+                        ${content[2]}
                     </h2>
                     <p>
-                        W celu aktywacji swojego konta, kliknij w poniższy link:
+                        ${content[3]}
                     </p>
                     <a href="${process.env.WEBSITE_URL}/weryfikacja?token=${token}">
                         ${process.env.WEBSITE_URL}/weryfikacja?token=${token}
@@ -90,7 +92,6 @@ export class UserService {
 
             await this.userRepository.save(newUser);
 
-            console.log(newsletter);
             if(newsletter) {
                 const res = await lastValueFrom(this.httpService.post(encodeURI(`${process.env.API_URL}/newsletter/addNewContact`), {
                     email
@@ -121,12 +122,14 @@ export class UserService {
         }
     }
 
-    async loginUser(email: string, password: string) {
+    async loginUser(email: string, password: string, mailContent: string) {
         const payload = { username: email, sub: password, role: 'user' };
         const passwordHash = crypto
             .createHash('sha256')
             .update(password)
             .digest('hex');
+
+        const content = JSON.parse(mailContent);
 
         const user = await this.userRepository.findOneBy({
             email,
@@ -143,15 +146,15 @@ export class UserService {
                     };
                 }
                 else {
-                    throw new HttpException('Twoje konto zostało zablokowane', 423);
+                    throw new HttpException(content[0], 423);
                 }
             }
             else {
-                throw new HttpException('Aktywuj swoje konto', 403);
+                throw new HttpException(content[1], 403);
             }
         }
         else {
-            throw new HttpException('Niepoprawna nazwa użytkownika lub hasło', 401);
+            throw new HttpException(content[2], 401);
         }
     }
 
@@ -221,10 +224,7 @@ export class UserService {
 
             const contentToTranslate = [originalData.extraLanguages, originalData.courses,
                 originalData.certificates, originalData.situationDescription, jobTitles, jobResponsibilities, jobLength];
-            const polishVersionResponse = await this.translationService.translateContent(JSON.stringify(contentToTranslate), 'pl');
-            const polishVersion = JSON.parse(polishVersionResponse);
-
-            console.log(polishVersionResponse);
+            const polishVersion = await this.translationService.translateContent(contentToTranslate, 'pl', true);
 
             // Add filenames
             return {
@@ -238,7 +238,7 @@ export class UserService {
                        ...item,
                        title: polishVersion[4][index],
                        responsibilities: polishVersion[5][index],
-                       jobLength: polishVersionResponse[6][index]
+                       jobLength: polishVersion[6] ? polishVersion[6][index] : ''
                    }
                 }),
                 profileImage: files.profileImage ? files.profileImage[0].path : userData.profileImageUrl,
@@ -300,13 +300,28 @@ export class UserService {
                 }
 
                 if(months === 1) {
-                    durationText += ' i 1 miesiąc';
+                    if(years > 0) {
+                        durationText += ' i 1 miesiąc';
+                    }
+                    else {
+                        durationText += '1 miesiąc';
+                    }
                 }
                 else if(months > 1 && months < 5) {
-                    durationText += ` i ${months} miesiące`;
+                    if(years > 0) {
+                        durationText += ` i ${months} miesiące`;
+                    }
+                    else {
+                        durationText += `${months} miesiące`;
+                    }
                 }
                 else if(months >= 5) {
-                    durationText += ` i ${months} miesięcy`;
+                    if(years > 0) {
+                        durationText += ` i ${months} miesięcy`;
+                    }
+                    else {
+                        durationText += `${months} miesięcy`;
+                    }
                 }
 
                 jobsLength.push(durationText);
@@ -389,7 +404,6 @@ export class UserService {
         });
 
         if(userTranslation?.length) {
-            console.log('yes');
             userTranslationData = userTranslation.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), userTranslateObject);
             userTranslationData = {
                 ...userTranslationData,
@@ -402,9 +416,11 @@ export class UserService {
         }
         else {
             // Translate by Google API
-            const jobsTitles = userData.jobs ? userData.jobs.map((item) => (item.title)) : [];
-            const jobsResponsibilities = userData.jobs ? userData.jobs.map((item) => (item.responsibilities)) : [];
-            const jobsLength = userData.jobs ? userData.jobs.map((item) => (item.jobLength)) : [];
+            console.log('start');
+
+            const jobsTitles = userData.jobs ? userData.jobs.map((item) => (item.title || '')) : [];
+            const jobsResponsibilities = userData.jobs ? userData.jobs.map((item) => (item.responsibilities || '')) : [];
+            const jobsLength = userData.jobs ? userData.jobs.map((item) => (item.jobLength || '')) : [];
 
             let translatedUserArray = await this.translationService.translateContent([userData.extraLanguages,
                 userData.courses, userData.certificates, userData.situationDescription,
@@ -751,10 +767,10 @@ export class UserService {
             .execute();
     }
 
-    async sendContactForm(name, email, msg) {
+    async sendContactForm(name, email, msg, deliveryMail) {
         return this.mailerService.sendMail({
             to: process.env.CONTACT_FORM_ADDRESS,
-            from: process.env.EMAIL_ADDRESS,
+            from: deliveryMail,
             subject: 'Nowa wiadomość w formularzu kontaktowym',
             html: `<div>
                     <h2>
@@ -769,27 +785,30 @@ export class UserService {
         });
     }
 
-    async remindPassword(email: string) {
+    async remindPassword(email: string, mailContent: string) {
         const user = await this.userRepository.findBy({
             active: true,
             email
         });
+        const content = JSON.parse(mailContent);
 
         if(user?.length) {
             const token = await uuid();
-            const expire = new Date().setHours(new Date().getHours()+1);
+            let expire = new Date();
+            expire.setHours(new Date().getHours()+1)
+            console.log(expire);
 
             // Send email
             await this.mailerService.sendMail({
                 to: email,
                 from: process.env.EMAIL_ADDRESS,
-                subject: 'Odzyskaj swoje hasło na portalu Jooob.eu',
+                subject: content[0],
                 html: `<div>
                     <p>
-                        Zresetuj swoje hasło na portalu Jooob.eu klikając w poniższy link i ustawiając nowe hasło:  
+                        ${content[1]}  
                     </p>
                     <a href="${process.env.WEBSITE_URL}/ustaw-nowe-haslo?token=${token}">
-                         Resetuj hasło
+                        ${content[2]}
                     </a>
                 </div>`
             });
@@ -803,7 +822,7 @@ export class UserService {
             });
         }
         else {
-            throw new BadRequestException('Podany użytkownik nie istnieje');
+            throw new BadRequestException(content[3]);
         }
     }
 

@@ -90,7 +90,7 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
                         </div> : ''}
                     </div>
                     <span className="carAndBikePriceInfo">
-                        {c.monthly}
+                        {c.weekly}
                     </span>
                 </div> : ''}
             </div>
@@ -170,7 +170,7 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
                         </div> : ''}
                     </div>
                     <span className="carAndBikePriceInfo">
-                        {c.monthly}
+                        {c.weekly}
                     </span>
                 </div> : ''}
 

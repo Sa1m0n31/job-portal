@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import HomeSectionHeader from "./HomeSectionHeader";
 import logo1 from '../static/img/partner1.png'
 import appLogo from '../static/img/logo-czarne.png'
@@ -11,11 +11,19 @@ const links = ["https://kampania.euro-tax.pl/zwrot-podatku/b2b/?source=AMB", "ht
 const Partners = () => {
     const { c } = useContext(LanguageContext);
 
+    const [parts, setParts] = useState('[]');
+
+    useEffect(() => {
+        if(c) {
+            setParts(c.partnersContent.replace(' name ', 'name').replace(' text ', 'text'));
+        }
+    }, [c]);
+
     return <div className="homeSection homeSection--partners" id="partnerzy">
         <HomeSectionHeader content={c.partnersHeader} />
 
         <div className="partners flex">
-            {JSON.parse(c.partnersContent)?.map((item, index) => {
+            {JSON.parse(parts)?.map((item, index) => {
                 return <div className="partners__item flex flex--start" key={index}>
                     <figure className="partners__figure center">
                         <img className="img" src={logos[index]} alt="logo" />

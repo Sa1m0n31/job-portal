@@ -1,9 +1,14 @@
 import Cookies from "universal-cookie";
 
 const isElementInArray = (el, arr) => {
-    return arr.findIndex((item) => {
-        return item === el;
-    }) !== -1;
+    if(Array.isArray(arr)) {
+        return arr.findIndex((item) => {
+            return item === el;
+        }) !== -1;
+    }
+    else {
+        return false;
+    }
 }
 
 const isEmail = (email) => {

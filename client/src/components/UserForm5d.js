@@ -14,10 +14,6 @@ const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, rem
 
     const [attachmentsError, setAttachmentsError] = useState('');
 
-    useEffect(() => {
-        console.log(errorFields);
-    }, [errorFields]);
-
     const handleAttachments = (e) => {
         if(e.target.files.length + userData.oldAttachments?.length + userData.attachments.length > 5) {
             e.preventDefault();

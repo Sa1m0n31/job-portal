@@ -393,6 +393,7 @@ input {
 .languageSwitcher {
     width: 64px;
     position: relative;
+    z-index: 301;
 }
 
 .languageSwitcher--mobileHomepage {
@@ -1011,7 +1012,7 @@ input {
     height: 100px;
     background: #fff;
     justify-content: flex-start;
-    z-index: 3;
+    z-index: 300;
 }
 
 .formBottom::after {
@@ -1085,14 +1086,14 @@ input {
 
 .userForm3 .form__job:nth-of-type(even),
 .userForm2 .form__school:nth-of-type(even) {
-    background: #f1f1f1;
+    background: rgba(193, 220, 255, .5);
     position: relative;
 }
 
 .userForm3 .form__job:nth-of-type(even)::before,
 .userForm2 .form__school:nth-of-type(even)::before {
     content: "";
-    background: #f1f1f1;
+    background: rgba(193, 220, 255, .5);
     position: absolute;
     top: 0;
     left: 0;
@@ -1105,7 +1106,7 @@ input {
 .userForm3 .form__job:nth-of-type(even)::after,
 .userForm2 .form__school:nth-of-type(even)::after {
     content: "";
-    background: #f1f1f1;
+    background: rgba(193, 220, 255, .5);
     position: absolute;
     top: 0;
     right: 0;
@@ -1153,7 +1154,7 @@ input {
 }
 
 .form__school--job {
-    width: 880px;
+    width: 930px;
 }
 
 .form__school--job .label:first-of-type {
@@ -4869,7 +4870,6 @@ div[data-testid=circles-loading] {
 
 .contact__smallHeader {
     font-size: 20px;
-    margin-top: 30px;
 }
 
 .contact__data span.marginTop {
@@ -4910,7 +4910,7 @@ div[data-testid=circles-loading] {
 
 .adsVideo {
     margin-top: 0;
-    max-width: 750px;
+    max-width: 950px;
 }
 
 .adsBottom,
@@ -4922,7 +4922,7 @@ div[data-testid=circles-loading] {
 
 .adsBottom {
     margin: 40px auto 0;
-    max-width: 750px;
+    max-width: 950px;
     width: 90%;
 }
 
@@ -6179,4 +6179,61 @@ input[type=month] {
 
 .btn--removeApplication:hover {
     background: red;
+}
+
+.form__school__row {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.label--profession {
+    margin-left: 15px;
+}
+
+.form__school__row > label:not(:first-child, .label--checkbox) {
+    margin-top: 15px;
+}
+
+.form__school__row > label:not(.label--checkbox) {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: auto !important;
+    margin-right: 10px !important;
+}
+
+.form__school__row > label:nth-of-type(2) {
+    margin-left: 10px;
+    margin-right: 20px !important;
+}
+
+.form__school__row .label--checkbox {
+    margin-right: 20px;
+}
+
+.contact--fullWidth *:not(img) {
+    width: 100%;
+    max-width: min(100%, 1000px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.contact--fullWidth button {
+    margin-left: unset;
+    margin-right: unset;
+}
+
+.contact--fullWidth .contact__form__header {
+    text-align: center;
+}
+
+.label--userFilter {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
 }

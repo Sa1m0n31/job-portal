@@ -1,7 +1,6 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
 import Gallery from "../components/Gallery";
-import penIcon from "../static/img/pen-edit-account.svg";
 import settingsCircle from "../static/img/settings-circle.svg";
 import settings from "../static/settings";
 import userPlaceholder from "../static/img/user-placeholder.svg";
@@ -293,7 +292,7 @@ const AgencyProfile = ({data}) => {
                             </span>
                             <p className="userAccount__box__value">
                                 {agency.car === 0 || agency.car ?
-                                    (agency.car === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]}\n${agency.carPrice} ${currencies[agency.carPriceCurrency]}/${c.monthlyShortcut}`)) : c.noInfo}
+                                    (agency.car === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]}\n${agency.carPrice} ${currencies[agency.carPriceCurrency]}/${c.weeklyShortcut}`)) : c.noInfo}
                             </p>
                         </span>
                          <span className="userAccount__box__pair">
@@ -302,7 +301,7 @@ const AgencyProfile = ({data}) => {
                             </span>
                             <p className="userAccount__box__value">
                                 {agency.bike === 0 || agency.bike ?
-                                    (agency.bike === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]}\n${agency.bikePrice} ${currencies[agency.bikePriceCurrency]}/${c.monthlyShortcut}`)) : c.noInfo}
+                                    (agency.bike === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]}\n${agency.bikePrice} ${currencies[agency.bikePriceCurrency]}/${c.weeklyShortcut}`)) : c.noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
@@ -323,7 +322,7 @@ const AgencyProfile = ({data}) => {
                                 {c.pension}
                             </span>
                             <p className="userAccount__box__value">
-                                {agency.pensionContributions !== null && agency.pensionContributions !== undefined ? JSON.parse(c.pensionType)[agency.pensionContributions] : c.noInfo}
+                                {agency.pensionContributions !== null && agency.pensionContributionsAvailable ? `${c.yes}, ${JSON.parse(c.pensionContributionsType)[agency.pensionContributions]}` : c.no}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">
@@ -331,9 +330,9 @@ const AgencyProfile = ({data}) => {
                                 {c.holidayAllowance}
                             </span>
                             <p className="userAccount__box__value userAccount__box__value--holidayAllowance">
-                                {agency.holidayAllowanceType !== null && agency.holidayAllowanceType !== undefined ? `${JSON.parse(c.pensionType)[agency.holidayAllowanceType]}
+                                {agency.holidayAllowanceType !== null && agency.holidayAllowanceType !== undefined ? `${JSON.parse(c.holidayAllowanceType)[agency.holidayAllowanceType]}
                                 `: c.noInfo}<br/>
-                                {agency.holidayAllowanceType !== null && agency.holidayAllowanceType !== undefined ? `${agency.holidayAllowanceFrequency === 0 ? (JSON.parse(c.pensionFrequency)[agency.holidayAllowanceFrequency] + ', ' + (parseInt(agency.holidayAllowanceDay)+1) + ' ' + JSON.parse(c.months)[agency.holidayAllowanceMonth]) : JSON.parse(c.pensionFrequency)[agency.holidayAllowanceFrequency]}` : ''}
+                                {agency.holidayAllowanceType === 1 ? JSON.parse(c.months)[agency.holidayAllowanceMonth] : ''}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">

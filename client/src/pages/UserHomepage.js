@@ -36,6 +36,10 @@ const UserHomepage = ({data, userId, visible, working}) => {
     const { c } = useContext(LanguageContext);
 
     useEffect(() => {
+        console.log(data);
+    }, [data]);
+
+    useEffect(() => {
         if(window.innerWidth >= 996) {
             let maxHeight = 0;
             const secondLine = Array.from(document.querySelectorAll('.userAccount__box--30'));
@@ -81,6 +85,10 @@ const UserHomepage = ({data, userId, visible, working}) => {
         setCopied(true);
         return result;
     }
+
+    useEffect(() => {
+        console.log(c?.categories);
+    }, [c]);
 
     return <div className="container container--user">
         <LoggedUserHeader data={data} />
@@ -153,7 +161,9 @@ const UserHomepage = ({data, userId, visible, working}) => {
                                                                additionalLanguages={data.extraLanguages}
                                                                languages={data.languages}
                                                                drivingLicence={data.drivingLicenceCategories}
-                                                               certs={data.certificates?.concat(data.courses)}
+                                                               certs={data.certificates}
+                                                               courses={data.courses}
+                                                               skills={data.skills}
                                                                desc={data.situationDescription}
                                                                phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : c.noInfo}
                                                                location={data.country >= 0 ? `${data.address}, ${data.city}, ${JSON.parse(c.countries)[data.country]}` : c.noInfo}
@@ -276,6 +286,9 @@ const UserHomepage = ({data, userId, visible, working}) => {
                     {c.finishedSchools}
                 </h3>
                 {data?.schools?.map((item, index) => {
+                    const displayedFrom = item.from?.split('-')?.length === 2 ? `${item.from.split('-')[1]}.${item.from.split('-')[0]}` : item.from;
+                    const displayedTo = item.to?.split('-')?.length === 2 ? `${item.to.split('-')[1]}.${item.to.split('-')[0]}` : item.to;
+
                     return <div className="userAccount__school flex flex--start" key={index}>
                         <figure className="center">
                             <img className="img" src={graduateIcon} alt="absolwent" />
@@ -288,7 +301,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                                 {item.title}
                             </h5>
                             <h6 className="userAccount__school__date">
-                                {item.from} - {item.to ? item.to : c.during}
+                                {displayedFrom} - {item.to ? displayedTo : c.during}
                             </h6>
                         </div>
                     </div>
@@ -299,7 +312,10 @@ const UserHomepage = ({data, userId, visible, working}) => {
                 <h3 className="userAccount__box__header">
                     {c.jobExperience}
                 </h3>
-                {data?.jobs?.map((item, index) => {
+                {typeof data.jobs !== 'string' && data.jobs ? data?.jobs?.map((item, index) => {
+                    const displayedFrom = item.from?.split('-')?.length === 2 ? `${item.from.split('-')[1]}.${item.from.split('-')[0]}` : item.from;
+                    const displayedTo = item.to?.split('-')?.length === 2 ? `${item.to.split('-')[1]}.${item.to.split('-')[0]}` : item.to;
+
                     return <div className="userAccount__school flex flex--start" key={index}>
                         <figure className="center">
                             <img className="img img--suitcase" src={suitcaseBlue} alt="praca" />
@@ -312,11 +328,11 @@ const UserHomepage = ({data, userId, visible, working}) => {
                                 {item.title}
                             </h5>
                             <h6 className="userAccount__school__date">
-                                {item.from} - {item.to ? item.to : c.during}
+                                {displayedFrom} - {item.to ? displayedTo : c.during}
                             </h6>
                         </div>
                     </div>
-                })}
+                }) : ''}
             </div>
 
             {/* THIRD LINE */}
@@ -361,17 +377,17 @@ const UserHomepage = ({data, userId, visible, working}) => {
                     {c.finishedCoursesAndSchools}
                 </h3>
                 {data?.courses?.map((item, index) => {
-                    return <div className="userAccount__course" key={index}>
+                    return item ? <div className="userAccount__course" key={index}>
                         <img className="img" src={starIcon} alt="gwiazdka" />
                         {item}
-                    </div>
+                    </div> : ''
                 })}
 
                 {data?.certificates?.map((item, index) => {
-                    return <div className="userAccount__course" key={index}>
+                    return item ? <div className="userAccount__course" key={index}>
                         <img className="img" src={starIcon} alt="gwiazdka" />
                         {item}
-                    </div>
+                    </div> : ''
                 })}
             </div>
 
@@ -393,7 +409,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                             {c.availability}
                         </span>
                         <p className="userAccount__box__value">
-                            {data.availabilityDay >= 0 && data.availabilityMonth >= 0 && data.availabilityYear ?
+                            {data?.availabilityDay >= 0 && data?.availabilityMonth >= 0 && data?.availabilityYear ?
                                 `${c.from} ${getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear)}`
                                 : c.noInfo}
                         </p>

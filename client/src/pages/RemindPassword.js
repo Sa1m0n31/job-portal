@@ -57,7 +57,10 @@ const RemindPassword = () => {
         if(isEmail(email)) {
             setLoading(true);
             const func = role === 0 ? remindUserPassword : remindAgencyPassword;
-            func(email)
+            const mailContent = JSON.stringify([
+                c.mail8, c.mail9, c.mail10, c.mail15
+            ]);
+            func(email, mailContent)
                 .then((res) => {
                     if(res?.status === 201) {
                         setSuccess(true);

@@ -1782,7 +1782,8 @@ export class OfferService {
                 message: body.message,
                 friendLink: body.friendLink,
                 preferableContact: body.contactForms,
-                attachments: JSON.stringify(attachments)
+                attachments: JSON.stringify(attachments),
+                hidden: false
             });
 
             // Add notification to agency
@@ -1835,7 +1836,8 @@ export class OfferService {
                 message: body.message,
                 friendLink: body.friendLink,
                 preferableContact: body.contactForms,
-                attachments: JSON.stringify(attachments)
+                attachments: JSON.stringify(attachments),
+                hidden: false
             });
 
             // Add notification to agency

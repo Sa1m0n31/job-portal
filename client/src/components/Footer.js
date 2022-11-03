@@ -87,26 +87,18 @@ const Footer = () => {
                 </h5>
                 <p className="footer__data">
                     <span>
-                        Jooob.eu Sp.z.o.o.
+                        AMB Sp.z.o.o.
                     </span>
                     <span>
-                        NIP 23 234 234 23
-                    </span>
-                </p>
-                <p className="footer__data">
-                    <span>
-                        ul. Warszawska 1/1
-                    </span>
-                    <span>
-                        23-234 Bydgoszcz
+                        NIP 5542998776
                     </span>
                 </p>
                 <p className="footer__data">
                     <span>
-                        Bank ING
+                        ul. Marii Curie Skłodowskiej
                     </span>
                     <span>
-                        23 2342 2344 2345 8989 0000 12
+                        85-733 Bydgoszcz
                     </span>
                 </p>
                 <h5 className="footer__header footer__header--socialMedia">

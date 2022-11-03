@@ -364,7 +364,7 @@ const SingleFastOffer = () => {
                             </span>
                             <p className="userAccount__box__value">
                                 {agencyData.car === 0 || agencyData.car ?
-                                    (agencyData.car === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]}\n${agencyData.carPrice} ${currencies[agencyData.carPriceCurrency]}/${c.monthlyShortcut}`)) : c.noInfo}
+                                    (agencyData.car === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]}\n${agencyData.carPrice} ${currencies[agencyData.carPriceCurrency]}/${c.weeklyShortcut}`)) : c.noInfo}
                             </p>
                         </span>
                         <span className="userAccount__box__pair">
@@ -373,7 +373,7 @@ const SingleFastOffer = () => {
                             </span>
                             <p className="userAccount__box__value">
                                 {agencyData.bike === 0 || agencyData.bike ?
-                                    (agencyData.bike === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]}\n${agencyData.bikePrice} ${currencies[agencyData.bikePriceCurrency]}/${c.monthlyShortcut}`)) : c.noInfo}
+                                    (agencyData.bike === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]}\n${agencyData.bikePrice} ${currencies[agencyData.bikePriceCurrency]}/${c.weeklyShortcut}`)) : c.noInfo}
                             </p>
                         </span>
                         <span className="userAccount__box__pair">
@@ -394,7 +394,7 @@ const SingleFastOffer = () => {
                                 {c.pension}
                             </span>
                             <p className="userAccount__box__value">
-                                {agencyData.pensionContributions !== null && agencyData.pensionContributions !== undefined ? JSON.parse(c.pensionType)[agencyData.pensionContributions] : c.noInfo}
+                                {agencyData.pensionContributions !== null && agencyData.pensionContributionsAvailable ? `${c.yes}, ${JSON.parse(c.pensionContributionsType)[agencyData.pensionContributions]}` : c.no}
                             </p>
                         </span>
                         <span className="userAccount__box__pair">
@@ -402,9 +402,9 @@ const SingleFastOffer = () => {
                                 {c.holidayAllowance}
                             </span>
                             <p className="userAccount__box__value userAccount__box__value--holidayAllowance">
-                                {agencyData.holidayAllowanceType !== null && agencyData.holidayAllowanceType !== undefined ? `${JSON.parse(c.pensionType)[agencyData.holidayAllowanceType]}
+                                {agencyData.holidayAllowanceType !== null && agencyData.holidayAllowanceType !== undefined ? `${JSON.parse(c.holidayAllowanceType)[agencyData.holidayAllowanceType]}
                                 `: c.noInfo}<br/>
-                                {agencyData.holidayAllowanceType !== null && agencyData.holidayAllowanceType !== undefined ? `${agencyData.holidayAllowanceFrequency === 0 ? (JSON.parse(c.pensionFrequency)[agencyData.holidayAllowanceFrequency] + ', ' + (parseInt(agencyData.holidayAllowanceDay)+1) + ' ' + JSON.parse(c.months)[agencyData.holidayAllowanceMonth]) : JSON.parse(c.pensionFrequency)[agencyData.holidayAllowanceFrequency]}` : ''}
+                                {agencyData.holidayAllowanceType === 1 ? JSON.parse(c.months)[agencyData.holidayAllowanceMonth] : ''}
                             </p>
                         </span>
                         <span className="userAccount__box__pair">

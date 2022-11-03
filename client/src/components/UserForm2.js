@@ -5,7 +5,7 @@ import plusIcon from '../static/img/plus-in-circle.svg'
 import trashIcon from '../static/img/trash.svg'
 import {LanguageContext} from "../App";
 
-const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEducationVisible}) => {
+const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEducationVisible, schoolErrorField, schoolErrorIndex}) => {
     const { setStep, error, userData, handleChange, educationVisible } = useContext(UserDataContext);
     const { c } = useContext(LanguageContext);
 
@@ -16,7 +16,7 @@ const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEduca
             <button className="datepicker datepicker--country"
                     onClick={(e) => { e.stopPropagation(); setEducationVisible(!educationVisible); }}
             >
-                {JSON.parse(c.educationLevels)[userData.education]}
+                {JSON.parse(c.educationLevels)[userData.education] ? JSON.parse(c.educationLevels)[userData.education] : c.education}
                 <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
             </button>
             {educationVisible ? <div className="datepickerDropdown noscroll">
@@ -30,52 +30,57 @@ const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEduca
         </div>
 
         {userData.schools?.map((item, index) => {
-            return <div className="form__school flex" key={index}>
+            return <div className="form__school flex flex-wrap" key={index}>
                 <label className="label">
                     {c.schoolOrUniversityName} *
                     <input className={error && !item.name ? "input input--error" : "input"}
                            value={item.name}
                            onChange={(e) => { handleChange('schools', e.target.value, 'name', index); }} />
                 </label>
-                <label className="label">
+                <label className="label label--profession">
                     {c.learnedProfession}
                     <input className="input"
                            value={item.title}
                            onChange={(e) => { handleChange('schools', e.target.value, 'title', index); }} />
                 </label>
-                <label className="label">
-                    <span className="oneline">
-                        {c.educationYears} *
-                    </span>
-                    <input className={error && !item.from ? "input input--error" : "input"}
-                           type="number"
-                           value={item.from}
-                           onChange={(e) => { handleChange('schools', e.target.value, 'from', index); }} />
-                </label>
-                -
-                <label className="label">
-                    <input className={error && !item.to && !item.inProgress ? "input input--error" : "input"}
-                           type="number"
-                           disabled={item.inProgress}
-                           value={item.to}
-                           onChange={(e) => { handleChange('schools', e.target.value, 'to', index); }} />
-                </label>
 
-                <label className="label label--flex label--checkbox">
-                    <button className={item.inProgress ? "checkbox checkbox--selected center" : "checkbox center"}
-                            onClick={() => { toggleSchoolInProgress(index); }}>
-                        <span></span>
+                <div className="form__school__row">
+                    <label className="label">
+                        <span className="oneline">
+                            {c.educationYears} *
+                        </span>
+                        <input type="text"
+                               className={error && ((schoolErrorIndex === index && schoolErrorField === 1)) ? "input input--error" : "input"}
+                               value={item.from}
+                               placeholder="YYYY-MM"
+                               onChange={(e) => { handleChange('schools', e.target.value, 'from', index); }} />
+                    </label>
+                    -
+                    <label className="label">
+                        <input className={error && ((schoolErrorIndex === index && schoolErrorField === 2)) && !item.inProgress ? "input input--error" : "input"}
+                               type="text"
+                               disabled={item.inProgress}
+                               value={item.to}
+                               placeholder="YYYY-MM"
+                               onChange={(e) => { handleChange('schools', e.target.value, 'to', index); }} />
+                    </label>
+
+                    <label className="label label--flex label--checkbox">
+                        <button className={item.inProgress ? "checkbox checkbox--selected center" : "checkbox center"}
+                                onClick={() => { toggleSchoolInProgress(index); }}>
+                            <span></span>
+                        </button>
+                        {c.during}
+                    </label>
+
+                    <button className="deleteSchoolBtn" onClick={() => { deleteSchool(index); }}>
+                        <img className="img" src={trashIcon} alt="usun" />
                     </button>
-                    {c.during}
-                </label>
-
-                <button className="deleteSchoolBtn" onClick={() => { deleteSchool(index); }}>
-                    <img className="img" src={trashIcon} alt="usun" />
-                </button>
+                </div>
             </div>
         })}
 
-        <button className={userData?.schools?.length < 3 ? "addNewBtn flex" : "addNewBtn flex btn--disabled"} onClick={() => { addNewSchool(); }}>
+        <button className={userData?.schools?.length < 3 || !userData?.schools ? "addNewBtn flex" : "addNewBtn flex btn--disabled"} onClick={() => { addNewSchool(); }}>
             {c.addNextSchool}
             <img className="img" src={plusIcon} alt="dodaj" />
         </button>

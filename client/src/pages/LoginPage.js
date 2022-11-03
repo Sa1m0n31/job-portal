@@ -79,7 +79,11 @@ const LoginPage = ({type}) => {
         if(email && password) {
             setLoading(true);
             const func = type === 0 ? loginUser : loginAgency;
-            func(email, password)
+            const mailContent = JSON.stringify([
+                c.mail5, c.mail6, c.mail7
+            ])
+
+            func(email, password, mailContent)
                 .then((res) => {
                     setLoading(false);
                     if(res?.status === 201) {

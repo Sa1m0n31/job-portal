@@ -16,15 +16,15 @@ const authAgency = () => {
     });
 }
 
-const loginAgency = (email, password) => {
+const loginAgency = (email, password, mailContent) => {
     return axios.post('/agency/login', {
-        email, password
+        email, password, mailContent
     });
 }
 
-const registerAgency = (email, password, newsletter) => {
+const registerAgency = (email, password, newsletter, mailContent) => {
     return axios.post('/agency/register', {
-        email, password, newsletter
+        email, password, newsletter, mailContent
     });
 }
 
@@ -114,9 +114,9 @@ const getAgencyNotifications = () => {
     });
 }
 
-const remindAgencyPassword = (email) => {
+const remindAgencyPassword = (email, mailContent) => {
     return axios.post('/agency/remindPassword', {
-        email
+        email, mailContent
     });
 }
 

@@ -53,7 +53,8 @@ const JobOfferList = ({data}) => {
             .then((res) => {
                 if(res?.status === 200) {
                     setRender(true);
-                    setOffers(res?.data);
+                    const offersString = JSON.stringify(res?.data)?.replace(/«/g, '\'').replace(/»/g, '\'');
+                    setOffers(JSON.parse(offersString));
                 }
             });
         setPage(2);
@@ -290,7 +291,7 @@ const JobOfferList = ({data}) => {
                     </span>
                     </div>
                     <div className="offerItem__requirements">
-                        {JSON.parse(item.offer_benefits)?.slice(0, 3)?.map((item, index) => {
+                        {JSON.parse(item.offer_benefits.replace(/'/g, '"'))?.slice(0, 3)?.map((item, index) => {
                             return <span className="offerItem__requirement" key={index}>
                             {item}
                         </span>

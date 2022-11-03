@@ -105,7 +105,12 @@ const UserEditData = () => {
     const [errorFields, setErrorFields] = useState([]);
     const [step1Error, setStep1Error] = useState(false);
     const [step2Error, setStep2Error] = useState(false);
+    const [step3Error, setStep3Error] = useState(false);
     const [step5Error, setStep5Error] = useState(false);
+    const [schoolErrorIndex, setSchoolErrorIndex] = useState(-1);
+    const [schoolErrorField, setSchoolErrorField] = useState(-1);
+    const [jobErrorIndex, setJobErrorIndex] = useState(-1);
+    const [jobErrorField, setJobErrorField] = useState(-1);
 
     const { c } = useContext(LanguageContext);
 
@@ -138,6 +143,8 @@ const UserEditData = () => {
                 setCurrentForm(<UserForm2 addNewSchool={addNewSchool}
                                           deleteSchool={deleteSchool}
                                           setEducationVisible={setEducationVisible}
+                                          schoolErrorIndex={schoolErrorIndex}
+                                          schoolErrorField={schoolErrorField}
                                           toggleSchoolInProgress={toggleSchoolInProgress} />);
                 break;
             case 2:
@@ -146,6 +153,8 @@ const UserEditData = () => {
                                           addNewResponsibility={addNewResponsibility}
                                           updateJobResponsibilities={updateJobResponsibility}
                                           deleteResponsibility={deleteResponsibility}
+                                          jobErrorIndex={jobErrorIndex}
+                                          jobErrorField={jobErrorField}
                                           toggleJobInProgress={toggleJobInProgress} />);
                 break;
             case 3:
@@ -282,10 +291,82 @@ const UserEditData = () => {
         }
     }, [step, substep]);
 
-    const schoolsValidation = () => {
-        return userData.schools.length && (userData.schools.findIndex((item) => {
-            return !item.name || !item.from || (!item.to && !item.inProgress);
-        }) === -1);
+    const dateValidation = (str) => {
+        const dateElements = str?.split('-');
+        if (dateElements.length !== 2) return false;
+        if (dateElements[0].length !== 4) return false;
+        return dateElements[1].length;
+    }
+
+    const schoolsValidation = (data, job) => {
+        if(data) {
+            if(!data.length) {
+                return -1;
+            }
+            else {
+                let nameError = false;
+                const schoolIndex = data.findIndex((item, index) => {
+                    if(item.inProgress) {
+                        if(!item.name) {
+                            nameError = true;
+                            return true;
+                        }
+                        if(!dateValidation(item.from)) {
+                            if(job) {
+                                setJobErrorIndex(index);
+                                setJobErrorField(1);
+                            }
+                            else {
+                                setSchoolErrorIndex(index);
+                                setSchoolErrorField(1);
+                            }
+                            return true;
+                        }
+                        return false;
+                    }
+                    else {
+                        if(!item.name) {
+                            nameError = true;
+                            return true;
+                        }
+                        if(!dateValidation(item.from)) {
+                            if(job) {
+                                setJobErrorIndex(index);
+                                setJobErrorField(1);
+                            }
+                            else {
+                                setSchoolErrorIndex(index);
+                                setSchoolErrorField(1);
+                            }
+                            return true;
+                        }
+                        if(!dateValidation(item.to)) {
+                            if(job) {
+                                setJobErrorIndex(index);
+                                setJobErrorField(2);
+                            }
+                            else {
+                                setSchoolErrorIndex(index);
+                                setSchoolErrorField(2);
+                            }
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+
+                if(schoolIndex === -1) {
+                    return 1;
+                }
+                else {
+                    if(nameError) return -1;
+                    else return -2;
+                }
+            }
+        }
+        else {
+            return 0;
+        }
     }
 
     const validateUserData = () => {
@@ -315,10 +396,33 @@ const UserEditData = () => {
             setStep1Error(true);
             fields.push(c.phoneNumber);
         }
-        if(!schoolsValidation()) {
+        const schoolsError = schoolsValidation(userData.schools, false);
+
+        if(schoolsError !== 1) {
             setStep2Error(true);
-            fields.push(c.finishedSchools);
+            if(schoolsError === -1) {
+                fields.push(c.finishedSchools);
+            }
+            else {
+                fields.push(`${c.finishedSchools} (${c.dateError})`);
+            }
         }
+
+        if(userData?.jobs?.length) {
+            const experienceError = schoolsValidation(userData.jobs, true);
+
+            if(experienceError !== 1) {
+                setStep3Error(true);
+
+                if(experienceError === -1) {
+                    fields.push(c.jobExperience);
+                }
+                else {
+                    fields.push(`${c.jobExperience} (${c.dateError})`);
+                }
+            }
+        }
+
         if(!userData.currentCity || !userData.currentPostalCode) {
             setStep5Error(true);
             fields.push(c.currentLivingPlace);
@@ -387,8 +491,10 @@ const UserEditData = () => {
             }
         }
         else {
-            window.scrollTo(0, document.body.scrollHeight);
             setError(JSON.parse(c.formErrors)[0]);
+            setTimeout(() => {
+                window.scrollTo(0, document.body.scrollHeight);
+            }, 500);
         }
     }
 
@@ -446,7 +552,7 @@ const UserEditData = () => {
     const addNewCategory = () => {
         setUserData(prevState => ({
             ...prevState,
-            categories: [...prevState.categories, 'Wybierz branżę']
+            categories: Array.isArray(prevState.categories) ? [...prevState.categories, c.chooseCategory] : [c.chooseCategory]
         }));
     }
 
@@ -537,12 +643,19 @@ const UserEditData = () => {
     }
 
     const addNewSchool = () => {
-        if(userData?.schools?.length < 3) {
+        console.log(userData.schools);
+        if(userData?.schools?.length < 3 || !userData?.schools) {
             setUserData(prevState => {
-                if(prevState?.schools?.length < 3) {
+                if(prevState?.schools?.length < 3 || !userData?.schools) {
                     return {
                         ...prevState,
-                        schools: [...prevState.schools, {
+                        schools: Array.isArray(prevState.schools) ? [...prevState.schools, {
+                            name: '',
+                            title: '',
+                            from: null,
+                            to: null,
+                            inProgress: false
+                        }] : [{
                             name: '',
                             title: '',
                             from: null,
@@ -697,13 +810,70 @@ const UserEditData = () => {
             }
         }
         if(field === 'schools' || field === 'jobs') {
+            let newValue =  value;
+
+            const currentValue = userData[field][fieldIndex][subfield];
+
+            if(subfield === 'from' || subfield === 'to') {
+                if(value.length > 0 && value.length < 4) {
+                    const valueNumber = parseInt(value);
+
+                    if(!valueNumber || isNaN(value)) {
+                        return false;
+                    }
+                }
+                else if(value.length === 4) {
+                    if(currentValue.length > 4) {
+                        newValue = value.slice(0, 4);
+                    }
+                    else {
+                        if(!isNaN(value)) {
+                            newValue += '-';
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                }
+                else if(value.length === 5) {
+                    if(currentValue.length > 5) {
+                        newValue = value.slice(0, 4);
+                    }
+                    else {
+                        if(value.slice(-1) !== '-') {
+                            newValue = `${value.slice(0, -1)}-${value.slice(-1)}`;
+                        }
+                    }
+                }
+                else if(value.length > 5 && value.length <= 7) {
+                    const month = value.split('-')[1];
+                    if(month) {
+                        if(!isNaN(month)) {
+                            if(parseInt(month) > 12) {
+                                return false;
+                            }
+                        }
+                        else {
+                            return false;
+                        }
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                else if(value.length > 7) {
+                    return false;
+                }
+
+            }
+
             setUserData({
                 ...userData,
                 [field]: userData[field].map((item, index) => {
                     if(index === fieldIndex) {
                         return {
                             ...item,
-                            [subfield]: value
+                            [subfield]: newValue
                         }
                     }
                     else {
@@ -714,17 +884,19 @@ const UserEditData = () => {
             return 0;
         }
         if(field === 'courses' || field === 'certificates' || field === 'skills' || field === 'categories') {
-            setUserData(prevState => ({
-                ...prevState,
-                [field]: prevState[field].map((item, index) => {
-                    if(index === fieldIndex) {
-                        return value
-                    }
-                    else {
-                        return item;
-                    }
-                })
-            }));
+            if(Array.isArray(userData[field])) {
+                setUserData(prevState => ({
+                    ...prevState,
+                    [field]: prevState[field].map((item, index) => {
+                        if(index === fieldIndex) {
+                            return value
+                        }
+                        else {
+                            return item;
+                        }
+                    })
+                }));
+            }
             return 0;
         }
         if(field === 'attachments') {
@@ -804,6 +976,20 @@ const UserEditData = () => {
         const stepsParents = Array.from(document.querySelectorAll('.editData__step'));
         const steps = Array.from(document.querySelectorAll('.editData__step>.editData__left__step__text'));
 
+        if(step3Error) {
+            steps[2].style.color = 'red';
+            stepsParents[2].style.opacity = '1';
+        }
+        else {
+            steps[2].style.color = '#fff';
+            stepsParents[2].style.opacity = '.5';
+        }
+    }, [step3Error]);
+
+    useEffect(() => {
+        const stepsParents = Array.from(document.querySelectorAll('.editData__step'));
+        const steps = Array.from(document.querySelectorAll('.editData__step>.editData__left__step__text'));
+
         if(step5Error) {
             steps[4].style.color = 'red';
             stepsParents[4].style.opacity = '1';
@@ -820,8 +1006,15 @@ const UserEditData = () => {
             setStep1Error(false);
         }
 
-        if(schoolsValidation()) {
+        if(schoolsValidation(userData?.schools, false)) {
             setStep2Error(false);
+        }
+
+        if(!userData?.jobs?.length) {
+            setStep3Error(false);
+        }
+        else if(schoolsValidation(userData?.jobs, true)) {
+            setStep3Error(false);
         }
 
         if(userData.currentCity && userData.currentPostalCode && userData.longTermJobSeeker !== null && userData.ownTransport !== null

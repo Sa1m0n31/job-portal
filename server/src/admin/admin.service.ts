@@ -6,6 +6,7 @@ import * as crypto from 'crypto'
 import {JwtService} from "@nestjs/jwt";
 import {Agency} from "../entities/agency.entity";
 import {User} from "../entities/user.entity";
+import {MailerService} from "@nestjs-modules/mailer";
 
 @Injectable()
 export class AdminService {
@@ -16,7 +17,8 @@ export class AdminService {
         private readonly agencyRepository: Repository<Agency>,
         @InjectRepository(User)
         private readonly userRepository: Repository<User>,
-        private readonly jwtTokenService: JwtService
+        private readonly jwtTokenService: JwtService,
+        private readonly mailerService: MailerService,
     ) {
     }
 
@@ -97,6 +99,30 @@ export class AdminService {
     }
 
     async acceptAgency(id: number) {
+        // Get agency email
+        const res = await this.agencyRepository.findOneBy({
+            id
+        });
+        const email = res.email;
+
+        // Send mail with info to agency
+        await this.mailerService.sendMail({
+            to: email,
+            from: process.env.EMAIL_ADDRESS,
+            subject: 'Twój profil został aktywowany',
+            html: `<div>
+                    <h2>
+                        Twoje konto w serwisie jooob.eu zostało zaakceptowane przez administratora!
+                    </h2>
+                    <p>
+                        Zaloguj się na swoje konto, dodawaj nowe oferty pracy i przeglądaj CV kandydatów na jooob.eu!
+                    </p>
+                    <a href="${process.env.WEBSITE_URL}/strefa-pracodawcy">
+                        ${process.env.WEBSITE_URL}/strefa-pracodawcy
+                    </a>
+                </div>`
+        });
+
         return this.agencyRepository
             .createQueryBuilder()
             .update()

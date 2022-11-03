@@ -28,7 +28,7 @@ const Register = () => {
     const [registered, setRegistered] = useState(false);
     const [error, setError] = useState('');
 
-    const { c } = useContext(LanguageContext);
+    const { c, language } = useContext(LanguageContext);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -88,7 +88,11 @@ const Register = () => {
             setLoading(true);
             const registerFunc = role === 0 ? registerUser : registerAgency;
 
-            registerFunc(email, password, newsletter)
+            const mailContent = JSON.stringify([
+                c.mail1, c.mail2, c.mail3, c.mail4
+            ]);
+
+            registerFunc(email, password, newsletter, mailContent)
                 .then((res) => {
                     setLoading(false);
                     if(res?.status === 201) {

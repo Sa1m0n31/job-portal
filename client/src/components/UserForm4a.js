@@ -15,8 +15,8 @@ const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCate
             {c.foreignLanguages.charAt(0).toUpperCase() + c.foreignLanguages.slice(1)} *
             <div className="languagesWrapper flex">
                 {JSON.parse(c.languages).map((item, index) => {
-                    return <label className={isElementInArray(index, userData.languages.map((item) => (item.language))) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"} key={index}>
-                        <button className={isElementInArray(index, userData.languages.map((item) => (item.language))) ? "checkbox checkbox--selected center" : "checkbox center"}
+                    return <label className={isElementInArray(index, Array.isArray(userData.languages) ? userData.languages.map((item) => (item.language)) : []) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"} key={index}>
+                        <button className={isElementInArray(index, Array.isArray(userData.languages) ? userData.languages.map((item) => (item.language)) : []) ? "checkbox checkbox--selected center" : "checkbox center"}
                                 onClick={() => { toggleLanguage(index); }}>
                             <span></span>
                         </button>
@@ -32,13 +32,13 @@ const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCate
                    onChange={(e) => { handleChange('extraLanguages', e.target.value); }}
                    placeholder={c.otherLanguagesPlaceholder} />
         </div>
-        {userData.languages.length ? <div className="label">
+        {userData?.languages?.length ? <div className="label">
             {c.foreignLanguageLevel}
             <p className="label--extraInfo">
                 {c.foreignLanguageLevelDescription}:
             </p>
             <div className="languageLvlWrapper flex">
-                {userData.languages.map((item, index) => {
+                {Array.isArray(userData?.languages) ? userData.languages.map((item, index) => {
                     const langIndex = item.language;
                     return <div className="languageLvl flex" key={index}>
                         {JSON.parse(c.languages)[item.language]}
@@ -60,7 +60,7 @@ const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCate
                             </div> : ''}
                         </div>
                     </div>
-                })}
+                }) : ''}
             </div>
         </div> : ''}
 
@@ -92,7 +92,7 @@ const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCate
                 {c.drivingLicenceCategory}
             </span>
             {JSON.parse(c.drivingLicences).map((item, index) => {
-                return <label className={isElementInArray(index, userData.drivingLicenceCategories) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"} key={index}>
+                return <label className={isElementInArray(index, Array.isArray(userData.drivingLicenceCategories) ? userData.drivingLicenceCategories : []) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"} key={index}>
                     <button className="checkbox center"
                             onClick={() => { toggleDrivingLicenceCategory(index); }}>
                         <span></span>

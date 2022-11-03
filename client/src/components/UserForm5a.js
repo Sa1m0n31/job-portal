@@ -60,7 +60,7 @@ const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMont
                     <button className="datepicker datepicker--country"
                             onClick={(e) => { e.stopPropagation(); setCountriesVisible(!countriesVisible); }}
                     >
-                        {JSON.parse(c.countries)[userData.currentCountry]}
+                        {JSON.parse(c.countries)[userData.currentCountry] ? JSON.parse(c.countries)[userData.currentCountry] : c.chooseCountry}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {countriesVisible ? <div className="datepickerDropdown noscroll">
@@ -95,7 +95,7 @@ const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMont
                         {c.bsnNumberTooltip}
                                 </span>}
                     followCursor={true}
-                    position="left"
+                    position="right"
                 >
                     <div className="tooltip">
                         ?
@@ -158,7 +158,7 @@ const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMont
                     <button className="datepicker datepicker--day"
                             onClick={(e) => { e.stopPropagation(); setDaysVisible(!daysVisible); }}
                     >
-                        {userData.availabilityDay+1}
+                        {userData.availabilityDay ? userData.availabilityDay+1 : 1}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {daysVisible ? <div className="datepickerDropdown noscroll">
@@ -175,7 +175,7 @@ const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMont
                     <button className="datepicker datepicker--month"
                             onClick={(e) => { e.stopPropagation(); setMonthsVisible(!monthsVisible); }}
                     >
-                        {JSON.parse(c.months)[userData.availabilityMonth]}
+                        {JSON.parse(c.months)[userData.availabilityMonth] ? JSON.parse(c.months)[userData.availabilityMonth] : c.month}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {monthsVisible ? <div className="datepickerDropdown noscroll">
@@ -192,7 +192,7 @@ const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMont
                     <button className="datepicker datepicker--year"
                             onClick={(e) => { e.stopPropagation(); setYearsVisible(!yearsVisible); }}
                     >
-                        {userData.availabilityYear}
+                        {userData.availabilityYear ? userData.availabilityYear : c.year}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {yearsVisible ? <div className="datepickerDropdown noscroll">

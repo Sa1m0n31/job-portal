@@ -24,15 +24,55 @@
   <component name="ChangeListManager">
     <list default="true" id="06c2c867-885a-4984-820a-27e97dc3ed90" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyForm4b.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyForm4b.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyForm4c.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyForm4c.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/CV.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/CV.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Footer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/HomeBenefits.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/HomeBenefits.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/Partners.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Partners.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm1.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm2.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm3.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm3.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm4a.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm4a.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm5a.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm5a.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm5b.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm5b.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm5d.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm5d.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserFormSummary.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserFormSummary.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserPreview.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserPreview.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UsersFilters.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UsersFilters.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/agency.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/agency.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/others.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/others.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/AddFastJobOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AddFastJobOffer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AddJobOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AddJobOffer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyHomepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyHomepage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyProfile.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/CandidateProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/CandidateProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/ContactPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/ContactPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/FastJobOffersList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/FastJobOffersList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/JobOffersList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/JobOffersList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/LoginPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Register.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/RemindPassword.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/RemindPassword.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/SingleFastOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SingleFastOffer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/img/logo-biale.png" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/img/logo-biale.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/settings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/TextPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/TextPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/UserEditData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/UserEditData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/UserHomepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/UserHomepage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/admin/admin.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/admin/admin.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/agency/agency.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/agency/agency.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/agency/agency.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/agency/agency.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/messages/messages.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/messages/messages.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/offer/offer.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/offer/offer.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/translation/translation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/translation/translation.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/user/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/user/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +101,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../brunchbox" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -148,6 +188,13 @@
       <workItem from="1666186278822" duration="23302000" />
       <workItem from="1666271192229" duration="1776000" />
       <workItem from="1666289425060" duration="6109000" />
+      <workItem from="1666654480811" duration="598000" />
+      <workItem from="1666729098699" duration="11264000" />
+      <workItem from="1666742412458" duration="602000" />
+      <workItem from="1666824932066" duration="6168000" />
+      <workItem from="1666863970283" duration="55000" />
+      <workItem from="1667401067221" duration="11407000" />
+      <workItem from="1667413800699" duration="17574000" />
     </task>
     <servers />
   </component>
@@ -167,18 +214,18 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="-1226" y="322" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1661426035733">
+    <state x="-1226" y="322" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1667429286441">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1226" y="322" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661426035733" />
+    <state x="-1226" y="322" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1667429286441" />
     <state x="-1230" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1661259208732">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1230" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661259208732" />
-    <state x="592" y="218" key="FileChooserDialogImpl" timestamp="1666348958283">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl" timestamp="1666864023756">
+      <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1666264580724" />
+    <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1666864023756" />
     <state x="592" y="218" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1666348958283" />
     <state x="-1180" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1665848231984" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@0.0.1920.1040" timestamp="1664789361202" />
@@ -215,12 +262,12 @@
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
     <state x="-1143" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1661819881894" />
-    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1665705268055">
+    <state x="-1253" y="253" width="585" height="534" key="find.popup" timestamp="1667431335667">
       <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1665705268055" />
+    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1666741424130" />
     <state x="-705" y="-396" width="555" height="966" key="find.popup/0.0.1920.1040/-1080.-853.1080.1880@-1080.-853.1080.1880" timestamp="1661514756809" />
-    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1665057894750" />
+    <state x="-1253" y="253" width="585" height="534" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1667431335667" />
     <state x="667" y="253" width="585" height="534" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1665183294099" />
     <state x="493" y="190" key="run.anything.popup" timestamp="1666347113914">
       <screen x="0" y="0" width="1536" height="824" />
@@ -228,14 +275,14 @@
     <state x="-1304" y="240" key="run.anything.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1666225406574" />
     <state x="493" y="190" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1666347113914" />
     <state x="-1304" y="240" width="672" height="677" key="run.anything.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1665662999693" />
-    <state x="498" y="178" width="672" height="538" key="search.everywhere.popup" timestamp="1666347384813">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1667442373968">
+      <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1666272112030" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1667442373968" />
     <state x="498" y="178" width="672" height="538" key="search.everywhere.popup/0.0.1536.824/-1920.0.1920.1040@0.0.1536.824" timestamp="1662468582488" />
     <state x="498" y="178" width="672" height="538" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1666347384813" />
     <state x="-730" y="-446" width="672" height="1226" key="search.everywhere.popup/0.0.1920.1040/-1080.-853.1080.1880@-1080.-853.1080.1880" timestamp="1661526319748" />
-    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1665703428262" />
+    <state x="-1297" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1667429304270" />
     <state x="706" y="-1513" width="672" height="1226" key="search.everywhere.popup/0.0.1920.1040/356.-1920.1080.1880@356.-1920.1080.1880" timestamp="1661509141508" />
     <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1665272135305" />
   </component>
@@ -246,11 +293,6 @@
           <url>file://$PROJECT_DIR$/client/src/pages/AdminPanel.js</url>
           <line>10</line>
           <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/client/src/components/UsersFilters.js</url>
-          <line>50</line>
-          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

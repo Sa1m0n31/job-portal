@@ -150,7 +150,9 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName, delete
                                                              additionalLanguages={data.extraLanguages}
                                                              languages={data.languages}
                                                              drivingLicence={data.drivingLicenceCategories}
-                                                             certs={data.certificates?.concat(data.courses)}
+                                                             certs={data.certificates}
+                                                             courses={data.courses}
+                                                             skills={data.skills}
                                                              desc={data.situationDescription}
                                                              phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : c.noInfo}
                                                              location={data.country >= 0 ? `${data.address}, ${data.city}, ${JSON.parse(c.countries)[data.country]}` : c.noInfo}

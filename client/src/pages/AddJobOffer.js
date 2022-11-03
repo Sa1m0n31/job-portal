@@ -108,14 +108,11 @@ const AddJobOffer = ({updateMode}) => {
                 getOfferById(id)
                     .then((res) => {
                        if(res?.status === 200) {
-                           setInitialData(res?.data[0]);
+                           setInitialData(Array.isArray(res?.data) ? res.data[0] : res.data);
                        }
                        else {
                            window.location = '/';
                        }
-                    })
-                    .catch((err) => {
-                        window.location = '/';
                     });
             }
             else {
@@ -315,10 +312,6 @@ const AddJobOffer = ({updateMode}) => {
 
         return !fields.length;
     }
-
-    useEffect(() => {
-        console.log(errorFields);
-    }, [errorFields]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

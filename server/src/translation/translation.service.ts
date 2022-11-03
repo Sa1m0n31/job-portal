@@ -72,6 +72,8 @@ export class TranslationService {
                     }
                 }
 
+                console.log('!!!');
+                console.log(translations);
                 translations = Array.isArray(translations) ? removeLanguageSpecificCharacters(JSON.stringify(translations.map((item) => (item)))) : translations;
                 translationResult.push(translations);
             }
@@ -82,6 +84,7 @@ export class TranslationService {
 
         if(Array.isArray(content)) {
             for(const chunk of content) {
+                console.log(chunk);
                 await translateText(chunk);
             }
         }
@@ -92,14 +95,24 @@ export class TranslationService {
         return translationResult.length === 1 && !forceArray ? translationResult[0].toString() : translationResult;
     }
 
-    async translate(from, to, saveAs, field = '') {
+    async translate(from, to, saveAs, field = '', allSite = false) {
         let siteContent;
 
         if(field) {
-            siteContent = await this.staticRepository.findBy({
-                lang: from,
-                field: field
-            });
+            if(field[0] === '[') {
+                field = JSON.parse(field.replace(/'/g, '"'));
+                siteContent = await this.staticRepository
+                    .createQueryBuilder('static')
+                    .andWhere('static.field IN (:...fields)')
+                    .setParameter('fields', field)
+                    .getMany();
+            }
+            else {
+                siteContent = await this.staticRepository.findBy({
+                    lang: from,
+                    field: field
+                });
+            }
         }
         else {
             siteContent = await this.staticRepository.findBy({
@@ -107,16 +120,12 @@ export class TranslationService {
             });
         }
 
-        console.log(siteContent);
-
         const translationBase = siteContent.map((item) => {
             return {
                 field: item.field,
                 value: item.value
             }
         });
-
-        console.log(translationBase);
 
         const translate = new Translate();
         let translationResult = [];
@@ -138,13 +147,14 @@ export class TranslationService {
             "GR", "HU", "IT", "LV", "LT", "MT", "PT", "RO", "SK",
             "SI", "ES", "SE", "NO", "UA", "TR", "BY"].map((item) => (item.toLowerCase()));
         const languagesCodes = ['bg', 'hr', 'cs', 'da', 'de', 'en', 'et', 'fi', 'fr', 'nl', 'el', 'hu', 'it', 'lv', 'lt', 'mt', 'pt',
-            'ro', 'sk', 'si', 'es', 'sv', 'no', 'uk', 'tr', 'be'];
+            'ro', 'sk', 'sl', 'es', 'sv', 'no', 'uk', 'tr', 'be'];
 
         if(to === 'all') {
             let i = 0;
             for(const lang of languagesCodes) {
+                console.log('translating to ' + lang)
                 for(const chunk of translationBase) {
-                    console.log('translating... ' + chunk);
+                    console.log('translating... ' + chunk.value);
                     await translateText(chunk, lang);
                 }
 
@@ -160,11 +170,12 @@ export class TranslationService {
                 translationResult = [];
                 i++;
             }
+
+            return true;
         }
         else {
             for(const chunk of translationBase) {
                 await translateText(chunk);
-                console.log(translationResult[translationResult.length-1]);
             }
 
             // Save to DB

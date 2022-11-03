@@ -5,13 +5,14 @@ import trashIcon from '../static/img/trash.svg'
 import {LanguageContext} from "../App";
 import {Tooltip} from "react-tippy";
 
-const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsibilities, addNewResponsibility, deleteResponsibility}) => {
-    const { setStep, userData, handleChange } = useContext(UserDataContext);
+const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsibilities,
+                       addNewResponsibility, deleteResponsibility, jobErrorField, jobErrorIndex}) => {
+    const { setStep, userData, handleChange, error } = useContext(UserDataContext);
     const { c } = useContext(LanguageContext);
 
     return <>
         <div className="userForm userForm3">
-        {userData.jobs?.map((item, index) => {
+        {typeof userData?.jobs !== 'string' && userData?.jobs ? userData.jobs?.map((item, index) => {
             return <div className="form__job">
                 <div className="form__school form__school--job flex" key={index}>
                     <label className="label">
@@ -24,15 +25,17 @@ const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsi
                         <span className="oneline">
                             {c.workingYears} *
                         </span>
-                        <input className="input"
-                               type="month"
+                        <input className={error && ((jobErrorIndex === index) && (jobErrorField === 1)) ? "input input--error" : "input"}
+                               type="text"
+                               placeholder="YYYY-MM"
                                value={item.from}
                                onChange={(e) => { handleChange('jobs', e.target.value, 'from', index); }} />
                     </label>
                     -
                     <label className="label label--month">
-                        <input className="input"
-                               type="month"
+                        <input className={error && ((jobErrorIndex === index) && (jobErrorField === 2)) && !item.inProgress ? "input input--error" : "input"}
+                               type="text"
+                               placeholder="YYYY-MM"
                                disabled={item.inProgress}
                                value={item.to}
                                onChange={(e) => { handleChange('jobs', e.target.value, 'to', index); }} />
@@ -92,7 +95,7 @@ const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsi
                     </button>
                 </div>
             </div>
-        })}
+        }) : ''}
 
         <button className="addNewBtn flex" onClick={() => { addNewJob(); }}>
             {c.addNewCompany}

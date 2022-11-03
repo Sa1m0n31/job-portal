@@ -116,7 +116,7 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
                     <button className="datepicker datepicker--month"
                             onClick={(e) => { e.stopPropagation(); setMonthsVisible(!monthsVisible); }}
                     >
-                        {userData?.birthdayMonth >= 0 ? JSON.parse(c.months)[userData.birthdayMonth] : c.month}
+                        {userData?.birthdayMonth >= 0 ? JSON.parse(c.months.replace(/\s/g, ''))[userData.birthdayMonth] : c.month}
                         <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
                     </button>
                     {monthsVisible ? <div className="datepickerDropdown noscroll">

@@ -84,6 +84,7 @@ const CandidateProfile = () => {
                     if(res?.status === 200) {
                         setEmail(res?.data?.email);
                         const d = JSON.parse(res?.data?.data);
+                        console.log(d);
                         setUser(d);
                     }
                 })
@@ -232,7 +233,9 @@ const CandidateProfile = () => {
                                                                additionalLanguages={user.extraLanguages}
                                                                languages={user.languages}
                                                                drivingLicence={user.drivingLicenceCategories}
-                                                               certs={user.certificates && user.courses ? user.certificates.concat(user.courses) : []}
+                                                               certs={user.certificates ? user.certificates : []}
+                                                               courses={user.courses ? user.courses : []}
+                                                               skills={user.skills ? user.skills : []}
                                                                desc={user.situationDescription}
                                                                phoneNumber={user.phoneNumber ? `${user.phoneNumberCountry} ${user.phoneNumber}` : c.noInfo}
                                                                location={user.country >= 0 ? `${user.address}, ${user.city}, ${JSON.parse(c.countries)[user.country]}` : c.noInfo}

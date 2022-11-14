@@ -56,10 +56,21 @@ export class TranslationService {
             if(chunk?.length) {
                 if(Array.isArray(chunk[0])) {
                     for(const el of chunk) {
-                        let res = await translate.translate(el, to);
-                        translations.push(res[1].data.translations.map((item) => {
-                            return item.translatedText;
-                        }));
+                        if(el?.length === 0 && Array.isArray(el)) {
+                            translations.push([]);
+                        }
+                        else if(Array.isArray(el)) {
+                            let res = await translate.translate(el ? el[0] : '', to);
+                            translations.push(res[1].data.translations.map((item) => {
+                                return item.translatedText;
+                            }));
+                        }
+                        else {
+                            let res = await translate.translate(el ? el : '', to);
+                            translations.push(res[1].data.translations.map((item) => {
+                                return item.translatedText;
+                            }));
+                        }
                     }
                 }
                 else {
@@ -84,18 +95,21 @@ export class TranslationService {
 
         if(Array.isArray(content)) {
             for(const chunk of content) {
+                console.log('start chunk');
                 console.log(chunk);
+                console.log('end chunk');
                 await translateText(chunk);
             }
         }
         else {
-            await translateText(content);
+            console.log(content);
+            await translateText(content ? content : '');
         }
 
         return translationResult.length === 1 && !forceArray ? translationResult[0].toString() : translationResult;
     }
 
-    async translate(from, to, saveAs, field = '', allSite = false) {
+    async translate(from, to, saveAs, field = '') {
         let siteContent;
 
         if(field) {
@@ -131,9 +145,14 @@ export class TranslationService {
         let translationResult = [];
 
         async function translateText(chunk, translateLanguage = null) {
-            let [translations] = await translate.translate(chunk.value, translateLanguage ? translateLanguage : to);
+            let [translations] = await translate.translate(chunk.value, {
+                from: 'pl',
+                to: translateLanguage ? translateLanguage : to
+            });
 
             translations = Array.isArray(translations) ? translations : [translations];
+
+            console.log(translations);
 
             translations.forEach((translation, i) => {
                 translationResult.push({

@@ -218,9 +218,14 @@ export class UserService {
             }
 
             // Translate to Polish
+            console.log(originalData.jobs);
+
             const jobTitles = originalData.jobs ? originalData.jobs.map((item) => (item.title)) : '';
             const jobResponsibilities = originalData.jobs ? originalData.jobs.map((item) => (item.responsibilities)) : '';
             const jobLength = originalData.jobs ? originalData.jobs.map((item) => (item.jobLength)) : '';
+
+            console.log(jobTitles);
+            console.log(jobResponsibilities);
 
             const contentToTranslate = [originalData.extraLanguages, originalData.courses,
                 originalData.certificates, originalData.situationDescription, jobTitles, jobResponsibilities, jobLength];
@@ -257,6 +262,17 @@ export class UserService {
         // Modify user data JSON - add file paths
         const email = data.email;
         let userData = JSON.parse(data.userData);
+
+        console.log(userData.id);
+
+        // Remove translations
+        const user = await this.userRepository.findOneBy({
+            email
+        });
+        await this.dynamicTranslationsRepository.delete({
+            type: 1,
+            id: user.id
+        });
 
         userData = await this.translateUserData(userData, files);
 
@@ -334,6 +350,7 @@ export class UserService {
         userData = {
             ...userData,
             jobs: userData.jobs.map((item, index) => {
+                console.log(item);
                 return {
                     ...item,
                     jobLength: jobsLength[index]
@@ -453,6 +470,8 @@ export class UserService {
                     return item;
                 }
             });
+
+            console.log(translatedUserArray[4]);
 
             // Objects
             userTranslationData = {

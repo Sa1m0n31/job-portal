@@ -27,20 +27,13 @@ import {LanguageContext} from "../App";
 import userPlaceholder from '../static/img/user-placeholder.svg'
 import RecommendationModal from "../components/RecommendationModal";
 
-const UserHomepage = ({d, userId, visible, working}) => {
+const UserHomepage = ({data, userId, visible, working}) => {
     const [profileVisible, setProfileVisible] = useState(visible);
     const [userWorking, setUserWorking] = useState(working);
     const [copied, setCopied] = useState(false);
     const [recommendationModalVisible, setRecommendationModalVisible] = useState(false);
-    const [data, setData] = useState({});
 
     const { c } = useContext(LanguageContext);
-
-    useEffect(() => {
-        if(d) {
-            setData(parseUserData(d));
-        }
-    }, [d]);
 
     useEffect(() => {
         if(window.innerWidth >= 996) {

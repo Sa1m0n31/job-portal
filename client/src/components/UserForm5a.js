@@ -95,7 +95,7 @@ const UserForm5a = ({setCountriesVisible, setBsnVisible, setDaysVisible, setMont
                         {c.bsnNumberTooltip}
                                 </span>}
                     followCursor={true}
-                    position="right"
+                    position={window.innerWidth > 768 ? "right" : "top"}
                 >
                     <div className="tooltip">
                         ?

@@ -13,6 +13,7 @@ import AddFastJobOffer from "../pages/AddFastJobOffer";
 import MyFastJobOffers from "../pages/MyFastJobOffers";
 import AgencyApplications from "../pages/AgencyApplications";
 import LoggedUserFooter from "./LoggedUserFooter";
+import {tryParseJSONObject} from "../helpers/others";
 
 const AgencyWrapper = ({page}) => {
     const [render, setRender] = useState(null);
@@ -26,7 +27,11 @@ const AgencyWrapper = ({page}) => {
                         getAgencyData()
                             .then((res) => {
                                 if(res?.status === 200) {
-                                    const data = JSON.parse(res.data.data);
+                                    let data = JSON.parse(res.data.data);
+                                    data = {
+                                        ...data,
+                                        gallery: tryParseJSONObject(data.gallery)
+                                    }
                                     setAccepted(res?.data?.accepted);
 
                                     switch(page) {

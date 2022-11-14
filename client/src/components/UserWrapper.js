@@ -12,6 +12,7 @@ import SendMessage from "../pages/SendMessage";
 import FastJobOfferList from "../pages/FastJobOffersList";
 import SingleFastOffer from "../pages/SingleFastOffer";
 import LoggedUserFooter from "./LoggedUserFooter";
+import {parseUserData} from "../helpers/others";
 
 const UserWrapper = ({page}) => {
     const [render, setRender] = useState(null);
@@ -27,13 +28,14 @@ const UserWrapper = ({page}) => {
                                     let data;
                                     if(res?.data?.data) {
                                         data = JSON.parse(res.data.data);
+                                        data = parseUserData(data);
                                     }
                                     switch(page) {
                                         case 1:
                                             setRender(<UserEditData />);
                                             break;
                                         case 2:
-                                            setRender(<UserHomepage d={data}
+                                            setRender(<UserHomepage data={data}
                                                                     userId={res?.data?.id}
                                                                     visible={res.data.profileVisible}
                                                                     working={res.data.working}

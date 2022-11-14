@@ -2634,6 +2634,10 @@
         font-size: 18px;
     }
 
+    .form__school__row .input {
+        width: 100px;
+    }
+
     .userForm--4b--agency .drivingLicenceWrapper .flex > .label--costReturnWithOwnTransport,
     .userForm--4b--agency .drivingLicenceWrapper .flex > .label--costReturnWithOwnTransport * {
         max-width: 100px !important;

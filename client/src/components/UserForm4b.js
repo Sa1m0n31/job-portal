@@ -18,7 +18,7 @@ const UserForm4B = ({addNewCourse, deleteCourse, addNewCertificate, deleteCertif
                     html={<span className="tooltipVisible">
                         {c.coursesTooltip}
                                 </span>}
-                    position="right"
+                    position={window.innerWidth > 968 ? "right" : "top"}
                     followCursor={true}
                 >
                                 <div className="tooltip">
@@ -56,7 +56,7 @@ const UserForm4B = ({addNewCourse, deleteCourse, addNewCertificate, deleteCertif
                         {c.certificatesTooltip}
                                 </span>}
                     followCursor={true}
-                    position="right"
+                    position={window.innerWidth > 968 ? "right" : "top"}
                 >
                                 <div className="tooltip">
                                     ?
@@ -93,7 +93,7 @@ const UserForm4B = ({addNewCourse, deleteCourse, addNewCertificate, deleteCertif
                         {c.skillTooltip}
                                 </span>}
                     followCursor={true}
-                    position="right"
+                    position={window.innerWidth > 968 ? "right" : "top"}
                 >
                                 <div className="tooltip">
                                     ?

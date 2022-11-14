@@ -873,7 +873,7 @@ input {
     overflow-y: scroll;
     background: #F3F9FB;
     border: 1px solid var(--primary);
-    z-index: 5;
+    z-index: 9999;
 }
 
 .datepickerDropdown--currencies {

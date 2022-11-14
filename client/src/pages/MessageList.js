@@ -329,7 +329,7 @@ const MessageList = ({agency, data, accepted, id}) => {
                                     </button>
                                 </div>
                                 <h5 className="messagePreview__time">
-                                    {lastMessageDatetime.getDate()}/{lastMessageDatetime.getMonth()+1}/{lastMessageDatetime.getFullYear()}, {lastMessageDatetime.getHours()}:{lastMessageDatetime.getMinutes()}
+                                    {lastMessageDatetime.getDate()}/{lastMessageDatetime.getMonth()+1}/{lastMessageDatetime.getFullYear()}, {addLeadingZero(lastMessageDatetime.getHours())}:{addLeadingZero(lastMessageDatetime.getMinutes())}
                                 </h5>
                             </div>
                         })}
@@ -348,7 +348,7 @@ const MessageList = ({agency, data, accepted, id}) => {
                                     </button>
                                 </div>
                                 <h5 className="messagePreview__time">
-                                    {lastMessageDatetime.getDate()}/{lastMessageDatetime.getMonth()+1}/{lastMessageDatetime.getFullYear()}, {lastMessageDatetime.getHours()}:{lastMessageDatetime.getMinutes()}
+                                    {lastMessageDatetime.getDate()}/{lastMessageDatetime.getMonth()+1}/{lastMessageDatetime.getFullYear()}, {addLeadingZero(lastMessageDatetime.getHours())}:{addLeadingZero(lastMessageDatetime.getMinutes())}
                                 </h5>
                             </div>
                         })}
@@ -372,7 +372,7 @@ const MessageList = ({agency, data, accepted, id}) => {
                                     </div>
                                 </div>
                                 <h5 className="messagePreview__time">
-                                    {lastMessageDatetime.getDate()}/{lastMessageDatetime.getMonth()+1}/{lastMessageDatetime.getFullYear()}, {lastMessageDatetime.getHours()}:{lastMessageDatetime.getMinutes()}
+                                    {lastMessageDatetime.getDate()}/{lastMessageDatetime.getMonth()+1}/{lastMessageDatetime.getFullYear()}, {addLeadingZero(lastMessageDatetime.getHours())}:{addLeadingZero(lastMessageDatetime.getMinutes())}
                                 </h5>
                             </div>
                         })?.reverse()}
@@ -450,7 +450,7 @@ const MessageList = ({agency, data, accepted, id}) => {
                 }) : <>
                     <div className="messages__chatHeader">
                         <span className="messages__chatHeader__date">
-                            {new Date(currentSendMessage.created_at).getDate()}/{new Date(currentSendMessage.created_at).getMonth()+1}/{new Date(currentSendMessage.created_at).getFullYear()}, {new Date(currentSendMessage.created_at).getHours()}:{new Date(currentSendMessage.created_at).getMinutes()}
+                            {new Date(currentSendMessage.created_at).getDate()}/{new Date(currentSendMessage.created_at).getMonth()+1}/{new Date(currentSendMessage.created_at).getFullYear()}, {addLeadingZero(new Date(currentSendMessage.created_at).getHours())}:{addLeadingZero(new Date(currentSendMessage.created_at).getMinutes())}
                         </span>
                         <h4 className="messages__chatHeader__header">
                             <span className="bold">{c.from}</span> {agency ? `${c.me} (${data.name ? data.name : c.anonim})` : (data.firstName ? `${c.me} (${data.firstName} ${data.lastName})` : c.anonim)}

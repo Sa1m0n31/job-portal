@@ -9,19 +9,19 @@ import {LanguageContext} from "../App";
 const socialMedia = [
     {
         icon: linkedInIcon,
-        link: 'https://linkedin.com'
+        link: 'https://www.linkedin.com/company/86780154/admin/ '
     },
-    {
-        icon: instagramIcon,
-        link: 'https://instagram.com'
-    },
-    {
-        icon: youtubeIcon,
-        link: 'https://youtube.com'
-    },
+    // {
+    //     icon: instagramIcon,
+    //     link: 'https://instagram.com'
+    // },
+    // {
+    //     icon: youtubeIcon,
+    //     link: 'https://youtube.com'
+    // },
     {
         icon: facebookIcon,
-        link: 'https://facebook.com'
+        link: 'https://www.facebook.com/Jooobeu-105672189008270 '
     }
 ]
 
@@ -41,13 +41,10 @@ const Footer = () => {
                     {c.contact}
                 </h5>
                 <p className="footer__data">
-                    {c.serviceAndHelp}: +48 234 938 283
+                    {c.serviceAndHelp}: contact@jooob.eu
                 </p>
                 <p className="footer__data">
                     {c.availableInHours} 8:00 - 16:00
-                </p>
-                <p className="footer__data">
-                    {c.emailShortcut}: kontakt@jooob.eu
                 </p>
             </div>
             <div className="footer__col">
@@ -98,7 +95,7 @@ const Footer = () => {
                         ul. Marii Curie Skłodowskiej
                     </span>
                     <span>
-                        85-733 Bydgoszcz
+                        85-733 Bydgoszcz, Poland
                     </span>
                 </p>
                 <h5 className="footer__header footer__header--socialMedia">

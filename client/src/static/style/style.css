@@ -39,6 +39,12 @@ input[type=number] {
 .container {
     position: relative;
     overflow-x: hidden;
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.container::-webkit-scrollbar {
+    display: none;  /* Safari and Chrome */
 }
 
 .noscroll {
@@ -6236,4 +6242,46 @@ input[type=month] {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+}
+
+.application__header--center {
+    text-align: center;
+}
+
+.datepickerDropdownWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, .5);
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 900;
+}
+
+.datepickerDropdown--fixed {
+    position: relative !important;
+    max-width: 600px;
+    top: unset !important;
+    left: unset !important;
+    transform: none;
+    padding: 40px;
+    height: auto;
+    max-height: none;
+    justify-content: center;
+}
+
+.datepickerDropdown--fixed .datepickerBtn {
+    border: 1px solid #cfcfcf;
+}
+
+.datepickerDropdown--fixed .datepickerBtn:hover {
+    background: rgba(10, 115, 254, .4);
+    color: #fff;
+}
+
+.datepickerDropdown--fixed .datepickerBtn::after {
+    display: none !important;
 }

@@ -7,7 +7,7 @@ import UserForm1 from "../components/UserForm1";
 import UserForm2 from "../components/UserForm2";
 import UserForm3 from "../components/UserForm3";
 import UserForm4A from "../components/UserForm4a";
-import {getLoggedUserEmail, isElementInArray} from "../helpers/others";
+import {getLoggedUserEmail, isElementInArray, parseUserData} from "../helpers/others";
 import UserForm4B from "../components/UserForm4b";
 import UserForm5b from "../components/UserForm5b";
 import UserForm5a from "../components/UserForm5a";
@@ -233,8 +233,9 @@ const UserEditData = () => {
                 if(res?.status === 200) {
                     const data = JSON.parse(res.data.data);
                     if(Object.keys(data).length > 0) {
+                        console.log(parseUserData(data));
                         setUserData({
-                            ...data,
+                            ...parseUserData(data),
                             skills: data.skills ? data.skills : [],
                             profileImage: null,
                             profileImageUrl: data.profileImage ? `${settings.API_URL}/${data.profileImage}` : null,
@@ -293,9 +294,9 @@ const UserEditData = () => {
 
     const dateValidation = (str) => {
         const dateElements = str?.split('-');
-        if (dateElements.length !== 2) return false;
-        if (dateElements[0].length !== 4) return false;
-        return dateElements[1].length;
+        if (dateElements?.length !== 2) return false;
+        if (dateElements[0]?.length !== 4) return false;
+        return dateElements[1]?.length;
     }
 
     const schoolsValidation = (data, job) => {
@@ -643,7 +644,6 @@ const UserEditData = () => {
     }
 
     const addNewSchool = () => {
-        console.log(userData.schools);
         if(userData?.schools?.length < 3 || !userData?.schools) {
             setUserData(prevState => {
                 if(prevState?.schools?.length < 3 || !userData?.schools) {

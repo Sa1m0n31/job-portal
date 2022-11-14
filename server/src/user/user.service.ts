@@ -769,8 +769,8 @@ export class UserService {
 
     async sendContactForm(name, email, msg, deliveryMail) {
         return this.mailerService.sendMail({
-            to: process.env.CONTACT_FORM_ADDRESS,
-            from: deliveryMail,
+            to: deliveryMail,
+            from: process.env.EMAIL_ADDRESS,
             subject: 'Nowa wiadomość w formularzu kontaktowym',
             html: `<div>
                     <h2>

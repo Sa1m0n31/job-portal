@@ -16,7 +16,7 @@ import { Tooltip } from 'react-tippy';
 import 'react-whatsapp-widget/dist/index.css';
 import {toggleUserVisibility, toggleUserWorking} from "../helpers/user";
 import {currencies, flags} from "../static/content";
-import {getDate, getLoggedUserEmail} from "../helpers/others";
+import {getDate, getLoggedUserEmail, parseUserData} from "../helpers/others";
 import checkIcon from '../static/img/check-small.svg'
 import starIcon from '../static/img/star.svg'
 import settingsCircle from '../static/img/settings-circle.svg'
@@ -27,17 +27,20 @@ import {LanguageContext} from "../App";
 import userPlaceholder from '../static/img/user-placeholder.svg'
 import RecommendationModal from "../components/RecommendationModal";
 
-const UserHomepage = ({data, userId, visible, working}) => {
+const UserHomepage = ({d, userId, visible, working}) => {
     const [profileVisible, setProfileVisible] = useState(visible);
     const [userWorking, setUserWorking] = useState(working);
     const [copied, setCopied] = useState(false);
     const [recommendationModalVisible, setRecommendationModalVisible] = useState(false);
+    const [data, setData] = useState({});
 
     const { c } = useContext(LanguageContext);
 
     useEffect(() => {
-        console.log(data);
-    }, [data]);
+        if(d) {
+            setData(parseUserData(d));
+        }
+    }, [d]);
 
     useEffect(() => {
         if(window.innerWidth >= 996) {
@@ -86,11 +89,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
         return result;
     }
 
-    useEffect(() => {
-        console.log(c?.categories);
-    }, [c]);
-
-    return <div className="container container--user">
+    return data ? <div className="container container--user">
         <LoggedUserHeader data={data} />
 
         {recommendationModalVisible ? <RecommendationModal closeModal={() => { setRecommendationModalVisible(false); }}
@@ -468,7 +467,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                 })}
             </div>
         </div>
-    </div>
+    </div> : ''
 };
 
 export default UserHomepage;

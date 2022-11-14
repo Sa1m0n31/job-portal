@@ -3335,6 +3335,12 @@
         max-height: 170px;
     }
 
+    .datepickerDropdown--fixed {
+        max-height: none;
+        max-width: 90%;
+        padding: 10px;
+    }
+
     .editData__formWrapper {
         min-height: 80vh;
     }

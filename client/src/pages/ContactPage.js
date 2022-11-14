@@ -157,7 +157,7 @@ const ContactPage = () => {
 
                     <div className="application__success" ref={successRef}>
                         <img className="img" src={checkIcon} alt="dodano" />
-                        <h3 className="application__header">
+                        <h3 className="application__header application__header--center">
                             {c.contactFormSend}
                         </h3>
                         <div className="buttons center">

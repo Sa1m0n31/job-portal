@@ -33,7 +33,7 @@ const UserWrapper = ({page}) => {
                                             setRender(<UserEditData />);
                                             break;
                                         case 2:
-                                            setRender(<UserHomepage data={data}
+                                            setRender(<UserHomepage d={data}
                                                                     userId={res?.data?.id}
                                                                     visible={res.data.profileVisible}
                                                                     working={res.data.working}

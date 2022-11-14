@@ -88,5 +88,49 @@ const isPasswordStrength = (password) => {
     return true;
 }
 
-export { isEmail, isElementInArray, getAuthHeader, numberRange, isHomepage,
+const tryParseJSONObject = (jsonString) => {
+    if(typeof jsonString !== 'string') return jsonString;
+
+    try {
+        let o = JSON.parse(jsonString);
+
+        if (o && typeof o === "object") {
+            return o;
+        }
+    }
+    catch (e) { }
+
+    return [];
+}
+
+const parseUserData = (data) => {
+    const categories = tryParseJSONObject(data.categories);
+    const certificates = tryParseJSONObject(data.certificates);
+    const courses = tryParseJSONObject(data.courses);
+    let jobs = tryParseJSONObject(data.jobs);
+
+    if(jobs?.length) {
+        jobs = jobs.map((item) => {
+            return {
+                ...item,
+                responsibilities: tryParseJSONObject(item.responsibilities) ? tryParseJSONObject(item.responsibilities) : []
+            }
+        });
+    }
+
+    let schools = tryParseJSONObject(data.schools);
+    const skills = tryParseJSONObject(data.skills);
+
+    return {
+        ...data,
+        categories,
+        certificates,
+        courses,
+        jobs,
+        schools,
+        skills
+    }
+}
+
+export { isEmail, isElementInArray, getAuthHeader, numberRange, isHomepage, tryParseJSONObject, parseUserData,
     getLoggedUserEmail, getDate, addLeadingZero, groupBy, isPasswordStrength, getLang, getAdminAuthHeader }

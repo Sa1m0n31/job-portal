@@ -576,7 +576,7 @@ const AddJobOffer = ({updateMode}) => {
                     return <label className="label label--responsibility" key={index}>
                         <input className={error && !responsibilities[0] ? "input input--error" : "input"}
                                value={item}
-                               maxLength={50}
+                               maxLength={100}
                                onChange={(e) => { e.preventDefault(); updateResponsibilities(e.target.value, index); }} />
                         <button className="deleteSchoolBtn" onClick={(e) => { e.preventDefault(); deleteResponsibility(index); }}>
                             <img className="img" src={trashIcon} alt="usun" />
@@ -595,7 +595,7 @@ const AddJobOffer = ({updateMode}) => {
                     return <label className="label label--responsibility" key={index}>
                         <input className={error && !requirements[0] ? "input input--error" : "input"}
                                value={item}
-                               maxLength={50}
+                               maxLength={100}
                                onChange={(e) => { e.preventDefault(); updateRequirements(e.target.value, index); }} />
                         <button className="deleteSchoolBtn" onClick={(e) => { e.preventDefault(); deleteRequirement(index); }}>
                             <img className="img" src={trashIcon} alt="usun" />
@@ -614,7 +614,7 @@ const AddJobOffer = ({updateMode}) => {
                     return <label className="label label--responsibility" key={index}>
                         <input className={error && !benefits[0] ? "input input--error" : "input"}
                                value={item}
-                               maxLength={50}
+                               maxLength={100}
                                onChange={(e) => { e.preventDefault(); updateBenefits(e.target.value, index); }} />
                         <button className="deleteSchoolBtn" onClick={(e) => { e.preventDefault(); deleteBenefit(index); }}>
                             <img className="img" src={trashIcon} alt="usun" />

@@ -79,7 +79,7 @@ const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsi
                             <input className="input"
                                    placeholder={c.responsibilitiesPlaceholder}
                                    value={item}
-                                   maxLength={70}
+                                   maxLength={140}
                                    onChange={(e) => { updateJobResponsibilities(index, resIndex, e.target.value); }} />
                             <button className="deleteSchoolBtn" onClick={() => { deleteResponsibility(index, resIndex); }}>
                                 <img className="img" src={trashIcon} alt="usun" />

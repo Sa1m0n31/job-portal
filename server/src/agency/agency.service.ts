@@ -101,10 +101,10 @@ export class AgencyService {
             await this.mailerService.sendMail({
                 to: process.env.ADMIN_EMAIL,
                 from: process.env.EMAIL_ADDRESS,
-                subject: 'Nowa agencja zarejestrowała się na jooob.eu',
+                subject: 'Nowa firma zarejestrowała się na jooob.eu',
                 html: `<div>
                     <h2>
-                        Nowa agencja zarejestrowała się na jooob.eu!
+                        Nowa firma zarejestrowała się na jooob.eu!
                     </h2>
                     <p style="margin-top: 20px;">
                         Zaloguj się do panelu administratora, aby sprawdzić szczegóły.

@@ -79,9 +79,10 @@ const LoginPage = ({type}) => {
         if(email && password) {
             setLoading(true);
             const func = type === 0 ? loginUser : loginAgency;
+            const secondFunc = type === 0 ? loginAgency : loginUser;
             const mailContent = JSON.stringify([
                 c.mail5, c.mail6, c.mail7
-            ])
+            ]);
 
             func(email, password, mailContent)
                 .then((res) => {
@@ -105,16 +106,39 @@ const LoginPage = ({type}) => {
                     }
                 })
                 .catch((err) => {
-                    setLoading(false);
-                    if(err?.response?.status === 403) {
-                        setError(c.loginError2);
-                    }
-                    else if(err?.response?.status === 423) {
-                        setError(c.blockedAccount);
-                    }
-                    else {
-                        setError(c.loginError1);
-                    }
+                    secondFunc(email, password, mailContent)
+                        .then((res) => {
+                            setLoading(false);
+                            if(res?.status === 201) {
+                                const jwt = res?.data?.access_token;
+                                if(jwt) {
+                                    const cookies = new Cookies();
+                                    cookies.set('access_token', jwt, { path: '/' });
+                                    cookies.set('email_jooob', email.toString().split('@')[0], { path: '/' });
+                                    cookies.set('email_jooob_domain', email.toString().split('@')[1], { path: '/' });
+                                    cookies.set('jooob_account_type', type === 1 ? 'user': 'agency');
+                                    window.location = type === 1 ? '/konto-pracownika' : '/konto-agencji';
+                                }
+                                else {
+                                    setError(JSON.parse(c.formErrors)[1]);
+                                }
+                            }
+                            else {
+                                setError(c.loginError1);
+                            }
+                        })
+                        .catch(() => {
+                            setLoading(false);
+                            if(err?.response?.status === 403) {
+                                setError(c.loginError2);
+                            }
+                            else if(err?.response?.status === 423) {
+                                setError(c.blockedAccount);
+                            }
+                            else {
+                                setError(c.loginError1);
+                            }
+                        });
                 });
         }
     }

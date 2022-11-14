@@ -62,13 +62,15 @@ const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setN
             setNipCountriesVisible(!nipCountriesVisible); }}>
                 {agencyData.nipCountry ? agencyData.nipCountry : 'PL'}
             </button>
-            {nipCountriesVisible ? <div className="datepickerDropdown datepickerDropdown--phoneNumbers noscroll">
-                {nipCountries?.map((item, index) => {
-                    return <button className="datepickerBtn center" key={index}
-                                   onClick={(e) => { setNipCountriesVisible(false); handleChange('nipCountry', item); }}>
-                        {item}
-                    </button>
-                })}
+            {nipCountriesVisible ? <div className="datepickerDropdownWrapper">
+                <div className="datepickerDropdown datepickerDropdown--phoneNumbers datepickerDropdown--fixed noscroll">
+                    {nipCountries?.map((item, index) => {
+                        return <button className="datepickerBtn center" key={index}
+                                       onClick={(e) => { setNipCountriesVisible(false); handleChange('nipCountry', item); }}>
+                            {item}
+                        </button>
+                    })}
+                </div>
             </div> : ''}
             <input className={error && !agencyData.nip ? "input input--error" : "input"}
                    value={agencyData.nip}
@@ -80,26 +82,20 @@ const AgencyForm1 = ({setCountriesVisible, setPhoneNumbersCountriesVisible, setN
             <button className="phoneNumberBtn" onClick={(e) => { e.stopPropagation(); setPhoneNumbersCountriesVisible(!phoneNumbersCountriesVisible); }}>
                 {agencyData.phoneNumberCountry ? agencyData.phoneNumberCountry : 'PL +48'}
             </button>
-            {phoneNumbersCountriesVisible ? <div className="datepickerDropdown datepickerDropdown--phoneNumbers noscroll">
-                {phoneNumbers?.map((item, index) => {
-                    return <button className="datepickerBtn center" key={index}
-                                   onClick={(e) => { setPhoneNumbersCountriesVisible(false); handleChange('phoneNumberCountry', item); }}>
-                        {item}
-                    </button>
-                })}
+            {phoneNumbersCountriesVisible ? <div className="datepickerDropdownWrapper">
+                <div className="datepickerDropdown datepickerDropdown--phoneNumbers datepickerDropdown--fixed noscroll">
+                    {phoneNumbers?.map((item, index) => {
+                        return <button className="datepickerBtn center" key={index}
+                                       onClick={(e) => { setPhoneNumbersCountriesVisible(false); handleChange('phoneNumberCountry', item); }}>
+                            {item}
+                        </button>
+                    })}
+                </div>
             </div> : ''}
             <input className={error && !agencyData.phoneNumber ? "input input--error" : "input"}
                    value={agencyData.phoneNumber}
                    onChange={(e) => { handleChange('phoneNumber', e.target.value); }} />
         </div>
-
-        {/*<label className="label">*/}
-        {/*    {c.email}*/}
-        {/*    <input className="input"*/}
-        {/*           disabled={true}*/}
-        {/*           value={agencyData.email}*/}
-        {/*           onChange={(e) => { handleChange('email', e.target.value); }} />*/}
-        {/*</label>*/}
     </div>
     <div className="formBottom flex">
         <button className="btn btn--userForm" onClick={() => { setStep(1); }}>

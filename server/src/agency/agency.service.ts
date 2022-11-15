@@ -190,33 +190,35 @@ export class AgencyService {
         const languageSample = this.getLanguageSample(agencyData);
         const lang = languageSample ? await this.translationService.detect(languageSample) : 'pl';
 
+        let newAgencyData = {
+            ...agencyData,
+            logo: files.logo ? files.logo[0].path : agencyData.logoUrl,
+            gallery: files.gallery ? Array.from(files.gallery).map((item: any) => {
+                return item.path ? item.path : (item?.url ? item.url : item);
+            }).concat(oldGallery)?.filter((item) => (item)) : agencyData.gallery?.map((item) => (item.url))?.filter((item) => (item))
+        }
+
         if(lang === 'pl') {
-            // Add filenames
-            return {
-                ...agencyData,
-                logo: files.logo ? files.logo[0].path : agencyData.logoUrl,
-                gallery: files.gallery ? Array.from(files.gallery).map((item: any) => {
-                    return item.path ? item.path : (item?.url ? item.url : item);
-                }).concat(oldGallery)?.filter((item) => (item)) : agencyData.gallery?.map((item) => (item.url))?.filter((item) => (item))
-            }
+            return newAgencyData;
         }
         else {
             // Translate to Polish
-            const contentToTranslate = [agencyData.description, agencyData.recruitmentProcess,
-                agencyData.benefits, agencyData.roomDescription];
-            const polishVersion = await this.translationService.translateContent(contentToTranslate, 'pl', true);
+            const translatedDescriptionRes = await this.translationService.translateString(agencyData.description, 'pl');
+            const translatedDescription = translatedDescriptionRes[0];
+            const translatedRecruitmentProcessRes = await this.translationService.translateString(agencyData.recruitmentProcess, 'pl');
+            const translatedRecruitmentProcess = translatedRecruitmentProcessRes[0];
+            const translatedBenefitsRes = await this.translationService.translateString(agencyData.benefits, 'pl');
+            const translatedBenefits = translatedBenefitsRes[0];
+            const translatedRoomDescriptionRes = await this.translationService.translateString(agencyData.roomDescription, 'pl');
+            const translatedRoomDescription = translatedRoomDescriptionRes[0];
 
             // Add filenames
             return {
-                ...agencyData,
-                description: polishVersion[0],
-                recruitmentProcess: polishVersion[1],
-                benefits: polishVersion[2],
-                roomDescription: polishVersion[3],
-                logo: files.logo ? files.logo[0].path : agencyData.logoUrl,
-                gallery: files.gallery ? Array.from(files.gallery).map((item: any) => {
-                    return item.path ? item.path : (item?.url ? item.url : item);
-                }).concat(oldGallery)?.filter((item) => (item)) : agencyData.gallery?.map((item) => (item.url))?.filter((item) => (item))
+                ...newAgencyData,
+                description: translatedDescription,
+                recruitmentProcess: translatedRecruitmentProcess,
+                benefits: translatedBenefits,
+                roomDescription: translatedRoomDescription
             }
         }
     }
@@ -293,13 +295,22 @@ export class AgencyService {
             }
             else {
                 // Translate by Google API
-                const translatedAgencyArray = await this.translationService.translateContent([agencyData.description,
-                    agencyData.recruitmentProcess, agencyData.benefits, agencyData.roomDescription], lang);
+                const translatedDescriptionRes = await this.translationService.translateString(agencyData.description, lang);
+                const translatedDescription = translatedDescriptionRes[0];
+                const translatedRecruitmentProcessRes = await this.translationService.translateString(agencyData.recruitmentProcess, lang);
+                const translatedRecruitmentProcess = translatedRecruitmentProcessRes[0];
+                const translatedBenefitsRes = await this.translationService.translateString(agencyData.benefits, lang);
+                const translatedBenefits = translatedBenefitsRes[0];
+                const translatedRoomDescriptionRes = await this.translationService.translateString(agencyData.roomDescription, lang);
+                const translatedRoomDescription = translatedRoomDescriptionRes[0];
+
+                const translatedAgencyArray = [translatedDescription, translatedRecruitmentProcess, translatedBenefits, translatedRoomDescription];
+
                 agencyTranslationData = {
-                    description: translatedAgencyArray[0],
-                    recruitmentProcess: translatedAgencyArray[1],
-                    benefits: translatedAgencyArray[2],
-                    roomDescription: translatedAgencyArray[3]
+                    description: translatedDescription,
+                    recruitmentProcess: translatedRecruitmentProcess,
+                    benefits: translatedBenefits,
+                    roomDescription: translatedRoomDescription
                 }
 
                 // Store in DB
@@ -352,13 +363,22 @@ export class AgencyService {
             }
             else {
                 // Translate by Google API
-                const translatedAgencyArray = await this.translationService.translateContent([agencyData.description,
-                    agencyData.recruitmentProcess, agencyData.benefits, agencyData.roomDescription], lang);
+                const translatedDescriptionRes = await this.translationService.translateString(agencyData.description, lang);
+                const translatedDescription = translatedDescriptionRes[0];
+                const translatedRecruitmentProcessRes = await this.translationService.translateString(agencyData.recruitmentProcess, lang);
+                const translatedRecruitmentProcess = translatedRecruitmentProcessRes[0];
+                const translatedBenefitsRes = await this.translationService.translateString(agencyData.benefits, lang);
+                const translatedBenefits = translatedBenefitsRes[0];
+                const translatedRoomDescriptionRes = await this.translationService.translateString(agencyData.roomDescription, lang);
+                const translatedRoomDescription = translatedRoomDescriptionRes[0];
+
+                const translatedAgencyArray = [translatedDescription, translatedRecruitmentProcess, translatedBenefits, translatedRoomDescription];
+
                 agencyTranslationData = {
-                    description: translatedAgencyArray[0],
-                    recruitmentProcess: translatedAgencyArray[1],
-                    benefits: translatedAgencyArray[2],
-                    roomDescription: translatedAgencyArray[3]
+                    description: translatedDescription,
+                    recruitmentProcess: translatedRecruitmentProcess,
+                    benefits: translatedBenefits,
+                    roomDescription: translatedRoomDescription
                 }
 
                 // Store in DB

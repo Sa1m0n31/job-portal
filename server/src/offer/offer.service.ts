@@ -107,7 +107,7 @@ export class OfferService {
                 });
 
                 let translatedOffer, translatedAgency;
-                let translatedOfferArray, translatedAgencyArray;
+                let translatedOfferArray;
                 let orgAgency = JSON.parse(item.a_data);
 
                 // Get stored offer or translate by Google API
@@ -116,15 +116,28 @@ export class OfferService {
                 }
                 else {
                     // Translate
-                    translatedOfferArray = await this.translationService.translateContent([item.offer_title, item.offer_keywords, item.offer_description,
-                        item.offer_responsibilities, item.offer_requirements, item.offer_benefits], lang);
+                    const translatedTitleRes = await this.translationService.translateString(item.offer_title, lang);
+                    const translatedTitle = translatedTitleRes[0];
+                    const translatedKeywordsRes = await this.translationService.translateString(item.offer_keywords, lang);
+                    const translatedKeywords = translatedKeywordsRes[0];
+                    const translatedDescriptionRes = await this.translationService.translateString(item.offer_description, lang);
+                    const translatedDescription = translatedDescriptionRes[0];
+                    const translatedResponsibilitiesRes = await this.translationService.translateString(item.offer_responsibilities, lang);
+                    const translatedResponsibilities = translatedResponsibilitiesRes[0];
+                    const translatedRequirementsRes = await this.translationService.translateString(item.offer_requirements, lang);
+                    const translatedRequirements = translatedRequirementsRes[0];
+                    const translatedBenefitsRes = await this.translationService.translateString(item.offer_benefits, lang);
+                    const translatedBenefits = translatedBenefitsRes[0];
+
+                    translatedOfferArray = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
+
                     translatedOffer = {
-                        title: translatedOfferArray[0],
-                        keywords: translatedOfferArray[1],
-                        description: translatedOfferArray[2],
-                        responsibilities: translatedOfferArray[3],
-                        requirements: translatedOfferArray[4],
-                        benefits: translatedOfferArray[5]
+                        title: translatedTitle,
+                        keywords: translatedKeywords,
+                        description: translatedDescription,
+                        responsibilities: translatedResponsibilities,
+                        requirements: translatedRequirements,
+                        benefits: translatedBenefits
                     }
 
                     // Store in DB
@@ -148,13 +161,22 @@ export class OfferService {
                 }
                 else {
                     // Translate
-                    translatedAgencyArray = await this.translationService.translateContent([orgAgency.description,
-                        orgAgency.recruitmentProcess, orgAgency.benefits, orgAgency.roomDescription], lang);
+                    const translatedDescriptionRes = await this.translationService.translateString(orgAgency.description, lang);
+                    const translatedDescription = translatedDescriptionRes[0];
+                    const translatedRecruitmentProcessRes = await this.translationService.translateString(orgAgency.recruitmentProcess, lang);
+                    const translatedRecruitmentProcess = translatedRecruitmentProcessRes[0];
+                    const translatedBenefitsRes = await this.translationService.translateString(orgAgency.benefits, lang);
+                    const translatedBenefits = translatedBenefitsRes[0];
+                    const translatedRoomDescriptionRes = await this.translationService.translateString(orgAgency.roomDescription, lang);
+                    const translatedRoomDescription = translatedRoomDescriptionRes[0];
+
+                    const translatedAgencyArray = [translatedDescription, translatedRecruitmentProcess, translatedBenefits, translatedRoomDescription];
+
                     translatedAgency = {
-                        description: translatedAgencyArray[0],
-                        recruitmentProcess: translatedAgencyArray[1],
-                        benefits: translatedAgencyArray[2],
-                        roomDescription: translatedAgencyArray[3]
+                        description: translatedDescription,
+                        recruitmentProcess: translatedRecruitmentProcess,
+                        benefits: translatedBenefits,
+                        roomDescription: translatedRoomDescription
                     }
 
                     // Store in DB
@@ -231,7 +253,7 @@ export class OfferService {
                 });
 
                 let translatedOffer, translatedAgency;
-                let translatedOfferArray, translatedAgencyArray;
+                let translatedOfferArray;
                 let orgAgency = JSON.parse(item.a_data);
 
                 // Get stored offer or translate by Google API
@@ -240,15 +262,28 @@ export class OfferService {
                 }
                 else {
                     // Translate
-                    translatedOfferArray = await this.translationService.translateContent([item.offer_title, item.offer_keywords, item.offer_description,
-                        item.offer_responsibilities, item.offer_requirements, item.offer_benefits], lang);
+                    const translatedTitleRes = await this.translationService.translateString(item.offer_title, lang);
+                    const translatedTitle = translatedTitleRes[0];
+                    const translatedKeywordsRes = await this.translationService.translateString(item.offer_keywords, lang);
+                    const translatedKeywords = translatedKeywordsRes[0];
+                    const translatedDescriptionRes = await this.translationService.translateString(item.offer_description, lang);
+                    const translatedDescription = translatedDescriptionRes[0];
+                    const translatedResponsibilitiesRes = await this.translationService.translateString(item.offer_responsibilities, lang);
+                    const translatedResponsibilities = translatedResponsibilitiesRes[0];
+                    const translatedRequirementsRes = await this.translationService.translateString(item.offer_requirements, lang);
+                    const translatedRequirements = translatedRequirementsRes[0];
+                    const translatedBenefitsRes = await this.translationService.translateString(item.offer_benefits, lang);
+                    const translatedBenefits = translatedBenefitsRes[0];
+
+                    translatedOfferArray = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
+
                     translatedOffer = {
-                        title: translatedOfferArray[0],
-                        keywords: translatedOfferArray[1],
-                        description: translatedOfferArray[2],
-                        responsibilities: translatedOfferArray[3],
-                        requirements: translatedOfferArray[4],
-                        benefits: translatedOfferArray[5]
+                        title: translatedTitle,
+                        keywords: translatedKeywords,
+                        description: translatedDescription,
+                        responsibilities: translatedResponsibilities,
+                        requirements: translatedRequirements,
+                        benefits: translatedBenefits
                     }
 
                     // Store in DB
@@ -272,13 +307,22 @@ export class OfferService {
                 }
                 else {
                     // Translate
-                    translatedAgencyArray = await this.translationService.translateContent([orgAgency.description,
-                        orgAgency.recruitmentProcess, orgAgency.benefits, orgAgency.roomDescription], lang);
+                    const translatedDescriptionRes = await this.translationService.translateString(orgAgency.description, lang);
+                    const translatedDescription = translatedDescriptionRes[0];
+                    const translatedRecruitmentProcessRes = await this.translationService.translateString(orgAgency.recruitmentProcess, lang);
+                    const translatedRecruitmentProcess = translatedRecruitmentProcessRes[0];
+                    const translatedBenefitsRes = await this.translationService.translateString(orgAgency.benefits, lang);
+                    const translatedBenefits = translatedBenefitsRes[0];
+                    const translatedRoomDescriptionRes = await this.translationService.translateString(orgAgency.roomDescription, lang);
+                    const translatedRoomDescription = translatedRoomDescriptionRes[0];
+
+                    const translatedAgencyArray = [translatedDescription, translatedRecruitmentProcess, translatedBenefits, translatedRoomDescription];
+
                     translatedAgency = {
-                        description: translatedAgencyArray[0],
-                        recruitmentProcess: translatedAgencyArray[1],
-                        benefits: translatedAgencyArray[2],
-                        roomDescription: translatedAgencyArray[3]
+                        description: translatedDescription,
+                        recruitmentProcess: translatedRecruitmentProcess,
+                        benefits: translatedBenefits,
+                        roomDescription: translatedRoomDescription
                     }
 
                     // Store in DB
@@ -672,7 +716,7 @@ export class OfferService {
                         });
 
                         let translatedOffer, translatedAgency;
-                        let translatedOfferArray, translatedAgencyArray;
+                        let translatedOfferArray;
                         let orgAgency = JSON.parse(item.a_data);
 
                         // Get stored offer or translate by Google API
@@ -681,15 +725,28 @@ export class OfferService {
                         }
                         else {
                             // Translate
-                            translatedOfferArray = await this.translationService.translateContent([item.offer_title, item.offer_keywords, item.offer_description,
-                                item.offer_responsibilities, item.offer_requirements, item.offer_benefits], lang);
+                            const translatedTitleRes = await this.translationService.translateString(item.offer_title, lang);
+                            const translatedTitle = translatedTitleRes[0];
+                            const translatedKeywordsRes = await this.translationService.translateString(item.offer_keywords, lang);
+                            const translatedKeywords = translatedKeywordsRes[0];
+                            const translatedDescriptionRes = await this.translationService.translateString(item.offer_description, lang);
+                            const translatedDescription = translatedDescriptionRes[0];
+                            const translatedResponsibilitiesRes = await this.translationService.translateString(item.offer_responsibilities, lang);
+                            const translatedResponsibilities = translatedResponsibilitiesRes[0];
+                            const translatedRequirementsRes = await this.translationService.translateString(item.offer_requirements, lang);
+                            const translatedRequirements = translatedRequirementsRes[0];
+                            const translatedBenefitsRes = await this.translationService.translateString(item.offer_benefits, lang);
+                            const translatedBenefits = translatedBenefitsRes[0];
+
+                            translatedOfferArray = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
+
                             translatedOffer = {
-                                title: translatedOfferArray[0],
-                                keywords: translatedOfferArray[1],
-                                description: translatedOfferArray[2],
-                                responsibilities: translatedOfferArray[3],
-                                requirements: translatedOfferArray[4],
-                                benefits: translatedOfferArray[5]
+                                title: translatedTitle,
+                                keywords: translatedKeywords,
+                                description: translatedDescription,
+                                responsibilities: translatedResponsibilities,
+                                requirements: translatedRequirements,
+                                benefits: translatedBenefits
                             }
 
                             // Store in DB
@@ -713,13 +770,22 @@ export class OfferService {
                         }
                         else {
                             // Translate
-                            translatedAgencyArray = await this.translationService.translateContent([orgAgency.description,
-                                orgAgency.recruitmentProcess, orgAgency.benefits, orgAgency.roomDescription], lang);
+                            const translatedDescriptionRes = await this.translationService.translateString(orgAgency.description, lang);
+                            const translatedDescription = translatedDescriptionRes[0];
+                            const translatedRecruitmentProcessRes = await this.translationService.translateString(orgAgency.recruitmentProcess, lang);
+                            const translatedRecruitmentProcess = translatedRecruitmentProcessRes[0];
+                            const translatedBenefitsRes = await this.translationService.translateString(orgAgency.benefits, lang);
+                            const translatedBenefits = translatedBenefitsRes[0];
+                            const translatedRoomDescriptionRes = await this.translationService.translateString(orgAgency.roomDescription, lang);
+                            const translatedRoomDescription = translatedRoomDescriptionRes[0];
+
+                            const translatedAgencyArray = [translatedDescription, translatedRecruitmentProcess, translatedBenefits, translatedRoomDescription];
+
                             translatedAgency = {
-                                description: translatedAgencyArray[0],
-                                recruitmentProcess: translatedAgencyArray[1],
-                                benefits: translatedAgencyArray[2],
-                                roomDescription: translatedAgencyArray[3]
+                                description: translatedDescription,
+                                recruitmentProcess: translatedRecruitmentProcess,
+                                benefits: translatedBenefits,
+                                roomDescription: translatedRoomDescription
                             }
 
                             // Store in DB
@@ -825,7 +891,7 @@ export class OfferService {
                     });
 
                     let translatedOffer, translatedAgency;
-                    let translatedOfferArray, translatedAgencyArray;
+                    let translatedOfferArray;
                     let orgAgency = JSON.parse(item.a_data);
 
                     // Get stored offer or translate by Google API
@@ -834,15 +900,28 @@ export class OfferService {
                     }
                     else {
                         // Translate
-                        translatedOfferArray = await this.translationService.translateContent([item.offer_title, item.offer_keywords, item.offer_description,
-                            item.offer_responsibilities, item.offer_requirements, item.offer_benefits], lang);
+                        const translatedTitleRes = await this.translationService.translateString(item.offer_title, lang);
+                        const translatedTitle = translatedTitleRes[0];
+                        const translatedKeywordsRes = await this.translationService.translateString(item.offer_keywords, lang);
+                        const translatedKeywords = translatedKeywordsRes[0];
+                        const translatedDescriptionRes = await this.translationService.translateString(item.offer_description, lang);
+                        const translatedDescription = translatedDescriptionRes[0];
+                        const translatedResponsibilitiesRes = await this.translationService.translateString(item.offer_responsibilities, lang);
+                        const translatedResponsibilities = translatedResponsibilitiesRes[0];
+                        const translatedRequirementsRes = await this.translationService.translateString(item.offer_requirements, lang);
+                        const translatedRequirements = translatedRequirementsRes[0];
+                        const translatedBenefitsRes = await this.translationService.translateString(item.offer_benefits, lang);
+                        const translatedBenefits = translatedBenefitsRes[0];
+
+                        translatedOfferArray = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
+
                         translatedOffer = {
-                            title: translatedOfferArray[0],
-                            keywords: translatedOfferArray[1],
-                            description: translatedOfferArray[2],
-                            responsibilities: translatedOfferArray[3],
-                            requirements: translatedOfferArray[4],
-                            benefits: translatedOfferArray[5]
+                            title: translatedTitle,
+                            keywords: translatedKeywords,
+                            description: translatedDescription,
+                            responsibilities: translatedResponsibilities,
+                            requirements: translatedRequirements,
+                            benefits: translatedBenefits
                         }
 
                         // Store in DB
@@ -866,13 +945,22 @@ export class OfferService {
                     }
                     else {
                         // Translate
-                        translatedAgencyArray = await this.translationService.translateContent([orgAgency.description,
-                            orgAgency.recruitmentProcess, orgAgency.benefits, orgAgency.roomDescription], lang);
+                        const translatedDescriptionRes = await this.translationService.translateString(orgAgency.description, lang);
+                        const translatedDescription = translatedDescriptionRes[0];
+                        const translatedRecruitmentProcessRes = await this.translationService.translateString(orgAgency.recruitmentProcess, lang);
+                        const translatedRecruitmentProcess = translatedRecruitmentProcessRes[0];
+                        const translatedBenefitsRes = await this.translationService.translateString(orgAgency.benefits, lang);
+                        const translatedBenefits = translatedBenefitsRes[0];
+                        const translatedRoomDescriptionRes = await this.translationService.translateString(orgAgency.roomDescription, lang);
+                        const translatedRoomDescription = translatedRoomDescriptionRes[0];
+
+                        const translatedAgencyArray = [translatedDescription, translatedRecruitmentProcess, translatedBenefits, translatedRoomDescription];
+
                         translatedAgency = {
-                            description: translatedAgencyArray[0],
-                            recruitmentProcess: translatedAgencyArray[1],
-                            benefits: translatedAgencyArray[2],
-                            roomDescription: translatedAgencyArray[3]
+                            description: translatedDescription,
+                            recruitmentProcess: translatedRecruitmentProcess,
+                            benefits: translatedBenefits,
+                            roomDescription: translatedRoomDescription
                         }
 
                         // Store in DB
@@ -1380,8 +1468,20 @@ export class OfferService {
                 }
                 else {
                     // Translate by Google API
-                    const translatedOffer = await this.translationService.translateContent([item.title, item.keywords, item.description,
-                        item.responsibilities, item.requirements, item.benefits], lang);
+                    const translatedTitleRes = await this.translationService.translateString(item.title, lang);
+                    const translatedTitle = translatedTitleRes[0];
+                    const translatedKeywordsRes = await this.translationService.translateString(item.keywords, lang);
+                    const translatedKeywords = translatedKeywordsRes[0];
+                    const translatedDescriptionRes = await this.translationService.translateString(item.description, lang);
+                    const translatedDescription = translatedDescriptionRes[0];
+                    const translatedResponsibilitiesRes = await this.translationService.translateString(item.responsibilities, lang);
+                    const translatedResponsibilities = translatedResponsibilitiesRes[0];
+                    const translatedRequirementsRes = await this.translationService.translateString(item.requirements, lang);
+                    const translatedRequirements = translatedRequirementsRes[0];
+                    const translatedBenefitsRes = await this.translationService.translateString(item.benefits, lang);
+                    const translatedBenefits = translatedBenefitsRes[0];
+
+                    const translatedOffer = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
 
                     // Store in DB
                     const offerId = item.id;
@@ -1452,8 +1552,20 @@ export class OfferService {
                 }
                 else {
                     // Translate by Google API
-                    const translatedOffer = await this.translationService.translateContent([item.title, item.keywords, item.description,
-                        item.responsibilities, item.requirements, item.benefits], lang);
+                    const translatedTitleRes = await this.translationService.translateString(item.title, lang);
+                    const translatedTitle = translatedTitleRes[0];
+                    const translatedKeywordsRes = await this.translationService.translateString(item.keywords, lang);
+                    const translatedKeywords = translatedKeywordsRes[0];
+                    const translatedDescriptionRes = await this.translationService.translateString(item.description, lang);
+                    const translatedDescription = translatedDescriptionRes[0];
+                    const translatedResponsibilitiesRes = await this.translationService.translateString(item.responsibilities, lang);
+                    const translatedResponsibilities = translatedResponsibilitiesRes[0];
+                    const translatedRequirementsRes = await this.translationService.translateString(item.requirements, lang);
+                    const translatedRequirements = translatedRequirementsRes[0];
+                    const translatedBenefitsRes = await this.translationService.translateString(item.benefits, lang);
+                    const translatedBenefits = translatedBenefitsRes[0];
+
+                    const translatedOffer = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
 
                     // Store in DB
                     const offerId = item.id;
@@ -1528,7 +1640,7 @@ export class OfferService {
             });
 
             let translatedOffer, translatedAgency;
-            let translatedOfferArray, translatedAgencyArray;
+            let translatedOfferArray;
 
             // Get stored offer or translate by Google API
             if(storedTranslationOffer?.length) {
@@ -1536,15 +1648,28 @@ export class OfferService {
             }
             else {
                 // Translate
-                translatedOfferArray = await this.translationService.translateContent([org.o_title, org.o_keywords, org.o_description,
-                    org.o_responsibilities, org.o_requirements, org.o_benefits], lang);
+                const translatedTitleRes = await this.translationService.translateString(org.o_title, lang);
+                const translatedTitle = translatedTitleRes[0];
+                const translatedKeywordsRes = await this.translationService.translateString(org.o_keywords, lang);
+                const translatedKeywords = translatedKeywordsRes[0];
+                const translatedDescriptionRes = await this.translationService.translateString(org.o_description, lang);
+                const translatedDescription = translatedDescriptionRes[0];
+                const translatedResponsibilitiesRes = await this.translationService.translateString(org.o_responsibilities, lang);
+                const translatedResponsibilities = translatedResponsibilitiesRes[0];
+                const translatedRequirementsRes = await this.translationService.translateString(org.o_requirements, lang);
+                const translatedRequirements = translatedRequirementsRes[0];
+                const translatedBenefitsRes = await this.translationService.translateString(org.o_benefits, lang);
+                const translatedBenefits = translatedBenefitsRes[0];
+
+                translatedOfferArray = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
+
                 translatedOffer = {
-                    title: translatedOfferArray[0],
-                    keywords: translatedOfferArray[1],
-                    description: translatedOfferArray[2],
-                    responsibilities: translatedOfferArray[3],
-                    requirements: translatedOfferArray[4],
-                    benefits: translatedOfferArray[5]
+                    title: translatedTitle,
+                    keywords: translatedKeywords,
+                    description: translatedDescription,
+                    responsibilities: translatedResponsibilities,
+                    requirements: translatedRequirements,
+                    benefits: translatedBenefits
                 }
 
                 // Store in DB
@@ -1567,13 +1692,22 @@ export class OfferService {
             }
             else {
                 // Translate
-                translatedAgencyArray = await this.translationService.translateContent([orgAgency.description,
-                    orgAgency.recruitmentProcess, orgAgency.benefits, orgAgency.roomDescription], lang);
+                const translatedDescriptionRes = await this.translationService.translateString(orgAgency.description, lang);
+                const translatedDescription = translatedDescriptionRes[0];
+                const translatedRecruitmentProcessRes = await this.translationService.translateString(orgAgency.recruitmentProcess, lang);
+                const translatedRecruitmentProcess = translatedRecruitmentProcessRes[0];
+                const translatedBenefitsRes = await this.translationService.translateString(orgAgency.benefits, lang);
+                const translatedBenefits = translatedBenefitsRes[0];
+                const translatedRoomDescriptionRes = await this.translationService.translateString(orgAgency.roomDescription, lang);
+                const translatedRoomDescription = translatedRoomDescriptionRes[0];
+
+                const translatedAgencyArray = [translatedDescription, translatedRecruitmentProcess, translatedBenefits, translatedRoomDescription];
+
                 translatedAgency = {
-                    description: translatedAgencyArray[0],
-                    recruitmentProcess: translatedAgencyArray[1],
-                    benefits: translatedAgencyArray[2],
-                    roomDescription: translatedAgencyArray[3]
+                    description: translatedDescription,
+                    recruitmentProcess: translatedRecruitmentProcess,
+                    benefits: translatedBenefits,
+                    roomDescription: translatedRoomDescription
                 }
 
                 // Store in DB
@@ -1642,7 +1776,7 @@ export class OfferService {
             });
 
             let translatedOffer, translatedAgency;
-            let translatedOfferArray, translatedAgencyArray;
+            let translatedOfferArray;
 
             // Get stored offer or translate by Google API
             if(storedTranslationOffer?.length) {
@@ -1650,15 +1784,28 @@ export class OfferService {
             }
             else {
                 // Translate
-                translatedOfferArray = await this.translationService.translateContent([org.o_title, org.o_keywords, org.o_description,
-                    org.o_responsibilities, org.o_requirements, org.o_benefits], lang);
+                const translatedTitleRes = await this.translationService.translateString(org.o_title, lang);
+                const translatedTitle = translatedTitleRes[0];
+                const translatedKeywordsRes = await this.translationService.translateString(org.o_keywords, lang);
+                const translatedKeywords = translatedKeywordsRes[0];
+                const translatedDescriptionRes = await this.translationService.translateString(org.o_description, lang);
+                const translatedDescription = translatedDescriptionRes[0];
+                const translatedResponsibilitiesRes = await this.translationService.translateString(org.o_responsibilities, lang);
+                const translatedResponsibilities = translatedResponsibilitiesRes[0];
+                const translatedRequirementsRes = await this.translationService.translateString(org.o_requirements, lang);
+                const translatedRequirements = translatedRequirementsRes[0];
+                const translatedBenefitsRes = await this.translationService.translateString(org.o_benefits, lang);
+                const translatedBenefits = translatedBenefitsRes[0];
+
+                translatedOfferArray = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
+
                 translatedOffer = {
-                    title: translatedOfferArray[0],
-                    keywords: translatedOfferArray[1],
-                    description: translatedOfferArray[2],
-                    responsibilities: translatedOfferArray[3],
-                    requirements: translatedOfferArray[4],
-                    benefits: translatedOfferArray[5]
+                    title: translatedTitle,
+                    keywords: translatedKeywords,
+                    description: translatedDescription,
+                    responsibilities: translatedResponsibilities,
+                    requirements: translatedRequirements,
+                    benefits: translatedBenefits
                 }
 
                 // Store in DB
@@ -1681,13 +1828,22 @@ export class OfferService {
             }
             else {
                 // Translate
-                translatedAgencyArray = await this.translationService.translateContent([orgAgency.description,
-                    orgAgency.recruitmentProcess, orgAgency.benefits, orgAgency.roomDescription], lang);
+                const translatedDescriptionRes = await this.translationService.translateString(orgAgency.description, lang);
+                const translatedDescription = translatedDescriptionRes[0];
+                const translatedRecruitmentProcessRes = await this.translationService.translateString(orgAgency.recruitmentProcess, lang);
+                const translatedRecruitmentProcess = translatedRecruitmentProcessRes[0];
+                const translatedBenefitsRes = await this.translationService.translateString(orgAgency.benefits, lang);
+                const translatedBenefits = translatedBenefitsRes[0];
+                const translatedRoomDescriptionRes = await this.translationService.translateString(orgAgency.roomDescription, lang);
+                const translatedRoomDescription = translatedRoomDescriptionRes[0];
+
+                const translatedAgencyArray = [translatedDescription, translatedRecruitmentProcess, translatedBenefits, translatedRoomDescription];
+
                 translatedAgency = {
-                    description: translatedAgencyArray[0],
-                    recruitmentProcess: translatedAgencyArray[1],
-                    benefits: translatedAgencyArray[2],
-                    roomDescription: translatedAgencyArray[3]
+                    description: translatedDescription,
+                    recruitmentProcess: translatedRecruitmentProcess,
+                    benefits: translatedBenefits,
+                    roomDescription: translatedRoomDescription
                 }
 
                 // Store in DB
@@ -1900,8 +2056,20 @@ export class OfferService {
                 }
                 else {
                     // Translate by Google API
-                    const translatedOffer = await this.translationService.translateContent([item.o_title, item.o_keywords, item.o_description,
-                        item.o_responsibilities, item.o_requirements, item.o_benefits], lang);
+                    const translatedTitleRes = await this.translationService.translateString(item.o_title, lang);
+                    const translatedTitle = translatedTitleRes[0];
+                    const translatedKeywordsRes = await this.translationService.translateString(item.o_keywords, lang);
+                    const translatedKeywords = translatedKeywordsRes[0];
+                    const translatedDescriptionRes = await this.translationService.translateString(item.o_description, lang);
+                    const translatedDescription = translatedDescriptionRes[0];
+                    const translatedResponsibilitiesRes = await this.translationService.translateString(item.o_responsibilities, lang);
+                    const translatedResponsibilities = translatedResponsibilitiesRes[0];
+                    const translatedRequirementsRes = await this.translationService.translateString(item.o_requirements, lang);
+                    const translatedRequirements = translatedRequirementsRes[0];
+                    const translatedBenefitsRes = await this.translationService.translateString(item.o_benefits, lang);
+                    const translatedBenefits = translatedBenefitsRes[0];
+
+                    const translatedOffer = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
 
                     // Store in DB
                     const offerId = item.o_id;
@@ -1979,8 +2147,21 @@ export class OfferService {
                 }
                 else {
                     // Translate by Google API
-                    const translatedOffer = await this.translationService.translateContent([item.o_title, item.o_keywords, item.o_description,
-                        item.o_responsibilities, item.o_requirements, item.o_benefits], lang);
+                    const translatedTitleRes = await this.translationService.translateString(item.o_title, lang);
+                    const translatedTitle = translatedTitleRes[0];
+                    const translatedKeywordsRes = await this.translationService.translateString(item.o_keywords, lang);
+                    const translatedKeywords = translatedKeywordsRes[0];
+                    const translatedDescriptionRes = await this.translationService.translateString(item.o_description, lang);
+                    const translatedDescription = translatedDescriptionRes[0];
+                    const translatedResponsibilitiesRes = await this.translationService.translateString(item.o_responsibilities, lang);
+                    const translatedResponsibilities = translatedResponsibilitiesRes[0];
+                    const translatedRequirementsRes = await this.translationService.translateString(item.o_requirements, lang);
+                    const translatedRequirements = translatedRequirementsRes[0];
+                    const translatedBenefitsRes = await this.translationService.translateString(item.o_benefits, lang);
+                    const translatedBenefits = translatedBenefitsRes[0];
+
+                    const translatedOffer = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
+
 
                     // Store in DB
                     const offerId = item.o_id;

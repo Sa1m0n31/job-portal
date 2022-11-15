@@ -187,65 +187,77 @@ export class UserService {
         return '';
     }
 
+    async translateArray(arr, lang) {
+        let translatedArr = [];
+
+        for(const el of arr) {
+            const translatedEl = await this.translationService.translateString(el, lang);
+            translatedArr.push(translatedEl[0]);
+        }
+
+        return translatedArr;
+    }
+
     async translateUserData(userData, files) {
         const languageSample = this.getLanguageSample(userData);
         const lang = languageSample ? await this.translationService.detect(languageSample) : 'pl';
 
+        let originalData = {
+            ...userData,
+            profileImage: files.profileImage ? files.profileImage[0].path : userData.profileImageUrl,
+            bsnNumberDocument: files.bsnNumber ? files.bsnNumber[0].path : userData.bsnNumberDocument,
+            attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
+                return {
+                    name: userData.attachments[index].name,
+                    path: item.path
+                }
+            }).concat(userData.oldAttachments) : userData.oldAttachments
+        }
+
         if(lang === 'pl') {
-            return {
-                ...userData,
-                profileImage: files.profileImage ? files.profileImage[0].path : userData.profileImageUrl,
-                bsnNumberDocument: files.bsnNumber ? files.bsnNumber[0].path : userData.bsnNumberDocument,
-                attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
-                    return {
-                        name: userData.attachments[index].name,
-                        path: item.path
-                    }
-                }).concat(userData.oldAttachments) : userData.oldAttachments
-            }
+            return originalData;
         }
         else {
-            const originalData = {
-                ...userData,
-                profileImage: files.profileImage ? files.profileImage[0].path : userData.profileImageUrl,
-                bsnNumberDocument: files.bsnNumber ? files.bsnNumber[0].path : userData.bsnNumberDocument,
-                attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
-                    return {
-                        name: userData.attachments[index].name,
-                        path: item.path
-                    }
-                }).concat(userData.oldAttachments) : userData.oldAttachments
-            }
-
             // Translate to Polish
             console.log(originalData.jobs);
 
-            const jobTitles = originalData.jobs ? originalData.jobs.map((item) => (item.title)) : '';
-            const jobResponsibilities = originalData.jobs ? originalData.jobs.map((item) => (item.responsibilities)) : '';
-            const jobLength = originalData.jobs ? originalData.jobs.map((item) => (item.jobLength)) : '';
+            let translatedJobs = [];
+            for(const job of originalData.jobs) {
+                let translatedTitle = await this.translationService.translateString(job.title, 'pl');
+                translatedTitle = translatedTitle[0];
+                let translatedResponsibilities = [];
 
-            console.log(jobTitles);
-            console.log(jobResponsibilities);
+                for(const responsibility of job.responsibilities) {
+                    const res = await this.translationService.translateString(responsibility, 'pl');
+                    translatedResponsibilities.push(res[0]);
+                }
 
-            const contentToTranslate = [originalData.extraLanguages, originalData.courses,
-                originalData.certificates, originalData.situationDescription, jobTitles, jobResponsibilities, jobLength];
-            const polishVersion = await this.translationService.translateContent(contentToTranslate, 'pl', true);
+                translatedJobs.push({
+                    ...job,
+                    title: translatedTitle,
+                    responsibilities: translatedResponsibilities
+                })
+            }
 
-            // Add filenames
+            const translatedSituationDescriptionResponse = await this.translationService.translateString(originalData.situationDescription, 'pl');
+            const translatedExtraLanguagesResponse = await this.translationService.translateString(originalData.extraLanguages, 'pl');
+
+            const translatedSituationDescription = translatedSituationDescriptionResponse[0];
+            const translatedExtraLanguages = translatedExtraLanguagesResponse[0];
+
+            const translatedCourses = await this.translateArray(typeof originalData.courses === 'string' ? JSON.parse(originalData.courses) : originalData.courses, lang);
+            const translatedCertificates = await this.translateArray(typeof originalData.certificates === 'string' ? JSON.parse(originalData.certificates) : originalData.certificates, lang);
+            const translatedSkills = await this.translateArray(typeof originalData.skills === 'string' ? JSON.parse(originalData.skills) : originalData.skills, lang);
+
+            // Return translated to Polish version
             return {
                 ...originalData,
-                extraLanguages: polishVersion[0],
-                courses: polishVersion[1],
-                certificates: polishVersion[2],
-                situationDescription: polishVersion[3],
-                jobs: originalData.jobs.map((item, index) => {
-                   return {
-                       ...item,
-                       title: polishVersion[4][index],
-                       responsibilities: polishVersion[5][index],
-                       jobLength: polishVersion[6] ? polishVersion[6][index] : ''
-                   }
-                }),
+                extraLanguages: translatedExtraLanguages,
+                courses: translatedCourses,
+                certificates: translatedCertificates,
+                skills: translatedSkills,
+                situationDescription: translatedSituationDescription,
+                jobs: translatedJobs,
                 profileImage: files.profileImage ? files.profileImage[0].path : userData.profileImageUrl,
                 bsnNumberDocument: files.bsnNumber ? files.bsnNumber[0].path : userData.bsnNumberDocument,
                 attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
@@ -263,8 +275,6 @@ export class UserService {
         const email = data.email;
         let userData = JSON.parse(data.userData);
 
-        console.log(userData.id);
-
         // Remove translations
         const user = await this.userRepository.findOneBy({
             email
@@ -274,6 +284,7 @@ export class UserService {
             id: user.id
         });
 
+        // Translate if not Polish
         userData = await this.translateUserData(userData, files);
 
         // Add info about jobs length
@@ -350,7 +361,6 @@ export class UserService {
         userData = {
             ...userData,
             jobs: userData.jobs.map((item, index) => {
-                console.log(item);
                 return {
                     ...item,
                     jobLength: jobsLength[index]
@@ -426,63 +436,57 @@ export class UserService {
                 ...userTranslationData,
                 courses: userTranslationData.courses ? JSON.parse(userTranslationData.courses) : '',
                 certificates: userTranslationData.certificates ? JSON.parse(userTranslationData.certificates) : '',
-                jobTitles: userTranslationData.jobTitles ? JSON.parse(userTranslationData.jobTitles) : '',
-                jobResponsibilities: userTranslationData.jobResponsibilities ? JSON.parse(userTranslationData.jobResponsibilities) : '',
-                jobLength: userTranslationData.jobLength ? JSON.parse(userTranslationData.jobLength) : ''
+                skills: userTranslationData.skills ? JSON.parse(userTranslationData.skills) : '',
+                jobs: userTranslationData.jobs ? JSON.parse(userTranslationData.jobs) : ''
             }
         }
         else {
             // Translate by Google API
-            console.log('start');
+            let translatedJobs = [];
+            for(const job of userData.jobs) {
+                let translatedTitleRes = await this.translationService.translateString(job.title, lang);
+                let translatedTitle = translatedTitleRes[0];
+                let translatedResponsibilities = [];
 
-            const jobsTitles = userData.jobs ? userData.jobs.map((item) => (item.title || '')) : [];
-            const jobsResponsibilities = userData.jobs ? userData.jobs.map((item) => (item.responsibilities || '')) : [];
-            const jobsLength = userData.jobs ? userData.jobs.map((item) => (item.jobLength || '')) : [];
-
-            let translatedUserArray = await this.translationService.translateContent([userData.extraLanguages,
-                userData.courses, userData.certificates, userData.situationDescription,
-                jobsTitles, jobsResponsibilities, jobsLength], lang);
-
-            // Strings
-            translatedUserArray = translatedUserArray.map((item, index) => {
-                if (index === 1 || index === 2 || index === 4) {
-                    if (typeof item === 'string') {
-                        if(item.slice(0, 2) !== '["' || item.split("").reverse().join("").slice(0, 2) !== ']"') {
-                            // Not array-like
-                            return removeLanguageSpecificCharacters(`["${item}"]`);
-                        }
-                        else {
-                            // Array-like
-                            return removeLanguageSpecificCharacters(item);
-                        }
-                    }
-                    else {
-                        if(item) {
-                            return removeLanguageSpecificCharacters(JSON.stringify(item));
-                        }
-                        else {
-                            return "";
-                        }
-                    }
-                } else if (index === 5) {
-                    return item ? removeLanguageSpecificCharacters(item) : '';
-                } else {
-                    return item;
+                for(const responsibility of job.responsibilities) {
+                    const res = await this.translationService.translateString(responsibility, lang);
+                    translatedResponsibilities.push(res[0]);
                 }
-            });
 
-            console.log(translatedUserArray[4]);
+                let translatedJobLengthRes = await this.translationService.translateString(job.jobLength, lang);
+                let translatedJobLength = translatedJobLengthRes[0];
+
+                translatedJobs.push({
+                    ...job,
+                    title: translatedTitle,
+                    responsibilities: translatedResponsibilities,
+                    jobLength: translatedJobLength
+                });
+            }
+
+            const translatedSituationDescriptionResponse = await this.translationService.translateString(userData.situationDescription, lang);
+            const translatedExtraLanguagesResponse = await this.translationService.translateString(userData.extraLanguages, lang);
+
+            const translatedSituationDescription = translatedSituationDescriptionResponse[0];
+            const translatedExtraLanguages = translatedExtraLanguagesResponse[0];
+
+            let translatedCourses = await this.translateArray(typeof userData.courses === 'string' ? JSON.parse(userData.courses) : userData.courses, lang);
+            let translatedCertificates = await this.translateArray(typeof userData.certificates === 'string' ? JSON.parse(userData.certificates) : userData.certificates, lang);
+            let translatedSkills = await this.translateArray(typeof userData.skills === 'string' ? JSON.parse(userData.skills) : userData.skills, lang);
 
             // Objects
             userTranslationData = {
-                extraLanguages: translatedUserArray[0],
-                courses: translatedUserArray[1] ? JSON.parse(translatedUserArray[1]) : '',
-                certificates: translatedUserArray[2] ? JSON.parse(translatedUserArray[2]) : '',
-                situationDescription: translatedUserArray[3],
-                jobTitles: translatedUserArray[4] ? JSON.parse(translatedUserArray[4]) : '',
-                jobResponsibilities: translatedUserArray[5] ? JSON.parse(translatedUserArray[5]) : '',
-                jobLength: translatedUserArray[6] ? JSON.parse(translatedUserArray[6]) : ''
+                extraLanguages: translatedExtraLanguages,
+                courses: translatedCourses,
+                certificates: translatedCertificates,
+                skills: translatedSkills,
+                situationDescription: translatedSituationDescription,
+                jobs: translatedJobs
             }
+
+            let translatedUserArray = [userTranslationData.extraLanguages, userTranslationData.courses,
+                userTranslationData.certificates, userTranslationData.skills, userTranslationData.situationDescription,
+                userTranslationData.jobs];
 
             // Store in DB
             await this.dynamicTranslationsRepository
@@ -506,15 +510,9 @@ export class UserService {
                 extraLanguages: userTranslationData.extraLanguages,
                 courses: userTranslationData.courses,
                 certificates: userTranslationData.certificates,
+                skills: userTranslationData.skills,
                 situationDescription: userTranslationData.situationDescription,
-                jobs: userData?.jobs ? userData.jobs.map((item, index) => {
-                    return {
-                        ...item,
-                        title: userTranslationData.jobTitles[index],
-                        responsibilities: userTranslationData.jobResponsibilities[index],
-                        jobLength: userTranslationData.jobLength[index]
-                    }
-                }) : ''
+                jobs: userTranslationData.jobs
             })
         }
     }

@@ -109,6 +109,16 @@ export class TranslationService {
         return translationResult.length === 1 && !forceArray ? translationResult[0].toString() : translationResult;
     }
 
+    async translateString(value: string, to: string) {
+        const translate = new Translate();
+
+        console.log('translate string: ' + value);
+
+        return translate.translate(value, {
+            to
+        });
+    }
+
     async translate(from, to, saveAs, field = '') {
         let siteContent;
 
@@ -146,7 +156,6 @@ export class TranslationService {
 
         async function translateText(chunk, translateLanguage = null) {
             let [translations] = await translate.translate(chunk.value, {
-                from: 'pl',
                 to: translateLanguage ? translateLanguage : to
             });
 

@@ -83,8 +83,6 @@ export class TranslationService {
                     }
                 }
 
-                console.log('!!!');
-                console.log(translations);
                 translations = Array.isArray(translations) ? removeLanguageSpecificCharacters(JSON.stringify(translations.map((item) => (item)))) : translations;
                 translationResult.push(translations);
             }
@@ -95,14 +93,10 @@ export class TranslationService {
 
         if(Array.isArray(content)) {
             for(const chunk of content) {
-                console.log('start chunk');
-                console.log(chunk);
-                console.log('end chunk');
                 await translateText(chunk);
             }
         }
         else {
-            console.log(content);
             await translateText(content ? content : '');
         }
 
@@ -111,8 +105,6 @@ export class TranslationService {
 
     async translateString(value: string, to: string) {
         const translate = new Translate();
-
-        console.log('translate string: ' + value);
 
         return translate.translate(value, {
             to
@@ -161,8 +153,6 @@ export class TranslationService {
 
             translations = Array.isArray(translations) ? translations : [translations];
 
-            console.log(translations);
-
             translations.forEach((translation, i) => {
                 translationResult.push({
                     field: chunk.field,
@@ -180,9 +170,7 @@ export class TranslationService {
         if(to === 'all') {
             let i = 0;
             for(const lang of languagesCodes) {
-                console.log('translating to ' + lang)
                 for(const chunk of translationBase) {
-                    console.log('translating... ' + chunk.value);
                     await translateText(chunk, lang);
                 }
 

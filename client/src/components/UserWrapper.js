@@ -83,7 +83,7 @@ const UserWrapper = ({page}) => {
                         window.location = '/';
                     }
                 })
-                .catch(() => {
+                .catch((err) => {
                     window.location = '/';
                 });
         }

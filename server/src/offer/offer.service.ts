@@ -21,6 +21,7 @@ import {
 } from "../common/translateObjects";
 import {getGoogleTranslateLanguageCode} from "../common/getGoogleTranslateLanguageCode";
 import {Cron} from "@nestjs/schedule";
+import {removeLanguageSpecificCharacters} from "../common/removeLanguageSpecificCharacters";
 
 // 0 - miesiecznie
 // 1 - tygodniowo
@@ -57,6 +58,17 @@ export class OfferService {
     async removeFastOffers() {
         await this.fastApplicationsRepository.delete({});
         return this.fastOfferRepository.delete({});
+    }
+
+    async translateArray(arr, lang) {
+        let translatedArr = [];
+
+        for(const el of arr) {
+            const translatedEl = await this.translationService.translateString(el, lang);
+            translatedArr.push(translatedEl[0]);
+        }
+
+        return translatedArr;
     }
 
     async isElementInArray(el, arr) {
@@ -117,17 +129,15 @@ export class OfferService {
                 else {
                     // Translate
                     const translatedTitleRes = await this.translationService.translateString(item.offer_title, lang);
-                    const translatedTitle = translatedTitleRes[0];
+                    const translatedTitle = removeLanguageSpecificCharacters(translatedTitleRes[0]);
                     const translatedKeywordsRes = await this.translationService.translateString(item.offer_keywords, lang);
-                    const translatedKeywords = translatedKeywordsRes[0];
+                    const translatedKeywords = removeLanguageSpecificCharacters(translatedKeywordsRes[0]);
                     const translatedDescriptionRes = await this.translationService.translateString(item.offer_description, lang);
-                    const translatedDescription = translatedDescriptionRes[0];
-                    const translatedResponsibilitiesRes = await this.translationService.translateString(item.offer_responsibilities, lang);
-                    const translatedResponsibilities = translatedResponsibilitiesRes[0];
-                    const translatedRequirementsRes = await this.translationService.translateString(item.offer_requirements, lang);
-                    const translatedRequirements = translatedRequirementsRes[0];
-                    const translatedBenefitsRes = await this.translationService.translateString(item.offer_benefits, lang);
-                    const translatedBenefits = translatedBenefitsRes[0];
+                    const translatedDescription = removeLanguageSpecificCharacters(translatedDescriptionRes[0]);
+
+                    const translatedResponsibilities = await this.translateArray(typeof item.offer_responsibilities === 'string' ? JSON.parse(item.offer_responsibilities) : item.offer_responsibilities, lang);
+                    const translatedRequirements = await this.translateArray(typeof item.offer_requirements === 'string' ? JSON.parse(item.offer_requirements) : item.offer_requirements, lang);
+                    const translatedBenefits = await this.translateArray(typeof item.offer_benefits === 'string' ? JSON.parse(item.offer_benefits) : item.offer_benefits, lang);
 
                     translatedOfferArray = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
 
@@ -135,9 +145,9 @@ export class OfferService {
                         title: translatedTitle,
                         keywords: translatedKeywords,
                         description: translatedDescription,
-                        responsibilities: translatedResponsibilities,
-                        requirements: translatedRequirements,
-                        benefits: translatedBenefits
+                        responsibilities: JSON.stringify(translatedResponsibilities),
+                        requirements: JSON.stringify(translatedRequirements),
+                        benefits: JSON.stringify(translatedBenefits)
                     }
 
                     // Store in DB
@@ -149,7 +159,7 @@ export class OfferService {
                             id: offerId,
                             field: offerTranslateFields[index],
                             lang: lang,
-                            value: item
+                            value: typeof item === 'string' ? item : JSON.stringify(item)
                         })))
                         .orIgnore()
                         .execute();
@@ -162,13 +172,13 @@ export class OfferService {
                 else {
                     // Translate
                     const translatedDescriptionRes = await this.translationService.translateString(orgAgency.description, lang);
-                    const translatedDescription = translatedDescriptionRes[0];
+                    const translatedDescription = removeLanguageSpecificCharacters(translatedDescriptionRes[0]);
                     const translatedRecruitmentProcessRes = await this.translationService.translateString(orgAgency.recruitmentProcess, lang);
-                    const translatedRecruitmentProcess = translatedRecruitmentProcessRes[0];
+                    const translatedRecruitmentProcess = removeLanguageSpecificCharacters(translatedRecruitmentProcessRes[0]);
                     const translatedBenefitsRes = await this.translationService.translateString(orgAgency.benefits, lang);
-                    const translatedBenefits = translatedBenefitsRes[0];
+                    const translatedBenefits = removeLanguageSpecificCharacters(translatedBenefitsRes[0]);
                     const translatedRoomDescriptionRes = await this.translationService.translateString(orgAgency.roomDescription, lang);
-                    const translatedRoomDescription = translatedRoomDescriptionRes[0];
+                    const translatedRoomDescription = removeLanguageSpecificCharacters(translatedRoomDescriptionRes[0]);
 
                     const translatedAgencyArray = [translatedDescription, translatedRecruitmentProcess, translatedBenefits, translatedRoomDescription];
 
@@ -263,17 +273,15 @@ export class OfferService {
                 else {
                     // Translate
                     const translatedTitleRes = await this.translationService.translateString(item.offer_title, lang);
-                    const translatedTitle = translatedTitleRes[0];
+                    const translatedTitle = removeLanguageSpecificCharacters(translatedTitleRes[0]);
                     const translatedKeywordsRes = await this.translationService.translateString(item.offer_keywords, lang);
-                    const translatedKeywords = translatedKeywordsRes[0];
+                    const translatedKeywords = removeLanguageSpecificCharacters(translatedKeywordsRes[0]);
                     const translatedDescriptionRes = await this.translationService.translateString(item.offer_description, lang);
-                    const translatedDescription = translatedDescriptionRes[0];
-                    const translatedResponsibilitiesRes = await this.translationService.translateString(item.offer_responsibilities, lang);
-                    const translatedResponsibilities = translatedResponsibilitiesRes[0];
-                    const translatedRequirementsRes = await this.translationService.translateString(item.offer_requirements, lang);
-                    const translatedRequirements = translatedRequirementsRes[0];
-                    const translatedBenefitsRes = await this.translationService.translateString(item.offer_benefits, lang);
-                    const translatedBenefits = translatedBenefitsRes[0];
+                    const translatedDescription = removeLanguageSpecificCharacters(translatedDescriptionRes[0]);
+
+                    const translatedResponsibilities = await this.translateArray(typeof item.offer_responsibilities === 'string' ? JSON.parse(item.offer_responsibilities) : item.offer_responsibilities, lang);
+                    const translatedRequirements = await this.translateArray(typeof item.offer_requirements === 'string' ? JSON.parse(item.offer_requirements) : item.offer_requirements, lang);
+                    const translatedBenefits = await this.translateArray(typeof item.offer_benefits === 'string' ? JSON.parse(item.offer_benefits) : item.offer_benefits, lang);
 
                     translatedOfferArray = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
 
@@ -281,9 +289,9 @@ export class OfferService {
                         title: translatedTitle,
                         keywords: translatedKeywords,
                         description: translatedDescription,
-                        responsibilities: translatedResponsibilities,
-                        requirements: translatedRequirements,
-                        benefits: translatedBenefits
+                        responsibilities: JSON.stringify(translatedResponsibilities),
+                        requirements: JSON.stringify(translatedRequirements),
+                        benefits: JSON.stringify(translatedBenefits)
                     }
 
                     // Store in DB
@@ -295,7 +303,7 @@ export class OfferService {
                             id: offerId,
                             field: offerTranslateFields[index],
                             lang: lang,
-                            value: item
+                            value: typeof item === 'string' ? item : JSON.stringify(item)
                         })))
                         .orIgnore()
                         .execute();
@@ -731,12 +739,10 @@ export class OfferService {
                             const translatedKeywords = translatedKeywordsRes[0];
                             const translatedDescriptionRes = await this.translationService.translateString(item.offer_description, lang);
                             const translatedDescription = translatedDescriptionRes[0];
-                            const translatedResponsibilitiesRes = await this.translationService.translateString(item.offer_responsibilities, lang);
-                            const translatedResponsibilities = translatedResponsibilitiesRes[0];
-                            const translatedRequirementsRes = await this.translationService.translateString(item.offer_requirements, lang);
-                            const translatedRequirements = translatedRequirementsRes[0];
-                            const translatedBenefitsRes = await this.translationService.translateString(item.offer_benefits, lang);
-                            const translatedBenefits = translatedBenefitsRes[0];
+
+                            const translatedResponsibilities = await this.translateArray(typeof item.offer_responsibilities === 'string' ? JSON.parse(item.offer_responsibilities) : item.offer_responsibilities, lang);
+                            const translatedRequirements = await this.translateArray(typeof item.offer_requirements === 'string' ? JSON.parse(item.offer_requirements) : item.offer_requirements, lang);
+                            const translatedBenefits = await this.translateArray(typeof item.offer_benefits === 'string' ? JSON.parse(item.offer_benefits) : item.offer_benefits, lang)
 
                             translatedOfferArray = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
 
@@ -744,9 +750,9 @@ export class OfferService {
                                 title: translatedTitle,
                                 keywords: translatedKeywords,
                                 description: translatedDescription,
-                                responsibilities: translatedResponsibilities,
-                                requirements: translatedRequirements,
-                                benefits: translatedBenefits
+                                responsibilities: JSON.stringify(translatedResponsibilities),
+                                requirements: JSON.stringify(translatedRequirements),
+                                benefits: JSON.stringify(translatedBenefits)
                             }
 
                             // Store in DB
@@ -758,7 +764,7 @@ export class OfferService {
                                     id: offerId,
                                     field: offerTranslateFields[index],
                                     lang: lang,
-                                    value: item
+                                    value: typeof item === 'string' ? item : JSON.stringify(item)
                                 })))
                                 .orIgnore()
                                 .execute();
@@ -906,12 +912,10 @@ export class OfferService {
                         const translatedKeywords = translatedKeywordsRes[0];
                         const translatedDescriptionRes = await this.translationService.translateString(item.offer_description, lang);
                         const translatedDescription = translatedDescriptionRes[0];
-                        const translatedResponsibilitiesRes = await this.translationService.translateString(item.offer_responsibilities, lang);
-                        const translatedResponsibilities = translatedResponsibilitiesRes[0];
-                        const translatedRequirementsRes = await this.translationService.translateString(item.offer_requirements, lang);
-                        const translatedRequirements = translatedRequirementsRes[0];
-                        const translatedBenefitsRes = await this.translationService.translateString(item.offer_benefits, lang);
-                        const translatedBenefits = translatedBenefitsRes[0];
+
+                        const translatedResponsibilities = await this.translateArray(typeof item.offer_responsibilities === 'string' ? JSON.parse(item.offer_responsibilities) : item.offer_responsibilities, lang);
+                        const translatedRequirements = await this.translateArray(typeof item.offer_requirements === 'string' ? JSON.parse(item.offer_requirements) : item.offer_requirements, lang);
+                        const translatedBenefits = await this.translateArray(typeof item.offer_benefits === 'string' ? JSON.parse(item.offer_benefits) : item.offer_benefits, lang);
 
                         translatedOfferArray = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
 
@@ -919,9 +923,9 @@ export class OfferService {
                             title: translatedTitle,
                             keywords: translatedKeywords,
                             description: translatedDescription,
-                            responsibilities: translatedResponsibilities,
-                            requirements: translatedRequirements,
-                            benefits: translatedBenefits
+                            responsibilities: JSON.stringify(translatedResponsibilities),
+                            requirements: JSON.stringify(translatedRequirements),
+                            benefits: JSON.stringify(translatedBenefits)
                         }
 
                         // Store in DB
@@ -933,7 +937,7 @@ export class OfferService {
                                 id: offerId,
                                 field: offerTranslateFields[index],
                                 lang: lang,
-                                value: item
+                                value: typeof item === 'string' ? item : JSON.stringify(item)
                             })))
                             .orIgnore()
                             .execute();
@@ -1088,13 +1092,18 @@ export class OfferService {
         }
         else {
             // Translate to Polish
-            const polishVersionResponseTitle = await this.translationService.translateContent(offerData.title, 'pl', true);
-            const polishVersionResponseKeywords = await this.translationService.translateContent(offerData.keywords, 'pl', true);
-            const polishVersionResponseDescription = await this.translationService.translateContent(offerData.description, 'pl', true);
-            const polishVersionResponseResponsibilities = await this.translationService.translateContent(offerData.responsibilities, 'pl', true);
-            const polishVersionResponseRequirements = await this.translationService.translateContent(offerData.requirements, 'pl', true);
-            const polishVersionResponseBenefits = await this.translationService.translateContent(offerData.benefits, 'pl', true);
-            const polishVersionResponseExtraInfo = await this.translationService.translateContent(offerData.extraInfo, 'pl', false);
+            const translatedTitleRes = await this.translationService.translateString(offerData.title, 'pl');
+            const polishVersionResponseTitle = translatedTitleRes[0];
+            const translatedKeywordsRes = await this.translationService.translateString(offerData.keywords, 'pl');
+            const polishVersionResponseKeywords = translatedKeywordsRes[0];
+            const translatedDescriptionRes = await this.translationService.translateString(offerData.description, 'pl');
+            const polishVersionResponseDescription = translatedDescriptionRes[0];
+            const translatedExtraInfoRes = await this.translationService.translateString(offerData.extraInfo, 'pl');
+            const polishVersionResponseExtraInfo = translatedExtraInfoRes[0];
+
+            const polishVersionResponseResponsibilities = await this.translateArray(typeof offerData.responsibilities === 'string' ? JSON.parse(offerData.responsibilities) : offerData.responsibilities, 'pl');
+            const polishVersionResponseRequirements = await this.translateArray(typeof offerData.requirements === 'string' ? JSON.parse(offerData.requirements) : offerData.requirements, 'pl');
+            const polishVersionResponseBenefits = await this.translateArray(typeof offerData.benefits === 'string' ? JSON.parse(offerData.benefits) : offerData.benefits, 'pl');
 
             // Add filenames
             if(updateMode) {
@@ -1103,9 +1112,9 @@ export class OfferService {
                     title: polishVersionResponseTitle,
                     keywords: polishVersionResponseKeywords,
                     description: polishVersionResponseDescription,
-                    responsibilities: polishVersionResponseResponsibilities,
-                    requirements: polishVersionResponseRequirements,
-                    benefits: polishVersionResponseBenefits,
+                    responsibilities: JSON.stringify(polishVersionResponseResponsibilities),
+                    requirements: JSON.stringify(polishVersionResponseRequirements),
+                    benefits: JSON.stringify(polishVersionResponseBenefits),
                     image: files.image ? files.image[0].path : offerData.imageUrl,
                     extraInfo: polishVersionResponseExtraInfo,
                     attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
@@ -1122,9 +1131,9 @@ export class OfferService {
                     title: polishVersionResponseTitle,
                     keywords: polishVersionResponseKeywords,
                     description: polishVersionResponseDescription,
-                    responsibilities: polishVersionResponseResponsibilities,
-                    requirements: polishVersionResponseRequirements,
-                    benefits: polishVersionResponseBenefits,
+                    responsibilities: JSON.stringify(polishVersionResponseResponsibilities),
+                    requirements: JSON.stringify(polishVersionResponseRequirements),
+                    benefits: JSON.stringify(polishVersionResponseBenefits),
                     image: files.image ? files.image[0].path : offerData.imageUrl,
                     extraInfo: polishVersionResponseExtraInfo,
                     attachments: files.attachments ? Array.from(files.attachments).map((item: any, index) => {
@@ -1171,9 +1180,9 @@ export class OfferService {
             id: null,
             agency: agencyId,
             title, category, keywords, country, postalCode, city, description,
-            responsibilities: JSON.stringify(responsibilities),
-            requirements: JSON.stringify(requirements),
-            benefits: JSON.stringify(benefits),
+            responsibilities: responsibilities,
+            requirements: requirements,
+            benefits: benefits,
             salaryType, salaryFrom, salaryTo,
             salaryCurrency,
             contractType: JSON.stringify(contractType),
@@ -1268,9 +1277,9 @@ export class OfferService {
             accommodationCountry, accommodationCity, accommodationPostalCode, accommodationStreet,
             accommodationDay, accommodationHour, accommodationMonth, accommodationYear,
             startDay, startMonth, startYear, startHour,
-            responsibilities: JSON.stringify(responsibilities),
-            requirements: JSON.stringify(requirements),
-            benefits: JSON.stringify(benefits),
+            responsibilities: responsibilities,
+            requirements: requirements,
+            benefits: benefits,
             salaryType, salaryFrom, salaryTo,
             salaryCurrency,
             contractType: JSON.stringify(contractType),
@@ -1370,9 +1379,9 @@ export class OfferService {
             .update({
                 agency: agencyId,
                 title, category, keywords, country, postalCode, city, description,
-                responsibilities: JSON.stringify(responsibilities),
-                requirements: JSON.stringify(requirements),
-                benefits: JSON.stringify(benefits),
+                responsibilities: responsibilities,
+                requirements: requirements,
+                benefits: benefits,
                 salaryType, salaryFrom, salaryTo,
                 salaryCurrency,
                 contractType: JSON.stringify(contractType),
@@ -1415,9 +1424,9 @@ export class OfferService {
                 accommodationCountry, accommodationCity, accommodationPostalCode, accommodationStreet,
                 accommodationDay, accommodationHour, accommodationMonth, accommodationYear,
                 startDay, startMonth, startYear, startHour,
-                responsibilities: JSON.stringify(responsibilities),
-                requirements: JSON.stringify(requirements),
-                benefits: JSON.stringify(benefits),
+                responsibilities: responsibilities,
+                requirements: requirements,
+                benefits: benefits,
                 salaryType, salaryFrom, salaryTo,
                 contactPerson, contactNumberCountry, contactNumber,
                 salaryCurrency,
@@ -1474,12 +1483,10 @@ export class OfferService {
                     const translatedKeywords = translatedKeywordsRes[0];
                     const translatedDescriptionRes = await this.translationService.translateString(item.description, lang);
                     const translatedDescription = translatedDescriptionRes[0];
-                    const translatedResponsibilitiesRes = await this.translationService.translateString(item.responsibilities, lang);
-                    const translatedResponsibilities = translatedResponsibilitiesRes[0];
-                    const translatedRequirementsRes = await this.translationService.translateString(item.requirements, lang);
-                    const translatedRequirements = translatedRequirementsRes[0];
-                    const translatedBenefitsRes = await this.translationService.translateString(item.benefits, lang);
-                    const translatedBenefits = translatedBenefitsRes[0];
+
+                    const translatedResponsibilities = await this.translateArray(typeof item.responsibilities === 'string' ? JSON.parse(item.responsibilities) : item.responsibilities, lang);
+                    const translatedRequirements = await this.translateArray(typeof item.requirements === 'string' ? JSON.parse(item.requirements) : item.requirements, lang);
+                    const translatedBenefits = await this.translateArray(typeof item.benefits === 'string' ? JSON.parse(item.benefits) : item.benefits, lang);
 
                     const translatedOffer = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
 
@@ -1493,8 +1500,9 @@ export class OfferService {
                             id: offerId,
                             field: offerTranslateFields[index],
                             lang: lang,
-                            value: item
+                            value: typeof item === 'string' ? item : JSON.stringify(item)
                         })))
+                        .orIgnore()
                         .execute();
 
                     jobOffers[i] = {
@@ -1502,9 +1510,9 @@ export class OfferService {
                         title: translatedOffer[0],
                         keywords: translatedOffer[1],
                         description: translatedOffer[2],
-                        responsibilities: translatedOffer[3],
-                        requirements: translatedOffer[4],
-                        benefits: translatedOffer[5]
+                        responsibilities: JSON.stringify(translatedOffer[3]),
+                        requirements: JSON.stringify(translatedOffer[4]),
+                        benefits: JSON.stringify(translatedOffer[5])
                     }
                 }
 
@@ -1558,12 +1566,10 @@ export class OfferService {
                     const translatedKeywords = translatedKeywordsRes[0];
                     const translatedDescriptionRes = await this.translationService.translateString(item.description, lang);
                     const translatedDescription = translatedDescriptionRes[0];
-                    const translatedResponsibilitiesRes = await this.translationService.translateString(item.responsibilities, lang);
-                    const translatedResponsibilities = translatedResponsibilitiesRes[0];
-                    const translatedRequirementsRes = await this.translationService.translateString(item.requirements, lang);
-                    const translatedRequirements = translatedRequirementsRes[0];
-                    const translatedBenefitsRes = await this.translationService.translateString(item.benefits, lang);
-                    const translatedBenefits = translatedBenefitsRes[0];
+
+                    const translatedResponsibilities = await this.translateArray(typeof item.responsibilities === 'string' ? JSON.parse(item.responsibilities) : item.responsibilities, lang);
+                    const translatedRequirements = await this.translateArray(typeof item.requirements === 'string' ? JSON.parse(item.requirements) : item.requirements, lang);
+                    const translatedBenefits = await this.translateArray(typeof item.benefits === 'string' ? JSON.parse(item.benefits) : item.benefits, lang);
 
                     const translatedOffer = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
 
@@ -1577,8 +1583,9 @@ export class OfferService {
                             id: offerId,
                             field: offerTranslateFields[index],
                             lang: lang,
-                            value: item
+                            value: typeof item === 'string' ? item : JSON.stringify(item)
                         })))
+                        .orIgnore()
                         .execute();
 
                     jobOffers[i] = {
@@ -1586,9 +1593,9 @@ export class OfferService {
                         title: translatedOffer[0],
                         keywords: translatedOffer[1],
                         description: translatedOffer[2],
-                        responsibilities: translatedOffer[3],
-                        requirements: translatedOffer[4],
-                        benefits: translatedOffer[5]
+                        responsibilities: JSON.stringify(translatedOffer[3]),
+                        requirements: JSON.stringify(translatedOffer[4]),
+                        benefits: JSON.stringify(translatedOffer[5])
                     }
                 }
 
@@ -1633,11 +1640,6 @@ export class OfferService {
                 lang: lang,
                 id: id
             });
-            const storedTranslationAgency = await this.dynamicTranslationsRepository.findBy({
-                type: 2,
-                lang: lang,
-                id: org.a_id
-            });
 
             let translatedOffer, translatedAgency;
             let translatedOfferArray;
@@ -1654,12 +1656,10 @@ export class OfferService {
                 const translatedKeywords = translatedKeywordsRes[0];
                 const translatedDescriptionRes = await this.translationService.translateString(org.o_description, lang);
                 const translatedDescription = translatedDescriptionRes[0];
-                const translatedResponsibilitiesRes = await this.translationService.translateString(org.o_responsibilities, lang);
-                const translatedResponsibilities = translatedResponsibilitiesRes[0];
-                const translatedRequirementsRes = await this.translationService.translateString(org.o_requirements, lang);
-                const translatedRequirements = translatedRequirementsRes[0];
-                const translatedBenefitsRes = await this.translationService.translateString(org.o_benefits, lang);
-                const translatedBenefits = translatedBenefitsRes[0];
+
+                const translatedResponsibilities = await this.translateArray(typeof org.o_responsibilities === 'string' ? JSON.parse(org.o_responsibilities) : org.o_responsibilities, lang);
+                const translatedRequirements = await this.translateArray(typeof org.o_requirements === 'string' ? JSON.parse(org.o_requirements) : org.o_requirements, lang);
+                const translatedBenefits = await this.translateArray(typeof org.o_benefits === 'string' ? JSON.parse(org.o_benefits) : org.o_benefits, lang);
 
                 translatedOfferArray = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
 
@@ -1667,9 +1667,9 @@ export class OfferService {
                     title: translatedTitle,
                     keywords: translatedKeywords,
                     description: translatedDescription,
-                    responsibilities: translatedResponsibilities,
-                    requirements: translatedRequirements,
-                    benefits: translatedBenefits
+                    responsibilities: JSON.stringify(translatedResponsibilities),
+                    requirements: JSON.stringify(translatedRequirements),
+                    benefits: JSON.stringify(translatedBenefits)
                 }
 
                 // Store in DB
@@ -1681,12 +1681,19 @@ export class OfferService {
                         id: id,
                         field: offerTranslateFields[index],
                         lang: lang,
-                        value: item
+                        value: typeof item === 'string' ? item : JSON.stringify(item)
                     })))
+                    .orIgnore()
                     .execute();
             }
 
             // Get stored agency or translate by Google API
+            const storedTranslationAgency = await this.dynamicTranslationsRepository.findBy({
+                type: 2,
+                lang: lang,
+                id: org.a_id
+            });
+
             if(storedTranslationAgency?.length) {
                 translatedAgency = storedTranslationAgency.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), agencyTranslateObject);
             }
@@ -1721,6 +1728,7 @@ export class OfferService {
                         lang: lang,
                         value: item
                     })))
+                    .orIgnore()
                     .execute();
             }
 
@@ -1790,12 +1798,10 @@ export class OfferService {
                 const translatedKeywords = translatedKeywordsRes[0];
                 const translatedDescriptionRes = await this.translationService.translateString(org.o_description, lang);
                 const translatedDescription = translatedDescriptionRes[0];
-                const translatedResponsibilitiesRes = await this.translationService.translateString(org.o_responsibilities, lang);
-                const translatedResponsibilities = translatedResponsibilitiesRes[0];
-                const translatedRequirementsRes = await this.translationService.translateString(org.o_requirements, lang);
-                const translatedRequirements = translatedRequirementsRes[0];
-                const translatedBenefitsRes = await this.translationService.translateString(org.o_benefits, lang);
-                const translatedBenefits = translatedBenefitsRes[0];
+
+                const translatedResponsibilities = await this.translateArray(typeof org.o_responsibilities === 'string' ? JSON.parse(org.o_responsibilities) : org.o_responsibilities, lang);
+                const translatedRequirements = await this.translateArray(typeof org.o_requirements === 'string' ? JSON.parse(org.o_requirements) : org.o_requirements, lang);
+                const translatedBenefits = await this.translateArray(typeof org.o_benefits === 'string' ? JSON.parse(org.o_benefits) : org.o_benefits, lang);
 
                 translatedOfferArray = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
 
@@ -1803,9 +1809,9 @@ export class OfferService {
                     title: translatedTitle,
                     keywords: translatedKeywords,
                     description: translatedDescription,
-                    responsibilities: translatedResponsibilities,
-                    requirements: translatedRequirements,
-                    benefits: translatedBenefits
+                    responsibilities: JSON.stringify(translatedResponsibilities),
+                    requirements: JSON.stringify(translatedRequirements),
+                    benefits: JSON.stringify(translatedBenefits)
                 }
 
                 // Store in DB
@@ -1817,8 +1823,9 @@ export class OfferService {
                         id: id,
                         field: offerTranslateFields[index],
                         lang: lang,
-                        value: item
+                        value: typeof item === 'string' ? item : JSON.stringify(item)
                     })))
+                    .orIgnore()
                     .execute();
             }
 
@@ -1857,6 +1864,7 @@ export class OfferService {
                         lang: lang,
                         value: item
                     })))
+                    .orIgnore()
                     .execute();
             }
 
@@ -2062,12 +2070,10 @@ export class OfferService {
                     const translatedKeywords = translatedKeywordsRes[0];
                     const translatedDescriptionRes = await this.translationService.translateString(item.o_description, lang);
                     const translatedDescription = translatedDescriptionRes[0];
-                    const translatedResponsibilitiesRes = await this.translationService.translateString(item.o_responsibilities, lang);
-                    const translatedResponsibilities = translatedResponsibilitiesRes[0];
-                    const translatedRequirementsRes = await this.translationService.translateString(item.o_requirements, lang);
-                    const translatedRequirements = translatedRequirementsRes[0];
-                    const translatedBenefitsRes = await this.translationService.translateString(item.o_benefits, lang);
-                    const translatedBenefits = translatedBenefitsRes[0];
+
+                    const translatedResponsibilities = await this.translateArray(typeof item.o_responsibilities === 'string' ? JSON.parse(item.o_responsibilities) : item.o_responsibilities, lang);
+                    const translatedRequirements = await this.translateArray(typeof item.o_requirements === 'string' ? JSON.parse(item.o_requirements) : item.o_requirements, lang);
+                    const translatedBenefits = await this.translateArray(typeof item.o_benefits === 'string' ? JSON.parse(item.o_benefits) : item.o_benefits, lang);
 
                     const translatedOffer = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
 
@@ -2081,8 +2087,9 @@ export class OfferService {
                             id: offerId,
                             field: offerTranslateFields[index],
                             lang: lang,
-                            value: item
+                            value: typeof item === 'string' ? item : JSON.stringify(item)
                         })))
+                        .orIgnore()
                         .execute();
 
                     jobOffers[i] = {
@@ -2090,9 +2097,9 @@ export class OfferService {
                         o_title: translatedOffer[0],
                         o_keywords: translatedOffer[1],
                         o_description: translatedOffer[2],
-                        o_responsibilities: translatedOffer[3],
-                        o_requirements: translatedOffer[4],
-                        o_benefits: translatedOffer[5]
+                        o_responsibilities: JSON.stringify(translatedOffer[3]),
+                        o_requirements: JSON.stringify(translatedOffer[4]),
+                        o_benefits: JSON.stringify(translatedOffer[5])
                     }
                 }
 
@@ -2153,15 +2160,12 @@ export class OfferService {
                     const translatedKeywords = translatedKeywordsRes[0];
                     const translatedDescriptionRes = await this.translationService.translateString(item.o_description, lang);
                     const translatedDescription = translatedDescriptionRes[0];
-                    const translatedResponsibilitiesRes = await this.translationService.translateString(item.o_responsibilities, lang);
-                    const translatedResponsibilities = translatedResponsibilitiesRes[0];
-                    const translatedRequirementsRes = await this.translationService.translateString(item.o_requirements, lang);
-                    const translatedRequirements = translatedRequirementsRes[0];
-                    const translatedBenefitsRes = await this.translationService.translateString(item.o_benefits, lang);
-                    const translatedBenefits = translatedBenefitsRes[0];
+
+                    const translatedResponsibilities = await this.translateArray(typeof item.o_responsibilities === 'string' ? JSON.parse(item.o_responsibilities) : item.o_responsibilities, lang);
+                    const translatedRequirements = await this.translateArray(typeof item.o_requirements === 'string' ? JSON.parse(item.o_requirements) : item.o_requirements, lang);
+                    const translatedBenefits = await this.translateArray(typeof item.o_benefits === 'string' ? JSON.parse(item.o_benefits) : item.o_benefits, lang);
 
                     const translatedOffer = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
-
 
                     // Store in DB
                     const offerId = item.o_id;
@@ -2173,8 +2177,9 @@ export class OfferService {
                             id: offerId,
                             field: offerTranslateFields[index],
                             lang: lang,
-                            value: item
+                            value: typeof item === 'string' ? item : JSON.stringify(item)
                         })))
+                        .orIgnore()
                         .execute();
 
                     jobOffers[i] = {
@@ -2182,9 +2187,9 @@ export class OfferService {
                         o_title: translatedOffer[0],
                         o_keywords: translatedOffer[1],
                         o_description: translatedOffer[2],
-                        o_responsibilities: translatedOffer[3],
-                        o_requirements: translatedOffer[4],
-                        o_benefits: translatedOffer[5]
+                        o_responsibilities: JSON.stringify(translatedOffer[3]),
+                        o_requirements: JSON.stringify(translatedOffer[4]),
+                        o_benefits: JSON.stringify(translatedOffer[5])
                     }
                 }
 

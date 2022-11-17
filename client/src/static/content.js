@@ -496,6 +496,69 @@ const languageVersions = [
     "SI", "ES", "SE", "NO", "UA", "TR", "BY"
 ]
 
+const userObject = {
+    // 1. Personal data
+    profileImage: null,
+    profileImageUrl: '',
+    firstName: 'Anonimowy',
+    lastName: '',
+    birthdayDay: 0,
+    birthdayMonth: 0,
+    birthdayYear: 2000,
+    country: 0,
+    city: '',
+    postalCode: '',
+    address: '',
+    phoneNumberCountry: 'PL +48',
+    phoneNumber: '',
+    email: '',
+    // 2. Education
+    education: 0,
+    schools: [],
+    // 3. Experience
+    jobs: [],
+    // 4.1. Skills
+    languages: [],
+    extraLanguages: '',
+    drivingLicence: null,
+    drivingLicenceCategories: [],
+    // 4.2. Skills
+    courses: [],
+    certificates: [],
+    skills: [],
+    // 5.1 Additional info
+    currentCountry: 0,
+    currentPostalCode: '',
+    currentCity: '',
+    hasBsnNumber: false,
+    bsnNumber: '',
+    bsnNumberDocument: null,
+    availabilityDay: 0,
+    availabilityMonth: 0,
+    availabilityYear: new Date().getFullYear(),
+    longTermJobSeeker: null,
+    ownTransport: null,
+    ownTransportType: 0,
+    // 5.2 Additional info
+    ownAccommodation: null,
+    accommodationPlace: '',
+    ownTools: null,
+    ownToolsDescription: '',
+    salaryType: 0,
+    salaryFrom: null,
+    salaryTo: null,
+    salaryCurrency: 0,
+    categories: ['-'],
+    // 5.3 Additional info
+    situationDescription: '',
+    attachments: [],
+    oldAttachments: [],
+    checkbox: false,
+    // 5.4 Additional info
+    friendLink: '',
+    whereYouFindOurApp: ''
+}
+
 export { steps, stepsContent, stepsMainContent, months, countries, phoneNumbers, formErrors, educationLevels, languages, drivingLicences,
     languageLevels, currencies, categories, attachmentsErrors, flags, stepsAgency, stepsAgencyContent, stepsAgencyMainContent, nipCountries,
     rooms, houses, paymentTypes, pensionType, paycheckFrequency, pensionFrequency, paycheckDay, healthInsuranceOptions, noInfo, contracts,

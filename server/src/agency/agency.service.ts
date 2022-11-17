@@ -283,60 +283,68 @@ export class AgencyService {
             const agencyData = JSON.parse(agency.data);
             let agencyTranslationData;
 
-            // Find agency translation
-            const agencyTranslation = await this.dynamicTranslationsRepository.findBy({
-                type: 2,
-                lang: lang,
-                id: agency.id
-            });
-
-            if(agencyTranslation?.length) {
-                agencyTranslationData = agencyTranslation.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), agencyTranslateObject);
+            if(Object.keys(agencyData).length === 0 && agencyData.constructor === Object) {
+                return {
+                    ...agency,
+                    data: JSON.stringify({})
+                }
             }
             else {
-                // Translate by Google API
-                const translatedDescriptionRes = await this.translationService.translateString(agencyData.description, lang);
-                const translatedDescription = translatedDescriptionRes[0];
-                const translatedRecruitmentProcessRes = await this.translationService.translateString(agencyData.recruitmentProcess, lang);
-                const translatedRecruitmentProcess = translatedRecruitmentProcessRes[0];
-                const translatedBenefitsRes = await this.translationService.translateString(agencyData.benefits, lang);
-                const translatedBenefits = translatedBenefitsRes[0];
-                const translatedRoomDescriptionRes = await this.translationService.translateString(agencyData.roomDescription, lang);
-                const translatedRoomDescription = translatedRoomDescriptionRes[0];
+                // Find agency translation
+                const agencyTranslation = await this.dynamicTranslationsRepository.findBy({
+                    type: 2,
+                    lang: lang,
+                    id: agency.id
+                });
 
-                const translatedAgencyArray = [translatedDescription, translatedRecruitmentProcess, translatedBenefits, translatedRoomDescription];
+                if(agencyTranslation?.length) {
+                    agencyTranslationData = agencyTranslation.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), agencyTranslateObject);
+                }
+                else {
+                    // Translate by Google API
+                    const translatedDescriptionRes = await this.translationService.translateString(agencyData.description, lang);
+                    const translatedDescription = translatedDescriptionRes[0];
+                    const translatedRecruitmentProcessRes = await this.translationService.translateString(agencyData.recruitmentProcess, lang);
+                    const translatedRecruitmentProcess = translatedRecruitmentProcessRes[0];
+                    const translatedBenefitsRes = await this.translationService.translateString(agencyData.benefits, lang);
+                    const translatedBenefits = translatedBenefitsRes[0];
+                    const translatedRoomDescriptionRes = await this.translationService.translateString(agencyData.roomDescription, lang);
+                    const translatedRoomDescription = translatedRoomDescriptionRes[0];
 
-                agencyTranslationData = {
-                    description: translatedDescription,
-                    recruitmentProcess: translatedRecruitmentProcess,
-                    benefits: translatedBenefits,
-                    roomDescription: translatedRoomDescription
+                    const translatedAgencyArray = [translatedDescription, translatedRecruitmentProcess, translatedBenefits, translatedRoomDescription];
+
+                    agencyTranslationData = {
+                        description: translatedDescription,
+                        recruitmentProcess: translatedRecruitmentProcess,
+                        benefits: translatedBenefits,
+                        roomDescription: translatedRoomDescription
+                    }
+
+                    // Store in DB
+                    await this.dynamicTranslationsRepository
+                        .createQueryBuilder()
+                        .insert()
+                        .values(translatedAgencyArray.map((item, index) => ({
+                            type: 2,
+                            id: agency.id,
+                            field: agencyTranslateFields[index],
+                            lang: lang,
+                            value: item
+                        })))
+                        .orIgnore()
+                        .execute();
                 }
 
-                // Store in DB
-                await this.dynamicTranslationsRepository
-                    .createQueryBuilder()
-                    .insert()
-                    .values(translatedAgencyArray.map((item, index) => ({
-                        type: 2,
-                        id: agency.id,
-                        field: agencyTranslateFields[index],
-                        lang: lang,
-                        value: item
-                    })))
-                    .orIgnore()
-                    .execute();
-            }
-
-            return {
-                ...agency,
-                data: JSON.stringify({
-                    ...agencyData,
-                    description: agencyTranslationData.description,
-                    recruitmentProcess: agencyTranslationData.recruitmentProcess,
-                    benefits: agencyTranslationData.benefits,
-                    roomDescription: agencyTranslationData.roomDescription
-                })
+                return {
+                    ...agency,
+                    data: JSON.stringify({
+                        ...agencyData,
+                        description: agencyTranslationData.description,
+                        recruitmentProcess: agencyTranslationData.recruitmentProcess,
+                        benefits: agencyTranslationData.benefits,
+                        roomDescription: agencyTranslationData.roomDescription
+                    })
+                }
             }
         }
     }
@@ -351,60 +359,68 @@ export class AgencyService {
             const agencyData = JSON.parse(agency.data);
             let agencyTranslationData;
 
-            // Find agency translation
-            const agencyTranslation = await this.dynamicTranslationsRepository.findBy({
-                type: 2,
-                lang: lang,
-                id: agency.id
-            });
-
-            if(agencyTranslation?.length) {
-                agencyTranslationData = agencyTranslation.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), agencyTranslateObject);
+            if(Object.keys(agencyData).length === 0 && agencyData.constructor === Object) {
+                return {
+                    ...agency,
+                    data: JSON.stringify({})
+                }
             }
             else {
-                // Translate by Google API
-                const translatedDescriptionRes = await this.translationService.translateString(agencyData.description, lang);
-                const translatedDescription = translatedDescriptionRes[0];
-                const translatedRecruitmentProcessRes = await this.translationService.translateString(agencyData.recruitmentProcess, lang);
-                const translatedRecruitmentProcess = translatedRecruitmentProcessRes[0];
-                const translatedBenefitsRes = await this.translationService.translateString(agencyData.benefits, lang);
-                const translatedBenefits = translatedBenefitsRes[0];
-                const translatedRoomDescriptionRes = await this.translationService.translateString(agencyData.roomDescription, lang);
-                const translatedRoomDescription = translatedRoomDescriptionRes[0];
+                // Find agency translation
+                const agencyTranslation = await this.dynamicTranslationsRepository.findBy({
+                    type: 2,
+                    lang: lang,
+                    id: agency.id
+                });
 
-                const translatedAgencyArray = [translatedDescription, translatedRecruitmentProcess, translatedBenefits, translatedRoomDescription];
+                if(agencyTranslation?.length) {
+                    agencyTranslationData = agencyTranslation.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), agencyTranslateObject);
+                }
+                else {
+                    // Translate by Google API
+                    const translatedDescriptionRes = await this.translationService.translateString(agencyData.description, lang);
+                    const translatedDescription = translatedDescriptionRes[0];
+                    const translatedRecruitmentProcessRes = await this.translationService.translateString(agencyData.recruitmentProcess, lang);
+                    const translatedRecruitmentProcess = translatedRecruitmentProcessRes[0];
+                    const translatedBenefitsRes = await this.translationService.translateString(agencyData.benefits, lang);
+                    const translatedBenefits = translatedBenefitsRes[0];
+                    const translatedRoomDescriptionRes = await this.translationService.translateString(agencyData.roomDescription, lang);
+                    const translatedRoomDescription = translatedRoomDescriptionRes[0];
 
-                agencyTranslationData = {
-                    description: translatedDescription,
-                    recruitmentProcess: translatedRecruitmentProcess,
-                    benefits: translatedBenefits,
-                    roomDescription: translatedRoomDescription
+                    const translatedAgencyArray = [translatedDescription, translatedRecruitmentProcess, translatedBenefits, translatedRoomDescription];
+
+                    agencyTranslationData = {
+                        description: translatedDescription,
+                        recruitmentProcess: translatedRecruitmentProcess,
+                        benefits: translatedBenefits,
+                        roomDescription: translatedRoomDescription
+                    }
+
+                    // Store in DB
+                    await this.dynamicTranslationsRepository
+                        .createQueryBuilder()
+                        .insert()
+                        .values(translatedAgencyArray.map((item, index) => ({
+                            type: 2,
+                            id: agency.id,
+                            field: agencyTranslateFields[index],
+                            lang: lang,
+                            value: item
+                        })))
+                        .orIgnore()
+                        .execute();
                 }
 
-                // Store in DB
-                await this.dynamicTranslationsRepository
-                    .createQueryBuilder()
-                    .insert()
-                    .values(translatedAgencyArray.map((item, index) => ({
-                        type: 2,
-                        id: agency.id,
-                        field: agencyTranslateFields[index],
-                        lang: lang,
-                        value: item
-                    })))
-                    .orIgnore()
-                    .execute();
-            }
-
-            return {
-                ...agency,
-                data: JSON.stringify({
-                    ...agencyData,
-                    description: agencyTranslationData.description,
-                    recruitmentProcess: agencyTranslationData.recruitmentProcess,
-                    benefits: agencyTranslationData.benefits,
-                    roomDescription: agencyTranslationData.roomDescription
-                })
+                return {
+                    ...agency,
+                    data: JSON.stringify({
+                        ...agencyData,
+                        description: agencyTranslationData.description,
+                        recruitmentProcess: agencyTranslationData.recruitmentProcess,
+                        benefits: agencyTranslationData.benefits,
+                        roomDescription: agencyTranslationData.roomDescription
+                    })
+                }
             }
         }
     }

@@ -36,10 +36,6 @@ const UserHomepage = ({data, userId, visible, working}) => {
     const { c } = useContext(LanguageContext);
 
     useEffect(() => {
-        console.log(data);
-    }, [data]);
-
-    useEffect(() => {
         if(window.innerWidth >= 996) {
             let maxHeight = 0;
             const secondLine = Array.from(document.querySelectorAll('.userAccount__box--30'));

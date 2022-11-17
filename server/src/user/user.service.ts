@@ -423,97 +423,105 @@ export class UserService {
 
         lang = getGoogleTranslateLanguageCode(lang);
 
-        // Checking for translation in DB
-        const userTranslation = await this.dynamicTranslationsRepository.findBy({
-            lang: lang,
-            type: 1,
-            id: id
-        });
-
-        if(userTranslation?.length) {
-            userTranslationData = userTranslation.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), userTranslateObject);
-            userTranslationData = {
-                ...userTranslationData,
-                courses: userTranslationData.courses ? JSON.parse(userTranslationData.courses) : '',
-                certificates: userTranslationData.certificates ? JSON.parse(userTranslationData.certificates) : '',
-                skills: userTranslationData.skills ? JSON.parse(userTranslationData.skills) : '',
-                jobs: userTranslationData.jobs ? JSON.parse(userTranslationData.jobs) : ''
+        if(Object.keys(userData).length === 0 && userData.constructor === Object) {
+            return {
+                ...user,
+                data: JSON.stringify({})
             }
         }
         else {
-            // Translate by Google API
-            let translatedJobs = [];
-            for(const job of userData.jobs) {
-                let translatedTitleRes = await this.translationService.translateString(job.title, lang);
-                let translatedTitle = translatedTitleRes[0];
-                let translatedResponsibilities = [];
+            // Checking for translation in DB
+            const userTranslation = await this.dynamicTranslationsRepository.findBy({
+                lang: lang,
+                type: 1,
+                id: id
+            });
 
-                for(const responsibility of job.responsibilities) {
-                    const res = await this.translationService.translateString(responsibility, lang);
-                    translatedResponsibilities.push(res[0]);
+            if(userTranslation?.length) {
+                userTranslationData = userTranslation.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), userTranslateObject);
+                userTranslationData = {
+                    ...userTranslationData,
+                    courses: userTranslationData.courses ? JSON.parse(userTranslationData.courses) : '',
+                    certificates: userTranslationData.certificates ? JSON.parse(userTranslationData.certificates) : '',
+                    skills: userTranslationData.skills ? JSON.parse(userTranslationData.skills) : '',
+                    jobs: userTranslationData.jobs ? JSON.parse(userTranslationData.jobs) : ''
+                }
+            }
+            else {
+                // Translate by Google API
+                let translatedJobs = [];
+                for(const job of userData.jobs) {
+                    let translatedTitleRes = await this.translationService.translateString(job.title, lang);
+                    let translatedTitle = translatedTitleRes[0];
+                    let translatedResponsibilities = [];
+
+                    for(const responsibility of job.responsibilities) {
+                        const res = await this.translationService.translateString(responsibility, lang);
+                        translatedResponsibilities.push(res[0]);
+                    }
+
+                    let translatedJobLengthRes = await this.translationService.translateString(job.jobLength, lang);
+                    let translatedJobLength = translatedJobLengthRes[0];
+
+                    translatedJobs.push({
+                        ...job,
+                        title: translatedTitle,
+                        responsibilities: translatedResponsibilities,
+                        jobLength: translatedJobLength
+                    });
                 }
 
-                let translatedJobLengthRes = await this.translationService.translateString(job.jobLength, lang);
-                let translatedJobLength = translatedJobLengthRes[0];
+                const translatedSituationDescriptionResponse = await this.translationService.translateString(userData.situationDescription, lang);
+                const translatedExtraLanguagesResponse = await this.translationService.translateString(userData.extraLanguages, lang);
 
-                translatedJobs.push({
-                    ...job,
-                    title: translatedTitle,
-                    responsibilities: translatedResponsibilities,
-                    jobLength: translatedJobLength
-                });
+                const translatedSituationDescription = translatedSituationDescriptionResponse[0];
+                const translatedExtraLanguages = translatedExtraLanguagesResponse[0];
+
+                let translatedCourses = await this.translateArray(typeof userData.courses === 'string' ? JSON.parse(userData.courses) : userData.courses, lang);
+                let translatedCertificates = await this.translateArray(typeof userData.certificates === 'string' ? JSON.parse(userData.certificates) : userData.certificates, lang);
+                let translatedSkills = await this.translateArray(typeof userData.skills === 'string' ? JSON.parse(userData.skills) : userData.skills, lang);
+
+                // Objects
+                userTranslationData = {
+                    extraLanguages: translatedExtraLanguages,
+                    courses: translatedCourses,
+                    certificates: translatedCertificates,
+                    skills: translatedSkills,
+                    situationDescription: translatedSituationDescription,
+                    jobs: translatedJobs
+                }
+
+                let translatedUserArray = [userTranslationData.extraLanguages, userTranslationData.courses,
+                    userTranslationData.certificates, userTranslationData.skills, userTranslationData.situationDescription,
+                    userTranslationData.jobs];
+
+                // Store in DB
+                await this.dynamicTranslationsRepository
+                    .createQueryBuilder()
+                    .insert()
+                    .values(translatedUserArray.map((item, index) => ({
+                        type: 1,
+                        id: id,
+                        field: userTranslateFields[index],
+                        lang: lang,
+                        value: typeof item === 'string' ? item : JSON.stringify(item)
+                    })))
+                    .orIgnore()
+                    .execute();
             }
 
-            const translatedSituationDescriptionResponse = await this.translationService.translateString(userData.situationDescription, lang);
-            const translatedExtraLanguagesResponse = await this.translationService.translateString(userData.extraLanguages, lang);
-
-            const translatedSituationDescription = translatedSituationDescriptionResponse[0];
-            const translatedExtraLanguages = translatedExtraLanguagesResponse[0];
-
-            let translatedCourses = await this.translateArray(typeof userData.courses === 'string' ? JSON.parse(userData.courses) : userData.courses, lang);
-            let translatedCertificates = await this.translateArray(typeof userData.certificates === 'string' ? JSON.parse(userData.certificates) : userData.certificates, lang);
-            let translatedSkills = await this.translateArray(typeof userData.skills === 'string' ? JSON.parse(userData.skills) : userData.skills, lang);
-
-            // Objects
-            userTranslationData = {
-                extraLanguages: translatedExtraLanguages,
-                courses: translatedCourses,
-                certificates: translatedCertificates,
-                skills: translatedSkills,
-                situationDescription: translatedSituationDescription,
-                jobs: translatedJobs
+            return {
+                ...user,
+                data: JSON.stringify({
+                    ...userData,
+                    extraLanguages: userTranslationData.extraLanguages,
+                    courses: userTranslationData.courses,
+                    certificates: userTranslationData.certificates,
+                    skills: userTranslationData.skills,
+                    situationDescription: userTranslationData.situationDescription,
+                    jobs: userTranslationData.jobs
+                })
             }
-
-            let translatedUserArray = [userTranslationData.extraLanguages, userTranslationData.courses,
-                userTranslationData.certificates, userTranslationData.skills, userTranslationData.situationDescription,
-                userTranslationData.jobs];
-
-            // Store in DB
-            await this.dynamicTranslationsRepository
-                .createQueryBuilder()
-                .insert()
-                .values(translatedUserArray.map((item, index) => ({
-                    type: 1,
-                    id: id,
-                    field: userTranslateFields[index],
-                    lang: lang,
-                    value: typeof item === 'string' ? item : JSON.stringify(item)
-                })))
-                .orIgnore()
-                .execute();
-        }
-
-        return {
-            ...user,
-            data: JSON.stringify({
-                ...userData,
-                extraLanguages: userTranslationData.extraLanguages,
-                courses: userTranslationData.courses,
-                certificates: userTranslationData.certificates,
-                skills: userTranslationData.skills,
-                situationDescription: userTranslationData.situationDescription,
-                jobs: userTranslationData.jobs
-            })
         }
     }
 

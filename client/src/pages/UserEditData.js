@@ -436,7 +436,7 @@ const UserEditData = () => {
             setStep5Error(true);
             fields.push(c.ownTransportQuestion);
         }
-        if(!userData.ownAccommodation) {
+        if(!userData.ownAccommodation && userData.ownAccommodation !== false) {
             setStep5Error(true);
             fields.push(c.ownAccommodationQuestion);
         }

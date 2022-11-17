@@ -31,6 +31,7 @@ const MyJobOffers = ({data}) => {
         getJobOffersByAgency()
             .then((res) => {
                 if(res?.status === 200) {
+                    console.log(res.data);
                     setOffers(res?.data);
                 }
                 setRender(true);

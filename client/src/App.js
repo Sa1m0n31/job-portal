@@ -39,7 +39,14 @@ function App() {
       getSiteContent(language)
           .then((res) => {
             if(res?.data?.length) {
-              const val = res.data.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), {});
+              console.log(res.data);
+
+              const dataString = JSON.stringify(res?.data)?.replace('\n', '')?.replace('\r', '');
+              const dataJSON = JSON.parse(dataString);
+
+              console.log(dataJSON);
+
+              const val = dataJSON.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), {});
               setC(val);
 
               localStorage.setItem('siteContent', JSON.stringify(val));

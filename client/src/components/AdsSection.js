@@ -3,14 +3,12 @@ import img from '../static/img/baner-testowy.png'
 import img1 from '../static/img/logowanie.png'
 import img2 from '../static/img/login-agencja.png'
 
-const adsLink = 'https://facebook.com';
-
 const AdsSection = () => {
     return <div className="adsSection center">
         {/*<a href={adsLink} className="adsLink">*/}
         {/*    <img className="img" src={img} alt="img" />*/}
         {/*</a>*/}
-        <iframe width="1000" height="415" src="https://www.youtube.com/embed/u31qwQUeGuM" title="YouTube video player"
+        <iframe width="1000" height="515" src="https://www.youtube.com/embed/wWEYVIA7fbo" title="YouTube video player"
                 frameBorder="0" className="adsVideo"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen></iframe>

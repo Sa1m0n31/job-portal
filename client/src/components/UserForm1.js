@@ -161,7 +161,7 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
                     {countriesVisible ? <div className="datepickerDropdown noscroll">
                         {JSON.parse(c.countries)?.map((item, index) => {
                             return <button className="datepickerBtn center" key={index}
-                                           onClick={(e) => { handleChange('country', index); }}>
+                                           onClick={(e) => { console.log(JSON.parse(c.countries)[index]); handleChange('country', index); }}>
                                 {item}
                             </button>
                         })}

@@ -3,7 +3,6 @@ import {UserDataContext} from "../pages/UserEditData";
 import plusIcon from '../static/img/plus-icon-opacity.svg'
 import fileIcon from '../static/img/doc.svg'
 import trashIcon from '../static/img/trash.svg'
-import {attachmentsErrors} from "../static/content";
 import Loader from "./Loader";
 import {LanguageContext} from "../App";
 import {Tooltip} from "react-tippy";
@@ -17,7 +16,7 @@ const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, rem
     const handleAttachments = (e) => {
         if(e.target.files.length + userData.oldAttachments?.length + userData.attachments.length > 5) {
             e.preventDefault();
-            setAttachmentsError(attachmentsErrors[0]);
+            setAttachmentsError(c.maxNumberOfAttachmentsError);
         }
         else {
             setAttachmentsError('');
@@ -27,7 +26,7 @@ const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, rem
 
     const handleDescriptionChange = (e) => {
         setAttachmentsError('');
-        if(e.target.value.length < 150) {
+        if(e.target.value.length < 1000) {
             handleChange('situationDescription', e.target.value);
         }
     }
@@ -50,7 +49,7 @@ const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, rem
                 </Tooltip>
             </span>
             <span className="letterCounter">
-                {userData.situationDescription.length} / 150
+                {userData.situationDescription.length} / 1000
             </span>
             <textarea className="input input--textarea input--situation"
                       value={userData.situationDescription}
@@ -68,7 +67,7 @@ const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, rem
                     <input className="input input--file"
                            type="file"
                            multiple={true}
-                           maxLength={5}
+                           maxLength={10}
                            onChange={(e) => { handleAttachments(e); }} />
                 </label>
 

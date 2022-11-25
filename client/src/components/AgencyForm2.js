@@ -1,5 +1,4 @@
 import React, {useContext, useState} from 'react';
-import {attachmentsErrors} from "../static/content";
 import {AgencyDataContext} from "../pages/AgencyEditData";
 import plusIcon from "../static/img/plus-icon-opacity.svg";
 import trashIcon from "../static/img/trash.svg";
@@ -22,7 +21,7 @@ const AgencyForm2 = ({removeLogo, handleFileUpload, removeGalleryImage}) => {
     const handleGallery = (e) => {
         if(e.target.files.length + agencyData.gallery.length > 15) {
             e.preventDefault();
-            setGalleryError(attachmentsErrors[0]);
+            setGalleryError(c.maxNumberOfAttachmentsError);
         }
         else {
             setGalleryError('');

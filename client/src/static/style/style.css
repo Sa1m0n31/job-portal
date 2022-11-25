@@ -453,18 +453,18 @@ input {
 }
 
 .registerImg {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     min-width: 100%;
     min-height: 100vh;
-    height: auto;
+    height: 100vh;
     z-index: -1;
 }
 
 .container--register {
     height: 100vh;
-    min-height: 900px;
+    min-height: 1200px;
     overflow: hidden;
 }
 
@@ -472,7 +472,7 @@ input {
     display: block;
     background: #fff;
     width: 850px;
-    height: 850px;
+    height: auto;
     border-radius: 5px;
     padding: 50px;
 }
@@ -6284,4 +6284,19 @@ input[type=month] {
 
 .datepickerDropdown--fixed .datepickerBtn::after {
     display: none !important;
+}
+
+.checkbox--newsletter {
+    min-width: 15px;
+}
+
+.checkbox--contactForm {
+    max-width: 15px !important;
+    margin-right: 10px !important;
+    height: 15px;
+}
+
+.checkbox--contactForm > span {
+    width: 7px;
+    height: 7px;
 }

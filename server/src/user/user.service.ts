@@ -444,7 +444,8 @@ export class UserService {
                     courses: userTranslationData.courses ? JSON.parse(userTranslationData.courses) : '',
                     certificates: userTranslationData.certificates ? JSON.parse(userTranslationData.certificates) : '',
                     skills: userTranslationData.skills ? JSON.parse(userTranslationData.skills) : '',
-                    jobs: userTranslationData.jobs ? JSON.parse(userTranslationData.jobs) : ''
+                    jobs: userTranslationData.jobs ? JSON.parse(userTranslationData.jobs) : '',
+                    schools: userTranslationData.schools ? JSON.parse(userTranslationData.schools) : ''
                 }
             }
             else {
@@ -471,6 +472,20 @@ export class UserService {
                     });
                 }
 
+                let translatedSchools = [];
+                for(const school of userData.schools) {
+                    let translatedNameRes = await this.translationService.translateString(school.name, lang);
+                    let translatedName = translatedNameRes[0];
+                    let translatedTitleRes = await this.translationService.translateString(school.title, lang);
+                    let translatedTitle = translatedTitleRes[0];
+
+                    translatedSchools.push({
+                        ...school,
+                        name: translatedName,
+                        title: translatedTitle
+                    });
+                }
+
                 const translatedSituationDescriptionResponse = await this.translationService.translateString(userData.situationDescription, lang);
                 const translatedExtraLanguagesResponse = await this.translationService.translateString(userData.extraLanguages, lang);
 
@@ -488,12 +503,13 @@ export class UserService {
                     certificates: translatedCertificates,
                     skills: translatedSkills,
                     situationDescription: translatedSituationDescription,
-                    jobs: translatedJobs
+                    jobs: translatedJobs,
+                    schools: translatedSchools
                 }
 
                 let translatedUserArray = [userTranslationData.extraLanguages, userTranslationData.courses,
                     userTranslationData.certificates, userTranslationData.skills, userTranslationData.situationDescription,
-                    userTranslationData.jobs];
+                    userTranslationData.jobs, userTranslationData.schools];
 
                 // Store in DB
                 await this.dynamicTranslationsRepository
@@ -519,7 +535,8 @@ export class UserService {
                     certificates: userTranslationData.certificates,
                     skills: userTranslationData.skills,
                     situationDescription: userTranslationData.situationDescription,
-                    jobs: userTranslationData.jobs
+                    jobs: userTranslationData.jobs,
+                    schools: userTranslationData.schools
                 })
             }
         }

@@ -169,8 +169,8 @@ const Register = () => {
                     {c.accept} <a href="/regulamin">{c.termsOfServiceHeader}</a> {c.and} <a href="/polityka prywatności">{c.privacyPolicyHeader2}</a> *.
                 </span>
             </label>
-            <label className="label label--flex label--checkbox">
-                <button className={newsletter ? "checkbox checkbox--selected center" : "checkbox center"} onClick={() => { setNewsletter(!newsletter); }}>
+            <label className="label label--flex label--checkbox newsletterCheckbox">
+                <button className={newsletter ? "checkbox checkbox--newsletter checkbox--selected center" : "checkbox checkbox--newsletter center"} onClick={() => { setNewsletter(!newsletter); }}>
                     <span></span>
                 </button>
                 <span>

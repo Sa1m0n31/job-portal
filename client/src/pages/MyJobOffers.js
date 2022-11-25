@@ -143,6 +143,7 @@ const MyJobOffers = ({data}) => {
         </div>: ''}
 
         {render ? filteredOffers?.map((item, index) => {
+            console.log(item);
             return <div className="offerItem flex" key={index}>
                 <span className="offerItem__date">
                     {item.created_at?.substring(0, 10)}

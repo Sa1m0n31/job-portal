@@ -19,6 +19,7 @@ const ContactPage = () => {
     const [name, setName] = useState('');
     const [msg, setMsg] = useState('');
     const [error, setError] = useState(0);
+    const [checkbox, setCheckbox] = useState(false);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
 
@@ -64,7 +65,7 @@ const ContactPage = () => {
     }, [guest]);
 
     const handleSubmit = () => {
-        if(isEmail(email) && name) {
+        if(isEmail(email) && name && checkbox) {
             setLoading(true);
             sendContactForm(name, email, msg, agency || !data ? 'office@jooob.eu' : 'contact@jooob.eu')
                 .then((res) => {
@@ -124,17 +125,6 @@ const ContactPage = () => {
             </p> : ''}
             <div className={agency ? "contact__flex flex" : "contact__flex flex contact--fullWidth"}>
                 {agency ? <div className="contact__left">
-                    {/*<h2 className="contact__companyName">*/}
-                    {/*    AMB Spółka z Ograniczoną Odpowiedzialnością*/}
-                    {/*</h2>*/}
-                    {/*<p className="contact__data">*/}
-                    {/*    <span>ul. Marii Curie Skłodowskiej 62/46</span>*/}
-                    {/*    <span>85-733 Bydgoszcz, Polska</span>*/}
-                    {/*</p>*/}
-                    {/*<p className="contact__data">*/}
-                    {/*    <span>NIP 5542998776</span>*/}
-                    {/*    <span>REGON 520630508</span>*/}
-                    {/*</p>*/}
                     <h3 className="contact__smallHeader">
                         {c.contact}:
                     </h3>
@@ -188,6 +178,14 @@ const ContactPage = () => {
                                       value={msg}
                                       onChange={(e) => { setMsg(e.target.value); }}
                                       placeholder={c.yourMessage} />
+                        </label>
+                        <label className="label label--flex label--checkbox">
+                            <button className={checkbox ? "checkbox checkbox--contactForm checkbox--selected center" : "checkbox checkbox--contactForm center"} onClick={() => { setCheckbox(!checkbox); }}>
+                                <span></span>
+                            </button>
+                            <span>
+                                {c.accept} <a href="/polityka prywatności">{c.privacyPolicyHeader2}</a> *
+                            </span>
                         </label>
 
                         {error ? <span className="info info--error">

@@ -247,10 +247,6 @@ const formErrors = [
     "Coś poszło nie tak... Prosimy spróbować później"
 ];
 
-const attachmentsErrors = [
-    "Możesz dodać maksymalnie 5 załączników"
-];
-
 const currencies = [
     "EUR", "USD", "GBP", "CHF", "PLN"
 ];
@@ -560,7 +556,7 @@ const userObject = {
 }
 
 export { steps, stepsContent, stepsMainContent, months, countries, phoneNumbers, formErrors, educationLevels, languages, drivingLicences,
-    languageLevels, currencies, categories, attachmentsErrors, flags, stepsAgency, stepsAgencyContent, stepsAgencyMainContent, nipCountries,
+    languageLevels, currencies, categories, flags, stepsAgency, stepsAgencyContent, stepsAgencyMainContent, nipCountries,
     rooms, houses, paymentTypes, pensionType, paycheckFrequency, pensionFrequency, paycheckDay, healthInsuranceOptions, noInfo, contracts,
     jobOfferErrors, myJobOffersFilter, distances, preferableContactForms, privacyPolicy, termsOfService, notificationTitles,
     homeMenu, userMenu, agencyMenu, unsupportedMediaTypeInfo, languageVersions, adminMenu, adminMenuLabels

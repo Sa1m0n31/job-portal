@@ -39,8 +39,6 @@ function App() {
       getSiteContent(language)
           .then((res) => {
             if(res?.data?.length) {
-              console.log(res.data);
-
               const dataString = JSON.stringify(res?.data)?.replace('\n', '')?.replace('\r', '');
               const dataJSON = JSON.parse(dataString);
 

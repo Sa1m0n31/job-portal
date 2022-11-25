@@ -94,7 +94,7 @@ const MessageList = ({agency, data, accepted, id}) => {
     useEffect(() => {
         if(receivedMessages?.length && !placeholderChatSettled) {
             setPlaceholderChatSettled(true);
-            showChat(receivedMessages[0]?.m_id);
+            showChat(receivedMessages[0]?.m_id, true);
         }
     }, [receivedMessages]);
 
@@ -108,12 +108,16 @@ const MessageList = ({agency, data, accepted, id}) => {
         setUpdate(prevState => (!prevState));
     }
 
-    const showChat = (id) => {
+    const showChat = (id, first = false) => {
         markAsRead(id);
         setCurrentSendMessage(null);
         const chat = messages.find((item) => (item.m_id === id));
         setCurrentChat(chat);
         setCurrentChatMessages(JSON.parse(chat.m_chat).reverse());
+
+        if(window.innerWidth <= 1200 && !first) {
+            window.scrollTo(0, document.body.scrollHeight);
+        }
     }
 
     const showSendMessage = (i) => {
@@ -243,7 +247,8 @@ const MessageList = ({agency, data, accepted, id}) => {
         return new Date(chat?.slice(-1)[0].created_at);
     }
 
-    return <div className="container container--agencyJobOffers container--jobOffers container--offer container--messages" onClick={() => { setDropdownVisible(false); }}>
+    return <div className="container container--agencyJobOffers container--jobOffers container--offer container--messages"
+                onClick={() => { setDropdownVisible(false); }}>
         <LoggedUserHeader data={data}
                           agency={agency}
                           messageUpdate={update} />

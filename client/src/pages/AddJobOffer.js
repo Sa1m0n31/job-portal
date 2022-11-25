@@ -222,9 +222,9 @@ const AddJobOffer = ({updateMode}) => {
     const handleAttachments = (e) => {
         e.preventDefault();
 
-        if(e.target.files.length + oldAttachments.length > 5) {
+        if(e.target.files.length + oldAttachments.length > 10) {
             e.preventDefault();
-            setError(JSON.parse(c.attachmentsErrors)[0]);
+            setError(c.maxNumberOfAttachmentsError);
         }
         else {
             setError('');

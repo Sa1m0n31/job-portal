@@ -9,7 +9,7 @@ import {LanguageContext} from "../App";
 const socialMedia = [
     {
         icon: linkedInIcon,
-        link: 'https://www.linkedin.com/company/86780154/admin/ '
+        link: 'https://www.linkedin.com/company/jooob-eu/?viewAsMember=true '
     },
     // {
     //     icon: instagramIcon,
@@ -21,7 +21,7 @@ const socialMedia = [
     // },
     {
         icon: facebookIcon,
-        link: 'https://www.facebook.com/Jooobeu-105672189008270 '
+        link: 'https://www.facebook.com/Jooob.eu'
     }
 ]
 
@@ -92,7 +92,7 @@ const Footer = () => {
                 </p>
                 <p className="footer__data">
                     <span>
-                        ul. Marii Curie Skłodowskiej
+                        Marii Curie Skłodowskiej 62/46
                     </span>
                     <span>
                         85-733 Bydgoszcz, Poland

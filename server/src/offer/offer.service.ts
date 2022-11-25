@@ -1064,6 +1064,8 @@ export class OfferService {
         const lang = await this.translationService.detect(offerData.responsibilities[0]);
 
         if(lang === 'pl') {
+            console.log(offerData);
+            console.log(offerData.requirements);
             // Add filenames
             if(updateMode) {
                 return {
@@ -1180,9 +1182,9 @@ export class OfferService {
             id: null,
             agency: agencyId,
             title, category, keywords, country, postalCode, city, description,
-            responsibilities: responsibilities,
-            requirements: requirements,
-            benefits: benefits,
+            responsibilities: typeof responsibilities === 'string' ? responsibilities : JSON.stringify(responsibilities),
+            requirements: typeof requirements === 'string' ? requirements : JSON.stringify(requirements),
+            benefits: typeof benefits === 'string' ? benefits : JSON.stringify(benefits),
             salaryType, salaryFrom, salaryTo,
             salaryCurrency,
             contractType: JSON.stringify(contractType),

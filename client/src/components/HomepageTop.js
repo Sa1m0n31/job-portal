@@ -33,13 +33,13 @@ const HomepageTop = () => {
         <ModalVideo channel='youtube'
                     autoplay={true}
                     isOpen={video1}
-                    videoId="u31qwQUeGuM"
+                    videoId="vvmbjzBNVEU"
                     onClose={() => setVideo1(false)} />
 
         <ModalVideo channel='youtube'
                     autoplay={true}
                     isOpen={video2}
-                    videoId="u31qwQUeGuM"
+                    videoId="419D6XRLMI4"
                     onClose={() => setVideo2(false)} />
 
         <div className="mobileMenuWrapper" ref={mobileMenu}>

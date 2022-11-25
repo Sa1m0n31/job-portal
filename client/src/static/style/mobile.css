@@ -1029,6 +1029,10 @@
         display: none;
     }
 
+    .newsletterCheckbox {
+        height: 210px;
+    }
+
     .offerItem--applications {
         margin-bottom: 140px !important;
     }

@@ -16,7 +16,7 @@ import { Tooltip } from 'react-tippy';
 import 'react-whatsapp-widget/dist/index.css';
 import {toggleUserVisibility, toggleUserWorking} from "../helpers/user";
 import {currencies, flags} from "../static/content";
-import {getDate, getLoggedUserEmail, parseUserData} from "../helpers/others";
+import {getDate, getLoggedUserEmail} from "../helpers/others";
 import checkIcon from '../static/img/check-small.svg'
 import starIcon from '../static/img/star.svg'
 import settingsCircle from '../static/img/settings-circle.svg'
@@ -267,7 +267,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                             {!data?.city || !(data?.country >= 0) ? c.noInfo : ''}
 
                             {data?.city ? `${data?.city}, ${data?.address}` : ''}<br/>
-                            {data?.country >= 0 ? `${c.country}: ${JSON.parse(c.countries)[data?.country]}` : ''}
+                            {data?.country >= 0 ? `${JSON.parse(c.countries)[data?.country]}` : ''}
                         </p>
                     </span>
                 </div>

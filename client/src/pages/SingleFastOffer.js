@@ -79,8 +79,9 @@ const SingleFastOffer = () => {
                                 });
                         }
                     })
-                    .catch(() => {
-                        window.location = '/';
+                    .catch((err) => {
+                        console.log(err);
+                        // window.location = '/';
                     });
             });
     }, []);
@@ -92,7 +93,7 @@ const SingleFastOffer = () => {
             getFastOfferById(id)
                 .then(async (res) => {
                    if(res?.status === 200) {
-                       if(res?.data?.length) {
+                       if(res?.data) {
                            setOffer(Array.isArray(res.data) ? res.data[0] : res.data);
                            setAgencyData(Array.isArray(res.data) ? JSON.parse(res.data[0]?.a_data) : JSON.parse(res.data?.a_data));
                            const offerId = res?.data[0]?.o_id;
@@ -108,7 +109,7 @@ const SingleFastOffer = () => {
                        }
                    }
                 })
-                .catch(() => {
+                .catch((e) => {
                     window.location = '/';
                 });
         }

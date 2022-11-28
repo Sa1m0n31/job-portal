@@ -25,7 +25,7 @@ const offerTranslateObject = {
     responsibilities: '',
     requirements: '',
     benefits: '',
-    additionalInfo: ''
+    extraInfo: ''
 }
 
 const userTranslateFields = ['extraLanguages', 'courses', 'certificates', 'skills',
@@ -36,7 +36,7 @@ const agencyTranslateFields = ['description', 'recruitmentProcess',
 ];
 
 const offerTranslateFields = ['title', 'keywords', 'description',
-    'responsibilities', 'requirements', 'benefits', 'additionalInfo'
+    'responsibilities', 'requirements', 'benefits', 'extraInfo'
 ]
 
 export { userTranslateObject, offerTranslateObject, agencyTranslateObject,

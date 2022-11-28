@@ -236,6 +236,24 @@
         flex-direction: column;
     }
 
+    .landing__header {
+        font-size: 28px;
+    }
+
+    .landing__text {
+        font-size: 17px;
+    }
+
+    .landing__btn {
+        height: 50px;
+        width: 250px;
+        font-size: 17px;
+    }
+
+    .landing__btn .img {
+        width: 6px;
+    }
+
     .userForm .marginRight,
     label.marginRight {
         margin-right: 0;
@@ -2638,6 +2656,105 @@
         font-size: 18px;
     }
 
+    .landing__right {
+        display: none;
+    }
+
+    .landing__top,
+    .landing__top > .img {
+        max-height: 600px;
+    }
+
+    .landing__top {
+        flex-direction: column;
+    }
+
+    .landing__left, .landing__right {
+        width: 90%;
+        max-width: 400px;
+    }
+
+    .landing__top * {
+        text-align: center;
+    }
+
+    .landing__btn {
+        margin: 40px auto 20px;
+    }
+
+    .landing__afterTopHeader {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .landing__section.flex,
+    .home__benefit--landing {
+        flex-direction: column;
+    }
+
+    .home__benefit--landing .home__benefit {
+        width: 100% !important;
+        max-width: 400px;
+    }
+
+    .landing__header--2 {
+        text-align: center;
+    }
+
+    .landing__section > .flex {
+        flex-direction: column;
+    }
+
+    .landing__section.flex > *,
+    .landing__section > .flex > * {
+        width: 100%;
+        max-width: 400px;
+        border: none !important;
+    }
+
+    .landing__section.flex > .landing__section__right {
+        order: -1;
+        margin-bottom: 30px;
+    }
+
+    .landing__section__left__item__header {
+        font-size: 22px;
+        text-align: center;
+    }
+
+    .landing__section__left__item__text {
+        font-size: 15px;
+        text-align: center;
+    }
+
+    .landing__bottom__header {
+        text-align: center;
+        font-size: 22px;
+        margin-top: 5px;
+    }
+
+    .landing__bottom__btn {
+        width: 90%;
+        max-width: 250px;
+        height: 50px;
+        font-size: 22px;
+    }
+
+    .landing__section__points {
+        padding-left: 0;
+    }
+
+    .landing__section > .flex > figure {
+        margin-bottom: 30px;
+    }
+
+    .landing__top .landing__logo {
+        left: 50%;
+        top: 20px;
+        transform: translateX(-50%);
+        width: 150px;
+    }
+
     .form__school__row .input {
         width: 100px;
     }
@@ -3359,6 +3476,10 @@
 
     .page--50 {
         min-height: 60vh !important;
+    }
+
+    .login__left__content.page--50 {
+        min-height: 300px !important;
     }
 
     .container--register {

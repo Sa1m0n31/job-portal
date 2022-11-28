@@ -194,6 +194,11 @@ const LoginPage = ({type}) => {
                     </a>
                 </div>
             </form>
+
+            {type === 1 ? <a className="joinUsBtn" href="/dolacz-do-nas">
+                {c.joinUs}
+            </a> : ''}
+
             <aside className="login__left__bottom flex">
                 <div className="login__left__bottom__links flex">
                     <a href="/polityka-prywatnosci">

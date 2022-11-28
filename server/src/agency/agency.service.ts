@@ -18,7 +18,7 @@ import {Dynamic_translations} from "../entities/dynamic_translations";
 import {getGoogleTranslateLanguageCode} from "../common/getGoogleTranslateLanguageCode";
 import {
     agencyTranslateFields,
-    agencyTranslateObject
+    agencyTranslateObject, userTranslateFields
 } from "../common/translateObjects";
 
 @Injectable()
@@ -218,7 +218,8 @@ export class AgencyService {
                 description: translatedDescription,
                 recruitmentProcess: translatedRecruitmentProcess,
                 benefits: translatedBenefits,
-                roomDescription: translatedRoomDescription
+                roomDescription: translatedRoomDescription,
+                originalLang: lang
             }
         }
     }
@@ -233,6 +234,7 @@ export class AgencyService {
         // Modify user data JSON - add file paths
         const email = data.email;
         let agencyData = JSON.parse(data.agencyData);
+        let originalAgencyData = agencyData;
 
         // Detect language and translate if not Polish
         agencyData = await this.translateAgencyData(agencyData, currentGallery, files, data.oldGallery);
@@ -249,9 +251,7 @@ export class AgencyService {
                     lng = apiData[0].longitude;
                 }
             }
-            catch(err) {
-
-            }
+            catch(err) {}
         }
 
         // Remove translations
@@ -259,6 +259,31 @@ export class AgencyService {
             type: 2,
             id: oldAgencyData.id
         });
+
+        // Save original agency data in dynamic_translations
+        if(agencyData.originalLang) {
+            const agency = await this.agencyRepository.findOneBy({
+                email
+            });
+
+            let translatedAgencyArray = [originalAgencyData.extraLanguages, originalAgencyData.courses,
+                originalAgencyData.certificates, originalAgencyData.skills, originalAgencyData.situationDescription,
+                originalAgencyData.jobs, originalAgencyData.schools];
+
+            // Store in DB
+            await this.dynamicTranslationsRepository
+                .createQueryBuilder()
+                .insert()
+                .values(translatedAgencyArray.map((item, index) => ({
+                    type: 2,
+                    id: agency.id,
+                    field: agencyTranslateFields[index],
+                    lang: agencyData.originalLang,
+                    value: typeof item === 'string' ? item : JSON.stringify(item)
+                })))
+                .orIgnore()
+                .execute();
+        }
 
         // Modify record in database
         return this.agencyRepository.createQueryBuilder()

@@ -11,10 +11,6 @@ const icons = [icon1, icon2, icon3, icon4]
 const HomeBenefits = () => {
     const { c } = useContext(LanguageContext);
 
-    useEffect(() => {
-        console.log(JSON.parse(c.benefitsContent));
-    }, [c]);
-
     return <div className="homeSection homeSection--benefits">
         <HomeSectionHeader content={c.benefitsHeader} />
 

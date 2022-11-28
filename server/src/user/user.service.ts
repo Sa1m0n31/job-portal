@@ -219,8 +219,6 @@ export class UserService {
         }
         else {
             // Translate to Polish
-            console.log(originalData.jobs);
-
             let translatedJobs = [];
             for(const job of originalData.jobs) {
                 let translatedTitle = await this.translationService.translateString(job.title, 'pl');
@@ -265,7 +263,8 @@ export class UserService {
                         name: userData.attachments[index].name,
                         path: item.path
                     }
-                }).concat(userData.oldAttachments) : userData.oldAttachments
+                }).concat(userData.oldAttachments) : userData.oldAttachments,
+                originalLang: lang
             }
         }
     }
@@ -274,6 +273,7 @@ export class UserService {
         // Modify user data JSON - add file paths
         const email = data.email;
         let userData = JSON.parse(data.userData);
+        let originalUserData = userData;
 
         // Remove translations
         const user = await this.userRepository.findOneBy({
@@ -367,6 +367,31 @@ export class UserService {
                 }
             })
         };
+
+        // Save original user data in dynamic_translations
+        if(userData.originalLang) {
+            const user = await this.userRepository.findOneBy({
+                email
+            });
+
+            let translatedUserArray = [originalUserData.extraLanguages, originalUserData.courses,
+                originalUserData.certificates, originalUserData.skills, originalUserData.situationDescription,
+                originalUserData.jobs, originalUserData.schools];
+
+            // Store in DB
+            await this.dynamicTranslationsRepository
+                .createQueryBuilder()
+                .insert()
+                .values(translatedUserArray.map((item, index) => ({
+                    type: 1,
+                    id: user.id,
+                    field: userTranslateFields[index],
+                    lang: userData.originalLang,
+                    value: typeof item === 'string' ? item : JSON.stringify(item)
+                })))
+                .orIgnore()
+                .execute();
+        }
 
         // Get new latitude and longitude
         if(userData.city) {

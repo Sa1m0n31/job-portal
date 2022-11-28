@@ -6300,3 +6300,190 @@ input[type=month] {
     width: 7px;
     height: 7px;
 }
+
+.landing__bottom {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.landing__bottom__header {
+    font-size: 24px;
+    margin: 40px 0 15px;
+}
+
+.landing__bottom__btn {
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    background: var(--primary);
+    width: 550px;
+    height: 75px;
+    font-size: 32px;
+    margin: 10px auto 50px;
+    transition: .2s all;
+}
+
+.landing__bottom__btn:hover {
+    transform: translateY(-4px);
+}
+
+.landing__top {
+    position: relative;
+    height: 100vh;
+    max-height: 700px;
+}
+
+.landing__top > * {
+    position: relative;
+    z-index: 3;
+}
+
+.landing__top > .img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: auto;
+    height: 100vh;
+    z-index: 1;
+    max-height: 700px;
+}
+
+.landing__left {
+    width: 50%;
+}
+
+.landing__left * {
+    color: #fff;
+}
+
+.landing__header {
+    font-size: 44px;
+    margin-bottom: 35px;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.landing__text {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.landing__right {
+    width: 40%;
+}
+
+.landing__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 320px;
+    height: 70px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 30px;
+    border: 5px solid #fff;
+    margin-top: 40px;
+    transition: .2s all;
+}
+
+.landing__btn:hover {
+    background: var(--hover);
+}
+
+.landing__btn .img {
+    width: 10px;
+    margin-left: 15px;
+}
+
+.landing__top > .landing__logo {
+    position: absolute;
+    top: 50px;
+    left: 10%;
+    width: 250px;
+    display: block;
+}
+
+.landing__top {
+    padding: 100px 10% 0;
+}
+
+.landing__afterTopHeader {
+    font-size: 36px;
+    font-weight: 500;
+    margin: 80px 0 30px;
+    max-width: 1000px;
+}
+
+.blue {
+    color: var(--primary);
+}
+
+.home__benefit--landing .home__benefit {
+    width: 29% !important;
+    flex-basis: 29% !important;
+}
+
+.landing__section {
+    margin: 50px auto;
+}
+
+.landing__header--2 {
+    font-size: 36px;
+}
+
+.landing__section__img {
+    width: 40%;
+}
+
+.landing__section__points {
+    width: 45%;
+    padding-left: 30px;
+    border-left: 5px solid #F6F6F6;
+}
+
+.landing__section__points__item {
+    margin-bottom: 20px;
+}
+
+.landing__section__left {
+    width: 50%;
+}
+
+.landing__section__right {
+    width: 45%;
+}
+
+.landing__section__left__item {
+    margin: 12px 0 25px;
+}
+
+.landing__section__left__item__header {
+    font-size: 32px;
+}
+
+.landing__section__left__item__text {
+    margin-top: 7px;
+    font-size: 20px;
+}
+
+.joinUsBtn {
+    background: transparent;
+    border: 1px solid var(--primary);
+    border-radius: 3px;
+    padding: 10px 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px auto 40px;
+    transition: .2s all;
+}
+
+.joinUsBtn:hover {
+    color: #fff;
+    background: var(--primary);
+}

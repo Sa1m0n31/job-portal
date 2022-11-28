@@ -25,6 +25,7 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminWrapper from "./components/AdminWrapper";
 import {Helmet} from "react-helmet";
 import 'configurable-date-input-polyfill';
+import LandingPage from "./pages/LandingPage";
 
 const LanguageContext = React.createContext({});
 
@@ -41,8 +42,6 @@ function App() {
             if(res?.data?.length) {
               const dataString = JSON.stringify(res?.data)?.replace('\n', '')?.replace('\r', '');
               const dataJSON = JSON.parse(dataString);
-
-              console.log(dataJSON);
 
               const val = dataJSON.reduce((acc, cur) => ({...acc, [cur.field]: cur.value}), {});
               setC(val);
@@ -95,6 +94,9 @@ function App() {
       </Route>
       <Route path="/admin">
         <AdminLogin />
+      </Route>
+      <Route path="/dolacz-do-nas">
+        <LandingPage />
       </Route>
 
       {/* COMMON ROUTES */}

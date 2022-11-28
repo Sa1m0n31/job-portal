@@ -1059,13 +1059,12 @@ export class OfferService {
         }
     }
 
+    // Returns always Polish version of offer data
     async translateOfferData(offerData, data, files, updateMode = false) {
         // Detect language
         const lang = await this.translationService.detect(offerData.responsibilities[0]);
 
         if(lang === 'pl') {
-            console.log(offerData);
-            console.log(offerData.requirements);
             // Add filenames
             if(updateMode) {
                 return {
@@ -1124,7 +1123,8 @@ export class OfferService {
                             name: offerData.attachments[index].name,
                             path: item.path
                         }
-                    }).concat(offerData.oldAttachments) : offerData.oldAttachments
+                    }).concat(offerData.oldAttachments) : offerData.oldAttachments,
+                    originalLang: lang
                 }
             }
             else {
@@ -1143,7 +1143,8 @@ export class OfferService {
                             name: offerData.attachments[index].name,
                             path: item.path
                         }
-                    }) : data.attachments
+                    }) : data.attachments,
+                    originalLang: lang
                 }
             }
         }
@@ -1153,13 +1154,14 @@ export class OfferService {
         let offerData = JSON.parse(data.offerData);
         let lat = null, lng = null;
 
+        let originalOffer = offerData;
         offerData = await this.translateOfferData(offerData, data, files);
 
         // Get offer data
         const { title, category, keywords, country, postalCode, city, description,
             responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
             salaryCurrency, contractType, timeBounded, expireDay, expireMonth, expireYear,
-            image, attachments, extraInfo, show_agency_info, manyLocations
+            image, attachments, extraInfo, show_agency_info, manyLocations, originalLang
         } = offerData;
 
         // Get agency id
@@ -1198,6 +1200,25 @@ export class OfferService {
             manyLocations: manyLocations !== '-' ? manyLocations : null,
             show_agency_info
         });
+
+        // Save original content as translation if language is not Polish
+        if(addOfferResult && originalLang) {
+            const offerId = addOfferResult.identifiers[0].id;
+            const translatedOfferArray = [originalOffer.title, originalOffer.keywords, originalOffer.description, originalOffer.responsibilities, originalOffer.requirements, originalOffer.benefits, originalOffer.extraInfo];
+
+            await this.dynamicTranslationsRepository
+                .createQueryBuilder()
+                .insert()
+                .values(translatedOfferArray.map((item, index) => ({
+                    type: 3,
+                    id: offerId,
+                    field: offerTranslateFields[index],
+                    lang: originalLang,
+                    value: typeof item === 'string' ? item : JSON.stringify(item)
+                })))
+                .orIgnore()
+                .execute();
+        }
 
         // Add notifications for agencies about matches
         await this.sendNotificationsToAgency(offerData, agencyId);
@@ -1254,6 +1275,7 @@ export class OfferService {
     async addFastOffer(data, files) {
         let offerData = JSON.parse(data.offerData);
 
+        let originalOffer = offerData;
         offerData = await this.translateOfferData(offerData, data, files);
 
         // Get offer data
@@ -1262,7 +1284,7 @@ export class OfferService {
             accommodationDay, accommodationMonth, accommodationYear, accommodationHour,
             startDay, startMonth, startYear, startHour, contactPerson, contactNumberCountry, contactNumber,
             responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
-            salaryCurrency, contractType, image, imageUrl, attachments, extraInfo, show_agency_info
+            salaryCurrency, contractType, image, imageUrl, attachments, extraInfo, show_agency_info, originalLang
         } = offerData;
 
         // Get agency id
@@ -1279,9 +1301,9 @@ export class OfferService {
             accommodationCountry, accommodationCity, accommodationPostalCode, accommodationStreet,
             accommodationDay, accommodationHour, accommodationMonth, accommodationYear,
             startDay, startMonth, startYear, startHour,
-            responsibilities: responsibilities,
-            requirements: requirements,
-            benefits: benefits,
+            responsibilities: typeof responsibilities === 'string' ? responsibilities : JSON.stringify(responsibilities),
+            requirements: typeof requirements === 'string' ? requirements : JSON.stringify(requirements),
+            benefits: typeof benefits === 'string' ? benefits : JSON.stringify(benefits),
             salaryType, salaryFrom, salaryTo,
             salaryCurrency,
             contractType: JSON.stringify(contractType),
@@ -1292,6 +1314,25 @@ export class OfferService {
             created_at: new Date(),
             show_agency_info
         });
+
+        // Save original content as translation if language is not Polish
+        if(addOfferResult && originalLang) {
+            const offerId = addOfferResult.identifiers[0].id;
+            const translatedOfferArray = [originalOffer.title, originalOffer.keywords, originalOffer.description, originalOffer.responsibilities, originalOffer.requirements, originalOffer.benefits, originalOffer.extraInfo];
+
+            await this.dynamicTranslationsRepository
+                .createQueryBuilder()
+                .insert()
+                .values(translatedOfferArray.map((item, index) => ({
+                    type: 4,
+                    id: offerId,
+                    field: offerTranslateFields[index],
+                    lang: originalLang,
+                    value: typeof item === 'string' ? item : JSON.stringify(item)
+                })))
+                .orIgnore()
+                .execute();
+        }
 
         if(addOfferResult) {
             const offerId = addOfferResult.identifiers[0].id;
@@ -1345,13 +1386,14 @@ export class OfferService {
         let offerData = JSON.parse(data.offerData);
         let lat = null, lng = null;
 
+        let originalOffer = offerData;
         offerData = await this.translateOfferData(offerData, data, files, true);
 
         // Get offer data
         const { id, title, category, keywords, country, postalCode, city, description,
             responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
             salaryCurrency, contractType, timeBounded, expireDay, expireMonth, expireYear,
-            image, attachments, extraInfo, show_agency_info, manyLocations
+            image, attachments, extraInfo, show_agency_info, manyLocations, originalLang
         } = offerData;
 
         // Remove translations
@@ -1376,14 +1418,32 @@ export class OfferService {
             }
         }
 
+        // Save original content as translation if language is not Polish
+        if(originalLang) {
+            const translatedOfferArray = [originalOffer.title, originalOffer.keywords, originalOffer.description, originalOffer.responsibilities, originalOffer.requirements, originalOffer.benefits, originalOffer.extraInfo];
+
+            await this.dynamicTranslationsRepository
+                .createQueryBuilder()
+                .insert()
+                .values(translatedOfferArray.map((item, index) => ({
+                    type: 3,
+                    id: id,
+                    field: offerTranslateFields[index],
+                    lang: originalLang,
+                    value: typeof item === 'string' ? item : JSON.stringify(item)
+                })))
+                .orIgnore()
+                .execute();
+        }
+
         // Update record in database
         return this.offerRepository.createQueryBuilder()
             .update({
                 agency: agencyId,
                 title, category, keywords, country, postalCode, city, description,
-                responsibilities: responsibilities,
-                requirements: requirements,
-                benefits: benefits,
+                responsibilities: typeof responsibilities === 'string' ? responsibilities : JSON.stringify(responsibilities),
+                requirements: typeof requirements === 'string' ? requirements : JSON.stringify(requirements),
+                benefits: typeof benefits === 'string' ? benefits : JSON.stringify(benefits),
                 salaryType, salaryFrom, salaryTo,
                 salaryCurrency,
                 contractType: JSON.stringify(contractType),
@@ -1394,7 +1454,7 @@ export class OfferService {
                 lat,
                 lng,
                 manyLocations: manyLocations !== '-' ? manyLocations : null,
-                show_agency_info
+                show_agency_info: !!show_agency_info
             })
             .where({id})
             .execute();
@@ -1403,7 +1463,8 @@ export class OfferService {
     async updateFastOffer(data, files) {
         let offerData = JSON.parse(data.offerData);
 
-        offerData = this.translateOfferData(offerData, data, files, true);
+        let originalOffer = offerData;
+        offerData = await this.translateOfferData(offerData, data, files, true);
 
         // Get offer data
         const { id, title, category, keywords, country, postalCode, city, street, description,
@@ -1411,12 +1472,36 @@ export class OfferService {
             accommodationDay, accommodationMonth, accommodationYear, accommodationHour,
             startDay, startMonth, startYear, startHour, contactPerson, contactNumberCountry, contactNumber,
             responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
-            salaryCurrency, contractType, image, attachments, extraInfo, show_agency_info
+            salaryCurrency, contractType, image, attachments, extraInfo, show_agency_info, originalLang
         } = offerData;
 
         // Get agency id
         const agency = await this.agencyRepository.findOneBy({email: data.email});
         const agencyId = agency.id;
+
+        // Remove translations
+        await this.dynamicTranslationsRepository.delete({
+            type: 4,
+            id: id
+        });
+
+        // Save original content as translation if language is not Polish
+        if(originalLang) {
+            const translatedOfferArray = [originalOffer.title, originalOffer.keywords, originalOffer.description, originalOffer.responsibilities, originalOffer.requirements, originalOffer.benefits, originalOffer.extraInfo];
+
+            await this.dynamicTranslationsRepository
+                .createQueryBuilder()
+                .insert()
+                .values(translatedOfferArray.map((item, index) => ({
+                    type: 3,
+                    id: id,
+                    field: offerTranslateFields[index],
+                    lang: originalLang,
+                    value: typeof item === 'string' ? item : JSON.stringify(item)
+                })))
+                .orIgnore()
+                .execute();
+        }
 
         // Update record in database
         return this.fastOfferRepository.createQueryBuilder()
@@ -1426,9 +1511,9 @@ export class OfferService {
                 accommodationCountry, accommodationCity, accommodationPostalCode, accommodationStreet,
                 accommodationDay, accommodationHour, accommodationMonth, accommodationYear,
                 startDay, startMonth, startYear, startHour,
-                responsibilities: responsibilities,
-                requirements: requirements,
-                benefits: benefits,
+                responsibilities: typeof responsibilities === 'string' ? responsibilities : JSON.stringify(responsibilities),
+                requirements: typeof requirements === 'string' ? requirements : JSON.stringify(requirements),
+                benefits: typeof benefits === 'string' ? benefits : JSON.stringify(benefits),
                 salaryType, salaryFrom, salaryTo,
                 contactPerson, contactNumberCountry, contactNumber,
                 salaryCurrency,
@@ -1436,7 +1521,7 @@ export class OfferService {
                 image,
                 attachments: JSON.stringify(attachments),
                 extraInfo,
-                show_agency_info
+                show_agency_info: !!show_agency_info
             })
             .where({id})
             .execute();
@@ -1474,7 +1559,8 @@ export class OfferService {
                         description: translatedOffer.description,
                         responsibilities: translatedOffer.responsibilities,
                         requirements: translatedOffer.requirements,
-                        benefits: translatedOffer.benefits
+                        benefits: translatedOffer.benefits,
+                        extraInfo: translatedOffer.extraInfo
                     }
                 }
                 else {
@@ -1485,12 +1571,14 @@ export class OfferService {
                     const translatedKeywords = translatedKeywordsRes[0];
                     const translatedDescriptionRes = await this.translationService.translateString(item.description, lang);
                     const translatedDescription = translatedDescriptionRes[0];
+                    const translatedExtraInfoRes = await this.translationService.translateString(item.extraInfo, lang);
+                    const translatedExtraInfo = translatedExtraInfoRes[0];
 
                     const translatedResponsibilities = await this.translateArray(typeof item.responsibilities === 'string' ? JSON.parse(item.responsibilities) : item.responsibilities, lang);
                     const translatedRequirements = await this.translateArray(typeof item.requirements === 'string' ? JSON.parse(item.requirements) : item.requirements, lang);
                     const translatedBenefits = await this.translateArray(typeof item.benefits === 'string' ? JSON.parse(item.benefits) : item.benefits, lang);
 
-                    const translatedOffer = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
+                    const translatedOffer = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits, translatedExtraInfo];
 
                     // Store in DB
                     const offerId = item.id;
@@ -1514,7 +1602,8 @@ export class OfferService {
                         description: translatedOffer[2],
                         responsibilities: JSON.stringify(translatedOffer[3]),
                         requirements: JSON.stringify(translatedOffer[4]),
-                        benefits: JSON.stringify(translatedOffer[5])
+                        benefits: JSON.stringify(translatedOffer[5]),
+                        extraInfo: translatedOffer[6]
                     }
                 }
 
@@ -1557,7 +1646,8 @@ export class OfferService {
                         description: translatedOffer.description,
                         responsibilities: translatedOffer.responsibilities,
                         requirements: translatedOffer.requirements,
-                        benefits: translatedOffer.benefits
+                        benefits: translatedOffer.benefits,
+                        extraInfo: translatedOffer.extraInfo
                     }
                 }
                 else {
@@ -1568,12 +1658,14 @@ export class OfferService {
                     const translatedKeywords = translatedKeywordsRes[0];
                     const translatedDescriptionRes = await this.translationService.translateString(item.description, lang);
                     const translatedDescription = translatedDescriptionRes[0];
+                    const translatedExtraInfoRes = await this.translationService.translateString(item.extraInfo, lang);
+                    const translatedExtraInfo = translatedExtraInfoRes[0];
 
                     const translatedResponsibilities = await this.translateArray(typeof item.responsibilities === 'string' ? JSON.parse(item.responsibilities) : item.responsibilities, lang);
                     const translatedRequirements = await this.translateArray(typeof item.requirements === 'string' ? JSON.parse(item.requirements) : item.requirements, lang);
                     const translatedBenefits = await this.translateArray(typeof item.benefits === 'string' ? JSON.parse(item.benefits) : item.benefits, lang);
 
-                    const translatedOffer = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
+                    const translatedOffer = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits, translatedExtraInfo];
 
                     // Store in DB
                     const offerId = item.id;
@@ -1597,7 +1689,8 @@ export class OfferService {
                         description: translatedOffer[2],
                         responsibilities: JSON.stringify(translatedOffer[3]),
                         requirements: JSON.stringify(translatedOffer[4]),
-                        benefits: JSON.stringify(translatedOffer[5])
+                        benefits: JSON.stringify(translatedOffer[5]),
+                        extraInfo: translatedOffer[6]
                     }
                 }
 
@@ -1658,12 +1751,14 @@ export class OfferService {
                 const translatedKeywords = translatedKeywordsRes[0];
                 const translatedDescriptionRes = await this.translationService.translateString(org.o_description, lang);
                 const translatedDescription = translatedDescriptionRes[0];
+                const translatedExtraInfoRes = await this.translationService.translateString(org.o_extraInfo, lang);
+                const translatedExtraInfo = translatedExtraInfoRes[0];
 
                 const translatedResponsibilities = await this.translateArray(typeof org.o_responsibilities === 'string' ? JSON.parse(org.o_responsibilities) : org.o_responsibilities, lang);
                 const translatedRequirements = await this.translateArray(typeof org.o_requirements === 'string' ? JSON.parse(org.o_requirements) : org.o_requirements, lang);
                 const translatedBenefits = await this.translateArray(typeof org.o_benefits === 'string' ? JSON.parse(org.o_benefits) : org.o_benefits, lang);
 
-                translatedOfferArray = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
+                translatedOfferArray = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits, translatedExtraInfo];
 
                 translatedOffer = {
                     title: translatedTitle,
@@ -1671,7 +1766,8 @@ export class OfferService {
                     description: translatedDescription,
                     responsibilities: JSON.stringify(translatedResponsibilities),
                     requirements: JSON.stringify(translatedRequirements),
-                    benefits: JSON.stringify(translatedBenefits)
+                    benefits: JSON.stringify(translatedBenefits),
+                    extraInfo: translatedExtraInfo
                 }
 
                 // Store in DB
@@ -1742,6 +1838,7 @@ export class OfferService {
                 o_responsibilities: translatedOffer.responsibilities,
                 o_requirements: translatedOffer.requirements,
                 o_benefits: translatedOffer.benefits,
+                o_extraInfo: translatedOffer.extraInfo,
                 a_data: JSON.stringify({
                     ...orgAgency,
                     description: translatedAgency.description,
@@ -1800,12 +1897,14 @@ export class OfferService {
                 const translatedKeywords = translatedKeywordsRes[0];
                 const translatedDescriptionRes = await this.translationService.translateString(org.o_description, lang);
                 const translatedDescription = translatedDescriptionRes[0];
+                const translatedExtraInfoRes = await this.translationService.translateString(org.o_extraInfo, lang);
+                const translatedExtraInfo = translatedExtraInfoRes[0];
 
                 const translatedResponsibilities = await this.translateArray(typeof org.o_responsibilities === 'string' ? JSON.parse(org.o_responsibilities) : org.o_responsibilities, lang);
                 const translatedRequirements = await this.translateArray(typeof org.o_requirements === 'string' ? JSON.parse(org.o_requirements) : org.o_requirements, lang);
                 const translatedBenefits = await this.translateArray(typeof org.o_benefits === 'string' ? JSON.parse(org.o_benefits) : org.o_benefits, lang);
 
-                translatedOfferArray = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits];
+                translatedOfferArray = [translatedTitle, translatedKeywords, translatedDescription, translatedResponsibilities, translatedRequirements, translatedBenefits, translatedExtraInfo];
 
                 translatedOffer = {
                     title: translatedTitle,
@@ -1813,7 +1912,8 @@ export class OfferService {
                     description: translatedDescription,
                     responsibilities: JSON.stringify(translatedResponsibilities),
                     requirements: JSON.stringify(translatedRequirements),
-                    benefits: JSON.stringify(translatedBenefits)
+                    benefits: JSON.stringify(translatedBenefits),
+                    extraInfo: translatedExtraInfo
                 }
 
                 // Store in DB
@@ -1878,6 +1978,7 @@ export class OfferService {
                 o_responsibilities: translatedOffer.responsibilities,
                 o_requirements: translatedOffer.requirements,
                 o_benefits: translatedOffer.benefits,
+                o_extraInfo: translatedOffer.extraInfo,
                 a_data: JSON.stringify({
                     ...orgAgency,
                     description: translatedAgency.description,

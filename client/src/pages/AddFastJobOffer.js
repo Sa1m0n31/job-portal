@@ -9,7 +9,6 @@ import {
 import trashIcon from "../static/img/trash.svg";
 import {Tooltip} from "react-tippy";
 import plusIcon from "../static/img/plus-in-circle.svg";
-import plusGrey from '../static/img/plus-icon-opacity.svg'
 import {getLoggedUserEmail, isElementInArray, numberRange} from "../helpers/others";
 import fileIcon from "../static/img/doc.svg";
 import checkIcon from '../static/img/green-check.svg'
@@ -463,6 +462,7 @@ const AddFastJobOffer = ({updateMode}) => {
                         image, attachments, oldAttachments, extraInfo,
                         show_agency_info: showAgencyInfo
                     });
+
                     if(offerResult.status === 200) {
                         setSuccess(true);
                         setLoading(false);

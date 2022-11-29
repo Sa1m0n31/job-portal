@@ -87,36 +87,40 @@ const SingleFastOffer = () => {
     }, []);
 
     useEffect(() => {
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get('id');
-        if(id) {
-            getFastOfferById(id)
-                .then(async (res) => {
-                   if(res?.status === 200) {
-                       if(res?.data) {
-                           setOffer(Array.isArray(res.data) ? res.data[0] : res.data);
-                           setAgencyData(Array.isArray(res.data) ? JSON.parse(res.data[0]?.a_data) : JSON.parse(res.data?.a_data));
-                           const offerId = res?.data[0]?.o_id;
+        if(agency !== null) {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            if(id) {
+                getFastOfferById(id)
+                    .then(async (res) => {
+                        if(res?.status === 200) {
+                            if(res?.data) {
+                                setOffer(Array.isArray(res.data) ? res.data[0] : res.data);
+                                setAgencyData(Array.isArray(res.data) ? JSON.parse(res.data[0]?.a_data) : JSON.parse(res.data?.a_data));
+                                const offerId = res?.data[0]?.o_id;
 
-                           const userApplicationResponse = await getUserFastApplications();
-                           if(userApplicationResponse) {
-                               const userApplications = userApplicationResponse?.data;
-                               setUserAlreadyApplied(userApplications?.findIndex((item) => (item.offer === offerId)) !== -1);
-                           }
-                       }
-                       else {
-                           window.location = '/';
-                       }
-                   }
-                })
-                .catch((e) => {
-                    window.location = '/';
-                });
+                                if(!agency) {
+                                    const userApplicationResponse = await getUserFastApplications();
+                                    if(userApplicationResponse) {
+                                        const userApplications = userApplicationResponse?.data;
+                                        setUserAlreadyApplied(userApplications?.findIndex((item) => (item.offer === offerId)) !== -1);
+                                    }
+                                }
+                            }
+                            else {
+                                window.location = '/';
+                            }
+                        }
+                    })
+                    .catch((e) => {
+                        window.location = '/';
+                    });
+            }
+            else {
+                window.location = '/';
+            }
         }
-        else {
-            window.location = '/';
-        }
-    }, []);
+    }, [agency]);
 
     return offer?.o_id ? <div className="container container--user container--offer container--offer--fast">
             <LoggedUserHeader data={data} agency={agency} />
@@ -199,7 +203,7 @@ const SingleFastOffer = () => {
                                     {offer.o_category !== null ? `${offer.o_accommodationPostalCode} ${offer.o_accommodationCity}, ${offer.o_accommodationStreet}` : ''}
                                 </span>
                                 <span>
-                                    {offer.o_category !== null ? `${c.accommodationFrom}: ${addLeadingZero(offer.o_accommodationDay+1)}.${addLeadingZero(offer.o_accommodationMonth+1)}.${offer.o_accommodationYear}, ${offer.o_accommodationHour}` : ''}
+                                    {offer.o_category !== null ? `${c.accommodationFrom}: ${addLeadingZero(offer.o_accommodationDay+1)}.${addLeadingZero(offer.o_accommodationMonth+1)}.${offer.o_accommodationYear !== -1 ? offer.o_accommodationYear : ''}, ${offer.o_accommodationHour}` : ''}
                                 </span>
                             </p>
                         </span>
@@ -214,7 +218,7 @@ const SingleFastOffer = () => {
                             <img className="img" src={calendarIcon} alt="branża" />
                                 {c.jobStart}:
                             <span className="distance">
-                                {offer.o_category !== null ? `${addLeadingZero(offer.o_startDay+1)}.${addLeadingZero(offer.o_startMonth+1)}.${offer.o_startYear}, ${offer.o_startHour}` : ''}
+                                {offer.o_category !== null ? `${addLeadingZero(offer.o_startDay+1)}.${addLeadingZero(offer.o_startMonth+1)}.${offer.o_startYear !== -1 ? offer.o_startYear : ''}, ${offer.o_startHour}` : ''}
                             </span>
                         </span>
                     </div>

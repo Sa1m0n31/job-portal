@@ -109,13 +109,13 @@ export class AdminService {
         await this.mailerService.sendMail({
             to: email,
             from: process.env.EMAIL_ADDRESS,
-            subject: 'Twój profil został aktywowany',
+            subject: 'Your profile was confirmed!',
             html: `<div>
                     <h2>
-                        Twoje konto w serwisie jooob.eu zostało zaakceptowane przez administratora!
+                        Your account at jooob.eu has been confirmed by our administrator!
                     </h2>
                     <p>
-                        Zaloguj się na swoje konto, dodawaj nowe oferty pracy i przeglądaj CV kandydatów na jooob.eu!
+                        Log in to add new job offers and check candidates CVs at jooob.eu!
                     </p>
                     <a href="${process.env.WEBSITE_URL}/strefa-pracodawcy">
                         ${process.env.WEBSITE_URL}/strefa-pracodawcy

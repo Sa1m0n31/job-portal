@@ -39,7 +39,7 @@ export class OfferController {
     @Post('/add')
     @UseInterceptors(FileFieldsInterceptor([
         {name: 'image', maxCount: 1},
-        {name: 'attachments', maxCount: 5}
+        {name: 'attachments', maxCount: 10}
     ], {
         fileFilter: fileExtensionFilter,
         storage: diskStorage({

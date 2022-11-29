@@ -222,9 +222,9 @@ const AddJobOffer = ({updateMode}) => {
     const handleAttachments = (e) => {
         e.preventDefault();
 
-        if(e.target.files.length + oldAttachments.length > 10) {
+        if(e.target.files.length + oldAttachments.length > 5) {
             e.preventDefault();
-            setError(c.maxNumberOfAttachmentsError);
+            setError(c.maxNumberOfAttachmentsError5);
         }
         else {
             setError('');
@@ -317,56 +317,61 @@ const AddJobOffer = ({updateMode}) => {
         e.preventDefault();
 
         if(jobOfferValidation()) {
-            setLoading(true);
-            setError('');
-            try {
-                if(updateMode) {
-                    const offerResult = await updateOffer({
-                        id, title, category, keywords, country, postalCode, city, description,
-                        responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
-                        salaryCurrency, contractType, timeBounded, expireDay: day, expireMonth: month,
-                        expireYear: year,
-                        image, attachments, oldAttachments, extraInfo,
-                        show_agency_info: showAgencyInfo,
-                        manyLocations: isInManyLocations ? locations : '-'
-                    });
-                    if(offerResult.status === 200) {
-                        setSuccess(true);
-                        setLoading(false);
+            if(attachments.length + (oldAttachments ? oldAttachments.length : 0) <= 5) {
+                setLoading(true);
+                setError('');
+                try {
+                    if(updateMode) {
+                        const offerResult = await updateOffer({
+                            id, title, category, keywords, country, postalCode, city, description,
+                            responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
+                            salaryCurrency, contractType, timeBounded, expireDay: day, expireMonth: month,
+                            expireYear: year,
+                            image, attachments, oldAttachments, extraInfo,
+                            show_agency_info: showAgencyInfo,
+                            manyLocations: isInManyLocations ? locations : '-'
+                        });
+                        if(offerResult.status === 200) {
+                            setSuccess(true);
+                            setLoading(false);
+                        }
+                        else {
+                            setError(JSON.parse(c.formErrors)[1]);
+                            setLoading(false);
+                        }
                     }
                     else {
-                        setError(JSON.parse(c.formErrors)[1]);
-                        setLoading(false);
+                        const offerResult = await addOffer({
+                            title, category, keywords, country, postalCode, city, description,
+                            responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
+                            salaryCurrency, contractType, timeBounded, expireDay: day, expireMonth: month,
+                            expireYear: year,
+                            image, attachments, extraInfo,
+                            show_agency_info: showAgencyInfo,
+                            manyLocations: isInManyLocations ? locations : '-'
+                        });
+                        if(offerResult.status === 201) {
+                            setSuccess(true);
+                            setLoading(false);
+                        }
+                        else {
+                            setError(JSON.parse(c.formErrors)[1]);
+                            setLoading(false);
+                        }
                     }
                 }
-                else {
-                    const offerResult = await addOffer({
-                        title, category, keywords, country, postalCode, city, description,
-                        responsibilities, requirements, benefits, salaryType, salaryFrom, salaryTo,
-                        salaryCurrency, contractType, timeBounded, expireDay: day, expireMonth: month,
-                        expireYear: year,
-                        image, attachments, extraInfo,
-                        show_agency_info: showAgencyInfo,
-                        manyLocations: isInManyLocations ? locations : '-'
-                    });
-                    if(offerResult.status === 201) {
-                        setSuccess(true);
-                        setLoading(false);
+                catch(err) {
+                    if(err.response.data.statusCode === 415) {
+                        setError(c.unsupportedMediaTypeInfo);
                     }
                     else {
                         setError(JSON.parse(c.formErrors)[1]);
-                        setLoading(false);
                     }
+                    setLoading(false);
                 }
             }
-            catch(err) {
-                if(err.response.data.statusCode === 415) {
-                    setError(c.unsupportedMediaTypeInfo);
-                }
-                else {
-                    setError(JSON.parse(c.formErrors)[1]);
-                }
-                setLoading(false);
+            else {
+                setError(c.maxNumberOfAttachmentsError5);
             }
         }
         else {

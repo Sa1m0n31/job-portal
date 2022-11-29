@@ -266,9 +266,8 @@ export class AgencyService {
                 email
             });
 
-            let translatedAgencyArray = [originalAgencyData.extraLanguages, originalAgencyData.courses,
-                originalAgencyData.certificates, originalAgencyData.skills, originalAgencyData.situationDescription,
-                originalAgencyData.jobs, originalAgencyData.schools];
+            let translatedAgencyArray = [originalAgencyData.description, originalAgencyData.recruitmentProcess,
+                originalAgencyData.benefits, originalAgencyData.roomDescription];
 
             // Store in DB
             await this.dynamicTranslationsRepository

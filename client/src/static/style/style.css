@@ -468,6 +468,10 @@ input {
     overflow: hidden;
 }
 
+.container--register--accountVerification {
+    min-height: 100vh;
+}
+
 .register {
     display: block;
     background: #fff;

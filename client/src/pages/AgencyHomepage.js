@@ -229,7 +229,14 @@ const AgencyHomepage = ({data, email}) => {
                                 {c.houseType}
                             </span>
                             <p className="userAccount__box__value">
-                                {data.houseType !== null && data.houseType !== undefined ? JSON.parse(c.houses)[data.houseType] : c.noInfo}
+                                {data.houseType !== null && data.houseType !== undefined ? (data.houseType?.length ? data.houseType?.map((item, index, array) => {
+                                    if(index === array.length-1) {
+                                        return `${JSON.parse(c.houses)[item]}`;
+                                    }
+                                    else {
+                                        return `${JSON.parse(c.houses)[item]}, `;
+                                    }
+                                }) : JSON.parse(c.houses)[data.houseType]) : c.noInfo}
                             </p>
                         </span>
                             <span className="userAccount__box__pair">

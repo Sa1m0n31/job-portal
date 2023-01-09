@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {UserDataContext} from "../pages/UserEditData";
 import plusIcon from '../static/img/plus-icon-opacity.svg'
 import fileIcon from '../static/img/doc.svg'
@@ -14,7 +14,7 @@ const UserForm5D = ({submitUserData, removeAttachment, changeAttachmentName, rem
     const [attachmentsError, setAttachmentsError] = useState('');
 
     const handleAttachments = (e) => {
-        if(e.target.files.length + userData.oldAttachments?.length + userData.attachments.length > 5) {
+        if(e.target.files.length + userData.oldAttachments?.length + userData.attachments.length > 10) {
             e.preventDefault();
             setAttachmentsError(c.maxNumberOfAttachmentsError);
         }

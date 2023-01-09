@@ -9,7 +9,6 @@ import AccountVerification from "./pages/AccountVerification";
 import UserWrapper from "./components/UserWrapper";
 import AgencyWrapper from "./components/AgencyWrapper";
 import TextPage from "./pages/TextPage";
-import {privacyPolicy, termsOfService} from "./static/content";
 import Notifications from "./pages/Notifications";
 import ContactPage from "./pages/ContactPage";
 import RemindPassword from "./pages/RemindPassword";
@@ -84,7 +83,7 @@ function App() {
       </Route>
       <Route path="/polityka-prywatnosci">
         <TextPage header={c.privacyPolicyHeader}
-                  content={privacyPolicy} />
+                  content="privacyPolicy" />
       </Route>
       <Route path="/przypomnienie-hasla">
         <RemindPassword />

@@ -26,7 +26,7 @@ export class AgencyController {
         return this.agencyService.verifyAgency(body.token);
     }
 
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get('/getAgencyData/:email/:lang')
     getAgencyData(@Param('email') email, @Param('lang') lang) {
         return this.agencyService.getAgencyData(email, lang);
@@ -91,7 +91,6 @@ export class AgencyController {
         return this.agencyService.changePassword(body.oldPassword, body.newPassword, body.email);
     }
 
-    @UseGuards(JwtAuthGuard)
     @Patch('/resetPassword')
     resetPassword(@Body() body) {
         return this.agencyService.resetPassword(body.password, body.email);

@@ -184,7 +184,7 @@ const ContactPage = () => {
                                 <span></span>
                             </button>
                             <span>
-                                {c.accept} <a href="/polityka prywatności">{c.privacyPolicyHeader2}</a> *
+                                {c.accept} <a href="/polityka-prywatności">{c.privacyPolicyHeader2}</a> *
                             </span>
                         </label>
 

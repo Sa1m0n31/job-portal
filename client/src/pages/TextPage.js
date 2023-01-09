@@ -46,13 +46,9 @@ const TextPage = ({content, header}) => {
                 {header}
             </h1>
 
-            <script src='https://www.rzetelnyregulamin.pl/pl/rr,kod-c4c2dda87d2ee10792e7bea5ea271587'></script><div id="rr_xss_cert"></div>
+            {content === 'termsOfService' ? <div className="termsOfService"><script src='https://www.rzetelnyregulamin.pl/pl/rr,kod-c4c2dda87d2ee10792e7bea5ea271587'></script><div id="rr_xss_cert"></div></div>
+             : <div className="termsOfService"><script src='https://www.rzetelnyregulamin.pl/pl/rr,kod-2c0ee0feeceb893bb56fd0aae5417366'></script><div id="rr_xss_cert"></div></div>}
 
-            {/*{content?.map((item, index) => {*/}
-            {/*    return <p key={index}>*/}
-            {/*        {item}*/}
-            {/*    </p>*/}
-            {/*})}*/}
         </main>
 
         {data ? <LoggedUserFooter /> : <Footer />}

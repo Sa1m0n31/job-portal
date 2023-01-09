@@ -176,7 +176,6 @@ export class UserController {
         return this.userService.changePassword(body.oldPassword, body.newPassword, body.email);
     }
 
-    @UseGuards(JwtAuthGuard)
     @Patch('/resetPassword')
     resetPassword(@Body() body) {
         return this.userService.resetPassword(body.password, body.email);

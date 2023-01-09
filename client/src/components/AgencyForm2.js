@@ -32,7 +32,7 @@ const AgencyForm2 = ({removeLogo, handleFileUpload, removeGalleryImage}) => {
     return <>
         <div className="userForm userForm--1 userForm--2--agency">
             <div className="label">
-                {c.logo}
+                {c.logo} *
                 <p className="label--extraInfo label--extraInfo--marginBottom">
                     {c.logoDescription}
                 </p>

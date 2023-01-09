@@ -1880,15 +1880,21 @@ input {
 
 .userAccount__box__left figure {
     height: 225px;
+    max-width: 250px;
     width: auto;
     border: 12px solid #F9F9F9;
     border-radius: 5px;
     margin-right: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .userAccount__box__left .img {
-    height: 100%;
+    height: auto;
     width: auto;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .userAccount__box__mainData__text {
@@ -3894,6 +3900,9 @@ input {
     border: 25px solid #F9F9F9;
     border-radius: 5px;
     margin-right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .preview__fullName {
@@ -6490,4 +6499,14 @@ input[type=month] {
 .joinUsBtn:hover {
     color: #fff;
     background: var(--primary);
+}
+
+.termsOfService {
+    max-width: 90%;
+    width: 1600px;
+    margin: 40px auto;
+}
+
+.drivingLicenceCategoriesWrapper--agency {
+    margin-top: 15px;
 }

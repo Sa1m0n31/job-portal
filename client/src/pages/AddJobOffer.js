@@ -361,7 +361,7 @@ const AddJobOffer = ({updateMode}) => {
                     }
                 }
                 catch(err) {
-                    if(err.response.data.statusCode === 415) {
+                    if(err?.response?.status === 415) {
                         setError(c.unsupportedMediaTypeInfo);
                     }
                     else {

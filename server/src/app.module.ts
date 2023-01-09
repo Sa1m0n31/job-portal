@@ -47,7 +47,7 @@ import { NotesModule } from './notes/notes.module';
         tls: {
           rejectUnauthorized: false
         },
-        secure: false
+        secure: true
       }
     }),
     OfferModule,

@@ -23,7 +23,7 @@ const AgencyForm3a = () => {
         <div className="userForm userForm--3a userForm--3a--agency">
             <label className="label label--rel certificatesWrapper flex">
                 <span>
-                    {c.recruitmentProcess}
+                    {c.recruitmentProcess} *
                     <Tooltip
                         html={<span className="tooltipVisible">
                         {c.recruitmentProcessTooltip}
@@ -46,7 +46,7 @@ const AgencyForm3a = () => {
             </label>
             <label className="label label--rel certificatesWrapper flex">
                 <span>
-                    {c.benefits}
+                    {c.benefits} *
                     <Tooltip
                         html={<span className="tooltipVisible">
                         {c.benefitsTooltip}

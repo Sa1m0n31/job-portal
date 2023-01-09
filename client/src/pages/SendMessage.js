@@ -21,6 +21,8 @@ const SendMessage = ({isAgency, accepted, data}) => {
     const [success, setSuccess] = useState(false);
     const [user, setUser] = useState(null);
     const [agency, setAgency] = useState(null);
+    const [allUsers, setAllUsers] = useState([]);
+    const [allAgencies, setAllAgencies] = useState([]);
 
     const { c } = useContext(LanguageContext);
 
@@ -70,7 +72,9 @@ const SendMessage = ({isAgency, accepted, data}) => {
                     }
 
                     // Get list of users
-                    const allUsersResponse = await getAllUsers(null)
+                    const allUsersResponse = await getAllUsers(null);
+
+                    setAllUsers(allUsersResponse?.data);
                     setRecipientChoices(allUsersResponse?.data?.map((item) => ({
                         label: JSON.parse(item.data)?.firstName ? JSON.parse(item.data)?.firstName + ' ' + JSON.parse(item.data)?.lastName : item.email,
                         value: item.id
@@ -116,6 +120,8 @@ const SendMessage = ({isAgency, accepted, data}) => {
 
                 // Get list of agencies
                 const allAgenciesResponse = await getAllApprovedAgencies(null);
+
+                setAllAgencies(allAgenciesResponse?.data);
                 setRecipientChoices(allAgenciesResponse?.data?.map((item) => ({
                     label: JSON.parse(item.data)?.name ? JSON.parse(item.data)?.name : item.email,
                     value: item.id
@@ -128,6 +134,17 @@ const SendMessage = ({isAgency, accepted, data}) => {
 
     const handleSelect = (data) => {
         setRecipient(data);
+
+        if(isAgency) {
+            setRecipientEmail(allUsers.find((item) => {
+                return item.id === data.value;
+            }).email);
+        }
+        else {
+            setRecipientEmail(allAgencies.find((item) => {
+                return item.id === data.value;
+            }).email);
+        }
     }
 
     const handleSubmit = async () => {

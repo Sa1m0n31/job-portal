@@ -47,7 +47,9 @@ export class AgencyService {
         const existingAgency = await this.agencyRepository.findOneBy({
             email
         });
+        console.log('register agency');
         const content = JSON.parse(mailContent);
+        console.log(content);
 
         if(existingAgency) {
             throw new HttpException(content[0], 400);
@@ -60,7 +62,7 @@ export class AgencyService {
 
             const token = await uuid();
 
-            await this.mailerService.sendMail({
+            const res = await this.mailerService.sendMail({
                 to: email,
                 from: process.env.EMAIL_ADDRESS,
                 subject: content[1],
@@ -76,6 +78,8 @@ export class AgencyService {
                     </a>
                 </div>`
             });
+
+            console.log(res);
 
             await this.agencyRepository.save({
                 email: email,

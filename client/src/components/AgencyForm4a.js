@@ -2,8 +2,9 @@ import React, {useContext} from 'react';
 import dropdownArrow from "../static/img/dropdown-arrow.svg";
 import {AgencyDataContext} from "../pages/AgencyEditData";
 import {LanguageContext} from "../App";
+import {isElementInArray} from "../helpers/others";
 
-const AgencyForm4a = ({setRoomVisible, setHouseVisible, setParkingVisible}) => {
+const AgencyForm4a = ({setRoomVisible, toggleHouses}) => {
     const { setStep, setSubstep, agencyData, handleChange, roomVisible, houseVisible, parkingVisible } = useContext(AgencyDataContext);
     const { c } = useContext(LanguageContext);
 
@@ -11,7 +12,7 @@ const AgencyForm4a = ({setRoomVisible, setHouseVisible, setParkingVisible}) => {
         <div className="userForm userForm--4a userForm--4a--agency">
             <div className="label label--date label--date--address">
                 {c.accommodation} *
-                <div className="flex">
+                <div className="flex flex-wrap">
                     <div className="label--date__input label--date__input--country label--date__input--roomType">
                         <button className="datepicker datepicker--country"
                                 onClick={(e) => { e.stopPropagation(); setRoomVisible(!roomVisible); }}
@@ -28,21 +29,35 @@ const AgencyForm4a = ({setRoomVisible, setHouseVisible, setParkingVisible}) => {
                             })}
                         </div> : ''}
                     </div>
-                    <div className="label--date__input label--date__input--country label--date__input--houseType">
-                        <button className="datepicker datepicker--country"
-                                onClick={(e) => { e.stopPropagation(); setHouseVisible(!houseVisible); }}
-                        >
-                            {agencyData.houseType >= 0 ? JSON.parse(c.houses)[agencyData.houseType] : c.chooseBuilding}
-                            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />
-                        </button>
-                        {houseVisible ? <div className="datepickerDropdown noscroll">
-                            {JSON.parse(c.houses)?.map((item, index) => {
-                                return <button className="datepickerBtn center" key={index}
-                                               onClick={(e) => { handleChange('houseType', index); }}>
-                                    {item}
+
+                    {/*<div className="label--date__input label--date__input--country label--date__input--houseType">*/}
+                    {/*    <button className="datepicker datepicker--country"*/}
+                    {/*            onClick={(e) => { e.stopPropagation(); setHouseVisible(!houseVisible); }}*/}
+                    {/*    >*/}
+                    {/*        {agencyData.houseType >= 0 ? JSON.parse(c.houses)[agencyData.houseType] : c.chooseBuilding}*/}
+                    {/*        <img className="dropdown" src={dropdownArrow} alt="rozwiń" />*/}
+                    {/*    </button>*/}
+                    {/*    {houseVisible ? <div className="datepickerDropdown noscroll">*/}
+                    {/*        {JSON.parse(c.houses)?.map((item, index) => {*/}
+                    {/*            return <button className="datepickerBtn center" key={index}*/}
+                    {/*                           onClick={(e) => { handleChange('houseType', index); }}>*/}
+                    {/*                {item}*/}
+                    {/*            </button>*/}
+                    {/*        })}*/}
+                    {/*    </div> : ''}*/}
+                    {/*</div>*/}
+
+                    <div className="label drivingLicenceCategoriesWrapper drivingLicenceCategoriesWrapper--agency">
+                        {JSON.parse(c.houses).map((item, index) => {
+                            return <label className={isElementInArray(index, Array.isArray(agencyData.houseType) ? agencyData.houseType : []) ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}
+                                          key={index}>
+                                <button className="checkbox center"
+                                        onClick={() => { toggleHouses(index); }}>
+                                    <span></span>
                                 </button>
-                            })}
-                        </div> : ''}
+                                {item}
+                            </label>
+                        })}
                     </div>
                 </div>
             </div>

@@ -13,7 +13,7 @@ import AgencyForm4b from "../components/AgencyForm4b";
 import AgencyForm4c from "../components/AgencyForm4c";
 import AgencyFormSummary from "../components/AgencyFormSummary";
 import {getAgencyData, updateAgency} from "../helpers/agency";
-import {getLoggedUserEmail} from "../helpers/others";
+import {getLoggedUserEmail, isElementInArray} from "../helpers/others";
 import settings from "../static/settings";
 import {LanguageContext} from "../App";
 import AgencyForm3C from "../components/AgencyForm3c";
@@ -51,7 +51,7 @@ const AgencyEditData = () => {
         whereYouFindOurApp: '',
         // 4.1 Employees info
         roomType: 0,
-        houseType: 0,
+        houseType: [],
         roomDescription: '',
         parking: null,
         // 4.2 Employees info
@@ -176,6 +176,7 @@ const AgencyEditData = () => {
                 if(substep === 0) {
                     setCurrentForm(<AgencyForm4a setRoomVisible={setRoomVisible}
                                                  setHouseVisible={setHouseVisible}
+                                                 toggleHouses={toggleHouses}
                                                  setParkingVisible={setParkingVisible}
                     />);
                 }
@@ -219,6 +220,14 @@ const AgencyEditData = () => {
         }, 100);
     }, [step, substep]);
 
+    const toggleHouses = (i) => {
+        setAgencyData(prevState => ({
+            ...prevState,
+            houseType: !isElementInArray(i, prevState.houseType) ?
+                [...prevState.houseType, i] : prevState.houseType.filter((item) => (item !== i))
+        }));
+    }
+
     const validateAgencyData = () => {
         let fields = [];
 
@@ -250,12 +259,24 @@ const AgencyEditData = () => {
             fields.push(c.phoneNumber);
             setStep1Error(true);
         }
+        if(!agencyData.logo && !agencyData.logoUrl) {
+            fields.push(c.logo);
+            setStep2Error(true);
+        }
         if(!agencyData.description) {
             fields.push(c.companyDescription);
             setStep2Error(true);
         }
         if(!agencyData.whereYouFindOurApp) {
             fields.push(c.whereYouFindOurApp);
+            setStep3Error(true);
+        }
+        if(!agencyData.recruitmentProcess) {
+            fields.push(c.recruitmentProcess);
+            setStep3Error(true);
+        }
+        if(!agencyData.benefits) {
+            fields.push(c.benefits);
             setStep3Error(true);
         }
 

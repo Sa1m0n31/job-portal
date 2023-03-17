@@ -28,6 +28,12 @@ const registerUser = (email, password, newsletter, mailContent) => {
     });
 }
 
+const registerTestAccount = (email, mailContent) => {
+    return axios.post('/user/registerTestAccount', {
+        email, mailContent
+    });
+}
+
 const verifyUser = (token) => {
     return axios.post('/user/verify', {
         token
@@ -200,7 +206,7 @@ const sendMailInvitation = (email, name, createAccount, content, mailContent) =>
     });
 }
 
-export { registerUser, verifyUser, loginUser, authUser, updateUser, getUserData, logout,
+export { registerUser, registerTestAccount, verifyUser, loginUser, authUser, updateUser, getUserData, logout,
     toggleUserVisibility, toggleUserWorking, getUserApplications, getAllUsers, getAllVisibleUsers,
     filterUsers, getUserById, getUserFastApplications, getUserNotifications, readNotification,
     sendContactForm, remindUserPassword, changeUserPassword, resetUserPassword, sendMailInvitation

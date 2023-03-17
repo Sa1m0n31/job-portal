@@ -280,6 +280,7 @@ input {
 }
 
 .login__left {
+    position: relative;
     width: 50%;
     padding: 50px 85px;
     display: flex;
@@ -4032,6 +4033,7 @@ input {
     width: 100%;
 }
 
+.agenciesList > div,
 .agenciesList .infinite-scroll-component {
     display: flex;
     justify-content: space-between;
@@ -6532,4 +6534,32 @@ input[type=month] {
 
 .admin--choseAgency select {
     margin-left: 10px;
+}
+
+.btn--testAccount {
+    width: auto;
+    padding: 15px 20px;
+    margin: -50px auto 0;
+    /*position: absolute;*/
+    /*bottom: 100px;*/
+    /*left: 50%;*/
+    /*transform: translateX(-50%);*/
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+}
+
+.btn--testAccount:hover {
+    background: var(--primary);
+    color: #fff;
+}
+
+.input--testAccount {
+    margin: 0 auto 20px;
+    min-width: 250px;
+}
+
+.testAccountHeader {
+    text-align: center;
+    margin: 30px auto;
 }

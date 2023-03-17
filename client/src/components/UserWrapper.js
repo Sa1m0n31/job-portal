@@ -28,7 +28,7 @@ const UserWrapper = ({page}) => {
                         getUserData()
                             .then((res) => {
                                 if(res?.status === 200) {
-                                    if(res?.data?.id !== 1) {
+                                    if(res?.data?.id !== 94) {
                                         setRealAccount(true);
                                     }
 
@@ -107,3 +107,4 @@ const UserWrapper = ({page}) => {
 };
 
 export default UserWrapper;
+export { UserAccountContext }

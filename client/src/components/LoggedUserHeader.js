@@ -12,9 +12,11 @@ import {getAgencyMessages, getUserMessages} from "../helpers/messages";
 import {getAgencyData, getAgencyNotifications} from "../helpers/agency";
 import messagesIcon from '../static/img/messages-arrow.svg'
 import {LanguageContext} from "../App";
+import {UserAccountContext} from "./UserWrapper";
 
 const LoggedUserHeader = ({data, agency, messageUpdate}) => {
     const { c } = useContext(LanguageContext);
+    const { realAccount } = useContext(UserAccountContext);
 
     const [messages, setMessages] = useState([]);
     const [notifications, setNotifications] = useState([]);
@@ -307,10 +309,10 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                        className="loggedUserHeader__userDropdownMenu__item">
                         {c.myAccount}
                     </a>
-                    <a href="/zmiana-hasla"
-                       className="loggedUserHeader__userDropdownMenu__item">
+                    {realAccount ? <a href="/zmiana-hasla"
+                                      className="loggedUserHeader__userDropdownMenu__item">
                         {c.changePassword}
-                    </a>
+                    </a> : ''}
                     <button onClick={() => { logout(); }}
                         className="loggedUserHeader__userDropdownMenu__item">
                         {c.logout}

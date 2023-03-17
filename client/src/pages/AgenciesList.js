@@ -8,9 +8,11 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import AgenciesFilters from "../components/AgenciesFilters";
 import filterIcon from '../static/img/filter-results-button.svg'
 import {LanguageContext} from "../App";
+import {UserAccountContext} from "../components/UserWrapper";
 
 const AgenciesList = ({data}) => {
     const { c } = useContext(LanguageContext);
+    const { realAccount } = useContext(UserAccountContext);
 
     const [agencies, setAgencies] = useState([]);
     const [filtersActive, setFiltersActive] = useState(false);
@@ -128,7 +130,7 @@ const AgenciesList = ({data}) => {
             {c.noAgenciesFound}
         </h3> : ''}
 
-        <main className="agenciesList flex">
+        {realAccount ? <main className="agenciesList flex">
             {!filtersActive ? <InfiniteScroll
                 dataLength={agencies.length ? agencies.length : 10}
                 next={getAgencies}
@@ -158,7 +160,23 @@ const AgenciesList = ({data}) => {
                                           data={JSON.parse(item.data)} />
                 })}
             </InfiniteScroll>}
-        </main>
+        </main> : <main className="agenciesList flex">
+            <div>
+                {!filtersActive ? agencies?.slice(0, 4)?.map((item, index) => {
+                    return <AgencyPreview key={index}
+                                          id={item.id}
+                                          data={JSON.parse(item.data)} />
+                }) : filteredAgencies?.slice(0, 4)?.map((item, index) => {
+                    return <AgencyPreview key={index}
+                                          id={item.id}
+                                          data={JSON.parse(item.data)} />
+                })}
+            </div>
+
+            <h4 className="testAccountHeader">
+                Załóż konto, aby zobaczyć wszystkie agencje {/* TODO */}
+            </h4>
+        </main>}
 
     </div>
 };

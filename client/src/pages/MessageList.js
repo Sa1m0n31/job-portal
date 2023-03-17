@@ -13,6 +13,7 @@ import {addLeadingZero, isElementInArray} from "../helpers/others";
 import replayIcon from '../static/img/reply-icon.svg'
 import {LanguageContext} from "../App";
 import backArrow from '../static/img/back-arrow-grey.svg'
+import {UserAccountContext} from "../components/UserWrapper";
 
 const MessageList = ({agency, data, accepted, id}) => {
     const [selectedMessages, setSelectedMessages] = useState([]);
@@ -29,6 +30,7 @@ const MessageList = ({agency, data, accepted, id}) => {
     const [currentSendMessage, setCurrentSendMessage] = useState(null);
 
     const { c } = useContext(LanguageContext);
+    const { realAccount } = useContext(UserAccountContext);
 
     useEffect(() => {
         async function setupMessages() {
@@ -269,7 +271,7 @@ const MessageList = ({agency, data, accepted, id}) => {
                     <h1 className="messages__header">
                         {c.messagesList}
                     </h1>
-                    {accepted !== false ? <a className="btn btn--newMessage center" href={agency ? "/nowa-wiadomosc" : "/napisz-wiadomosc"}>
+                    {accepted !== false && realAccount ? <a className="btn btn--newMessage center" href={agency ? "/nowa-wiadomosc" : "/napisz-wiadomosc"}>
                         <span className="d-mobile">{c.write}</span>
                         <span className="d-desktop">{c.newMessage}</span>
                     </a> : ''}

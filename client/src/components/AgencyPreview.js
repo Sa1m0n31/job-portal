@@ -9,9 +9,11 @@ import settings from "../static/settings";
 import eyeIcon from '../static/img/eye-icon.svg'
 import messageIcon from '../static/img/message-empty.svg'
 import {LanguageContext} from "../App";
+import {UserAccountContext} from "./UserWrapper";
 
 const AgencyPreview = ({i, id, data}) => {
     const { c } = useContext(LanguageContext);
+    const { realAccount } = useContext(UserAccountContext);
 
     return data ? <div className="preview preview--agency flex" key={i}>
         <div className="preview__left">
@@ -64,11 +66,11 @@ const AgencyPreview = ({i, id, data}) => {
         </div>
 
         <div className="preview__buttons">
-            <a className="btn btn--white"
-               href={`/napisz-wiadomosc?agencja=${id}`}>
+            {realAccount ? <a className="btn btn--white"
+                              href={`/napisz-wiadomosc?agencja=${id}`}>
                 <img className="img" src={messageIcon} alt="wiadomość" />
                 {c.write}
-            </a>
+            </a> : ''}
             <a className="btn btn--white"
                href={`/profil-agencji?id=${id}`}>
                 <img className="img" src={eyeIcon} alt="profil" />

@@ -26,6 +26,7 @@ import copyIcon from '../static/img/copy-icon.svg'
 import {LanguageContext} from "../App";
 import userPlaceholder from '../static/img/user-placeholder.svg'
 import RecommendationModal from "../components/RecommendationModal";
+import {UserAccountContext} from "../components/UserWrapper";
 
 const UserHomepage = ({data, userId, visible, working}) => {
     const [profileVisible, setProfileVisible] = useState(visible);
@@ -33,6 +34,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
     const [copied, setCopied] = useState(false);
     const [recommendationModalVisible, setRecommendationModalVisible] = useState(false);
 
+    const { realAccount } = useContext(UserAccountContext);
     const { c } = useContext(LanguageContext);
 
     useEffect(() => {
@@ -93,11 +95,11 @@ const UserHomepage = ({data, userId, visible, working}) => {
                 <span className="userAccount__top__loginInfo">
                     {c.loggedIn}: <span className="bold">{c.userZone}</span>
                 </span>
-                <a href="/edycja-danych"
-                   className="userAccount__top__btn">
+                {realAccount ? <a href="/edycja-danych"
+                                  className="userAccount__top__btn">
                     {c.editProfile}
                     <img className="img" src={penIcon} alt="edytuj" />
-                </a>
+                </a> : ''}
             </aside>
             <main className="userAccount__box userAccount__box__top userAccount__box--100 flex">
                 <div className="userAccount__box__left">

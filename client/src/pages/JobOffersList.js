@@ -15,8 +15,11 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import userPlaceholder from '../static/img/user-placeholder.svg'
 import filterIcon from "../static/img/filter-results-button.svg";
 import {LanguageContext} from "../App";
+import { UserAccountContext } from "../components/UserWrapper";
 
 const JobOfferList = ({data}) => {
+    const { realAccount } = useContext(UserAccountContext);
+
     const [offers, setOffers] = useState([]);
     const [filteredOffers, setFilteredOffers] = useState([]);
     const [render, setRender] = useState(false);
@@ -247,7 +250,61 @@ const JobOfferList = ({data}) => {
             </button>
         </div>
 
-        {!loading ? (!filterActive ? <InfiniteScroll
+        {!realAccount ? <div>
+            {render ? offers?.slice(0, 3)?.map((item, index) => {
+                return <div className="offerItem flex" key={index}>
+                <span className="offerItem__date">
+                    {item.offer_created_at?.substring(0, 10)}
+                </span>
+                    <div className="offerItem__left">
+                        <figure className="offerItem__figure">
+                            <img className="img" src={JSON.parse(item.a_data).logo ? `${settings.API_URL}/${JSON.parse(item.a_data).logo}` : userPlaceholder} alt="zdjecie-profilowe" />
+                        </figure>
+                        <div className="offerItem__mainInfo">
+                            <h2 className="offerItem__title">
+                                {item.offer_title}
+                            </h2>
+                            <h3 className="offerItem__localization">
+                                <img className="icon" src={localization} alt="lokalizacja" />
+                                {item.offer_city}, {JSON.parse(c.countries)[item.offer_country]}
+                            </h3>
+                            <h5 className="offerItem__company">
+                                {item.a_data ? JSON.parse(item.a_data).name : ''}
+                            </h5>
+                        </div>
+                    </div>
+                    <div className="offerItem__category">
+                        {JSON.parse(c.categories)[item.offer_category]}
+                    </div>
+                    <div className="offerItem__salary">
+                    <span className="nowrap">
+                        <img className="icon" src={salaryIcon} alt="wynagrodzenie" />
+                        {item.offer_salaryFrom} {currencies[item.offer_salaryCurrency]}
+                    </span> - {item.offer_salaryTo} {currencies[item.offer_salaryCurrency]}
+                        <span className="netto">
+                        netto/{item.offer_salaryType === 1 ? c.weeklyShortcut : c.monthlyShortcut}
+                    </span>
+                    </div>
+                    <div className="offerItem__requirements">
+                        {JSON.parse(item.offer_benefits.replace(/'/g, '"'))?.slice(0, 3)?.map((item, index) => {
+                            return <span className="offerItem__requirement" key={index}>
+                            {item}
+                        </span>
+                        })}
+                    </div>
+                    <div className="offerItem__buttons offerItem__buttons--user flex">
+                        <a href={`/oferta-pracy?id=${item.offer_id}`}
+                           className="btn btn--white">
+                            {c.checkOffer}
+                        </a>
+                    </div>
+                </div>
+            }) : ''}
+
+            <h4 className="testAccountHeader">
+                Załóż konto, aby zobaczyć wszystkie oferty {/* TODO */}
+            </h4>
+        </div> : (!loading ? (!filterActive ? <InfiniteScroll
             dataLength={offers?.length ? offers?.length : 2}
             next={fetchJobOffers}
             hasMore={hasMore}
@@ -302,10 +359,10 @@ const JobOfferList = ({data}) => {
                            className="btn btn--white">
                             {c.checkOffer}
                         </a>
-                        <a href={`/aplikuj?id=${item.offer_id}`}
-                           className={isElementInArray(item.offer_id, applications) ? "btn btn--disabled" : "btn"}>
+                        {realAccount ? <a href={`/aplikuj?id=${item.offer_id}`}
+                                          className={isElementInArray(item.offer_id, applications) ? "btn btn--disabled" : "btn"}>
                             {c.apply}
-                        </a>
+                        </a> : ''}
                     </div>
                 </div>
             }) : ''}
@@ -364,10 +421,10 @@ const JobOfferList = ({data}) => {
                            className="btn btn--white">
                             {c.checkOffer}
                         </a>
-                        <a href={`/aplikuj?id=${item.offer_id}`}
-                           className={isElementInArray(item.offer_id, applications) ? "btn btn--disabled" : "btn"}>
+                        {realAccount ? <a href={`/aplikuj?id=${item.offer_id}`}
+                                          className={isElementInArray(item.offer_id, applications) ? "btn btn--disabled" : "btn"}>
                             {c.apply}
-                        </a>
+                        </a> : ''}
                     </div>
                 </div>
             }) : <h4 className="noOffersFound">
@@ -375,7 +432,7 @@ const JobOfferList = ({data}) => {
             </h4>) : ''}
         </InfiniteScroll>) : <div className="offersLoader">
             <Loader />
-        </div>}
+        </div>)}
     </div>
 };
 

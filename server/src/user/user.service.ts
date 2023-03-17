@@ -134,7 +134,6 @@ export class UserService {
         if(email === TEST_ACCOUNT_EMAIL) {
             // Test account
             const user = await this.testAccountsRepository.findOneBy({
-               email,
                password
             });
 
@@ -974,16 +973,19 @@ export class UserService {
 
     async createTestAccount(email: string, content) {
         const password = await uuid().substring(0, 6);
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
 
         const newTestAccount = await this.testAccountsRepository.save({
             password,
-            email
+            email,
+            expire_date: tomorrow
         });
 
         if(newTestAccount) {
             // Plan second email (after 20 hours)
             const secondEmailDate = new Date();
-            secondEmailDate.setHours(secondEmailDate.getHours() + 20);
+            secondEmailDate.setMinutes(secondEmailDate.getMinutes() + 2);
             scheduleJob(secondEmailDate, async () => {
                 await this.mailerService.sendMail({
                     to: email,
@@ -1026,7 +1028,7 @@ export class UserService {
                 subject: content[0],
                 html: `<div>
                     <p>
-                        ${content[1]}  
+                        ${password}
                     </p>
                     <a href="${process.env.WEBSITE_URL}">
                         ${content[2]}

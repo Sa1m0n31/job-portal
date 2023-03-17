@@ -1047,6 +1047,13 @@
         display: none;
     }
 
+    .btn--testAccount {
+        margin-top: 0;
+        font-size: 12px;
+        height: 40px;
+        padding: 3px 10px;
+    }
+
     .newsletterCheckbox {
         height: 210px;
     }

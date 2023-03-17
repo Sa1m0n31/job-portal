@@ -21,6 +21,7 @@ import {authUser, getUserApplications, getUserData} from "../helpers/user";
 import {authAgency, getAgencyData} from "../helpers/agency";
 import {LanguageContext} from "../App";
 import LoggedUserFooter from "../components/LoggedUserFooter";
+import {UserAccountContext} from "../components/UserWrapper";
 
 const SingleOffer = () => {
     const [data, setData] = useState({});
@@ -31,6 +32,7 @@ const SingleOffer = () => {
     const [agencyData, setAgencyData] = useState({});
 
     const { c } = useContext(LanguageContext);
+    const { realAccount } = useContext(UserAccountContext);
 
     useEffect(() => {
         authUser()
@@ -116,7 +118,7 @@ const SingleOffer = () => {
                 </a>
             </aside>
 
-        {userAlreadyApplied === false && agency === false ? <a href={`/aplikuj?id=${offer.o_id}`}
+        {userAlreadyApplied === false && agency === false && realAccount ? <a href={`/aplikuj?id=${offer.o_id}`}
                                            className="btn btn--jobOfferApply btn--stickyMobile">
             {c.apply}
             <img className="img" src={arrow} alt="przejdź-dalej" />
@@ -144,7 +146,7 @@ const SingleOffer = () => {
                     <span className="jobOffer__sideInfo">
                         {c.added}: {offer.o_created_at?.substring(0, 10)}, {c.offerId}: {offer.o_id}
                     </span>
-                            {userAlreadyApplied === false && agency === false ? <a href={`/aplikuj?id=${offer.o_id}`}
+                            {userAlreadyApplied === false && agency === false && realAccount ? <a href={`/aplikuj?id=${offer.o_id}`}
                                                                className="btn btn--jobOfferApply">
                                 {c.apply}
                                 <img className="img" src={arrow} alt="przejdź-dalej" />

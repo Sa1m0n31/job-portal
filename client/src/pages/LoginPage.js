@@ -12,6 +12,7 @@ import Loader from "../components/Loader";
 import MobileHeader from "../components/MobileHeader";
 import LoggedUserFooter from "../components/LoggedUserFooter";
 import {LanguageContext} from "../App";
+import TestAccountModal from "../components/TestAccountModal";
 
 const LoginPage = ({type}) => {
     const [email, setEmail] = useState("");
@@ -19,6 +20,7 @@ const LoginPage = ({type}) => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [render, setRender] = useState(false);
+    const [testAccountModalVisible, setTestAccountModalVisible] = useState(false);
 
     const { c } = useContext(LanguageContext);
 
@@ -146,6 +148,8 @@ const LoginPage = ({type}) => {
     return render ? <div className="container container--login flex">
         <MobileHeader back="/" />
 
+        {testAccountModalVisible ? <TestAccountModal closeModal={() => { setTestAccountModalVisible(false); }} /> : ''}
+
         <div className="login__left">
             <header className="login__left__header flex">
                 <a href="." className="login__left__header__logo">
@@ -197,7 +201,10 @@ const LoginPage = ({type}) => {
 
             {type === 1 ? <a className="joinUsBtn" href="/dolacz-do-nas">
                 {c.joinUs}
-            </a> : ''}
+            </a> : <button className="btn btn--testAccount"
+                           onClick={() => { setTestAccountModalVisible(true); }}>
+                Otwórz konto testowe {/* TODO */}
+            </button>}
 
             <aside className="login__left__bottom flex">
                 <div className="login__left__bottom__links flex">

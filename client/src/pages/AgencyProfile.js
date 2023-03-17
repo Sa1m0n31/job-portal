@@ -21,6 +21,7 @@ import {getAgencyById} from "../helpers/agency";
 import Loader from "../components/Loader";
 import backIcon from "../static/img/back-arrow-grey.svg";
 import {LanguageContext} from "../App";
+import {UserAccountContext} from "../components/UserWrapper";
 
 const AgencyProfile = ({data}) => {
     const [currentGalleryScroll, setCurrentGalleryScroll] = useState(0);
@@ -30,6 +31,7 @@ const AgencyProfile = ({data}) => {
     const [agency, setAgency] = useState(null);
 
     const { c } = useContext(LanguageContext);
+    const { realAccount } = useContext(UserAccountContext);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -148,7 +150,7 @@ const AgencyProfile = ({data}) => {
                                 <img className="img" src={messageIcon} alt="adres-e-mail" />
                                 {email}
                             </p>
-                            <div className="userAccount__box__mainData__buttons">
+                            {realAccount ? <div className="userAccount__box__mainData__buttons">
                                 {agency?.phoneNumber ? <a
                                     href={`https://wa.me/${agency.phoneNumberCountry.split('+')[1]}${agency.phoneNumber}`}
                                     className="btn btn--whatsApp"
@@ -163,7 +165,7 @@ const AgencyProfile = ({data}) => {
                                     <img className="img" src={messageIcon} alt="napisz-wiadomosc" />
                                     {c.message}
                                 </a>
-                            </div>
+                            </div> : ''}
                         </div>
                     </div>
                 </main>

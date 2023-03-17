@@ -51,7 +51,7 @@ const SendMessage = ({isAgency, accepted, data}) => {
                             label: userData?.firstName ? `${userData?.firstName} ${userData?.lastName}` : userResponse?.data?.email,
                             value: userResponse?.data?.id
                         });
-                        setRecipientEmail(userData.email);
+                        setRecipientEmail(userResponse.data.email);
                         setUser(userResponse?.data?.id);
                     }
                     else if(idParam) {
@@ -68,7 +68,7 @@ const SendMessage = ({isAgency, accepted, data}) => {
                             label: userData?.firstName ? `${userData?.firstName} ${userData?.lastName}` : userResponse?.data?.email,
                             value: userResponse?.data?.id
                         });
-                        setRecipientEmail(userData.email);
+                        setRecipientEmail(userResponse.data.email);
                     }
 
                     // Get list of users
@@ -98,7 +98,7 @@ const SendMessage = ({isAgency, accepted, data}) => {
                         label: agencyData?.name ? agencyData?.name : agencyResponse?.data?.email,
                         value: agencyResponse?.data?.id
                     });
-                    setRecipientEmail(agencyData.email);
+                    setRecipientEmail(agencyResponse.data.email);
                     setAgency(agencyResponse?.data?.id);
                 }
                 else if(idParam) {
@@ -115,7 +115,7 @@ const SendMessage = ({isAgency, accepted, data}) => {
                         label: agencyData?.name ? agencyData?.name : agencyResponse?.data?.email,
                         value: agencyResponse?.data?.id
                     });
-                    setRecipientEmail(agencyData.email);
+                    setRecipientEmail(agencyResponse.data.email);
                 }
 
                 // Get list of agencies

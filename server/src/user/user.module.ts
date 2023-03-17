@@ -16,11 +16,12 @@ import {Static_translations} from "../entities/static_translations";
 import {Dynamic_translations} from "../entities/dynamic_translations";
 import {TranslationModule} from "../translation/translation.module";
 import {TranslationService} from "../translation/translation.service";
+import {TestAccounts} from "../entities/test_accounts.entity";
 
 @Module({
   imports: [
       TypeOrmModule.forFeature([User, User_verification, Application, Fast_applications,
-          Notifications, Password_tokens, Static_translations, Dynamic_translations]),
+          Notifications, Password_tokens, Static_translations, Dynamic_translations, TestAccounts]),
       JwtModule.register({
           secret: process.env.JWT_KEY,
           signOptions: {expiresIn: 60 * 300}

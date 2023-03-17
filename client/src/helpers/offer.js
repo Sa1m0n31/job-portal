@@ -1,7 +1,7 @@
 import axios from "axios";
 import {getAdminAuthHeader, getAuthHeader, getLang, getLoggedUserEmail} from "./others";
 
-const addOffer = (data) => {
+const addOffer = (data, email = false) => {
     const formData = new FormData();
     const config = {
         headers: {
@@ -10,7 +10,7 @@ const addOffer = (data) => {
         }
     }
 
-    formData.append('email', getLoggedUserEmail());
+    formData.append('email', email ? email : getLoggedUserEmail());
     formData.append('offerData', JSON.stringify(data));
     formData.append('image', data.image);
     for(const att of data.attachments) {
@@ -20,7 +20,7 @@ const addOffer = (data) => {
     return axios.post('/offer/add', formData, config);
 }
 
-const updateOffer = (data) => {
+const updateOffer = (data, email = false) => {
     const formData = new FormData();
     const config = {
         headers: {
@@ -29,7 +29,7 @@ const updateOffer = (data) => {
         }
     }
 
-    formData.append('email', getLoggedUserEmail());
+    formData.append('email', email ? email : getLoggedUserEmail());
     formData.append('offerData', JSON.stringify(data));
     formData.append('image', data.image);
     for(const att of data.attachments) {

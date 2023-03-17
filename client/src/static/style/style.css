@@ -2719,6 +2719,15 @@ input {
     transition: .2s all;
 }
 
+.adminMain__addOfferForm {
+    margin-left: 18%;
+    padding: 40px 60px;
+}
+
+.adminMain__addOfferForm > .addOffer {
+    width: 100%;
+}
+
 .addOffer__header {
     font-weight: 400;
     font-size: 32px;
@@ -5927,6 +5936,9 @@ a.preview__bottom__content {
 
 .loggedUserHeader--admin .loggedUserHeader__desktop {
     padding-left: 40px;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 .btn--logout {
@@ -6509,4 +6521,15 @@ input[type=month] {
 
 .drivingLicenceCategoriesWrapper--agency {
     margin-top: 15px;
+}
+
+.admin--choseAgency {
+    margin: 20px 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.admin--choseAgency select {
+    margin-left: 10px;
 }

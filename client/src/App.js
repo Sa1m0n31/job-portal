@@ -215,6 +215,9 @@ function App() {
       <Route path="/panel/szczegoly-oferty-blyskawicznej">
         <AdminWrapper page={9} />
       </Route>
+      <Route path="/panel/dodaj-oferte-pracy">
+        <AdminWrapper page={10} />
+      </Route>
     </Router>
   </LanguageContext.Provider> : <div className="container container--height100 center">
     <Loader />

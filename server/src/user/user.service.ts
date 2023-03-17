@@ -21,9 +21,12 @@ import {
     userTranslateFields,
     userTranslateObject
 } from "../common/translateObjects";
-import {removeLanguageSpecificCharacters} from "../common/removeLanguageSpecificCharacters";
+import { scheduleJob } from 'node-schedule';
 import {getGoogleTranslateLanguageCode} from "../common/getGoogleTranslateLanguageCode";
 import { Response } from 'express'
+import {TestAccounts} from "../entities/test_accounts.entity";
+
+const TEST_ACCOUNT_EMAIL = 'josh.smith@jooob.eu';
 
 @Injectable()
 export class UserService {
@@ -42,6 +45,8 @@ export class UserService {
         private readonly passwordRepository: Repository<Password_tokens>,
         @InjectRepository(Dynamic_translations)
         private readonly dynamicTranslationsRepository: Repository<Dynamic_translations>,
+        @InjectRepository(TestAccounts)
+        private readonly testAccountsRepository: Repository<TestAccounts>,
         private readonly mailerService: MailerService,
         private readonly jwtTokenService: JwtService,
         private readonly httpService: HttpService,
@@ -124,21 +129,17 @@ export class UserService {
 
     async loginUser(email: string, password: string, mailContent: string) {
         const payload = { username: email, sub: password, role: 'user' };
-        const passwordHash = crypto
-            .createHash('sha256')
-            .update(password)
-            .digest('hex');
-
         const content = JSON.parse(mailContent);
 
-        const user = await this.userRepository.findOneBy({
-            email,
-            password: passwordHash
-        });
+        if(email === TEST_ACCOUNT_EMAIL) {
+            // Test account
+            const user = await this.testAccountsRepository.findOneBy({
+               email,
+               password
+            });
 
-        if(user) {
-            if(user.active) {
-                if(!user.blocked) {
+            if(user) {
+                if(new Date(user.expire_date) > new Date()) {
                     return {
                         access_token: this.jwtTokenService.sign(payload, {
                             secret: process.env.JWT_KEY
@@ -146,15 +147,45 @@ export class UserService {
                     };
                 }
                 else {
-                    throw new HttpException(content[0], 423);
+                    throw new HttpException(content[2], 401);
                 }
             }
             else {
-                throw new HttpException(content[1], 403);
+                throw new HttpException(content[2], 401);
             }
         }
         else {
-            throw new HttpException(content[2], 401);
+            // Normal account
+            const passwordHash = crypto
+                .createHash('sha256')
+                .update(password)
+                .digest('hex');
+
+            const user = await this.userRepository.findOneBy({
+                email,
+                password: passwordHash
+            });
+
+            if(user) {
+                if(user.active) {
+                    if(!user.blocked) {
+                        return {
+                            access_token: this.jwtTokenService.sign(payload, {
+                                secret: process.env.JWT_KEY
+                            })
+                        };
+                    }
+                    else {
+                        throw new HttpException(content[0], 423);
+                    }
+                }
+                else {
+                    throw new HttpException(content[1], 403);
+                }
+            }
+            else {
+                throw new HttpException(content[2], 401);
+            }
         }
     }
 
@@ -863,7 +894,6 @@ export class UserService {
             const token = await uuid();
             let expire = new Date();
             expire.setHours(new Date().getHours()+1)
-            console.log(expire);
 
             // Send email
             await this.mailerService.sendMail({
@@ -939,6 +969,73 @@ export class UserService {
         }
         else {
             throw new BadRequestException('Niepoprawne hasło');
+        }
+    }
+
+    async createTestAccount(email: string, content) {
+        const password = await uuid().substring(0, 6);
+
+        const newTestAccount = await this.testAccountsRepository.save({
+            password,
+            email
+        });
+
+        if(newTestAccount) {
+            // Plan second email (after 20 hours)
+            const secondEmailDate = new Date();
+            secondEmailDate.setHours(secondEmailDate.getHours() + 20);
+            scheduleJob(secondEmailDate, async () => {
+                await this.mailerService.sendMail({
+                    to: email,
+                    from: process.env.EMAIL_ADDRESS,
+                    subject: content[0],
+                    html: `<div>
+                    <p>
+                        ${content[1]}  
+                    </p>
+                    <a href="${process.env.WEBSITE_URL}">
+                        ${content[2]}
+                    </a>
+                </div>`
+                })
+            });
+
+            // Plan third email (after 5 days)
+            const thirdEmailDate = new Date();
+            thirdEmailDate.setHours(secondEmailDate.getHours() + 24 * 5);
+            scheduleJob(thirdEmailDate, async () => {
+                await this.mailerService.sendMail({
+                    to: email,
+                    from: process.env.EMAIL_ADDRESS,
+                    subject: content[0],
+                    html: `<div>
+                    <p>
+                        ${content[1]}  
+                    </p>
+                    <a href="${process.env.WEBSITE_URL}">
+                        ${content[2]}
+                    </a>
+                </div>`
+                })
+            });
+
+            // Send first email
+            return await this.mailerService.sendMail({
+                to: email,
+                from: process.env.EMAIL_ADDRESS,
+                subject: content[0],
+                html: `<div>
+                    <p>
+                        ${content[1]}  
+                    </p>
+                    <a href="${process.env.WEBSITE_URL}">
+                        ${content[2]}
+                    </a>
+                </div>`
+            });
+        }
+        else {
+            throw new HttpException('Konto już istnieje', 400);
         }
     }
 }

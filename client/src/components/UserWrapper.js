@@ -14,8 +14,11 @@ import SingleFastOffer from "../pages/SingleFastOffer";
 import LoggedUserFooter from "./LoggedUserFooter";
 import {parseUserData} from "../helpers/others";
 
+const UserAccountContext = React.createContext({});
+
 const UserWrapper = ({page}) => {
     const [render, setRender] = useState(null);
+    const [realAccount, setRealAccount] = useState(false);
 
     useEffect(() => {
         if(page) {
@@ -25,6 +28,10 @@ const UserWrapper = ({page}) => {
                         getUserData()
                             .then((res) => {
                                 if(res?.status === 200) {
+                                    if(res?.data?.id !== 1) {
+                                        setRealAccount(true);
+                                    }
+
                                     let data;
                                     if(res?.data?.data) {
                                         data = JSON.parse(res.data.data);
@@ -89,10 +96,12 @@ const UserWrapper = ({page}) => {
         }
     }, [page]);
 
-    return render ? <>
+    return render ? <UserAccountContext.Provider value={{
+        realAccount
+    }}>
         {render}
         {page !== 1 ? <LoggedUserFooter /> : ''}
-    </> : <div className="container container--loader center">
+    </UserAccountContext.Provider> : <div className="container container--loader center">
         <Loader />
     </div>
 };

@@ -10,6 +10,7 @@ import AdminOffers from "../pages/AdminOffers";
 import AdminJobOffer from "../pages/AdminJobOffer";
 import AdminFastOffer from "../pages/AdminFastOffer";
 import AdminFastOffers from "../pages/AdminFastOffers";
+import AdminAddJobOffer from "../pages/AdminAddJobOffer";
 
 const AdminWrapper = ({page}) => {
     const [render, setRender] = useState(null);
@@ -46,6 +47,9 @@ const AdminWrapper = ({page}) => {
                                 break;
                             case 9:
                                 setRender(<AdminFastOffer />);
+                                break;
+                            case 10:
+                                setRender(<AdminAddJobOffer />);
                                 break;
                             default:
                                 window.location = '/';

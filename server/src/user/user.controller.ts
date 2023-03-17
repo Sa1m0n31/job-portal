@@ -180,4 +180,9 @@ export class UserController {
     resetPassword(@Body() body) {
         return this.userService.resetPassword(body.password, body.email);
     }
+
+    @Post('/registerTestAccount')
+    registerTestAccount(@Body() body) {
+        return this.userService.createTestAccount(body.email, body.mailContent);
+    }
 }

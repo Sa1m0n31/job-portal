@@ -326,7 +326,7 @@ const MessageList = ({agency, data, accepted, id}) => {
                                     </button>
                                     <button className="messagePreview__content" onClick={() => { showChat(item.m_id); }}>
                                         <h3 className="messagePreview__recipient">
-                                            {!agency ? receiverData.name : `${receiverData.firstName} ${receiverData.lastName}`}
+                                            {!agency ? (receiverData?.name ? receiverData.name : c.anonim) : (receiverData?.firstName ? `${receiverData.firstName} ${receiverData.lastName}` : c.anonim)}
                                         </h3>
                                         <h4 className="messagePreview__title">
                                             {item.m_title}
@@ -369,7 +369,7 @@ const MessageList = ({agency, data, accepted, id}) => {
                                     </button>
                                     <div className="messagePreview__content">
                                         <h3 className="messagePreview__recipient">
-                                            {!agency ? receiverData.name : `${receiverData.firstName} ${receiverData.lastName}`}
+                                            {!agency ? (receiverData?.name ? receiverData.name : c.anonim) : (receiverData?.firstName ? `${receiverData.firstName} ${receiverData.lastName}` : c.anonim)}
                                         </h3>
                                         <h4 className="messagePreview__title">
                                             {item.m_title}

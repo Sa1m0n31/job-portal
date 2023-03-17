@@ -21,6 +21,10 @@ const PanelMenu = ({menuOpen}) => {
         {
             name: 'Oferty błyskawiczne',
             link: '/panel/oferty-blyskawiczne'
+        },
+        {
+            name: 'Dodaj ofertę pracy',
+            link: '/panel/dodaj-oferte-pracy'
         }
     ]
 

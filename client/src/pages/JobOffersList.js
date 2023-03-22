@@ -302,7 +302,7 @@ const JobOfferList = ({data}) => {
             }) : ''}
 
             <h4 className="testAccountHeader">
-                Załóż konto, aby zobaczyć wszystkie oferty {/* TODO */}
+                {c.test_account_text_2}
             </h4>
         </div> : (!loading ? (!filterActive ? <InfiniteScroll
             dataLength={offers?.length ? offers?.length : 2}

@@ -24,12 +24,15 @@ const TestAccountModal = ({closeModal}) => {
         if(isEmail(email)) {
             setLoading(true);
 
-            const mailContent = [c.mail1, c.mail2, c.mail3, c.mail4]; // TODO
+            const mailContent = [c.first_email_title, c.first_email_1, c.first_email_2, c.first_email_3, c.first_email_4, c.first_email_5,
+                c.first_email_6, c.first_email_7, c.first_email_8, c.first_email_9, c.second_email_title, c.second_email_1,
+                c.third_email_title, c.third_mail_1, c.third_mail_2, c.third_mail_3];
 
             registerTestAccount(email, mailContent)
                 .then((res) => {
                     if(res?.status === 201) {
                         setSuccess(true);
+                        setEmail('');
                     }
                     else {
                         setError(JSON.parse(c.formErrors[1]));
@@ -52,7 +55,7 @@ const TestAccountModal = ({closeModal}) => {
                 &times;
             </button>
             <h4 className="modal__header">
-                Podaj swój adres e-mail i uzyskaj jednodniowy dostęp do konta testowego! {/* TODO */}
+                {c.test_account_modal_1}
             </h4>
 
             <label>
@@ -63,7 +66,7 @@ const TestAccountModal = ({closeModal}) => {
             </label>
 
             {success ? <span className="info info--success">
-                {c.notes3}
+                {c.test_account_modal_2}
             </span> : ''}
 
             {!loading ? <button className="btn btn--modal btn--modalNotes" onClick={() => { registerTestAccountWrapper(); }}>

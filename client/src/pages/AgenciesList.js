@@ -174,7 +174,7 @@ const AgenciesList = ({data}) => {
             </div>
 
             <h4 className="testAccountHeader">
-                Załóż konto, aby zobaczyć wszystkie agencje {/* TODO */}
+                {c.test_account_text_3}
             </h4>
         </main>}
 

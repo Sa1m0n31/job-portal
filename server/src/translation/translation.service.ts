@@ -170,6 +170,8 @@ export class TranslationService {
         if(to === 'all') {
             let i = 0;
             for(const lang of languagesCodes) {
+                console.log('translate ' + lang);
+
                 for(const chunk of translationBase) {
                     await translateText(chunk, lang);
                 }

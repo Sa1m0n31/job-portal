@@ -1891,6 +1891,10 @@ input {
     align-items: center;
 }
 
+.userAccount__box__left figure .img {
+    min-width: 150px;
+}
+
 .userAccount__box__left .img {
     height: auto;
     width: auto;
@@ -6562,4 +6566,46 @@ input[type=month] {
 .testAccountHeader {
     text-align: center;
     margin: 30px auto;
+}
+
+.modal--notComplete .modal__inner {
+    max-width: 90%;
+    width: 1200px;
+    max-height: 90%;
+    padding: 25px;
+}
+
+.modal--notComplete p {
+    margin-bottom: 20px;
+}
+
+.modal--notComplete * {
+    text-align: left !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.modal--notComplete .btn--modalNotes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 45px;
+}
+
+.modal--notComplete .modal__inner {
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.modal--notComplete ul {
+    margin-left: 30px !important;
+    margin-bottom: 20px !important;
+    list-style-type: none;
+}
+
+.modal--notComplete p > a {
+    font-weight: 700;
+    text-decoration: underline;
+    color: var(--primary);
 }

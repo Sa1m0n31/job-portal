@@ -35,7 +35,13 @@ function App() {
   useEffect(() => {
     const storedLanguage = localStorage.getItem('storedLanguage');
 
-    if(storedLanguage !== language) {
+    let updateValue;
+
+    if(localStorage.getItem('siteContent')) {
+      updateValue = JSON.parse(localStorage.getItem('siteContent')).test_account_text_3;
+    }
+
+    if((storedLanguage !== language) || (!updateValue)) {
       getSiteContent(language)
           .then((res) => {
             if(res?.data?.length) {

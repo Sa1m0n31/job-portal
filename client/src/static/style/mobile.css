@@ -2663,6 +2663,14 @@
         font-size: 18px;
     }
 
+    .modal--notComplete ul {
+        margin-left: 10px !important;
+    }
+
+    .modal--notComplete * {
+        font-size: 12px;
+    }
+
     .landing__right {
         display: none;
     }
@@ -3099,7 +3107,7 @@
     }
 
     .home__zone:first-of-type {
-        margin-bottom: 30px;
+        margin-bottom: 20px;
     }
 
     .home__zone__header {
@@ -3136,7 +3144,7 @@
 
     .home__h1 {
         margin: 20px auto 15px;
-        font-size: 20px;
+        font-size: 17px;
     }
 
     .btn--zone {

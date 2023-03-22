@@ -14,10 +14,12 @@ import MyFastJobOffers from "../pages/MyFastJobOffers";
 import AgencyApplications from "../pages/AgencyApplications";
 import LoggedUserFooter from "./LoggedUserFooter";
 import {tryParseJSONObject} from "../helpers/others";
+import AgencyNotCompleteAccountModal from "./AgencyNotCompleteAccountModal";
 
 const AgencyWrapper = ({page}) => {
     const [render, setRender] = useState(null);
     const [accepted, setAccepted] = useState(true);
+    const [agencyNotComplete, setAgencyNotComplete] = useState(false);
 
     useEffect(() => {
         if(page) {
@@ -27,6 +29,10 @@ const AgencyWrapper = ({page}) => {
                         getAgencyData()
                             .then((res) => {
                                 if(res?.status === 200) {
+                                    if(res?.data?.data === '{}') {
+                                        setAgencyNotComplete(true);
+                                    }
+
                                     let data = JSON.parse(res.data.data);
                                     data = {
                                         ...data,
@@ -103,6 +109,9 @@ const AgencyWrapper = ({page}) => {
     }, [page]);
 
     return render ? <div className={!accepted ? "externalContainer--agency" : ''}>
+
+        {page !== 1 && agencyNotComplete ? <AgencyNotCompleteAccountModal /> : ''}
+
         {render}
         {page !== 1 ? <LoggedUserFooter /> : ''}
     </div> : <div className="container container--loader center">

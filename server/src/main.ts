@@ -6,8 +6,8 @@ import * as passport from 'passport';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-      // origin: 'https://jooob.eu',
-      origin: 'http://localhost:3000',
+      origin: 'https://jooob.eu',
+      // origin: 'http://localhost:3000',
       credentials: true
   });
   app.use(passport.initialize());

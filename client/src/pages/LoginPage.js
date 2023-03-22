@@ -203,7 +203,7 @@ const LoginPage = ({type}) => {
                 {c.joinUs}
             </a> : <button className="btn btn--testAccount"
                            onClick={() => { setTestAccountModalVisible(true); }}>
-                Otwórz konto testowe {/* TODO */}
+                {c.test_account_text_1}
             </button>}
 
             <aside className="login__left__bottom flex">

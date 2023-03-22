@@ -26,7 +26,7 @@ import {getGoogleTranslateLanguageCode} from "../common/getGoogleTranslateLangua
 import { Response } from 'express'
 import {TestAccounts} from "../entities/test_accounts.entity";
 
-const TEST_ACCOUNT_EMAIL = 'josh.smith@jooob.eu';
+const TEST_ACCOUNT_EMAIL = 'work@jooob.eu';
 
 @Injectable()
 export class UserService {
@@ -80,7 +80,7 @@ export class UserService {
 
             await this.mailerService.sendMail({
                 to: email,
-                from: process.env.EMAIL_ADDRESS,
+                from: `Jooob.eu <${process.env.EMAIL_ADDRESS}>`,
                 subject: content[1],
                 html: `<div>
                     <h2>
@@ -191,7 +191,7 @@ export class UserService {
     async sendInvitation(email, name, createAccount, content, res: Response) {
         await this.mailerService.sendMail({
             to: email,
-            from: process.env.EMAIL_ADDRESS,
+            from: `Jooob.eu <${process.env.EMAIL_ADDRESS}>`,
             subject: `${content?.split('.')[1]} ${content?.split('.')[2]}`,
             html: `<div>
                     <h2>
@@ -867,7 +867,7 @@ export class UserService {
     async sendContactForm(name, email, msg, deliveryMail) {
         return this.mailerService.sendMail({
             to: deliveryMail,
-            from: process.env.EMAIL_ADDRESS,
+            from: `Jooob.eu <${process.env.EMAIL_ADDRESS}>`,
             subject: 'Nowa wiadomość w formularzu kontaktowym',
             html: `<div>
                     <h2>
@@ -897,7 +897,7 @@ export class UserService {
             // Send email
             await this.mailerService.sendMail({
                 to: email,
-                from: process.env.EMAIL_ADDRESS,
+                from: `Jooob.eu <${process.env.EMAIL_ADDRESS}>`,
                 subject: content[0],
                 html: `<div>
                     <p>
@@ -983,40 +983,71 @@ export class UserService {
         });
 
         if(newTestAccount) {
-            // Plan second email (after 20 hours)
+            // Plan second email (after 12 hours)
             const secondEmailDate = new Date();
-            secondEmailDate.setMinutes(secondEmailDate.getMinutes() + 2);
+            secondEmailDate.setHours(secondEmailDate.getHours() + 12);
             scheduleJob(secondEmailDate, async () => {
                 await this.mailerService.sendMail({
                     to: email,
-                    from: process.env.EMAIL_ADDRESS,
-                    subject: content[0],
+                    from: `Jooob.eu <${process.env.EMAIL_ADDRESS}>`,
+                    subject: content[10],
                     html: `<div>
                     <p>
-                        ${content[1]}  
+                        ${content[11]}        
                     </p>
-                    <a href="${process.env.WEBSITE_URL}">
-                        ${content[2]}
-                    </a>
+                    <p>
+                        • ${content[3]}<br/>
+                        • ${content[4]}
+                    </p>
+                    <p>
+                        ${content[5]} ${password} (email: work@jooob.eu)
+                    </p>
+                    <p>
+                        ${content[6]}
+                    </p>
+                    <p>
+                        ${content[7]} <a href="https://jooob.eu/strefa-pracownika">https://jooob.eu/strefa-pracownika</a>
+                    </p>
+                    <p>
+                        ${content[8]}
+                    </p>
+                    <p>
+                        <a href="https://www.youtube.com/watch?app=desktop&v=fJtBRdfXKYU&t" target="_blank">Fill in full profile - Candidates - YouTube</a>
+                    </p>
+                    <p>
+                        ${content[9]}
+                    </p>
                 </div>`
                 })
             });
 
-            // Plan third email (after 5 days)
+            // Plan third email (after 24 hours)
             const thirdEmailDate = new Date();
-            thirdEmailDate.setHours(secondEmailDate.getHours() + 24 * 5);
+            thirdEmailDate.setHours(secondEmailDate.getHours() + 24);
             scheduleJob(thirdEmailDate, async () => {
                 await this.mailerService.sendMail({
                     to: email,
-                    from: process.env.EMAIL_ADDRESS,
-                    subject: content[0],
+                    from: `Jooob.eu <${process.env.EMAIL_ADDRESS}>`,
+                    subject: content[12],
                     html: `<div>
                     <p>
-                        ${content[1]}  
+                        ${content[13]}        
                     </p>
-                    <a href="${process.env.WEBSITE_URL}">
-                        ${content[2]}
-                    </a>
+                    <p>
+                        ${content[14]}
+                    </p>
+                    <p>
+                        ${content[15]} <a href="https://jooob.eu/strefa-pracownika">https://jooob.eu/strefa-pracownika</a>
+                    </p>
+                    <p>
+                        ${content[8]}
+                    </p>
+                     <p>
+                        <a href="https://www.youtube.com/watch?app=desktop&v=fJtBRdfXKYU&t" target="_blank">Fill in full profile - Candidates - YouTube</a>
+                    </p>
+                    <p>
+                        ${content[9]}
+                    </p>
                 </div>`
                 })
             });
@@ -1024,15 +1055,37 @@ export class UserService {
             // Send first email
             return await this.mailerService.sendMail({
                 to: email,
-                from: process.env.EMAIL_ADDRESS,
+                from: `Jooob.eu <${process.env.EMAIL_ADDRESS}>`,
                 subject: content[0],
                 html: `<div>
                     <p>
-                        ${password}
+                        <b>${content[1]}</b>       
                     </p>
-                    <a href="${process.env.WEBSITE_URL}">
+                    <p>
                         ${content[2]}
-                    </a>
+                    </p>
+                    <p>
+                        • ${content[3]}<br/>
+                        • ${content[4]}
+                    </p>
+                    <p>
+                        ${content[5]} <b>${password}</b> (email: <b>work@jooob.eu</b>)
+                    </p>
+                    <p>
+                        ${content[6]}
+                    </p>
+                    <p>
+                        ${content[7]} <a href="https://jooob.eu/strefa-pracownika">https://jooob.eu/strefa-pracownika</a>
+                    </p>
+                    <p>
+                        ${content[8]}
+                    </p>
+                    <p>
+                        <a href="https://www.youtube.com/watch?app=desktop&v=fJtBRdfXKYU&t" target="_blank">Fill in full profile - Candidates - YouTube</a>
+                    </p>
+                    <p>
+                        ${content[9]}
+                    </p>
                 </div>`
             });
         }

@@ -173,7 +173,7 @@ const SingleOffer = () => {
                             <img className="img" src={salaryIcon} alt="branża" />
                                 {offer.o_category !== null ? `${offer.o_salaryFrom} - ${offer.o_salaryTo} ${currencies[offer.o_salaryCurrency]}` : ''}
                                 <span className="distance">
-                                {offer.o_category !== null ? `${c.netto}/${offer.o_salary_type === 1 ? c.weeklyShortcut : c.monthlyShortcut}` : ''}
+                                {offer.o_category !== null ? `${c.netto}/${offer.o_salaryType === 1 ? c.weeklyShortcut : c.monthlyShortcut}` : ''}
                             </span>
                         </span>
                             <span className="jobOffer__point flex">

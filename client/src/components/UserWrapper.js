@@ -13,12 +13,14 @@ import FastJobOfferList from "../pages/FastJobOffersList";
 import SingleFastOffer from "../pages/SingleFastOffer";
 import LoggedUserFooter from "./LoggedUserFooter";
 import {parseUserData} from "../helpers/others";
+import UserNotCompleteAccountModal from "./UserNotCompleteAccountModal";
 
 const UserAccountContext = React.createContext({});
 
 const UserWrapper = ({page}) => {
     const [render, setRender] = useState(null);
     const [realAccount, setRealAccount] = useState(false);
+    const [userNotComplete, setUserNotComplete] = useState(false);
 
     useEffect(() => {
         if(page) {
@@ -30,6 +32,10 @@ const UserWrapper = ({page}) => {
                                 if(res?.status === 200) {
                                     if(res?.data?.id !== 94) {
                                         setRealAccount(true);
+
+                                        if(res?.data?.data === '{}') {
+                                            setUserNotComplete(true);
+                                        }
                                     }
 
                                     let data;
@@ -99,6 +105,9 @@ const UserWrapper = ({page}) => {
     return render ? <UserAccountContext.Provider value={{
         realAccount
     }}>
+
+        {page !== 1 && userNotComplete ? <UserNotCompleteAccountModal /> : ''}
+
         {render}
         {page !== 1 ? <LoggedUserFooter /> : ''}
     </UserAccountContext.Provider> : <div className="container container--loader center">

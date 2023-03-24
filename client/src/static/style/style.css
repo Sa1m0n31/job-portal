@@ -1475,6 +1475,10 @@ input {
     transition: .2s all;
 }
 
+.filesUploadLabel--error {
+    border-color: red;
+}
+
 .filesUploadLabel:hover {
     border-width: 2px;
 }
@@ -6541,16 +6545,13 @@ input[type=month] {
 }
 
 .btn--testAccount {
-    width: auto;
-    padding: 15px 20px;
+    width: 100%;
+    padding: 10px 20px;
     margin: -50px auto 0;
-    /*position: absolute;*/
-    /*bottom: 100px;*/
-    /*left: 50%;*/
-    /*transform: translateX(-50%);*/
-    background: transparent;
-    color: var(--primary);
-    border: 1px solid var(--primary);
+    background: rgb(62, 165, 255);
+    color: #fff;
+    font-weight: 700;
+    border: 1px solid rgb(62, 165, 255);
 }
 
 .btn--testAccount:hover {
@@ -6599,7 +6600,7 @@ input[type=month] {
 }
 
 .modal--notComplete ul {
-    margin-left: 30px !important;
+    margin-left: 20px !important;
     margin-bottom: 20px !important;
     list-style-type: none;
 }
@@ -6608,4 +6609,13 @@ input[type=month] {
     font-weight: 700;
     text-decoration: underline;
     color: var(--primary);
+}
+
+.agencyModalList li {
+    padding-bottom: 12px;
+    margin-left: 0;
+}
+
+.modal--notComplete .modal__inner {
+    min-height: 100px !important;
 }

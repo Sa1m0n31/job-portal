@@ -4,7 +4,7 @@ import {LanguageContext} from "../App";
 import {Tooltip} from "react-tippy";
 
 const AgencyForm3a = () => {
-    const { setStep, setSubstep, agencyData, handleChange } = useContext(AgencyDataContext);
+    const { setStep, setSubstep, agencyData, handleChange, error } = useContext(AgencyDataContext);
     const { c } = useContext(LanguageContext);
 
     const handleRecruitmentChange = (e) => {
@@ -39,7 +39,7 @@ const AgencyForm3a = () => {
                 <span className="letterCounter">
                     {agencyData?.recruitmentProcess.length} / 600
                 </span>
-                <textarea className="input input--textarea input--situation"
+                <textarea className={error && !agencyData?.recruitmentProcess?.length ? "input input--textarea input--situation input--error" : "input input--textarea input--situation"}
                           value={agencyData.recruitmentProcess}
                           onChange={(e) => { handleRecruitmentChange(e); }}
                           placeholder={c.recruitmentProcessPlaceholder} />
@@ -62,7 +62,7 @@ const AgencyForm3a = () => {
                 <span className="letterCounter">
                     {agencyData?.benefits?.length} / 1000
                 </span>
-                <textarea className="input input--textarea input--situation"
+                <textarea className={error && !agencyData?.benefits?.length ? "input input--textarea input--situation input--error" : "input input--textarea input--situation"}
                           value={agencyData.benefits}
                           onChange={(e) => { handleBenefitsChange(e); }}
                           placeholder={c.benefitsPlaceholder} />

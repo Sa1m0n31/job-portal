@@ -31,7 +31,10 @@ const AgenciesList = ({data}) => {
         getAllApprovedAgencies(1)
             .then((res) => {
                 if(res?.status === 200) {
-                    setAgencies(res?.data);
+                    const agenciesSorted = res?.data?.sort((a, b) => {
+                       return a.data === '{}' ? 1 : -1;
+                    });
+                    setAgencies(agenciesSorted);
                 }
             })
             .catch((err) => {
@@ -173,7 +176,7 @@ const AgenciesList = ({data}) => {
                 })}
             </div>
 
-            <h4 className="testAccountHeader">
+            <h4 className="testAccountHeader red">
                 {c.test_account_text_3}
             </h4>
         </main>}

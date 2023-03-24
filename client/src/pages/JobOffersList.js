@@ -301,7 +301,7 @@ const JobOfferList = ({data}) => {
                 </div>
             }) : ''}
 
-            <h4 className="testAccountHeader">
+            <h4 className="testAccountHeader red">
                 {c.test_account_text_2}
             </h4>
         </div> : (!loading ? (!filterActive ? <InfiniteScroll

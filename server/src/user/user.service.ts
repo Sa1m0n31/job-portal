@@ -1069,7 +1069,10 @@ export class UserService {
                         • ${content[4]}
                     </p>
                     <p>
-                        ${content[5]} <b>${password}</b> (email: <b>work@jooob.eu</b>)
+                        <a target="_blank" href="https://jooob.eu/strefa-pracownika">${content[16]}</a>
+                         ${content[5]}<br/>
+                         e-mail: <b>work@jooob.eu</b><br/>
+                         ${content[17]}: <b>${password}</b>
                     </p>
                     <p>
                         ${content[6]}

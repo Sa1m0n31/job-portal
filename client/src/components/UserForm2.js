@@ -80,7 +80,7 @@ const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEduca
             </div>
         })}
 
-        <button className={userData?.schools?.length < 3 || !userData?.schools ? "addNewBtn flex" : "addNewBtn flex btn--disabled"} onClick={() => { addNewSchool(); }}>
+        <button className={userData?.schools?.length < 3 || !userData?.schools ? (error && !userData?.schools?.length ? "addNewBtn input--error flex" : "addNewBtn flex") : "addNewBtn flex btn--disabled"} onClick={() => { addNewSchool(); }}>
             {c.addNextSchool}
             <img className="img" src={plusIcon} alt="dodaj" />
         </button>

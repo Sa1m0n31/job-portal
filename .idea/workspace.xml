@@ -23,22 +23,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06c2c867-885a-4984-820a-27e97dc3ed90" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/AgencyNotCompleteAccountModal.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/UserNotCompleteAccountModal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyWrapper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyForm2.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyForm2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyForm3a.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyForm3a.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyForm4a.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyForm4a.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyForm4c.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyForm4c.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyNotCompleteAccountModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyNotCompleteAccountModal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/CV.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/CV.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/TestAccountModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/TestAccountModal.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserWrapper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm2.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm5b.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm5b.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserNotCompleteAccountModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserNotCompleteAccountModal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/AgenciesList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgenciesList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyEditData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyEditData.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/JobOffersList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/JobOffersList.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/LoginPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/LoginPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/settings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/UserHomepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/UserHomepage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/translation/translation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/translation/translation.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/user/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,7 +70,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/sajmo/Desktop/Programowanie/Projekty/job-portal/client/src/components",
+    "last_opened_file_path": "C:/Users/sajmo/Desktop/Programowanie/Projekty/draft4u",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -252,6 +253,8 @@
       <workItem from="1679075431701" duration="53000" />
       <workItem from="1679423176083" duration="654000" />
       <workItem from="1679423879627" duration="12946000" />
+      <workItem from="1679504479096" duration="2511000" />
+      <workItem from="1679602166865" duration="9428000" />
     </task>
     <servers />
   </component>

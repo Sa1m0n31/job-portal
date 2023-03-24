@@ -51,7 +51,7 @@ const AgencyEditData = () => {
         whereYouFindOurApp: '',
         // 4.1 Employees info
         roomType: 0,
-        houseType: [],
+        houseType: [0],
         roomDescription: '',
         parking: null,
         // 4.2 Employees info
@@ -67,7 +67,7 @@ const AgencyEditData = () => {
         // 4.3 Employees info
         pensionContributionsAvailable: false,
         pensionContributions: null,
-        holidayAllowanceType: null,
+        holidayAllowanceType: 0,
         holidayAllowanceFrequency: 0,
         holidayAllowanceDay: 0,
         holidayAllowanceMonth: 0,
@@ -109,6 +109,7 @@ const AgencyEditData = () => {
     const [step1Error, setStep1Error] = useState(false);
     const [step2Error, setStep2Error] = useState(false);
     const [step3Error, setStep3Error] = useState(false);
+    const [step4Error, setStep4Error] = useState(false);
 
     const { c } = useContext(LanguageContext);
 
@@ -263,6 +264,10 @@ const AgencyEditData = () => {
             fields.push(c.logo);
             setStep2Error(true);
         }
+        if(!agencyData?.gallery?.length) {
+            fields.push(c.gallery);
+            setStep2Error(true);
+        }
         if(!agencyData.description) {
             fields.push(c.companyDescription);
             setStep2Error(true);
@@ -278,6 +283,14 @@ const AgencyEditData = () => {
         if(!agencyData.benefits) {
             fields.push(c.benefits);
             setStep3Error(true);
+        }
+        if(!agencyData.roomDescription) {
+            fields.push(c.accommodationEquipment);
+            setStep4Error(true);
+        }
+        if(agencyData.healthInsurance === null) {
+            fields.push(c.healthInsurance);
+            setStep4Error(true);
         }
 
         if(fields.length) {
@@ -461,17 +474,35 @@ const AgencyEditData = () => {
     }, [step3Error]);
 
     useEffect(() => {
-        if(agencyData.description) {
-            setStep2Error(false);
-        }
+        const stepsParents = Array.from(document.querySelectorAll('.editData__step'));
+        const steps = Array.from(document.querySelectorAll('.editData__step>.editData__left__step__text'));
 
+        if(step4Error) {
+            steps[3].style.color = 'red';
+            stepsParents[3].style.opacity = '1';
+        }
+        else {
+            steps[3].style.color = '#fff';
+            stepsParents[3].style.opacity = '.5';
+        }
+    }, [step4Error]);
+
+    useEffect(() => {
         if(agencyData.name && agencyData.city && agencyData.country >= 0 && agencyData.postalCode &&
             agencyData.address && agencyData.nip && agencyData.phoneNumber) {
             setStep1Error(false);
         }
 
-        if(agencyData.whereYouFindOurApp) {
+        if(agencyData.description && agencyData.gallery.length && (agencyData.logo || agencyData.logoUrl)) {
+            setStep2Error(false);
+        }
+
+        if(agencyData.whereYouFindOurApp && agencyData.benefits && agencyData.recruitmentProcess) {
             setStep3Error(false);
+        }
+
+        if(agencyData.roomDescription && agencyData.healthInsurance !== null) {
+            setStep4Error(false);
         }
     }, [agencyData]);
 

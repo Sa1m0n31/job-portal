@@ -10,8 +10,7 @@ import downArrow from "../static/img/input-down-arrow.svg";
 import {LanguageContext} from "../App";
 import Loader from "./Loader";
 
-const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHolidayAllowanceFrequencyVisible,
-        setDayVisible, setMonthVisible, setPaycheckFrequencyVisible, setPaycheckDayVisible,
+const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setMonthVisible, setPaycheckFrequencyVisible, setPaycheckDayVisible,
         setHealthInsuranceVisible, setHealthInsuranceCurrencyVisible, submitAgencyData, setPensionContributionsVisible
                       }) => {
     const { setSubstep, agencyData, errorFields, handleChange, pensionVisible, holidayAllowanceTypeVisible,
@@ -39,7 +38,7 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
     return <>
         <div className="userForm userForm--4c userForm--4c--agency">
             <div className="label drivingLicenceWrapper">
-                {c.pension}
+                {c.pension} *
 
                 <div className="flex flex--start">
                     <div className="label--date__input label--date__input--bool label--date__input--drivingLicence">
@@ -79,7 +78,7 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
             </div>
 
             <div className="label drivingLicenceWrapper">
-                {c.holidayAllowance}
+                {c.holidayAllowance} *
                 <div className="flex flex--start">
                     <div className="label--date__input label--date__input--drivingLicence">
                         <button className="datepicker datepicker--country"
@@ -98,24 +97,6 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
                         </div> : ''}
                     </div>
                 </div>
-                {/*<div className="flex flex--start pensionFrequency">*/}
-                {/*    <div className="label--date__input label--date__input--drivingLicence label--date__input--pensionFrequency">*/}
-                {/*        <button className="datepicker datepicker--country"*/}
-                {/*                onClick={(e) => { e.stopPropagation(); setHolidayAllowanceFrequencyVisible(!holidayAllowanceFrequencyVisible); }}*/}
-                {/*        >*/}
-                {/*            {c.pensionFrequency ? JSON.parse(c.pensionFrequency)[agencyData.holidayAllowanceFrequency] : ''}*/}
-                {/*            <img className="dropdown" src={dropdownArrow} alt="rozwiń" />*/}
-                {/*        </button>*/}
-                {/*        {holidayAllowanceFrequencyVisible ? <div className="datepickerDropdown noscroll">*/}
-                {/*            {JSON.parse(c.pensionFrequency)?.map((item, index) => {*/}
-                {/*                return <button className="datepickerBtn center" key={index}*/}
-                {/*                               onClick={() => { handleChange('holidayAllowanceFrequency', index); }}>*/}
-                {/*                    {item}*/}
-                {/*                </button>*/}
-                {/*            })}*/}
-                {/*        </div> : ''}*/}
-                {/*    </div>*/}
-                {/*</div>*/}
 
                 {agencyData?.holidayAllowanceType === 1 ? <div className="label--flex">
                     {/* MONTH */}
@@ -139,7 +120,7 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
             </div>
 
             <div className="label drivingLicenceWrapper">
-                {c.salary}
+                {c.salary} *
                 <div className="label--flex salary">
                     {/* DAY */}
                     <div className="label--date__input">
@@ -179,10 +160,10 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setHol
             </div>
 
             <div className="label label--date label--date--address">
-                {c.healthInsurance}
+                {c.healthInsurance} *
                 <div className="flex">
                     <div className="label--date__input label--date__input--country">
-                        <button className="datepicker datepicker--country"
+                        <button className={error && agencyData.healthInsurance === null ? "datepicker datepicker--country input--error" : "datepicker datepicker--country"}
                                 onClick={(e) => { e.stopPropagation();
                                     setHealthInsuranceVisible(!healthInsuranceVisible); }}
                         >

@@ -18,6 +18,9 @@ const UserNotCompleteAccountModal = ({closeModal}) => {
     return <div className="modal modal--notComplete center">
         <div className="modal__inner">
             <p>
+                <b>{c.profile_popup_header}</b>
+            </p>
+            <p>
                 {c.profile_popup_1}
             </p>
             <p>
@@ -27,26 +30,29 @@ const UserNotCompleteAccountModal = ({closeModal}) => {
                 {c.profile_popup_3}
             </p>
             <p>
-                {c.profile_popup_4}
+                <b>{c.profile_popup_4}</b>
+            </p>
+            <p>
+                <b>{c.profile_popup_5}</b>
             </p>
             <ul>
-                <li>{c.profile_popup_5}</li>
                 <li>{c.profile_popup_6}</li>
                 <li>{c.profile_popup_7}</li>
+                <li>{c.profile_popup_8}</li>
             </ul>
             <p>
-                {c.profile_popup_8}
+                <b>{c.profile_popup_9}</b>
             </p>
             <ul>
-                <li>{c.profile_popup_9}</li>
                 <li>{c.profile_popup_10}</li>
                 <li>{c.profile_popup_11}</li>
                 <li>{c.profile_popup_12}</li>
                 <li>{c.profile_popup_13}</li>
                 <li>{c.profile_popup_14}</li>
+                <li>{c.profile_popup_15}</li>
             </ul>
             <p>
-                {c.profile_popup_15}
+                {c.profile_popup_16}
             </p>
             <p>
                 <a href="https://www.youtube.com/watch?app=desktop&v=fJtBRdfXKYU&t" target="_blank">

@@ -17,17 +17,17 @@ const AgencyNotCompleteAccountModal = ({closeModal}) => {
 
     return <div className="modal modal--notComplete center">
         <div className="modal__inner">
-            <p>
+            <p className="bold">
                 {c.agency_popup_1}
             </p>
-            <ul>
-                <li>{c.agency_popup_2}</li>
-                <li>{c.agency_popup_3}</li>
-                <li>{c.agency_popup_4}</li>
-                <li>{c.agency_popup_5}</li>
+            <ul className="agencyModalList">
+                <li><b>{c.agency_popup_2.split('.')[0]}</b> - {c.agency_popup_2.split('.')[1]}.</li>
+                <li><b>{c.agency_popup_3.split('.')[0]}</b> - {c.agency_popup_3.split('.')[1]}.</li>
+                <li><b>{c.agency_popup_4.split('.')[0]}</b> - {c.agency_popup_4.split('.')[1]}.</li>
+                <li><b>{c.agency_popup_5.split('.')[0]}</b> - {c.agency_popup_5.split('.')[1]}.</li>
             </ul>
-            <p>
-                {c.profile_popup_6}
+            <p className="bold">
+                {c.agency_popup_6}
             </p>
 
             <a className="btn btn--modal btn--modalNotes" href="/edycja-danych-agencji">

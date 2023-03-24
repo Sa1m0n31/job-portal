@@ -3,6 +3,7 @@ import {Page, Text, Font, View, Document, StyleSheet, Image} from '@react-pdf/re
 import {addLeadingZero} from "../helpers/others";
 import {getUserData} from "../helpers/user";
 import jooobLogo from '../static/img/logo-czarne.png'
+import defaultProfileImage from '../static/img/user-placeholder.svg';
 
 Font.register({
     family: "Roboto",
@@ -221,7 +222,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
             <View style={styles.column}>
                 {companyLogo ? <View style={styles.topRow}>
                     <View>
-                        <Image src={profileImage} style={styles.profileImage}>
+                        <Image src={profileImage || defaultProfileImage} style={styles.profileImage}>
 
                         </Image>
                         <Text style={styles.textBigCompany}>
@@ -244,7 +245,7 @@ const CV = ({profileImage, fullName, phoneNumber, email, location, categories, b
                     </View>
                 </View> : <View style={styles.topRow}>
                     <View>
-                        <Image src={profileImage} style={styles.profileImage}>
+                        <Image src={profileImage || defaultProfileImage} style={styles.profileImage}>
 
                         </Image>
                         <Text style={styles.textBigCompany}>

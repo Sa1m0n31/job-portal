@@ -144,7 +144,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                 <div className="userAccount__box__right">
                     {data?.firstName && data?.lastName ? <label className="userAccount__box__downloadCV">
                         {c.generateAndDownloadCV}:
-                        {data ? <PDFDownloadLink document={<CV profileImage={`${settings.API_URL}/${data?.profileImage}`}
+                        {data ? <PDFDownloadLink document={<CV profileImage={data?.profileImage ? `${settings.API_URL}/${data?.profileImage}` : userPlaceholder}
                                                                c={c}
                                                                fullName={data.firstName ? `${data.firstName} ${data.lastName}` : c.anonim}
                                                                categories={data.categories}

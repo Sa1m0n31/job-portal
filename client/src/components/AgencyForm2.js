@@ -36,7 +36,7 @@ const AgencyForm2 = ({removeLogo, handleFileUpload, removeGalleryImage}) => {
                 <p className="label--extraInfo label--extraInfo--marginBottom">
                     {c.logoDescription}
                 </p>
-                <div className={!agencyData?.logoUrl ? "filesUploadLabel center" : "filesUploadLabel filesUploadLabel--noBorder center"}>
+                <div className={!agencyData?.logoUrl ? (error ? "filesUploadLabel filesUploadLabel--error center" : "filesUploadLabel center") : "filesUploadLabel filesUploadLabel--noBorder center"}>
                     {!agencyData.logoUrl ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : <div className="filesUploadLabel__profileImage">
                         <button className="removeProfileImageBtn" onClick={() => { removeLogo(); }}>
                             <img className="img" src={trashIcon} alt="usun" />
@@ -51,11 +51,11 @@ const AgencyForm2 = ({removeLogo, handleFileUpload, removeGalleryImage}) => {
             </div>
 
             <div className="label">
-                {c.gallery}
+                {c.gallery} *
                 <p className="label--extraInfo label--extraInfo--marginBottom">
                     {c.galleryDescription}
                 </p>
-                <div className="filesUploadLabel center">
+                <div className={error && !agencyData?.gallery?.length ? "filesUploadLabel filesUploadLabel--error center" : "filesUploadLabel center"}>
                     {agencyData?.gallery?.length === 0 ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : ''}
                     <input className="input input--file"
                            type="file"

@@ -26,7 +26,7 @@ const TestAccountModal = ({closeModal}) => {
 
             const mailContent = [c.first_email_title, c.first_email_1, c.first_email_2, c.first_email_3, c.first_email_4, c.first_email_5,
                 c.first_email_6, c.first_email_7, c.first_email_8, c.first_email_9, c.second_email_title, c.second_email_1,
-                c.third_email_title, c.third_mail_1, c.third_mail_2, c.third_mail_3];
+                c.third_email_title, c.third_mail_1, c.third_mail_2, c.third_mail_3, c.login, c.password];
 
             registerTestAccount(email, mailContent)
                 .then((res) => {

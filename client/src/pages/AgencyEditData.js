@@ -229,7 +229,7 @@ const AgencyEditData = () => {
         }));
     }
 
-    const validateAgencyData = () => {
+    const validateAgencyData = (agencyData) => {
         let fields = [];
 
         if(!agencyData.name) {
@@ -288,8 +288,20 @@ const AgencyEditData = () => {
             fields.push(c.accommodationEquipment);
             setStep4Error(true);
         }
-        if(agencyData.healthInsurance === null) {
+        if(agencyData.healthInsurance === null || (agencyData.healthInsurance !== 1 && !agencyData.healthInsuranceCost)) {
             fields.push(c.healthInsurance);
+            setStep4Error(true);
+        }
+        if(agencyData.carAvailable && (agencyData.car === null || (agencyData.car === 0 && !agencyData.carPrice))) {
+            fields.push(c.car);
+            setStep4Error(true);
+        }
+        if(agencyData.bikeAvailable && (agencyData.bike === null || (agencyData.bike === 0 && !agencyData.bikePrice))) {
+            fields.push(c.bike);
+            setStep4Error(true);
+        }
+        if(agencyData.pensionContributionsAvailable && agencyData.pensionContributions === null) {
+            fields.push(c.pension);
             setStep4Error(true);
         }
 
@@ -302,27 +314,28 @@ const AgencyEditData = () => {
         }
     }
 
-    const submitAgencyData = async (agencyData) => {
-        if(validateAgencyData()) {
+    const submitAgencyData = (agencyData) => {
+        const isValidate = validateAgencyData(agencyData);
+
+        if(isValidate) {
             setLoading(true);
 
-            try {
-                const res = await updateAgency(agencyData);
-
-                if(res?.status === 201) {
-                    setLoading(false);
-                    setSubstep(0);
-                    setStep(4);
-                }
-                else {
+            updateAgency(agencyData)
+                .then((res) => {
+                    if(res?.status === 201) {
+                        setLoading(false);
+                        setSubstep(0);
+                        setStep(4);
+                    }
+                    else {
+                        setError(JSON.parse(c.formErrors)[1]);
+                        setLoading(false);
+                    }
+                })
+                .catch(() => {
                     setError(JSON.parse(c.formErrors)[1]);
                     setLoading(false);
-                }
-            }
-            catch(err) {
-                setError(JSON.parse(c.formErrors)[1]);
-                setLoading(false);
-            }
+                });
         }
         else {
             window.scrollTo(0, document.body.scrollHeight);

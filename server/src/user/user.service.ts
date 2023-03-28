@@ -993,14 +993,17 @@ export class UserService {
                     subject: content[10],
                     html: `<div>
                     <p>
-                        ${content[11]}        
+                        <b>${content[11]}</b>        
                     </p>
                     <p>
                         • ${content[3]}<br/>
                         • ${content[4]}
                     </p>
                     <p>
-                        ${content[5]} ${password} (email: work@jooob.eu)
+                        <a target="_blank" href="https://jooob.eu/strefa-pracownika">${content[16]}</a>
+                         ${content[5]}<br/>
+                         e-mail: <b>work@jooob.eu</b><br/>
+                         ${content[17]}: <b>${password}</b>
                     </p>
                     <p>
                         ${content[6]}
@@ -1009,7 +1012,7 @@ export class UserService {
                         ${content[7]} <a href="https://jooob.eu/strefa-pracownika">https://jooob.eu/strefa-pracownika</a>
                     </p>
                     <p>
-                        ${content[8]}
+                        <b>${content[8]}</b>
                     </p>
                     <p>
                         <a href="https://www.youtube.com/watch?app=desktop&v=fJtBRdfXKYU&t" target="_blank">Fill in full profile - Candidates - YouTube</a>

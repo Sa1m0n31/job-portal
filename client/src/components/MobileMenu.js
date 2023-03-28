@@ -7,18 +7,21 @@ import {logoutAdmin} from "../helpers/admin";
 import {logout} from "../helpers/user";
 import logoutIcon from '../static/img/logout.svg'
 import {isHomepage} from "../helpers/others";
+import {UserAccountContext} from "./UserWrapper";
 
 const MobileMenu = ({closeMenu, type, setLanguagePopupVisible}) => {
     const [menuLabels, setMenuLabels] = useState([]);
     const [menu, setMenu] = useState([]);
+
     const { c } = useContext(LanguageContext);
+    const { realAccount } = useContext(UserAccountContext);
 
     useEffect(() => {
         if(type && c.userMenuLabels) {
             switch(type) {
                 case 2:
-                    setMenu(userMenu);
-                    setMenuLabels(JSON.parse(c.userMenuLabels));
+                    setMenu(realAccount ? userMenu : userMenu.slice(0, -1));
+                    setMenuLabels(realAccount ? JSON.parse(c.userMenuLabels) : JSON.parse(c.userMenuLabels).slice(0, -1));
                     break;
                 case 3:
                     setMenu(agencyMenu);

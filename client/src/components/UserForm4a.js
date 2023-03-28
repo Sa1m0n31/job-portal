@@ -6,12 +6,12 @@ import dropdownArrow from "../static/img/dropdown-arrow.svg";
 import {LanguageContext} from "../App";
 
 const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCategory, setLevelsVisible, setDrivingLicenceVisible}) => {
-    const { userData, setStep, setSubstep, handleChange, levelsVisible, drivingLicenceVisible } = useContext(UserDataContext);
+    const { userData, setStep, setSubstep, handleChange, levelsVisible, drivingLicenceVisible, error } = useContext(UserDataContext);
     const { c } = useContext(LanguageContext);
 
     return <>
         <div className="userForm">
-        <div className="label">
+        <div className={userData.languages.findIndex((i) => (i)) === -1 && !userData.extraLanguages ? "label error" : "label"}>
             {c.foreignLanguages.charAt(0).toUpperCase() + c.foreignLanguages.slice(1)} *
             <div className="languagesWrapper flex">
                 {JSON.parse(c.languages).map((item, index) => {

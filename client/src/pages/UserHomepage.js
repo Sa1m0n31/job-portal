@@ -103,9 +103,9 @@ const UserHomepage = ({data, userId, visible, working}) => {
             </aside>
             <main className="userAccount__box userAccount__box__top userAccount__box--100 flex">
                 <div className="userAccount__box__left">
-                    <a href="/edycja-danych" className="mobileSettingsBtn">
+                    {realAccount ? <a href="/edycja-danych" className="mobileSettingsBtn">
                         <img className="img" src={settingsCircle} alt="ustawienia" />
-                    </a>
+                    </a> : ''}
                     <figure>
                         {data?.country >= 0 ? <span className={`flag flag--mobile fi fi-${flags[data.country].toLowerCase()}`}></span> : ''}
                         <img className="img" src={data?.profileImage ? `${settings.API_URL}/${data?.profileImage}` : userPlaceholder} alt="zdjecie-profilowe" />

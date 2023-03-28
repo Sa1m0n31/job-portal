@@ -39,8 +39,8 @@ const updateOffer = (data, email = false) => {
     return axios.patch('/offer/update', formData, config);
 }
 
-const getJobOffersByAgency = () => {
-    return axios.get(`/offer/getOffersByAgency/${getLoggedUserEmail()}/${getLang()}`, {
+const getJobOffersByAgency = (email = null) => {
+    return axios.get(`/offer/getOffersByAgency/${email ? email : getLoggedUserEmail()}/${getLang()}`, {
         headers: {
             Authorization: getAuthHeader()
         }

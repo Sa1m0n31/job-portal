@@ -36,6 +36,13 @@ const UserWrapper = ({page}) => {
                                         if(res?.data?.data === '{}') {
                                             setUserNotComplete(true);
                                         }
+                                        else {
+                                            let data = JSON.parse(res.data.data);
+
+                                            if(!data.profileImage || !data.profileImageUrl) {
+                                                setUserNotComplete(true);
+                                            }
+                                        }
                                     }
 
                                     let data;
@@ -75,7 +82,7 @@ const UserWrapper = ({page}) => {
                                             setRender(<SendMessage data={data} agency={false} />);
                                             break;
                                         case 10:
-                                            setRender(<AgencyProfile data={data} />);
+                                            setRender(<AgencyProfile data={data} user={true} />);
                                             break;
                                         case 11:
                                             setRender(<SingleFastOffer data={data} />);

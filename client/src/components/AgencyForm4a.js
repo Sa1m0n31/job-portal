@@ -10,7 +10,7 @@ const AgencyForm4a = ({setRoomVisible, toggleHouses}) => {
 
     return <>
         <div className="userForm userForm--4a userForm--4a--agency">
-            <div className="label label--date label--date--address">
+            <div className={error && !agencyData.houseType?.length ? "label label--date label--date--address error" : "label label--date label--date--address"}>
                 {c.accommodation} *
                 <div className="flex flex-wrap">
                     <div className="label--date__input label--date__input--country label--date__input--roomType">

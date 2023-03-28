@@ -22,13 +22,20 @@ import Loader from "../components/Loader";
 import backIcon from "../static/img/back-arrow-grey.svg";
 import {LanguageContext} from "../App";
 import {UserAccountContext} from "../components/UserWrapper";
+import {getJobOffersByAgency} from "../helpers/offer";
+import localization from "../static/img/location.svg";
+import salaryIcon from "../static/img/dolar-icon.svg";
+import {isElementInArray} from "../helpers/others";
+import {getUserApplications} from "../helpers/user";
 
-const AgencyProfile = ({data}) => {
+const AgencyProfile = ({data, user}) => {
     const [currentGalleryScroll, setCurrentGalleryScroll] = useState(0);
     const [galleryIndex, setGalleryIndex] = useState(-1);
     const [id, setId] = useState(null);
     const [email, setEmail] = useState('');
     const [agency, setAgency] = useState(null);
+    const [jobOffers, setJobOffers] = useState([]);
+    const [applications, setApplications] = useState([]);
 
     const { c } = useContext(LanguageContext);
     const { realAccount } = useContext(UserAccountContext);
@@ -37,12 +44,26 @@ const AgencyProfile = ({data}) => {
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
         if(id) {
+            getUserApplications()
+                .then((res) => {
+                    if(res?.status === 200) {
+                        setApplications(res?.data?.map((item) => (item.offer)));
+                    }
+                });
+
             setId(parseInt(id));
             getAgencyById(id)
                 .then((res) => {
                     if(res?.status === 200) {
                         setEmail(res?.data?.email);
                         setAgency(JSON.parse(res?.data?.data));
+
+                        getJobOffersByAgency(res?.data?.email)
+                            .then((res) => {
+                                if(res?.status === 200) {
+                                    setJobOffers(res?.data);
+                                }
+                            });
                     }
                 })
                 .catch((err) => {
@@ -53,6 +74,10 @@ const AgencyProfile = ({data}) => {
             window.location = '/';
         }
     }, []);
+
+    useEffect(() => {
+        console.log(jobOffers);
+    }, [jobOffers]);
 
     useEffect(() => {
         if(gallery) {
@@ -124,9 +149,9 @@ const AgencyProfile = ({data}) => {
             <div className="flex flex--firstLine">
                 <main className="userAccount__box userAccount__box--30 flex">
                     <div className="userAccount__box__left">
-                        <a href="/edycja-danych-agencji" className="mobileSettingsBtn">
-                            <img className="img" src={settingsCircle} alt="ustawienia" />
-                        </a>
+                        {!user ? <a href="/edycja-danych-agencji" className="mobileSettingsBtn">
+                                <img className="img" src={settingsCircle} alt="ustawienia" />
+                            </a> : ''}
                         <figure>
                             <img className="img" src={agency?.logo ? `${settings.API_URL}/${agency?.logo}` : userPlaceholder} alt="zdjecie-profilowe" />
                         </figure>
@@ -405,6 +430,66 @@ const AgencyProfile = ({data}) => {
                     </div> : ''}
                 </div>
             </div>
+        </div>
+
+        <div className="agency__jobOffers">
+            <h3 className="agency__jobOffers__header">
+                {c.activeJobOffers}
+            </h3>
+
+            {jobOffers?.map((item, index) => {
+                    return <div className="offerItem flex" key={index}>
+                        <span className="offerItem__date">
+                            {item.created_at?.substring(0, 10)}
+                        </span>
+                        <div className="offerItem__left">
+                            <figure className="offerItem__figure">
+                                <img className="img" src={agency?.logo ? `${settings.API_URL}/${agency?.logo}` : userPlaceholder} alt="zdjecie-profilowe" />
+                            </figure>
+                            <div className="offerItem__mainInfo">
+                                <h2 className="offerItem__title">
+                                    {item.title}
+                                </h2>
+                                <h3 className="offerItem__localization">
+                                    <img className="icon" src={localization} alt="lokalizacja" />
+                                    {item.city}, {JSON.parse(c.countries)[item.country]}
+                                </h3>
+                                <h5 className="offerItem__company">
+                                    {item.a_data ? JSON.parse(item.a_data).name : ''}
+                                </h5>
+                            </div>
+                        </div>
+                        <div className="offerItem__category">
+                            {JSON.parse(c.categories)[item.category]}
+                        </div>
+                        <div className="offerItem__salary">
+                    <span className="nowrap">
+                        <img className="icon" src={salaryIcon} alt="wynagrodzenie" />
+                        {item.salaryFrom} {currencies[item.salaryCurrency]}
+                    </span> - {item.salaryTo} {currencies[item.salaryCurrency]}
+                            <span className="netto">
+                        netto/{item.salaryType === 1 ? c.weeklyShortcut : c.monthlyShortcut}
+                    </span>
+                        </div>
+                        <div className="offerItem__requirements">
+                            {JSON.parse(item.benefits.replace(/'/g, '"'))?.slice(0, 3)?.map((item, index) => {
+                                return <span className="offerItem__requirement" key={index}>
+                            {item}
+                        </span>
+                            })}
+                        </div>
+                        <div className="offerItem__buttons offerItem__buttons--user flex">
+                            <a href={`/oferta-pracy?id=${item.id}`}
+                               className="btn btn--white">
+                                {c.checkOffer}
+                            </a>
+                            {realAccount ? <a href={`/aplikuj?id=${item.id}`}
+                                              className={isElementInArray(item.id, applications) ? "btn btn--disabled" : "btn"}>
+                                {c.apply}
+                            </a> : ''}
+                        </div>
+                    </div>
+                })}
         </div>
     </div> : <div className="center container--height100">
         <Loader />

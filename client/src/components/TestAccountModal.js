@@ -65,7 +65,7 @@ const TestAccountModal = ({closeModal}) => {
                        onChange={(e) => { setEmail(e.target.value); }} />
             </label>
 
-            {success ? <span className="info info--success">
+            {success ? <span className="info info--success green">
                 {c.test_account_modal_2}
             </span> : ''}
 

@@ -106,11 +106,8 @@ const UserEditData = () => {
     const [step1Error, setStep1Error] = useState(false);
     const [step2Error, setStep2Error] = useState(false);
     const [step3Error, setStep3Error] = useState(false);
+    const [step4Error, setStep4Error] = useState(false);
     const [step5Error, setStep5Error] = useState(false);
-    const [schoolErrorIndex, setSchoolErrorIndex] = useState(-1);
-    const [schoolErrorField, setSchoolErrorField] = useState(-1);
-    const [jobErrorIndex, setJobErrorIndex] = useState(-1);
-    const [jobErrorField, setJobErrorField] = useState(-1);
 
     const { c } = useContext(LanguageContext);
 
@@ -143,8 +140,6 @@ const UserEditData = () => {
                 setCurrentForm(<UserForm2 addNewSchool={addNewSchool}
                                           deleteSchool={deleteSchool}
                                           setEducationVisible={setEducationVisible}
-                                          schoolErrorIndex={schoolErrorIndex}
-                                          schoolErrorField={schoolErrorField}
                                           toggleSchoolInProgress={toggleSchoolInProgress} />);
                 break;
             case 2:
@@ -153,8 +148,6 @@ const UserEditData = () => {
                                           addNewResponsibility={addNewResponsibility}
                                           updateJobResponsibilities={updateJobResponsibility}
                                           deleteResponsibility={deleteResponsibility}
-                                          jobErrorIndex={jobErrorIndex}
-                                          jobErrorField={jobErrorField}
                                           toggleJobInProgress={toggleJobInProgress} />);
                 break;
             case 3:
@@ -306,53 +299,35 @@ const UserEditData = () => {
             }
             else {
                 let nameError = false;
-                const schoolIndex = data.findIndex((item, index) => {
+                const schoolIndex = data.findIndex((item) => {
+                    if(job) {
+                        const noResponsibilities = item.responsibilities.findIndex((item) => (item)) === -1;
+
+                        if(noResponsibilities) {
+                            return true;
+                        }
+                    }
+
                     if(item.inProgress) {
                         if(!item.name) {
                             nameError = true;
                             return true;
                         }
-                        if(!dateValidation(item.from)) {
-                            if(job) {
-                                setJobErrorIndex(index);
-                                setJobErrorField(1);
-                            }
-                            else {
-                                setSchoolErrorIndex(index);
-                                setSchoolErrorField(1);
-                            }
-                            return true;
-                        }
-                        return false;
+                        return !dateValidation(item.from);
                     }
                     else {
                         if(!item.name) {
                             nameError = true;
                             return true;
                         }
+                        if(!job && !item.title) {
+                            return true;
+                        }
                         if(!dateValidation(item.from)) {
-                            if(job) {
-                                setJobErrorIndex(index);
-                                setJobErrorField(1);
-                            }
-                            else {
-                                setSchoolErrorIndex(index);
-                                setSchoolErrorField(1);
-                            }
                             return true;
                         }
-                        if(!dateValidation(item.to)) {
-                            if(job) {
-                                setJobErrorIndex(index);
-                                setJobErrorField(2);
-                            }
-                            else {
-                                setSchoolErrorIndex(index);
-                                setSchoolErrorField(2);
-                            }
-                            return true;
-                        }
-                        return false;
+                        return !dateValidation(item.to);
+
                     }
                 });
 
@@ -360,8 +335,7 @@ const UserEditData = () => {
                     return 1;
                 }
                 else {
-                    if(nameError) return -1;
-                    else return -2;
+                    return -1;
                 }
             }
         }
@@ -373,6 +347,10 @@ const UserEditData = () => {
     const validateUserData = () => {
         const fields = [];
 
+        if(!userData.profileImage && !userData.profileImageUrl) {
+            setStep1Error(true);
+            fields.push(c.profileImage);
+        }
         if(!userData.firstName) {
             setStep1Error(true);
             fields.push(c.firstName);
@@ -423,7 +401,15 @@ const UserEditData = () => {
                 }
             }
         }
+        else {
+            setStep3Error(true);
+            fields.push(c.jobExperience);
+        }
 
+        if(!userData.extraLanguages && (userData.languages.findIndex((i) => (i)) === -1)) {
+            setStep4Error(true);
+            fields.push(c.foreignLanguages);
+        }
         if(!userData.currentCity || !userData.currentPostalCode) {
             setStep5Error(true);
             fields.push(c.currentLivingPlace);
@@ -990,6 +976,20 @@ const UserEditData = () => {
         const stepsParents = Array.from(document.querySelectorAll('.editData__step'));
         const steps = Array.from(document.querySelectorAll('.editData__step>.editData__left__step__text'));
 
+        if(step4Error) {
+            steps[3].style.color = 'red';
+            stepsParents[3].style.opacity = '1';
+        }
+        else {
+            steps[3].style.color = '#fff';
+            stepsParents[3].style.opacity = '.5';
+        }
+    }, [step4Error]);
+
+    useEffect(() => {
+        const stepsParents = Array.from(document.querySelectorAll('.editData__step'));
+        const steps = Array.from(document.querySelectorAll('.editData__step>.editData__left__step__text'));
+
         if(step5Error) {
             steps[4].style.color = 'red';
             stepsParents[4].style.opacity = '1';
@@ -1005,21 +1005,37 @@ const UserEditData = () => {
             && userData.phoneNumber) {
             setStep1Error(false);
         }
+        else if(error) {
+            setStep1Error(true);
+        }
 
-        if(schoolsValidation(userData?.schools, false)) {
+        if(schoolsValidation(userData?.schools, false) !== -1) {
             setStep2Error(false);
         }
+        else if(error) {
+            setStep2Error(true);
+        }
 
-        if(!userData?.jobs?.length) {
+        if(schoolsValidation(userData?.jobs, true) !== -1) {
             setStep3Error(false);
         }
-        else if(schoolsValidation(userData?.jobs, true)) {
-            setStep3Error(false);
+        else if(error) {
+            setStep3Error(true);
+        }
+
+        if(userData.extraLanguages || (userData.languages.findIndex((i) => (i)) !== -1)) {
+            setStep4Error(false);
+        }
+        else if(error) {
+            setStep4Error(true);
         }
 
         if(userData.currentCity && userData.currentPostalCode && userData.longTermJobSeeker !== null && userData.ownTransport !== null
             && userData.ownAccommodation !== null && userData.salaryFrom && userData.salaryTo && userData.categories?.length && userData.categories[0] !== '-') {
             setStep5Error(false);
+        }
+        else if(error) {
+            setStep5Error(true);
         }
     }, [userData]);
 

@@ -307,6 +307,12 @@ const AddJobOffer = ({updateMode}) => {
         if(!image && !imageUrl) {
             fields.push(c.backgroundImage);
         }
+        if(!contractType?.length) {
+            fields.push(c.contractType);
+        }
+        if(timeBounded && (day === -1 || month === -1 || year === -1)) {
+            fields.push(c.offerTime);
+        }
 
         setErrorFields(fields);
 
@@ -686,7 +692,7 @@ const AddJobOffer = ({updateMode}) => {
                 </div>
             </div>
 
-            <div className="label drivingLicenceWrapper">
+            <div className={error && !contractType?.length ? "label drivingLicenceWrapper error" : "label drivingLicenceWrapper"}>
                 {c.contractType}
                 <div className="languagesWrapper languagesWrapper--contracts flex">
                     {JSON.parse(c.contracts).map((item, index) => {
@@ -724,7 +730,7 @@ const AddJobOffer = ({updateMode}) => {
                 <div className={!timeBounded ? "label--flex flex--start label--disabled" : "label--flex flex--start"}>
                     {/* DAY */}
                     <div className="label--date__input">
-                        <button className="datepicker datepicker--day"
+                        <button className={error && timeBounded && day === -1 ? "datepicker datepicker--day input--error" : "datepicker datepicker--day"}
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setDayVisible(!dayVisible); }}
                         >
                             {day !== -1 ? day+1 : c.day}
@@ -741,7 +747,7 @@ const AddJobOffer = ({updateMode}) => {
                     </div>
                     {/* MONTH */}
                     <div className="label--date__input">
-                        <button className="datepicker datepicker--month"
+                        <button className={error && timeBounded && month === -1 ? "datepicker datepicker--month input--error" : "datepicker datepicker--month"}
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setMonthVisible(!monthVisible); }}
                         >
                             {month !== -1 ? JSON.parse(c.months)[month] : c.month}
@@ -758,7 +764,7 @@ const AddJobOffer = ({updateMode}) => {
                     </div>
                     {/* YEARS */}
                     <div className="label--date__input">
-                        <button className="datepicker datepicker--year"
+                        <button className={error && timeBounded && year === -1 ? "datepicker datepicker--year input--error" : "datepicker datepicker--year"}
                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); setYearVisible(!yearVisible); }}
                         >
                             {year !== -1 ? year : c.year}

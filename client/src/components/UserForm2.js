@@ -5,7 +5,7 @@ import plusIcon from '../static/img/plus-in-circle.svg'
 import trashIcon from '../static/img/trash.svg'
 import {LanguageContext} from "../App";
 
-const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEducationVisible, schoolErrorField, schoolErrorIndex}) => {
+const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEducationVisible}) => {
     const { setStep, error, userData, handleChange, educationVisible } = useContext(UserDataContext);
     const { c } = useContext(LanguageContext);
 
@@ -38,8 +38,8 @@ const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEduca
                            onChange={(e) => { handleChange('schools', e.target.value, 'name', index); }} />
                 </label>
                 <label className="label label--profession">
-                    {c.learnedProfession}
-                    <input className="input"
+                    {c.learnedProfession} *
+                    <input className={error && !item.title ? "input input--error" : "input"}
                            value={item.title}
                            onChange={(e) => { handleChange('schools', e.target.value, 'title', index); }} />
                 </label>
@@ -50,14 +50,14 @@ const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEduca
                             {c.educationYears} *
                         </span>
                         <input type="text"
-                               className={error && ((schoolErrorIndex === index && schoolErrorField === 1)) ? "input input--error" : "input"}
+                               className={error && !item.from ? "input input--error" : "input"}
                                value={item.from}
                                placeholder="YYYY-MM"
                                onChange={(e) => { handleChange('schools', e.target.value, 'from', index); }} />
                     </label>
                     -
                     <label className="label">
-                        <input className={error && ((schoolErrorIndex === index && schoolErrorField === 2)) && !item.inProgress ? "input input--error" : "input"}
+                        <input className={error && !item.to && !item.inProgress ? "input input--error" : "input"}
                                type="text"
                                disabled={item.inProgress}
                                value={item.to}

@@ -65,7 +65,7 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
                 <p className="label--extraInfo label--extraInfo--marginBottom">
                     {c.profileImageDescription}
                 </p>
-                <div className={!userData?.profileImageUrl ? "filesUploadLabel center" : "filesUploadLabel filesUploadLabel--noBorder center"}>
+                <div className={!userData?.profileImageUrl ? (error ? "filesUploadLabel input--error center" : "filesUploadLabel center") : "filesUploadLabel filesUploadLabel--noBorder center"}>
                     {!userData.profileImageUrl ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : <div className="filesUploadLabel__profileImage">
                         <button className="removeProfileImageBtn" onClick={() => { removeProfileImage(); }}>
                             <img className="img" src={trashIcon} alt="usun" />

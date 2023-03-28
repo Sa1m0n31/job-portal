@@ -38,7 +38,7 @@ function App() {
     let updateValue;
 
     if(localStorage.getItem('siteContent')) {
-      updateValue = JSON.parse(localStorage.getItem('siteContent')).profile_popup_header;
+      updateValue = JSON.parse(localStorage.getItem('siteContent')).update28032023;
     }
 
     if((storedLanguage !== language) || (!updateValue)) {

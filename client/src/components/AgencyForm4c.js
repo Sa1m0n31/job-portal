@@ -59,7 +59,7 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setMon
 
                 {agencyData?.pensionContributionsAvailable ? <div className="flex flex--start marginTop10">
                     <div className="label--date__input label--date__input--drivingLicence">
-                        <button className="datepicker datepicker--country"
+                        <button className={agencyData.pensionContributions === null ? "datepicker datepicker--country input--error" : "datepicker datepicker--country"}
                                 onClick={(e) => { e.stopPropagation(); setPensionVisible(!pensionVisible); }}
                         >
                             {agencyData.pensionContributions !== null && c.pensionContributionsType ? JSON.parse(c.pensionContributionsType)[agencyData.pensionContributions] : c.choose}
@@ -180,7 +180,7 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setMon
                         </div> : ''}
                     </div>
                     <label className="label label--agencyPrice">
-                        <input className="input"
+                        <input className={error && agencyData.healthInsurance !== 1 && !agencyData.healthInsuranceCost ? "input input--error" : "input"}
                                type="number"
                                disabled={agencyData.healthInsurance === 1}
                                min={1}

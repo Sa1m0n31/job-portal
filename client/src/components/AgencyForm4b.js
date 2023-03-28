@@ -9,7 +9,7 @@ import {LanguageContext} from "../App";
 const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, setBikeCurrencyVisible, setTransportCostReturnVisible, setCarAvailableVisible,
                       setBikeAvailableVisible}) => {
     const { setSubstep, agencyData, handleChange, carVisible, carAvailableVisible, bikeAvailableVisible,
-        carCurrencyVisible, bikeVisible, bikeCurrencyVisible, transportCostReturnVisible
+        carCurrencyVisible, bikeVisible, bikeCurrencyVisible, transportCostReturnVisible, error
     } = useContext(AgencyDataContext);
     const { c } = useContext(LanguageContext);
 
@@ -37,7 +37,7 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
 
                 {agencyData?.carAvailable ? <div className="flex marginTop10">
                     <div className="label--date__input label--date__input--country">
-                        <button className="datepicker datepicker--country"
+                        <button className={agencyData.car === null ? "datepicker datepicker--country input--error" : "datepicker datepicker--country"}
                                 onClick={(e) => { e.stopPropagation();
                                     setCarVisible(!carVisible); }}
                         >
@@ -54,7 +54,7 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
                         </div> : ''}
                     </div>
                     <label className="label label--agencyPrice">
-                        <input className="input"
+                        <input className={agencyData.car !== 1 && error && !agencyData.carPrice ? "input input--error" : "input"}
                                type="number"
                                disabled={agencyData.car === 1}
                                min={1}
@@ -117,7 +117,7 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
 
                 {agencyData?.bikeAvailable ? <div className="flex marginTop10">
                     <div className="label--date__input label--date__input--country">
-                        <button className="datepicker datepicker--country"
+                        <button className={agencyData.bike === null ? "datepicker datepicker--country input--error" : "datepicker datepicker--country"}
                                 onClick={(e) => { e.stopPropagation();
                                     setBikeVisible(!bikeVisible); }}
                         >
@@ -134,7 +134,7 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
                         </div> : ''}
                     </div>
                     <label className="label label--agencyPrice">
-                        <input className="input"
+                        <input className={agencyData.bike !== 1 && error && !agencyData.bikePrice ? "input input--error" : "input"}
                                type="number"
                                disabled={agencyData.bike === 1}
                                min={1}

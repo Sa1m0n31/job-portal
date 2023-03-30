@@ -106,6 +106,8 @@ export class TranslationService {
     async translateString(value: string, to: string) {
         const translate = new Translate();
 
+        console.log('string');
+
         return translate.translate(value, {
             to
         });
@@ -113,6 +115,8 @@ export class TranslationService {
 
     async translate(from, to, saveAs, field = '') {
         let siteContent;
+
+        console.log('translate');
 
         if(field) {
             if(field[0] === '[') {

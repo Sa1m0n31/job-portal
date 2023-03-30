@@ -344,7 +344,7 @@ const AdminAddJobOffer = () => {
                             image, attachments, oldAttachments, extraInfo,
                             show_agency_info: showAgencyInfo,
                             manyLocations: isInManyLocations ? locations : '-'
-                        }, agencyEmail);
+                        }, agencyEmail, true);
                         if(offerResult.status === 200) {
                             setSuccess(true);
                             setLoading(false);
@@ -363,7 +363,7 @@ const AdminAddJobOffer = () => {
                             image, attachments, extraInfo,
                             show_agency_info: showAgencyInfo,
                             manyLocations: isInManyLocations ? locations : '-'
-                        }, agencyEmail);
+                        }, agencyEmail, true);
                         if(offerResult.status === 201) {
                             setSuccess(true);
                             setLoading(false);
@@ -454,14 +454,6 @@ const AdminAddJobOffer = () => {
                     <h3 className="addOfferSuccess__header">
                         {updateMode ? c.jobOfferUpdated : c.jobOfferAdded}
                     </h3>
-                    <div className="flex">
-                        <a className="btn" href="/">
-                            {c.homepage}
-                        </a>
-                        <a className="btn btn--white" href="/moje-oferty-pracy">
-                            {c.myOffers}
-                        </a>
-                    </div>
                 </div>
                 <form className="addOffer" ref={addOfferForm}>
                     <h1 className="addOffer__header">

@@ -35,7 +35,7 @@ const UserForm5b = ({addNewCategory, deleteCategory, setCategoriesVisible, setCu
             </div>
             {userData.ownAccommodation ? <label className="label label--accommodationPlace">
                 {c.accommodationPlaceQuestion}
-                <input className="input"
+                <input className={error && !userData.accommodationPlace ? "input input--error" : "input"}
                        value={userData.accommodationPlace}
                        onChange={(e) => { handleChange('accommodationPlace', e.target.value); }} />
             </label> : ''}

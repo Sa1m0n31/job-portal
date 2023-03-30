@@ -11,7 +11,7 @@ const UserForm4A = ({toggleLanguage, updateLanguageLvl, toggleDrivingLicenceCate
 
     return <>
         <div className="userForm">
-        <div className={userData.languages.findIndex((i) => (i)) === -1 && !userData.extraLanguages ? "label error" : "label"}>
+        <div className={userData.languages.findIndex((i) => (i)) === -1 && !userData.extraLanguages && error ? "label error" : "label"}>
             {c.foreignLanguages.charAt(0).toUpperCase() + c.foreignLanguages.slice(1)} *
             <div className="languagesWrapper flex">
                 {JSON.parse(c.languages).map((item, index) => {

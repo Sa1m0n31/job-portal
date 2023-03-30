@@ -1,12 +1,12 @@
 import axios from "axios";
 import {getAdminAuthHeader, getAuthHeader, getLang, getLoggedUserEmail} from "./others";
 
-const addOffer = (data, email = false) => {
+const addOffer = (data, email = false, admin = false) => {
     const formData = new FormData();
     const config = {
         headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: getAuthHeader()
+            Authorization: admin ? getAdminAuthHeader() : getAuthHeader()
         }
     }
 
@@ -20,12 +20,12 @@ const addOffer = (data, email = false) => {
     return axios.post('/offer/add', formData, config);
 }
 
-const updateOffer = (data, email = false) => {
+const updateOffer = (data, email = false, admin = false) => {
     const formData = new FormData();
     const config = {
         headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: getAuthHeader()
+            Authorization: admin ? getAdminAuthHeader() : getAuthHeader()
         }
     }
 

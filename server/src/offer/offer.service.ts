@@ -1170,104 +1170,115 @@ export class OfferService {
 
         // Get lat and lng
         if(city) {
-            const apiResponse = await lastValueFrom(this.httpService.get(encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${city}`)));
-            const apiData = apiResponse.data.data;
+            try {
+                const apiResponse = await lastValueFrom(this.httpService.get(encodeURI(`http://api.positionstack.com/v1/forward?access_key=${process.env.POSITIONSTACK_API_KEY}&query=${city}`)));
+                const apiData = apiResponse.data.data;
 
-            if(apiData) {
-                lat = apiData[0]?.latitude;
-                lng = apiData[0]?.longitude;
+                if(apiData) {
+                    lat = apiData[0]?.latitude;
+                    lng = apiData[0]?.longitude;
+                }
+            }
+            catch(e) {
+                lat = 0;
+                lng = 0;
             }
         }
 
-        // Add record to database
-        const addOfferResult = await this.offerRepository.insert({
-            id: null,
-            agency: agencyId,
-            title, category, keywords, country, postalCode, city, description,
-            responsibilities: typeof responsibilities === 'string' ? responsibilities : JSON.stringify(responsibilities),
-            requirements: typeof requirements === 'string' ? requirements : JSON.stringify(requirements),
-            benefits: typeof benefits === 'string' ? benefits : JSON.stringify(benefits),
-            salaryType, salaryFrom, salaryTo,
-            salaryCurrency,
-            contractType: JSON.stringify(contractType),
-            timeBounded,
-            expireDay, expireMonth, expireYear, image,
-            attachments: attachments ? JSON.stringify(attachments) : null,
-            extraInfo,
-            created_at: new Date(),
-            lat,
-            lng,
-            manyLocations: manyLocations !== '-' ? manyLocations : null,
-            show_agency_info
-        });
+        try {
+            // Add record to database
+            const addOfferResult = await this.offerRepository.insert({
+                id: null,
+                agency: agencyId,
+                title, category, keywords, country, postalCode, city, description,
+                responsibilities: typeof responsibilities === 'string' ? responsibilities : JSON.stringify(responsibilities),
+                requirements: typeof requirements === 'string' ? requirements : JSON.stringify(requirements),
+                benefits: typeof benefits === 'string' ? benefits : JSON.stringify(benefits),
+                salaryType, salaryFrom, salaryTo,
+                salaryCurrency,
+                contractType: JSON.stringify(contractType),
+                timeBounded,
+                expireDay, expireMonth, expireYear, image,
+                attachments: attachments ? JSON.stringify(attachments) : null,
+                extraInfo,
+                created_at: new Date(),
+                lat,
+                lng,
+                manyLocations: manyLocations !== '-' ? manyLocations : null,
+                show_agency_info
+            });
 
-        // Save original content as translation if language is not Polish
-        if(addOfferResult && originalLang) {
-            const offerId = addOfferResult.identifiers[0].id;
-            const translatedOfferArray = [originalOffer.title, originalOffer.keywords, originalOffer.description, originalOffer.responsibilities, originalOffer.requirements, originalOffer.benefits, originalOffer.extraInfo];
+            // Save original content as translation if language is not Polish
+            if(addOfferResult && originalLang) {
+                const offerId = addOfferResult.identifiers[0].id;
+                const translatedOfferArray = [originalOffer.title, originalOffer.keywords, originalOffer.description, originalOffer.responsibilities, originalOffer.requirements, originalOffer.benefits, originalOffer.extraInfo];
 
-            await this.dynamicTranslationsRepository
-                .createQueryBuilder()
-                .insert()
-                .values(translatedOfferArray.map((item, index) => ({
-                    type: 3,
-                    id: offerId,
-                    field: offerTranslateFields[index],
-                    lang: originalLang,
-                    value: typeof item === 'string' ? item : JSON.stringify(item)
-                })))
-                .orIgnore()
-                .execute();
-        }
-
-        // Add notifications for agencies about matches
-        await this.sendNotificationsToAgency(offerData, agencyId);
-
-        // Add notifications for users with that category
-        if(addOfferResult) {
-            const offerId = addOfferResult.identifiers[0].id;
-
-            const isElementInArray = (el, arr) => {
-                if(!arr?.length) return false;
-                return arr.findIndex((item) => {
-                    return item === el;
-                }) !== -1;
-            }
-
-            // Get users with given category
-            const allUsers = await this.userRepository.find();
-            const notificationRecipients = allUsers.filter((item) => {
-                const data = JSON.parse(item.data);
-                if(data) {
-                    return isElementInArray(category, data.categories);
-                }
-                else {
-                    return false;
-                }
-            }).map((item) => (item.id));
-
-            if(notificationRecipients?.length) {
-                return this.notificationsRepository.createQueryBuilder()
+                await this.dynamicTranslationsRepository
+                    .createQueryBuilder()
                     .insert()
-                    .values(
-                        notificationRecipients.map((item) => {
-                            return {
-                                type: 1,
-                                link: `${process.env.WEBSITE_URL}/oferta-pracy?id=${offerId}`,
-                                recipient: item,
-                                agencyId: agencyId,
-                                userId: null,
-                                checked: false
-                            }
-                        })
-                    )
+                    .values(translatedOfferArray.map((item, index) => ({
+                        type: 3,
+                        id: offerId,
+                        field: offerTranslateFields[index],
+                        lang: originalLang,
+                        value: typeof item === 'string' ? item : JSON.stringify(item)
+                    })))
+                    .orIgnore()
                     .execute();
             }
+
+            // Add notifications for agencies about matches
+            await this.sendNotificationsToAgency(offerData, agencyId);
+
+            // Add notifications for users with that category
+            if(addOfferResult) {
+                const offerId = addOfferResult.identifiers[0].id;
+
+                const isElementInArray = (el, arr) => {
+                    if(!arr?.length) return false;
+                    return arr.findIndex((item) => {
+                        return item === el;
+                    }) !== -1;
+                }
+
+                // Get users with given category
+                const allUsers = await this.userRepository.find();
+                const notificationRecipients = allUsers.filter((item) => {
+                    const data = JSON.parse(item.data);
+                    if(data) {
+                        return isElementInArray(category, data.categories);
+                    }
+                    else {
+                        return false;
+                    }
+                }).map((item) => (item.id));
+
+                if(notificationRecipients?.length) {
+                    return this.notificationsRepository.createQueryBuilder()
+                        .insert()
+                        .values(
+                            notificationRecipients.map((item) => {
+                                return {
+                                    type: 1,
+                                    link: `${process.env.WEBSITE_URL}/oferta-pracy?id=${offerId}`,
+                                    recipient: item,
+                                    agencyId: agencyId,
+                                    userId: null,
+                                    checked: false
+                                }
+                            })
+                        )
+                        .execute();
+                }
+                else {
+                    return true;
+                }
+            }
             else {
-                return true;
+                return false;
             }
         }
-        else {
+        catch(e) {
             return false;
         }
     }

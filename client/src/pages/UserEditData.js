@@ -410,6 +410,10 @@ const UserEditData = () => {
             setStep4Error(true);
             fields.push(c.foreignLanguages);
         }
+        if(userData.ownAccommodation && !userData.accommodationPlace) {
+            setStep5Error(true);
+            fields.push(c.accommodationPlaceQuestion);
+        }
         if(!userData.currentCity || !userData.currentPostalCode) {
             setStep5Error(true);
             fields.push(c.currentLivingPlace);

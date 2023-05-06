@@ -14,14 +14,15 @@ import UserForm5a from "../components/UserForm5a";
 import UserForm5C from "../components/UserForm5c";
 import UserForm5D from "../components/UserForm5d";
 import MobileHeader from "../components/MobileHeader";
-import {getUserData, updateUser} from "../helpers/user";
+import {getUserById, getUserData, updateUser} from "../helpers/user";
 import UserFormSummary from "../components/UserFormSummary";
 import settings from "../static/settings";
 import {LanguageContext} from "../App";
+import AdminUserFormSummary from "../components/AdminUserFormSummary";
 
 const UserDataContext = React.createContext(null);
 
-const UserEditData = () => {
+const UserEditData = ({admin}) => {
     const [userData, setUserData] = useState({
         // 1. Personal data
         profileImage: null,
@@ -84,6 +85,7 @@ const UserEditData = () => {
         friendLink: '',
         whereYouFindOurApp: ''
     });
+    const [userId, setUserId] = useState(0);
     const [step, setStep] = useState(0);
     const [substep, setSubstep] = useState(0);
     const [currentForm, setCurrentForm] = useState(null);
@@ -201,7 +203,12 @@ const UserEditData = () => {
                 }
                 break;
             case 5:
-                setCurrentForm(<UserFormSummary />);
+                if(admin) {
+                    setCurrentForm(<AdminUserFormSummary />);
+                }
+                else {
+                    setCurrentForm(<UserFormSummary />);
+                }
                 break;
             default:
                 break;
@@ -216,30 +223,63 @@ const UserEditData = () => {
     }, [step, substep]);
 
     useEffect(() => {
-        setUserData(prevState => ({
-            ...prevState,
-            email: getLoggedUserEmail()
-        }));
+        if(admin) {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
 
-        getUserData()
-            .then((res) => {
-                if(res?.status === 200) {
-                    const data = JSON.parse(res.data.data);
-                    if(Object.keys(data).length > 0) {
-                        console.log(parseUserData(data));
-                        setUserData({
-                            ...parseUserData(data),
-                            skills: data.skills ? data.skills : [],
-                            profileImage: null,
-                            profileImageUrl: data.profileImage ? `${settings.API_URL}/${data.profileImage}` : null,
-                            bsnNumberDocument: data.bsnNumberDocument ? data.bsnNumberDocument : null,
-                            oldAttachments: data.attachments ? data.attachments : [],
-                            attachments: []
-                        });
+            if(id) {
+                getUserById(parseInt(id))
+                    .then((res) =>{
+                       if(res) {
+                           setUserId(parseInt(id));
+
+                           const data = JSON.parse(res.data.data);
+                           if(Object.keys(data).length > 0) {
+                               setUserData({
+                                   ...parseUserData(data),
+                                   skills: data.skills ? data.skills : [],
+                                   profileImage: null,
+                                   profileImageUrl: data.profileImage ? `${settings.API_URL}/${data.profileImage}` : null,
+                                   bsnNumberDocument: data.bsnNumberDocument ? data.bsnNumberDocument : null,
+                                   oldAttachments: data.attachments ? data.attachments : [],
+                                   attachments: []
+                               });
+                           }
+                       }
+                    })
+                    .catch(() => {
+                        window.location = '/panel';
+                    });
+            }
+            else {
+                window.location = '/panel';
+            }
+        }
+        else {
+            setUserData(prevState => ({
+                ...prevState,
+                email: getLoggedUserEmail()
+            }));
+
+            getUserData()
+                .then((res) => {
+                    if(res?.status === 200) {
+                        const data = JSON.parse(res.data.data);
+                        if(Object.keys(data).length > 0) {
+                            setUserData({
+                                ...parseUserData(data),
+                                skills: data.skills ? data.skills : [],
+                                profileImage: null,
+                                profileImageUrl: data.profileImage ? `${settings.API_URL}/${data.profileImage}` : null,
+                                bsnNumberDocument: data.bsnNumberDocument ? data.bsnNumberDocument : null,
+                                oldAttachments: data.attachments ? data.attachments : [],
+                                attachments: []
+                            });
+                        }
                     }
-                }
-            });
-    }, []);
+                });
+        }
+    }, [admin]);
 
     const changeAttachmentName = (i, val, old = false) => {
         if(old) {
@@ -453,13 +493,13 @@ const UserEditData = () => {
     }
 
     const submitUserData = async (userData) => {
-        if(validateUserData()) {
+        if(admin || validateUserData()) {
             setLoading(true);
             setError('');
             setErrorFields([]);
 
             try {
-                const res = await updateUser(userData);
+                const res = await updateUser(userData, admin, userId);
 
                 if(res?.status === 201) {
                     setLoading(false);
@@ -1111,12 +1151,14 @@ const UserEditData = () => {
                         })}
                     </div>
 
-                    <h1 className="editData__formWrapper__header">
-                        {JSON.parse(c.stepsMainContent)[step][substep].header}
-                    </h1>
-                    <h2 className="editData__formWrapper__subheader">
-                        {JSON.parse(c.stepsMainContent)[step][substep].text}
-                    </h2>
+                    {!admin || step !== 5 ? <>
+                        <h1 className="editData__formWrapper__header">
+                            {JSON.parse(c.stepsMainContent)[step][substep].header}
+                        </h1>
+                        <h2 className="editData__formWrapper__subheader">
+                            {JSON.parse(c.stepsMainContent)[step][substep].text}
+                        </h2>
+                    </> : ''}
 
                     {currentForm}
                 </div>

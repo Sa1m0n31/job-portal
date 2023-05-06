@@ -2471,9 +2471,17 @@
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
-        max-width: 400px;
+        max-width: min(100%, 400px);
         width: 90vw;
         margin-bottom: 120px;
+    }
+
+    .homeSection .btn--white {
+        width: 100% !important;
+    }
+
+    .homeSection--offerList {
+        margin-bottom: -70px;
     }
 
     .offerItem__left {

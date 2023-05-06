@@ -44,4 +44,7 @@ export class User {
         default: false
     })
     blocked: boolean;
+
+    @Column()
+    register_datetime: Date;
 }

@@ -1,32 +1,17 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import PanelMenu from "../components/PanelMenu";
 import LoggedAdminHeader from "../components/LoggedAdminHeader";
-import {getAgencyById, getAllAgencies, getAllApprovedAgencies} from "../helpers/agency";
 import Loader from "../components/Loader";
-import InfiniteScroll from "react-infinite-scroll-component";
-import AgencyPreviewAdmin from "../components/AgencyPreviewAdmin";
 import Modal from "../components/Modal";
-import {acceptAgency, blockAgency, blockUser, unblockAgency, unblockUser} from "../helpers/admin";
-import {currencies, flags, formErrors} from "../static/content";
-import settingsCircle from "../static/img/settings-circle.svg";
+import {blockUser, unblockUser} from "../helpers/admin";
+import {flags} from "../static/content";
 import settings from "../static/settings";
 import userPlaceholder from "../static/img/user-placeholder.svg";
 import locationIcon from "../static/img/location.svg";
 import suitcaseIcon from "../static/img/suitcase-grey.svg";
 import phoneIcon from "../static/img/phone-grey.svg";
 import messageIcon from "../static/img/message-grey.svg";
-import whatsAppIcon from "../static/img/whatsapp.svg";
-import fbIcon from "../static/img/facebook-icon.svg";
-import instagramIcon from "../static/img/instagram-icon.svg";
-import ytIcon from "../static/img/youtube-icon.svg";
-import linkedinIcon from "../static/img/linedin-icon.svg";
-import websiteIcon from "../static/img/www-icon.svg";
-import galleryArrow from "../static/img/gallery-arrow.svg";
-import magnifierIcon from "../static/img/magnifier.svg";
 import {LanguageContext} from "../App";
-import check from "../static/img/green-check.svg";
-import eyeIcon from "../static/img/eye-icon.svg";
-import Gallery from "../components/Gallery";
 import {getUserById} from "../helpers/user";
 import {PDFDownloadLink} from "@react-pdf/renderer";
 import CV from "../components/CV";
@@ -42,7 +27,6 @@ import downloadIcon from "../static/img/download-grey.svg";
 const AdminUserDetails = () => {
     const [blockCandidate, setBlockCandidate] = useState(0);
     const [unblockCandidate, setUnblockCandidate] = useState(0);
-    const [acceptCandidate, setAcceptCandidate] = useState(0);
     const [blockSuccess, setBlockSuccess] = useState(0);
     const [unblockSuccess, setUnblockSuccess] = useState(0);
     const [acceptSuccess, setAcceptSuccess] = useState(0);
@@ -134,9 +118,17 @@ const AdminUserDetails = () => {
                     <div className="userDetails__actions">
                         <div className="preview__buttons preview__buttons--admin flex flex--end">
                             <div className="preview__col">
-                            <span className="preview__col__key">
-                                Blokada konta
-                            </span>
+                                <span className="preview__col__key">
+                                    Edytuj konto
+                                </span>
+                                <a href={`/panel/edytuj-profil-kandydata?id=${id}`} className="btn btn--unblock">
+                                    Edytuj konto
+                                </a>
+                            </div>
+                            <div className="preview__col">
+                                <span className="preview__col__key">
+                                    Blokada konta
+                                </span>
                                 {blocked ? <button className="btn btn--unblock"
                                                    onClick={() => { setUnblockCandidate(id); }}>
                                     Odblokuj konto

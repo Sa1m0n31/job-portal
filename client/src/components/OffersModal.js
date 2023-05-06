@@ -32,10 +32,6 @@ const OffersModal = ({closeModal, agencyId, userId, agencyName, userEmail}) => {
         });
     }, []);
 
-    useEffect(() => {
-        console.log(agencyName);
-    }, [agencyName]);
-
     const handleSubmit = async () => {
         setLoading(true);
 

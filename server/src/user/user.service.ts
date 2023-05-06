@@ -301,7 +301,25 @@ export class UserService {
 
     async updateUser(data, files) {
         // Modify user data JSON - add file paths
-        const email = data.email;
+        let email = '';
+
+        if(data.email) {
+            email = data.email;
+        }
+        else {
+            const user = await this.userRepository.findOneBy({
+                id: parseInt(data.id)
+            });
+
+            if(user) {
+                email = user.email;
+            }
+            else {
+                throw new BadRequestException(400, 'Nie znaleziono uzytkownika');
+            }
+        }
+
+
         let userData = JSON.parse(data.userData);
         let originalUserData = userData;
 
@@ -311,7 +329,7 @@ export class UserService {
         });
         await this.dynamicTranslationsRepository.delete({
             type: 1,
-            id: user.id
+            id: data.email ? user.id : parseInt(data.id)
         });
 
         // Translate if not Polish
@@ -436,7 +454,6 @@ export class UserService {
                 return this.userRepository.createQueryBuilder()
                     .update({
                         data: JSON.stringify(userData),
-                        email: userData.email,
                         lat,
                         lng
                     })
@@ -449,8 +466,7 @@ export class UserService {
                 // Modify record in database
                 return this.userRepository.createQueryBuilder()
                     .update({
-                        data: JSON.stringify(userData),
-                        email: userData.email
+                        data: JSON.stringify(userData)
                     })
                     .where({
                         email
@@ -462,8 +478,7 @@ export class UserService {
             // Modify record in database
             return this.userRepository.createQueryBuilder()
                 .update({
-                    data: JSON.stringify(userData),
-                    email: userData.email
+                    data: JSON.stringify(userData)
                 })
                 .where({
                     email

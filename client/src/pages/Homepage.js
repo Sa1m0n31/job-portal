@@ -8,6 +8,7 @@ import Partners from "../components/Partners";
 import Tools from "../components/Tools";
 import Footer from "../components/Footer";
 import HomepageTop from "../components/HomepageTop";
+import ExampleJobOffers from "../components/ExampleJobOffers";
 
 const Homepage = () => {
     const [render, setRender] = useState(false);
@@ -86,6 +87,7 @@ const Homepage = () => {
         <HomepageTop />
         <AdsSection />
         <HomeBenefits />
+        <ExampleJobOffers />
         <Partners />
         <Tools />
         <Footer />

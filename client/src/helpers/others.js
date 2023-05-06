@@ -132,5 +132,23 @@ const parseUserData = (data) => {
     }
 }
 
+function getRandomElements(arr, n) {
+    const result = new Array(n);
+    let len = arr.length;
+    const taken = new Array(len);
+
+    if (n > len) {
+        return [];
+    }
+
+    while (n--) {
+        const randomIndex = Math.floor(Math.random() * len);
+        result[n] = arr[randomIndex in taken ? taken[randomIndex] : randomIndex];
+        taken[randomIndex] = --len in taken ? taken[len] : len;
+    }
+
+    return result;
+}
+
 export { isEmail, isElementInArray, getAuthHeader, numberRange, isHomepage, tryParseJSONObject, parseUserData,
-    getLoggedUserEmail, getDate, addLeadingZero, groupBy, isPasswordStrength, getLang, getAdminAuthHeader }
+    getLoggedUserEmail, getDate, addLeadingZero, groupBy, isPasswordStrength, getLang, getAdminAuthHeader, getRandomElements }

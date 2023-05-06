@@ -71,7 +71,7 @@ const getOfferById = (id) => {
     });
 }
 
-const submitApplication = (id, message, friendLink, contactForms, attachments, agencyId) => {
+const submitApplication = (id, message, friendLink, contactForms, attachments, agencyId, content) => {
     const formData = new FormData();
     const config = {
         headers: {
@@ -87,6 +87,10 @@ const submitApplication = (id, message, friendLink, contactForms, attachments, a
     formData.append('message', message);
     formData.append('agencyId', agencyId);
     formData.append('friendLink', friendLink);
+    formData.append('mailContent', JSON.stringify([
+        content.application_mail_1,
+        content.application_mail_2
+    ]));
     for(const att of attachments) {
         formData.append('attachments', att.file);
     }
@@ -175,7 +179,7 @@ const getFastOfferById = (id) => {
     });
 }
 
-const submitFastApplication = (id, message, friendLink, contactForms, attachments, agencyId) => {
+const submitFastApplication = (id, message, friendLink, contactForms, attachments, agencyId, content) => {
     const formData = new FormData();
     const config = {
         headers: {
@@ -191,6 +195,10 @@ const submitFastApplication = (id, message, friendLink, contactForms, attachment
     formData.append('message', message);
     formData.append('agencyId', agencyId);
     formData.append('friendLink', friendLink);
+    formData.append('mailContent', JSON.stringify([
+        content.application_mail_1,
+        content.application_mail_2
+    ]));
     for(const att of attachments) {
         formData.append('attachments', att.file);
     }

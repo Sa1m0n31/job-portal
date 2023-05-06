@@ -11,6 +11,7 @@ import AdminJobOffer from "../pages/AdminJobOffer";
 import AdminFastOffer from "../pages/AdminFastOffer";
 import AdminFastOffers from "../pages/AdminFastOffers";
 import AdminAddJobOffer from "../pages/AdminAddJobOffer";
+import UserEditData from "../pages/UserEditData";
 
 const AdminWrapper = ({page}) => {
     const [render, setRender] = useState(null);
@@ -50,6 +51,9 @@ const AdminWrapper = ({page}) => {
                                 break;
                             case 10:
                                 setRender(<AdminAddJobOffer />);
+                                break;
+                            case 11:
+                                setRender(<UserEditData admin={true} />);
                                 break;
                             default:
                                 window.location = '/';

@@ -38,7 +38,7 @@ function App() {
     let updateValue;
 
     if(localStorage.getItem('siteContent')) {
-      updateValue = JSON.parse(localStorage.getItem('siteContent')).update28032023;
+      updateValue = JSON.parse(localStorage.getItem('siteContent')).update27042023;
     }
 
     if((storedLanguage !== language) || (!updateValue)) {
@@ -223,6 +223,9 @@ function App() {
       </Route>
       <Route path="/panel/dodaj-oferte-pracy">
         <AdminWrapper page={10} />
+      </Route>
+      <Route path="/panel/edytuj-profil-kandydata">
+        <AdminWrapper page={11} />
       </Route>
     </Router>
   </LanguageContext.Provider> : <div className="container container--height100 center">

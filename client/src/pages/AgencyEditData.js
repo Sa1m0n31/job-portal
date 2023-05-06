@@ -64,6 +64,9 @@ const AgencyEditData = () => {
         bikePrice: null,
         bikePriceCurrency: 0,
         costReturnWithOwnTransport: 0,
+        carAdditionalInfo: '',
+        bikeAdditionalInfo: '',
+        costReturnAdditionalInfo: '',
         // 4.3 Employees info
         pensionContributionsAvailable: false,
         pensionContributions: null,

@@ -39,4 +39,7 @@ export class Agency {
         default: false
     })
     blocked: boolean;
+
+    @Column()
+    register_datetime: Date;
 }

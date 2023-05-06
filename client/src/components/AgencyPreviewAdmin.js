@@ -11,9 +11,23 @@ import messageIcon from '../static/img/message-empty.svg'
 import {LanguageContext} from "../App";
 import check from '../static/img/green-check.svg'
 
-const AgencyPreviewAdmin = ({i, id, data, accepted, blocked,
+const AgencyPreviewAdmin = ({i, id, data, accepted, blocked, registerDate,
                             setBlockCandidate, setUnblockCandidate, setAcceptCandidate}) => {
     const { c } = useContext(LanguageContext);
+
+    const addTrailingZero = (n) => {
+        if(n < 10) {
+            return `0${n}`;
+        }
+        return n;
+    }
+
+    const getDateString = (date) => {
+        const dateObject = new Date(date);
+
+        return `${addTrailingZero(dateObject.getDate())}.${addTrailingZero(dateObject.getMonth()+1)}.${dateObject.getFullYear()}, 
+        ${addTrailingZero(dateObject.getHours())}:${addTrailingZero(dateObject.getMinutes())}:${addTrailingZero(dateObject.getSeconds())}`;
+    }
 
     return data ? <div className="preview preview--agency preview--admin flex" key={i}>
         <div className="preview__left">
@@ -49,6 +63,13 @@ const AgencyPreviewAdmin = ({i, id, data, accepted, blocked,
                     <img className="img" src={websiteIcon} alt="lokalizacja" />
                     {data.website?.replace('https', '').replace('http', '').replace('://', '')}
                 </a> : ''}
+
+                {registerDate ? <p className="preview__data preview__data--nip">
+                    <span className="registerDateTime">
+                        Zarejestrowana:
+                    </span>
+                    {getDateString(registerDate)}
+                </p> : ''}
             </div>
         </div>
 

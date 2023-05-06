@@ -73,7 +73,6 @@ const SingleOffer = () => {
             if(id) {
                 getOfferById(id)
                     .then(async (res) => {
-                        console.log(res);
                         if(res?.status === 200) {
                             if(res?.data) {
                                 setOffer(Array.isArray(res.data) ? res.data[0] : res.data);

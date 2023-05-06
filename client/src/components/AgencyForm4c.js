@@ -185,7 +185,7 @@ const AgencyForm4c = ({setPensionVisible, setHolidayAllowanceTypeVisible, setMon
                                disabled={agencyData.healthInsurance === 1}
                                min={1}
                                value={agencyData.healthInsuranceCost}
-                               onChange={(e) => { handleChange('healthInsuranceCost', parseInt(e.target.value)); }} />
+                               onChange={(e) => { handleChange('healthInsuranceCost', parseFloat(e.target.value)); }} />
                         <div className="label--agencyPrice__arrows">
                             <button className="label--agencyPrice__button"
                                     onClick={() => { handleChange('healthInsuranceCost', agencyData.healthInsuranceCost+1); }}>

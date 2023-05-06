@@ -23,11 +23,21 @@ const AdminOffers = () => {
     const [hasMore, setHasMore] = useState(true);
     const [deleteSuccess, setDeleteSuccess] = useState(0);
     const [deleteCandidate, setDeleteCandidate] = useState(0);
+    const [numberOfOffers, setNumberOfOffers] = useState(0);
 
     const { c } = useContext(LanguageContext);
 
     useEffect(() => {
         setHasMore(true);
+
+        getAllOffers()
+            .then((res) => {
+               if(res?.status === 200) {
+                   console.log(res.data);
+                   setNumberOfOffers(res?.data?.length);
+               }
+            });
+
         getAllOffers(1)
             .then((res) => {
                 if(res?.status === 200) {
@@ -78,7 +88,7 @@ const AdminOffers = () => {
             <PanelMenu menuOpen={3} />
             <div className="adminMain__main">
                 <h1 className="adminMain__header">
-                    Dodane oferty pracy
+                    Dodane oferty pracy ({numberOfOffers})
                 </h1>
                 <div className="agenciesList agenciesList--admin flex">
                     <InfiniteScroll

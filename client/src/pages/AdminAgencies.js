@@ -18,9 +18,18 @@ const AdminAgencies = () => {
     const [blockSuccess, setBlockSuccess] = useState(0);
     const [unblockSuccess, setUnblockSuccess] = useState(0);
     const [acceptSuccess, setAcceptSuccess] = useState(0);
+    const [numberOfAgencies, setNumberOfAgencies] = useState(0);
 
     useEffect(() => {
         setHasMore(true);
+
+        getAllAgencies()
+            .then((res) => {
+                if(res?.status === 200) {
+                    setNumberOfAgencies(res?.data?.length);
+                }
+            });
+
         getAllAgencies(1)
             .then((res) => {
                 if(res?.status === 200) {
@@ -119,7 +128,7 @@ const AdminAgencies = () => {
             <PanelMenu menuOpen={1} />
             <div className="adminMain__main">
                 <h1 className="adminMain__header">
-                    Zarejestrowane agencje
+                    Zarejestrowane agencje ({numberOfAgencies})
                 </h1>
                 <div className="agenciesList agenciesList--admin flex">
                     <InfiniteScroll
@@ -134,6 +143,7 @@ const AdminAgencies = () => {
                         {agencies?.map((item, index) => {
                             return <AgencyPreviewAdmin key={index}
                                                        id={item.id}
+                                                       registerDate={item.register_datetime}
                                                        accepted={item.accepted}
                                                        blocked={item.blocked}
                                                        setBlockCandidate={setBlockCandidate}

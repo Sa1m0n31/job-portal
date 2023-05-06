@@ -40,12 +40,12 @@ const verifyUser = (token) => {
     });
 }
 
-const updateUser = (data) => {
+const updateUser = (data, admin = false, userId = null) => {
     const formData = new FormData();
     const config = {
         headers: {
             'Content-Type': 'multipart/form-data',
-            Authorization: getAuthHeader()
+            Authorization: admin ? getAdminAuthHeader() : getAuthHeader()
         }
     }
 
@@ -54,8 +54,12 @@ const updateUser = (data) => {
         profileImageUrl: data?.profileImageUrl?.replaceAll(settings.API_URL, '')
     }
 
+    if(userId) {
+        formData.append('id', userId.toString());
+    }
+
     formData.append('userData', JSON.stringify(data));
-    formData.append('email', getLoggedUserEmail());
+    formData.append('email', admin ? '' : getLoggedUserEmail());
     formData.append('profileImage', data.profileImage);
     formData.append('bsnNumber', data.bsnNumberDocument);
     for(const att of data.attachments) {

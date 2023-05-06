@@ -22,6 +22,7 @@ import {
 import {getGoogleTranslateLanguageCode} from "../common/getGoogleTranslateLanguageCode";
 import {Cron} from "@nestjs/schedule";
 import {removeLanguageSpecificCharacters} from "../common/removeLanguageSpecificCharacters";
+import {MailerService} from "@nestjs-modules/mailer";
 
 // 0 - miesiecznie
 // 1 - tygodniowo
@@ -50,7 +51,8 @@ export class OfferService {
         @InjectRepository(Dynamic_translations)
         private readonly dynamicTranslationsRepository: Repository<Dynamic_translations>,
         private readonly httpService: HttpService,
-        private readonly translationService: TranslationService
+        private readonly translationService: TranslationService,
+        private readonly mailerService: MailerService
     ) {
     }
 
@@ -1232,47 +1234,49 @@ export class OfferService {
 
             // Add notifications for users with that category
             if(addOfferResult) {
-                const offerId = addOfferResult.identifiers[0].id;
+                return true;
 
-                const isElementInArray = (el, arr) => {
-                    if(!arr?.length) return false;
-                    return arr.findIndex((item) => {
-                        return item === el;
-                    }) !== -1;
-                }
-
-                // Get users with given category
-                const allUsers = await this.userRepository.find();
-                const notificationRecipients = allUsers.filter((item) => {
-                    const data = JSON.parse(item.data);
-                    if(data) {
-                        return isElementInArray(category, data.categories);
-                    }
-                    else {
-                        return false;
-                    }
-                }).map((item) => (item.id));
-
-                if(notificationRecipients?.length) {
-                    return this.notificationsRepository.createQueryBuilder()
-                        .insert()
-                        .values(
-                            notificationRecipients.map((item) => {
-                                return {
-                                    type: 1,
-                                    link: `${process.env.WEBSITE_URL}/oferta-pracy?id=${offerId}`,
-                                    recipient: item,
-                                    agencyId: agencyId,
-                                    userId: null,
-                                    checked: false
-                                }
-                            })
-                        )
-                        .execute();
-                }
-                else {
-                    return true;
-                }
+                // const offerId = addOfferResult.identifiers[0].id;
+                //
+                // const isElementInArray = (el, arr) => {
+                //     if(!arr?.length) return false;
+                //     return arr.findIndex((item) => {
+                //         return item === el;
+                //     }) !== -1;
+                // }
+                //
+                // // Get users with given category
+                // const allUsers = await this.userRepository.find();
+                // const notificationRecipients = allUsers.filter((item) => {
+                //     const data = JSON.parse(item.data);
+                //     if(data) {
+                //         return isElementInArray(category, data.categories);
+                //     }
+                //     else {
+                //         return false;
+                //     }
+                // }).map((item) => (item.id));
+                //
+                // if(notificationRecipients?.length) {
+                //     return this.notificationsRepository.createQueryBuilder()
+                //         .insert()
+                //         .values(
+                //             notificationRecipients.map((item) => {
+                //                 return {
+                //                     type: 1,
+                //                     link: `${process.env.WEBSITE_URL}/oferta-pracy?id=${offerId}`,
+                //                     recipient: item,
+                //                     agencyId: agencyId,
+                //                     userId: null,
+                //                     checked: false
+                //                 }
+                //             })
+                //         )
+                //         .execute();
+                // }
+                // else {
+                //     return true;
+                // }
             }
             else {
                 return false;
@@ -2066,6 +2070,33 @@ export class OfferService {
 
             // Add notification to agency
             if(applicationResult) {
+                // Mail notification
+                const agency = await this.agencyRepository.findOneBy({
+                    id: body.agencyId
+                });
+
+                if(agency) {
+                    const content = JSON.parse(body.mailContent);
+
+                    await this.mailerService.sendMail({
+                        to: agency.email,
+                        from: `Jooob.eu <${process.env.EMAIL_ADDRESS}>`,
+                        subject: content[0],
+                        html: `<div>
+                    <h2>
+                        ${content[0]}
+                    </h2>
+                    <a style="background: #0A73FE;
+    color: #fff; padding: 10px 20px; font-size: 14px; display: flex; width: 300px;
+    justify-content: center; align-items: center; margin-top: 30px; text-decoration: none;
+    border-radius: 5px;" href="${process.env.WEBSITE_URL}">
+                        ${content[1]}
+                    </a>
+                </div>`
+                    });
+                }
+
+                // Website notification
                 return this.notificationsRepository.insert({
                     type: 3,
                     link: `${process.env.WEBSITE_URL}/profil-kandydata?id=${userId}`,
@@ -2120,6 +2151,32 @@ export class OfferService {
 
             // Add notification to agency
             if(applicationResult) {
+                // Mail notification
+                const agency = await this.agencyRepository.findOneBy({
+                    id: body.agencyId
+                });
+
+                if(agency) {
+                    const content = JSON.parse(body.mailContent);
+
+                    await this.mailerService.sendMail({
+                        to: agency.email,
+                        from: `Jooob.eu <${process.env.EMAIL_ADDRESS}>`,
+                        subject: content[0],
+                        html: `<div>
+                    <h2>
+                        ${content[0]}
+                    </h2>
+                    <a style="background: #0A73FE;
+    color: #fff; padding: 10px 20px; font-size: 14px; display: flex; width: 300px;
+    justify-content: center; align-items: center; margin-top: 30px; text-decoration: none;
+    border-radius: 5px;" href="${process.env.WEBSITE_URL}">
+                        ${content[1]}
+                    </a>
+                </div>`
+                    });
+                }
+
                 return this.notificationsRepository.insert({
                     type: 3,
                     link: `${process.env.WEBSITE_URL}/profil-kandydata?id=${userId}`,
@@ -2315,12 +2372,21 @@ export class OfferService {
     }
 
     async getAllOffers(page) {
-        return this.offerRepository
-            .createQueryBuilder('offer')
-            .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
-            .orderBy('offer.created_at', 'DESC')
-            .limit(parseInt(process.env.OFFERS_PER_PAGE))
-            .offset((page-1) * parseInt(process.env.OFFERS_PER_PAGE))
-            .getRawMany();
+        if(!isNaN(page)) {
+            return this.offerRepository
+                .createQueryBuilder('offer')
+                .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+                .orderBy('offer.created_at', 'DESC')
+                .limit(parseInt(process.env.OFFERS_PER_PAGE))
+                .offset((page-1) * parseInt(process.env.OFFERS_PER_PAGE))
+                .getRawMany();
+        }
+        else {
+            return this.offerRepository
+                .createQueryBuilder('offer')
+                .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+                .orderBy('offer.created_at', 'DESC')
+                .getRawMany();
+        }
     }
 }

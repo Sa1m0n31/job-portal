@@ -179,7 +179,7 @@ const ApplicationForJobPage = ({data}) => {
         else {
             setLoading(true);
             let func = fast ? submitFastApplication : submitApplication;
-            func(offer.o_id, message, friendLink, contactForms, attachments, offer.a_id)
+            func(offer.o_id, message, friendLink, contactForms, attachments, offer.a_id, c)
                 .then((res) => {
                     if(res?.status === 201) {
                         setSuccess(true);

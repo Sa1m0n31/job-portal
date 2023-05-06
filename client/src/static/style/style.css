@@ -2892,13 +2892,17 @@ input {
 
 .offerItem__figure {
     height: 125px;
-    width: auto;
+    width: 150px;
     margin-right: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .offerItem__figure .img {
-    height: 100%;
-    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
 }
 
 .offerItem__title {
@@ -5746,6 +5750,7 @@ a.preview__bottom__content {
 }
 
 .adminMain__main {
+    margin-top: 150px;
     margin-left: 18%;
     padding: 40px 60px;
 }
@@ -6628,4 +6633,23 @@ input[type=month] {
 .agency__jobOffers__header {
     margin: 30px 0;
     text-align: center;
+}
+
+.label--bike {
+    margin-top: 25px;
+}
+
+.input--bike {
+    height: 120px !important;
+    padding: 10px 15px;
+}
+
+.registerDateTime {
+    font-weight: 700;
+    font-style: italic;
+    padding-right: 6px;
+}
+
+.userForm--summary--admin {
+    padding-top: 40px;
 }

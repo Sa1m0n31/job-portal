@@ -22,8 +22,15 @@ import {LanguageContext} from "../App";
 const AgencyHomepage = ({data, email}) => {
     const [currentGalleryScroll, setCurrentGalleryScroll] = useState(0);
     const [galleryIndex, setGalleryIndex] = useState(-1);
+    const [adminAccount, setAdminAccount] = useState(false);
 
     const { c } = useContext(LanguageContext);
+
+    useEffect(() => {
+        if(email === 'contact@jooob.eu') {
+            setAdminAccount(true);
+        }
+    }, [email]);
 
     useEffect(() => {
         if(gallery) {
@@ -105,11 +112,11 @@ const AgencyHomepage = ({data, email}) => {
                             <h1 className="userAccount__box__fullName">
                                 {data.name ? data.name : c.anonim}
                             </h1>
-                            {data.city ? <p className="userAccount__box__mainData__text">
+                            {data.city && !adminAccount ? <p className="userAccount__box__mainData__text">
                                 <img className="img" src={locationIcon} alt="lokalizacja" />
                                 {data.city}
                             </p> : ''}
-                            {data.nip ? <p className="userAccount__box__mainData__text">
+                            {data.nip && !adminAccount ? <p className="userAccount__box__mainData__text">
                                 <img className="img" src={suitcaseIcon} alt="branża" />
                                 NIP: {data.nip}
                             </p> : ''}
@@ -207,7 +214,7 @@ const AgencyHomepage = ({data, email}) => {
                     </div>
                 </div>
 
-                <div className="flex">
+                {!adminAccount ? <div className="flex">
                     <div className="userAccount__box userAccount__box--100">
                         <h3 className="userAccount__box__header">
                             {c.employeesInfo}
@@ -258,6 +265,9 @@ const AgencyHomepage = ({data, email}) => {
                                 {data.car === 0 || data.car ?
                                     (data.car === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]},\n${data.carPrice} ${currencies[data.carPriceCurrency]}/${c.weeklyShortcut}`)) : c.noInfo}
                             </p>
+                                {data.carAdditionalInfo ? <p className="userAccount__box__value">
+                                    {data.carAdditionalInfo}
+                                </p> : ''}
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
@@ -267,6 +277,9 @@ const AgencyHomepage = ({data, email}) => {
                                 {data.bike === 0 || data.bike ?
                                     (data.bike === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]},\n${data.bikePrice} ${currencies[data.bikePriceCurrency]}/${c.weeklyShortcut}`)) : c.noInfo}
                             </p>
+                                {data.bikeAdditionalInfo ? <p className="userAccount__box__value">
+                                    {data.bikeAdditionalInfo}
+                                </p> : ''}
                         </span>
                             <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
@@ -276,9 +289,12 @@ const AgencyHomepage = ({data, email}) => {
                                 {data.costReturnWithOwnTransport !== null && data.costReturnWithOwnTransport !== undefined ?
                                     (data.costReturnWithOwnTransport ? c.yes : c.no) : c.noInfo}
                             </p>
+                                {data.costReturnAdditionalInfo ? <p className="userAccount__box__value">
+                                    {data.costReturnAdditionalInfo}
+                                </p> : ''}
                         </span>
 
-                        <span className="w-100">
+                            <span className="w-100">
                             {c.additionalPayments}
                         </span>
                             <span className="userAccount__box__pair">
@@ -299,7 +315,7 @@ const AgencyHomepage = ({data, email}) => {
                                 {data.holidayAllowanceType === 1 ? JSON.parse(c.months)[data.holidayAllowanceMonth] : ''}
                             </p>
                         </span>
-                        <span className="userAccount__box__pair">
+                            <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
                                 {c.salary}
                             </span>
@@ -308,7 +324,7 @@ const AgencyHomepage = ({data, email}) => {
                                 {data.paycheckFrequency !== null && data.paycheckFrequency !== undefined ? JSON.parse(c.paycheckDay)[data.paycheckDay] : ''}
                             </p>
                         </span>
-                        <span className="userAccount__box__pair">
+                            <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
                                 {c.healthInsurance}
                             </span>
@@ -358,7 +374,7 @@ const AgencyHomepage = ({data, email}) => {
                             </button>
                         </div>
                     </div> : ''}
-                </div>
+                </div> : ''}
             </div>
         </div>
     </div>

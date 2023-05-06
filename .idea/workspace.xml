@@ -23,15 +23,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06c2c867-885a-4984-820a-27e97dc3ed90" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/client/src/components/AdminEditUserAccount.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/AdminUserFormSummary.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/ExampleJobOffers.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm4a.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm4a.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm5b.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm5b.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AdminWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AdminWrapper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyForm4b.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyForm4b.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyForm4c.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyForm4c.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyPreviewAdmin.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyPreviewAdmin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/OffersModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/OffersModal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserPreviewAdmin.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserPreviewAdmin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/helpers/offer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/offer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/AdminAddJobOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AdminAddJobOffer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/others.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/others.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AdminAgencies.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AdminAgencies.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AdminOffers.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AdminOffers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AdminUserDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AdminUserDetails.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AdminUsers.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AdminUsers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyEditData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyEditData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyHomepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyHomepage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/ApplicationForJobPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/ApplicationForJobPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/Homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Homepage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/UserEditData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/UserEditData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/entities/agency.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/entities/agency.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/entities/user.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/entities/user.entity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/messages/messages.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/messages/messages.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/offer/offer.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/offer/offer.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/translation/translation.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/translation/translation.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/user/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,20 +81,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/sajmo/Desktop/Programowanie/Projekty/job-portal&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\sajmo\\Desktop\\Programowanie\\Projekty\\job-portal\\server\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/sajmo/Desktop/Programowanie/Projekty/job-portal",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "terminal",
+    "ts.external.directory.path": "C:\\Users\\sajmo\\Desktop\\Programowanie\\Projekty\\job-portal\\server\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\components" />
@@ -255,6 +278,29 @@
       <workItem from="1680094651000" duration="408000" />
       <workItem from="1680096092393" duration="794000" />
       <workItem from="1680132254472" duration="2572000" />
+      <workItem from="1680167658084" duration="1314000" />
+      <workItem from="1680818493131" duration="608000" />
+      <workItem from="1680859954887" duration="427000" />
+      <workItem from="1680862241639" duration="1141000" />
+      <workItem from="1680904115669" duration="2365000" />
+      <workItem from="1681160368155" duration="20000" />
+      <workItem from="1681330381324" duration="2683000" />
+      <workItem from="1681336489744" duration="1460000" />
+      <workItem from="1681383306211" duration="4050000" />
+      <workItem from="1681497641473" duration="61000" />
+      <workItem from="1681498831115" duration="10000" />
+      <workItem from="1681741685303" duration="203000" />
+      <workItem from="1681768050999" duration="3138000" />
+      <workItem from="1681811363464" duration="320000" />
+      <workItem from="1681847175361" duration="19000" />
+      <workItem from="1681912406606" duration="520000" />
+      <workItem from="1682547771003" duration="222000" />
+      <workItem from="1682602757998" duration="3134000" />
+      <workItem from="1682609145925" duration="754000" />
+      <workItem from="1682692895684" duration="900000" />
+      <workItem from="1682957868819" duration="79000" />
+      <workItem from="1683146463507" duration="10000" />
+      <workItem from="1683364944759" duration="5075000" />
     </task>
     <servers />
   </component>

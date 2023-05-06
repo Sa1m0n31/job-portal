@@ -36,9 +36,16 @@ const AgencyProfile = ({data, user}) => {
     const [agency, setAgency] = useState(null);
     const [jobOffers, setJobOffers] = useState([]);
     const [applications, setApplications] = useState([]);
+    const [adminAccount, setAdminAccount] = useState(false);
 
     const { c } = useContext(LanguageContext);
     const { realAccount } = useContext(UserAccountContext);
+
+    useEffect(() => {
+        if(email === 'contact@jooob.eu') {
+            setAdminAccount(true);
+        }
+    }, [email]);
 
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
@@ -159,11 +166,11 @@ const AgencyProfile = ({data, user}) => {
                             <h1 className="userAccount__box__fullName">
                                 {agency.name}
                             </h1>
-                            {agency.city ? <p className="userAccount__box__mainData__text">
+                            {agency.city && !adminAccount ? <p className="userAccount__box__mainData__text">
                                 <img className="img" src={locationIcon} alt="lokalizacja" />
                                 {agency.city}
                             </p> : ''}
-                            {agency.nip ? <p className="userAccount__box__mainData__text">
+                            {agency.nip && !adminAccount ? <p className="userAccount__box__mainData__text">
                                 <img className="img" src={suitcaseIcon} alt="branża" />
                                 NIP: {agency.nip}
                             </p> : ''}
@@ -277,7 +284,7 @@ const AgencyProfile = ({data, user}) => {
                     </div>
                 </div>
 
-                <div className="flex">
+                {!adminAccount ? <div className="flex">
                     <div className="userAccount__box userAccount__box--100">
                         <h3 className="userAccount__box__header">
                             {c.employeesInfo}
@@ -329,7 +336,7 @@ const AgencyProfile = ({data, user}) => {
                                     (agency.car === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]}\n${agency.carPrice} ${currencies[agency.carPriceCurrency]}/${c.weeklyShortcut}`)) : c.noInfo}
                             </p>
                         </span>
-                         <span className="userAccount__box__pair">
+                            <span className="userAccount__box__pair">
                             <span className="userAccount__box__key">
                                 {c.bike}
                             </span>
@@ -428,7 +435,7 @@ const AgencyProfile = ({data, user}) => {
                             </button>
                         </div>
                     </div> : ''}
-                </div>
+                </div> : ''}
             </div>
         </div>
 

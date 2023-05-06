@@ -13,6 +13,12 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
     } = useContext(AgencyDataContext);
     const { c } = useContext(LanguageContext);
 
+    const handleChangeWrapper = (field, val) => {
+        if(val?.length <= 300) {
+            handleChange(field, val);
+        }
+    }
+
     return <>
         <div className="userForm userForm--4a userForm--4a--agency userForm--4b--agency">
             <div className="label label--date label--date--address">
@@ -37,7 +43,7 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
 
                 {agencyData?.carAvailable ? <div className="flex marginTop10">
                     <div className="label--date__input label--date__input--country">
-                        <button className={agencyData.car === null ? "datepicker datepicker--country input--error" : "datepicker datepicker--country"}
+                        <button className={agencyData.car === null && error ? "datepicker datepicker--country input--error" : "datepicker datepicker--country"}
                                 onClick={(e) => { e.stopPropagation();
                                     setCarVisible(!carVisible); }}
                         >
@@ -93,6 +99,16 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
                         {c.weekly}
                     </span>
                 </div> : ''}
+
+                {agencyData.carAvailable ? <label className="label label--rel label--bike">
+                    {c.additionalInfo}
+                    <span className="letterCounter">
+                    {agencyData?.carAdditionalInfo?.length} / 300
+                </span>
+                    <textarea className="input input--textarea input--bike"
+                              value={agencyData.carAdditionalInfo}
+                              onChange={(e) => { handleChangeWrapper('carAdditionalInfo', e.target.value); }} />
+                </label> : ''}
             </div>
 
             <div className="label label--date label--date--address">
@@ -117,7 +133,7 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
 
                 {agencyData?.bikeAvailable ? <div className="flex marginTop10">
                     <div className="label--date__input label--date__input--country">
-                        <button className={agencyData.bike === null ? "datepicker datepicker--country input--error" : "datepicker datepicker--country"}
+                        <button className={agencyData.bike === null && error ? "datepicker datepicker--country input--error" : "datepicker datepicker--country"}
                                 onClick={(e) => { e.stopPropagation();
                                     setBikeVisible(!bikeVisible); }}
                         >
@@ -174,6 +190,16 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
                     </span>
                 </div> : ''}
 
+                {agencyData.bikeAvailable ? <label className="label label--rel label--bike">
+                    {c.additionalInfo}
+                    <span className="letterCounter">
+                    {agencyData?.bikeAdditionalInfo?.length} / 300
+                </span>
+                    <textarea className="input input--textarea input--bike"
+                              value={agencyData.bikeAdditionalInfo}
+                              onChange={(e) => { handleChangeWrapper('bikeAdditionalInfo', e.target.value); }} />
+                </label> : ''}
+
                 <div className="label drivingLicenceWrapper">
                     {c.costReturnWithOwnTransport} *
                     <div className="flex flex--start">
@@ -193,6 +219,16 @@ const AgencyForm4b = ({setCarVisible, setCarCurrencyVisible, setBikeVisible, set
                         </div>
                     </div>
                 </div>
+
+                {agencyData.costReturnWithOwnTransport ? <label className="label label--rel label--bike">
+                    {c.additionalInfo}
+                    <span className="letterCounter">
+                    {agencyData?.costReturnAdditionalInfo?.length} / 300
+                </span>
+                    <textarea className="input input--textarea input--bike"
+                              value={agencyData.costReturnAdditionalInfo}
+                              onChange={(e) => { handleChangeWrapper('costReturnAdditionalInfo', e.target.value); }} />
+                </label> : ''}
             </div>
         </div>
         <div className="formBottom flex">

@@ -16,9 +16,18 @@ const AdminUsers = () => {
     const [unblockCandidate, setUnblockCandidate] = useState(0);
     const [blockSuccess, setBlockSuccess] = useState(0);
     const [unblockSuccess, setUnblockSuccess] = useState(0);
+    const [numberOfUsers, setNumberOfUsers] = useState(0);
 
     useEffect(() => {
         setHasMore(true);
+
+        getAllUsers(null, true)
+            .then((res) => {
+               if(res?.status === 200) {
+                   setNumberOfUsers(res?.data?.length);
+               }
+            });
+
         getAllUsers(1, true)
             .then((res) => {
                 if(res?.status === 200) {
@@ -92,7 +101,7 @@ const AdminUsers = () => {
             <PanelMenu menuOpen={2} />
             <div className="adminMain__main">
                 <h1 className="adminMain__header">
-                    Zarejestrowani użytkownicy
+                    Zarejestrowani użytkownicy ({numberOfUsers})
                 </h1>
                 <div className="agenciesList agenciesList--admin flex">
                     <InfiniteScroll
@@ -107,6 +116,7 @@ const AdminUsers = () => {
                         {users?.map((item, index) => {
                             return <UserPreviewAdmin key={index}
                                                        id={item.id}
+                                                       registerDate={item.register_datetime}
                                                        blocked={item.blocked}
                                                        setBlockCandidate={setBlockCandidate}
                                                        setUnblockCandidate={setUnblockCandidate}

@@ -23,37 +23,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06c2c867-885a-4984-820a-27e97dc3ed90" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/AdminEditUserAccount.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/AdminUserFormSummary.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/components/ExampleJobOffers.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/components/UserOwnCvEdition.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/AdminWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AdminWrapper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyForm4b.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyForm4b.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyForm4c.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyForm4c.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/AgencyPreviewAdmin.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyPreviewAdmin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/OffersModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/OffersModal.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/ExampleJobOffers.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/ExampleJobOffers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm1.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm2.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserForm3.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserForm3.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserPreview.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserPreview.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/components/UserPreviewAdmin.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserPreviewAdmin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserWrapper.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/helpers/offer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/offer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/helpers/others.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/others.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/helpers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/user.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/AdminAgencies.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AdminAgencies.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/AdminOffers.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AdminOffers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/AdminUserDetails.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AdminUserDetails.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/AdminUsers.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AdminUsers.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyEditData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyEditData.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyHomepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyHomepage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyProfile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/ApplicationForJobPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/ApplicationForJobPage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/Homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Homepage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyApplications.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyApplications.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/CandidateProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/CandidateProfile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/CandidatesList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/CandidatesList.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/UserEditData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/UserEditData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/UserHomepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/UserHomepage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/content.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/content.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/entities/agency.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/entities/agency.entity.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/entities/user.entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/entities/user.entity.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/messages/messages.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/messages/messages.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/offer/offer.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/offer/offer.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/offer/offer.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/offer/offer.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/user/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/user/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,6 +68,19 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="c9b14f3a-47c4-435b-a04a-ae1a50b8e5c0" />
+        <option name="url" value="https://github.com/Sa1m0n31/job-portal.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -102,6 +111,9 @@
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\src\entities" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\static\img" />
       <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\client\src\helpers" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\sajmo\Desktop\Programowanie\Projekty\job-portal\server\uploads\cvs" />
     </key>
   </component>
   <component name="RunManager">
@@ -300,7 +312,18 @@
       <workItem from="1682692895684" duration="900000" />
       <workItem from="1682957868819" duration="79000" />
       <workItem from="1683146463507" duration="10000" />
-      <workItem from="1683364944759" duration="5075000" />
+      <workItem from="1683364944759" duration="5171000" />
+      <workItem from="1683402066303" duration="297000" />
+      <workItem from="1684139945526" duration="2219000" />
+      <workItem from="1684149941963" duration="568000" />
+      <workItem from="1684526009670" duration="4888000" />
+      <workItem from="1684590675143" duration="364000" />
+      <workItem from="1684745370223" duration="699000" />
+      <workItem from="1684755604617" duration="174000" />
+      <workItem from="1685349013369" duration="670000" />
+      <workItem from="1687944980853" duration="1528000" />
+      <workItem from="1688399737769" duration="328000" />
+      <workItem from="1688414376146" duration="7293000" />
     </task>
     <servers />
   </component>

@@ -46,6 +46,7 @@ const UserWrapper = ({page}) => {
                                     }
 
                                     let data;
+                                    let ownCv = res?.data?.own_cv;
                                     if(res?.data?.data) {
                                         data = JSON.parse(res.data.data);
                                         data = parseUserData(data);
@@ -56,10 +57,10 @@ const UserWrapper = ({page}) => {
                                             break;
                                         case 2:
                                             setRender(<UserHomepage data={data}
+                                                                    ownCv={ownCv}
                                                                     userId={res?.data?.id}
                                                                     visible={res.data.profileVisible}
-                                                                    working={res.data.working}
-                                            />);
+                                                                    working={res.data.working} />);
                                             break;
                                         case 3:
                                             setRender(<JobOfferList data={data} />);

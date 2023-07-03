@@ -299,6 +299,35 @@ export class UserService {
         }
     }
 
+    async removeCv(email) {
+        return this.userRepository
+            .createQueryBuilder()
+            .update({
+                own_cv: null
+            })
+            .where({
+                email
+            })
+            .execute();
+    }
+
+    async updateCv(data, files) {
+        if(files?.cv) {
+            return this.userRepository
+                .createQueryBuilder()
+                .update({
+                    own_cv: files.cv[0].path
+                })
+                .where({
+                    email: data.email
+                })
+                .execute();
+        }
+        else {
+            throw new BadRequestException('Nie znaleziono pliku');
+        }
+    }
+
     async updateUser(data, files) {
         // Modify user data JSON - add file paths
         let email = '';
@@ -338,8 +367,12 @@ export class UserService {
         // Add info about jobs length
         let jobsLength = [];
         for(const job of userData.jobs) {
-            const fromArray = job.from.split('-');
-            const toArray = job.to.split('-');
+            let fromArray = [], toArray = [];
+
+            if(job.from && job.to) {
+                fromArray = job.from.split('-');
+                toArray = job.to.split('-');
+            }
 
             if(fromArray.length === 2 && toArray.length === 2) {
                 const fromYear = parseInt(fromArray[0]);
@@ -670,6 +703,7 @@ export class UserService {
                 .where({
                     active: true
                 })
+                .orderBy('id', 'DESC')
                 .limit(perPage)
                 .offset((page-1) * perPage)
                 .getMany();
@@ -680,6 +714,7 @@ export class UserService {
                 .where({
                     active: true
                 })
+                .orderBy('id', 'DESC')
                 .getMany();
         }
     }

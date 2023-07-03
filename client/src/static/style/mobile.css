@@ -799,6 +799,22 @@
         width: 400px;
     }
 
+    .ownCvEdition {
+        max-width: 300px;
+    }
+
+    .ownCvEdition__text {
+        font-size: 14px;
+    }
+
+    .ownCvEdition__button {
+        font-size: 12px;
+        padding: 3px 5px;
+        margin-top: 10px;
+        height: 35px;
+        width: 100px;
+    }
+
     .adminMain__grid__item .img {
         width: 40px;
     }
@@ -1045,6 +1061,36 @@
     .register .login__left__bottom,
     .editData__left {
         display: none;
+    }
+
+    .ownCvEdition__text {
+        font-size: 12px;
+    }
+
+    .ownCvEdition__addInfo {
+        font-size: 10px;
+        margin: 20px 0;
+    }
+
+    .ownCvEdition .img--fileIcon {
+        width: 10px !important;
+        margin-right: 10px !important;
+    }
+
+    .btn--remove {
+        font-size: 10px !important;
+    }
+
+    .ownCvEdition {
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .ownCvEdition__text {
+        text-align: center;
     }
 
     .btn--testAccount {
@@ -2669,6 +2715,11 @@
 @media(max-width: 768px) {
     .editData__formWrapper__header {
         font-size: 18px;
+    }
+
+    .btn--showAll {
+        height: 40px;
+        margin: -30px auto 20px;
     }
 
     .modal--notComplete ul {

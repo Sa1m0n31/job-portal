@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import LoggedUserHeader from "../components/LoggedUserHeader";
-import {currencies, flags, languageVersions} from "../static/content";
+import {currencies, flags} from "../static/content";
 import settings from "../static/settings";
 import locationIcon from "../static/img/location.svg";
 import suitcaseIcon from "../static/img/suitcase-grey.svg";
@@ -34,6 +34,7 @@ const CandidateProfile = () => {
     const [data, setData] = useState({});
     const [agency, setAgency] = useState(null);
     const [user, setUser] = useState(null);
+    const [ownCv, setOwnCv] = useState(null);
     const [id, setId] = useState(null);
     const [email, setEmail] = useState('');
     const [notes, setNotes] = useState('');
@@ -84,7 +85,7 @@ const CandidateProfile = () => {
                     if(res?.status === 200) {
                         setEmail(res?.data?.email);
                         const d = JSON.parse(res?.data?.data);
-                        console.log(d);
+                        setOwnCv(res?.data?.own_cv);
                         setUser(d);
                     }
                 })
@@ -218,12 +219,14 @@ const CandidateProfile = () => {
                 </div>
 
                 <div className={agency ? "userAccount__box__right flex--column--end" : "userAccount__box__right"}>
-                    {user?.firstName && user?.lastName ? <label className="userAccount__box__downloadCV">
+                    {ownCv ? <a className="btn btn--downloadCV"
+                                href={`${settings.API_URL}/${ownCv}`}
+                                target="_blank">
+                            {c.downloadCV}
+                        </a> : (user?.firstName && user?.lastName ? <label className="userAccount__box__downloadCV">
                         {c.generateAndDownloadCV}:
                         {user ? <PDFDownloadLink document={<CV profileImage={user.profileImage ? `${settings.API_URL}/${user?.profileImage}` : userPlaceholder}
                                                                c={c}
-                                                               // companyLogo={`${settings.API_URL}/${data.logo}`}
-                                                               // companyName={data.name}
                                                                fullName={`${user.firstName} ${user.lastName}`}
                                                                categories={user.categories}
                                                                email={user.email}
@@ -250,7 +253,7 @@ const CandidateProfile = () => {
                             <img className="img" src={downloadWhite} alt="pobierz" />
                             {c.downloadCV}
                         </PDFDownloadLink> : ''}
-                    </label> : ''}
+                    </label> : '')}
 
                     {agency ? <div className="candidateProfile__agencySection">
                         <button className="btn btn--notes btn--sendOffer" onClick={() => { setOffersModalVisible(true); }}>

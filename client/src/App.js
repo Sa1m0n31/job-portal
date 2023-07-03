@@ -29,7 +29,16 @@ import LandingPage from "./pages/LandingPage";
 const LanguageContext = React.createContext({});
 
 function App() {
-  const [language, setLanguage] = useState(localStorage.getItem('lang') ? localStorage.getItem('lang') : 'GB');
+  const getLanguage = () => {
+    const currentLang = localStorage.getItem('lang');
+
+    if(currentLang !== 'PL' && currentLang !== 'NL' && currentLang !== 'GB') {
+      return 'GB';
+    }
+    return currentLang;
+  }
+
+  const [language, setLanguage] = useState(getLanguage());
   const [c, setC] = useState({});
 
   useEffect(() => {
@@ -38,7 +47,7 @@ function App() {
     let updateValue;
 
     if(localStorage.getItem('siteContent')) {
-      updateValue = JSON.parse(localStorage.getItem('siteContent')).update27042023;
+      updateValue = JSON.parse(localStorage.getItem('siteContent')).update03072023;
     }
 
     if((storedLanguage !== language) || (!updateValue)) {

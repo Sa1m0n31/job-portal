@@ -19,6 +19,7 @@ import UserFormSummary from "../components/UserFormSummary";
 import settings from "../static/settings";
 import {LanguageContext} from "../App";
 import AdminUserFormSummary from "../components/AdminUserFormSummary";
+import UserOwnCvEdition from "../components/UserOwnCvEdition";
 
 const UserDataContext = React.createContext(null);
 
@@ -110,6 +111,8 @@ const UserEditData = ({admin}) => {
     const [step3Error, setStep3Error] = useState(false);
     const [step4Error, setStep4Error] = useState(false);
     const [step5Error, setStep5Error] = useState(false);
+
+    const [ownCv, setOwnCv] = useState(null);
 
     const { c } = useContext(LanguageContext);
 
@@ -264,6 +267,7 @@ const UserEditData = ({admin}) => {
             getUserData()
                 .then((res) => {
                     if(res?.status === 200) {
+                        setOwnCv(res.data?.own_cv);
                         const data = JSON.parse(res.data.data);
                         if(Object.keys(data).length > 0) {
                             setUserData({
@@ -387,7 +391,7 @@ const UserEditData = ({admin}) => {
     const validateUserData = () => {
         const fields = [];
 
-        if(!userData.profileImage && !userData.profileImageUrl) {
+        if(!userData.profileImage && !userData.profileImageUrl && !ownCv) {
             setStep1Error(true);
             fields.push(c.profileImage);
         }
@@ -399,15 +403,15 @@ const UserEditData = ({admin}) => {
             setStep1Error(true);
             fields.push(c.lastName);
         }
-        if(!userData.city) {
+        if(!userData.city && !ownCv) {
             setStep1Error(true);
             fields.push(c.city);
         }
-        if(!userData.postalCode) {
+        if(!userData.postalCode && !ownCv) {
             setStep1Error(true);
             fields.push(c.postalCode);
         }
-        if(!userData.address) {
+        if(!userData.address && !ownCv) {
             setStep1Error(true);
             fields.push(c.streetAndBuilding);
         }
@@ -417,7 +421,7 @@ const UserEditData = ({admin}) => {
         }
         const schoolsError = schoolsValidation(userData.schools, false);
 
-        if(schoolsError !== 1) {
+        if(schoolsError !== 1 && !ownCv) {
             setStep2Error(true);
             if(schoolsError === -1) {
                 fields.push(c.finishedSchools);
@@ -427,10 +431,10 @@ const UserEditData = ({admin}) => {
             }
         }
 
-        if(userData?.jobs?.length) {
+        if(userData?.jobs?.length || ownCv) {
             const experienceError = schoolsValidation(userData.jobs, true);
 
-            if(experienceError !== 1) {
+            if(experienceError !== 1 && !ownCv) {
                 setStep3Error(true);
 
                 if(experienceError === -1) {
@@ -1089,9 +1093,11 @@ const UserEditData = ({admin}) => {
         levelsVisible, drivingLicenceVisible,
         bsnVisible, error, loading, errorFields,
         categoriesVisible, currenciesVisible,
-        userData, handleChange
+        userData, handleChange,
+        ownCv, setOwnCv
     }}>
-        <div className="container container--editData flex" onClick={(e) => { hideAllDropdowns(); }}>
+        <div className="container container--editData flex"
+             onClick={hideAllDropdowns}>
             <div className="editData__left noscroll">
                 <a href="/" className="editData__left__logo">
                     <img className="img" src={logo} alt="portal-z-ofertami-pracy" />
@@ -1120,7 +1126,8 @@ const UserEditData = ({admin}) => {
                 </div>
             </div>
 
-            <MobileHeader back={true} backFunction={prevStep} />
+            <MobileHeader back={true}
+                          backFunction={prevStep} />
 
             <main className="editData__main">
                 <header className="editData__main__header flex">
@@ -1135,6 +1142,9 @@ const UserEditData = ({admin}) => {
                             {c.back}
                         </button>
                     </div>
+
+                    <UserOwnCvEdition ownCv={ownCv}
+                                      setOwnCv={setOwnCv} />
 
                     <LanguageSwitcher />
                 </header>
@@ -1159,6 +1169,10 @@ const UserEditData = ({admin}) => {
                             {JSON.parse(c.stepsMainContent)[step][substep].text}
                         </h2>
                     </> : ''}
+
+                    <UserOwnCvEdition ownCv={ownCv}
+                                      mobile={true}
+                                      setOwnCv={setOwnCv} />
 
                     {currentForm}
                 </div>

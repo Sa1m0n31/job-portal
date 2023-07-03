@@ -95,6 +95,29 @@ export class UserController {
     }
 
     @UseGuards(JwtAuthGuard)
+    @Post('/updateCv')
+    @UseInterceptors(FileFieldsInterceptor([
+        {name: 'cv', maxCount: 1}
+    ], {
+        fileFilter: fileExtensionFilter,
+        storage: diskStorage({
+            filename: FileUploadHelper.customFileName,
+            destination: '../uploads/cvs'
+        })
+    }))
+    updateCv(@UploadedFiles() files: {
+        cv?: Express.Multer.File[]
+    }, @Body() body) {
+        return this.userService.updateCv(body, files);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('/removeCv')
+    removeCv(@Body() body) {
+        return this.userService.removeCv(body.email);
+    }
+
+    @UseGuards(JwtAuthGuard)
     @Get('/getUserData/:email/:lang')
     getUserData(@Param('email') email, @Param('lang') lang) {
         return this.userService.getUserData(email, lang);

@@ -201,6 +201,7 @@ const CandidatesList = ({data, accepted}) => {
                                           id={item.id}
                                           companyLogo={`${settings.API_URL}/${data.logo}`}
                                           companyName={data.name}
+                                          ownCv={item.own_cv}
                                           data={JSON.parse(item.data)} />
                 })}
             </InfiniteScroll> : <InfiniteScroll
@@ -217,6 +218,7 @@ const CandidatesList = ({data, accepted}) => {
                                           id={item.id}
                                           companyLogo={`${settings.API_URL}/${data.logo}`}
                                           companyName={data.name}
+                                          ownCv={item.own_cv}
                                           data={JSON.parse(item.data)} />
                 })}
             </InfiniteScroll>}

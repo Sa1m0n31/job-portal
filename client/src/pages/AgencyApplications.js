@@ -165,6 +165,7 @@ const AgencyApplications = ({data}) => {
                                                     // friendLink: item.app_friendLink,
                                                     attachments: JSON.parse(item.app_attachments)
                                                 }}
+                                                ownCv={item.u_own_cv}
                                                 data={JSON.parse(item.u_data)} />
                         })}
                     </div> : ''}
@@ -252,6 +253,7 @@ const AgencyApplications = ({data}) => {
                                                     // friendLink: item.application_friendLink,
                                                     attachments: JSON.parse(item.application_attachments)
                                                 }}
+                                                ownCv={item.u_own_cv}
                                                 data={JSON.parse(item.u_data)} />
                         })}
                     </div> : ''}

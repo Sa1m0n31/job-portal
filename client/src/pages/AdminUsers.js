@@ -10,6 +10,7 @@ import UserPreviewAdmin from "../components/UserPreviewAdmin";
 
 const AdminUsers = () => {
     const [users, setUsers] = useState([]);
+    const [filteredUsers, setFilteredUsers] = useState([]);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const [blockCandidate, setBlockCandidate] = useState(0);
@@ -17,25 +18,36 @@ const AdminUsers = () => {
     const [blockSuccess, setBlockSuccess] = useState(0);
     const [unblockSuccess, setUnblockSuccess] = useState(0);
     const [numberOfUsers, setNumberOfUsers] = useState(0);
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
-        setHasMore(true);
+        setHasMore(false);
 
         getAllUsers(null, true)
             .then((res) => {
                if(res?.status === 200) {
                    setNumberOfUsers(res?.data?.length);
+                   setUsers(res?.data);
                }
             });
-
-        getAllUsers(1, true)
-            .then((res) => {
-                if(res?.status === 200) {
-                    setUsers(res?.data);
-                }
-            });
-        setPage(2);
     }, [blockSuccess, unblockSuccess]);
+
+    useEffect(() => {
+        if(search) {
+            setFilteredUsers(users.filter((item) => {
+                return item.email.toLowerCase().includes(search.toLowerCase());
+            }));
+        }
+        else {
+            setFilteredUsers(users);
+        }
+    }, [search]);
+
+    useEffect(() => {
+        if(users?.length) {
+            setFilteredUsers(users);
+        }
+    }, [users]);
 
     const getAgencies = async () => {
         const newAgenciesResponse = await getAllUsers(page, true);
@@ -102,6 +114,11 @@ const AdminUsers = () => {
             <div className="adminMain__main">
                 <h1 className="adminMain__header">
                     Zarejestrowani użytkownicy ({numberOfUsers})
+
+                    <input className="input input--searchEmail"
+                           value={search}
+                           onChange={(e) => { setSearch(e.target.value); }}
+                           placeholder="Wyszukaj wg e-maila..." />
                 </h1>
                 <div className="agenciesList agenciesList--admin flex">
                     <InfiniteScroll
@@ -113,9 +130,10 @@ const AdminUsers = () => {
                         </div>}
                         endMessage={<span></span>}
                     >
-                        {users?.map((item, index) => {
+                        {filteredUsers?.map((item, index) => {
                             return <UserPreviewAdmin key={index}
                                                        id={item.id}
+                                                       email={item.email}
                                                        registerDate={item.register_datetime}
                                                        blocked={item.blocked}
                                                        setBlockCandidate={setBlockCandidate}

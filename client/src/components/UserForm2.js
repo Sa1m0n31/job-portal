@@ -6,13 +6,13 @@ import trashIcon from '../static/img/trash.svg'
 import {LanguageContext} from "../App";
 
 const UserForm2 = ({addNewSchool, toggleSchoolInProgress, deleteSchool, setEducationVisible}) => {
-    const { setStep, error, userData, handleChange, educationVisible } = useContext(UserDataContext);
+    const { setStep, error, userData, handleChange, educationVisible, ownCv } = useContext(UserDataContext);
     const { c } = useContext(LanguageContext);
 
     return <>
         <div className="userForm userForm2">
         <div className="label--date__input label--date__input--country label--date__input--education">
-            {c.education} *
+            {c.education} {!ownCv ? '*' : ''}
             <button className="datepicker datepicker--country"
                     onClick={(e) => { e.stopPropagation(); setEducationVisible(!educationVisible); }}
             >

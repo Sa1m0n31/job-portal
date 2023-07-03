@@ -7,7 +7,7 @@ import settings from "../static/settings";
 import eyeIcon from '../static/img/eye-icon.svg'
 import {LanguageContext} from "../App";
 
-const UserPreviewAdmin = ({i, id, data, blocked, registerDate,
+const UserPreviewAdmin = ({i, id, data, blocked, registerDate, email,
                             setBlockCandidate, setUnblockCandidate}) => {
     const { c } = useContext(LanguageContext);
 
@@ -45,9 +45,9 @@ const UserPreviewAdmin = ({i, id, data, blocked, registerDate,
                     {data.phoneNumberCountry} {data.phoneNumber}
                 </p> : ''}
 
-                {data.email ? <p className="preview__data preview__data--nip">
+                {email ? <p className="preview__data preview__data--nip">
                     <img className="img" src={mailIcon} alt="lokalizacja" />
-                    {data.email}
+                    {email}
                 </p> : ''}
 
                 {registerDate ? <p className="preview__data preview__data--nip">

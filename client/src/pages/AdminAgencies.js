@@ -19,28 +19,37 @@ const AdminAgencies = () => {
     const [unblockSuccess, setUnblockSuccess] = useState(0);
     const [acceptSuccess, setAcceptSuccess] = useState(0);
     const [numberOfAgencies, setNumberOfAgencies] = useState(0);
+    const [search, setSearch] = useState('');
+    const [filteredAgencies, setFilteredAgencies] = useState([]);
 
     useEffect(() => {
-        setHasMore(true);
+        setHasMore(false);
 
         getAllAgencies()
             .then((res) => {
                 if(res?.status === 200) {
                     setNumberOfAgencies(res?.data?.length);
-                }
-            });
-
-        getAllAgencies(1)
-            .then((res) => {
-                if(res?.status === 200) {
                     setAgencies(res?.data);
                 }
-            })
-            .catch((err) => {
-                console.log(err);
             });
-        setPage(2);
     }, [blockSuccess, unblockSuccess, acceptSuccess]);
+
+    useEffect(() => {
+        if(search) {
+            setFilteredAgencies(agencies.filter((item) => {
+                return item.email.toLowerCase().includes(search.toLowerCase());
+            }));
+        }
+        else {
+            setFilteredAgencies(agencies);
+        }
+    }, [search]);
+
+    useEffect(() => {
+        if(agencies?.length) {
+            setFilteredAgencies(agencies);
+        }
+    }, [agencies]);
 
     const getAgencies = async () => {
         const newAgenciesResponse = await getAllAgencies(page);
@@ -129,6 +138,11 @@ const AdminAgencies = () => {
             <div className="adminMain__main">
                 <h1 className="adminMain__header">
                     Zarejestrowane agencje ({numberOfAgencies})
+
+                    <input className="input input--searchEmail"
+                           value={search}
+                           onChange={(e) => { setSearch(e.target.value); }}
+                           placeholder="Wyszukaj wg e-maila..." />
                 </h1>
                 <div className="agenciesList agenciesList--admin flex">
                     <InfiniteScroll
@@ -140,9 +154,10 @@ const AdminAgencies = () => {
                         </div>}
                         endMessage={<span></span>}
                     >
-                        {agencies?.map((item, index) => {
+                        {filteredAgencies?.map((item, index) => {
                             return <AgencyPreviewAdmin key={index}
                                                        id={item.id}
+                                                       email={item.email}
                                                        registerDate={item.register_datetime}
                                                        accepted={item.accepted}
                                                        blocked={item.blocked}

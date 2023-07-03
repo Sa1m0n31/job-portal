@@ -8,11 +8,13 @@ import {currencies} from "../static/content";
 import {LanguageContext} from "../App";
 import HomeSectionHeader from "./HomeSectionHeader";
 import {getRandomElements} from "../helpers/others";
+import Loader from "./Loader";
 
 const ExampleJobOffers = () => {
     const { c } = useContext(LanguageContext);
 
     const [offers, setOffers] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         getActiveJobOffers(1)
@@ -23,6 +25,20 @@ const ExampleJobOffers = () => {
                 }
             });
     }, []);
+
+    const showAllOffers = () => {
+        setLoading(true);
+        getActiveJobOffers()
+            .then((res) => {
+                if(res?.status === 200) {
+                    setOffers(res.data);
+                }
+                setLoading(false);
+            })
+            .catch(() => {
+                setLoading(false);
+            });
+    }
 
     return <div className="homeSection homeSection--offerList">
         <HomeSectionHeader content={c.jobOffers} />
@@ -76,6 +92,13 @@ const ExampleJobOffers = () => {
                 </div>
             </div>
         })}
+
+        {offers?.length < 6 ? (loading ? <div className="center">
+            <Loader />
+        </div> : <button className="btn btn--showAll"
+                         onClick={showAllOffers}>
+            {c.show_all}
+        </button>) : ''}
     </div>
 };
 

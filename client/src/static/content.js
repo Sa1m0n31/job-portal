@@ -486,11 +486,15 @@ const agencyMenu = [
     }
 ]
 
+// const languageVersions = [
+//     "BG", "HR", "CZ", "DK", "DE", "GB", "EE", "FI", "FR", "NL",
+//     "GR", "HU", "IT", "LV", "LT", "MT", "PL", "PT", "RO", "SK",
+//     "SI", "ES", "SE", "NO", "UA", "TR", "BY"
+// ]
+
 const languageVersions = [
-    "BG", "HR", "CZ", "DK", "DE", "GB", "EE", "FI", "FR", "NL",
-    "GR", "HU", "IT", "LV", "LT", "MT", "PL", "PT", "RO", "SK",
-    "SI", "ES", "SE", "NO", "UA", "TR", "BY"
-]
+    'GB', 'NL', 'PL'
+];
 
 const userObject = {
     // 1. Personal data

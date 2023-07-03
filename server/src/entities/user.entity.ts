@@ -47,4 +47,10 @@ export class User {
 
     @Column()
     register_datetime: Date;
+
+    @Column({
+        default: null,
+        nullable: true
+    })
+    own_cv: string;
 }

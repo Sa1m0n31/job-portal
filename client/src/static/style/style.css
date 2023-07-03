@@ -5556,8 +5556,9 @@ a.preview__bottom__content {
 }
 
 .modal--languages .modal__inner {
-    height: 300px;
-    min-height: 300px;
+    height: 200px;
+    min-height: 200px;
+    width: 500px;
     overflow: hidden;
 }
 
@@ -6652,4 +6653,85 @@ input[type=month] {
 
 .userForm--summary--admin {
     padding-top: 40px;
+}
+
+.btn--showAll {
+    height: 50px;
+    padding: 10px 15px;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+}
+
+.input--searchEmail {
+    width: 200px;
+    height: 40px;
+    border: none;
+    border-bottom: 2px solid #0a73fe;
+    border-radius: 0;
+    margin-left: 100px;
+    padding: 8px 0;
+}
+
+.ownCvEdition {
+    max-width: 500px;
+}
+
+.ownCvEdition__text {
+    font-size: 16px;
+}
+
+.ownCvEdition__button {
+    margin: 20px 0;
+    background: var(--primary);
+    width: 150px;
+    height: 40px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.ownCvEdition__button > input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.ownCvEdition__addInfo {
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.ownCvEdition__addInfo .img--fileIcon {
+    margin-right: 15px;
+    width: 20px;
+}
+
+.ownCvEdition .btn--remove {
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+    background: red;
+    margin-left: 20px;
+    transition: .2s all;
+}
+
+.ownCvEdition .btn--remove:hover {
+    opacity: .8;
+}
+
+@media(min-width: 996px) {
+    .ownCvEdition--mobile {
+        display: none;
+    }
 }

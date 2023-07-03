@@ -82,24 +82,46 @@ export class OfferService {
 
     async getActiveOffers(page: number, lang: string) {
         if(lang === 'pl' || !lang) {
-            return this.offerRepository
-                .createQueryBuilder('offer')
-                .where(`timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP`)
-                .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
-                .where('a.accepted = true')
-                .limit(parseInt(process.env.OFFERS_PER_PAGE))
-                .offset((page-1) * parseInt(process.env.OFFERS_PER_PAGE))
-                .getRawMany();
+            if(page !== -1) {
+                return this.offerRepository
+                    .createQueryBuilder('offer')
+                    .where(`timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP`)
+                    .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+                    .where('a.accepted = true')
+                    .limit(parseInt(process.env.OFFERS_PER_PAGE))
+                    .offset((page-1) * parseInt(process.env.OFFERS_PER_PAGE))
+                    .getRawMany();
+            }
+            else {
+                return this.offerRepository
+                    .createQueryBuilder('offer')
+                    .where(`timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP`)
+                    .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+                    .where('a.accepted = true')
+                    .getRawMany();
+            }
         }
         else {
-            const jobOffers = await this.offerRepository
-                .createQueryBuilder('offer')
-                .where(`timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP`)
-                .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
-                .where('a.accepted = true')
-                .limit(parseInt(process.env.OFFERS_PER_PAGE))
-                .offset((page - 1) * parseInt(process.env.OFFERS_PER_PAGE))
-                .getRawMany();
+            let jobOffers = [];
+
+            if(page !== -1) {
+                jobOffers = await this.offerRepository
+                    .createQueryBuilder('offer')
+                    .where(`timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP`)
+                    .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+                    .where('a.accepted = true')
+                    .limit(parseInt(process.env.OFFERS_PER_PAGE))
+                    .offset((page - 1) * parseInt(process.env.OFFERS_PER_PAGE))
+                    .getRawMany();
+            }
+            else {
+                jobOffers = await this.offerRepository
+                    .createQueryBuilder('offer')
+                    .where(`timeBounded = FALSE OR STR_TO_DATE(CONCAT(offer.expireDay,',',offer.expireMonth,',',offer.expireYear), '%d,%m,%Y') >= CURRENT_TIMESTAMP`)
+                    .innerJoinAndSelect('agency', 'a', 'offer.agency = a.id')
+                    .where('a.accepted = true')
+                    .getRawMany();
+            }
 
             lang = getGoogleTranslateLanguageCode(lang);
             let i = 0;
@@ -1236,6 +1258,7 @@ export class OfferService {
             if(addOfferResult) {
                 return true;
 
+                // TEMPORARY TURNED OFF BY CLIENT
                 // const offerId = addOfferResult.identifiers[0].id;
                 //
                 // const isElementInArray = (el, arr) => {

@@ -28,7 +28,7 @@ import userPlaceholder from '../static/img/user-placeholder.svg'
 import RecommendationModal from "../components/RecommendationModal";
 import {UserAccountContext} from "../components/UserWrapper";
 
-const UserHomepage = ({data, userId, visible, working}) => {
+const UserHomepage = ({data, ownCv, userId, visible, working}) => {
     const [profileVisible, setProfileVisible] = useState(visible);
     const [userWorking, setUserWorking] = useState(working);
     const [copied, setCopied] = useState(false);
@@ -144,7 +144,11 @@ const UserHomepage = ({data, userId, visible, working}) => {
                 <div className="userAccount__box__right">
                     {data?.firstName && data?.lastName ? <label className="userAccount__box__downloadCV">
                         {c.generateAndDownloadCV}:
-                        {data ? <PDFDownloadLink document={<CV profileImage={data?.profileImage ? `${settings.API_URL}/${data?.profileImage}` : userPlaceholder}
+                        {ownCv ? <a className="btn btn--downloadCV"
+                                    href={`${settings.API_URL}/${ownCv}`}
+                                    target="_blank">
+                            {c.downloadCV}
+                        </a> : (data ? <PDFDownloadLink document={<CV profileImage={data?.profileImage ? `${settings.API_URL}/${data?.profileImage}` : userPlaceholder}
                                                                c={c}
                                                                fullName={data.firstName ? `${data.firstName} ${data.lastName}` : c.anonim}
                                                                categories={data.categories}
@@ -171,7 +175,7 @@ const UserHomepage = ({data, userId, visible, working}) => {
                                                  className="btn btn--downloadCV">
                             <img className="img" src={downloadWhite} alt="pobierz" />
                             {c.downloadCV}
-                        </PDFDownloadLink> : ''}
+                        </PDFDownloadLink> : '')}
                     </label> : ''}
 
                     <div className="userAccount__box__right__bottom">

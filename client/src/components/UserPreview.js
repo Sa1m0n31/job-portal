@@ -19,7 +19,7 @@ import {currencies} from "../static/content";
 import DeleteModal from "./DeleteModal";
 import {hideApplication, hideFastApplication} from "../helpers/offer";
 
-const UserPreview = ({i, id, data, application, companyLogo, companyName, deleteFromOffer, deleteFromFastOffer}) => {
+const UserPreview = ({i, id, data, application, ownCv, deleteFromFastOffer}) => {
     const { c } = useContext(LanguageContext);
 
     const [loading, setLoading] = useState(false);
@@ -135,40 +135,42 @@ const UserPreview = ({i, id, data, application, companyLogo, companyName, delete
                     <Loader />
                 </div> : ''}
 
-                {downloadCV ? <PDFDownloadLink document={<CV profileImage={`${settings.API_URL}/${data?.profileImage}`}
-                                                             c={c}
-                                                             enableDownload={() => { setDisabled(false); }}
-                                                             translate={true}
-                                                             fullName={data.firstName ? `${data.firstName} ${data.lastName}` : c.anonim}
-                                                             // companyName={companyName}
-                                                             // companyLogo={companyLogo}
-                                                             categories={data.categories}
-                                                             email={data.email}
-                                                             birthday={getDate(data?.birthdayDay, data?.birthdayMonth, data?.birthdayYear)}
-                                                             schools={data.schools}
-                                                             jobs={data.jobs}
-                                                             additionalLanguages={data.extraLanguages}
-                                                             languages={data.languages}
-                                                             drivingLicence={data.drivingLicenceCategories}
-                                                             certs={data.certificates}
-                                                             courses={data.courses}
-                                                             skills={data.skills}
-                                                             desc={data.situationDescription}
-                                                             phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : c.noInfo}
-                                                             location={data.country >= 0 ? `${data.address}, ${data.city}, ${JSON.parse(c.countries)[data.country]}` : c.noInfo}
-                                                             currentPlace={data.currentCountry >= 0 ? `${JSON.parse(c.countries)[data.currentCountry]}, ${data.currentCity}`: c.noInfo}
-                                                             availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : c.noInfo}
-                                                             ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}
-                                                             ownTools={data.ownTools ? c.yes : ''}
-                                                             salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency >= 0 ? currencies[data.salaryCurrency] : 'EUR'} ${c.netto}/${data.salaryType === 0 ? c.monthlyShortcut : c.weeklyShortcut}` : c.noInfo}
-                                                             />}
-                                               fileName={`CV-${data.firstName}_${data.lastName}.pdf`}
-                                               className={disabled || loading ? "btn btn--downloadCV btn--disabled" : "btn btn--downloadCV"}>
+                {ownCv ? <a className="btn btn--downloadCV"
+                            href={`${settings.API_URL}/${ownCv}`}
+                            target="_blank">
+                    {c.downloadCV}
+                </a> : (downloadCV ? <PDFDownloadLink document={<CV profileImage={`${settings.API_URL}/${data?.profileImage}`}
+                                                                    c={c}
+                                                                    enableDownload={() => { setDisabled(false); }}
+                                                                    translate={true}
+                                                                    fullName={data.firstName ? `${data.firstName} ${data.lastName}` : c.anonim}
+                                                                    categories={data.categories}
+                                                                    email={data.email}
+                                                                    birthday={getDate(data?.birthdayDay, data?.birthdayMonth, data?.birthdayYear)}
+                                                                    schools={data.schools}
+                                                                    jobs={data.jobs}
+                                                                    additionalLanguages={data.extraLanguages}
+                                                                    languages={data.languages}
+                                                                    drivingLicence={data.drivingLicenceCategories}
+                                                                    certs={data.certificates}
+                                                                    courses={data.courses}
+                                                                    skills={data.skills}
+                                                                    desc={data.situationDescription}
+                                                                    phoneNumber={data.phoneNumber ? `${data.phoneNumberCountry} ${data.phoneNumber}` : c.noInfo}
+                                                                    location={data.country >= 0 ? `${data.address}, ${data.city}, ${JSON.parse(c.countries)[data.country]}` : c.noInfo}
+                                                                    currentPlace={data.currentCountry >= 0 ? `${JSON.parse(c.countries)[data.currentCountry]}, ${data.currentCity}`: c.noInfo}
+                                                                    availability={data.availabilityDay >= 0 ? getDate(data?.availabilityDay, data?.availabilityMonth, data?.availabilityYear) : c.noInfo}
+                                                                    ownAccommodation={data.ownAccommodation ? data.accommodationPlace : ''}
+                                                                    ownTools={data.ownTools ? c.yes : ''}
+                                                                    salary={data.salaryFrom && data.salaryTo ? `${data.salaryFrom} - ${data.salaryTo} ${data.salaryCurrency >= 0 ? currencies[data.salaryCurrency] : 'EUR'} ${c.netto}/${data.salaryType === 0 ? c.monthlyShortcut : c.weeklyShortcut}` : c.noInfo}
+                />}
+                                                      fileName={`CV-${data.firstName}_${data.lastName}.pdf`}
+                                                      className={disabled || loading ? "btn btn--downloadCV btn--disabled" : "btn btn--downloadCV"}>
                     <img className="img" src={downloadWhite} alt="pobierz" />
                     {c.downloadCV}
                 </PDFDownloadLink> : <button className="btn btn--downloadCV" onClick={() => { generateCV(); }}>
                     {c.generateCV}
-                </button>}
+                </button>)}
             </div> : ''}
 
             <div className="preview__buttons__section preview__buttons__section--flex">

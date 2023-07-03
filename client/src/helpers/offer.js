@@ -47,7 +47,7 @@ const getJobOffersByAgency = (email = null) => {
     });
 }
 
-const getActiveJobOffers = (page) => {
+const getActiveJobOffers = (page = -1) => {
     return axios.get(`/offer/getActive/${page}/${getLang()}`, {
         headers: {
             Authorization: getAuthHeader()

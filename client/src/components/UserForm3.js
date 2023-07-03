@@ -16,7 +16,7 @@ const UserForm3 = ({addNewJob, toggleJobInProgress, deleteJob, updateJobResponsi
             return <div className="form__job">
                 <div className="form__school form__school--job flex" key={index}>
                     <label className="label">
-                        {c.companyName} *
+                        {c.companyName}
                         <input className={error && !item.name ? "input input--error" : "input"}
                                value={item.name}
                                onChange={(e) => { handleChange('jobs', e.target.value, 'name', index); }} />

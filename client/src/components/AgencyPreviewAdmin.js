@@ -7,11 +7,10 @@ import mailIcon from '../static/img/message-grey.svg'
 import websiteIcon from '../static/img/www-icon.svg'
 import settings from "../static/settings";
 import eyeIcon from '../static/img/eye-icon.svg'
-import messageIcon from '../static/img/message-empty.svg'
 import {LanguageContext} from "../App";
 import check from '../static/img/green-check.svg'
 
-const AgencyPreviewAdmin = ({i, id, data, accepted, blocked, registerDate,
+const AgencyPreviewAdmin = ({i, id, data, accepted, blocked, registerDate, email,
                             setBlockCandidate, setUnblockCandidate, setAcceptCandidate}) => {
     const { c } = useContext(LanguageContext);
 
@@ -54,9 +53,9 @@ const AgencyPreviewAdmin = ({i, id, data, accepted, blocked, registerDate,
                     {data.phoneNumberCountry} {data.phoneNumber}
                 </p> : ''}
 
-                {data.email ? <p className="preview__data preview__data--nip">
+                {email ? <p className="preview__data preview__data--nip">
                     <img className="img" src={mailIcon} alt="lokalizacja" />
-                    {data.email}
+                    {email}
                 </p> : ''}
 
                 {data.website ? <a className="preview__data preview__data--nip" href={data.website} target="_blank" rel="noreferrer">

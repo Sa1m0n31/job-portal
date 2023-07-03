@@ -9,7 +9,7 @@ import {LanguageContext} from "../App";
 
 const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMonthsVisible, setYearsVisible, setCountriesVisible, setPhoneNumbersCountriesVisible}) => {
     const { setStep, userData, handleChange, countriesVisible, error,
-        daysVisible, monthsVisible, yearsVisible, phoneNumbersCountriesVisible
+        daysVisible, monthsVisible, yearsVisible, phoneNumbersCountriesVisible, ownCv
     } = useContext(UserDataContext);
     const { c } = useContext(LanguageContext);
 
@@ -61,7 +61,7 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
     return <>
         <div className="userForm userForm--1">
             <div className="label">
-                {c.profileImage}
+                {c.profileImage} {!ownCv ? '*' : ''}
                 <p className="label--extraInfo label--extraInfo--marginBottom">
                     {c.profileImageDescription}
                 </p>
@@ -149,7 +149,7 @@ const UserForm1 = ({setDaysVisible, handleFileUpload, removeProfileImage, setMon
         </div>
 
         <div className="label label--date label--date--address">
-            {c.livingAddress} *
+            {c.livingAddress} {!ownCv ? '*' : ''}
             <div className="flex flex--start label--date--address--firstLine">
                 <div className="label--date__input label--date__input--country marginRight">
                     <button className="datepicker datepicker--country"

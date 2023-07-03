@@ -27,7 +27,7 @@ export class OfferController {
 
     @Get('/getActive/:page/:lang')
     getActiveOffers(@Param('page') page, @Param('lang') lang) {
-        return this.offerService.getActiveOffers(page, lang);
+        return this.offerService.getActiveOffers(parseInt(page), lang);
     }
 
     @Get('/get/:id/:lang')

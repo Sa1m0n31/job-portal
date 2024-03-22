@@ -10,26 +10,24 @@ const icons = [icon1, icon2, icon3];
 const Tools = () => {
     const { c } = useContext(LanguageContext);
 
-    useEffect(() => {
-        console.log(JSON.parse(c.toolsContent));
-    }, [c]);
-
     return <div className="homeSection homeSection--tools" id="funkcje">
         <HomeSectionHeader content={c.toolsHeader} />
 
         <div className="tools flex">
             {JSON.parse(c.toolsContent)?.map((item, index) => {
-                return <div key={index} className="tools__item">
-                    <figure className="tools__figure center">
-                        <img className="img" src={icons[index]} alt="img" />
-                    </figure>
-                    <h5 className="tools__header">
-                        {item.header}
-                    </h5>
-                    <p className="tools__text">
-                        {item.text}
-                    </p>
-                </div>
+                if(index !== 2) {
+                    return <div key={index} className="tools__item">
+                        <figure className="tools__figure center">
+                            <img className="img" src={icons[index]} alt="img" />
+                        </figure>
+                        <h5 className="tools__header">
+                            {item.header}
+                        </h5>
+                        <p className="tools__text">
+                            {item.text}
+                        </p>
+                    </div>
+                }
             })}
         </div>
     </div>

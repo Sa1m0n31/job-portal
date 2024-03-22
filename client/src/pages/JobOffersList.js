@@ -17,7 +17,7 @@ import filterIcon from "../static/img/filter-results-button.svg";
 import {LanguageContext} from "../App";
 import { UserAccountContext } from "../components/UserWrapper";
 
-const JobOfferList = ({data}) => {
+const JobOfferList = ({data, homepage}) => {
     const { realAccount } = useContext(UserAccountContext);
 
     const [offers, setOffers] = useState([]);
@@ -39,8 +39,8 @@ const JobOfferList = ({data}) => {
     const [country, setCountry] = useState(-1);
     const [city, setCity] = useState('');
     const [distance, setDistance] = useState(0);
-    const [salaryFrom, setSalaryFrom] = useState(null);
-    const [salaryTo, setSalaryTo] = useState(null);
+    const [salaryFrom, setSalaryFrom] = useState('');
+    const [salaryTo, setSalaryTo] = useState('');
     const [salaryType, setSalaryType] = useState(0);
     const [salaryCurrency, setSalaryCurrency] = useState(0);
 
@@ -123,6 +123,10 @@ const JobOfferList = ({data}) => {
         }
     }
 
+    useEffect(() => {
+        console.log(filteredOffers);
+    }, [filteredOffers]);
+
     const submitFilter = () => {
         setLoading(true);
         setPage(2);
@@ -149,8 +153,9 @@ const JobOfferList = ({data}) => {
             });
     }
 
-    return <div className="container container--agencyJobOffers container--jobOffers" onClick={() => { hideAllDropdowns(); setDropdownVisible(false); }}>
-        <LoggedUserHeader data={data}  />
+    return <div className={!homepage ? "container container--agencyJobOffers container--jobOffers" : ""}
+                onClick={() => { hideAllDropdowns(); setDropdownVisible(false); }}>
+        {!homepage ? <LoggedUserHeader data={data}  /> : ''}
 
         {filtersVisible ? <JobOffersFilters closeModal={() => { setFiltersVisible(false); }}
                                             title={title}
@@ -183,11 +188,11 @@ const JobOfferList = ({data}) => {
                                             currenciesVisible={currenciesVisible}
                                             setCurrenciesVisible={setCurrenciesVisible} /> : ''}
 
-        <aside className="userAccount__top flex">
+        {!homepage ? <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
                     {c.loggedIn}: <span className="bold">{c.userZone}</span>
                 </span>
-        </aside>
+        </aside> : ''}
 
         <button className="userAccount__top--mobile" onClick={() => { setFiltersVisible(true); }}>
             {c.filters}
@@ -250,7 +255,8 @@ const JobOfferList = ({data}) => {
             </button>
         </div>
 
-        {!realAccount ? <div>
+        {/* TODO */}
+        {!realAccount && 0 ? <div>
             {render ? offers?.slice(0, 3)?.map((item, index) => {
                 return <div className="offerItem flex" key={index}>
                 <span className="offerItem__date">

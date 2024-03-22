@@ -427,6 +427,10 @@
         font-size: 44px;
     }
 
+    .home__h1Wrapper {
+        height: 690px;
+    }
+
     .homeImg {
         min-height: 800px;
         height: 800px;
@@ -792,6 +796,10 @@
     .userForm--1--agency .label--date--address .flex label:last-of-type {
         margin-left: 0;
     }
+
+    .homeSection--benefits {
+        margin-top: 50px;
+    }
 }
 
 @media(max-width: 1200px) {
@@ -877,7 +885,7 @@
         font-size: 13px;
     }
 
-    .btn--quickLogin {
+    .btn--quickLogin:not(.btn--quickLogin--main) {
         display: none;
     }
 
@@ -1557,6 +1565,10 @@
         text-align: center;
     }
 
+    .home__h1Wrapper {
+        height: 550px;
+    }
+
     .homeImg {
         min-height: 0;
         height: 640px;
@@ -1567,7 +1579,7 @@
     }
 
     .home__h1 {
-        margin-top: 80px;
+        text-align: center;
         font-size: 24px;
     }
 
@@ -2150,6 +2162,11 @@
         width: 200px !important;
     }
 
+    .container--home .offerItem__buttons--user .btn--white {
+        width: 100% !important;
+        max-width: 400px !important;
+    }
+
     .userAccount__top--offersInfo {
         display: flex;
         justify-content: center;
@@ -2717,6 +2734,15 @@
         font-size: 18px;
     }
 
+    .home__h1Wrapper {
+        gap: 30px;
+    }
+
+    .btn--quickLogin--main {
+        height: 40px;
+        width: 200px;
+    }
+
     .btn--showAll {
         height: 40px;
         margin: -30px auto 20px;
@@ -3123,6 +3149,10 @@
         min-height: 140px;
     }
 
+    .home__h1Wrapper {
+        height: 500px;
+    }
+
     .homeImg {
         height: 620px;
     }
@@ -3185,7 +3215,6 @@
         margin-top: 10px;
     }
 
-    .home__h1,
     .home__h2 {
         text-align: left;
         max-width: 400px !important;

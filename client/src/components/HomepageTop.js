@@ -92,65 +92,71 @@ const HomepageTop = () => {
                 <LanguageSwitcher mobileHomepage={true} />
             </div>
         </header>
-        <h1 className="home__h1">
-            {c.homepageH1}
-        </h1>
-        <div className="home__content flex">
-            <h2 className="home__h2">
-                {c.homepageH21} <span className="bold">{c.homepageH22}</span> {c.homepageH23}:
-            </h2>
-            <div className="home__zone">
-                <h3 dangerouslySetInnerHTML={{__html: c.userZoneHtml}} className="home__zone__header">
-
-                </h3>
-                <h4 className="home__zone__subheader">
-                    {c.userZoneDescription}
-                </h4>
-                <button className="home__zone__instruction flex"
-                        onClick={() => { setVideo1(true); }}>
-                    <img className="img" src={playIcon} alt="video-play" />
-                    <span className="home__zone__instruction__text">
-                        <span className="home__zone__instruction__text__dark">
-                            {c.howItWorks}
-                        </span>
-                        <span className="home__zone__instruction__text__light d-700">
-                            {c.seeVideo}
-                            <img className="smallArrow" src={smallArrowIcon} alt="przejdz-dalej" />
-                        </span>
-                    </span>
-                </button>
-                <a className="btn btn--zone center" href="/strefa-pracownika">
-                    {c.goToZone}
-                    <img className="img" src={smallWhiteArrowIcon} alt="przejdz-dalej" />
-                </a>
-            </div>
-
-            <div className="home__zone">
-                <h3 dangerouslySetInnerHTML={{__html: c.agencyZoneHtml}} className="home__zone__header">
-
-                </h3>
-                <h4 className="home__zone__subheader">
-                    {c.agencyZoneDescription}
-                </h4>
-                <button className="home__zone__instruction flex"
-                        onClick={() => { setVideo2(true); }}>
-                    <img className="img" src={playIcon} alt="video-play" />
-                    <span className="home__zone__instruction__text">
-                        <span className="home__zone__instruction__text__dark">
-                            {c.howItWorks}
-                        </span>
-                        <span className="home__zone__instruction__text__light d-700">
-                            {c.seeVideo}
-                            <img className="smallArrow" src={smallArrowIcon} alt="przejdz-dalej" />
-                        </span>
-                    </span>
-                </button>
-                <a className="btn btn--zone center" href="/strefa-pracodawcy">
-                    {c.goToZone}
-                    <img className="img" src={smallWhiteArrowIcon} alt="przejdz-dalej" />
-                </a>
-            </div>
+        <div className={'home__h1Wrapper'}>
+            <h1 className="home__h1">
+                {c.homepageH1}
+            </h1>
+            <a className="btn btn--quickLogin center btn--quickLogin--main"
+               href="/strefa-pracownika">
+                {c.quickLogin}
+            </a>
         </div>
+        {/*<div className="home__content flex">*/}
+        {/*    <h2 className="home__h2">*/}
+        {/*        {c.homepageH21} <span className="bold">{c.homepageH22}</span> {c.homepageH23}:*/}
+        {/*    </h2>*/}
+        {/*    <div className="home__zone">*/}
+        {/*        <h3 dangerouslySetInnerHTML={{__html: c.userZoneHtml}} className="home__zone__header">*/}
+
+        {/*        </h3>*/}
+        {/*        <h4 className="home__zone__subheader">*/}
+        {/*            {c.userZoneDescription}*/}
+        {/*        </h4>*/}
+        {/*        <button className="home__zone__instruction flex"*/}
+        {/*                onClick={() => { setVideo1(true); }}>*/}
+        {/*            <img className="img" src={playIcon} alt="video-play" />*/}
+        {/*            <span className="home__zone__instruction__text">*/}
+        {/*                <span className="home__zone__instruction__text__dark">*/}
+        {/*                    {c.howItWorks}*/}
+        {/*                </span>*/}
+        {/*                <span className="home__zone__instruction__text__light d-700">*/}
+        {/*                    {c.seeVideo}*/}
+        {/*                    <img className="smallArrow" src={smallArrowIcon} alt="przejdz-dalej" />*/}
+        {/*                </span>*/}
+        {/*            </span>*/}
+        {/*        </button>*/}
+        {/*        <a className="btn btn--zone center" href="/strefa-pracownika">*/}
+        {/*            {c.goToZone}*/}
+        {/*            <img className="img" src={smallWhiteArrowIcon} alt="przejdz-dalej" />*/}
+        {/*        </a>*/}
+        {/*    </div>*/}
+
+        {/*    <div className="home__zone">*/}
+        {/*        <h3 dangerouslySetInnerHTML={{__html: c.agencyZoneHtml}} className="home__zone__header">*/}
+
+        {/*        </h3>*/}
+        {/*        <h4 className="home__zone__subheader">*/}
+        {/*            {c.agencyZoneDescription}*/}
+        {/*        </h4>*/}
+        {/*        <button className="home__zone__instruction flex"*/}
+        {/*                onClick={() => { setVideo2(true); }}>*/}
+        {/*            <img className="img" src={playIcon} alt="video-play" />*/}
+        {/*            <span className="home__zone__instruction__text">*/}
+        {/*                <span className="home__zone__instruction__text__dark">*/}
+        {/*                    {c.howItWorks}*/}
+        {/*                </span>*/}
+        {/*                <span className="home__zone__instruction__text__light d-700">*/}
+        {/*                    {c.seeVideo}*/}
+        {/*                    <img className="smallArrow" src={smallArrowIcon} alt="przejdz-dalej" />*/}
+        {/*                </span>*/}
+        {/*            </span>*/}
+        {/*        </button>*/}
+        {/*        <a className="btn btn--zone center" href="/strefa-pracodawcy">*/}
+        {/*            {c.goToZone}*/}
+        {/*            <img className="img" src={smallWhiteArrowIcon} alt="przejdz-dalej" />*/}
+        {/*        </a>*/}
+        {/*    </div>*/}
+        {/*</div>*/}
     </>
 };
 

@@ -9,6 +9,7 @@ import Tools from "../components/Tools";
 import Footer from "../components/Footer";
 import HomepageTop from "../components/HomepageTop";
 import ExampleJobOffers from "../components/ExampleJobOffers";
+import JobOffersList from "./JobOffersList";
 
 const Homepage = () => {
     const [render, setRender] = useState(false);
@@ -85,9 +86,10 @@ const Homepage = () => {
 
     return render ? <div className="container container--home">
         <HomepageTop />
-        <AdsSection />
+        {/*<AdsSection />*/}
         <HomeBenefits />
-        <ExampleJobOffers />
+        {/*<ExampleJobOffers />*/}
+        <JobOffersList homepage={true} />
         <Partners />
         <Tools />
         <Footer />

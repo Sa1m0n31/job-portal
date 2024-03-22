@@ -102,7 +102,6 @@ export class OfferController {
         return this.offerService.addApplication(body, files);
     }
 
-    @UseGuards(JwtAuthGuard)
     @Post('/filter')
     filterOffers(@Body() body) {
         const { page, title, keywords, category, country, city, distance, salaryFrom, salaryTo, salaryType,

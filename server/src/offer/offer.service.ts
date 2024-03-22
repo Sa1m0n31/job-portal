@@ -662,26 +662,32 @@ export class OfferService {
 
             // Filter by keywords
             if(keywords) {
-                const filterKeywords = keywords.split(',');
+                try {
+                    const filterKeywords = keywords.split(',');
 
-                filteredOffers = filteredOffers.filter((item) => {
-                    if(item.offer_keywords) {
-                        const offerKeywords = item.offer_keywords.split(',');
+                    filteredOffers = filteredOffers.filter((item) => {
+                        if(item.offer_keywords) {
+                            const offerKeywords = item.offer_keywords.split(',');
 
-                        for(const offerKeyword of offerKeywords) {
-                            for(const filterKeyword of filterKeywords) {
-                                if(this.removeDiacritics(offerKeyword.trim().toLowerCase()).includes(this.removeDiacritics(filterKeyword.trim().toLowerCase()))) {
-                                    return true;
+                            for(const offerKeyword of offerKeywords) {
+                                for(const filterKeyword of filterKeywords) {
+                                    if(this.removeDiacritics(offerKeyword.trim().toLowerCase()).includes(this.removeDiacritics(filterKeyword.trim().toLowerCase()))) {
+                                        return true;
+                                    }
                                 }
                             }
-                        }
 
-                        return false;
-                    }
-                    else {
-                        return false;
-                    }
-                });
+                            return false;
+                        }
+                        else {
+                            return false;
+                        }
+                    });
+                }
+                catch(e) {
+                    console.log('error');
+                    console.log(e);
+                }
             }
 
             // Get filter city latitude and longitude
@@ -873,26 +879,32 @@ export class OfferService {
 
             // Filter by keywords
             if(keywords) {
-                const filterKeywords = keywords.split(',');
+                try {
+                    const filterKeywords = keywords.split(',');
 
-                offersToReturn = offersToReturn.filter((item) => {
-                    if(item.offer_keywords) {
-                        const offerKeywords = item.offer_keywords.split(',');
+                    offersToReturn = offersToReturn.filter((item) => {
+                        if(item.offer_keywords) {
+                            const offerKeywords = item.offer_keywords.split(',');
 
-                        for(const offerKeyword of offerKeywords) {
-                            for(const filterKeyword of filterKeywords) {
-                                if(this.removeDiacritics(offerKeyword.trim().toLowerCase()).includes(this.removeDiacritics(filterKeyword.trim().toLowerCase()))) {
-                                    return true;
+                            for(const offerKeyword of offerKeywords) {
+                                for(const filterKeyword of filterKeywords) {
+                                    if(this.removeDiacritics(offerKeyword.trim().toLowerCase()).includes(this.removeDiacritics(filterKeyword.trim().toLowerCase()))) {
+                                        return true;
+                                    }
                                 }
                             }
-                        }
 
-                        return false;
-                    }
-                    else {
-                        return false;
-                    }
-                });
+                            return false;
+                        }
+                        else {
+                            return false;
+                        }
+                    });
+                }
+                catch(e) {
+                    console.log('error');
+                    console.log(e);
+                }
             }
 
             if(lang === 'pl' || !lang) {

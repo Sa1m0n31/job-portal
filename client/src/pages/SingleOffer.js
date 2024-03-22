@@ -9,7 +9,7 @@ import locationIcon from '../static/img/location.svg'
 import salaryIcon from '../static/img/dolar-icon.svg'
 import agreementIcon from '../static/img/agreement-icon.svg'
 import calendarIcon from '../static/img/calendar-icon.svg'
-import { currencies} from "../static/content";
+import { currencies } from "../static/content";
 import resIcon from '../static/img/responsibilities-icon.svg'
 import benIcon from '../static/img/benefit-icon.svg'
 import downloadIcon from '../static/img/download-white.svg'
@@ -22,9 +22,10 @@ import {authAgency, getAgencyData} from "../helpers/agency";
 import {LanguageContext} from "../App";
 import LoggedUserFooter from "../components/LoggedUserFooter";
 import {UserAccountContext} from "../components/UserWrapper";
+import NotLoggedUserHeader from "../components/NotLoggedUserHeader";
 
 const SingleOffer = () => {
-    const [data, setData] = useState({});
+    const [data, setData] = useState(null);
     const [agency, setAgency] = useState(null);
     const [offer, setOffer] = useState({});
     const [galleryIndex, setGalleryIndex] = useState(-1);
@@ -61,7 +62,8 @@ const SingleOffer = () => {
                         }
                     })
                     .catch(() => {
-                        window.location = '/';
+                        setAgency(true);
+                        // window.location = '/';
                     });
             });
     }, []);
@@ -75,6 +77,7 @@ const SingleOffer = () => {
                     .then(async (res) => {
                         if(res?.status === 200) {
                             if(res?.data) {
+                                console.log(res.data);
                                 setOffer(Array.isArray(res.data) ? res.data[0] : res.data);
                                 setAgencyData(Array.isArray(res.data) ? JSON.parse(res.data[0]?.a_data) : JSON.parse(res.data?.a_data));
                                 const offerId = res?.data[0]?.o_id;
@@ -88,42 +91,44 @@ const SingleOffer = () => {
                                 }
                             }
                             else {
+                                alert('ok');
                                 window.location = '/';
                             }
                         }
                     });
             }
             else {
+                alert('ok 2');
                 window.location = '/';
             }
         }
     }, [agency]);
 
     return offer?.o_id ? <div className="container container--user container--offer container--offerPage">
-            <LoggedUserHeader data={data}
-                              agency={agency} />
+        {data ? <LoggedUserHeader data={data}
+                                  agency={agency} /> : <NotLoggedUserHeader />}
 
             {galleryIndex !== -1 ? <Gallery images={offer.a_data ? JSON.parse(offer.a_data).gallery : offer}
                                         setIndex={setGalleryIndex}
                                         index={galleryIndex} /> : ''}
 
-            <aside className="userAccount__top flex">
+        {data ? <aside className="userAccount__top flex">
                 <span className="userAccount__top__loginInfo">
                     {c.loggedIn}: <span className="bold">{agency ? c.agencyZone : c.userZone}</span>
                 </span>
-                <a href={!agency ? "/oferty-pracy" : "/moje-oferty-pracy"} className="userAccount__top__btn">
-                    <img className="img" src={backArrow} alt="powrót" />
-                    {!agency ? c.backToOffers : c.back}
-                </a>
-            </aside>
+            <a href={!agency ? "/oferty-pracy" : "/moje-oferty-pracy"} className="userAccount__top__btn">
+                <img className="img" src={backArrow} alt="powrót" />
+                {!agency ? c.backToOffers : c.back}
+            </a>
+        </aside> : ''}
 
-        {userAlreadyApplied === false && agency === false && realAccount ? <a href={`/aplikuj?id=${offer.o_id}`}
-                                           className="btn btn--jobOfferApply btn--stickyMobile">
+        <a href={userAlreadyApplied === false && agency === false && realAccount ? `/aplikuj?id=${offer.o_id}` : '/strefa-pracownika'}
+           className="btn btn--jobOfferApply btn--stickyMobile">
             {c.apply}
             <img className="img" src={arrow} alt="przejdź-dalej" />
-        </a> : ''}
+        </a>
 
-            <main className="jobOffer">
+            <main className={data ? "jobOffer" : "jobOffer jobOffer--notLogged"}>
                 <figure className="jobOffer__backgroundImg">
                     <img className="img" src={`${settings.API_URL}/${offer.o_image}`} alt="oferta-pracy" />
                 </figure>
@@ -145,11 +150,11 @@ const SingleOffer = () => {
                     <span className="jobOffer__sideInfo">
                         {c.added}: {offer.o_created_at?.substring(0, 10)}, {c.offerId}: {offer.o_id}
                     </span>
-                            {userAlreadyApplied === false && agency === false && realAccount ? <a href={`/aplikuj?id=${offer.o_id}`}
-                                                               className="btn btn--jobOfferApply">
+                            <a href={userAlreadyApplied === false && agency === false && realAccount ? `/aplikuj?id=${offer.o_id}` : '/strefa-pracownika'}
+                               className="btn btn--jobOfferApply">
                                 {c.apply}
                                 <img className="img" src={arrow} alt="przejdź-dalej" />
-                            </a> : ''}
+                            </a>
                         </div>
                     </div>
 

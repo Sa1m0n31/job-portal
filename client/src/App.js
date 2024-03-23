@@ -32,8 +32,8 @@ function App() {
   const getLanguage = () => {
     const currentLang = localStorage.getItem('lang');
 
-    if(currentLang !== 'PL' && currentLang !== 'NL' && currentLang !== 'GB') {
-      return 'GB';
+    if(currentLang !== 'PL' && currentLang !== 'NL' && currentLang !== 'DE') {
+      return 'PL';
     }
     return currentLang;
   }

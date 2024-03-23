@@ -54,7 +54,7 @@ export class UserService {
     ) {
     }
 
-    async registerUser(email: string, password: string, newsletter: boolean, mailContent: string) {
+    async registerUser(email: string, password: string, newsletter: boolean, mailContent: string, data: string) {
         const existingUser = await this.userRepository.findOneBy({
             email
         });
@@ -73,7 +73,7 @@ export class UserService {
             const newUser = new CreateUserDto({
                 email: email,
                 password: passwordHash,
-                data: '{}',
+                data: data,
             });
 
             const token = await uuid();

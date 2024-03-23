@@ -54,7 +54,8 @@ export class UserController {
 
     @Post('/register')
     registerUser(@Body() body) {
-        return this.userService.registerUser(body.email, body.password, body.newsletter, body.mailContent);
+        return this.userService.registerUser(body.email, body.password,
+            body.newsletter, body.mailContent, body.data);
     }
 
     @Post('/verify')
@@ -94,7 +95,6 @@ export class UserController {
         return this.userService.updateUser(body, files);
     }
 
-    @UseGuards(JwtAuthGuard)
     @Post('/updateCv')
     @UseInterceptors(FileFieldsInterceptor([
         {name: 'cv', maxCount: 1}
@@ -111,7 +111,6 @@ export class UserController {
         return this.userService.updateCv(body, files);
     }
 
-    @UseGuards(JwtAuthGuard)
     @Post('/removeCv')
     removeCv(@Body() body) {
         return this.userService.removeCv(body.email);

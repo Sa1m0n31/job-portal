@@ -1190,6 +1190,9 @@ export class OfferService {
         let offerData = JSON.parse(data.offerData);
         let lat = null, lng = null;
 
+        console.log('add');
+        console.log(offerData);
+
         let originalOffer = offerData;
         offerData = await this.translateOfferData(offerData, data, files);
 
@@ -1268,6 +1271,7 @@ export class OfferService {
 
             // Add notifications for users with that category
             if(addOfferResult) {
+                console.log(addOfferResult);
                 return true;
 
                 // TEMPORARY TURNED OFF BY CLIENT
@@ -1318,6 +1322,7 @@ export class OfferService {
             }
         }
         catch(e) {
+            console.log(e);
             return false;
         }
     }

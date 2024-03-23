@@ -114,7 +114,7 @@ const UserWrapper = ({page}) => {
         realAccount
     }}>
 
-        {page !== 1 && userNotComplete ? <UserNotCompleteAccountModal /> : ''}
+        {/*{page !== 1 && userNotComplete ? <UserNotCompleteAccountModal /> : ''}*/}
 
         {render}
         {page !== 1 ? <LoggedUserFooter /> : ''}

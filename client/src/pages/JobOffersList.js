@@ -235,7 +235,7 @@ const JobOfferList = ({data, homepage}) => {
                         </> : c.all}
                     </span>
                 </p>
-                <p className="offerFilters__section__item">
+                {salaryFrom && salaryTo ? <p className="offerFilters__section__item">
                     {c.salaryShort}
                     <span className="offerFilters__section__value">
                         <img className="img" src={dolarIcon} alt="zarobki" />
@@ -246,7 +246,7 @@ const JobOfferList = ({data, homepage}) => {
                         </span>
                         </> : c.all}
                     </span>
-                </p>
+                </p> : ''}
             </div>
 
             <button className="btn btn--filter" onClick={() => { submitFilter(); }}>
@@ -270,10 +270,10 @@ const JobOfferList = ({data, homepage}) => {
                             <h2 className="offerItem__title">
                                 {item.offer_title}
                             </h2>
-                            <h3 className="offerItem__localization">
+                            {item.offer_city ? <h3 className="offerItem__localization">
                                 <img className="icon" src={localization} alt="lokalizacja" />
                                 {item.offer_city}, {JSON.parse(c.countries)[item.offer_country]}
-                            </h3>
+                            </h3> : ''}
                             <h5 className="offerItem__company">
                                 {item.a_data ? JSON.parse(item.a_data).name : ''}
                             </h5>
@@ -332,10 +332,10 @@ const JobOfferList = ({data, homepage}) => {
                             <h2 className="offerItem__title">
                                 {item.offer_title}
                             </h2>
-                            <h3 className="offerItem__localization">
+                            {item.offer_city ? <h3 className="offerItem__localization">
                                 <img className="icon" src={localization} alt="lokalizacja" />
                                 {item.offer_city}, {JSON.parse(c.countries)[item.offer_country]}
-                            </h3>
+                            </h3> : ''}
                             <h5 className="offerItem__company">
                                 {item.a_data ? JSON.parse(item.a_data).name : ''}
                             </h5>
@@ -344,15 +344,15 @@ const JobOfferList = ({data, homepage}) => {
                     <div className="offerItem__category">
                         {JSON.parse(c.categories)[item.offer_category]}
                     </div>
-                    <div className="offerItem__salary">
-                    <span className="nowrap">
-                        <img className="icon" src={salaryIcon} alt="wynagrodzenie" />
-                        {item.offer_salaryFrom} {currencies[item.offer_salaryCurrency]}
-                    </span> - {item.offer_salaryTo} {currencies[item.offer_salaryCurrency]}
+                    {item.offer_salaryFrom ? <div className="offerItem__salary">
+                        <span className="nowrap">
+                            <img className="icon" src={salaryIcon} alt="wynagrodzenie" />
+                            {item.offer_salaryFrom} {currencies[item.offer_salaryCurrency]}
+                        </span> - {item.offer_salaryTo} {currencies[item.offer_salaryCurrency]}
                         <span className="netto">
-                        netto/{item.offer_salaryType === 1 ? c.weeklyShortcut : c.monthlyShortcut}
-                    </span>
-                    </div>
+                            netto/{item.offer_salaryType === 1 ? c.weeklyShortcut : c.monthlyShortcut}
+                        </span>
+                    </div> : ''}
                     <div className="offerItem__requirements">
                         {JSON.parse(item.offer_benefits.replace(/'/g, '"'))?.slice(0, 3)?.map((item, index) => {
                             return <span className="offerItem__requirement" key={index}>
@@ -394,10 +394,10 @@ const JobOfferList = ({data, homepage}) => {
                             <h2 className="offerItem__title">
                                 {item.offer_title}
                             </h2>
-                            <h3 className="offerItem__localization">
+                            {item.offer_city ? <h3 className="offerItem__localization">
                                 <img className="icon" src={localization} alt="lokalizacja" />
                                 {item.offer_city}, {JSON.parse(c.countries)[item.offer_country]}
-                            </h3>
+                            </h3> : ''}
                             <h5 className="offerItem__company">
                                 {item.a_data ? JSON.parse(item.a_data).name : ''}
                             </h5>
@@ -406,15 +406,15 @@ const JobOfferList = ({data, homepage}) => {
                     <div className="offerItem__category">
                         {JSON.parse(c.categories)[item.offer_category]}
                     </div>
-                    <div className="offerItem__salary">
-                    <span className="nowrap">
-                        <img className="icon" src={salaryIcon} alt="wynagrodzenie" />
-                        {item.offer_salaryFrom} {currencies[item.offer_salaryCurrency]}
-                    </span> - {item.offer_salaryTo} {currencies[item.offer_salaryCurrency]}
+                    {item.offer_salaryFrom ? <div className="offerItem__salary">
+                        <span className="nowrap">
+                            <img className="icon" src={salaryIcon} alt="wynagrodzenie" />
+                            {item.offer_salaryFrom} {currencies[item.offer_salaryCurrency]}
+                        </span> - {item.offer_salaryTo} {currencies[item.offer_salaryCurrency]}
                         <span className="netto">
-                        netto/{item.offer_salaryType === 1 ? c.weeklyShortcut : c.monthlyShortcut}
-                    </span>
-                    </div>
+                            netto/{item.offer_salaryType === 1 ? c.weeklyShortcut : c.monthlyShortcut}
+                        </span>
+                    </div> : ''}
                     <div className="offerItem__requirements">
                         {JSON.parse(item.offer_requirements)?.slice(0, 3)?.map((item, index) => {
                             return <span className="offerItem__requirement" key={index}>

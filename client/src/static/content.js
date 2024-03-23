@@ -493,7 +493,7 @@ const agencyMenu = [
 // ]
 
 const languageVersions = [
-    'GB', 'NL', 'PL'
+    'DE', 'NL', 'PL'
 ];
 
 const userObject = {

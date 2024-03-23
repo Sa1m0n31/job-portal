@@ -166,15 +166,17 @@ const AgencyEditData = () => {
                 />);
                 break;
             case 2:
-                if(substep === 0) {
-                    setCurrentForm(<AgencyForm3a />);
-                }
-                else if(substep === 1) {
-                    setCurrentForm(<AgencyForm3b />);
-                }
-                else {
-                    setCurrentForm(<AgencyForm3C />);
-                }
+                setCurrentForm(<AgencyForm3b submit={submitAgencyData} />);
+
+                // if(substep === 0) {
+                //     setCurrentForm(<AgencyForm3a />);
+                // }
+                // else if(substep === 1) {
+                //     setCurrentForm(<AgencyForm3b />);
+                // }
+                // else {
+                //     setCurrentForm(<AgencyForm3C />);
+                // }
                 break;
             case 3:
                 if(substep === 0) {
@@ -224,6 +226,13 @@ const AgencyEditData = () => {
         }, 100);
     }, [step, substep]);
 
+    useEffect(() => {
+        // Remove 4th stage
+        if(step === 3) {
+            setStep(4);
+        }
+    }, [step]);
+
     const toggleHouses = (i) => {
         setAgencyData(prevState => ({
             ...prevState,
@@ -267,46 +276,33 @@ const AgencyEditData = () => {
             fields.push(c.logo);
             setStep2Error(true);
         }
-        if(!agencyData?.gallery?.length) {
-            fields.push(c.gallery);
-            setStep2Error(true);
-        }
-        if(!agencyData.description) {
-            fields.push(c.companyDescription);
-            setStep2Error(true);
-        }
-        if(!agencyData.whereYouFindOurApp) {
-            fields.push(c.whereYouFindOurApp);
-            setStep3Error(true);
-        }
-        if(!agencyData.recruitmentProcess) {
-            fields.push(c.recruitmentProcess);
-            setStep3Error(true);
-        }
-        if(!agencyData.benefits) {
-            fields.push(c.benefits);
-            setStep3Error(true);
-        }
-        if(!agencyData.roomDescription) {
-            fields.push(c.accommodationEquipment);
-            setStep4Error(true);
-        }
-        if(agencyData.healthInsurance === null || (agencyData.healthInsurance !== 1 && !agencyData.healthInsuranceCost)) {
-            fields.push(c.healthInsurance);
-            setStep4Error(true);
-        }
-        if(agencyData.carAvailable && (agencyData.car === null || (agencyData.car === 0 && !agencyData.carPrice))) {
-            fields.push(c.car);
-            setStep4Error(true);
-        }
-        if(agencyData.bikeAvailable && (agencyData.bike === null || (agencyData.bike === 0 && !agencyData.bikePrice))) {
-            fields.push(c.bike);
-            setStep4Error(true);
-        }
-        if(agencyData.pensionContributionsAvailable && agencyData.pensionContributions === null) {
-            fields.push(c.pension);
-            setStep4Error(true);
-        }
+        // if(!agencyData.whereYouFindOurApp) {
+        //     fields.push(c.whereYouFindOurApp);
+        //     setStep3Error(true);
+        // }
+        // if(!agencyData.roomDescription) {
+        //     fields.push(c.accommodationEquipment);
+        //     setStep4Error(true);
+        // }
+        // if(agencyData.healthInsurance === null || (agencyData.healthInsurance !== 1 && !agencyData.healthInsuranceCost)) {
+        //     fields.push(c.healthInsurance);
+        //     setStep4Error(true);
+        // }
+        // if(agencyData.carAvailable && (agencyData.car === null || (agencyData.car === 0 && !agencyData.carPrice))) {
+        //     fields.push(c.car);
+        //     setStep4Error(true);
+        // }
+        // if(agencyData.bikeAvailable && (agencyData.bike === null || (agencyData.bike === 0 && !agencyData.bikePrice))) {
+        //     fields.push(c.bike);
+        //     setStep4Error(true);
+        // }
+        // if(agencyData.pensionContributionsAvailable && agencyData.pensionContributions === null) {
+        //     fields.push(c.pension);
+        //     setStep4Error(true);
+        // }
+
+        console.log(agencyData);
+        console.log(fields);
 
         if(fields.length) {
             setErrorFields(fields);
@@ -504,21 +500,16 @@ const AgencyEditData = () => {
     }, [step4Error]);
 
     useEffect(() => {
+        console.log('data changed');
+
         if(agencyData.name && agencyData.city && agencyData.country >= 0 && agencyData.postalCode &&
             agencyData.address && agencyData.nip && agencyData.phoneNumber) {
+            console.log('to false 1');
             setStep1Error(false);
         }
-
-        if(agencyData.description && agencyData.gallery.length && (agencyData.logo || agencyData.logoUrl)) {
+        if(agencyData.logo || agencyData.logoUrl) {
+            console.log('to false 2');
             setStep2Error(false);
-        }
-
-        if(agencyData.whereYouFindOurApp && agencyData.benefits && agencyData.recruitmentProcess) {
-            setStep3Error(false);
-        }
-
-        if(agencyData.roomDescription && agencyData.healthInsurance !== null) {
-            setStep4Error(false);
         }
     }, [agencyData]);
 
@@ -545,16 +536,18 @@ const AgencyEditData = () => {
 
                 <div className="editData__left__steps">
                     {JSON.parse(c.stepsAgency).map((item, index) => {
-                        return <button className={step === index ? "flex editData__step editData__step--current" : "flex editData__step"}
-                                       onClick={() => { if(index !== 4) setStep(index); setSubstep(0) }}
-                                       key={index}>
-                        <span className="editData__left__step__number center">
-                            {index+1}
-                        </span>
-                            <span className="editData__left__step__text">
-                            {item}
-                        </span>
-                        </button>
+                        if(index !== 3) {
+                            return <button className={step === index ? "flex editData__step editData__step--current" : "flex editData__step"}
+                                           onClick={() => { if(index !== 4) setStep(index); setSubstep(0) }}
+                                           key={index}>
+                                <span className="editData__left__step__number center">
+                                    {index < 4 ? index+1 : 4}
+                                </span>
+                                <span className="editData__left__step__text">
+                                    {item}
+                                </span>
+                            </button>
+                        }
                     })}
                 </div>
             </div>
@@ -580,14 +573,27 @@ const AgencyEditData = () => {
 
                 <div className="editData__formWrapper">
                     <div className="editData__steps flex">
-                        {JSON.parse(c.stepsAgencyContent)?.map((item, index) => {
-                            return <span key={index} className={step === index ? "step step--current flex" : "step flex"}>
-                            {item.map((item, index) => {
-                                return <span key={index} className={substep === index ? "substep substep--current" : "substep"}>
-                                    </span>
-                            })}
+                        <span className={step === 0 ? "step step--current flex" : "step flex"}>
+                            <span className={substep === 0 ? "substep substep--current" : "substep"}></span>
                         </span>
-                        })}
+                        <span className={step === 1 ? "step step--current flex" : "step flex"}>
+                            <span className={substep === 0 ? "substep substep--current" : "substep"}></span>
+                        </span>
+                        <span className={step === 2 ? "step step--current flex" : "step flex"}>
+                            <span className={substep === 0 ? "substep substep--current" : "substep"}></span>
+                        </span>
+                        <span className={step > 2 ? "step step--current flex" : "step flex"}>
+                            <span className={substep === 0 ? "substep substep--current" : "substep"}></span>
+                        </span>
+
+                        {/*{JSON.parse(c.stepsAgencyContent)?.map((item, index) => {*/}
+                        {/*    return <span key={index} className={step === index ? "step step--current flex" : "step flex"}>*/}
+                        {/*    {item.map((item, index) => {*/}
+                        {/*        return <span key={index} className={substep === index ? "substep substep--current" : "substep"}>*/}
+                        {/*            </span>*/}
+                        {/*    })}*/}
+                        {/*</span>*/}
+                        {/*})}*/}
                     </div>
 
                     <h1 className="editData__formWrapper__header">

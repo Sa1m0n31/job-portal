@@ -6,11 +6,11 @@ import {removeCv, updateCv} from "../helpers/user";
 const UserOwnCvEdition = ({ownCv, setOwnCv, mobile}) => {
     const { c } = useContext(LanguageContext);
 
-    useEffect(() => {
-        if(ownCv) {
-            updateCv(ownCv);
-        }
-    }, [ownCv]);
+    // useEffect(() => {
+    //     if(ownCv) {
+    //         updateCv(ownCv);
+    //     }
+    // }, [ownCv]);
 
     const handleFileUpload = (e) => {
         const file = e?.target?.files[0];
@@ -21,7 +21,7 @@ const UserOwnCvEdition = ({ownCv, setOwnCv, mobile}) => {
 
     return <div className={mobile ? "ownCvEdition ownCvEdition--mobile" : "ownCvEdition"}>
         <h4 className="ownCvEdition__text">
-            {c.add_cv_info}
+            {c.add_cv_button}
         </h4>
 
         {ownCv ? <div className="ownCvEdition__addInfo flex flex--start">

@@ -51,11 +51,11 @@ const AgencyForm2 = ({removeLogo, handleFileUpload, removeGalleryImage}) => {
             </div>
 
             <div className="label">
-                {c.gallery} *
+                {c.gallery}
                 <p className="label--extraInfo label--extraInfo--marginBottom">
                     {c.galleryDescription}
                 </p>
-                <div className={error && !agencyData?.gallery?.length ? "filesUploadLabel filesUploadLabel--error center" : "filesUploadLabel center"}>
+                <div className={error && !agencyData?.gallery?.length && 0 ? "filesUploadLabel filesUploadLabel--error center" : "filesUploadLabel center"}>
                     {agencyData?.gallery?.length === 0 ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : ''}
                     <input className="input input--file"
                            type="file"
@@ -76,11 +76,11 @@ const AgencyForm2 = ({removeLogo, handleFileUpload, removeGalleryImage}) => {
             </div>
 
             <label className="label label--rel">
-                {c.companyDescription} *
+                {c.companyDescription}
                 <span className="letterCounter">
                     {agencyData?.description?.length} / 1000
                 </span>
-                <textarea className={error && !agencyData.description ? "input input--textarea input--situation input--error" : "input input--textarea input--situation"}
+                <textarea className={error && 0 ? "input input--textarea input--situation input--error" : "input input--textarea input--situation"}
                           value={agencyData.description}
                           onChange={(e) => { handleDescriptionChange(e); }}
                           placeholder={c.companyDescriptionPlaceholder} />

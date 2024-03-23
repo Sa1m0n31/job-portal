@@ -83,10 +83,6 @@ const AgencyProfile = ({data, user}) => {
     }, []);
 
     useEffect(() => {
-        console.log(jobOffers);
-    }, [jobOffers]);
-
-    useEffect(() => {
         if(gallery) {
             gallery.current?.scroll({
                 left: currentGalleryScroll,
@@ -273,169 +269,169 @@ const AgencyProfile = ({data, user}) => {
 
                         </div>
                     </div>
-                    <div className="userAccount__box">
-                        <h3 className="userAccount__box__header">
-                            {c.aboutRecruitmentProcess}
-                        </h3>
-                        <div className="userAccount__box__text"
-                             dangerouslySetInnerHTML={{__html: agency.recruitmentProcess}}>
+                    {/*<div className="userAccount__box">*/}
+                    {/*    <h3 className="userAccount__box__header">*/}
+                    {/*        {c.aboutRecruitmentProcess}*/}
+                    {/*    </h3>*/}
+                    {/*    <div className="userAccount__box__text"*/}
+                    {/*         dangerouslySetInnerHTML={{__html: agency.recruitmentProcess}}>*/}
 
-                        </div>
-                    </div>
+                    {/*    </div>*/}
+                    {/*</div>*/}
                 </div>
 
-                {!adminAccount ? <div className="flex">
-                    <div className="userAccount__box userAccount__box--100">
-                        <h3 className="userAccount__box__header">
-                            {c.employeesInfo}
-                        </h3>
-                        <div className="userAccount__box__pairsWrapper userAccount__box--employeesInfo">
-                        <span className="w-100">
-                            {c.accommodation}
-                        </span>
-                            <span className="userAccount__box__pair">
-                            <span className="userAccount__box__key">
-                                {c.roomType}
-                            </span>
-                            <p className="userAccount__box__value">
-                                {agency.roomType !== null && agency.roomType !== undefined ? JSON.parse(c.roomsTypes)[agency.roomType] : c.noInfo}
-                            </p>
-                        </span>
-                            <span className="userAccount__box__pair">
-                            <span className="userAccount__box__key">
-                                {c.houseType}
-                            </span>
-                            <p className="userAccount__box__value">
-                                {agency.houseType !== null && agency.houseType !== undefined ? (agency.houseType?.length ? agency.houseType?.map((item, index, array) => {
-                                    if(index === array.length-1) {
-                                        return `${JSON.parse(c.houses)[item]}`;
-                                    }
-                                    else {
-                                        return `${JSON.parse(c.houses)[item]}, `;
-                                    }
-                                }) : JSON.parse(c.houses)[agency.houseType]) : c.noInfo}
-                            </p>
-                        </span>
-                            <span className="userAccount__box__pair">
-                            <span className="userAccount__box__key">
-                                {c.equipment}
-                            </span>
-                            <p className="userAccount__box__value">
-                                {agency.roomDescription ? agency.roomDescription : c.noInfo}
-                            </p>
-                        </span>
-                            <span className="w-100">
-                                {c.jobTransport}
-                        </span>
-                            <span className="userAccount__box__pair">
-                            <span className="userAccount__box__key">
-                                {c.companyCar}
-                            </span>
-                            <p className="userAccount__box__value">
-                                {agency.car === 0 || agency.car ?
-                                    (agency.car === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]}\n${agency.carPrice} ${currencies[agency.carPriceCurrency]}/${c.weeklyShortcut}`)) : c.noInfo}
-                            </p>
-                        </span>
-                            <span className="userAccount__box__pair">
-                            <span className="userAccount__box__key">
-                                {c.bike}
-                            </span>
-                            <p className="userAccount__box__value">
-                                {agency.bike === 0 || agency.bike ?
-                                    (agency.bike === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]}\n${agency.bikePrice} ${currencies[agency.bikePriceCurrency]}/${c.weeklyShortcut}`)) : c.noInfo}
-                            </p>
-                        </span>
-                            <span className="userAccount__box__pair">
-                            <span className="userAccount__box__key">
-                                {c.costReturn}
-                            </span>
-                            <p className="userAccount__box__value">
-                                {agency.costReturnWithOwnTransport !== null && agency.costReturnWithOwnTransport !== undefined ?
-                                    (agency.costReturnWithOwnTransport ? c.yes : c.no) : c.noInfo}
-                            </p>
-                        </span>
+                {/*{!adminAccount ? <div className="flex">*/}
+                {/*    <div className="userAccount__box userAccount__box--100">*/}
+                {/*        <h3 className="userAccount__box__header">*/}
+                {/*            {c.employeesInfo}*/}
+                {/*        </h3>*/}
+                {/*        <div className="userAccount__box__pairsWrapper userAccount__box--employeesInfo">*/}
+                {/*        <span className="w-100">*/}
+                {/*            {c.accommodation}*/}
+                {/*        </span>*/}
+                {/*            <span className="userAccount__box__pair">*/}
+                {/*            <span className="userAccount__box__key">*/}
+                {/*                {c.roomType}*/}
+                {/*            </span>*/}
+                {/*            <p className="userAccount__box__value">*/}
+                {/*                {agency.roomType !== null && agency.roomType !== undefined ? JSON.parse(c.roomsTypes)[agency.roomType] : c.noInfo}*/}
+                {/*            </p>*/}
+                {/*        </span>*/}
+                {/*            <span className="userAccount__box__pair">*/}
+                {/*            <span className="userAccount__box__key">*/}
+                {/*                {c.houseType}*/}
+                {/*            </span>*/}
+                {/*            <p className="userAccount__box__value">*/}
+                {/*                {agency.houseType !== null && agency.houseType !== undefined ? (agency.houseType?.length ? agency.houseType?.map((item, index, array) => {*/}
+                {/*                    if(index === array.length-1) {*/}
+                {/*                        return `${JSON.parse(c.houses)[item]}`;*/}
+                {/*                    }*/}
+                {/*                    else {*/}
+                {/*                        return `${JSON.parse(c.houses)[item]}, `;*/}
+                {/*                    }*/}
+                {/*                }) : JSON.parse(c.houses)[agency.houseType]) : c.noInfo}*/}
+                {/*            </p>*/}
+                {/*        </span>*/}
+                {/*            <span className="userAccount__box__pair">*/}
+                {/*            <span className="userAccount__box__key">*/}
+                {/*                {c.equipment}*/}
+                {/*            </span>*/}
+                {/*            <p className="userAccount__box__value">*/}
+                {/*                {agency.roomDescription ? agency.roomDescription : c.noInfo}*/}
+                {/*            </p>*/}
+                {/*        </span>*/}
+                {/*            <span className="w-100">*/}
+                {/*                {c.jobTransport}*/}
+                {/*        </span>*/}
+                {/*            <span className="userAccount__box__pair">*/}
+                {/*            <span className="userAccount__box__key">*/}
+                {/*                {c.companyCar}*/}
+                {/*            </span>*/}
+                {/*            <p className="userAccount__box__value">*/}
+                {/*                {agency.car === 0 || agency.car ?*/}
+                {/*                    (agency.car === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]}\n${agency.carPrice} ${currencies[agency.carPriceCurrency]}/${c.weeklyShortcut}`)) : c.noInfo}*/}
+                {/*            </p>*/}
+                {/*        </span>*/}
+                {/*            <span className="userAccount__box__pair">*/}
+                {/*            <span className="userAccount__box__key">*/}
+                {/*                {c.bike}*/}
+                {/*            </span>*/}
+                {/*            <p className="userAccount__box__value">*/}
+                {/*                {agency.bike === 0 || agency.bike ?*/}
+                {/*                    (agency.bike === 1 ? JSON.parse(c.paymentTypes)[1] : (`${JSON.parse(c.paymentTypes)[0]}\n${agency.bikePrice} ${currencies[agency.bikePriceCurrency]}/${c.weeklyShortcut}`)) : c.noInfo}*/}
+                {/*            </p>*/}
+                {/*        </span>*/}
+                {/*            <span className="userAccount__box__pair">*/}
+                {/*            <span className="userAccount__box__key">*/}
+                {/*                {c.costReturn}*/}
+                {/*            </span>*/}
+                {/*            <p className="userAccount__box__value">*/}
+                {/*                {agency.costReturnWithOwnTransport !== null && agency.costReturnWithOwnTransport !== undefined ?*/}
+                {/*                    (agency.costReturnWithOwnTransport ? c.yes : c.no) : c.noInfo}*/}
+                {/*            </p>*/}
+                {/*        </span>*/}
 
-                            <span className="w-100">
-                                {c.additionalPayments}
-                        </span>
-                            <span className="userAccount__box__pair">
-                            <span className="userAccount__box__key">
-                                {c.pension}
-                            </span>
-                            <p className="userAccount__box__value">
-                                {agency.pensionContributions !== null && agency.pensionContributionsAvailable ? `${c.yes}, ${JSON.parse(c.pensionContributionsType)[agency.pensionContributions]}` : c.no}
-                            </p>
-                        </span>
-                            <span className="userAccount__box__pair">
-                            <span className="userAccount__box__key">
-                                {c.holidayAllowance}
-                            </span>
-                            <p className="userAccount__box__value userAccount__box__value--holidayAllowance">
-                                {agency.holidayAllowanceType !== null && agency.holidayAllowanceType !== undefined ? `${JSON.parse(c.holidayAllowanceType)[agency.holidayAllowanceType]}
-                                `: c.noInfo}<br/>
-                                {agency.holidayAllowanceType === 1 ? JSON.parse(c.months)[agency.holidayAllowanceMonth] : ''}
-                            </p>
-                        </span>
-                            <span className="userAccount__box__pair">
-                            <span className="userAccount__box__key">
-                                {c.salary}
-                            </span>
-                            <p className="userAccount__box__value">
-                                {agency.paycheckFrequency !== null && agency.paycheckFrequency !== undefined ? JSON.parse(c.paycheckFrequency)[agency.paycheckFrequency] : c.noInfo}<br/>
-                                {agency.paycheckFrequency !== null && agency.paycheckFrequency !== undefined ? JSON.parse(c.paycheckDay)[agency.paycheckDay] : ''}
-                            </p>
-                        </span>
-                            <span className="userAccount__box__pair">
-                            <span className="userAccount__box__key">
-                                {c.healthInsurance}
-                            </span>
-                            <p className="userAccount__box__value">
-                                {agency.healthInsurance !== null && agency.healthInsurance !== undefined ? JSON.parse(c.paymentTypes)[agency.healthInsurance] : c.noInfo}<br/>
-                                {agency.healthInsuranceCost !== null && agency.healthInsurance === 0 ? agency.healthInsuranceCost + ' ' + currencies[agency.healthInsuranceCurrency] : ''}
-                            </p>
-                        </span>
-                        </div>
-                    </div>
+                {/*            <span className="w-100">*/}
+                {/*                {c.additionalPayments}*/}
+                {/*        </span>*/}
+                {/*            <span className="userAccount__box__pair">*/}
+                {/*            <span className="userAccount__box__key">*/}
+                {/*                {c.pension}*/}
+                {/*            </span>*/}
+                {/*            <p className="userAccount__box__value">*/}
+                {/*                {agency.pensionContributions !== null && agency.pensionContributionsAvailable ? `${c.yes}, ${JSON.parse(c.pensionContributionsType)[agency.pensionContributions]}` : c.no}*/}
+                {/*            </p>*/}
+                {/*        </span>*/}
+                {/*            <span className="userAccount__box__pair">*/}
+                {/*            <span className="userAccount__box__key">*/}
+                {/*                {c.holidayAllowance}*/}
+                {/*            </span>*/}
+                {/*            <p className="userAccount__box__value userAccount__box__value--holidayAllowance">*/}
+                {/*                {agency.holidayAllowanceType !== null && agency.holidayAllowanceType !== undefined ? `${JSON.parse(c.holidayAllowanceType)[agency.holidayAllowanceType]}*/}
+                {/*                `: c.noInfo}<br/>*/}
+                {/*                {agency.holidayAllowanceType === 1 ? JSON.parse(c.months)[agency.holidayAllowanceMonth] : ''}*/}
+                {/*            </p>*/}
+                {/*        </span>*/}
+                {/*            <span className="userAccount__box__pair">*/}
+                {/*            <span className="userAccount__box__key">*/}
+                {/*                {c.salary}*/}
+                {/*            </span>*/}
+                {/*            <p className="userAccount__box__value">*/}
+                {/*                {agency.paycheckFrequency !== null && agency.paycheckFrequency !== undefined ? JSON.parse(c.paycheckFrequency)[agency.paycheckFrequency] : c.noInfo}<br/>*/}
+                {/*                {agency.paycheckFrequency !== null && agency.paycheckFrequency !== undefined ? JSON.parse(c.paycheckDay)[agency.paycheckDay] : ''}*/}
+                {/*            </p>*/}
+                {/*        </span>*/}
+                {/*            <span className="userAccount__box__pair">*/}
+                {/*            <span className="userAccount__box__key">*/}
+                {/*                {c.healthInsurance}*/}
+                {/*            </span>*/}
+                {/*            <p className="userAccount__box__value">*/}
+                {/*                {agency.healthInsurance !== null && agency.healthInsurance !== undefined ? JSON.parse(c.paymentTypes)[agency.healthInsurance] : c.noInfo}<br/>*/}
+                {/*                {agency.healthInsuranceCost !== null && agency.healthInsurance === 0 ? agency.healthInsuranceCost + ' ' + currencies[agency.healthInsuranceCurrency] : ''}*/}
+                {/*            </p>*/}
+                {/*        </span>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
 
-                    <div className="userAccount__box userAccount__box--100">
-                        <h3 className="userAccount__box__header">
-                            {c.benefits}
-                        </h3>
-                        <div className="userAccount__box__text"
-                             dangerouslySetInnerHTML={{__html: agency.benefits}}
-                        >
+                {/*    <div className="userAccount__box userAccount__box--100">*/}
+                {/*        <h3 className="userAccount__box__header">*/}
+                {/*            {c.benefits}*/}
+                {/*        </h3>*/}
+                {/*        <div className="userAccount__box__text"*/}
+                {/*             dangerouslySetInnerHTML={{__html: agency.benefits}}*/}
+                {/*        >*/}
 
-                        </div>
-                    </div>
+                {/*        </div>*/}
+                {/*    </div>*/}
 
-                    {agency?.gallery?.length ? <div className="userAccount__box userAccount__box--100">
-                        <h3 className="userAccount__box__header">
-                            {c.gallery}
-                        </h3>
-                        <div className="flex flex--gallery">
-                            {currentGalleryScroll ? <button className="userAccount__box__gallery__arrow userAccount__box__gallery__arrow--prev"
-                                                            onClick={() => { galleryScroll(-200); }}>
-                                <img className="img" src={galleryArrow} alt="przesun" />
-                            </button> : ''}
-                            <div ref={gallery} className="userAccount__box__gallery noscroll flex">
-                                {agency.gallery?.map((item, index) => {
-                                    return <button className="gallery__item"
-                                                   key={index}
-                                                   onClick={() => { enlargeGallery(index); }}>
-                                        <span className="overlay">
-                                            <img className="img" src={magnifierIcon} alt="powieksz" />
-                                        </span>
-                                        <img className="img" src={`${settings.API_URL}/${item}`} alt="galeria-zdjęć" />
-                                    </button>
-                                })}
-                            </div>
-                            <button className="userAccount__box__gallery__arrow"
-                                    onClick={() => { galleryScroll(200); }}>
-                                <img className="img" src={galleryArrow} alt="przesun" />
-                            </button>
-                        </div>
-                    </div> : ''}
-                </div> : ''}
+                {/*    {agency?.gallery?.length ? <div className="userAccount__box userAccount__box--100">*/}
+                {/*        <h3 className="userAccount__box__header">*/}
+                {/*            {c.gallery}*/}
+                {/*        </h3>*/}
+                {/*        <div className="flex flex--gallery">*/}
+                {/*            {currentGalleryScroll ? <button className="userAccount__box__gallery__arrow userAccount__box__gallery__arrow--prev"*/}
+                {/*                                            onClick={() => { galleryScroll(-200); }}>*/}
+                {/*                <img className="img" src={galleryArrow} alt="przesun" />*/}
+                {/*            </button> : ''}*/}
+                {/*            <div ref={gallery} className="userAccount__box__gallery noscroll flex">*/}
+                {/*                {agency.gallery?.map((item, index) => {*/}
+                {/*                    return <button className="gallery__item"*/}
+                {/*                                   key={index}*/}
+                {/*                                   onClick={() => { enlargeGallery(index); }}>*/}
+                {/*                        <span className="overlay">*/}
+                {/*                            <img className="img" src={magnifierIcon} alt="powieksz" />*/}
+                {/*                        </span>*/}
+                {/*                        <img className="img" src={`${settings.API_URL}/${item}`} alt="galeria-zdjęć" />*/}
+                {/*                    </button>*/}
+                {/*                })}*/}
+                {/*            </div>*/}
+                {/*            <button className="userAccount__box__gallery__arrow"*/}
+                {/*                    onClick={() => { galleryScroll(200); }}>*/}
+                {/*                <img className="img" src={galleryArrow} alt="przesun" />*/}
+                {/*            </button>*/}
+                {/*        </div>*/}
+                {/*    </div> : ''}*/}
+                {/*</div> : ''}*/}
             </div>
         </div>
 
@@ -457,10 +453,10 @@ const AgencyProfile = ({data, user}) => {
                                 <h2 className="offerItem__title">
                                     {item.title}
                                 </h2>
-                                <h3 className="offerItem__localization">
+                                {item.city ? <h3 className="offerItem__localization">
                                     <img className="icon" src={localization} alt="lokalizacja" />
                                     {item.city}, {JSON.parse(c.countries)[item.country]}
-                                </h3>
+                                </h3> : ''}
                                 <h5 className="offerItem__company">
                                     {item.a_data ? JSON.parse(item.a_data).name : ''}
                                 </h5>
@@ -469,15 +465,15 @@ const AgencyProfile = ({data, user}) => {
                         <div className="offerItem__category">
                             {JSON.parse(c.categories)[item.category]}
                         </div>
-                        <div className="offerItem__salary">
-                    <span className="nowrap">
-                        <img className="icon" src={salaryIcon} alt="wynagrodzenie" />
-                        {item.salaryFrom} {currencies[item.salaryCurrency]}
-                    </span> - {item.salaryTo} {currencies[item.salaryCurrency]}
+                        {item.salaryFrom ? <div className="offerItem__salary">
+                            <span className="nowrap">
+                                <img className="icon" src={salaryIcon} alt="wynagrodzenie" />
+                                {item.salaryFrom} {currencies[item.salaryCurrency]}
+                                </span> - {item.salaryTo} {currencies[item.salaryCurrency]}
                             <span className="netto">
-                        netto/{item.salaryType === 1 ? c.weeklyShortcut : c.monthlyShortcut}
-                    </span>
-                        </div>
+                                netto/{item.salaryType === 1 ? c.weeklyShortcut : c.monthlyShortcut}
+                            </span>
+                        </div> : ''}
                         <div className="offerItem__requirements">
                             {JSON.parse(item.benefits.replace(/'/g, '"'))?.slice(0, 3)?.map((item, index) => {
                                 return <span className="offerItem__requirement" key={index}>

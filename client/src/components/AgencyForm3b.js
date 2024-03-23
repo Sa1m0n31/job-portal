@@ -7,7 +7,7 @@ import ytIcon from '../static/img/youtube-icon.svg'
 import linkedinIcon from '../static/img/linedin-icon.svg'
 import {LanguageContext} from "../App";
 
-const AgencyForm3b = () => {
+const AgencyForm3b = ({submit}) => {
     const { setStep, setSubstep, agencyData, handleChange } = useContext(AgencyDataContext);
     const { c } = useContext(LanguageContext);
 
@@ -58,12 +58,21 @@ const AgencyForm3b = () => {
                        value={agencyData.linkedin}
                        onChange={(e) => { handleChange('linkedin', e.target.value); }} />
             </label>
+
+            <label className="label label--friendLink" style={{marginTop: '40px'}}>
+                <p className="label--extraInfo">
+                    {c.whereYouFindOurApp}
+                </p>
+                <input className="input"
+                       value={agencyData.whereYouFindOurApp}
+                       onChange={(e) => { handleChange('whereYouFindOurApp', e.target.value); }} />
+            </label>
         </div>
         <div className="formBottom flex">
             <button className="btn btn--userForm btn--userFormBack" onClick={() => { setSubstep(0); }}>
                 {c.back}
             </button>
-            <button className="btn btn--userForm" onClick={() => { setSubstep(2); }}>
+            <button className="btn btn--userForm" onClick={() => { submit(agencyData); }}>
                 {c.next}
             </button>
         </div>

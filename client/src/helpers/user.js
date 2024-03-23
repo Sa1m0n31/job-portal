@@ -22,9 +22,11 @@ const loginUser = (email, password, mailContent) => {
     });
 }
 
-const registerUser = (email, password, newsletter, mailContent) => {
+const registerUser = (email, password, newsletter, mailContent, data = '{}') => {
+    console.log(data);
+
     return axios.post('/user/register', {
-        email, password, newsletter, mailContent
+        email, password, newsletter, mailContent, data
     });
 }
 
@@ -48,6 +50,21 @@ const removeCv = () => {
             Authorization: getAuthHeader()
         }
     });
+}
+
+const updateCvInRegister = (file, email) => {
+    const formData = new FormData();
+    const config = {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: getAuthHeader()
+        }
+    }
+
+    formData.append('email', email);
+    formData.append('cv', file);
+
+    return axios.post('/user/updateCv', formData, config);
 }
 
 const updateCv = (file) => {
@@ -239,5 +256,5 @@ export { registerUser, registerTestAccount, verifyUser, loginUser, authUser, upd
     toggleUserVisibility, toggleUserWorking, getUserApplications, getAllUsers, getAllVisibleUsers,
     filterUsers, getUserById, getUserFastApplications, getUserNotifications, readNotification,
     sendContactForm, remindUserPassword, changeUserPassword, resetUserPassword, sendMailInvitation,
-    removeCv, updateCv
+    removeCv, updateCv, updateCvInRegister
 }

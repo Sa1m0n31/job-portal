@@ -23,18 +23,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06c2c867-885a-4984-820a-27e97dc3ed90" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/client/src/components/NotLoggedUserHeader.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/HomepageTop.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/HomepageTop.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/components/Tools.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/Tools.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/pages/Homepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Homepage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyForm2.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyForm2.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/AgencyForm3b.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/AgencyForm3b.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/LoggedUserHeader.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/LoggedUserHeader.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserOwnCvEdition.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserOwnCvEdition.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/components/UserWrapper.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/components/UserWrapper.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/agency.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/agency.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/helpers/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/helpers/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AccountVerification.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AccountVerification.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AddJobOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AddJobOffer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyEditData.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyEditData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyHomepage.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyHomepage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/AgencyProfile.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/AgencyProfile.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/JobOffersList.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/JobOffersList.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/MyJobOffers.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/MyJobOffers.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/pages/Register.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/Register.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/pages/SingleOffer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/content.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/content.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/static/settings.js" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/settings.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/mobile.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/static/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/static/style/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/offer/offer.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/offer/offer.controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/offer/offer.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/offer/offer.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/user/user.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/user/user.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/user/user.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +91,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/sajmo/Desktop/Programowanie/Projekty/nemnet",
+    "last_opened_file_path": "C:/Users/sajmo/Desktop/Programowanie/Projekty/job-portal",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -319,6 +333,7 @@
       <workItem from="1709150502783" duration="621000" />
       <workItem from="1709198538487" duration="149000" />
       <workItem from="1711091826231" duration="5859000" />
+      <workItem from="1711140231620" duration="15421000" />
     </task>
     <servers />
   </component>

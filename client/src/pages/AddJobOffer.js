@@ -286,27 +286,27 @@ const AddJobOffer = ({updateMode}) => {
         if(category === -1) {
             fields.push(c.category);
         }
-        if(!city && !isInManyLocations) {
-            fields.push(c.city);
-        }
+        // if(!city && !isInManyLocations) {
+        //     fields.push(c.city);
+        // }
         if(!description) {
             fields.push(c.postDescription);
         }
-        if(!responsibilities.length || responsibilities[0] === '') {
-            fields.push(c.responsibilities);
-        }
-        if(!requirements.length || requirements[0] === '') {
-            fields.push(c.requirements);
-        }
-        if(!benefits.length || benefits[0] === '') {
-            fields.push(c.benefits);
-        }
-        if(salaryType === -1 || salaryFrom === null || salaryTo === null) {
-            fields.push(c.salary);
-        }
-        if(!image && !imageUrl) {
-            fields.push(c.backgroundImage);
-        }
+        // if(!responsibilities.length || responsibilities[0] === '') {
+        //     fields.push(c.responsibilities);
+        // }
+        // if(!requirements.length || requirements[0] === '') {
+        //     fields.push(c.requirements);
+        // }
+        // if(!benefits.length || benefits[0] === '') {
+        //     fields.push(c.benefits);
+        // }
+        // if(salaryType === -1 || salaryFrom === null || salaryTo === null) {
+        //     fields.push(c.salary);
+        // }
+        // if(!image && !imageUrl) {
+        //     fields.push(c.backgroundImage);
+        // }
         if(!contractType?.length) {
             fields.push(c.contractType);
         }
@@ -521,7 +521,7 @@ const AddJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label label--date label--date--address">
-                {c.jobPlace} *
+                {c.jobPlace}
                 <div className="flex">
                     <div className="label--date__input label--date__input--country">
                         <button className="datepicker datepicker--country"
@@ -581,66 +581,66 @@ const AddJobOffer = ({updateMode}) => {
                           placeholder={c.postDescriptionPlaceholder} />
             </label>
 
-            <div className="label">
-                {c.responsibilities} *
-                {responsibilities.map((item, index) => {
-                    return <label className="label label--responsibility" key={index}>
-                        <input className={error && !responsibilities[0] ? "input input--error" : "input"}
-                               value={item}
-                               maxLength={100}
-                               onChange={(e) => { e.preventDefault(); updateResponsibilities(e.target.value, index); }} />
-                        <button className="deleteSchoolBtn" onClick={(e) => { e.preventDefault(); deleteResponsibility(index); }}>
-                            <img className="img" src={trashIcon} alt="usun" />
-                        </button>
-                    </label>
-                })}
+            {/*<div className="label">*/}
+            {/*    {c.responsibilities} **/}
+            {/*    {responsibilities.map((item, index) => {*/}
+            {/*        return <label className="label label--responsibility" key={index}>*/}
+            {/*            <input className={error && !responsibilities[0] ? "input input--error" : "input"}*/}
+            {/*                   value={item}*/}
+            {/*                   maxLength={100}*/}
+            {/*                   onChange={(e) => { e.preventDefault(); updateResponsibilities(e.target.value, index); }} />*/}
+            {/*            <button className="deleteSchoolBtn" onClick={(e) => { e.preventDefault(); deleteResponsibility(index); }}>*/}
+            {/*                <img className="img" src={trashIcon} alt="usun" />*/}
+            {/*            </button>*/}
+            {/*        </label>*/}
+            {/*    })}*/}
 
-                <button className="addNewBtn addNewBtn--responsibility flex" onClick={(e) => { e.preventDefault(); addNewResponsibility(); }}>
-                    {c.addResponsibility}
-                    <img className="img" src={plusIcon} alt="dodaj" />
-                </button>
-            </div>
-            <div className="label">
-                {c.requirements} *
-                {requirements.map((item, index) => {
-                    return <label className="label label--responsibility" key={index}>
-                        <input className={error && !requirements[0] ? "input input--error" : "input"}
-                               value={item}
-                               maxLength={100}
-                               onChange={(e) => { e.preventDefault(); updateRequirements(e.target.value, index); }} />
-                        <button className="deleteSchoolBtn" onClick={(e) => { e.preventDefault(); deleteRequirement(index); }}>
-                            <img className="img" src={trashIcon} alt="usun" />
-                        </button>
-                    </label>
-                })}
+            {/*    <button className="addNewBtn addNewBtn--responsibility flex" onClick={(e) => { e.preventDefault(); addNewResponsibility(); }}>*/}
+            {/*        {c.addResponsibility}*/}
+            {/*        <img className="img" src={plusIcon} alt="dodaj" />*/}
+            {/*    </button>*/}
+            {/*</div>*/}
+            {/*<div className="label">*/}
+            {/*    {c.requirements} **/}
+            {/*    {requirements.map((item, index) => {*/}
+            {/*        return <label className="label label--responsibility" key={index}>*/}
+            {/*            <input className={error && !requirements[0] ? "input input--error" : "input"}*/}
+            {/*                   value={item}*/}
+            {/*                   maxLength={100}*/}
+            {/*                   onChange={(e) => { e.preventDefault(); updateRequirements(e.target.value, index); }} />*/}
+            {/*            <button className="deleteSchoolBtn" onClick={(e) => { e.preventDefault(); deleteRequirement(index); }}>*/}
+            {/*                <img className="img" src={trashIcon} alt="usun" />*/}
+            {/*            </button>*/}
+            {/*        </label>*/}
+            {/*    })}*/}
 
-                <button className="addNewBtn addNewBtn--responsibility flex" onClick={(e) => { e.preventDefault(); addNewRequirement(); }}>
-                    {c.addRequirement}
-                    <img className="img" src={plusIcon} alt="dodaj" />
-                </button>
-            </div>
-            <div className="label">
-                {c.whatYouOffer} *
-                {benefits.map((item, index) => {
-                    return <label className="label label--responsibility" key={index}>
-                        <input className={error && !benefits[0] ? "input input--error" : "input"}
-                               value={item}
-                               maxLength={100}
-                               onChange={(e) => { e.preventDefault(); updateBenefits(e.target.value, index); }} />
-                        <button className="deleteSchoolBtn" onClick={(e) => { e.preventDefault(); deleteBenefit(index); }}>
-                            <img className="img" src={trashIcon} alt="usun" />
-                        </button>
-                    </label>
-                })}
+            {/*    <button className="addNewBtn addNewBtn--responsibility flex" onClick={(e) => { e.preventDefault(); addNewRequirement(); }}>*/}
+            {/*        {c.addRequirement}*/}
+            {/*        <img className="img" src={plusIcon} alt="dodaj" />*/}
+            {/*    </button>*/}
+            {/*</div>*/}
+            {/*<div className="label">*/}
+            {/*    {c.whatYouOffer} **/}
+            {/*    {benefits.map((item, index) => {*/}
+            {/*        return <label className="label label--responsibility" key={index}>*/}
+            {/*            <input className={error && !benefits[0] ? "input input--error" : "input"}*/}
+            {/*                   value={item}*/}
+            {/*                   maxLength={100}*/}
+            {/*                   onChange={(e) => { e.preventDefault(); updateBenefits(e.target.value, index); }} />*/}
+            {/*            <button className="deleteSchoolBtn" onClick={(e) => { e.preventDefault(); deleteBenefit(index); }}>*/}
+            {/*                <img className="img" src={trashIcon} alt="usun" />*/}
+            {/*            </button>*/}
+            {/*        </label>*/}
+            {/*    })}*/}
 
-                <button className="addNewBtn addNewBtn--responsibility flex" onClick={(e) => { e.preventDefault(); addNewBenefit(); }}>
-                    {c.addWhatYouOffer}
-                    <img className="img" src={plusIcon} alt="dodaj" />
-                </button>
-            </div>
+            {/*    <button className="addNewBtn addNewBtn--responsibility flex" onClick={(e) => { e.preventDefault(); addNewBenefit(); }}>*/}
+            {/*        {c.addWhatYouOffer}*/}
+            {/*        <img className="img" src={plusIcon} alt="dodaj" />*/}
+            {/*    </button>*/}
+            {/*</div>*/}
 
             <div className="label drivingLicenceWrapper drivingLicenceWrapper--salary">
-                {c.salary} *
+                {c.salary}
                 <div className="flex flex--start">
                     <label className={salaryType === 1 ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
                         <button className="checkbox center"
@@ -659,14 +659,14 @@ const AddJobOffer = ({updateMode}) => {
                 </div>
                 <div className="flex flex--start salaryInputsWrapper">
                     <label className="label">
-                        <input className={error && !salaryFrom ? "input input--error" : "input"}
+                        <input className={error && !salaryFrom && 0 ? "input input--error" : "input"}
                                type="number"
                                value={salaryFrom}
                                onChange={(e) => { setSalaryFrom(e.target.value); }} />
                     </label>
                     -
                     <label className="label">
-                        <input className={error && !salaryTo ? "input input--error" : "input"}
+                        <input className={error && !salaryTo && 0 ? "input input--error" : "input"}
                                type="number"
                                value={salaryTo}
                                onChange={(e) => { setSalaryTo(e.target.value); }} />
@@ -783,11 +783,11 @@ const AddJobOffer = ({updateMode}) => {
             </div>
 
             <div className="label">
-                {c.backgroundImage} *
+                {c.backgroundImage}
                 <p className="label--extraInfo label--extraInfo--marginBottom">
                     {c.backgroundImageDescription}
                 </p>
-                <div className={!image ? (error ? "filesUploadLabel center input--error" : "filesUploadLabel center") : "filesUploadLabel filesUploadLabel--noBorder center"}>
+                <div className={!image ? (error && 0 ? "filesUploadLabel center input--error" : "filesUploadLabel center") : "filesUploadLabel filesUploadLabel--noBorder center"}>
                     {!imageUrl ? <img className="img" src={plusIcon} alt="dodaj-pliki" /> : <div className="filesUploadLabel__profileImage">
                         <button className="removeProfileImageBtn" onClick={(e) => { e.preventDefault(); removeImage(); }}>
                             <img className="img" src={trashIcon} alt="usun" />
@@ -801,48 +801,48 @@ const AddJobOffer = ({updateMode}) => {
                 </div>
             </div>
 
-            <div className="label">
-                {c.attachments}
-                <p className="label--extraInfo label--extraInfo--marginBottom">
-                    {c.offerAttachmentsDescription}
-                </p>
-                <label className="filesUploadLabel center">
-                    <img className="img" src={plusIcon} alt="dodaj-pliki" />
-                    <input className="input input--file"
-                           type="file"
-                           multiple={true}
-                           maxLength={5}
-                           onChange={(e) => { handleAttachments(e); }} />
-                </label>
+            {/*<div className="label">*/}
+            {/*    {c.attachments}*/}
+            {/*    <p className="label--extraInfo label--extraInfo--marginBottom">*/}
+            {/*        {c.offerAttachmentsDescription}*/}
+            {/*    </p>*/}
+            {/*    <label className="filesUploadLabel center">*/}
+            {/*        <img className="img" src={plusIcon} alt="dodaj-pliki" />*/}
+            {/*        <input className="input input--file"*/}
+            {/*               type="file"*/}
+            {/*               multiple={true}*/}
+            {/*               maxLength={5}*/}
+            {/*               onChange={(e) => { handleAttachments(e); }} />*/}
+            {/*    </label>*/}
 
-                {oldAttachments?.map((item, index) => {
-                    return <div className="filesUploadLabel__item" key={index}>
-                        <button className="removeAttachmentBtn" onClick={(e) => { e.preventDefault(); e.stopPropagation(); removeAttachment(index, true); }}>
-                            <img className="img" src={trashIcon} alt="usun" />
-                        </button>
-                        <img className="img" src={fileIcon} alt={`file-${index}`} />
-                        <input className="fileName"
-                               onChange={(e) => { changeAttachmentName(index, e.target.value, true); }}
-                               value={item.name}
-                        >
-                        </input>
-                    </div>
-                })}
+            {/*    {oldAttachments?.map((item, index) => {*/}
+            {/*        return <div className="filesUploadLabel__item" key={index}>*/}
+            {/*            <button className="removeAttachmentBtn" onClick={(e) => { e.preventDefault(); e.stopPropagation(); removeAttachment(index, true); }}>*/}
+            {/*                <img className="img" src={trashIcon} alt="usun" />*/}
+            {/*            </button>*/}
+            {/*            <img className="img" src={fileIcon} alt={`file-${index}`} />*/}
+            {/*            <input className="fileName"*/}
+            {/*                   onChange={(e) => { changeAttachmentName(index, e.target.value, true); }}*/}
+            {/*                   value={item.name}*/}
+            {/*            >*/}
+            {/*            </input>*/}
+            {/*        </div>*/}
+            {/*    })}*/}
 
-                {Array.from(attachments)?.map((item, index) => {
-                    return <div className="filesUploadLabel__item" key={index}>
-                        <button className="removeAttachmentBtn" onClick={(e) => { e.preventDefault(); e.stopPropagation(); removeAttachment(index); }}>
-                            <img className="img" src={trashIcon} alt="usun" />
-                        </button>
-                        <img className="img" src={fileIcon} alt={`file-${index}`} />
-                        <input className="fileName"
-                               onChange={(e) => { changeAttachmentName(index, e.target.value); }}
-                               value={item.name}
-                        >
-                        </input>
-                    </div>
-                })}
-            </div>
+            {/*    {Array.from(attachments)?.map((item, index) => {*/}
+            {/*        return <div className="filesUploadLabel__item" key={index}>*/}
+            {/*            <button className="removeAttachmentBtn" onClick={(e) => { e.preventDefault(); e.stopPropagation(); removeAttachment(index); }}>*/}
+            {/*                <img className="img" src={trashIcon} alt="usun" />*/}
+            {/*            </button>*/}
+            {/*            <img className="img" src={fileIcon} alt={`file-${index}`} />*/}
+            {/*            <input className="fileName"*/}
+            {/*                   onChange={(e) => { changeAttachmentName(index, e.target.value); }}*/}
+            {/*                   value={item.name}*/}
+            {/*            >*/}
+            {/*            </input>*/}
+            {/*        </div>*/}
+            {/*    })}*/}
+            {/*</div>*/}
 
             <label className="label label--rel">
                 {c.additionalInfo}
@@ -852,17 +852,17 @@ const AddJobOffer = ({updateMode}) => {
                           placeholder={c.additionalInfoPlaceholder} />
             </label>
 
-            <div className="label drivingLicenceWrapper drivingLicenceWrapper--noMarginTop">
-                <div className="languagesWrapper languagesWrapper--contracts flex">
-                    <label className={showAgencyInfo ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>
-                        <button className={showAgencyInfo ? "checkbox checkbox--selected center" : "checkbox center"}
-                                onClick={(e) => { e.preventDefault(); setShowAgencyInfo(prevState => (!prevState)); }}>
-                            <span></span>
-                        </button>
-                        {c.showAgencyInfo}
-                    </label>
-                </div>
-            </div>
+            {/*<div className="label drivingLicenceWrapper drivingLicenceWrapper--noMarginTop">*/}
+            {/*    <div className="languagesWrapper languagesWrapper--contracts flex">*/}
+            {/*        <label className={showAgencyInfo ? "label label--flex label--checkbox label--checkbox--selected" : "label label--flex label--checkbox"}>*/}
+            {/*            <button className={showAgencyInfo ? "checkbox checkbox--selected center" : "checkbox center"}*/}
+            {/*                    onClick={(e) => { e.preventDefault(); setShowAgencyInfo(prevState => (!prevState)); }}>*/}
+            {/*                <span></span>*/}
+            {/*            </button>*/}
+            {/*            {c.showAgencyInfo}*/}
+            {/*        </label>*/}
+            {/*    </div>*/}
+            {/*</div>*/}
 
             {error ? <span className="info info--error">
                 {error}

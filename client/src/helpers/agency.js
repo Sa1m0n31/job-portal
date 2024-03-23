@@ -22,7 +22,7 @@ const loginAgency = (email, password, mailContent) => {
     });
 }
 
-const registerAgency = (email, password, newsletter, mailContent) => {
+const registerAgency = (email, password, newsletter, mailContent, data) => {
     return axios.post('/agency/register', {
         email, password, newsletter, mailContent
     });

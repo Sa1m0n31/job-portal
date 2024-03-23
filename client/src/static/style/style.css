@@ -481,7 +481,8 @@ input {
 }
 
 .container--register {
-    height: 100vh;
+    height: auto;
+    padding: 100px 0;
     min-height: 1200px;
     overflow: hidden;
 }
@@ -501,7 +502,7 @@ input {
 
 .register__header {
     font-size: 32px;
-    margin: 30px 0 10px;
+    margin: 30px 0;
 }
 
 .register__subheader {
@@ -1410,6 +1411,13 @@ input {
     max-width: 100px !important;
 }
 
+
+.container--register .label--date__input--bool,
+.container--register .label--date__input--bool *
+{
+    max-width: 100% !important;
+}
+
 .bsnInputLabel {
     width: 275px;
     height: 50px;
@@ -1462,6 +1470,10 @@ input {
 
 .label--friendLink .input {
     max-width: 400px;
+}
+
+textarea {
+    max-width: 100%;
 }
 
 .input--textarea {
@@ -1978,8 +1990,9 @@ input {
     background: var(--primary);
     color: #fff;
     font-size: 10px;
-    width: 18px;
-    height: 18px;
+    width: 12px;
+    height: 12px;
+    margin-left: 5px;
     border-radius: 2px;
     display: flex;
     justify-content: center;
@@ -3357,6 +3370,7 @@ input {
     height: auto;
     max-height: 375px;
     overflow: hidden;
+    min-height: 100px;
 }
 
 .jobOffer__title {
@@ -6701,7 +6715,9 @@ input[type=month] {
 }
 
 .ownCvEdition {
-    max-width: 500px;
+    max-width: 100%;
+    margin-bottom: 40px;
+    margin-top: -20px;
 }
 
 .ownCvEdition__text {
@@ -6759,4 +6775,50 @@ input[type=month] {
     .ownCvEdition--mobile {
         display: none;
     }
+}
+
+.label--date--register {
+    max-width: 550px;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.formFlex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.formFlex > div:first-child {
+    width: 38%;
+}
+
+.formFlex > div:last-child {
+    width: 60%;
+}
+
+@media(max-width: 996px) {
+    .formFlex {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .formFlex > * {
+        width: 100% !important;
+    }
+
+    .formFlex:nth-of-type(5) > div,
+    .formFlex:nth-of-type(4) > div {
+        margin-bottom: 10px !important;
+    }
+
+    .formFlex:nth-of-type(5) {
+        margin-top: 0 !important;
+    }
+}
+
+.register__foreignLanguages {
+    margin-top: 30px;
 }

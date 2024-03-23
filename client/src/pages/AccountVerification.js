@@ -69,11 +69,11 @@ const AccountVerification = () => {
                 {c.yourAccountIsActive}
                 <img className="check" src={check} alt="potwierdzenie" />
             </h1>
-            <h2 className="register__subheader">
-                {c.nowYouCan} <span className="bold">{role === 0 ? c.registerSubheader5 : c.registerSubheader6}</span>.
-            </h2>
+            {/*<h2 className="register__subheader">*/}
+            {/*    {c.nowYouCan} <span className="bold">{role === 0 ? c.registerSubheader5 : c.registerSubheader6}</span>.*/}
+            {/*</h2>*/}
             <a className="btn btn--login center" href={role === 0 ? "/strefa-pracownika" : "/strefa-pracodawcy"}>
-                {c.fillProfile} {role === 0 ? c.andGenerateCV : ''}
+                {c.login}
                 <img className="img" src={arrowIcon} alt="uzupelnienie-danych" />
             </a>
             <a className="btn btn--neutral center" href="/">

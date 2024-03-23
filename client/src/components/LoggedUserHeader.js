@@ -198,10 +198,10 @@ const LoggedUserHeader = ({data, agency, messageUpdate}) => {
                        href="/pracodawcy">
                         {c.agencies}
                     </a>
-                    <a className="loggedUserHeader__menu__item"
-                       href="/kontakt">
-                        {c.contact}
-                    </a>
+                    {/*<a className="loggedUserHeader__menu__item"*/}
+                    {/*   href="/kontakt">*/}
+                    {/*    {c.contact}*/}
+                    {/*</a>*/}
                 </>
                 }
             </div>

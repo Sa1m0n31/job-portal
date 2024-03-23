@@ -143,7 +143,6 @@ const MyJobOffers = ({data}) => {
         </div>: ''}
 
         {render ? filteredOffers?.map((item, index) => {
-            console.log(item);
             return <div className="offerItem flex" key={index}>
                 <span className="offerItem__date">
                     {item.created_at?.substring(0, 10)}
@@ -156,10 +155,10 @@ const MyJobOffers = ({data}) => {
                         <h2 className="offerItem__title">
                             {item.title}
                         </h2>
-                        <h3 className="offerItem__localization">
+                        {item.city ? <h3 className="offerItem__localization">
                             <img className="icon" src={localization} alt="lokalizacja" />
                             {item.city}, {JSON.parse(c.countries)[item.country]}
-                        </h3>
+                        </h3> : ''}
                         <h5 className="offerItem__company">
                             {data.name}
                         </h5>
@@ -168,7 +167,7 @@ const MyJobOffers = ({data}) => {
                 <div className="offerItem__category">
                     {JSON.parse(c.categories)[item.category]}
                 </div>
-                <div className="offerItem__salary">
+                {item.salaryFrom ? <div className="offerItem__salary">
                     <span className="nowrap">
                         <img className="icon" src={salaryIcon} alt="wynagrodzenie" />
                         {item.salaryFrom} {currencies[item.salaryCurrency]}
@@ -176,7 +175,7 @@ const MyJobOffers = ({data}) => {
                     <span className="netto">
                         {c.netto}/{item.salaryType === 1 ? c.weeklyShortcut : c.monthlyShortcut}
                     </span>
-                </div>
+                </div> : ''}
                 <div className="offerItem__requirements">
                     {JSON.parse(item.requirements)?.slice(0, 3)?.map((item, index) => {
                         return <span className="offerItem__requirement" key={index}>
